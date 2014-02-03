@@ -22,13 +22,14 @@ feature {NONE} -- Initialisation
 			quit:BOOLEAN
 			s_image,s_image2,s_image3:IMAGE
 			r_rect,r_rect2,r_rect3:RECT
-			thistime,lasttime:INTEGER
+			thistime,lasttime,stoptime:INTEGER
 			event:POINTER
 			deltatime:REAL_64
 
 		-- Démarrer l'application.
 		do
 			quit:=false
+			stoptime:=0
 			event:=event.memory_alloc ({SDL_WRAPPER}.sizeof_sdl_event_struct)
 			-- Initialisation de la fenêtre, des images et de leurs conteneurs
 		    w_window := create {WINDOW}.create_window("Butthurt Machine 2000",sdl_windowpos_undefined,sdl_windowpos_undefined,500,600,0)
@@ -50,18 +51,19 @@ feature {NONE} -- Initialisation
 				if get_sdl_rect_x(r_rect.targetarea)>=w_window.w then
 					quit:= true
 				end
+				thistime:=sdl_getticks().to_integer_32
 				if get_sdl_event_type(event) = sdl_mousebuttondown then
 					--Fucking stop the motherfucking timer
+					stoptime:=stoptime+thistime-lasttime
 				end
 				--Calcul du temps
-				thistime:=sdl_getticks().to_integer_32
 				deltatime:= thistime-lasttime//1000
 				lasttime:=thistime
 
 			    --Assignation des valeurs au(x) rectangle(s)
-			    set_sdl_rect_x(r_rect.targetarea, (0.1*deltatime).floor)
-			    set_sdl_rect_y(r_rect2.targetarea, (0.2*deltatime).floor)
-			    set_sdl_rect_x(r_rect2.targetarea, (0.1*deltatime).floor)
+			    set_sdl_rect_x(r_rect.targetarea, (0.1*(deltatime-stoptime)).floor)
+			    set_sdl_rect_y(r_rect2.targetarea, (0.2*(deltatime-stoptime)).floor)
+			    set_sdl_rect_x(r_rect2.targetarea, (0.1*(deltatime-stoptime)).floor)
 
 	    		--ENGENDRE LE PRÉSENT
 			    sdl_renderclear(w_window.renderer)
