@@ -142,7 +142,7 @@ feature -- Fonctions -SDL.h
 			"SDL_DestroyTexture"
 		end
 
---	Obsolete Function --
+--	Obsolete Function
 --	frozen sdl_blitsurface(src,srcrect,dst,dstrect:POINTER):INTEGER
 
 --		external

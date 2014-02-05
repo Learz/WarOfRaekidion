@@ -15,10 +15,10 @@ create
 
 feature --Initialisation
 
-	bmp,tex:POINTER
+	bmp,texture:POINTER
 
-	--Chargement de l'image en mémoire
 	load_image(filename:STRING;imgwindow:WINDOW)
+		--Chargement de l'image en mémoire
 		local
 			c_filename:C_STRING
 		do
@@ -30,16 +30,16 @@ feature --Initialisation
 		    --Mettre le rose(RGB(255,0,255)) en transparence
 		    sdl_setcolorkey_noreturn (bmp, sdl_true, sdl_maprgb(get_sdl_surface_format(bmp), 255, 0, 255))
 		    --Chargement du bitmap sur la texture
-		    tex:=sdl_createtexturefromsurface(imgwindow.renderer,bmp)
+		    texture:=sdl_createtexturefromsurface(imgwindow.renderer,bmp)
 		end
 
-	--Déchargement de l'image en mémoire
 	destroy_image()
+		--Déchargement de l'image en mémoire
 		do
 			--Effacer le bitmap
 			sdl_freesurface(bmp)
 			--Effacer la texture
-			sdl_destroytexture(tex)
+			sdl_destroytexture(texture)
 		end
 
 end

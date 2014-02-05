@@ -18,8 +18,8 @@ feature --Initialisation
 	window,renderer:POINTER
 	w,h:INTEGER
 
-	--Création de la fenêtre
 	create_window(title:STRING;x,y,width,height:INTEGER;flags:NATURAL_32)
+		--Créer la fenêtre
 		local
 			c_title:C_STRING
 		do
@@ -34,8 +34,8 @@ feature --Initialisation
 		    renderer:=sdl_createrenderer(window,-1,sdl_renderer_accelerated)
 		end
 
-	--Déchargement du moteur de rendu et de la fenêtre en mémoire
 	destroy_window()
+		--Décharger le moteur de rendu et la fenêtre en mémoire
 		do
 			--Détruire le renderer
 		    sdl_destroyrenderer(renderer)
