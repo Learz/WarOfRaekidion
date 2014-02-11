@@ -17,8 +17,8 @@ feature --Initialisation
 
 	targetarea:POINTER
 
-	--Création du rectangle
 	create_rect(x,y,w,h:INTEGER)
+		--Créer le rectangle
 		do
 			--Allocation de la mémoire pour le Struct
 			targetarea:=targetarea.memory_alloc ({SDL_WRAPPER}.sizeof_sdl_rect_struct)
@@ -29,14 +29,15 @@ feature --Initialisation
 		    set_sdl_rect_h(targetarea, h)
 		end
 
-	--Chargement de la texture sur le rectangle
+
 	apply_texture(renderer,texture:POINTER)
+	--Chargement de la texture sur le rectangle
 		do
 			sdl_rendercopy(renderer,texture,create{POINTER},targetarea)
 		end
 
-	--Déchargement du rectangle en mémoire
 	destroy_rect()
+	--Déchargement du rectangle en mémoire
 		do
 			targetarea.memory_free
 		end

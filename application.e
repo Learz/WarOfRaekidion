@@ -16,7 +16,7 @@ create
 feature {NONE} -- Initialisation
 
 	make
-		--Variables Locales
+		--Démarrer l'application
 		local
 			w_window:WINDOW
 			quit:BOOLEAN
@@ -26,7 +26,6 @@ feature {NONE} -- Initialisation
 			event:POINTER
 			deltatime:REAL_64
 
-		-- Démarrer l'application.
 		do
 			quit:=false
 			stoptime:=0
@@ -48,7 +47,7 @@ feature {NONE} -- Initialisation
 				if get_sdl_event_type(event) = sdl_quitevent then
 					quit:= true
 				end
-				if get_sdl_rect_x(r_rect.targetarea)>=w_window.w then
+				if get_sdl_rect_x(r_rect.targetarea)>=w_window.w-164 then
 					quit:= true
 				end
 				thistime:=sdl_getticks().to_integer_32
@@ -67,9 +66,9 @@ feature {NONE} -- Initialisation
 
 	    		--ENGENDRE LE PRÉSENT
 			    sdl_renderclear(w_window.renderer)
-			    r_rect2.apply_texture(w_window.renderer,s_image2.tex)
-			    r_rect.apply_texture(w_window.renderer,s_image.tex)
-			    r_rect3.apply_texture(w_window.renderer,s_image3.tex)
+			    r_rect2.apply_texture(w_window.renderer,s_image2.texture)
+			    r_rect.apply_texture(w_window.renderer,s_image.texture)
+			    r_rect3.apply_texture(w_window.renderer,s_image3.texture)
 			    sdl_renderpresent(w_window.renderer)
 
 			    --Delai en ms(facultatif)
