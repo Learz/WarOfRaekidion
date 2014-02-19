@@ -291,6 +291,30 @@ feature -- Structure Getters -SDL.h
 			"type"
 		end
 
+		frozen get_sdl_keypressed(sdl_keypressed:POINTER):POINTER
+
+		external
+			"C [struct <SDL.h>] (SDL_Event):SDL_Keycode"
+		alias
+			"key.keysym.sym"
+		end
+
+		frozen get_sdl_mouse_state_noreturn(x,y:POINTER)
+
+		external
+			"C (int*,int*) | <SDL.h>"
+		alias
+			"SDL_GetMouseState"
+		end
+
+		frozen get_sdl_mouse_state(x,y:POINTER):NATURAL_32
+
+		external
+			"C (int*,int*):Uint32 | <SDL.h>"
+		alias
+			"SDL_GetMouseState"
+		end
+
 feature -- Constantes -SDL.h
 
 	frozen sdl_init_video:NATURAL_32
@@ -381,7 +405,73 @@ feature -- Constantes -SDL.h
 			"SDL_MOUSEBUTTONDOWN"
 		end
 
-feature --Sizeof -SDL.H
+	frozen sdl_keydown:NATURAL_32
+
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_KEYDOWN"
+		end
+
+	frozen sdl_keyup:NATURAL_32
+
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_KEYUP"
+		end
+
+feature --Constantes Clavier -SDL.h
+
+	frozen sdlk_escape:POINTER
+
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDLK_ESCAPE"
+		end
+
+	frozen sdlk_w:POINTER
+
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDLK_w"
+		end
+
+	frozen sdlk_a:POINTER
+
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDLK_a"
+		end
+
+	frozen sdlk_s:POINTER
+
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDLK_s"
+		end
+
+	frozen sdlk_d:POINTER
+
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDLK_d"
+		end
+
+	frozen sdlk_lshift:POINTER
+
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDLK_LSHIFT"
+		end
+
+feature --Sizeof -SDL.h
 
 	frozen sizeof_sdl_rect_struct:INTEGER
 
