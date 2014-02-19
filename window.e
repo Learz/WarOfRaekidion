@@ -7,9 +7,6 @@ note
 class
 	WINDOW
 
-inherit
-	SDL_WRAPPER
-
 create
 	create_window
 
@@ -22,25 +19,36 @@ feature --Initialisation
 		--Créer la fenêtre
 		local
 			c_title:C_STRING
+			l_temp_factory:IMAGE_FACTORY
 		do
 			--Conversion de la String en String C
 			create c_title.make (title)
 			--Initialisation de SDL
-		    sdl_init_noreturn(sdl_init_video_timer)
+		    {SDL_WRAPPER}.sdl_init_noreturn({SDL_WRAPPER}.sdl_init_video_timer)
 			--Création de la fenêtre et du moteur de rendu
-		    window:=sdl_createwindow(c_title.item,x,y,width,height,flags)
+		    window:={SDL_WRAPPER}.sdl_createwindow(c_title.item,x,y,width,height,flags)
 		    w:=width
 		    h:=height
-		    renderer:=sdl_createrenderer(window,-1,sdl_renderer_accelerated)
+		    renderer:={SDL_WRAPPER}.sdl_createrenderer(window,-1,{SDL_WRAPPER}.sdl_renderer_accelerated)
 		end
+
+	renderpresent()
+	do
+		{SDL_WRAPPER}.sdl_renderpresent(renderer)
+	end
+
+	renderclear()
+	do
+		{SDL_WRAPPER}.sdl_renderclear(renderer)
+	end
 
 	destroy_window()
 		--Décharger le moteur de rendu et la fenêtre en mémoire
 		do
 			--Détruire le renderer
-		    sdl_destroyrenderer(renderer)
+		    {SDL_WRAPPER}.sdl_destroyrenderer(renderer)
 		    --Détruire la fenêtre
-		    sdl_destroywindow(window)
+		    {SDL_WRAPPER}.sdl_destroywindow(window)
 		end
 
 end

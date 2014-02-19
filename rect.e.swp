@@ -1,0 +1,66 @@
+note
+	description: "Summary description for {SDL_RECT}."
+	author: "moi"
+	date: "$Date$"
+	revision: "$Revision$"
+
+class
+	RECT
+
+create
+	create_rect
+
+feature --Initialisation
+
+	targetarea:POINTER
+
+	create_rect(x,y,w,h:INTEGER)
+		--Créer le rectangle
+		do
+			--Allocation de la mémoire pour le Struct
+			targetarea:=targetarea.memory_alloc ({SDL_WRAPPER}.sizeof_sdl_rect_struct)
+			--Assignation des valeurs au rectangle
+		    {SDL_WRAPPER}.set_sdl_rect_x(targetarea, x)
+		    {SDL_WRAPPER}.set_sdl_rect_y(targetarea, y)
+		    {SDL_WRAPPER}.set_sdl_rect_w(targetarea, w)
+		    {SDL_WRAPPER}.set_sdl_rect_h(targetarea, h)
+		end
+
+
+	apply_texture(renderer,texture:POINTER)
+	--Chargement de la texture sur le rectangle
+		do
+			{SDL_WRAPPER}.sdl_rendercopy(renderer,texture,create{POINTER},targetarea)
+		end
+
+	destroy_rect()
+	--Déchargement du rectangle en mémoire
+		do
+			targetarea.
+		end
+
+feature --Setters
+
+	set_x(pos:DOUBLE)
+	do
+		{SDL_WRAPPER}.set_sdl_rect_x(targetarea, pos.floor)
+	end
+
+	set_y(pos:DOUBLE)
+	do
+		{SDL_WRAPPER}.set_sdl_rect_y(targetarea, pos.floor)
+	end
+
+feature --Constantes
+
+	get_x:DOUBLE
+	do
+		Result:={SDL_WRAPPER}.get_sdl_rect_x(targetarea)
+	end
+
+	get_y:DOUBLE
+	do
+		Result:={SDL_WRAPPER}.get_sdl_rect_y(targetarea)
+	end
+
+end
