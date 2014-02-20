@@ -24,9 +24,10 @@ feature {NONE}
 		do
 			create filenames.make
 			create objects.make
-			filenames.put ("sidebar")
-			filenames.put ("ship")
-			filenames.put ("sbullet")
+
+			filenames.force ("sidebar")
+			filenames.force ("ship")
+			filenames.force ("sbullet")
 
 			from
 				filenames.start
@@ -36,8 +37,10 @@ feature {NONE}
 				create l_filename_c.make ("Graphics/" + filenames.item + ".bmp")
 				l_surface:={SDL_WRAPPER}.sdl_loadbmp(l_filename_c.item)
 		    	{SDL_WRAPPER}.sdl_setcolorkey_noreturn (l_surface, {SDL_WRAPPER}.sdl_true, {SDL_WRAPPER}.sdl_maprgb({SDL_WRAPPER}.get_sdl_surface_format(l_surface), 255, 0, 255))
-		    	objects.put({SDL_WRAPPER}.sdl_createtexturefromsurface(a_renderer,l_surface))
+		    	objects.force({SDL_WRAPPER}.sdl_createtexturefromsurface(a_renderer,l_surface))
+		    	filenames.forth
 			end
+
 		    is_init.replace(True)
 		ensure
 		   	Is_Initialised: is_init.item
@@ -53,11 +56,11 @@ feature
 			create Result.put(False)
 		end
 
---	get_image(name:STRING):POINTER
---		require
---			filenames.there_exists (name)
---		do
---			Result := objects.at (filenames.index_of (name))
---		end
+	get_image(name:STRING):POINTER
+		require
+			filenames.has (name)
+		do
+			Result := objects.at (filenames.index_of (name, 0))
+		end
 
 end

@@ -32,9 +32,9 @@ feature {NONE} -- Initialisation
 			speed:=2
 			-- Initialisation de la fenêtre, des images et de leurs conteneurs
 		    w_window := create {WINDOW}.create_window("Butthurt Machine 2000",sdl_windowpos_undefined,sdl_windowpos_undefined,500,600,0)
-		    e_entity := create {ENTITY}.create_entity ("Graphics/ship.bmp",w_window,0,200)
-		    e_entity2 := create {ENTITY}.create_entity ("Graphics/sbullet.bmp",w_window,0,0)
-		    e_entity3 := create {ENTITY}.create_entity ("Graphics/sidebar.bmp",w_window,w_window.w-100,0)
+		    e_entity := create {ENTITY}.create_entity ("ship",w_window,0,200)
+		    e_entity2 := create {ENTITY}.create_entity ("sbullet",w_window,0,0)
+		    e_entity3 := create {ENTITY}.create_entity ("sidebar",w_window,w_window.w-100,0)
 
 			eh_event := create {EVENT_HANDLER}.create_event_handler();
 
