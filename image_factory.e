@@ -9,25 +9,24 @@ class
 
 inherit
 	ANY
+	DIRECTORY_LIST
 
 create
 	make
 
 feature {NONE}
 
-	make(a_renderer:POINTER)
+	make
 		require
 			Is_Not_Already_Initialised: not is_init.item
 		local
 			l_filename_c:C_STRING
 			l_surface:POINTER
 		do
-			create filenames.make
+			--create filenames.make
 			create objects.make
 
-			filenames.force ("sidebar")
-			filenames.force ("ship")
-			filenames.force ("sbullet")
+			filenames := list_directory("./Graphics")
 
 			from
 				filenames.start
@@ -35,9 +34,7 @@ feature {NONE}
 				filenames.exhausted
 			loop
 				create l_filename_c.make ("Graphics/" + filenames.item + ".bmp")
-				l_surface:={SDL_WRAPPER}.sdl_loadbmp(l_filename_c.item)
-		    	{SDL_WRAPPER}.sdl_setcolorkey_noreturn (l_surface, {SDL_WRAPPER}.sdl_true, {SDL_WRAPPER}.sdl_maprgb({SDL_WRAPPER}.get_sdl_surface_format(l_surface), 255, 0, 255))
-		    	objects.force({SDL_WRAPPER}.sdl_createtexturefromsurface(a_renderer,l_surface))
+		    	objects.force({SDL_WRAPPER}.sdl_loadbmp(l_filename_c.item))
 		    	filenames.forth
 			end
 
@@ -57,10 +54,33 @@ feature
 		end
 
 	get_image(name:STRING):POINTER
-		require
-			filenames.has (name)
+		local
+			l_index:INTEGER
 		do
-			Result := objects.at (filenames.index_of (name, 0))
+			from
+				filenames.start
+			until
+				filenames.exhausted
+			loop
+				if
+					filenames.item.is_equal (name)
+				then
+					Result := objects.at (filenames.index)
+				end
+				filenames.forth
+			end
+		end
+		
+	destroy_images
+		do
+			from
+				objects.start
+			until
+				objects.exhausted
+			loop
+				{SDL_WRAPPER}.sdl_freesurface(objects.item)
+				objects.forth
+			end
 		end
 
 end

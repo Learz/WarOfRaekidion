@@ -9,6 +9,8 @@ class
 inherit
 	ARGUMENTS
 	SDL_WRAPPER
+	IMAGE_FACTORY_SHARED
+	DOUBLE_MATH
 
 create
 	make
@@ -18,13 +20,15 @@ feature {NONE} -- Initialisation
 	make
 		--Démarrer l'application
 		local
+			image:IMAGE_FACTORY
 			w_window:WINDOW
 			quit:BOOLEAN
-			e_entity,e_entity2,e_entity3:ENTITY
+			player:PLAYER_SHIP
+			sidebar:USER_INTERFACE
 			eh_event:EVENT_HANDLER
-			thistime,lasttime,stoptime,direction_x,direction_y:INTEGER
+			thistime,lasttime,stoptime:INTEGER
 			deltatime:REAL_64
-			angle,ydif,xdif,speed:DOUBLE
+			speed,direction_x,direction_y:DOUBLE
 
 		do
 			quit:=false
@@ -32,9 +36,8 @@ feature {NONE} -- Initialisation
 			speed:=2
 			-- Initialisation de la fenêtre, des images et de leurs conteneurs
 		    w_window := create {WINDOW}.create_window("Butthurt Machine 2000",sdl_windowpos_undefined,sdl_windowpos_undefined,500,600,0)
-		    e_entity := create {ENTITY}.create_entity ("ship",w_window,0,200)
-		    e_entity2 := create {ENTITY}.create_entity ("sbullet",w_window,0,0)
-		    e_entity3 := create {ENTITY}.create_entity ("sidebar",w_window,w_window.w-100,0)
+		    player := create {PLAYER_SHIP}.create_ship (w_window,0,200)
+		    sidebar := create {USER_INTERFACE}.create_interface ("sidebar",w_window,w_window.w-100,0)
 
 			eh_event := create {EVENT_HANDLER}.create_event_handler();
 
@@ -43,12 +46,9 @@ feature {NONE} -- Initialisation
 			until
 				quit
 			loop
-				sdl_pollevent_noreturn(eh_event.event) --à moins que.. tue ghost tapis
+				sdl_pollevent_noreturn(eh_event.event)
 
 				if eh_event.is_quitevent then
-					quit:= true
-				end
-				if e_entity.get_x >= w_window.w-164 then
 					quit:= true
 				end
 
@@ -101,28 +101,30 @@ feature {NONE} -- Initialisation
 				lasttime:=thistime
 
 			    --Try to move the entities
-			    e_entity.set_x (e_entity.get_x+direction_x*speed)
-			    e_entity.set_y (e_entity.get_y+direction_y*speed)
+			    player.set_x (player.get_x+direction_x*speed)
+			    player.set_y (player.get_y+direction_y*speed)
 
 	    		--ENGENDRE LE PRÉSENT
 			    w_window.renderclear()
-			    e_entity2.update_entity()
-			    e_entity.update_entity()
-			    e_entity3.update_entity()
+			    player.update_entity()
+			    sidebar.update_entity()
 			    w_window.renderpresent()
 
 			    --Delai en ms(facultatif)
 	    		sdl_delay(10)
 			end
 
-		    --Fermeture de la fenêtre, des images et de leurs conteneurs
-		    e_entity.destroy_entity()
-		    e_entity2.destroy_entity()
-		    e_entity3.destroy_entity()
+		    --Fermeture de la fenêtre et des entités
+		    player.destroy_entity()
+		    sidebar.destroy_entity()
 		    w_window.destroy_window()
 
 		    --Libère l'espace alloué pour "event"
 		    eh_event.destroy_event_handler()
+
+		    --Libère tous les sprites de la RAM
+			image := factory
+		    image.destroy_images
 
 		    --Fermeture de SDL
 		    sdl_quit()

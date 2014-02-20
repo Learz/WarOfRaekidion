@@ -30,19 +30,22 @@ feature --Initialisation
 			--Allocation de la mémoire pour le Struct
 			targetarea:=targetarea.memory_alloc ({SDL_WRAPPER}.sizeof_sdl_rect_struct)
 			--Chargement de l'image bitmap
-			set_renderer (r_renderer)
 			image := factory
 			bmp := image.get_image (filename)
---		    bmp:={SDL_WRAPPER}.sdl_loadbmp(c_filename.item)
+			if
+				bmp.is_default_pointer
+			then
+				bmp := image.get_image ("error")
+			end
+--			bmp:={SDL_WRAPPER}.sdl_loadbmp(c_filename.item)
 			--Assignation des valeurs au rectangle
 		    {SDL_WRAPPER}.set_sdl_rect_x(targetarea, x)
 		    {SDL_WRAPPER}.set_sdl_rect_y(targetarea, y)
 		    {SDL_WRAPPER}.set_sdl_rect_w(targetarea, {SDL_WRAPPER}.get_sdl_loadbmp_width(bmp))
 		    {SDL_WRAPPER}.set_sdl_rect_h(targetarea, {SDL_WRAPPER}.get_sdl_loadbmp_height(bmp))
-		    --Mettre le rose(RGB(255,0,255)) en transparence
-		    {SDL_WRAPPER}.sdl_setcolorkey_noreturn (bmp, {SDL_WRAPPER}.sdl_true, {SDL_WRAPPER}.sdl_maprgb({SDL_WRAPPER}.get_sdl_surface_format(bmp), 255, 0, 255))
 		    --Chargement du bitmap sur la texture
---		    texture:={SDL_WRAPPER}.sdl_createtexturefromsurface(r_renderer,bmp)
+			{SDL_WRAPPER}.sdl_setcolorkey_noreturn (bmp, {SDL_WRAPPER}.sdl_true, {SDL_WRAPPER}.sdl_maprgb({SDL_WRAPPER}.get_sdl_surface_format(bmp), 255, 0, 255))
+		    texture:={SDL_WRAPPER}.sdl_createtexturefromsurface(r_renderer,bmp)
 		    --Appliquer la texture sur le rectangle
 		    {SDL_WRAPPER}.sdl_rendercopy(r_renderer,texture,create{POINTER},targetarea)
 		end
@@ -56,8 +59,6 @@ feature --Initialisation
 	destroy_sprite()
 		--Déchargement de l'image en mémoire
 		do
-			--Effacer le bitmap
-			{SDL_WRAPPER}.sdl_freesurface(bmp)
 			--Effacer la texture
 			{SDL_WRAPPER}.sdl_destroytexture(texture)
 			--Effacer le rectangle
