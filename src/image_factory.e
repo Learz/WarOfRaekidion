@@ -21,7 +21,6 @@ feature {NONE}
 			Is_Not_Already_Initialised: not is_init.item
 		local
 			l_filename_c:C_STRING
-			l_surface:POINTER
 		do
 			--create filenames.make
 			create objects.make
@@ -54,8 +53,6 @@ feature
 		end
 
 	get_image(name:STRING):POINTER
-		local
-			l_index:INTEGER
 		do
 			from
 				filenames.start
@@ -70,7 +67,7 @@ feature
 				filenames.forth
 			end
 		end
-		
+
 	destroy_images
 		do
 			from

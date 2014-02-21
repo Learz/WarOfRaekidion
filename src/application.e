@@ -105,10 +105,10 @@ feature {NONE} -- Initialisation
 			    player.set_y (player.get_y+direction_y*speed)
 
 	    		--ENGENDRE LE PRÉSENT
-			    w_window.renderclear()
+			    w_window.render_clear()
 			    player.update_entity()
 			    sidebar.update_entity()
-			    w_window.renderpresent()
+			    w_window.render_window()
 
 			    --Delai en ms(facultatif)
 	    		sdl_delay(10)
