@@ -12,7 +12,6 @@ inherit
 	ARGUMENTS
 	SDL_WRAPPER
 	IMAGE_FACTORY_SHARED
-	DOUBLE_MATH
 
 create
 	make
@@ -37,7 +36,7 @@ feature {NONE} -- Initialisation
 			stoptime:=0
 			speed:=2
 			-- Initialisation de la fenêtre, des images et de leurs conteneurs
-		    w_window := create {WINDOW}.create_window("Butthurt Machine 2000",sdl_windowpos_undefined,sdl_windowpos_undefined,500,600,0)
+		    w_window := create {WINDOW}.create_window("War of Raekidion",sdl_windowpos_undefined,sdl_windowpos_undefined,500,600,0)
 		    player := create {PLAYER_SHIP}.create_ship (w_window,0,200)
 		    sidebar := create {USER_INTERFACE}.create_interface ("sidebar",w_window,w_window.w-100,0)
 
