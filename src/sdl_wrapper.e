@@ -1,8 +1,9 @@
 note
-	description: "Butthurt origins"
-	author: "Headon, apply directly to the forehead.Headon, apply directly to the forehead.Headon, apply directly to the forehead.Headon, apply directly to the forehead"
-	date: "$Date$"
-	revision: "$Revision$"
+	description : "War of Raekidion - {SDL_WRAPPER} class"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
+
 
 class
 	SDL_WRAPPER

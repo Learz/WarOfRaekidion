@@ -1,8 +1,9 @@
 note
-	description: "Summary description for {USER_INTERFACE}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description : "War of Raekidion - {USER_INTERFACE} class"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
+
 
 class
 	USER_INTERFACE

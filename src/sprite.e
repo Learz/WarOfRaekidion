@@ -1,8 +1,9 @@
 note
-	description: "Summary description for {SDL_SPRITE}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description : "War of Raekidion - {SPRITE} class"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
+
 
 class
 	SPRITE

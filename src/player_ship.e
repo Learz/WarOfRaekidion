@@ -1,8 +1,9 @@
 note
-	description: "Summary description for {PLAYER_SHIP}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description : "War of Raekidion - {PLAYER_SHIP} class"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
+
 
 class
 	PLAYER_SHIP

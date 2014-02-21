@@ -1,8 +1,9 @@
 note
-	description: "Summary description for {IMAGE_FACTORY}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description : "War of Raekidion - {IMAGE_FACTORY} class"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
+
 
 class
 	IMAGE_FACTORY
@@ -25,14 +26,14 @@ feature {NONE}
 			--create filenames.make
 			create objects.make
 
-			filenames := list_directory("./Graphics")
+			filenames := list_directory("res/images")
 
 			from
 				filenames.start
 			until
 				filenames.exhausted
 			loop
-				create l_filename_c.make ("Graphics/" + filenames.item + ".bmp")
+				create l_filename_c.make ("res/images/" + filenames.item + ".bmp")
 		    	objects.force({SDL_WRAPPER}.sdl_loadbmp(l_filename_c.item))
 		    	filenames.forth
 			end

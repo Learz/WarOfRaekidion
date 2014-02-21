@@ -1,8 +1,9 @@
 note
-	description: "Summary description for {DIRECTORY_LIST}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description : "War of Raekidion - {DIRECTORY_LIST} class"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
+
 
 class
 	DIRECTORY_LIST

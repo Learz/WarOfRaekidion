@@ -1,8 +1,9 @@
 note
-	description: "Summary description for {EVENT_HANDLER}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description : "War of Raekidion - {EVENT_HANDLER} class"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
+
 
 class
 	EVENT_HANDLER

@@ -1,8 +1,9 @@
 note
-	description: "Summary description for {IMAGE_FACTORY_SHARED}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description : "War of Raekidion - {IMAGE_FACTORY_SHARED} class"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
+
 
 deferred class
 	IMAGE_FACTORY_SHARED
@@ -13,5 +14,5 @@ feature {NONE}
 	once
 		create result.make
 	end
-	
+
 end

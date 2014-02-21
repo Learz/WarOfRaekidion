@@ -1,8 +1,9 @@
 note
-	description: "Summary description for {SDL_WINDOW}."
-	author: "Moi"
-	date: "$Date$"
-	revision: "$Revision$"
+	description : "War of Raekidion - {WINDOW} class"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
+
 
 class
 	WINDOW
@@ -19,7 +20,6 @@ feature --Initialisation
 		--Créer la fenêtre
 		local
 			c_title:C_STRING
-			l_temp_factory:IMAGE_FACTORY
 		do
 			--Conversion de la String en String C
 			create c_title.make (title)

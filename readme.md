@@ -4,10 +4,14 @@ War of Rækidion
 Welcome to the repository of War of Rækidion. This game is made in Eiffel, 
 with the help of SDL 2.0 and SDL Image 2.0. 
 
-Feel free to contribute and 
-leave a comment if you ever want to see a specific feature implemented into 
-the project. We are still students, but we'll try to maintain this school 
-assignment up to date and growing.
+War of Rækidion is a "bullet hell" type top-down shooter game. It involves 
+basic gameplay like dodgeing enemies' projectiles and progressing through 
+the level. However, it also includes interresting new features like a 
+simple to use modding format, which allows to add enemy ships and projectile 
+types through XML files. Also, the main feature of this game consists of a 
+online multiplayer mode making one player control the ship and progressing 
+normally through the level, while the other sends enemies and attacks to his 
+opponent.
 
 Installing the game
 ----------------------

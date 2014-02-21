@@ -1,7 +1,9 @@
 note
-	description : "Butthurt machine"
-	date        : "Petit cheval rose et demi"
-	revision    : "14"
+	description : "War of Raekidion - {APPLICATION} class"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
+
 
 class
 	APPLICATION
