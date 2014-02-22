@@ -16,9 +16,10 @@ opponent.
 Installing the game
 ----------------------
 
-To install the game, you only have to download the Master branch and run it. 
-If you have Windows, choose the supplied "War of Rækidion.exe" file to execute the game.
-For Linux, run the "War of Rækidion" executable file.
+To install the game, you only have to download the appropriate binary file from 
+the "**release**" folder. All content and libraries are included inside the archive. 
+To launch the game on Windows, choose the "raekidion.exe" file. For Linux, run 
+the "raekidion" executable file.
 
 Installing the SDK
 ---------------------
@@ -40,24 +41,25 @@ and the **developement libraries** working with MinGW:
 ### Installing on Windows
 
 For Windows, you will have to put your extracted SDL 2.0 and SDL Image 2.0 
-folders inside the project's directory, like this:
+folders and files inside the project's directory, like this:
 
     |- War of Raekidion
 		|
 		|- .git
 		|- EIFGENs
-		|- res
-		|- SDL2_image-2.0.0
-		|- SDL2-2.0.x
-		|- src
+		|- libraries
+			|- SDL2_image-2.0.0
+			|- SDL2-2.0.x
+			|- libpng16-16.dll
+			|- SDL2.dll
+			|- SDL2_image.dll
+			|- zlib1.dll
+		|- ressources
+		|- source
 		|
 		|- .gitignore
-		|- libpng16-16.dll
 		|- raekidion.ecf
 		|- readme.md
-		|- SDL2.dll
-		|- SDL2_image.dll
-		|- zlib1.dll
 
 You probably won't have the EIFGENs folder, as it is only used by Eiffel Studio to 
 store compiled files. You will also have to create the raekidion.ecf yourself, 
