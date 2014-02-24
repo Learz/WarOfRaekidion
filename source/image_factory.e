@@ -9,7 +9,6 @@ class
 	IMAGE_FACTORY
 
 inherit
-	ANY
 	DIRECTORY_LIST
 
 create
@@ -23,18 +22,16 @@ feature {NONE}
 		local
 			l_filename_c:C_STRING
 		do
-			--create filenames.make
 			create objects.make
-
-			filenames := list_directory("ressources/images")
+			filenames := list_files("ressources/images", "bmp")
 
 			from
 				filenames.start
 			until
 				filenames.exhausted
 			loop
-				create l_filename_c.make ("ressources/images/" + filenames.item + ".bmp")
-		    	objects.force({SDL_WRAPPER}.sdl_loadbmp(l_filename_c.item))
+				create l_filename_c.make ("ressources/images/" + filenames.item)
+		    	objects.force ({SDL_WRAPPER}.sdl_loadbmp (l_filename_c.item))
 		    	filenames.forth
 			end
 
@@ -53,18 +50,23 @@ feature
 			create Result.put(False)
 		end
 
-	get_image(name:STRING):POINTER
+	get_image(a_name:STRING):POINTER
+		local
+			l_count:INTEGER
+			l_name:STRING
 		do
 			from
 				filenames.start
 			until
 				filenames.exhausted
 			loop
-				if
-					filenames.item.is_equal (name)
-				then
+				l_count := filenames.item.index_of ('.', 1)
+				l_name := filenames.item.substring (1, l_count - 1)
+
+				if l_name.is_equal (a_name) then
 					Result := objects.at (filenames.index)
 				end
+
 				filenames.forth
 			end
 		end

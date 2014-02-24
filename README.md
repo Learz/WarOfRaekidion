@@ -73,8 +73,8 @@ so you can copy the following XML file:
 				<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 			</option>
 			<setting name="console_application" value="true"/>
-			<external_include location="..\..\..\..\SDL2-2.0.1\i686-w64-mingw32\include\SDL2"/>
-			<external_library location="..\..\..\SDL2-2.0.1\i686-w64-mingw32\lib\libSDL2.dll.a"/>
+			<external_include location="..\..\..\..\libraries\SDL2-2.0.1\i686-w64-mingw32\include\SDL2"/>
+			<external_library location="..\..\..\libraries\SDL2-2.0.1\i686-w64-mingw32\lib\libSDL2.dll.a"/>
 			<precompile name="base_pre" location="$ISE_PRECOMP\base-safe.ecf"/>
 			<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
 			<cluster name="raekidion" location=".\" recursive="true">
@@ -92,7 +92,7 @@ so you can copy the following XML file:
 For Windows, you will have to install libsdl2-dev and libsdl2-image from the default Debian 
 sid source:
 
-	sudo apt-get install libsdl2-dev libsdl2-image
+	sudo apt-get install libsdl2-dev libsdl2-image-dev
 
 You will have to create the raekidion.ecf yourself, so you can copy the following XML file:
 

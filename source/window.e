@@ -13,42 +13,37 @@ create
 
 feature --Initialisation
 
-	window,renderer:POINTER
-	w,h:INTEGER
+	window, renderer:POINTER
+	height, width:INTEGER
 
-	create_window(title:STRING;x,y,width,height:INTEGER;flags:NATURAL_32)
+	create_window(a_title:STRING; a_x, a_y, a_width, a_height:INTEGER; a_flags:NATURAL_32)
 		--Créer la fenêtre
 		local
-			c_title:C_STRING
+			l_c_title:C_STRING
 		do
-			--Conversion de la String en String C
-			create c_title.make (title)
-			--Initialisation de SDL
-		    {SDL_WRAPPER}.sdl_init_noreturn({SDL_WRAPPER}.sdl_init_video_timer)
-			--Création de la fenêtre et du moteur de rendu
-		    window:={SDL_WRAPPER}.sdl_createwindow(c_title.item,x,y,width,height,flags)
-		    w:=width
-		    h:=height
-		    renderer:={SDL_WRAPPER}.sdl_createrenderer(window,-1,{SDL_WRAPPER}.sdl_renderer_accelerated)
+			create l_c_title.make (a_title)
+		    {SDL_WRAPPER}.sdl_init_noreturn ({SDL_WRAPPER}.sdl_init_video_timer)
+		    height := a_height
+		    width := a_width
+		    window := {SDL_WRAPPER}.sdl_createwindow (l_c_title.item, a_x, a_y, width, height, a_flags)
+		    renderer := {SDL_WRAPPER}.sdl_createrenderer (window, -1, {SDL_WRAPPER}.sdl_renderer_accelerated)
 		end
 
-	render_window()
+	render_window
 	do
-		{SDL_WRAPPER}.sdl_renderpresent(renderer)
+		{SDL_WRAPPER}.sdl_renderpresent (renderer)
 	end
 
-	render_clear()
+	render_clear
 	do
-		{SDL_WRAPPER}.sdl_renderclear(renderer)
+		{SDL_WRAPPER}.sdl_renderclear (renderer)
 	end
 
-	destroy_window()
+	destroy_window
 		--Décharger le moteur de rendu et la fenêtre en mémoire
 		do
-			--Détruire le renderer
-		    {SDL_WRAPPER}.sdl_destroyrenderer(renderer)
-		    --Détruire la fenêtre
-		    {SDL_WRAPPER}.sdl_destroywindow(window)
+		    {SDL_WRAPPER}.sdl_destroyrenderer (renderer)
+		    {SDL_WRAPPER}.sdl_destroywindow (window)
 		end
 
 end

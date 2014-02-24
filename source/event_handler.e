@@ -13,139 +13,139 @@ create
 
 feature --Initialisation de la gestion d'entrées
 
-	event,keypressed:POINTER
+	event, key_pressed:POINTER
 
-	create_event_handler()
-	do
-		event:=event.memory_alloc ({SDL_WRAPPER}.sizeof_sdl_event_struct)
-	end
-
-	arc_tangent_2(y, x: DOUBLE):DOUBLE
-    do
-       Result := {DOUBLE_MATH}.arc_tangent(y/x)
-       if x < 0 then
-          if y < 0 then
-             Result := Result + {DOUBLE_MATH}.pi
-          else
-             Result := Result - {DOUBLE_MATH}.pi
-          end
-       end
-    end
-
-	is_quitevent:BOOLEAN
-	do
-		if {SDL_WRAPPER}.get_sdl_event_type(event) = {SDL_WRAPPER}.sdl_quitevent then
-			Result:=True
-		else
-			Result:=False
+	create_event_handler
+		do
+			event := event.memory_alloc ({SDL_WRAPPER}.sizeof_sdl_event_struct)
 		end
-	end
 
-	is_keydown:BOOLEAN
-	do
-		if {SDL_WRAPPER}.get_sdl_event_type(event) = {SDL_WRAPPER}.sdl_keydown then
-			Result:=true
-		else
-			Result:=false
-		end
-	end
+	arc_tangent_2(a_y, a_x: DOUBLE):DOUBLE
+	    do
+			Result := {DOUBLE_MATH}.arc_tangent (a_y / a_x)
+			if a_x < 0 then
+				if a_y < 0 then
+					Result := Result + {DOUBLE_MATH}.pi
+				else
+					Result := Result - {DOUBLE_MATH}.pi
+				end
+			end
+	    end
 
-	is_keyup:BOOLEAN
-	do
-		if {SDL_WRAPPER}.get_sdl_event_type(event) = {SDL_WRAPPER}.sdl_keyup then
-			Result:=true
-		else
-			Result:=false
+	is_quit_event:BOOLEAN
+		do
+			if {SDL_WRAPPER}.get_sdl_event_type (event) = {SDL_WRAPPER}.sdl_quitevent then
+				Result := True
+			else
+				Result := False
+			end
 		end
-	end
 
-	is_mousedown:BOOLEAN
-	do
-		if {SDL_WRAPPER}.get_sdl_event_type(event) = {SDL_WRAPPER}.sdl_mousebuttondown then
-			Result:=True
-		else
-			Result:=False
+	is_key_down:BOOLEAN
+		do
+			if {SDL_WRAPPER}.get_sdl_event_type(event) = {SDL_WRAPPER}.sdl_keydown then
+				Result := true
+			else
+				Result := false
+			end
 		end
-	end
+
+	is_key_up:BOOLEAN
+		do
+			if {SDL_WRAPPER}.get_sdl_event_type(event) = {SDL_WRAPPER}.sdl_keyup then
+				Result := true
+			else
+				Result := false
+			end
+		end
+
+	is_mouse_down:BOOLEAN
+		do
+			if {SDL_WRAPPER}.get_sdl_event_type(event) = {SDL_WRAPPER}.sdl_mousebuttondown then
+				Result := True
+			else
+				Result := False
+			end
+		end
 
 	get_mouse_x:DOUBLE
-	local
-		mouse_x:INTEGER
-	do
-		{SDL_WRAPPER}.get_sdl_mouse_state_noreturn($mouse_x,create{POINTER})
-		Result:=mouse_x
-	end
+		local
+			l_mouse_x:INTEGER
+		do
+			{SDL_WRAPPER}.get_sdl_mouse_state_noreturn ($l_mouse_x, create{POINTER})
+			Result := l_mouse_x
+		end
 
 	get_mouse_y:DOUBLE
-	local
-		mouse_y:INTEGER
-	do
-		{SDL_WRAPPER}.get_sdl_mouse_state_noreturn(create{POINTER},$mouse_y)
-		Result:=mouse_y
-	end
+		local
+			l_mouse_y:INTEGER
+		do
+			{SDL_WRAPPER}.get_sdl_mouse_state_noreturn (create{POINTER}, $l_mouse_y)
+			Result := l_mouse_y
+		end
 
-	get_keypressed()
-	do
-		keypressed:={SDL_WRAPPER}.get_sdl_keypressed(event)
-	end
+	get_key_pressed
+		do
+			key_pressed := {SDL_WRAPPER}.get_sdl_keypressed(event)
+		end
 
 	is_key_esc:BOOLEAN
-	do
-		if keypressed={SDL_WRAPPER}.sdlk_escape then
-			Result:=True
-		else
-			Result:=False
+		do
+			if key_pressed = {SDL_WRAPPER}.sdlk_escape then
+				Result := True
+			else
+				Result := False
+			end
 		end
-	end
 
 	is_key_a:BOOLEAN
-	do
-		if keypressed={SDL_WRAPPER}.sdlk_a then
-			Result:=True
-		else
-			Result:=False
+		do
+			if key_pressed = {SDL_WRAPPER}.sdlk_a then
+				Result := True
+			else
+				Result := False
+			end
 		end
-	end
 
 	is_key_s:BOOLEAN
-	do
-		if keypressed={SDL_WRAPPER}.sdlk_s then
-			Result:=True
-		else
-			Result:=False
+		do
+			if key_pressed = {SDL_WRAPPER}.sdlk_s then
+				Result := True
+			else
+				Result := False
+			end
 		end
-	end
 
 	is_key_d:BOOLEAN
-	do
-		if keypressed={SDL_WRAPPER}.sdlk_d then
-			Result:=True
-		else
-			Result:=False
+		do
+			if key_pressed = {SDL_WRAPPER}.sdlk_d then
+				Result := True
+			else
+				Result := False
+			end
 		end
-	end
 
 	is_key_w:BOOLEAN
-	do
-		if keypressed={SDL_WRAPPER}.sdlk_w then
-			Result:=True
-		else
-			Result:=False
+		do
+			if key_pressed = {SDL_WRAPPER}.sdlk_w then
+				Result := True
+			else
+				Result := False
+			end
 		end
-	end
 
 	is_key_lshift:BOOLEAN
-	do
-		if keypressed={SDL_WRAPPER}.sdlk_lshift then
-			Result:=True
-		else
-			Result:=False
+		do
+			if key_pressed = {SDL_WRAPPER}.sdlk_lshift then
+				Result := True
+			else
+				Result := False
+			end
 		end
-	end
 
-	destroy_event_handler()
-	do
-		event.memory_free
-	end
+	destroy_event_handler
+		do
+			event.memory_free
+		end
 
 end

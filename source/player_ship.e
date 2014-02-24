@@ -16,9 +16,9 @@ create
 
 feature --Initialisation
 
-	create_ship(imgwindow:WINDOW;posx,posy:INTEGER)
+	create_ship(a_window:WINDOW; a_x, a_y:INTEGER)
 	do
-		create_entity("ship",imgwindow,posx,posy)
+		create_entity("player", a_window, a_x, a_y)
 	end
 
 end

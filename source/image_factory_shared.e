@@ -11,8 +11,8 @@ deferred class
 feature {NONE}
 
 	factory:IMAGE_FACTORY
-	once
-		create result.make
-	end
+		once
+			create result.make
+		end
 
 end

@@ -16,9 +16,9 @@ create
 
 feature --Initialisation
 
-	create_interface(spritename:STRING;imgwindow:WINDOW;posx,posy:INTEGER)
-	do
-		create_entity(spritename,imgwindow,posx,posy)
-	end
+	create_interface(a_name:STRING; a_window:WINDOW; a_x, a_y:INTEGER)
+		do
+			create_entity(a_name, a_window, a_x, a_y)
+		end
 
 end

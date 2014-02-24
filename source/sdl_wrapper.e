@@ -10,15 +10,15 @@ class
 
 feature -- Fonctions -SDL.h
 
-	frozen sdl_createwindow(title:POINTER;x,y,w,h:INTEGER;flags:NATURAL_32):POINTER
+	frozen sdl_createwindow(a_title:POINTER; a_x, a_y, a_w, a_h:INTEGER; a_flags:NATURAL_32):POINTER
 
 		external
-			"C (const char*,int,int,int,int,Uint32) : SDL_Window* | <SDL.h>"
+			"C (const char*, int, int, int, int, Uint32) : SDL_Window* | <SDL.h>"
 		alias
 			"SDL_CreateWindow"
 		end
 
-	frozen sdl_destroywindow(window:POINTER)
+	frozen sdl_destroywindow(a_window:POINTER)
 
 		external
 			"C (SDL_Window*) | <SDL.h>"
@@ -26,7 +26,7 @@ feature -- Fonctions -SDL.h
 			"SDL_DestroyWindow"
 		end
 
-	frozen sdl_quit()
+	frozen sdl_quit
 
 		external
 			"C () | <SDL.h>"
@@ -34,15 +34,15 @@ feature -- Fonctions -SDL.h
 			"SDL_Quit"
 		end
 
-	frozen sdl_createrenderer(window:POINTER;index:INTEGER;flags:NATURAL_32):POINTER
+	frozen sdl_createrenderer(a_window:POINTER; a_index:INTEGER; a_flags:NATURAL_32):POINTER
 
 		external
-			"C (SDL_Window*,int,Uint32) : SDL_Renderer* | <SDL.h>"
+			"C (SDL_Window*, int, Uint32) : SDL_Renderer* | <SDL.h>"
 		alias
 			"SDL_CreateRenderer"
 		end
 
-	frozen sdl_destroyrenderer (renderer:POINTER)
+	frozen sdl_destroyrenderer (a_renderer:POINTER)
 
 		external
 			"C (SDL_Renderer*) | <SDL.h>"
@@ -50,7 +50,7 @@ feature -- Fonctions -SDL.h
 			"SDL_DestroyRenderer"
 		end
 
-	frozen sdl_renderclear(renderer:POINTER)
+	frozen sdl_renderclear(a_renderer:POINTER)
 
 		external
 			"C (SDL_Renderer*) | <SDL.h>"
@@ -58,15 +58,15 @@ feature -- Fonctions -SDL.h
 			"SDL_RenderClear"
 		end
 
-	frozen sdl_rendercopy(renderer,texture,srcrect,dstrect:POINTER;)
+	frozen sdl_rendercopy(a_renderer, a_texture, a_srcrect, a_dstrect:POINTER)
 
 		external
-			"C (SDL_Renderer*,SDL_Texture*,SDL_Rect*,SDL_Rect*) | <SDL.h>"
+			"C (SDL_Renderer*, SDL_Texture*, SDL_Rect*, SDL_Rect*) | <SDL.h>"
 		alias
 			"SDL_RenderCopy"
 		end
 
-	frozen sdl_renderpresent(renderer:POINTER)
+	frozen sdl_renderpresent(a_renderer:POINTER)
 
 		external
 			"C (SDL_Renderer*) | <SDL.h>"
@@ -74,7 +74,7 @@ feature -- Fonctions -SDL.h
 			"SDL_RenderPresent"
 		end
 
-	frozen sdl_init(flags:NATURAL_32):NATURAL
+	frozen sdl_init(a_flags:NATURAL_32):NATURAL
 
 		external
 			"C (Uint32) : int | <SDL.h>"
@@ -82,7 +82,7 @@ feature -- Fonctions -SDL.h
 			"SDL_Init"
 		end
 
-	frozen sdl_init_noreturn(flags:NATURAL_32)
+	frozen sdl_init_noreturn(a_flags:NATURAL_32)
 
 		external
 			"C (Uint32) | <SDL.h>"
@@ -90,7 +90,7 @@ feature -- Fonctions -SDL.h
 			"SDL_Init"
 		end
 
-	frozen sdl_loadbmp(file:POINTER):POINTER
+	frozen sdl_loadbmp(a_file:POINTER):POINTER
 
 		external
 			"C (const char*) : SDL_Surface* | <SDL.h>"
@@ -98,7 +98,7 @@ feature -- Fonctions -SDL.h
 			"SDL_LoadBMP"
 		end
 
-	frozen sdl_freesurface(surface:POINTER)
+	frozen sdl_freesurface(a_surface:POINTER)
 
 		external
 			"C (SDL_Surface*) | <SDL.h>"
@@ -106,36 +106,36 @@ feature -- Fonctions -SDL.h
 			"SDL_FreeSurface"
 		end
 
-	frozen sdl_setcolorkey(surface:POINTER;flags:INTEGER;key:NATURAL_32):INTEGER
+	frozen sdl_setcolorkey(a_surface:POINTER; a_flags:INTEGER; a_key:NATURAL_32):INTEGER
 		external
-			"C (SDL_Surface*,int,Uint32) : int | <SDL.h>"
+			"C (SDL_Surface*, int, Uint32) : int | <SDL.h>"
 		alias
 			"SDL_SetColorKey"
 		end
 
-	frozen sdl_setcolorkey_noreturn(surface:POINTER;flags:INTEGER;key:NATURAL_32)
+	frozen sdl_setcolorkey_noreturn(a_surface:POINTER; a_flags:INTEGER; a_key:NATURAL_32)
 		external
-			"C (SDL_Surface*,int,Uint32) | <SDL.h>"
+			"C (SDL_Surface*, int, Uint32) | <SDL.h>"
 		alias
 			"SDL_SetColorKey"
 		end
 
-	frozen sdl_maprgb(format:POINTER;r,g,b:NATURAL_8):NATURAL_32
+	frozen sdl_maprgb(a_format:POINTER; a_r, a_g, a_b:NATURAL_8):NATURAL_32
 		external
-			"C (const SDL_PixelFormat*,Uint8,Uint8,Uint8) : Uint32 | <SDL.h>"
+			"C (const SDL_PixelFormat*, Uint8, Uint8, Uint8) : Uint32 | <SDL.h>"
 		alias
 			"SDL_MapRGB"
 		end
 
-	frozen sdl_createtexturefromsurface(renderer,surface:POINTER):POINTER
+	frozen sdl_createtexturefromsurface(a_renderer, a_surface:POINTER):POINTER
 
 		external
-			"C (SDL_Renderer*,SDL_Surface*) : SDL_Texture* | <SDL.h>"
+			"C (SDL_Renderer*, SDL_Surface*) : SDL_Texture* | <SDL.h>"
 		alias
 			"SDL_CreateTextureFromSurface"
 		end
 
-	frozen sdl_destroytexture(texture:POINTER)
+	frozen sdl_destroytexture(a_texture:POINTER)
 
 		external
 			"C (SDL_Texture*) | <SDL.h>"
@@ -143,32 +143,15 @@ feature -- Fonctions -SDL.h
 			"SDL_DestroyTexture"
 		end
 
---	Obsolete Function
---	frozen sdl_blitsurface(src,srcrect,dst,dstrect:POINTER):INTEGER
-
---		external
---			"C (SDL_Surface*,SDL_Rect*,SDL_Surface*,SDL_Rect*) : int | <SDL.h>"
---		alias
---			"SDL_BlitSurface"
---		end
-
---	frozen sdl_blitsurface_noreturn(src,srcrect,dst,dstrect:POINTER)
-
---		external
---			"C (SDL_Surface*,SDL_Rect*,SDL_Surface*,SDL_Rect*) | <SDL.h>"
---		alias
---			"SDL_BlitSurface"
---		end
-
-	frozen sdl_pollevent(event:POINTER):INTEGER
+	frozen sdl_pollevent(a_event:POINTER):INTEGER
 
 		external
-			"C (SDL_Event*):int | <SDL.h>"
+			"C (SDL_Event*) : int | <SDL.h>"
 		alias
 			"SDL_PollEvent"
 		end
 
-	frozen sdl_pollevent_noreturn(event:POINTER)
+	frozen sdl_pollevent_noreturn(a_event:POINTER)
 
 		external
 			"C (SDL_Event*) | <SDL.h>"
@@ -176,7 +159,7 @@ feature -- Fonctions -SDL.h
 			"SDL_PollEvent"
 		end
 
-	frozen sdl_delay(time:INTEGER)
+	frozen sdl_delay(a_time:INTEGER)
 
 		external
 			"C (int) | <SDL.h>"
@@ -184,7 +167,7 @@ feature -- Fonctions -SDL.h
 			"SDL_Delay"
 		end
 
-	frozen sdl_getticks():NATURAL_32
+	frozen sdl_getticks:NATURAL_32
 
 		external
 			"C inline use <SDL.h>"
@@ -194,7 +177,7 @@ feature -- Fonctions -SDL.h
 
 feature -- Structure Setters -SDL.h
 
-		frozen set_sdl_rect_x (sdl_rect:POINTER;value:INTEGER)
+		frozen set_sdl_rect_x (a_sdl_rect:POINTER; a_value:INTEGER)
 
 		external
 			"C [struct <SDL.h>] (SDL_Rect, int)"
@@ -202,7 +185,7 @@ feature -- Structure Setters -SDL.h
 			"x"
 		end
 
-		frozen set_sdl_rect_y (sdl_rect:POINTER;value:INTEGER)
+		frozen set_sdl_rect_y (a_sdl_rect:POINTER; a_value:INTEGER)
 
 		external
 			"C [struct <SDL.h>] (SDL_Rect, int)"
@@ -210,7 +193,7 @@ feature -- Structure Setters -SDL.h
 			"y"
 		end
 
-		frozen set_sdl_rect_w (sdl_rect:POINTER;value:INTEGER)
+		frozen set_sdl_rect_w (a_sdl_rect:POINTER; a_value:INTEGER)
 
 		external
 			"C [struct <SDL.h>] (SDL_Rect, int)"
@@ -218,7 +201,7 @@ feature -- Structure Setters -SDL.h
 			"w"
 		end
 
-		frozen set_sdl_rect_h (sdl_rect:POINTER;value:INTEGER)
+		frozen set_sdl_rect_h (a_sdl_rect:POINTER; a_value:INTEGER)
 
 		external
 			"C [struct <SDL.h>] (SDL_Rect, int)"
@@ -228,90 +211,90 @@ feature -- Structure Setters -SDL.h
 
 feature -- Structure Getters -SDL.h
 
-		frozen get_sdl_loadbmp_width (sdl_surface:POINTER):INTEGER
+		frozen get_sdl_loadbmp_width (a_sdl_surface:POINTER):INTEGER
 
 		external
-			"C [struct <SDL.h>] (SDL_Surface):int"
+			"C [struct <SDL.h>] (SDL_Surface) : int"
 		alias
 			"w"
 		end
 
-		frozen get_sdl_loadbmp_height (sdl_surface:POINTER):INTEGER
+		frozen get_sdl_loadbmp_height (a_sdl_surface:POINTER):INTEGER
 
 		external
-			"C [struct <SDL.h>] (SDL_Surface):int"
+			"C [struct <SDL.h>] (SDL_Surface) : int"
 		alias
 			"h"
 		end
 
-		frozen get_sdl_surface_format(sdl_surface:POINTER):POINTER
+		frozen get_sdl_surface_format(a_sdl_surface:POINTER):POINTER
 
 		external
-			"C [struct <SDL.h>] (SDL_Surface):SDL_PixelFormat*"
+			"C [struct <SDL.h>] (SDL_Surface) : SDL_PixelFormat*"
 		alias
 			"format"
 		end
 
-		frozen get_sdl_rect_x(sdl_rect:POINTER):INTEGER
+		frozen get_sdl_rect_x(a_sdl_rect:POINTER):INTEGER
 
 		external
-			"C [struct <SDL.h>] (SDL_Rect):int"
+			"C [struct <SDL.h>] (SDL_Rect) : int"
 		alias
 			"x"
 		end
 
-		frozen get_sdl_rect_y(sdl_rect:POINTER):INTEGER
+		frozen get_sdl_rect_y(a_sdl_rect:POINTER):INTEGER
 
 		external
-			"C [struct <SDL.h>] (SDL_Rect):int"
+			"C [struct <SDL.h>] (SDL_Rect) : int"
 		alias
 			"y"
 		end
 
-		frozen get_sdl_surface_w(sdl_surface:POINTER):INTEGER
+		frozen get_sdl_surface_w(a_sdl_surface:POINTER):INTEGER
 
 		external
-			"C [struct <SDL.h>] (SDL_Surface):int"
+			"C [struct <SDL.h>] (SDL_Surface) : int"
 		alias
 			"w"
 		end
 
-		frozen get_sdl_surface_h(sdl_surface:POINTER):INTEGER
+		frozen get_sdl_surface_h(a_sdl_surface:POINTER):INTEGER
 
 		external
-			"C [struct <SDL.h>] (SDL_Surface):int"
+			"C [struct <SDL.h>] (SDL_Surface) : int"
 		alias
 			"h"
 		end
 
-		frozen get_sdl_event_type(sdl_event:POINTER):NATURAL_32
+		frozen get_sdl_event_type(a_sdl_event:POINTER):NATURAL_32
 
 		external
-			"C [struct <SDL.h>] (SDL_Event):Uint32"
+			"C [struct <SDL.h>] (SDL_Event) : Uint32"
 		alias
 			"type"
 		end
 
-		frozen get_sdl_keypressed(sdl_keypressed:POINTER):POINTER
+		frozen get_sdl_keypressed(a_sdl_keypressed:POINTER):POINTER
 
 		external
-			"C [struct <SDL.h>] (SDL_Event):SDL_Keycode"
+			"C [struct <SDL.h>] (SDL_Event) : SDL_Keycode"
 		alias
 			"key.keysym.sym"
 		end
 
-		frozen get_sdl_mouse_state_noreturn(x,y:POINTER)
+		frozen get_sdl_mouse_state_noreturn(a_x, a_y:POINTER)
 
 		external
-			"C (int*,int*) | <SDL.h>"
+			"C (int*, int*) | <SDL.h>"
 		alias
 			"SDL_GetMouseState"
 		end
 
-		frozen get_sdl_mouse_state(x,y:POINTER):NATURAL_32
+		frozen get_sdl_mouse_state(a_x, a_y:POINTER):NATURAL_32
 
 		external
-			"C (int*,int*):Uint32 | <SDL.h>"
+			"C (int*, int*) : Uint32 | <SDL.h>"
 		alias
 			"SDL_GetMouseState"
 		end
@@ -331,7 +314,7 @@ feature -- Constantes -SDL.h
 		external
 			"C inline use <SDL.h>"
 		alias
-			"SDL_INIT_VIDEO|SDL_INIT_TIMER"
+			"SDL_INIT_VIDEO | SDL_INIT_TIMER"
 		end
 
 	frozen sdl_swsurface:NATURAL_32

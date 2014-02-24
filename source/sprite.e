@@ -16,78 +16,67 @@ create
 
 feature --Initialisation
 
-	bmp,texture,targetarea,r_renderer:POINTER
-	image:IMAGE_FACTORY
+	texture, targetarea, renderer:POINTER
 
-	create_sprite(filename:STRING;imgwindow:WINDOW;x,y:INTEGER)
+	create_sprite(a_name:STRING; a_window:WINDOW; a_x, a_y:INTEGER)
 		--Chargement de l'image en mémoire
 		local
---			c_filename:C_STRING
+			l_image:POINTER
+			l_imagefactory:IMAGE_FACTORY
 		do
-			--Assigner le renderer
-			r_renderer:= imgwindow.renderer
-			--Conversion de la String en String C
---			create c_filename.make ("Graphics/" + filename + ".bmp")
-			--Allocation de la mémoire pour le Struct
-			targetarea:=targetarea.memory_alloc ({SDL_WRAPPER}.sizeof_sdl_rect_struct)
-			--Chargement de l'image bitmap
-			image := factory
-			bmp := image.get_image (filename)
-			if
-				bmp.is_default_pointer
-			then
-				bmp := image.get_image ("error")
+			renderer := a_window.renderer
+			targetarea := targetarea.memory_alloc ({SDL_WRAPPER}.sizeof_sdl_rect_struct)
+			l_imagefactory := factory
+			l_image := l_imagefactory.get_image (a_name)
+
+			if l_image.is_default_pointer then
+				l_image := l_imagefactory.get_image ("error")
 			end
---			bmp:={SDL_WRAPPER}.sdl_loadbmp(c_filename.item)
-			--Assignation des valeurs au rectangle
-		    {SDL_WRAPPER}.set_sdl_rect_x(targetarea, x)
-		    {SDL_WRAPPER}.set_sdl_rect_y(targetarea, y)
-		    {SDL_WRAPPER}.set_sdl_rect_w(targetarea, {SDL_WRAPPER}.get_sdl_loadbmp_width(bmp))
-		    {SDL_WRAPPER}.set_sdl_rect_h(targetarea, {SDL_WRAPPER}.get_sdl_loadbmp_height(bmp))
-		    --Chargement du bitmap sur la texture
-			{SDL_WRAPPER}.sdl_setcolorkey_noreturn (bmp, {SDL_WRAPPER}.sdl_true, {SDL_WRAPPER}.sdl_maprgb({SDL_WRAPPER}.get_sdl_surface_format(bmp), 255, 0, 255))
-		    texture:={SDL_WRAPPER}.sdl_createtexturefromsurface(r_renderer,bmp)
-		    --Appliquer la texture sur le rectangle
-		    {SDL_WRAPPER}.sdl_rendercopy(r_renderer,texture,create{POINTER},targetarea)
+
+		    {SDL_WRAPPER}.set_sdl_rect_x (targetarea, a_x)
+		    {SDL_WRAPPER}.set_sdl_rect_y (targetarea, a_y)
+		    {SDL_WRAPPER}.set_sdl_rect_w (targetarea, {SDL_WRAPPER}.get_sdl_loadbmp_width (l_image))
+		    {SDL_WRAPPER}.set_sdl_rect_h (targetarea, {SDL_WRAPPER}.get_sdl_loadbmp_height (l_image))
+			{SDL_WRAPPER}.sdl_setcolorkey_noreturn (l_image, {SDL_WRAPPER}.sdl_true, {SDL_WRAPPER}.sdl_maprgb ({SDL_WRAPPER}.get_sdl_surface_format(l_image), 255, 0, 255))
+		    texture := {SDL_WRAPPER}.sdl_createtexturefromsurface(renderer, l_image)
+		    update_sprite
 		end
 
-	update_sprite()
-
+	update_sprite
+		--Mise à jour de l'image à l'écran
 		do
-		    {SDL_WRAPPER}.sdl_rendercopy(r_renderer,texture,create{POINTER},targetarea)
+		    {SDL_WRAPPER}.sdl_rendercopy(renderer, texture, create{POINTER}, targetarea)
 		end
 
-	destroy_sprite()
+	destroy_sprite
 		--Déchargement de l'image en mémoire
 		do
-			--Effacer la texture
-			{SDL_WRAPPER}.sdl_destroytexture(texture)
-			--Effacer le rectangle
+			{SDL_WRAPPER}.sdl_destroytexture (texture)
 			targetarea.memory_free
 		end
 
 feature --Setters
 
-	set_x(pos:DOUBLE)
-	do
-		{SDL_WRAPPER}.set_sdl_rect_x(targetarea, pos.floor)
-	end
+	set_x(a_pos:DOUBLE)
+		do
+			{SDL_WRAPPER}.set_sdl_rect_x (targetarea, a_pos.floor)
+		end
 
-	set_y(pos:DOUBLE)
-	do
-		{SDL_WRAPPER}.set_sdl_rect_y(targetarea, pos.floor)
-	end
+	set_y(a_pos:DOUBLE)
+		do
+			{SDL_WRAPPER}.set_sdl_rect_y (targetarea, a_pos.floor)
+		end
 
 feature --Constantes
 
 	get_x:DOUBLE
-	do
-		Result:={SDL_WRAPPER}.get_sdl_rect_x(targetarea)
-	end
+		do
+			Result := {SDL_WRAPPER}.get_sdl_rect_x (targetarea)
+		end
 
 	get_y:DOUBLE
-	do
-		Result:={SDL_WRAPPER}.get_sdl_rect_y(targetarea)
-	end
+		do
+			Result := {SDL_WRAPPER}.get_sdl_rect_y (targetarea)
+		end
 
 end
