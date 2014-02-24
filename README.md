@@ -72,16 +72,20 @@ so you can copy the following XML file:
 			<option warning="true">
 				<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 			</option>
-			<setting name="console_application" value="true"/>
+			<setting name="console_application" value="false"/>
 			<external_include location="..\..\..\..\libraries\SDL2-2.0.1\i686-w64-mingw32\include\SDL2"/>
 			<external_library location="..\..\..\libraries\SDL2-2.0.1\i686-w64-mingw32\lib\libSDL2.dll.a"/>
 			<precompile name="base_pre" location="$ISE_PRECOMP\base-safe.ecf"/>
 			<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
 			<cluster name="raekidion" location=".\" recursive="true">
 				<file_rule>
-					<exclude>/EIFGENs$</exclude>
-					<exclude>/CVS$</exclude>
+					<exclude>/README.md$</exclude>
 					<exclude>/.git$</exclude>
+					<exclude>/.gitignore$</exclude>
+					<exclude>/EIFGENs$</exclude>
+					<exclude>/ressources$</exclude>
+					<exclude>/releases$</exclude>
+					<exclude>/libraries$</exclude>
 				</file_rule>
 			</cluster>
 		</target>
@@ -103,16 +107,22 @@ You will have to create the raekidion.ecf yourself, so you can copy the followin
 			<option warning="true">
 				<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 			</option>
-			<setting name="console_application" value="true"/>
+			<setting name="console_application" value="false"/>
 			<external_cflag value="`sdl2-config --cflags`"/>
+			<external_cflag value="`pkg-config --cflags SDL2_image`"/>
 			<external_linker_flag value="`sdl2-config --libs`"/>
+			<external_linker_flag value="`pkg-config --libs SDL2_image`"/>
 			<precompile name="base_pre" location="$ISE_PRECOMP\base-safe.ecf"/>
 			<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
 			<cluster name="raekidion" location=".\" recursive="true">
 				<file_rule>
-					<exclude>/EIFGENs$</exclude>
-					<exclude>/CVS$</exclude>
+					<exclude>/README.md$</exclude>
 					<exclude>/.git$</exclude>
+					<exclude>/.gitignore$</exclude>
+					<exclude>/EIFGENs$</exclude>
+					<exclude>/ressources$</exclude>
+					<exclude>/releases$</exclude>
+					<exclude>/libraries$</exclude>
 				</file_rule>
 			</cluster>
 		</target>
