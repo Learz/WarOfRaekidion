@@ -37,7 +37,7 @@ feature --Initialisation
 		    {SDL_WRAPPER}.set_sdl_rect_y (targetarea, a_y)
 		    {SDL_WRAPPER}.set_sdl_rect_w (targetarea, {SDL_WRAPPER}.get_sdl_loadbmp_width (l_image))
 		    {SDL_WRAPPER}.set_sdl_rect_h (targetarea, {SDL_WRAPPER}.get_sdl_loadbmp_height (l_image))
-			{SDL_WRAPPER}.sdl_setcolorkey_noreturn (l_image, {SDL_WRAPPER}.sdl_true, {SDL_WRAPPER}.sdl_maprgb ({SDL_WRAPPER}.get_sdl_surface_format(l_image), 255, 0, 255))
+			--{SDL_WRAPPER}.sdl_setcolorkey_noreturn (l_image, {SDL_WRAPPER}.sdl_true, {SDL_WRAPPER}.sdl_maprgb ({SDL_WRAPPER}.get_sdl_surface_format(l_image), 255, 0, 255))
 		    texture := {SDL_WRAPPER}.sdl_createtexturefromsurface(renderer, l_image)
 		    update_sprite
 		end

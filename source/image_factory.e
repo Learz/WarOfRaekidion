@@ -23,7 +23,7 @@ feature {NONE}
 			l_filename_c:C_STRING
 		do
 			create objects.make
-			filenames := list_files("ressources/images", "bmp")
+			filenames := list_files("ressources/images", "png")
 
 			from
 				filenames.start
@@ -31,7 +31,7 @@ feature {NONE}
 				filenames.exhausted
 			loop
 				create l_filename_c.make ("ressources/images/" + filenames.item)
-		    	objects.force ({SDL_WRAPPER}.sdl_loadbmp (l_filename_c.item))
+		    	objects.force ({SDL_WRAPPER}.sdl_loadimage (l_filename_c.item))
 		    	filenames.forth
 			end
 

@@ -50,16 +50,16 @@ folders and files inside the project's directory, like this:
 		|- libraries
 			|- SDL2_image-2.0.0
 			|- SDL2-2.0.x
-			|- libpng16-16.dll
-			|- SDL2.dll
-			|- SDL2_image.dll
-			|- zlib1.dll
 		|- ressources
 		|- source
 		|
 		|- .gitignore
 		|- raekidion.ecf
 		|- readme.md
+		|- libpng16-16.dll
+		|- SDL2.dll
+		|- SDL2_image.dll
+		|- zlib1.dll
 
 You probably won't have the EIFGENs folder, as it is only used by Eiffel Studio to 
 store compiled files. You will also have to create the raekidion.ecf yourself, 

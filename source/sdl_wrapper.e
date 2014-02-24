@@ -98,6 +98,14 @@ feature -- Fonctions -SDL.h
 			"SDL_LoadBMP"
 		end
 
+	frozen sdl_loadimage(a_file:POINTER):POINTER
+
+		external
+			"C (const char*) : SDL_Surface | <SDL_image.h>"
+		alias
+			"IMG_Load"
+		end
+
 	frozen sdl_freesurface(a_surface:POINTER)
 
 		external

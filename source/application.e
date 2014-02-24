@@ -29,12 +29,13 @@ feature {NONE} -- Initialisation
 			l_thistime, l_lasttime, l_stoptime:INTEGER
 			l_deltatime:REAL_64
 			l_speed, l_directionx, l_directiony:DOUBLE
-
+			l_cheval:CHEVAL
 		do
 			l_shouldquit := false
 			l_stoptime := 0
 			l_speed := 2
-
+			create l_cheval.make
+			l_cheval.launch
 			-- Initialisation de la fenêtre, des images et de leurs conteneurs
 		    l_window := create {WINDOW}.create_window ("War of Raekidion", sdl_windowpos_undefined, sdl_windowpos_undefined, 500, 600, 0)
 		    l_player := create {PLAYER_SHIP}.create_ship (l_window, 0, 200)
@@ -123,7 +124,8 @@ feature {NONE} -- Initialisation
 		    l_event.destroy_event_handler
 		    l_imagefactory.destroy_images
 		    sdl_quit
-
+		    l_cheval.quit
+			l_cheval.join
 		end
 
 end

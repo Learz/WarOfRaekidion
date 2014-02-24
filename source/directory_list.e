@@ -14,7 +14,6 @@ feature
     	local
 			l_directory: DIRECTORY
     		l_filename: STRING
-    		l_char_count: INTEGER
     		l_names_list: LINKED_LIST[STRING]
 		do
 			create l_directory.make_with_name (a_path)
