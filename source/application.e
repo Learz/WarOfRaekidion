@@ -29,7 +29,7 @@ feature {NONE} -- Initialisation
 			l_thistime, l_lasttime, l_stoptime:INTEGER
 			l_deltatime:REAL_64
 			l_speed, l_directionx, l_directiony:DOUBLE
-			l_cheval:CHEVAL
+			l_cheval:ANIMATION
 		do
 			l_shouldquit := false
 			l_stoptime := 0

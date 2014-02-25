@@ -1,11 +1,11 @@
 note
-	description: "Summary description for {CHEVAL}."
-	author: ""
+	description : "War of Raekidion - {ANIMATION} class"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
 	date: "$Date$"
 	revision: "$Revision$"
 
 class
-	CHEVAL
+	ANIMATION
 
 inherit
 	THREAD
@@ -14,10 +14,12 @@ create
 	make
 
 feature
+
 	quit
 		do
 			must_quit:=true
 		end
+
 feature {NONE}
 
 	must_quit:BOOLEAN
