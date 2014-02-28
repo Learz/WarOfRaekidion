@@ -33,7 +33,10 @@ feature {NONE} -- Initialisation
 			l_projectile:PROJECTILE
 			l_projectile_list: LINKED_LIST[PROJECTILE]
 			l_create_projectile:BOOLEAN
+			l_projectile_speed:DOUBLE
+			l_projectile_delay:INTEGER
 		do
+			l_projectile_speed:=1
 			l_shouldquit := false
 			l_stoptime := 0
 			l_speed := 2
@@ -70,8 +73,12 @@ feature {NONE} -- Initialisation
 				end
 
 				if l_create_projectile then
-					l_projectile := create{PROJECTILE}.create_projectile ("sbullet", l_window, l_player.get_x.floor+42, l_player.get_y.floor)
-					l_projectile_list.force(l_projectile)
+					l_projectile_delay:= (l_projectile_delay+1)\\20
+
+					if l_projectile_delay=0 then
+						l_projectile := create{PROJECTILE}.create_projectile ("sbullet", l_window, l_player.get_x.floor+40, l_player.get_y.floor)
+						l_projectile_list.force(l_projectile)
+					end
 				end
 
 				l_event.get_key_pressed
@@ -126,13 +133,18 @@ feature {NONE} -- Initialisation
 				until
 					l_projectile_list.exhausted
 				loop
-					l_projectile_list.item.set_y (l_projectile_list.item.get_y - 1)
-					if l_projectile_list.item.get_y < -16 and l_projectile_list.count >1 then
-						--l_projectile_list.item.destroy_entity
-						l_projectile_list.remove
+					l_projectile_list.item.set_y (l_projectile_list.item.get_y - 5 * l_projectile_list.item.speed)
+					if l_projectile_list.item.get_y < -16 or l_projectile_list.item.get_y > l_window.height then
+						l_projectile_list.item.set_speed(-l_projectile_list.item.speed)
 					end
-					l_projectile_list.item.update_entity
-					l_projectile_list.forth
+
+					if l_projectile_list.count > 50 then
+						l_projectile_list.item.destroy_entity
+						l_projectile_list.remove
+					else
+						l_projectile_list.item.update_entity
+						l_projectile_list.forth
+					end
 				end
 
 	    		--Frame render
@@ -142,7 +154,7 @@ feature {NONE} -- Initialisation
 			    l_window.render_window
 
 			    --Delay
-			    sdl_delay(8)
+			    sdl_delay(5)
 			end
 
 			l_imagefactory := factory
