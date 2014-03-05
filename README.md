@@ -43,96 +43,30 @@ and the **developement libraries** working with MinGW:
 For Windows, you will have to put your extracted SDL 2.0 and SDL Image 2.0 
 folders and files inside the project's directory, like this:
 
-    |- War of Raekidion
+    |+ War of Raekidion
 		|
 		|- .git
-		|- EIFGENs
-		|- libraries
-			|- SDL2_image-2.0.0
-			|- SDL2-2.0.x
+		|+ libraries
+			|+ SDL2_image-2.0.0
+			|+ SDL2-2.0.x
 		|- ressources
 		|- source
 		|
 		|- .gitignore
 		|- raekidion.ecf
-		|- readme.md
-		|- libpng16-16.dll
-		|- SDL2.dll
-		|- SDL2_image.dll
-		|- zlib1.dll
-
-You probably won't have the EIFGENs folder, as it is only used by Eiffel Studio to 
-store compiled files. You will also have to create the raekidion.ecf yourself, 
-so you can copy the following XML file:
-
-	<?xml version="1.0" encoding="ISO-8859-1"?>
-	<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-11-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-11-0 http://www.eiffel.com/developers/xml/configuration-1-11-0.xsd" name="raekidion" uuid="9F7C9DBB-A9BC-4B1D-A571-292288873EE4">
-		<target name="raekidion">
-			<root class="APPLICATION" feature="make"/>
-			<option warning="true">
-				<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
-			</option>
-			<setting name="console_application" value="false"/>
-			<setting name="concurrency" value="thread"/>
-			<external_include location="..\..\..\..\libraries\SDL2-2.0.1\i686-w64-mingw32\include\SDL2"/>
-			<external_include location="..\..\..\..\libraries\SDL2_image-2.0.0\i686-w64-mingw32\include\SDL2"/>
-			<external_library location="..\..\..\libraries\SDL2-2.0.1\i686-w64-mingw32\lib\libSDL2.dll.a"/>
-			<external_library location="..\..\..\libraries\SDL2_image-2.0.0\i686-w64-mingw32\lib\libSDL2_image.dll.a"/>
-			<precompile name="base-mt-safe_precompile" location="$ISE_PRECOMP\base-mt-safe.ecf"/>
-			<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
-			<library name="thread" location="$ISE_LIBRARY\library\thread\thread-safe.ecf"/>
-			<cluster name="raekidion" location=".\" recursive="true">
-				<file_rule>
-					<exclude>/releases$</exclude>
-					<exclude>/EIFGENs$</exclude>
-					<exclude>/ressources$</exclude>
-					<exclude>/README.md$</exclude>
-					<exclude>/.git$</exclude>
-					<exclude>/libraries$</exclude>
-					<exclude>/.gitignore$</exclude>
-				</file_rule>
-			</cluster>
-		</target>
-	</system>
+		|- raekidion.rc
+		|- README.md
+		|+ libpng16-16.dll
+		|+ SDL2.dll
+		|+ SDL2_image.dll
+		|+ zlib1.dll
 
 ### Installing on Linux (Debian)
 
-For Windows, you will have to install libsdl2-dev and libsdl2-image from the default Debian 
+For Linux, you will have to install libsdl2-dev and libsdl2-image from the default Debian 
 sid source:
 
 	sudo apt-get install libsdl2-dev libsdl2-image-dev
-
-You will have to create the raekidion.ecf yourself, so you can copy the following XML file:
-
-	<?xml version="1.0" encoding="ISO-8859-1"?>
-	<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-12-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-12-0 http://www.eiffel.com/developers/xml/configuration-1-12-0.xsd" name="raekidion" uuid="9F7C9DBB-A9BC-4B1D-A571-292288873EE4">
-		<target name="raekidion">
-			<root class="APPLICATION" feature="make"/>
-			<option warning="true">
-				<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
-			</option>
-			<setting name="console_application" value="false"/>
-			<setting name="concurrency" value="thread"/>
-			<external_cflag value="`sdl2-config --cflags`"/>
-			<external_cflag value="`pkg-config --cflags SDL2_image`"/>
-			<external_linker_flag value="`sdl2-config --libs`"/>
-			<external_linker_flag value="`pkg-config --libs SDL2_image`"/>
-			<precompile name="base-mt-safe_precompile" location="$ISE_LIBRARY\base-mt-safe.ecf"/>
-			<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
-			<library name="thread" location="$ISE_LIBRARY\library\thread\thread-safe.ecf"/>
-			<cluster name="raekidion" location=".\" recursive="true">
-				<file_rule>
-					<exclude>/releases$</exclude>
-					<exclude>/EIFGENs$</exclude>
-					<exclude>/ressources$</exclude>
-					<exclude>/README.md$</exclude>
-					<exclude>/.git$</exclude>
-					<exclude>/libraries$</exclude>
-					<exclude>/.gitignore$</exclude>
-				</file_rule>
-			</cluster>
-		</target>
-	</system>
 
 Final words
 -----------
