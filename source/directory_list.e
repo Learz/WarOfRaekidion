@@ -4,30 +4,39 @@ note
 	date		: "$Date$"
 	revision	: "$Revision$"
 
-
 class
 	DIRECTORY_LIST
 
-feature
+create
+	make
 
-    list_files(a_path, a_type:STRING):LINKED_LIST[STRING]
+feature {NONE} -- Initialisation
+
+	directory: DIRECTORY
+
+	make(a_path:STRING)
+		do
+			create directory.make_with_name (a_path)
+		end
+
+feature -- Getters
+
+    list_files(a_type:STRING):LINKED_LIST[STRING]
     	local
-			l_directory: DIRECTORY
     		l_filename: STRING
     		l_names_list: LINKED_LIST[STRING]
 		do
-			create l_directory.make_with_name (a_path)
 			create l_names_list.make
 			if a_type.is_equal ("all") then
-				across l_directory.entries as ic loop
+				across directory.entries as ic loop
           			l_filename := ic.item.utf_8_name
-          			l_names_list.force (l_filename)
+          			l_names_list.extend (l_filename)
 				end
 			else
-				across l_directory.entries as ic loop
+				across directory.entries as ic loop
           			if ic.item.has_extension (a_type) then
           				l_filename := ic.item.utf_8_name
-          				l_names_list.force (l_filename)
+          				l_names_list.extend (l_filename)
           			end
 				end
 			end

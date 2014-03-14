@@ -9,14 +9,11 @@ class
 	WINDOW
 
 create
-	create_window
+	make
 
-feature --Initialisation
+feature {NONE} --Initialisation
 
-	window, renderer:POINTER
-	height, width:INTEGER
-
-	create_window(a_title:STRING; a_x, a_y, a_width, a_height:INTEGER; a_flags:NATURAL_32)
+	make(a_title:STRING; a_x, a_y, a_width, a_height:INTEGER; a_flags:NATURAL_32)
 		--Créer la fenêtre
 		local
 			l_c_title:C_STRING
@@ -29,17 +26,22 @@ feature --Initialisation
 		    renderer := {SDL_WRAPPER}.sdl_createrenderer (window, -1, {SDL_WRAPPER}.sdl_renderer_accelerated)
 		end
 
-	render_window
-	do
-		{SDL_WRAPPER}.sdl_renderpresent (renderer)
-	end
+feature
+
+	window, renderer:POINTER
+	height, width:INTEGER
+
+	render
+		do
+			{SDL_WRAPPER}.sdl_renderpresent (renderer)
+		end
 
 	render_clear
-	do
-		{SDL_WRAPPER}.sdl_renderclear (renderer)
-	end
+		do
+			{SDL_WRAPPER}.sdl_renderclear (renderer)
+		end
 
-	destroy_window
+	destroy
 		--Décharger le moteur de rendu et la fenêtre en mémoire
 		do
 		    {SDL_WRAPPER}.sdl_destroyrenderer (renderer)

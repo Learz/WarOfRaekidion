@@ -8,14 +8,17 @@ note
 class
 	EVENT_HANDLER
 
+inherit
+	DISPOSABLE
+
 create
-	create_event_handler
+	make
 
-feature --Initialisation de la gestion d'entrées
+feature {NONE} --Initialisation de la gestion d'entrées
 
-	event, key_pressed:POINTER
+	key_pressed: POINTER
 
-	create_event_handler
+	make
 		do
 			event := event.memory_alloc ({SDL_WRAPPER}.sizeof_sdl_event_struct)
 		end
@@ -31,6 +34,10 @@ feature --Initialisation de la gestion d'entrées
 				end
 			end
 	    end
+
+feature
+
+	event: POINTER
 
 	is_quit_event:BOOLEAN
 		do
@@ -152,7 +159,7 @@ feature --Initialisation de la gestion d'entrées
 			end
 		end
 
-	destroy_event_handler
+	dispose
 		do
 			event.memory_free
 		end

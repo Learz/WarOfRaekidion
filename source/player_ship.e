@@ -10,15 +10,18 @@ class
 
 inherit
 	ENTITY
+		rename
+			make as entity_make
+		end
 
 create
-	create_ship
+	make
 
 feature --Initialisation
 
-	create_ship(a_window:WINDOW; a_x, a_y:INTEGER)
+	make(a_window:WINDOW; a_x, a_y:INTEGER)
 	do
-		create_entity("player", a_window, a_x, a_y)
+		entity_make ("player", a_window, a_x, a_y)
 	end
 
 end

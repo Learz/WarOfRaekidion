@@ -10,15 +10,18 @@ class
 
 inherit
 	ENTITY
+		rename
+			make as entity_make
+		end
 
 create
-	create_interface
+	make
 
 feature --Initialisation
 
-	create_interface(a_name:STRING; a_window:WINDOW; a_x, a_y:INTEGER)
+	make(a_name:STRING; a_window:WINDOW; a_x, a_y:INTEGER)
 		do
-			create_entity(a_name, a_window, a_x, a_y)
+			entity_make(a_name, a_window, a_x, a_y)
 		end
 
 end

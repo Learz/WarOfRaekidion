@@ -20,7 +20,6 @@ feature {NONE} -- Initialisation
 	make
 		--Démarrer l'application
 		local
-			l_imagefactory:IMAGE_FACTORY
 			l_window:WINDOW
 			l_shouldquit:BOOLEAN
 			l_player:PLAYER_SHIP
@@ -28,28 +27,25 @@ feature {NONE} -- Initialisation
 			l_event:EVENT_HANDLER
 			l_thistime, l_lasttime, l_stoptime:INTEGER
 			l_deltatime:REAL_64
-			l_speed, l_directionx, l_directiony:DOUBLE
-			l_cheval:ANIMATION
+			l_speed, l_directionx, l_directiony:INTEGER
 			l_projectile:PROJECTILE
 			l_projectile_list: LINKED_LIST[PROJECTILE]
 			l_create_projectile:BOOLEAN
-			l_projectile_speed:DOUBLE
+			l_projectile_speed:INTEGER
 			l_projectile_delay:INTEGER
 		do
 			l_projectile_speed:=1
 			l_shouldquit := false
 			l_stoptime := 0
 			l_speed := 2
-			create l_cheval.make
-			l_cheval.launch
 			-- Initialisation de la fenêtre, des images et de leurs conteneurs
-		    l_window := create {WINDOW}.create_window ("War of Raekidion", sdl_windowpos_undefined, sdl_windowpos_undefined, 500, 600, 0)
-		    l_player := create {PLAYER_SHIP}.create_ship (l_window, 0, 200)
+		    create l_window.make ("War of Raekidion", sdl_windowpos_undefined, sdl_windowpos_undefined, 500, 600, 0)
+		    l_player := create {PLAYER_SHIP}.make (l_window, 0, 200)
 		    create l_projectile_list.make
 		    -- := create {PROJECTILE}.create_projectile("sbullet", l_window, l_player.get_x.floor, l_player.get_y.floor)
-		    l_sidebar := create {USER_INTERFACE}.create_interface ("sidebar", l_window, l_window.width - 100, 0)
+		    l_sidebar := create {USER_INTERFACE}.make ("sidebar", l_window, l_window.width - 100, 0)
 
-			l_event := create {EVENT_HANDLER}.create_event_handler;
+			l_event := create {EVENT_HANDLER}.make
 
 			--Boucle d'exécution du jeu
 			from
@@ -76,7 +72,7 @@ feature {NONE} -- Initialisation
 					l_projectile_delay:= (l_projectile_delay+1)\\20
 
 					if l_projectile_delay=0 then
-						l_projectile := create{PROJECTILE}.create_projectile ("sbullet", l_window, l_player.get_x.floor+40, l_player.get_y.floor)
+						l_projectile := create{PROJECTILE}.make ("sbullet", l_window, l_player.x+40, l_player.y)
 						l_projectile_list.force(l_projectile)
 					end
 				end
@@ -123,8 +119,8 @@ feature {NONE} -- Initialisation
 				l_lasttime := l_thistime
 
 			    --Try to move the entities
-			    l_player.set_x (l_player.get_x + (l_directionx * l_speed))
-			    l_player.set_y (l_player.get_y + (l_directiony * l_speed))
+			    l_player.set_x (l_player.x + (l_directionx * l_speed))
+			    l_player.set_y (l_player.y + (l_directiony * l_speed))
 
 				l_window.render_clear
 
@@ -133,41 +129,29 @@ feature {NONE} -- Initialisation
 				until
 					l_projectile_list.exhausted
 				loop
-					l_projectile_list.item.set_y (l_projectile_list.item.get_y - 5 * l_projectile_list.item.speed)
-					if l_projectile_list.item.get_y < -16 or l_projectile_list.item.get_y > l_window.height then
+					l_projectile_list.item.set_y (l_projectile_list.item.y - 5 * l_projectile_list.item.speed)
+					if l_projectile_list.item.y < -16 or l_projectile_list.item.y > l_window.height then
 						l_projectile_list.item.set_speed(-l_projectile_list.item.speed)
 					end
 
 					if l_projectile_list.count > 50 then
-						l_projectile_list.item.destroy_entity
 						l_projectile_list.remove
 					else
-						l_projectile_list.item.update_entity
+						l_projectile_list.item.update
 						l_projectile_list.forth
 					end
 				end
 
 	    		--Frame render
-
-			    l_player.update_entity
-			    l_sidebar.update_entity
-			    l_window.render_window
+			    l_player.update
+			    l_sidebar.update
+			    l_window.render
 
 			    --Delay
 			    sdl_delay(5)
 			end
 
-			l_imagefactory := factory
-
-		    --Fermeture de la fenêtre et des entités
-		    l_player.destroy_entity
-		    l_sidebar.destroy_entity
-		    l_window.destroy_window
-		    l_event.destroy_event_handler
-		    l_imagefactory.destroy_images
 		    sdl_quit
-		    l_cheval.quit
-			l_cheval.join
 		end
 
 end

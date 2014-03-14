@@ -9,23 +9,26 @@ class
 
 inherit
 	ENTITY
+		rename
+			make as entity_make
+		end
 
 create
-	create_projectile
+	make
 
 feature
 
-	speed:DOUBLE
+	speed:INTEGER
 
-	create_projectile(a_name:STRING; a_window:WINDOW; a_x, a_y:INTEGER)
+	make(a_name:STRING; a_window:WINDOW; a_x, a_y:INTEGER)
 		do
-			create_entity(a_name, a_window, a_x, a_y)
+			entity_make (a_name, a_window, a_x, a_y)
 			speed:=1
 		end
 
-	set_speed(set:DOUBLE)
+	set_speed(a_speed:INTEGER)
 		do
-			speed:=set
+			speed:=a_speed
 		end
 
 end

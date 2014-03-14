@@ -10,34 +10,34 @@ class
 
 inherit
 	SPRITE
-	EVENT_HANDLER
+		rename
+			make as sprite_make,
+			update as sprite_update
+		end
 
 create
-	create_entity
+	make
 
 feature --Initialisation
 
 	deltatime:REAL_64
-	starttime, thistime, lasttime:INTEGER
+	starttime, lasttime:INTEGER
 
-	create_entity(a_name:STRING; a_window:WINDOW; a_x, a_y:INTEGER)
+	make(a_name:STRING; a_window:WINDOW; a_x, a_y:INTEGER)
 		--Créer l'entitée
 		do
 			starttime := {SDL_WRAPPER}.sdl_getticks.to_integer_32
-			create_sprite (a_name, a_window, a_x, a_y)
+			sprite_make (a_name, a_window, a_x, a_y)
 		end
 
-	update_entity
+	update
+		local
+			l_thistime: INTEGER
 		do
-			thistime := {SDL_WRAPPER}.sdl_getticks.to_integer_32 - starttime
-			deltatime := thistime - lasttime
-			lasttime := thistime
-			update_sprite
-		end
-
-	destroy_entity
-		do
-			destroy_sprite
+			l_thistime := {SDL_WRAPPER}.sdl_getticks.to_integer_32 - starttime
+			deltatime := l_thistime - lasttime
+			lasttime := l_thistime
+			sprite_update
 		end
 
 end
