@@ -101,6 +101,16 @@ feature -- Element change
 			degrees_mode := true
 		end
 
+	normalize
+		-- Reset force to 1 and change X and Y accordingly
+		require
+			not position.is_empty
+		do
+			position.put (x_from_angle_force (position.angle, 1), 1)
+			position.put (y_from_angle_force (position.angle, 1), 2)
+			position.put (1, 4)
+		end
+
 	define_position (a_x, a_y, a_angle, a_force: DOUBLE)
 		-- Set the vector properties manually.
 		do
