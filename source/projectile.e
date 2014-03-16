@@ -10,25 +10,25 @@ class
 inherit
 	ENTITY
 		rename
-			make as entity_make
+			make as entity_make,
+			update as entity_update
 		end
 
 create
 	make
 
-feature
+feature {NONE} -- Initialisation
 
-	speed:INTEGER
-
-	make(a_name:STRING; a_window:WINDOW; a_x, a_y:INTEGER)
+	make (a_name:STRING; a_window:WINDOW; a_x, a_y: DOUBLE)
 		do
 			entity_make (a_name, a_window, a_x, a_y)
-			speed:=1
 		end
 
-	set_speed(a_speed:INTEGER)
+feature
+
+	update
 		do
-			speed:=a_speed
+			entity_update
 		end
 
 end

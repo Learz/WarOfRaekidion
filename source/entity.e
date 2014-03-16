@@ -4,7 +4,6 @@ note
 	date		: "$Date$"
 	revision	: "$Revision$"
 
-
 class
 	ENTITY
 
@@ -18,26 +17,31 @@ inherit
 create
 	make
 
-feature --Initialisation
+feature {NONE} -- Initialization
 
-	deltatime:REAL_64
-	starttime, lasttime:INTEGER
+	deltatime: REAL_64
+	starttime, lasttime, lifetime: INTEGER
 
-	make(a_name:STRING; a_window:WINDOW; a_x, a_y:INTEGER)
+	make(a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE)
 		--Créer l'entitée
 		do
 			starttime := {SDL_WRAPPER}.sdl_getticks.to_integer_32
+		    create trajectory.make_default
 			sprite_make (a_name, a_window, a_x, a_y)
 		end
 
 	update
-		local
-			l_thistime: INTEGER
 		do
-			l_thistime := {SDL_WRAPPER}.sdl_getticks.to_integer_32 - starttime
-			deltatime := l_thistime - lasttime
-			lasttime := l_thistime
+			lifetime := lifetime + 1
+			deltatime := lifetime - lasttime
+			lasttime := lifetime
+			set_x (x + trajectory.position.x)
+			set_y (y - trajectory.position.y)
 			sprite_update
 		end
+
+feature -- Access
+
+	trajectory: VECTOR
 
 end

@@ -9,9 +9,9 @@ class
 	USER_INTERFACE
 
 inherit
-	ENTITY
+	SPRITE
 		rename
-			make as entity_make
+			make as sprite_make
 		end
 
 create
@@ -21,7 +21,7 @@ feature --Initialisation
 
 	make(a_name:STRING; a_window:WINDOW; a_x, a_y:INTEGER)
 		do
-			entity_make(a_name, a_window, a_x, a_y)
+			sprite_make(a_name, a_window, a_x, a_y)
 		end
 
 end

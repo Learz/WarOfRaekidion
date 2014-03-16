@@ -4,13 +4,8 @@ note
 	date		: "$Date$"
 	revision	: "$Revision$"
 
-
 class
 	APPLICATION
-
-inherit
-	SDL_WRAPPER
-	IMAGE_FACTORY_SHARED
 
 create
 	make
@@ -23,28 +18,21 @@ feature {NONE} -- Initialisation
 			l_window:WINDOW
 			l_shouldquit:BOOLEAN
 			l_player:PLAYER_SHIP
+			l_enemy:ENEMY_SHIP
 			l_sidebar:USER_INTERFACE
 			l_event:EVENT_HANDLER
 			l_thistime, l_lasttime, l_stoptime:INTEGER
 			l_deltatime:REAL_64
 			l_speed, l_directionx, l_directiony:INTEGER
-			l_projectile:PROJECTILE
-			l_projectile_list: LINKED_LIST[PROJECTILE]
-			l_create_projectile:BOOLEAN
-			l_projectile_speed:INTEGER
-			l_projectile_delay:INTEGER
 		do
-			l_projectile_speed:=1
 			l_shouldquit := false
 			l_stoptime := 0
 			l_speed := 2
 			-- Initialisation de la fenêtre, des images et de leurs conteneurs
-		    create l_window.make ("War of Raekidion", sdl_windowpos_undefined, sdl_windowpos_undefined, 500, 600, 0)
-		    l_player := create {PLAYER_SHIP}.make (l_window, 0, 200)
-		    create l_projectile_list.make
-		    -- := create {PROJECTILE}.create_projectile("sbullet", l_window, l_player.get_x.floor, l_player.get_y.floor)
+		    create l_window.make ("War of Raekidion", {SDL_WRAPPER}.sdl_windowpos_undefined, {SDL_WRAPPER}.sdl_windowpos_undefined, 500, 600, 0)
+		    l_player := create {PLAYER_SHIP}.make (l_window, 100, 200)
+		    l_enemy := create {ENEMY_SHIP}.make ("enemyUFO", l_window, 100, 200)
 		    l_sidebar := create {USER_INTERFACE}.make ("sidebar", l_window, l_window.width - 100, 0)
-
 			l_event := create {EVENT_HANDLER}.make
 
 			--Boucle d'exécution du jeu
@@ -52,32 +40,21 @@ feature {NONE} -- Initialisation
 			until
 				l_shouldquit
 			loop
-				sdl_pollevent_noreturn (l_event.event)
+				{SDL_WRAPPER}.sdl_pollevent_noreturn (l_event.event)
 
 				if l_event.is_quit_event then
 					l_shouldquit := true
 				end
 
-				l_thistime := sdl_getticks.to_integer_32
+				l_thistime := {SDL_WRAPPER}.sdl_getticks.to_integer_32
 
 				if l_event.is_mouse_down then
-					l_create_projectile:=true
+					l_player.start_shooting
 				end
 
 				if l_event.is_mouse_up then
-					l_create_projectile:=false
+					l_player.stop_shooting
 				end
-
-				if l_create_projectile then
-					l_projectile_delay:= (l_projectile_delay+1)\\20
-
-					if l_projectile_delay=0 then
-						l_projectile := create{PROJECTILE}.make ("sbullet", l_window, l_player.x+40, l_player.y)
-						l_projectile_list.force(l_projectile)
-					end
-				end
-
-				l_event.get_key_pressed
 
 				if l_event.is_key_down then
 					if l_event.is_key_w then
@@ -124,34 +101,17 @@ feature {NONE} -- Initialisation
 
 				l_window.render_clear
 
-				from
-					l_projectile_list.start
-				until
-					l_projectile_list.exhausted
-				loop
-					l_projectile_list.item.set_y (l_projectile_list.item.y - 5 * l_projectile_list.item.speed)
-					if l_projectile_list.item.y < -16 or l_projectile_list.item.y > l_window.height then
-						l_projectile_list.item.set_speed(-l_projectile_list.item.speed)
-					end
-
-					if l_projectile_list.count > 50 then
-						l_projectile_list.remove
-					else
-						l_projectile_list.item.update
-						l_projectile_list.forth
-					end
-				end
-
 	    		--Frame render
 			    l_player.update
+			    l_enemy.update
 			    l_sidebar.update
 			    l_window.render
 
 			    --Delay
-			    sdl_delay(5)
+			    {SDL_WRAPPER}.sdl_delay(5)
 			end
 
-		    sdl_quit
+		    {SDL_WRAPPER}.sdl_quit
 		end
 
 end

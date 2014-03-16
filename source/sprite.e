@@ -17,15 +17,17 @@ create
 
 feature {NONE} --Initialisation
 
-	texture, targetarea, renderer:POINTER
+	window: WINDOW
+	texture, targetarea, renderer: POINTER
 
-	make(a_name:STRING; a_window:WINDOW; a_x, a_y:INTEGER)
+	make(a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE)
 		--Chargement de l'image en mémoire
 		local
-			l_image:POINTER
-			l_imagefactory:IMAGE_FACTORY
+			l_image: POINTER
+			l_imagefactory: IMAGE_FACTORY
 		do
-			renderer := a_window.renderer
+			window := a_window
+			renderer := window.renderer
 			targetarea := targetarea.memory_alloc ({SDL_WRAPPER}.sizeof_sdl_rect_struct)
 			l_imagefactory := factory
 			l_image := l_imagefactory.image (a_name)
@@ -58,28 +60,31 @@ feature --Setters
 		    {SDL_WRAPPER}.sdl_rendercopy(renderer, texture, create {POINTER}, targetarea)
 		end
 
-	set_x(a_pos:INTEGER)
+	set_x (a_x: DOUBLE)
 		do
-			{SDL_WRAPPER}.set_sdl_rect_x (targetarea, a_pos)
+			x := a_x
+			{SDL_WRAPPER}.set_sdl_rect_x (targetarea, a_x.floor)
 		end
 
-	set_y(a_pos:INTEGER)
+	set_y (a_y: DOUBLE)
 		do
-			{SDL_WRAPPER}.set_sdl_rect_y (targetarea, a_pos)
+			y := a_y
+			{SDL_WRAPPER}.set_sdl_rect_y (targetarea, a_y.floor)
 		end
 
 feature --Getters
 
 	width, height: INTEGER
+	x, y: DOUBLE
 
-	x:INTEGER
-		do
-			Result := {SDL_WRAPPER}.get_sdl_rect_x (targetarea)
-		end
+--	x: DOUBLE
+--		do
+--			Result := {SDL_WRAPPER}.get_sdl_rect_x (targetarea)
+--		end
 
-	y:INTEGER
-		do
-			Result := {SDL_WRAPPER}.get_sdl_rect_y (targetarea)
-		end
+--	y: DOUBLE
+--		do
+--			Result := {SDL_WRAPPER}.get_sdl_rect_y (targetarea)
+--		end
 
 end
