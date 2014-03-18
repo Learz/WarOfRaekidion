@@ -8,10 +8,10 @@ class
 	PLAYER_SHIP
 
 inherit
-	ENTITY
+	SHIP
 		rename
-			make as entity_make,
-			update as entity_update
+			make as ship_make,
+			update as ship_update
 		end
 
 create
@@ -19,14 +19,12 @@ create
 
 feature {NONE} -- Initialization
 
-	projectile_list: LINKED_LIST[PROJECTILE]
 	create_projectile: BOOLEAN
 	projectile_delay: INTEGER
 
 	make(a_window: WINDOW; a_x, a_y: DOUBLE)
 		do
-		    create projectile_list.make
-			entity_make ("player", a_window, a_x, a_y)
+			ship_make ("player", a_window, a_x, a_y)
 		end
 
 feature
@@ -46,28 +44,7 @@ feature
 				end
 			end
 
-			from
-				projectile_list.start
-			until
-				projectile_list.exhausted
-			loop
-				if
-					projectile_list.item.y < -projectile_list.item.height or
-					projectile_list.item.y > (window.height + projectile_list.item.height) or
-					projectile_list.item.x < -projectile_list.item.width or
-					projectile_list.item.x > (window.width + projectile_list.item.width)
-				then
-					projectile_list.remove
-				else
-					projectile_list.item.update
-				end
-
-				if not projectile_list.exhausted then
-					projectile_list.forth
-				end
-			end
-
-			entity_update
+			ship_update
 		end
 
 	start_shooting
