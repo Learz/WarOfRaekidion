@@ -26,7 +26,7 @@ feature {NONE} -- Initialization
 		--Créer l'entitée
 		do
 			starttime := {SDL_WRAPPER}.sdl_getticks.to_integer_32
-		    create trajectory.make_default
+		    create trajectory.default_create
 			sprite_make (a_name, a_window, a_x, a_y)
 		end
 
@@ -35,8 +35,8 @@ feature {NONE} -- Initialization
 			lifetime := lifetime + 1
 			deltatime := lifetime - lasttime
 			lasttime := lifetime
-			set_x (x + trajectory.position.x)
-			set_y (y - trajectory.position.y)
+			set_x (x + trajectory.x)
+			set_y (y - trajectory.y)
 			sprite_update
 		end
 

@@ -29,7 +29,7 @@ feature {NONE} -- Initialiation
 			l_filename_list: LINKED_LIST[STRING]
 			l_tuple: TUPLE[STRING, POINTER]
 		do
-			directory_make ("ressources/images")
+			directory_make ("resources/images")
 			create file_list.make
 			create l_filename_list.make
 			l_filename_list := list_files("png")
@@ -39,7 +39,7 @@ feature {NONE} -- Initialiation
 				l_filename_list.exhausted
 			loop
 				create l_tuple
-				create l_filename_c.make ("ressources/images/" + l_filename_list.item)
+				create l_filename_c.make ("resources/images/" + l_filename_list.item)
 				l_tuple.put (l_filename_list.item, 1)
 				l_tuple.put ({SDL_WRAPPER}.sdl_loadimage (l_filename_c.item), 2)
 				file_list.extend (l_tuple)

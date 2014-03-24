@@ -283,7 +283,7 @@ feature -- Structure Getters -SDL.h
 			"type"
 		end
 
-		frozen get_sdl_keypressed(a_sdl_keypressed:POINTER):POINTER
+		frozen get_sdl_keypressed(a_sdl_keypressed:POINTER):INTEGER
 
 		external
 			"C [struct <SDL.h>] (SDL_Event) : SDL_Keycode"
@@ -423,7 +423,7 @@ feature -- Constantes -SDL.h
 
 feature --Constantes Clavier -SDL.h
 
-	frozen sdlk_escape:POINTER
+	frozen sdlk_escape:INTEGER
 
 		external
 			"C inline use <SDL.h>"
@@ -431,7 +431,7 @@ feature --Constantes Clavier -SDL.h
 			"SDLK_ESCAPE"
 		end
 
-	frozen sdlk_w:POINTER
+	frozen sdlk_w:INTEGER
 
 		external
 			"C inline use <SDL.h>"
@@ -439,7 +439,7 @@ feature --Constantes Clavier -SDL.h
 			"SDLK_w"
 		end
 
-	frozen sdlk_a:POINTER
+	frozen sdlk_a:INTEGER
 
 		external
 			"C inline use <SDL.h>"
@@ -447,7 +447,7 @@ feature --Constantes Clavier -SDL.h
 			"SDLK_a"
 		end
 
-	frozen sdlk_s:POINTER
+	frozen sdlk_s:INTEGER
 
 		external
 			"C inline use <SDL.h>"
@@ -455,7 +455,7 @@ feature --Constantes Clavier -SDL.h
 			"SDLK_s"
 		end
 
-	frozen sdlk_d:POINTER
+	frozen sdlk_d:INTEGER
 
 		external
 			"C inline use <SDL.h>"
@@ -463,12 +463,20 @@ feature --Constantes Clavier -SDL.h
 			"SDLK_d"
 		end
 
-	frozen sdlk_lshift:POINTER
+	frozen sdlk_lshift:INTEGER
 
 		external
 			"C inline use <SDL.h>"
 		alias
 			"SDLK_LSHIFT"
+		end
+
+	frozen sdlk_space:INTEGER
+
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDLK_SPACE"
 		end
 
 feature --Sizeof -SDL.h

@@ -1,5 +1,5 @@
 note
-	description : "War of Raekidion - A VECTOR stores X and Y coordinates relative to a (0,0) origin, and the angle and distance from the two points (force)."
+	description : "War of Raekidion - A {VECTOR} stores X and Y coordinates relative to a (0,0) origin, and the angle and distance from the two points (force)."
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
 	date		: "$Date$"
 	revision	: "$Revision$"
@@ -11,125 +11,160 @@ inherit
 	DOUBLE_MATH
 
 create
-	make_default,
+	default_create,
 	make_from_x_y,
 	make_from_angle_force
 
 feature {NONE} -- Initialization
 
-	make_default
-		-- Initialization of the vector with default values (0).
-		do
-			create position.default_create
-			degrees_mode := false
-			define_position (0, 0, 0, 0)
-		end
-
 	make_from_x_y (a_x, a_y: DOUBLE)
-		-- Initialization of the vector from its X an Y values. Automatically sets the angle and force of the vector from the X and Y values.
+		-- Initialization of `Current' from `a_x' and `a_y'. Automatically adjust `angle' and `force'
 		do
-			create position.default_create
-			degrees_mode := false
-			define_position_from_x_y (a_x, a_y)
+			x := a_x
+			y := a_y
+			adjust_angle_force (a_x, a_y)
 		end
 
 	make_from_angle_force (a_angle, a_force: DOUBLE)
-		-- Initialization of the vector from its angle and force. Automatically sets the X an Y values from the angle and force of the vector.
+		-- Initialization of `Current' from `angle' and `force'. Automatically adjust `x' and `y'
 		do
-			create position.default_create
-			degrees_mode := false
-			define_position_from_angle_force (a_angle, a_force)
+			angle := a_angle
+			force := a_force
+			adjust_x_y (a_angle, a_force)
 		end
 
 feature -- Access
 
-	position: TUPLE [x, y, angle, force: DOUBLE]
-
-	degrees_to_radians: DOUBLE
-		-- If necessary, convert degress to radians.
-		do
-			if degrees_mode then
-				Result := pi / 180
-			else
-				Result := 1
-			end
-		end
-
-	radians_to_degrees: DOUBLE
-		-- If necessary, convert radians to degrees.
-		do
-			if degrees_mode then
-				Result := 180 / pi
-			else
-				Result := 1
-			end
-		end
+	x, y, angle, force: DOUBLE
 
 	x_from_angle_force (a_angle, a_force: DOUBLE): DOUBLE
-		-- Find X value from angle and force of the vector.
+		-- Find `x' from `a_angle' and `a_force'
 		do
-			Result := cosine (a_angle * degrees_to_radians) * a_force
+			Result := cosine (radian_value (a_angle)) * a_force
 		end
 
 	y_from_angle_force (a_angle, a_force: DOUBLE): DOUBLE
-		-- Find Y value from angle and force of the vector.
+		-- Find `y' from `a_angle' and `a_force'
 		do
-			Result := sine (a_angle * degrees_to_radians) * a_force
+			Result := sine (radian_value (a_angle)) * a_force
 		end
 
 	angle_from_x_y (a_x, a_y: DOUBLE): DOUBLE
-		-- Find angle of the vector from X and Y values.
+		-- Find `angle' from `a_x' and `a_y'
 		do
-			Result := arc_tangent (a_y / a_x) * radians_to_degrees
+			Result := degree_value (arc_tangent (a_y / a_x))
 		end
 
 	force_from_x_y (a_x, a_y: DOUBLE): DOUBLE
-		-- Find force of the vector from X and Y values.
+		-- Find `force' from `a_x' and `a_y'
 		do
 			Result := sqrt ((a_x ^ 2) + (a_y ^ 2))
 		end
 
 feature -- Status
 
-	degrees_mode: BOOLEAN
+	degree_mode: BOOLEAN
+		-- If this is true, the `angle' will be in degrees
 
 feature -- Element change
 
-	set_to_degrees
-		-- Set this object to use degrees instead of radians.
+	set_x (a_x: DOUBLE)
+		-- Assign `x' to `a_x' and adjust `angle' and `force' automatically
 		do
-			degrees_mode := true
+			x := a_x
+			adjust_angle_force (a_x, y)
+		end
+
+	set_y (a_y: DOUBLE)
+		-- Assign `y' to `a_y' and adjust `angle' and `force' automatically
+		do
+			y := a_y
+			adjust_angle_force (x, a_y)
+		end
+
+	set_angle (a_angle: DOUBLE)
+		-- Assign `angle' to `a_angle' and adjust `x' and `y' automatically
+		do
+			angle := a_angle
+			adjust_x_y (a_angle, force)
+		end
+
+	set_force (a_force: DOUBLE)
+		-- Assign `force' to `a_force' and adjust `x' and `y' automatically
+		do
+			force := a_force
+			adjust_x_y (angle, a_force)
+		end
+
+	set_degree
+		-- Set `Current' to use degrees instead of radians
+		do
+			degree_mode := true
+			angle := degree_value (angle)
+		end
+
+	set_radian
+		-- Set `Current' to use radians instead of degrees
+		do
+			degree_mode := false
+			angle := radian_value (angle)
 		end
 
 	normalize
-		-- Reset force to 1 and change X and Y accordingly
-		require
-			not position.is_empty
+		-- Set `force' to 1 and adjust `x' and `y' accordingly
 		do
-			position.put (x_from_angle_force (position.angle, 1), 1)
-			position.put (y_from_angle_force (position.angle, 1), 2)
-			position.put (1, 4)
+			force := 1
+			adjust_x_y (angle, 1)
 		end
 
-	define_position (a_x, a_y, a_angle, a_force: DOUBLE)
-		-- Set the vector properties manually.
+	adjust_x_y (a_angle, a_force: DOUBLE)
+		-- Assing `angle' and `force' to `a_angle' and `a_force' and adjust `x' and `y' accordingly
 		do
-			position.put (a_x, 1)
-			position.put (a_y, 2)
-			position.put (a_angle, 3)
-			position.put (a_force, 4)
+			x := x_from_angle_force (a_angle, a_force)
+			y := y_from_angle_force (a_angle, a_force)
+			angle := a_angle
+			force := a_force
 		end
 
-	define_position_from_angle_force (a_angle, a_force: DOUBLE)
-		-- Set the vector properties by angle and force.
+	adjust_angle_force (a_x, a_y: DOUBLE)
+		-- Assing `x' and `y' to `a_x' and `a_y' and adjust `angle' and `force' accordingly
 		do
-			define_position (x_from_angle_force (a_angle, a_force), y_from_angle_force (a_angle, a_force), a_angle, a_force)
+			x := a_x
+			y := a_y
+			angle := angle_from_x_y (a_x, a_y)
+			force := force_from_x_y (a_x, a_y)
 		end
 
-	define_position_from_x_y (a_x, a_y: DOUBLE)
-		-- Set the vector properties by X and Y.
+feature {NONE} -- Implementation
+
+	radian_value (a_degree: DOUBLE): DOUBLE
+		-- Convert `a_degree' to radian value
 		do
-			define_position (a_x, a_y, angle_from_x_y (a_x, a_y), force_from_x_y (a_x, a_y))
+			if degree_mode then
+				Result := pi_div * a_degree
+			else
+				Result := a_degree
+			end
+		end
+
+	degree_value (a_radian: DOUBLE): DOUBLE
+		-- Convert `a_radian' to degree value
+		do
+			if degree_mode then
+				Result := div_pi * a_radian
+			else
+				Result := a_radian
+			end
+		end
+
+	pi_div: DOUBLE
+		once
+			Result := pi / 180
+		end
+
+	div_pi: DOUBLE
+		once
+			Result := 180 / pi
 		end
 
 end

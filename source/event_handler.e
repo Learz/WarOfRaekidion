@@ -19,11 +19,13 @@ feature {NONE} --Initialisation de la gestion d'entrées
 	make
 		do
 			event := event.memory_alloc ({SDL_WRAPPER}.sizeof_sdl_event_struct)
+			create on_key_pressed
 		end
 
-	key_pressed:POINTER
+	key_pressed:INTEGER
 		do
 			Result := {SDL_WRAPPER}.get_sdl_keypressed(event)
+	--		on_key_pressed.call ([Result])
 		end
 
 feature -- Events identifiers
@@ -72,6 +74,11 @@ feature -- Keys identifiers
 			Result := key_pressed = {SDL_WRAPPER}.sdlk_escape
 		end
 
+	is_key_space:BOOLEAN
+		do
+			Result := key_pressed = {SDL_WRAPPER}.sdlk_space
+		end
+
 	is_key_a:BOOLEAN
 		do
 			Result := key_pressed = {SDL_WRAPPER}.sdlk_a
@@ -96,6 +103,8 @@ feature -- Keys identifiers
 		do
 			Result := key_pressed = {SDL_WRAPPER}.sdlk_lshift
 		end
+
+	on_key_pressed:ACTION_SEQUENCE[TUPLE[key:INTEGER]]
 
 	dispose
 		do

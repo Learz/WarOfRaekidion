@@ -23,7 +23,7 @@ feature {NONE} -- Initialisation
 			l_event:EVENT_HANDLER
 			l_thistime, l_lasttime, l_stoptime:INTEGER
 			l_deltatime:REAL_64
-			l_speed, l_directionx, l_directiony:INTEGER
+			l_speed, l_directionx, l_directiony:DOUBLE
 		do
 			l_shouldquit := false
 			l_stoptime := 0
@@ -34,7 +34,7 @@ feature {NONE} -- Initialisation
 		    l_enemy := create {ENEMY_SHIP}.make ("enemyUFO", l_window, 100, 200)
 		    l_sidebar := create {USER_INTERFACE}.make ("sidebar", l_window, l_window.width - 100, 0)
 			l_event := create {EVENT_HANDLER}.make
-
+			--l_event.on_key_pressed.extend (agent l_player.manage_key)
 			--Boucle d'exécution du jeu
 			from
 			until
@@ -48,23 +48,21 @@ feature {NONE} -- Initialisation
 
 				l_thistime := {SDL_WRAPPER}.sdl_getticks.to_integer_32
 
-				if l_event.is_mouse_down then
-					l_player.start_shooting
-				end
-
-				if l_event.is_mouse_up then
-					l_player.stop_shooting
-				end
-
 				if l_event.is_key_down then
+					if l_event.is_key_esc then
+						l_shouldquit := true
+					end
+					if l_event.is_key_space then
+						l_player.start_shooting
+					end
 					if l_event.is_key_w then
-						l_directiony := -1
+						l_directiony :=1
 					end
 					if l_event.is_key_a then
 						l_directionx := -1
 					end
 					if l_event.is_key_s then
-						l_directiony := 1
+						l_directiony := -1
 					end
 					if l_event.is_key_d then
 						l_directionx := 1
@@ -75,13 +73,16 @@ feature {NONE} -- Initialisation
 				end
 
 				if l_event.is_key_up then
-					if l_event.is_key_w and l_directiony < 0 then
+					if l_event.is_key_space then
+						l_player.stop_shooting
+					end
+					if l_event.is_key_w and l_directiony > 0 then
 						l_directiony := 0
 					end
 					if l_event.is_key_a and l_directionx < 0 then
 						l_directionx := 0
 					end
-					if l_event.is_key_s and l_directiony > 0 then
+					if l_event.is_key_s and l_directiony < 0 then
 						l_directiony := 0
 					end
 					if l_event.is_key_d and l_directionx > 0 then
@@ -95,9 +96,9 @@ feature {NONE} -- Initialisation
 				l_deltatime := l_thistime - l_lasttime
 				l_lasttime := l_thistime
 
-			    --Try to move the entities
-			    l_player.set_x (l_player.x + (l_directionx * l_speed))
-			    l_player.set_y (l_player.y + (l_directiony * l_speed))
+			    l_player.trajectory.set_x (l_directionx)
+			    l_player.trajectory.set_y (l_directiony)
+			   	--l_player.trajectory.set_force (l_speed)
 
 				l_window.render_clear
 

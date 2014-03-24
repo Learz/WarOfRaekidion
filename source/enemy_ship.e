@@ -37,8 +37,9 @@ feature
 
 			if projectile_delay = 0 then
 				l_projectile := create {PROJECTILE}.make ("sbullet", window, x + (width / 2).floor - 8, y + (height / 2).floor - 8)
-				l_projectile.trajectory.set_to_degrees
-				l_projectile.trajectory.define_position_from_angle_force (lifetime * 8.1, 0.2)
+				l_projectile.trajectory.set_degree
+				l_projectile.trajectory.set_angle (lifetime * 8.1)
+				l_projectile.trajectory.set_force (0.2)
 				projectile_list.extend (l_projectile)
 			end
 

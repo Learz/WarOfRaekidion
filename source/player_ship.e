@@ -38,8 +38,9 @@ feature
 
 				if projectile_delay = 0 then
 					l_projectile := create {PROJECTILE}.make ("laser", window, x + (width / 2).floor - 4, y - 4)
-					l_projectile.trajectory.set_to_degrees
-					l_projectile.trajectory.define_position_from_angle_force (90, 4)
+					l_projectile.trajectory.set_degree
+					l_projectile.trajectory.set_angle (90)
+					l_projectile.trajectory.set_force (4)
 					projectile_list.extend (l_projectile)
 				end
 			end
@@ -55,6 +56,10 @@ feature
 	stop_shooting
 		do
 			create_projectile := false
+		end
+
+	manage_key (a_key:INTEGER)
+		do
 		end
 
 end

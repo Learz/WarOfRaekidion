@@ -5,8 +5,8 @@ Welcome to the repository of War of Raekidion. This game is made in Eiffel,
 with the help of SDL 2.0 and SDL Image 2.0. 
 
 War of Raekidion is a "bullet hell" type top-down shooter game. It involves 
-basic gameplay like dodgeing enemies' projectiles and progressing through 
-the level. However, it also includes interresting new features like a 
+basic gameplay like dodging enemies' projectiles and progressing through 
+the level. However, it also includes interesting new features like a 
 simple to use modding format, which allows to add enemy ships and projectile 
 types through XML files. Also, the main feature of this game consists of a 
 online multiplayer mode making one player control the ship and progressing 
@@ -32,34 +32,45 @@ SDK at the following address:
 First, create an account on the Eiffel Studio's website. Then, download the adequate 
 version of Eiffel Studio and install it to your machine.
 
-You will also have to download and install the required **runtime binaries** 
-and the **developement libraries** working with MinGW: 
+You will also have to download and install the required **development libraries** 
+working with MinGW: 
 
-- [**SDL 2.0**][2]
-- [**SDL Image 2.0**][3]
+- [**SDL 2.0.1**][2]
+- [**SDL Image 2.0.0**][3]
 
 ### Installing on Windows
 
-For Windows, you will have to put your extracted SDL 2.0 and SDL Image 2.0 
-folders and files inside the project's directory, like this:
+For Windows, you will have to put your extracted SDL 2.0.1 and SDL Image 2.0.0 
+folders inside the project's directory, like this:
 
     |+ War of Raekidion
 		|
 		|- .git
 		|+ libraries
 			|+ SDL2_image-2.0.0
-			|+ SDL2-2.0.x
-		|- ressources
+			|+ SDL2-2.0.1
+		|- resources
 		|- source
 		|
 		|- .gitignore
 		|- raekidion.ecf
 		|- raekidion.rc
 		|- README.md
-		|+ libpng16-16.dll
-		|+ SDL2.dll
-		|+ SDL2_image.dll
-		|+ zlib1.dll
+		
+Then, you will need to go into inside of these folders and copy all the dll files from 
+the bin folders into the War of Raekidion folder. It goes like this: 
+
+	War of Raekidion\libraries\SDL2-2.0.1\<YOUR ARCHITECTURE>\bin\SDL2.dll
+	War of Raekidion\libraries\SDL2_image-2.0.0\<YOUR ARCHITECTURE>\bin\SDL2_image.dll
+	War of Raekidion\libraries\SDL2_image-2.0.0\<YOUR ARCHITECTURE>\bin\zlib1.dll
+	War of Raekidion\libraries\SDL2_image-2.0.0\<YOUR ARCHITECTURE>\bin\linpng16_16.dll
+	
+All these files go into
+	
+	War of Raekidion\SDL2.dll 
+	War of Raekidion\SDL2_image.dll
+	War of Raekidion\zlib1.dll
+	War of Raekidion\linpng16_16.dll
 
 ### Installing on Linux (Debian)
 
