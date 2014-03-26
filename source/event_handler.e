@@ -20,92 +20,43 @@ feature {NONE} --Initialisation de la gestion d'entrées
 		do
 			event := event.memory_alloc ({SDL_WRAPPER}.sizeof_sdl_event_struct)
 			create on_key_pressed
-		end
-
-	key_pressed:INTEGER
-		do
-			Result := {SDL_WRAPPER}.get_sdl_keypressed(event)
-	--		on_key_pressed.call ([Result])
+			create on_mouse_pressed
 		end
 
 feature -- Events identifiers
 
+	check_key_pressed
+		do
+			if {SDL_WRAPPER}.get_sdl_event_type (event) = {SDL_WRAPPER}.sdl_keydown then
+				on_key_pressed.call ([{SDL_WRAPPER}.get_sdl_keypressed (event), true])
+			elseif {SDL_WRAPPER}.get_sdl_event_type (event) = {SDL_WRAPPER}.sdl_keyup then
+				on_key_pressed.call ([{SDL_WRAPPER}.get_sdl_keypressed (event), false])
+			end
+		end
+
+	check_mouse_pressed
+		local
+			l_button: NATURAL_32
+			l_x, l_y: INTEGER
+		do
+			if {SDL_WRAPPER}.get_sdl_event_type (event) = {SDL_WRAPPER}.sdl_mousebuttondown then
+				on_mouse_pressed.call ([{SDL_WRAPPER}.get_sdl_mouse_state ($l_x, $l_y), l_x, l_y, true])
+			elseif {SDL_WRAPPER}.get_sdl_event_type (event) = {SDL_WRAPPER}.sdl_mousebuttonup then
+				on_mouse_pressed.call ([{SDL_WRAPPER}.get_sdl_mouse_state ($l_x, $l_y), l_x, l_y, false])
+			end
+		end
+
+	on_key_pressed: ACTION_SEQUENCE [TUPLE [key: INTEGER; state: BOOLEAN]]
+
+	on_mouse_pressed: ACTION_SEQUENCE [TUPLE [button: NATURAL_32; x, y: INTEGER; state: BOOLEAN]]
+
 	event: POINTER
 
-	is_quit_event:BOOLEAN
+	is_quit_event: BOOLEAN
 		do
 			Result := {SDL_WRAPPER}.get_sdl_event_type (event) = {SDL_WRAPPER}.sdl_quitevent
 		end
-
-	is_key_down:BOOLEAN
-		do
-			Result := {SDL_WRAPPER}.get_sdl_event_type(event) = {SDL_WRAPPER}.sdl_keydown
-		end
-
-	is_key_up:BOOLEAN
-		do
-			Result := {SDL_WRAPPER}.get_sdl_event_type(event) = {SDL_WRAPPER}.sdl_keyup
-		end
-
-	is_mouse_down:BOOLEAN
-		do
-			Result := {SDL_WRAPPER}.get_sdl_event_type(event) = {SDL_WRAPPER}.sdl_mousebuttondown
-		end
-
-	is_mouse_up:BOOLEAN
-		do
-			Result := {SDL_WRAPPER}.get_sdl_event_type(event) = {SDL_WRAPPER}.sdl_mousebuttonup
-		end
-
-feature -- Mouse position
-
-	mouse:TUPLE[x:INTEGER; y:INTEGER]
-		local
-			l_mouse_x, l_mouse_y: INTEGER
-		do
-			{SDL_WRAPPER}.get_sdl_mouse_state_noreturn ($l_mouse_x, $l_mouse_y)
-			Result := [l_mouse_x, l_mouse_y]
-		end
-
-feature -- Keys identifiers
-
-	is_key_esc:BOOLEAN
-		do
-			Result := key_pressed = {SDL_WRAPPER}.sdlk_escape
-		end
-
-	is_key_space:BOOLEAN
-		do
-			Result := key_pressed = {SDL_WRAPPER}.sdlk_space
-		end
-
-	is_key_a:BOOLEAN
-		do
-			Result := key_pressed = {SDL_WRAPPER}.sdlk_a
-		end
-
-	is_key_s:BOOLEAN
-		do
-			Result := key_pressed = {SDL_WRAPPER}.sdlk_s
-		end
-
-	is_key_d:BOOLEAN
-		do
-			Result := key_pressed = {SDL_WRAPPER}.sdlk_d
-		end
-
-	is_key_w:BOOLEAN
-		do
-			Result := key_pressed = {SDL_WRAPPER}.sdlk_w
-		end
-
-	is_key_lshift:BOOLEAN
-		do
-			Result := key_pressed = {SDL_WRAPPER}.sdlk_lshift
-		end
-
-	on_key_pressed:ACTION_SEQUENCE[TUPLE[key:INTEGER]]
-
+		
 	dispose
 		do
 			event.memory_free

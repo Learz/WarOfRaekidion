@@ -40,7 +40,7 @@ feature -- Access
 	x_from_angle_force (a_angle, a_force: DOUBLE): DOUBLE
 		-- Find `x' from `a_angle' and `a_force'
 		do
-			Result := cosine (radian_value (a_angle)) * a_force
+			Result := -cosine (radian_value (a_angle)) * a_force
 		end
 
 	y_from_angle_force (a_angle, a_force: DOUBLE): DOUBLE
@@ -52,13 +52,40 @@ feature -- Access
 	angle_from_x_y (a_x, a_y: DOUBLE): DOUBLE
 		-- Find `angle' from `a_x' and `a_y'
 		do
-			Result := degree_value (arc_tangent (a_y / a_x))
+			if a_x = 0 then
+				if a_y = 0 then
+					Result := angle
+				elseif a_y < 0 then
+					Result := degree_value (pi + pi_2)
+				else
+					Result := degree_value (pi_2)
+				end
+			else
+				if a_x <= 0 and a_y >= 0 then
+					Result := degree_value (-arc_tangent (a_y / a_x))
+				elseif a_x >= 0 and a_y >= 0 then
+					Result := degree_value (pi - arc_tangent (a_y / a_x))
+				elseif a_x >= 0 and a_y <= 0 then
+					Result := degree_value (pi - arc_tangent (a_y / a_x))
+				else
+					Result := degree_value ((2 * pi) - arc_tangent (a_y / a_x))
+				end
+			end
 		end
 
 	force_from_x_y (a_x, a_y: DOUBLE): DOUBLE
 		-- Find `force' from `a_x' and `a_y'
 		do
 			Result := sqrt ((a_x ^ 2) + (a_y ^ 2))
+		end
+
+	print_info
+		-- Show `x', `y', `angle' and `force' in the console and in the log.
+		do
+			io.putstring ("x    : "); io.putdouble (x); io.put_new_line
+			io.putstring ("y    : "); io.putdouble (y); io.put_new_line
+			io.putstring ("angle: "); io.putdouble (angle); io.put_new_line
+			io.putstring ("force: "); io.putdouble (force); io.put_new_line
 		end
 
 feature -- Status
@@ -122,17 +149,19 @@ feature -- Element change
 		do
 			x := x_from_angle_force (a_angle, a_force)
 			y := y_from_angle_force (a_angle, a_force)
-			angle := a_angle
-			force := a_force
 		end
 
 	adjust_angle_force (a_x, a_y: DOUBLE)
 		-- Assing `x' and `y' to `a_x' and `a_y' and adjust `angle' and `force' accordingly
 		do
-			x := a_x
-			y := a_y
 			angle := angle_from_x_y (a_x, a_y)
 			force := force_from_x_y (a_x, a_y)
+		end
+
+	truncate_double (a_value: DOUBLE; a_decimals: INTEGER): DOUBLE
+		-- Only keep the `a_decimals' decimals of `a_value'
+		do
+			Result := floor (a_value * (10 ^ a_decimals)) / (10 ^ a_decimals)
 		end
 
 feature {NONE} -- Implementation

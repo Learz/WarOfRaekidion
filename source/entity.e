@@ -35,8 +35,8 @@ feature {NONE} -- Initialization
 			lifetime := lifetime + 1
 			deltatime := lifetime - lasttime
 			lasttime := lifetime
-			set_x (x + trajectory.x)
-			set_y (y - trajectory.y)
+			set_x (x + (trajectory.x))
+			set_y (y - (trajectory.y))
 			sprite_update
 		end
 
