@@ -57,7 +57,7 @@ feature --Setters
 	update
 		--Mise à jour de l'image à l'écran
 		do
-		    {SDL_WRAPPER}.sdl_rendercopy(renderer, texture, create {POINTER}, targetarea)
+		    {SDL_WRAPPER}.sdl_rendercopy (renderer, texture, create {POINTER}, targetarea)
 		end
 
 	set_x (a_x: DOUBLE)
@@ -76,15 +76,5 @@ feature --Getters
 
 	width, height: INTEGER
 	x, y: DOUBLE
-
---	x: DOUBLE
---		do
---			Result := {SDL_WRAPPER}.get_sdl_rect_x (targetarea)
---		end
-
---	y: DOUBLE
---		do
---			Result := {SDL_WRAPPER}.get_sdl_rect_y (targetarea)
---		end
 
 end

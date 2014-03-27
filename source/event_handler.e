@@ -25,6 +25,13 @@ feature {NONE} --Initialisation de la gestion d'entrées
 
 feature -- Events identifiers
 
+	manage_event
+		do
+			{SDL_WRAPPER}.sdl_pollevent_noreturn (event)
+			check_key_pressed
+			check_mouse_pressed
+		end
+
 	check_key_pressed
 		do
 			if {SDL_WRAPPER}.get_sdl_event_type (event) = {SDL_WRAPPER}.sdl_keydown then
@@ -36,7 +43,6 @@ feature -- Events identifiers
 
 	check_mouse_pressed
 		local
-			l_button: NATURAL_32
 			l_x, l_y: INTEGER
 		do
 			if {SDL_WRAPPER}.get_sdl_event_type (event) = {SDL_WRAPPER}.sdl_mousebuttondown then
@@ -50,16 +56,18 @@ feature -- Events identifiers
 
 	on_mouse_pressed: ACTION_SEQUENCE [TUPLE [button: NATURAL_32; x, y: INTEGER; state: BOOLEAN]]
 
-	event: POINTER
-
 	is_quit_event: BOOLEAN
 		do
 			Result := {SDL_WRAPPER}.get_sdl_event_type (event) = {SDL_WRAPPER}.sdl_quitevent
 		end
-		
+
 	dispose
 		do
 			event.memory_free
 		end
+
+feature {NONE}
+
+	event:POINTER
 
 end

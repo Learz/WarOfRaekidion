@@ -10,8 +10,9 @@ class
 inherit
 	ENTITY
 		rename
-			make as entity_make,
-			update as entity_update
+			make as entity_make
+		redefine
+			update
 		end
 
 create
@@ -52,9 +53,9 @@ feature
 				end
 			end
 
-			entity_update
+			Precursor {ENTITY}
 		end
 
-	
+
 
 end

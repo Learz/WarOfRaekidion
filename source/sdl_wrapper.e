@@ -26,14 +26,6 @@ feature -- Fonctions -SDL.h
 			"SDL_DestroyWindow"
 		end
 
-	frozen sdl_quit
-
-		external
-			"C () | <SDL.h>"
-		alias
-			"SDL_Quit"
-		end
-
 	frozen sdl_createrenderer (a_window: POINTER; a_index: INTEGER; a_flags: NATURAL_32): POINTER
 
 		external
@@ -48,6 +40,14 @@ feature -- Fonctions -SDL.h
 			"C (SDL_Renderer*) | <SDL.h>"
 		alias
 			"SDL_DestroyRenderer"
+		end
+
+	frozen sdl_quit
+
+		external
+			"C () | <SDL.h>"
+		alias
+			"SDL_Quit"
 		end
 
 	frozen sdl_renderclear (a_renderer: POINTER)
@@ -423,22 +423,6 @@ feature -- Constantes -SDL.h
 
 feature --Constantes Clavier -SDL.h
 
-	frozen sdlk_escape:INTEGER
-
-		external
-			"C inline use <SDL.h>"
-		alias
-			"SDLK_ESCAPE"
-		end
-
-	frozen sdlk_w:INTEGER
-
-		external
-			"C inline use <SDL.h>"
-		alias
-			"SDLK_w"
-		end
-
 	frozen sdlk_a:INTEGER
 
 		external
@@ -447,12 +431,12 @@ feature --Constantes Clavier -SDL.h
 			"SDLK_a"
 		end
 
-	frozen sdlk_s:INTEGER
+	frozen sdlk_c:INTEGER
 
 		external
 			"C inline use <SDL.h>"
 		alias
-			"SDLK_s"
+			"SDLK_c"
 		end
 
 	frozen sdlk_d:INTEGER
@@ -463,12 +447,108 @@ feature --Constantes Clavier -SDL.h
 			"SDLK_d"
 		end
 
+	frozen sdlk_e:INTEGER
+
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDLK_e"
+		end
+
+	frozen sdlk_s:INTEGER
+
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDLK_s"
+		end
+
+	frozen sdlk_w:INTEGER
+
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDLK_w"
+		end
+
+	frozen sdlk_x:INTEGER
+
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDLK_x"
+		end
+
+	frozen sdlk_z:INTEGER
+
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDLK_z"
+		end
+
+	frozen sdlk_escape:INTEGER
+
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDLK_ESCAPE"
+		end
+
 	frozen sdlk_lshift:INTEGER
 
 		external
 			"C inline use <SDL.h>"
 		alias
 			"SDLK_LSHIFT"
+		end
+
+	frozen sdlk_lctrl:INTEGER
+
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDLK_LCTRL"
+		end
+
+	frozen sdlk_up:INTEGER
+
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDLK_UP"
+		end
+
+	frozen sdlk_down:INTEGER
+
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDLK_DOWN"
+		end
+
+	frozen sdlk_left:INTEGER
+
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDLK_LEFT"
+		end
+
+	frozen sdlk_right:INTEGER
+
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDLK_RIGHT"
+		end
+
+	frozen sdlk_return:INTEGER
+
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDLK_RETURN"
 		end
 
 	frozen sdlk_space:INTEGER

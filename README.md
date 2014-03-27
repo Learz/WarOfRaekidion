@@ -17,9 +17,11 @@ Installing the game
 ----------------------
 
 To install the game, you only have to download the appropriate binary file from 
-the "**release**" folder. All content and libraries are included inside the archive. 
-To launch the game on Windows, choose the "raekidion.exe" file. For Linux, run 
-the "raekidion" executable file.
+the "**release**" folder. All content and libraries are included within the installer. 
+To launch the game on Windows, simply click on the shortcut on your desktop, or 
+in the Start menu. For Linux, run the "raekidion" executable file from a terminal or, if 
+you have the Debian menu or equivalent, you will find it under the Games category. A 
+desktop file should also be created, along with an entry for the Unity menu.
 
 Installing the SDK
 ---------------------
@@ -92,6 +94,6 @@ credits if you use our project somewhere else.
 Enjoy!
 
 [1]:  http://www.eiffel.com/
-[2]:  http://www.libsdl.org/download-2.0.php
-[3]:  http://www.libsdl.org/projects/SDL_image/
+[2]:  http://www.libsdl.org/release/SDL2-devel-2.0.1-mingw.tar.gz
+[3]:  https://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.0.0-mingw.tar.gz
 [4]:  http://github.com/tioui

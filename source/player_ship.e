@@ -10,28 +10,30 @@ class
 inherit
 	SHIP
 		rename
-			make as ship_make,
-			update as ship_update
+			make as ship_make
+		redefine
+			update
 		end
-	KEYS
 
 create
 	make
 
 feature {NONE} -- Initialization
 
-	speed: DOUBLE
-	shoot: BOOLEAN
-	projectile_delay: INTEGER
-
-	make(a_window: WINDOW; a_x, a_y: DOUBLE)
+	make (a_window: WINDOW; a_x, a_y: DOUBLE; a_key_binding: KEYS)
 		do
 			ship_make ("player", a_window, a_x, a_y)
-		    trajectory.set_degree
+			set_key_binding (a_key_binding)
+		    trajectory.enable_degree_mode
 			speed := 1
 		end
 
 feature
+
+	set_key_binding (a_key_binding: KEYS)
+		do
+			key_binding := a_key_binding
+		end
 
 	update
 		local
@@ -42,47 +44,87 @@ feature
 
 				if projectile_delay = 0 then
 					l_projectile := create {PROJECTILE}.make ("laser", window, x + (width / 2).floor - 4, y - 4)
-					l_projectile.trajectory.set_degree
+					l_projectile.trajectory.enable_degree_mode
 					l_projectile.trajectory.set_angle (90)
 					l_projectile.trajectory.set_force (4)
 					projectile_list.extend (l_projectile)
 				end
 			end
 
-			ship_update
+			if is_moving_up then
+				trajectory.set_y (speed)
+			elseif is_moving_down then
+				trajectory.set_y (-speed)
+			else
+				trajectory.set_y (0)
+			end
+
+			if is_moving_left then
+				trajectory.set_x (-speed)
+			elseif is_moving_right then
+				trajectory.set_x (speed)
+			else
+				trajectory.set_x (0)
+			end
+
+			if (is_moving_up and (is_moving_left or is_moving_right)) or (is_moving_down and (is_moving_left or is_moving_right)) then
+				trajectory.set_force (speed)
+			end
+
+			if y <= -height / 3 then
+				set_y (-height / 3)
+			elseif y >= window.height - 2 * (height / 3) then
+				set_y (window.height - 2 * (height / 3))
+			end
+
+			if x <= -width / 3 then
+				set_x (-width / 3)
+			elseif x >= window.width - 2 * (width / 3) - 100 then
+				set_x (window.width - 2 * (width / 3) - 100)
+			end
+
+			Precursor {SHIP}
 		end
 
 	manage_key (a_key: INTEGER; a_state: BOOLEAN)
 		do
 			if a_state = true then
-				if a_key = move_up_key then
-					trajectory.set_y (speed)
-				elseif a_key = move_down_key then
-					trajectory.set_y (-speed)
-				elseif a_key = move_left_key then
-					trajectory.set_x (-speed)
-				elseif a_key = move_right_key then
-					trajectory.set_x (speed)
-				elseif a_key = accept_key then
+				if a_key = key_binding.move_up_key then
+					is_moving_up := true
+				elseif a_key = key_binding.move_down_key then
+					is_moving_down := true
+				elseif a_key = key_binding.move_left_key then
+					is_moving_left := true
+				elseif a_key = key_binding.move_right_key then
+					is_moving_right := true
+				elseif a_key = key_binding.fire_key then
 					shoot := true
-				elseif a_key = modifier_key then
-					speed := 0.3
+				elseif a_key = key_binding.modifier_key then
+					speed := 0.4
 				end
 			else
-				if a_key = move_up_key and trajectory.y >= 0 then
-					trajectory.set_y (0)
-				elseif a_key = move_down_key and trajectory.y <= 0 then
-					trajectory.set_y (0)
-				elseif a_key = move_left_key and trajectory.x <= 0 then
-					trajectory.set_x (0)
-				elseif a_key = move_right_key and trajectory.x >= 0 then
-					trajectory.set_x (0)
-				elseif a_key = accept_key then
+				if a_key = key_binding.move_up_key then
+					is_moving_up := false
+				elseif a_key = key_binding.move_down_key then
+					is_moving_down := false
+				elseif a_key = key_binding.move_left_key then
+					is_moving_left := false
+				elseif a_key = key_binding.move_right_key then
+					is_moving_right := false
+				elseif a_key = key_binding.fire_key then
 					shoot := false
-				elseif a_key = modifier_key then
-					speed := 0.8
+				elseif a_key = key_binding.modifier_key then
+					speed := 1
 				end
 			end
 		end
+
+feature {NONE} -- Implementation
+
+	key_binding: KEYS
+	speed: DOUBLE
+	shoot: BOOLEAN
+	is_moving_up, is_moving_down, is_moving_left, is_moving_right: BOOLEAN
+	projectile_delay: INTEGER
 
 end

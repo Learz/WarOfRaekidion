@@ -10,8 +10,9 @@ class
 inherit
 	SHIP
 		rename
-			make as ship_make,
-			update as ship_update
+			make as ship_make
+		redefine
+			update
 		end
 
 create
@@ -37,13 +38,13 @@ feature
 
 			if projectile_delay = 0 then
 				l_projectile := create {PROJECTILE}.make ("sbullet", window, x + (width / 2).floor - 8, y + (height / 2).floor - 8)
-				l_projectile.trajectory.set_degree
+				l_projectile.trajectory.enable_degree_mode
 				l_projectile.trajectory.set_angle (lifetime * 8.1)
 				l_projectile.trajectory.set_force (0.2)
 				projectile_list.extend (l_projectile)
 			end
 
-			ship_update
+			Precursor {SHIP}
 		end
 
 end

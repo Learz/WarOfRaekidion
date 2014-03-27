@@ -10,8 +10,9 @@ class
 inherit
 	SPRITE
 		rename
-			make as sprite_make,
-			update as sprite_update
+			make as sprite_make
+		redefine
+			update
 		end
 
 create
@@ -37,7 +38,7 @@ feature {NONE} -- Initialization
 			lasttime := lifetime
 			set_x (x + (trajectory.x))
 			set_y (y - (trajectory.y))
-			sprite_update
+			Precursor {SPRITE}
 		end
 
 feature -- Access

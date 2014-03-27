@@ -13,13 +13,12 @@ create
 
 feature {NONE} --Initialisation
 
-	make(a_title:STRING; a_x, a_y, a_width, a_height:INTEGER; a_flags:NATURAL_32)
+	make (a_title: STRING; a_x, a_y, a_width, a_height: INTEGER; a_flags: NATURAL_32)
 		--Créer la fenêtre
 		local
 			l_c_title:C_STRING
 		do
 			create l_c_title.make (a_title)
-		    {SDL_WRAPPER}.sdl_init_noreturn ({SDL_WRAPPER}.sdl_init_video_timer)
 		    height := a_height
 		    width := a_width
 		    window := {SDL_WRAPPER}.sdl_createwindow (l_c_title.item, a_x, a_y, width, height, a_flags)

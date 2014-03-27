@@ -17,9 +17,9 @@ inherit
 create
 	make
 
-feature --Initialisation
+feature -- Initialization
 
-	make(a_name:STRING; a_window:WINDOW; a_x, a_y:INTEGER)
+	make (a_name:STRING; a_window:WINDOW; a_x, a_y:INTEGER)
 		do
 			sprite_make(a_name, a_window, a_x, a_y)
 		end
