@@ -11,12 +11,11 @@ class
 create
 	make
 
-feature {NONE} --Initialisation
+feature {NONE} -- Initialization
 
 	make (a_title: STRING; a_x, a_y, a_width, a_height: INTEGER; a_flags: NATURAL_32)
-		--Créer la fenêtre
 		local
-			l_c_title:C_STRING
+			l_c_title: C_STRING
 		do
 			create l_c_title.make (a_title)
 		    height := a_height
@@ -25,23 +24,25 @@ feature {NONE} --Initialisation
 		    renderer := {SDL_WRAPPER}.sdl_createrenderer (window, -1, {SDL_WRAPPER}.sdl_renderer_accelerated)
 		end
 
-feature
+feature -- Access
 
-	window, renderer:POINTER
-	height, width:INTEGER
+	window, renderer: POINTER
+	height, width: INTEGER
 
 	render
 		do
 			{SDL_WRAPPER}.sdl_renderpresent (renderer)
+			if {SDL_WRAPPER}.sdl_getwindowflags (window).bit_and ({SDL_WRAPPER}.sdl_window_hidden) /= 0 then
+		   		{SDL_WRAPPER}.sdl_show_window (window)
+			end
 		end
 
-	render_clear
+	clear
 		do
 			{SDL_WRAPPER}.sdl_renderclear (renderer)
 		end
 
-	destroy
-		--Décharger le moteur de rendu et la fenêtre en mémoire
+	dispose
 		do
 		    {SDL_WRAPPER}.sdl_destroyrenderer (renderer)
 		    {SDL_WRAPPER}.sdl_destroywindow (window)

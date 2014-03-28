@@ -13,21 +13,23 @@ inherit
 create
 	make
 
-feature
+feature -- Access
 
 	quit
 		do
 			must_quit:=true
 		end
 
-feature {NONE}
+feature -- Status
 
 	must_quit, is_send_mode, is_recieve_mode: BOOLEAN
+
+feature {NONE} -- Implementation
 
 	execute
 		do
 			from
-				must_quit:=False
+				must_quit := false
 			until
 				must_quit
 			loop

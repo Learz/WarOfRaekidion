@@ -17,50 +17,47 @@ inherit
 create
 	make
 
-feature {NONE} -- Initialiation
-
-	file_list: LINKED_LIST[TUPLE[filename: STRING; object: POINTER]]
+feature {NONE} -- Initialization
 
 	make
 		require
 			Is_Not_Already_Initialised: not is_init.item
 		local
+			l_directory: STRING
 			l_filename_c: C_STRING
 			l_filename_list: LINKED_LIST[STRING]
 			l_tuple: TUPLE[STRING, POINTER]
 		do
-			directory_make ("resources/images")
+			l_directory := "resources/images"
+			directory_make (l_directory)
 			create file_list.make
 			create l_filename_list.make
 			l_filename_list := list_files("png")
+
 			from
 				l_filename_list.start
 			until
 				l_filename_list.exhausted
 			loop
 				create l_tuple
-				create l_filename_c.make ("resources/images/" + l_filename_list.item)
+				create l_filename_c.make (l_directory + l_filename_list.item)
 				l_tuple.put (l_filename_list.item, 1)
 				l_tuple.put ({SDL_WRAPPER}.sdl_loadimage (l_filename_c.item), 2)
 				file_list.extend (l_tuple)
 				l_filename_list.forth
 			end
-		    is_init.replace(True)
+
+		    is_init.replace (True)
 		ensure
 		   	Is_Initialised: is_init.item
 		end
 
-feature
+feature -- Access
 
-	is_init:CELL[BOOLEAN]
-		once
-			create Result.put(False)
-		end
-
-	image(a_name:STRING):POINTER
+	image (a_name: STRING): POINTER
 		local
-			l_count:INTEGER
-			l_name:STRING
+			l_count: INTEGER
+			l_name: STRING
 		do
 			from
 				file_list.start
@@ -78,16 +75,25 @@ feature
 			end
 		end
 
-	destroy
+	dispose
 		do
 			from
 				file_list.start
 			until
 				file_list.exhausted
 			loop
-				{SDL_WRAPPER}.sdl_freesurface(file_list.item.object)
+				{SDL_WRAPPER}.sdl_freesurface (file_list.item.object)
 				file_list.forth
 			end
+		end
+
+feature {NONE} -- Implementation
+
+	file_list: LINKED_LIST[TUPLE[filename: STRING; object: POINTER]]
+
+	is_init: CELL[BOOLEAN]
+		once
+			create Result.put (False)
 		end
 
 end

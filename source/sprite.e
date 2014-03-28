@@ -15,13 +15,9 @@ inherit
 create
 	make
 
-feature {NONE} --Initialisation
-
-	window: WINDOW
-	texture, targetarea, renderer: POINTER
+feature {NONE} --Initialization
 
 	make(a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE)
-		--Chargement de l'image en mémoire
 		local
 			l_image: POINTER
 			l_imagefactory: IMAGE_FACTORY
@@ -32,33 +28,36 @@ feature {NONE} --Initialisation
 			l_imagefactory := factory
 			l_image := l_imagefactory.image (a_name)
 
-			if l_image.is_default_pointer then
-				l_image := l_imagefactory.image ("error")
+			if not l_image.is_default_pointer then
+			    set_x (a_x)
+			    set_y (a_y)
+			    width := {SDL_WRAPPER}.get_sdl_loadbmp_width (l_image)
+			    height := {SDL_WRAPPER}.get_sdl_loadbmp_height (l_image)
+			    {SDL_WRAPPER}.set_sdl_rect_w (targetarea, width)
+			    {SDL_WRAPPER}.set_sdl_rect_h (targetarea, height)
+				texture := {SDL_WRAPPER}.sdl_createtexturefromsurface(renderer, l_image)
+			else
+				set_x (0)
+				set_y (0)
+				width := 0
+				height := 0
+			    {SDL_WRAPPER}.set_sdl_rect_w (targetarea, width)
+			    {SDL_WRAPPER}.set_sdl_rect_h (targetarea, height)
+				texture := create {POINTER}
 			end
-
-		    set_x (a_x)
-		    set_y (a_y)
-		    width := {SDL_WRAPPER}.get_sdl_loadbmp_width (l_image)
-		    height := {SDL_WRAPPER}.get_sdl_loadbmp_height (l_image)
-		    {SDL_WRAPPER}.set_sdl_rect_w (targetarea, width)
-		    {SDL_WRAPPER}.set_sdl_rect_h (targetarea, height)
-			texture := {SDL_WRAPPER}.sdl_createtexturefromsurface(renderer, l_image)
 		end
 
-	dispose
-		--Déchargement de l'image en mémoire
-		do
-			{SDL_WRAPPER}.sdl_destroytexture (texture)
-			targetarea.memory_free
-		end
+feature -- Access
 
-feature --Setters
+	width, height: INTEGER
+	x, y: DOUBLE
 
 	update
-		--Mise à jour de l'image à l'écran
 		do
 		    {SDL_WRAPPER}.sdl_rendercopy (renderer, texture, create {POINTER}, targetarea)
 		end
+
+feature -- Element change
 
 	set_x (a_x: DOUBLE)
 		do
@@ -72,9 +71,15 @@ feature --Setters
 			{SDL_WRAPPER}.set_sdl_rect_y (targetarea, a_y.floor)
 		end
 
-feature --Getters
+feature {NONE} -- Implementation
 
-	width, height: INTEGER
-	x, y: DOUBLE
+	window: WINDOW
+	texture, targetarea, renderer: POINTER
+
+	dispose
+		do
+			{SDL_WRAPPER}.sdl_destroytexture (texture)
+			targetarea.memory_free
+		end
 
 end

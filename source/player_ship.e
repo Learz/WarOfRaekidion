@@ -79,8 +79,8 @@ feature
 
 			if x <= -width / 3 then
 				set_x (-width / 3)
-			elseif x >= window.width - 2 * (width / 3) - 100 then
-				set_x (window.width - 2 * (width / 3) - 100)
+			elseif x >= window.width - 2 * (width / 3) - 75 then
+				set_x (window.width - 2 * (width / 3) - 75)
 			end
 
 			Precursor {SHIP}

@@ -9,9 +9,8 @@ class
 
 inherit
 	SPRITE
-		rename
-			make as sprite_make
 		redefine
+			make,
 			update
 		end
 
@@ -20,29 +19,33 @@ create
 
 feature {NONE} -- Initialization
 
-	deltatime: REAL_64
-	starttime, lasttime, lifetime: INTEGER
-
-	make(a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE)
+	make (a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE)
 		--Créer l'entitée
 		do
 			starttime := {SDL_WRAPPER}.sdl_getticks.to_integer_32
 		    create trajectory.default_create
-			sprite_make (a_name, a_window, a_x, a_y)
+			Precursor {SPRITE} (a_name, a_window, a_x, a_y)
 		end
+
+feature -- Access
+
+	trajectory: VECTOR
 
 	update
 		do
 			lifetime := lifetime + 1
 			deltatime := lifetime - lasttime
 			lasttime := lifetime
+
 			set_x (x + (trajectory.x))
 			set_y (y - (trajectory.y))
+
 			Precursor {SPRITE}
 		end
 
-feature -- Access
+feature {NONE} -- Implementation
 
-	trajectory: VECTOR
+	deltatime: REAL_64
+	starttime, lasttime, lifetime: INTEGER
 
 end

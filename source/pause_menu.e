@@ -16,11 +16,13 @@ feature {NONE} -- Initialization
 		local
 			l_ticks: INTEGER
 			l_event: EVENT_HANDLER
+			l_sidebar: SPRITE
 		do
 			l_event := create {EVENT_HANDLER}.make
 			window := a_window
 			key_binding := a_key_binding
 			must_quit := false
+		    l_sidebar := create {SPRITE}.make ("sidebar", window, window.width - 75, 0)
 			is_return_key_pressed := a_is_return_key_pressed
 			l_event.on_key_pressed.extend (agent manage_key)
 
@@ -34,7 +36,8 @@ feature {NONE} -- Initialization
 
 				l_ticks := l_ticks + 1
 				l_event.manage_event
-				window.render_clear
+				window.clear
+			    l_sidebar.update
 			    window.render
 			end
 		end

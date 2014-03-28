@@ -10,18 +10,16 @@ class
 create
 	make
 
-feature {NONE} -- Initialisation
+feature {NONE} -- Initialization
 
-	directory: DIRECTORY
-
-	make(a_path:STRING)
+	make (a_path: STRING)
 		do
 			create directory.make_with_name (a_path)
 		end
 
-feature -- Getters
+feature -- Access
 
-    list_files(a_type:STRING):LINKED_LIST[STRING]
+    list_files (a_type: STRING): LINKED_LIST[STRING]
     	local
     		l_filename: STRING
     		l_names_list: LINKED_LIST[STRING]
@@ -42,5 +40,9 @@ feature -- Getters
 			end
 			Result := l_names_list
 		end
+
+feature {NONE} -- Implementation
+
+	directory: DIRECTORY
 
 end

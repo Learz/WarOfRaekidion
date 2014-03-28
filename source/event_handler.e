@@ -14,7 +14,7 @@ inherit
 create
 	make
 
-feature {NONE} --Initialisation de la gestion d'entrées
+feature {NONE} -- Initialization
 
 	make
 		do
@@ -23,7 +23,10 @@ feature {NONE} --Initialisation de la gestion d'entrées
 			create on_mouse_pressed
 		end
 
-feature -- Events identifiers
+feature -- Access
+
+	on_key_pressed: ACTION_SEQUENCE [TUPLE [key: INTEGER; state: BOOLEAN]]
+	on_mouse_pressed: ACTION_SEQUENCE [TUPLE [button: NATURAL_32; x, y: INTEGER; state: BOOLEAN]]
 
 	manage_event
 		do
@@ -31,6 +34,15 @@ feature -- Events identifiers
 			check_key_pressed
 			check_mouse_pressed
 		end
+
+	is_quit_event: BOOLEAN
+		do
+			Result := {SDL_WRAPPER}.get_sdl_event_type (event) = {SDL_WRAPPER}.sdl_quitevent
+		end
+
+feature {NONE} -- Implementation
+
+	event: POINTER
 
 	check_key_pressed
 		do
@@ -52,22 +64,9 @@ feature -- Events identifiers
 			end
 		end
 
-	on_key_pressed: ACTION_SEQUENCE [TUPLE [key: INTEGER; state: BOOLEAN]]
-
-	on_mouse_pressed: ACTION_SEQUENCE [TUPLE [button: NATURAL_32; x, y: INTEGER; state: BOOLEAN]]
-
-	is_quit_event: BOOLEAN
-		do
-			Result := {SDL_WRAPPER}.get_sdl_event_type (event) = {SDL_WRAPPER}.sdl_quitevent
-		end
-
 	dispose
 		do
 			event.memory_free
 		end
-
-feature {NONE}
-
-	event:POINTER
 
 end

@@ -9,9 +9,8 @@ class
 
 inherit
 	ENTITY
-		rename
-			make as entity_make
 		redefine
+			make,
 			update
 		end
 
@@ -20,15 +19,15 @@ create
 
 feature {NONE} -- Initialization
 
-	projectile_list: LINKED_LIST[PROJECTILE]
-
 	make(a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE)
 		do
 		    create projectile_list.make
-			entity_make (a_name, a_window, a_x, a_y)
+			Precursor {ENTITY} (a_name, a_window, a_x, a_y)
 		end
 
-feature
+feature -- Access
+
+	health: INTEGER
 
 	update
 		do
@@ -56,6 +55,8 @@ feature
 			Precursor {ENTITY}
 		end
 
+feature {NONE} -- Implementation
 
+	projectile_list: LINKED_LIST[PROJECTILE]
 
 end

@@ -42,6 +42,13 @@ feature -- Fonctions -SDL.h
 			"SDL_DestroyRenderer"
 		end
 
+	frozen sdl_getwindowflags (a_window: POINTER): NATURAL_32
+		external
+			"C (SDL_Window*) : Uint32 | <SDL.h>"
+		alias
+			"SDL_GetWindowFlags"
+		end
+
 	frozen sdl_quit
 
 		external
@@ -341,16 +348,22 @@ feature -- Constantes -SDL.h
 			"SDL_WINDOWPOS_UNDEFINED"
 		end
 
-	frozen sdl_window_opengl:NATURAL_32
+	frozen sdl_window_hidden:NATURAL_32
 
 		external
 			"C inline use <SDL.h>"
 		alias
-			"SDL_WINDOW_OPENGL"
+			"SDL_WINDOW_HIDDEN"
+		end
+
+	frozen sdl_show_window (a_window :POINTER)
+		external
+			"C (SDL_Window*) | <SDL.h>"
+		alias
+			"SDL_ShowWindow"
 		end
 
 	frozen sdl_window_borderless:NATURAL_32
-
 		external
 			"C inline use <SDL.h>"
 		alias
@@ -358,7 +371,6 @@ feature -- Constantes -SDL.h
 		end
 
 	frozen sdl_window_fullscreen_desktop:NATURAL_32
-
 		external
 			"C inline use <SDL.h>"
 		alias
@@ -366,7 +378,6 @@ feature -- Constantes -SDL.h
 		end
 
 	frozen sdl_renderer_accelerated:NATURAL_32
-
 		external
 			"C inline use <SDL.h>"
 		alias
@@ -374,7 +385,6 @@ feature -- Constantes -SDL.h
 		end
 
 	frozen sdl_true:INTEGER
-
 		external
 			"C inline use <SDL.h>"
 		alias
@@ -382,7 +392,6 @@ feature -- Constantes -SDL.h
 		end
 
 	frozen sdl_quitevent:NATURAL_32
-
 		external
 			"C inline use <SDL.h>"
 		alias
@@ -390,7 +399,6 @@ feature -- Constantes -SDL.h
 		end
 
 	frozen sdl_mousebuttondown:NATURAL_32
-
 		external
 			"C inline use <SDL.h>"
 		alias
@@ -398,7 +406,6 @@ feature -- Constantes -SDL.h
 		end
 
 	frozen sdl_mousebuttonup:NATURAL_32
-
 		external
 			"C inline use <SDL.h>"
 		alias
@@ -406,7 +413,6 @@ feature -- Constantes -SDL.h
 		end
 
 	frozen sdl_keydown:NATURAL_32
-
 		external
 			"C inline use <SDL.h>"
 		alias
@@ -414,7 +420,6 @@ feature -- Constantes -SDL.h
 		end
 
 	frozen sdl_keyup:NATURAL_32
-
 		external
 			"C inline use <SDL.h>"
 		alias

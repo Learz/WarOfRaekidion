@@ -23,8 +23,8 @@ feature {NONE} -- Initialization
 			l_must_quit := false
 		    {SDL_WRAPPER}.sdl_init_noreturn ({SDL_WRAPPER}.sdl_init_video_timer)
 			l_event := create {EVENT_HANDLER}.make
-		    create l_window.make ("War of Raekidion", {SDL_WRAPPER}.sdl_windowpos_undefined, {SDL_WRAPPER}.sdl_windowpos_undefined, 300, 400, {SDL_WRAPPER}.sdl_window_opengl)
-			l_key_binding := create {KEYS_ARROWS}
+		    create l_window.make ("War of Raekidion", {SDL_WRAPPER}.sdl_windowpos_undefined, {SDL_WRAPPER}.sdl_windowpos_undefined, 300, 400, {SDL_WRAPPER}.sdl_window_hidden)
+			l_key_binding := create {KEYS_FPS}
 
 			from
 			until

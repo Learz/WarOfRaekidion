@@ -8,11 +8,11 @@ note
 deferred class
 	IMAGE_FACTORY_SHARED
 
-feature {NONE}
+feature {NONE} -- Access
 
-	factory:IMAGE_FACTORY
+	factory: IMAGE_FACTORY
 		once
-			create result.make
+			create Result.make
 		end
 
 end
