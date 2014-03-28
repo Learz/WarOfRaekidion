@@ -22,7 +22,7 @@ feature
 
 feature {NONE}
 
-	must_quit:BOOLEAN
+	must_quit, is_send_mode, is_recieve_mode: BOOLEAN
 
 	execute
 		do
@@ -31,7 +31,11 @@ feature {NONE}
 			until
 				must_quit
 			loop
-				print("allo ")
+				if is_send_mode then
+
+				elseif is_recieve_mode then
+
+				end
 			end
 
 		end

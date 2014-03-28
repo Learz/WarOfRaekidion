@@ -43,10 +43,10 @@ feature
 				projectile_delay := (projectile_delay + 1) \\ 20
 
 				if projectile_delay = 0 then
-					l_projectile := create {PROJECTILE}.make ("laser", window, x + (width / 2).floor - 4, y - 4)
+					l_projectile := create {PROJECTILE}.make ("laser", window, x + (width / 2).floor - 2, y)
 					l_projectile.trajectory.enable_degree_mode
 					l_projectile.trajectory.set_angle (90)
-					l_projectile.trajectory.set_force (4)
+					l_projectile.trajectory.set_force (3)
 					projectile_list.extend (l_projectile)
 				end
 			end
