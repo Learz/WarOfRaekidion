@@ -23,6 +23,7 @@ feature {NONE} -- Initialization
 	make (a_window: WINDOW; a_x, a_y: DOUBLE; a_key_binding: KEYS)
 		do
 			ship_make ("player", a_window, a_x, a_y, 500)
+			collision_offset := -28
 			set_key_binding (a_key_binding)
 		    trajectory.enable_degree_mode
 			speed := 1
@@ -113,7 +114,7 @@ feature -- Access
 				end
 			end
 		end
-		
+
 feature -- Element change
 
 	set_key_binding (a_key_binding: KEYS)

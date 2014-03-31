@@ -11,6 +11,8 @@ inherit
 	ENTITY
 		rename
 			make as entity_make
+		redefine
+			update
 		end
 
 create
@@ -28,15 +30,18 @@ feature -- Access
 
 	owner: SHIP
 
-feature -- Status
-
-	is_destroyed: BOOLEAN
-
-feature -- Element change
-
-	destroy
+	update
 		do
-			is_destroyed := true
+			if
+				y < -height or
+				y > (window.height + height) or
+				x < -width or
+				x > (window.width + width)
+			then
+				destroy
+			end
+
+			precursor {ENTITY}
 		end
 
 end

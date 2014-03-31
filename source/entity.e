@@ -44,6 +44,17 @@ feature -- Access
 			precursor {SPRITE}
 		end
 
+feature -- Status
+
+	is_destroyed: BOOLEAN
+
+feature -- Element change
+
+	destroy
+		do
+			is_destroyed := true
+		end
+
 feature {NONE} -- Implementation
 
 	deltatime: REAL_64

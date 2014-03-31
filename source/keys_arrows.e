@@ -12,49 +12,49 @@ inherit
 
 feature -- Access
 
-	move_up_key: NATURAL_16
+	move_up_key: INTEGER
 		do
-			result := {SDL_WRAPPER}.sdlk_up.as_natural_16
+			result := {SDL_WRAPPER}.sdlk_up
 		end
 
-	move_down_key: NATURAL_16
+	move_down_key: INTEGER
 		do
-			result := {SDL_WRAPPER}.sdlk_down.as_natural_16
+			result := {SDL_WRAPPER}.sdlk_down
 		end
 
-	move_left_key: NATURAL_16
+	move_left_key: INTEGER
 		do
-			result := {SDL_WRAPPER}.sdlk_left.as_natural_16
+			result := {SDL_WRAPPER}.sdlk_left
 		end
 
-	move_right_key: NATURAL_16
+	move_right_key: INTEGER
 		do
-			result := {SDL_WRAPPER}.sdlk_right.as_natural_16
+			result := {SDL_WRAPPER}.sdlk_right
 		end
 
-	accept_key: NATURAL_16
+	accept_key: INTEGER
 		do
-			result := {SDL_WRAPPER}.sdlk_return.as_natural_16
+			result := {SDL_WRAPPER}.sdlk_return
 		end
 
-	return_key: NATURAL_16
+	return_key: INTEGER
 		do
-			result := {SDL_WRAPPER}.sdlk_escape.as_natural_16
+			result := {SDL_WRAPPER}.sdlk_escape
 		end
 
-	fire_key: NATURAL_16
+	fire_key: INTEGER
 		do
-			result := {SDL_WRAPPER}.sdlk_z.as_natural_16
+			result := {SDL_WRAPPER}.sdlk_z
 		end
 
-	modifier_key: NATURAL_16
+	modifier_key: INTEGER
 		do
-			result := {SDL_WRAPPER}.sdlk_x.as_natural_16
+			result := {SDL_WRAPPER}.sdlk_x
 		end
 
-	action_key: NATURAL_16
+	action_key: INTEGER
 		do
-			result := {SDL_WRAPPER}.sdlk_c.as_natural_16
+			result := {SDL_WRAPPER}.sdlk_c
 		end
 
 end
