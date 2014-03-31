@@ -15,9 +15,9 @@ inherit
 create
 	make
 
-feature {NONE} --Initialization
+feature {NONE} -- Initialization
 
-	make(a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE)
+	make (a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE)
 		local
 			l_image: POINTER
 			l_imagefactory: IMAGE_FACTORY
@@ -31,8 +31,8 @@ feature {NONE} --Initialization
 			if not l_image.is_default_pointer then
 			    set_x (a_x)
 			    set_y (a_y)
-			    width := {SDL_WRAPPER}.get_sdl_loadbmp_width (l_image)
-			    height := {SDL_WRAPPER}.get_sdl_loadbmp_height (l_image)
+			    width := {SDL_WRAPPER}.get_sdl_loadbmp_width (l_image).as_integer_16
+			    height := {SDL_WRAPPER}.get_sdl_loadbmp_height (l_image).as_integer_16
 			    {SDL_WRAPPER}.set_sdl_rect_w (targetarea, width)
 			    {SDL_WRAPPER}.set_sdl_rect_h (targetarea, height)
 				texture := {SDL_WRAPPER}.sdl_createtexturefromsurface(renderer, l_image)
@@ -49,7 +49,7 @@ feature {NONE} --Initialization
 
 feature -- Access
 
-	width, height: INTEGER
+	width, height: INTEGER_16
 	x, y: DOUBLE
 
 	update

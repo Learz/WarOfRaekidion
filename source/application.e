@@ -16,7 +16,7 @@ feature {NONE} -- Initialization
 		local
 			l_window: WINDOW
 			l_must_quit: BOOLEAN
-			l_new_game: GAME_LOOP
+			l_new_game: GAME_SCREEN
 			l_event: EVENT_HANDLER
 			l_key_binding: KEYS
 		do
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 				if l_event.is_quit_event then
 					l_must_quit := true
 				end
-				l_new_game := create {GAME_LOOP}.make (l_window, l_key_binding)
+				l_new_game := create {GAME_SCREEN}.make (l_window, l_key_binding)
 				l_must_quit := l_new_game.must_quit
 			end
 

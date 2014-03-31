@@ -22,10 +22,10 @@ create
 feature -- Initialization
 
 	scroll_speed: DOUBLE
-	origin_y: INTEGER
+	origin_y: INTEGER_16
 	wrapped_sprite: SPRITE
 
-	make (a_name:STRING; a_window:WINDOW; a_x, a_y:INTEGER; a_scroll_speed: DOUBLE)
+	make (a_name: STRING; a_window: WINDOW; a_x, a_y: INTEGER_16; a_scroll_speed: DOUBLE)
 		do
 			origin_y := a_y
 			scroll_speed := a_scroll_speed
@@ -52,7 +52,7 @@ feature -- Initialization
 			end
 
 			wrapped_sprite.update
-			Precursor {SPRITE}
+			precursor {SPRITE}
 		end
 
 end

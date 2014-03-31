@@ -22,18 +22,13 @@ feature {NONE} -- Initialization
 
 	make (a_window: WINDOW; a_x, a_y: DOUBLE; a_key_binding: KEYS)
 		do
-			ship_make ("player", a_window, a_x, a_y)
+			ship_make ("player", a_window, a_x, a_y, 500)
 			set_key_binding (a_key_binding)
 		    trajectory.enable_degree_mode
 			speed := 1
 		end
 
-feature
-
-	set_key_binding (a_key_binding: KEYS)
-		do
-			key_binding := a_key_binding
-		end
+feature -- Access
 
 	update
 		local
@@ -43,7 +38,7 @@ feature
 				projectile_delay := (projectile_delay + 1) \\ 20
 
 				if projectile_delay = 0 then
-					l_projectile := create {PROJECTILE}.make ("laser", window, x + (width / 2).floor - 2, y)
+					l_projectile := create {PROJECTILE}.make ("laser", window, x + (width / 2).floor, y, current)
 					l_projectile.trajectory.enable_degree_mode
 					l_projectile.trajectory.set_angle (90)
 					l_projectile.trajectory.set_force (3)
@@ -83,10 +78,10 @@ feature
 				set_x (window.width - 2 * (width / 3) - 75)
 			end
 
-			Precursor {SHIP}
+			precursor {SHIP}
 		end
 
-	manage_key (a_key: INTEGER; a_state: BOOLEAN)
+	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
 		do
 			if a_state = true then
 				if a_key = key_binding.move_up_key then
@@ -118,6 +113,13 @@ feature
 				end
 			end
 		end
+		
+feature -- Element change
+
+	set_key_binding (a_key_binding: KEYS)
+		do
+			key_binding := a_key_binding
+		end
 
 feature {NONE} -- Implementation
 
@@ -125,6 +127,6 @@ feature {NONE} -- Implementation
 	speed: DOUBLE
 	shoot: BOOLEAN
 	is_moving_up, is_moving_down, is_moving_left, is_moving_right: BOOLEAN
-	projectile_delay: INTEGER
+	projectile_delay: NATURAL_8
 
 end

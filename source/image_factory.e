@@ -21,42 +21,38 @@ feature {NONE} -- Initialization
 
 	make
 		require
-			Is_Not_Already_Initialised: not is_init.item
+			is_not_already_initialised: not is_init.item
 		local
 			l_directory: STRING
 			l_filename_c: C_STRING
 			l_filename_list: LINKED_LIST[STRING]
-			l_tuple: TUPLE[STRING, POINTER]
 		do
-			l_directory := "resources/images"
+			l_directory := "resources/images/"
 			directory_make (l_directory)
 			create file_list.make
 			create l_filename_list.make
-			l_filename_list := list_files("png")
+			l_filename_list := list_files ("png")
 
 			from
 				l_filename_list.start
 			until
 				l_filename_list.exhausted
 			loop
-				create l_tuple
 				create l_filename_c.make (l_directory + l_filename_list.item)
-				l_tuple.put (l_filename_list.item, 1)
-				l_tuple.put ({SDL_WRAPPER}.sdl_loadimage (l_filename_c.item), 2)
-				file_list.extend (l_tuple)
+				file_list.extend ([l_filename_list.item, {SDL_WRAPPER}.sdl_loadimage (l_filename_c.item)])
 				l_filename_list.forth
 			end
 
-		    is_init.replace (True)
+		    is_init.replace (true)
 		ensure
-		   	Is_Initialised: is_init.item
+		   	is_initialised: is_init.item
 		end
 
 feature -- Access
 
 	image (a_name: STRING): POINTER
 		local
-			l_count: INTEGER
+			l_count: NATURAL_16
 			l_name: STRING
 		do
 			from
@@ -64,7 +60,7 @@ feature -- Access
 			until
 				file_list.exhausted
 			loop
-				l_count := file_list.item.filename.index_of ('.', 1)
+				l_count := file_list.item.filename.index_of ('.', 1).as_natural_16
 				l_name := file_list.item.filename.substring (1, l_count - 1)
 
 				if l_name.is_equal (a_name) then
@@ -93,7 +89,7 @@ feature {NONE} -- Implementation
 
 	is_init: CELL[BOOLEAN]
 		once
-			create Result.put (False)
+			create result.put (false)
 		end
 
 end

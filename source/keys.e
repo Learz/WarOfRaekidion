@@ -10,39 +10,39 @@ deferred class
 
 feature -- Access
 
-	move_up_key: INTEGER
+	move_up_key: NATURAL_16
 		deferred
 		end
 
-	move_down_key: INTEGER
+	move_down_key: NATURAL_16
 		deferred
 		end
 
-	move_left_key: INTEGER
+	move_left_key: NATURAL_16
 		deferred
 		end
 
-	move_right_key: INTEGER
+	move_right_key: NATURAL_16
 		deferred
 		end
 
-	accept_key: INTEGER
+	accept_key: NATURAL_16
 		deferred
 		end
 
-	return_key: INTEGER
+	return_key: NATURAL_16
 		deferred
 		end
 
-	fire_key: INTEGER
+	fire_key: NATURAL_16
 		deferred
 		end
 
-	modifier_key: INTEGER
+	modifier_key: NATURAL_16
 		deferred
 		end
 
-	action_key: INTEGER
+	action_key: NATURAL_16
 		deferred
 		end
 

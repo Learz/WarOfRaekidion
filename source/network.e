@@ -17,7 +17,7 @@ feature -- Access
 
 	quit
 		do
-			must_quit:=true
+			must_quit := true
 		end
 
 feature -- Status

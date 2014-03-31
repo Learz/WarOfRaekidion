@@ -20,11 +20,12 @@ create
 feature {NONE} -- Initialization
 
 	make (a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE)
-		--Créer l'entitée
 		do
 			starttime := {SDL_WRAPPER}.sdl_getticks.to_integer_32
-		    create trajectory.default_create
-			Precursor {SPRITE} (a_name, a_window, a_x, a_y)
+		    create trajectory.make_empty
+			precursor {SPRITE} (a_name, a_window, a_x, a_y)
+		    x := x - width / 2
+		    y := y - height / 2
 		end
 
 feature -- Access
@@ -40,7 +41,7 @@ feature -- Access
 			set_x (x + (trajectory.x))
 			set_y (y - (trajectory.y))
 
-			Precursor {SPRITE}
+			precursor {SPRITE}
 		end
 
 feature {NONE} -- Implementation

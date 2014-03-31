@@ -13,7 +13,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_title: STRING; a_x, a_y, a_width, a_height: INTEGER; a_flags: NATURAL_32)
+	make (a_title: STRING; a_x, a_y, a_width, a_height: INTEGER_32; a_flags: NATURAL_32)
 		local
 			l_c_title: C_STRING
 		do

@@ -38,7 +38,7 @@ feature -- Access
           			end
 				end
 			end
-			Result := l_names_list
+			result := l_names_list
 		end
 
 feature {NONE} -- Implementation

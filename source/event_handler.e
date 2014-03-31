@@ -25,8 +25,8 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	on_key_pressed: ACTION_SEQUENCE [TUPLE [key: INTEGER; state: BOOLEAN]]
-	on_mouse_pressed: ACTION_SEQUENCE [TUPLE [button: NATURAL_32; x, y: INTEGER; state: BOOLEAN]]
+	on_key_pressed: ACTION_SEQUENCE [TUPLE [key: INTEGER_32; state: BOOLEAN]]
+	on_mouse_pressed: ACTION_SEQUENCE [TUPLE [button: NATURAL_32; x, y: INTEGER_32; state: BOOLEAN]]
 
 	manage_event
 		do
@@ -37,7 +37,7 @@ feature -- Access
 
 	is_quit_event: BOOLEAN
 		do
-			Result := {SDL_WRAPPER}.get_sdl_event_type (event) = {SDL_WRAPPER}.sdl_quitevent
+			result := {SDL_WRAPPER}.get_sdl_event_type (event) = {SDL_WRAPPER}.sdl_quitevent
 		end
 
 feature {NONE} -- Implementation
@@ -55,7 +55,7 @@ feature {NONE} -- Implementation
 
 	check_mouse_pressed
 		local
-			l_x, l_y: INTEGER
+			l_x, l_y: INTEGER_32
 		do
 			if {SDL_WRAPPER}.get_sdl_event_type (event) = {SDL_WRAPPER}.sdl_mousebuttondown then
 				on_mouse_pressed.call ([{SDL_WRAPPER}.get_sdl_mouse_state ($l_x, $l_y), l_x, l_y, true])
