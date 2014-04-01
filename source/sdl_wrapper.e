@@ -18,6 +18,30 @@ feature -- Fonctions -SDL.h
 			"SDL_CreateWindow"
 		end
 
+	frozen sdl_sethint (a_name: POINTER; a_value: INTEGER)
+
+		external
+			"C (const char*, const char*) | <SDL.h>"
+		alias
+			"SDL_SetHint"
+		end
+
+	frozen sdl_hintrenderscalequality: POINTER
+
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_HINT_RENDER_SCALE_QUALITY"
+		end
+
+	frozen sdl_rendersetlogicalsize (a_renderer: POINTER; a_width, a_height: INTEGER)
+
+		external
+			"C (SDL_Window*, int, int) | <SDL.h>"
+		alias
+			"SDL_RenderSetLogicalSize"
+		end
+
 	frozen sdl_destroywindow (a_window: POINTER)
 
 		external
@@ -71,6 +95,22 @@ feature -- Fonctions -SDL.h
 			"C (SDL_Renderer*, SDL_Texture*, SDL_Rect*, SDL_Rect*) | <SDL.h>"
 		alias
 			"SDL_RenderCopy"
+		end
+
+	frozen sdl_rendercopyex (a_renderer, a_texture, a_srcrect, a_dstrect: POINTER; a_angle: DOUBLE; a_center: POINTER; a_flip: NATURAL_32)
+
+		external
+			"C (SDL_Renderer*, SDL_Texture*, SDL_Rect*, SDL_Rect*, double, SDL_Point*, SDL_RendererFlip) | <SDL.h>"
+		alias
+			"SDL_RenderCopyEx"
+		end
+
+	frozen sdl_flip_none: NATURAL_32
+
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_FLIP_NONE"
 		end
 
 	frozen sdl_renderpresent (a_renderer: POINTER)

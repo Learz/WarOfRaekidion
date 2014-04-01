@@ -20,8 +20,10 @@ feature {NONE} -- Initialization
 			create l_c_title.make (a_title)
 		    height := a_height
 		    width := a_width
-		    window := {SDL_WRAPPER}.sdl_createwindow (l_c_title.item, a_x, a_y, width, height, a_flags)
+		    window := {SDL_WRAPPER}.sdl_createwindow (l_c_title.item, a_x, a_y, width * 2, height * 2, a_flags)
 		    renderer := {SDL_WRAPPER}.sdl_createrenderer (window, -1, {SDL_WRAPPER}.sdl_renderer_accelerated)
+		    {SDL_WRAPPER}.sdl_sethint ({SDL_WRAPPER}.sdl_hintrenderscalequality, 0)
+			{SDL_WRAPPER}.sdl_rendersetlogicalsize (renderer, a_width, a_height)
 		end
 
 feature -- Access

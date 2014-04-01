@@ -15,30 +15,28 @@ feature {NONE} -- Initialization
 	make (a_window: WINDOW; a_key_binding: KEYS)
 		local
 			l_ticks, l_lasttick, l_deltatime: INTEGER
-			l_player: detachable PLAYER_SHIP
-			l_enemy1, l_enemy2: detachable ENEMY_SHIP
+			l_entity: ENTITY
 			l_background: BACKGROUND
 			l_sidebar: SPRITE
 			l_event: EVENT_HANDLER
 			l_memory: MEMORY
 		do
-			must_quit := false
-			l_event := create {EVENT_HANDLER}.make
-			key_binding := a_key_binding
 			window := a_window
-			l_background := create {BACKGROUND}.make ("background", window, 0, 0, 1)
-		    l_player := create {PLAYER_SHIP}.make (window, 112, 300, key_binding)
-		    l_enemy1 := create {ENEMY_SHIP}.make ("enemy_yellow", window, 52, 100, 20)
-		    l_enemy2 := create {ENEMY_SHIP}.make ("enemy_red", window, 162, 100, 20)
-		    l_sidebar := create {SPRITE}.make ("sidebar", window, window.width - 75, 0)
+			key_binding := a_key_binding
+			must_quit := false
 		    is_return_key_pressed := false
 		    create l_memory
-			l_event.on_key_pressed.extend (agent l_player.manage_key)
+			create entities_list.make
+			l_event := create {EVENT_HANDLER}.make
+			l_background := create {BACKGROUND}.make ("background", window, 0, 0, 1)
+		    l_sidebar := create {SPRITE}.make ("sidebar", window, window.width - 75, 0)
+		    player := create {PLAYER_SHIP}.make (window, 112, 300, key_binding)
+			l_event.on_key_pressed.extend (agent player.manage_key)
 			l_event.on_key_pressed.extend (agent manage_key)
-			l_player.on_collision.extend (agent l_enemy1.manage_collision)
-			l_player.on_collision.extend (agent l_enemy2.manage_collision)
-			l_enemy1.on_collision.extend (agent l_player.manage_collision)
-			l_enemy2.on_collision.extend (agent l_player.manage_collision)
+
+		    entities_list.extend (player)
+		    player.on_creation.extend (agent manage_creation)
+		    -- manage_creation (create {ENEMY_SHIP}.make ("enemy_red", window, 152, 100, 20))
 
 			from
 			until
@@ -55,34 +53,27 @@ feature {NONE} -- Initialization
 				window.clear
 				l_background.update
 
-			    if attached l_player as la_player then
-			    	if la_player.is_destroyed then
-				    	l_player := void
-				    else
-			    		la_player.update
+				from
+					entities_list.start
+				until
+					entities_list.exhausted
+				loop
+				    if attached entities_list.item as la_entity then
+				    	if la_entity.is_destroyed then
+				    		entities_list.remove
+				    		l_memory.free (la_entity)
+				    	else
+				    		la_entity.update
+						    if not entities_list.exhausted then
+								entities_list.forth
+						    end
+				    	end
 				    end
-			    end
-
-			    if attached l_enemy1 as la_enemy1 then
-			    	if la_enemy1.is_destroyed then
-			    		l_enemy1 := void
-			    	else
-			    		la_enemy1.update
-			    	end
-			    end
-
-			    if attached l_enemy2 as la_enemy2 then
-			    	if la_enemy2.is_destroyed then
-			    		l_enemy2 := void
-			    	else
-			    		la_enemy2.update
-			    	end
-			    end
+				end
 
 			    l_sidebar.update
 			    window.render
 			   	{SDL_WRAPPER}.sdl_delay (4)
-			   	l_memory.full_collect
 			end
 		end
 
@@ -95,6 +86,8 @@ feature {NONE} -- Implementation
 	window: WINDOW
 	key_binding: KEYS
 	is_return_key_pressed: BOOLEAN
+	entities_list: LINKED_LIST [detachable ENTITY]
+	player: PLAYER_SHIP
 
 	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
 		local
@@ -112,6 +105,16 @@ feature {NONE} -- Implementation
 					is_return_key_pressed := false
 				end
 			end
+		end
+
+	manage_creation (a_entity: ENTITY)
+		do
+		    entities_list.extend (a_entity)
+		    if a_entity.type.has_substring ("projectile") then
+		    	--a_entity.on_collision.extend (agent player.manage_collision)
+		    elseif a_entity.type.has_substring ("ship") then
+		    	a_entity.on_creation.extend (agent manage_creation)
+		    end
 		end
 
 end

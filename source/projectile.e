@@ -12,7 +12,8 @@ inherit
 		rename
 			make as entity_make
 		redefine
-			update
+			update,
+			manage_collision
 		end
 
 create
@@ -23,7 +24,8 @@ feature {NONE} -- Initialization
 	make (a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE; a_owner: SHIP)
 		do
 			owner := a_owner
-			entity_make (a_name, a_window, a_x, a_y)
+			entity_make (a_name, a_window, a_x, a_y, 1)
+			type := type + ".projectile"
 		end
 
 feature -- Access
@@ -41,7 +43,16 @@ feature -- Access
 				destroy
 			end
 
+			angle := trajectory.angle - 90
 			precursor {ENTITY}
+		end
+
+	manage_collision (a_other: ENTITY)
+		do
+			if collide_entity (current, a_other, a_other.collision_offset) and a_other /= owner then
+				a_other.set_health (a_other.health - 1)
+				destroy
+			end
 		end
 
 end

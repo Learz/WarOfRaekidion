@@ -50,11 +50,11 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	width, height: INTEGER_16
-	x, y: DOUBLE
+	x, y, angle: DOUBLE
 
 	update
 		do
-		    {SDL_WRAPPER}.sdl_rendercopy (renderer, texture, create {POINTER}, targetarea)
+		    {SDL_WRAPPER}.sdl_rendercopyex (renderer, texture, create {POINTER}, targetarea, angle, create {POINTER}, {SDL_WRAPPER}.sdl_flip_none)
 		end
 
 feature -- Element change
