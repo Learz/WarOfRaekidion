@@ -12,7 +12,8 @@ inherit
 		rename
 			make as ship_make
 		redefine
-			update
+			update,
+			out
 		end
 
 create
@@ -23,10 +24,18 @@ feature {NONE} -- Initialization
 	make (a_window: WINDOW; a_x, a_y: DOUBLE; a_key_binding: KEYS)
 		do
 			ship_make ("player", a_window, a_x, a_y, 500)
+			type := type + ".player"
 			collision_offset := 0
 			set_key_binding (a_key_binding)
 		    trajectory.enable_degree_mode
 			speed := 1
+		end
+
+feature -- Output
+
+	out: STRING_8
+		do
+			result := "player"
 		end
 
 feature -- Access
@@ -35,6 +44,18 @@ feature -- Access
 		local
 			l_projectile: PROJECTILE
 		do
+			if shoot then
+				projectile_delay := (projectile_delay + 1) \\ 20
+
+				if projectile_delay = 0 then
+					l_projectile := create {PROJECTILE}.make ("bullet_red", window, x + (width / 2).floor, y + (height / 2).floor, current)
+					l_projectile.trajectory.enable_degree_mode
+					l_projectile.trajectory.set_angle (90)
+					l_projectile.trajectory.set_force (3)
+					on_creation.call (l_projectile)
+				end
+			end
+
 			if is_moving_up then
 				trajectory.set_y (speed)
 			elseif is_moving_down then
@@ -65,20 +86,6 @@ feature -- Access
 				set_x (-width / 3)
 			elseif x >= window.width - 2 * (width / 3) - 75 then
 				set_x (window.width - 2 * (width / 3) - 75)
-			end
-
-			angle := trajectory.angle - 90
-
-			if shoot then
-				projectile_delay := (projectile_delay + 1) \\ 20
-
-				if projectile_delay = 0 then
-					l_projectile := create {PROJECTILE}.make ("bullet_red", window, x + (width / 2).floor, y + (height / 2).floor, current)
-					l_projectile.trajectory.enable_degree_mode
-					l_projectile.trajectory.set_angle (angle + 90)
-					l_projectile.trajectory.set_force (3)
-					on_creation.call (l_projectile)
-				end
 			end
 
 			precursor {SHIP}

@@ -79,6 +79,7 @@ feature {NONE} -- Implementation
 	dispose
 		do
 			{SDL_WRAPPER}.sdl_destroytexture (texture)
+			texture.memory_free
 			targetarea.memory_free
 		end
 

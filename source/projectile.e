@@ -25,7 +25,7 @@ feature {NONE} -- Initialization
 		do
 			owner := a_owner
 			entity_make (a_name, a_window, a_x, a_y, 1)
-			type := type + ".projectile"
+			type := type + ".projectile." + a_owner.out
 		end
 
 feature -- Access

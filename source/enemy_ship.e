@@ -11,7 +11,8 @@ inherit
 	SHIP
 		redefine
 			make,
-			update
+			update,
+			out
 		end
 
 create
@@ -45,6 +46,13 @@ feature {NONE} -- Initialization
 
 			precursor {SHIP} (a_name, a_window, a_x, a_y, a_health)
 			type := type + ".enemy"
+		end
+
+feature -- Output
+
+	out: STRING_8
+		do
+			result := "enemy"
 		end
 
 feature -- Access
