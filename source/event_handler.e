@@ -29,10 +29,20 @@ feature -- Access
 	on_mouse_pressed: ACTION_SEQUENCE [TUPLE [button: NATURAL_32; x, y: INTEGER_32; state: BOOLEAN]]
 
 	manage_event
+		local
+			l_fin:INTEGER
 		do
-			{SDL_WRAPPER}.sdl_pollevent_noreturn (event)
-			check_key_pressed
-			check_mouse_pressed
+			from
+				l_fin := {SDL_WRAPPER}.sdl_pollevent (event)
+			until
+				l_fin = 0
+			loop
+				check_key_pressed
+				check_mouse_pressed
+				l_fin := {SDL_WRAPPER}.sdl_pollevent (event)
+			end
+
+
 		end
 
 	is_quit_event: BOOLEAN
