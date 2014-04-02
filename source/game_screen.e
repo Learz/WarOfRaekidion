@@ -35,7 +35,8 @@ feature {NONE} -- Initialization
 			l_event.on_key_pressed.extend (agent player.manage_key)
 			l_event.on_key_pressed.extend (agent manage_key)
 		    player.on_creation.extend (agent manage_creation)
-		    manage_creation (create {ENEMY_SHIP}.make ("enemy_red", window, 152, 100, 20))
+		    manage_creation (create {ENEMY_SHIP}.make ("enemy_red", window, 50, 100, 20))
+		    manage_creation (create {ENEMY_SHIP}.make ("enemy_yellow", window, 150, 100, 20))
 
 			from
 			until
