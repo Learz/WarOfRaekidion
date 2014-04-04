@@ -129,26 +129,26 @@ feature {NONE} -- Implementation
 
 	manage_creation (a_entity: ENTITY)
 		do
-		    if a_entity.type.has_substring ("projectile") then
-		    	projectile_list.extend (a_entity)
-		    	if a_entity.type.has_substring ("player") then
+			if attached {PROJECTILE} a_entity as la_entity then
+		    	projectile_list.extend (la_entity)
+				if attached {PLAYER_SHIP} la_entity.owner as la_owner then
 		    		from
 		    			enemy_list.start
 		    		until
 		    			enemy_list.exhausted
 		    		loop
 		    			if attached enemy_list.item as la_enemy then
-		    				a_entity.on_collision.extend (agent la_enemy.manage_collision)
+		    				la_entity.on_collision.extend (agent la_enemy.manage_collision)
 		    			end
 		    			enemy_list.forth
 		    		end
 		    	else
-		    		a_entity.on_collision.extend (agent player.manage_collision)
+		    		la_entity.on_collision.extend (agent player.manage_collision)
 		    	end
-		    elseif a_entity.type.has_substring ("ship") then
-		    	enemy_list.extend (a_entity)
-		    	a_entity.on_creation.extend (agent manage_creation)
-		    end
+		    elseif attached {ENEMY_SHIP} a_entity as la_entity then
+		    	la_entity.on_creation.extend (agent manage_creation)
+		    	enemy_list.extend (la_entity)
+			end
 		end
 
 end

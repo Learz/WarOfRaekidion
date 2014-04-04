@@ -23,7 +23,6 @@ feature {NONE} -- Initialization
 
 	make (a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE; a_health: NATURAL_16)
 		do
-			type := "entity"
 			starttime := {SDL_WRAPPER}.sdl_getticks.to_integer_32
 			health := a_health
 		    create on_collision
@@ -37,7 +36,6 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	health: NATURAL_16
-	type: STRING
 	trajectory: VECTOR
 	on_collision: ACTION_SEQUENCE [TUPLE [a_other: ENTITY]]
 	on_creation: ACTION_SEQUENCE [TUPLE [a_entity: ENTITY]]

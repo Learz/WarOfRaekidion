@@ -12,8 +12,7 @@ inherit
 		rename
 			make as ship_make
 		redefine
-			update,
-			out
+			update
 		end
 
 create
@@ -24,18 +23,10 @@ feature {NONE} -- Initialization
 	make (a_window: WINDOW; a_x, a_y: DOUBLE; a_key_binding: KEYS)
 		do
 			ship_make ("player", a_window, a_x, a_y, 500)
-			type := type + ".player"
 			collision_offset := 0
 			set_key_binding (a_key_binding)
 		    trajectory.enable_degree_mode
 			speed := 1
-		end
-
-feature -- Output
-
-	out: STRING_8
-		do
-			result := "player"
 		end
 
 feature -- Access
@@ -89,7 +80,6 @@ feature -- Access
 			end
 
 			precursor {SHIP}
-			type := type + ".player"
 		end
 
 	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
