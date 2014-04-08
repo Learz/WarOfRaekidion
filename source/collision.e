@@ -4,32 +4,27 @@ note
 	date: "$Date$"
 	revision: "$Revision$"
 
-class
+deferred class
 	COLLISION
 
 feature -- Access
 
-	collision_offset: INTEGER_32
+	offset: INTEGER_32
 
-	collide_circle (a_x_1, a_y_1, a_radius_1, a_x_2, a_y_2, a_radius_2, a_offset: INTEGER_32): BOOLEAN
+	has_collided (a_other: COLLISION): BOOLEAN
 		local
 			l_x_difference, l_y_difference: INTEGER_32
 			l_center_distance_squared, l_radius_sum_squared: INTEGER_32
 		do
-			l_x_difference := a_x_2 - a_x_1
-			l_y_difference := a_y_2 - a_y_1
+			l_x_difference := a_other.x - x
+			l_y_difference := a_other.y - y
 			l_center_distance_squared := ((l_x_difference ^ 2) + (l_y_difference ^ 2)).floor
-			l_radius_sum_squared := ((a_radius_1 + a_radius_2) ^ 2).floor
-			if a_offset < 0 then
-				result := (l_center_distance_squared - l_radius_sum_squared) <= -(a_offset ^ 2)
+			l_radius_sum_squared := ((a_other.width + width) ^ 2).floor
+			if offset < 0 then
+				result := (l_center_distance_squared - l_radius_sum_squared) <= -(offset ^ 2)
 			else
-				result := (l_center_distance_squared - l_radius_sum_squared) <= (a_offset ^ 2)
+				result := (l_center_distance_squared - l_radius_sum_squared) <= (offset ^ 2)
 			end
-		end
-
-	collide_entity (a_entity_1, a_entity_2: ENTITY; a_offset: INTEGER_32): BOOLEAN
-		do
-			result := collide_circle (a_entity_1.x.floor + (a_entity_1.width / 2).floor, a_entity_1.y.floor + (a_entity_1.width / 2).floor, (a_entity_1.width / 2).floor, a_entity_2.x.floor + (a_entity_2.width / 2).floor, a_entity_2.y.floor + (a_entity_2.width / 2).floor, (a_entity_2.width / 2).floor, a_offset)
 		end
 
 end

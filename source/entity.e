@@ -57,7 +57,7 @@ feature -- Access
 
 	manage_collision (a_other: ENTITY)
 		do
-			if collide_entity (current, a_other, a_other.collision_offset) then
+			if has_collided (a_other) then
 				a_other.set_health (a_other.health - 1)
 			end
 		end
