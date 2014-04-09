@@ -23,22 +23,22 @@ feature {NONE} -- Initialization
 	make (a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE; a_health: NATURAL_16)
 		do
 			if a_name.is_equal ("enemy_red") then
-				bullet_type := "laser"
+				bullet_type := "laser_red"
 				bullet_angle := {DOUBLE_MATH}.pi_4 * 10
 				bullet_firerate := 2
 				bullet_force := 1
 			elseif a_name.is_equal ("enemy_yellow") then
-				bullet_type := "laser"
+				bullet_type := "laser_yellow"
 				bullet_angle := -{DOUBLE_MATH}.pi_2 * 10
 				bullet_firerate := 4
 				bullet_force := 1
 			elseif a_name.is_equal ("enemy_black") then
-				bullet_type := "laser"
+				bullet_type := "laser_white"
 				bullet_angle := {DOUBLE_MATH}.pi * 10
 				bullet_firerate := 1
 				bullet_force := 1
 			else
-				bullet_type := "laser"
+				bullet_type := "laser_red"
 				bullet_angle := 0 + 90
 				bullet_firerate := 10
 				bullet_force := 2
