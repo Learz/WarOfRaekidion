@@ -23,6 +23,7 @@ feature {NONE} -- Initialization
 			must_quit := false
 			is_return_key_pressed := a_is_return_key_pressed
 			l_event.on_key_pressed.extend (agent manage_key)
+			create network_test.make
 
 			from
 			until
@@ -35,6 +36,8 @@ feature {NONE} -- Initialization
 				l_ticks := l_ticks + 1
 				l_event.manage_event
 			end
+
+			network_test.quit
 		end
 
 feature -- Status
@@ -45,6 +48,7 @@ feature {NONE} -- Implementation
 
 	key_binding: KEYS
 	window: WINDOW
+	network_test: NETWORK
 
 	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
 		do
@@ -54,6 +58,10 @@ feature {NONE} -- Implementation
 					must_close := true
 				elseif a_key = key_binding.accept_key then
 					must_quit := true
+				elseif a_key = key_binding.move_up_key then
+					network_test.launch_client ("10.70.0.33", 5000)
+				elseif a_key = key_binding.move_down_key then
+					network_test.launch_server (5000)
 				end
 			else
 				if a_key = key_binding.return_key then
