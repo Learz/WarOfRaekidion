@@ -32,11 +32,11 @@ feature {NONE} -- Initialization
 			l_background := create {BACKGROUND}.make ("background", window, 0, 0, 1)
 		    l_sidebar := create {SPRITE}.make ("sidebar", window, window.width - 75, 0)
 		    player := create {PLAYER_SHIP}.make (window, 112, 300, key_binding)
+		    player.on_shoot.extend (agent spawn_projectile)
 			l_event.on_key_pressed.extend (agent player.manage_key)
 			l_event.on_key_pressed.extend (agent manage_key)
-		    player.on_creation.extend (agent manage_creation)
-		    manage_creation (create {ENEMY_SHIP}.make ("enemy_red", window, 75, 100, 20))
-		    manage_creation (create {ENEMY_SHIP}.make ("enemy_yellow", window, 150, 100, 20))
+		    spawn_enemy (create {ENEMY_SHIP}.make ("enemy_red", window, 75, 100, 20))
+		    spawn_enemy (create {ENEMY_SHIP}.make ("enemy_yellow", window, 150, 100, 20))
 
 			from
 			until
@@ -65,6 +65,7 @@ feature {NONE} -- Initialization
 				    		enemy_list.remove
 				    	else
 				    		la_enemy.update
+
 						    if not enemy_list.exhausted then
 								enemy_list.forth
 						    end
@@ -81,7 +82,30 @@ feature {NONE} -- Initialization
 				    	if la_projectile.is_destroyed then
 				    		projectile_list.remove
 				    	else
+				    		if not la_projectile.owner then
+								if player.has_collided (la_projectile) then
+									la_projectile.destroy
+								end
+							else
+								from
+									enemy_list.start
+								until
+									enemy_list.exhausted
+								loop
+					   				if attached enemy_list.item as la_enemy then
+										if la_enemy.has_collided (la_projectile) then
+											la_projectile.destroy
+										end
+									end
+
+								    if not enemy_list.exhausted then
+										enemy_list.forth
+								    end
+								end
+				    		end
+
 				    		la_projectile.update
+
 						    if not projectile_list.exhausted then
 								projectile_list.forth
 						    end
@@ -106,8 +130,8 @@ feature {NONE} -- Implementation
 	key_binding: KEYS
 	is_return_key_pressed: BOOLEAN
 	player: PLAYER_SHIP
-	enemy_list: LINKED_LIST [detachable ENTITY]
-	projectile_list: LINKED_LIST [detachable ENTITY]
+	enemy_list: LINKED_LIST [detachable ENEMY_SHIP]
+	projectile_list: LINKED_LIST [detachable PROJECTILE]
 
 	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
 		local
@@ -127,28 +151,15 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	manage_creation (a_entity: ENTITY)
+	spawn_enemy (a_enemy: ENEMY_SHIP)
 		do
-			if attached {PROJECTILE} a_entity as la_entity then
-		    	projectile_list.extend (la_entity)
-				if attached {PLAYER_SHIP} la_entity.owner as la_owner then
-		    		from
-		    			enemy_list.start
-		    		until
-		    			enemy_list.exhausted
-		    		loop
-		    			if attached enemy_list.item as la_enemy then
-		    				la_entity.on_collision.extend (agent la_enemy.manage_collision)
-		    			end
-		    			enemy_list.forth
-		    		end
-		    	else
-		    		la_entity.on_collision.extend (agent player.manage_collision)
-		    	end
-		    elseif attached {ENEMY_SHIP} a_entity as la_entity then
-		    	la_entity.on_creation.extend (agent manage_creation)
-		    	enemy_list.extend (la_entity)
-			end
+			enemy_list.extend (a_enemy)
+		    a_enemy.on_shoot.extend (agent spawn_projectile)
+		end
+
+	spawn_projectile (a_projectile: PROJECTILE)
+		do
+			projectile_list.extend (a_projectile)
 		end
 
 end

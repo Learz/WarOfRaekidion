@@ -19,11 +19,7 @@ inherit
 create
 	make
 
-feature -- Initialization
-
-	scroll_speed: DOUBLE
-	origin_y: INTEGER_16
-	wrapped_sprite: SPRITE
+feature {NONE} -- Initialization
 
 	make (a_name: STRING; a_window: WINDOW; a_x, a_y: INTEGER_16; a_scroll_speed: DOUBLE)
 		do
@@ -38,6 +34,8 @@ feature -- Initialization
 				wrapped_sprite := create {SPRITE}.make (a_name, a_window, a_x, a_y)
 			end
 		end
+
+feature -- Access
 
 	update
 		do
@@ -54,5 +52,11 @@ feature -- Initialization
 			wrapped_sprite.update
 			precursor {SPRITE}
 		end
+
+feature {NONE} -- Implementation
+
+	scroll_speed: DOUBLE
+	origin_y: INTEGER_16
+	wrapped_sprite: SPRITE
 
 end

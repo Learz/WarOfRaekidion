@@ -23,7 +23,6 @@ feature {NONE} -- Initialization
 	make (a_window: WINDOW; a_x, a_y: DOUBLE; a_key_binding: KEYS)
 		do
 			ship_make ("player", a_window, a_x, a_y, 500)
-			offset := 0
 			set_key_binding (a_key_binding)
 		    trajectory.enable_degree_mode
 			speed := 1
@@ -39,11 +38,11 @@ feature -- Access
 				projectile_delay := (projectile_delay + 1) \\ 20
 
 				if projectile_delay = 0 then
-					l_projectile := create {PROJECTILE}.make ("bullet_red", window, x + (width / 2).floor, y + (height / 2).floor, current)
+					l_projectile := create {PROJECTILE}.make ("bullet_red", window, x + (width / 2).floor, y + (height / 2).floor, true)
 					l_projectile.trajectory.enable_degree_mode
 					l_projectile.trajectory.set_angle (90)
 					l_projectile.trajectory.set_force (3)
-					on_creation.call (l_projectile)
+					on_shoot.call (l_projectile)
 				end
 			end
 

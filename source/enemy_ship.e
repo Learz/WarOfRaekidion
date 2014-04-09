@@ -55,11 +55,11 @@ feature -- Access
 			projectile_delay := (projectile_delay + 1) \\ bullet_firerate
 
 			if projectile_delay = 0 then
-				l_projectile := create {PROJECTILE}.make (bullet_type, window, x + (width / 2).floor, y + (height / 2).floor, current)
+				l_projectile := create {PROJECTILE}.make (bullet_type, window, x + (width / 2).floor, y + (height / 2).floor, false)
 				l_projectile.trajectory.enable_degree_mode
 				l_projectile.trajectory.set_angle (lifetime * bullet_angle)
 				l_projectile.trajectory.set_force (bullet_force)
-				on_creation.call (l_projectile)
+				on_shoot.call (l_projectile)
 			end
 
 			precursor {SHIP}

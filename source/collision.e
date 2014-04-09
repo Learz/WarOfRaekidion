@@ -9,11 +9,14 @@ deferred class
 
 feature -- Access
 
-	offset: INTEGER_32
+	offset: INTEGER_16 deferred end
+	width: INTEGER_16 deferred end
+	x: DOUBLE deferred end
+	y: DOUBLE deferred end
 
 	has_collided (a_other: COLLISION): BOOLEAN
 		local
-			l_x_difference, l_y_difference: INTEGER_32
+			l_x_difference, l_y_difference: DOUBLE
 			l_center_distance_squared, l_radius_sum_squared: INTEGER_32
 		do
 			l_x_difference := a_other.x - x

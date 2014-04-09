@@ -11,7 +11,6 @@ inherit
 	ENTITY
 		redefine
 			make,
-			update,
 			destroy
 		end
 
@@ -22,18 +21,17 @@ feature {NONE} -- Initialization
 
 	make (a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE; a_health: NATURAL_16)
 		do
+		    create on_shoot
 			precursor {ENTITY} (a_name, a_window, a_x, a_y, a_health)
 		end
 
 feature -- Access
 
-	update
-		do
-			precursor {ENTITY}
-		end
+	on_shoot: ACTION_SEQUENCE [TUPLE [a_projectile: PROJECTILE]]
 
 	destroy
 		do
+			on_shoot.wipe_out
 			precursor {ENTITY}
 		end
 
