@@ -16,12 +16,32 @@
 				<platform value="windows"/>
 			</condition>
 		</external_include>
+		<external_include location="`if [ 1$ISE_PLATFORM == 1\windows ];then echo ../../../../libraries/SDL2_mixer-2.0.0/i686-w64-mingw32/include/SDL2; else echo ../../../../libraries/SDL2_mixer-2.0.0/x86_64-w64-mingw32/include/SDL2; fi`">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_include>
+		<external_include location="`if [ 1$ISE_PLATFORM == 1\windows ];then echo ../../../../libraries/SDL2_ttf-2.0.12/i686-w64-mingw32/include/SDL2; else echo ../../../../libraries/SDL2_mixer-2.0.0/SDL2_ttf-2.0.12/include/SDL2; fi`">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_include>
 		<external_cflag value="`sdl2-config --cflags`">
 			<condition>
 				<platform excluded_value="windows"/>
 			</condition>
 		</external_cflag>
 		<external_cflag value="`pkg-config --cflags SDL2_image`">
+			<condition>
+				<platform excluded_value="windows"/>
+			</condition>
+		</external_cflag>
+		<external_cflag value="`pkg-config --cflags SDL2_mixer`">
+			<condition>
+				<platform excluded_value="windows"/>
+			</condition>
+		</external_cflag>
+		<external_cflag value="`pkg-config --cflags SDL2_ttf`">
 			<condition>
 				<platform excluded_value="windows"/>
 			</condition>
@@ -36,12 +56,32 @@
 				<platform value="windows"/>
 			</condition>
 		</external_library>
+		<external_library location="`if [ 1$ISE_PLATFORM == 1\windows ];then echo ../../../libraries/SDL2_mixer-2.0.0/i686-w64-mingw32/lib/libSDL2_mixer.dll.a; else echo ../../../libraries/SDL2_mixer-2.0.0/x86_64-w64-mingw32/lib/libSDL2_mixer.dll.a; fi`">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_library>
+		<external_library location="`if [ 1$ISE_PLATFORM == 1\windows ];then echo ../../../libraries/SDL2_ttf-2.0.12/i686-w64-mingw32/lib/libSDL2_ttf.dll.a; else echo ../../../libraries/SDL2_ttf-2.0.12/x86_64-w64-mingw32/lib/libSDL2_ttf.dll.a; fi`">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_library>
 		<external_linker_flag value="`sdl2-config --libs`">
 			<condition>
 				<platform excluded_value="windows"/>
 			</condition>
 		</external_linker_flag>
 		<external_linker_flag value="`pkg-config --libs SDL2_image`">
+			<condition>
+				<platform excluded_value="windows"/>
+			</condition>
+		</external_linker_flag>
+		<external_linker_flag value="`pkg-config --libs SDL2_mixer`">
+			<condition>
+				<platform excluded_value="windows"/>
+			</condition>
+		</external_linker_flag>
+		<external_linker_flag value="`pkg-config --libs SDL2_ttf`">
 			<condition>
 				<platform excluded_value="windows"/>
 			</condition>
@@ -53,19 +93,13 @@
 			</option>
 		</library>
 		<library name="thread" location="$ISE_LIBRARY\library\thread\thread-safe.ecf"/>
-		<cluster name="raekidion" location=".\" recursive="true">
+		<cluster name="raekidion" location=".\source\" recursive="true">
+			<cluster name="menus" location="./source/menus/"/>
 			<option>
 				<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 			</option>
 			<file_rule>
-				<exclude>/releases$</exclude>
-				<exclude>/EIFGENs$</exclude>
-				<exclude>/resources$</exclude>
-				<exclude>/libraries$</exclude>
-				<exclude>/README.md$</exclude>
-				<exclude>/.git$</exclude>
-				<exclude>/Documentation$</exclude>
-				<exclude>/.gitignore$</exclude>
+				<exclude>menus$</exclude>
 			</file_rule>
 		</cluster>
 	</target>

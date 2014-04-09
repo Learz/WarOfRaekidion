@@ -29,10 +29,20 @@ feature -- Access
 	on_mouse_pressed: ACTION_SEQUENCE [TUPLE [button: NATURAL_32; x, y: INTEGER_32; state: BOOLEAN]]
 
 	manage_event
+		local
+			l_fin:INTEGER
 		do
-			{SDL_WRAPPER}.sdl_pollevent_noreturn (event)
-			check_key_pressed
-			check_mouse_pressed
+			from
+				l_fin := {SDL_WRAPPER}.sdl_pollevent (event)
+			until
+				l_fin = 0
+			loop
+				check_key_pressed
+				check_mouse_pressed
+				l_fin := {SDL_WRAPPER}.sdl_pollevent (event)
+			end
+
+
 		end
 
 	is_quit_event: BOOLEAN
@@ -56,11 +66,14 @@ feature {NONE} -- Implementation
 	check_mouse_pressed
 		local
 			l_x, l_y: INTEGER_32
+			l_button: NATURAL_32
 		do
 			if {SDL_WRAPPER}.get_sdl_event_type (event) = {SDL_WRAPPER}.sdl_mousebuttondown then
-				on_mouse_pressed.call ([{SDL_WRAPPER}.get_sdl_mouse_state ($l_x, $l_y), l_x, l_y, true])
+				l_button := {SDL_WRAPPER}.get_sdl_mouse_state ($l_x, $l_y)
+				on_mouse_pressed.call ([l_button, l_x, l_y, true])
 			elseif {SDL_WRAPPER}.get_sdl_event_type (event) = {SDL_WRAPPER}.sdl_mousebuttonup then
-				on_mouse_pressed.call ([{SDL_WRAPPER}.get_sdl_mouse_state ($l_x, $l_y), l_x, l_y, false])
+				l_button := {SDL_WRAPPER}.get_sdl_mouse_state ($l_x, $l_y)
+				on_mouse_pressed.call ([l_button, l_x, l_y, false])
 			end
 		end
 
