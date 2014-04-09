@@ -23,11 +23,7 @@ feature -- Access
 			l_y_difference := a_other.y - y
 			l_center_distance_squared := ((l_x_difference ^ 2) + (l_y_difference ^ 2)).floor
 			l_radius_sum_squared := ((a_other.width + width) ^ 2).floor
-			if offset < 0 then
-				result := (l_center_distance_squared - l_radius_sum_squared) <= -(offset ^ 2)
-			else
-				result := (l_center_distance_squared - l_radius_sum_squared) <= (offset ^ 2)
-			end
+			result := (l_center_distance_squared - l_radius_sum_squared) <= offset
 		end
 
 end

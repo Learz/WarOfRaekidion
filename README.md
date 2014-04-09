@@ -2,7 +2,7 @@ War of Raekidion
 ================
 
 Welcome to the repository of War of Raekidion. This game is made in Eiffel, 
-with the help of SDL 2.0 and SDL Image 2.0. 
+with the help of SDL 2. 
 
 War of Raekidion is a "bullet hell" type top-down shooter game. It involves 
 basic gameplay like dodging enemies' projectiles and progressing through 
@@ -34,11 +34,12 @@ SDK at the following address:
 First, create an account on the Eiffel Studio's website. Then, download the adequate 
 version of Eiffel Studio and install it to your machine.
 
-You will also have to download and install the required **development libraries** 
-working with MinGW: 
+You will also have to download and install the required **development libraries**: 
 
 - [**SDL 2.0.1**][2]
 - [**SDL Image 2.0.0**][3]
+- [**SDL Mixer 2.0.0**][4]
+- [**SDL TTF 2.0.12**][5]
 
 ### Installing on Windows
 
@@ -49,8 +50,10 @@ folders inside the project's directory, like this:
 		|
 		|- .git
 		|+ libraries
-			|+ SDL2_image-2.0.0
 			|+ SDL2-2.0.1
+			|+ SDL2_image-2.0.0
+			|+ SDL2_mixer-2.0.0
+			|+ SDL2_ttf-2.0.12
 		|- resources
 		|- source
 		|
@@ -63,28 +66,39 @@ Then, you will need to go into inside of these folders and copy all the dll file
 the bin folders into the War of Raekidion folder. It goes like this: 
 
 	War of Raekidion\libraries\SDL2-2.0.1\<YOUR ARCHITECTURE>\bin\SDL2.dll
-	War of Raekidion\libraries\SDL2_image-2.0.0\<YOUR ARCHITECTURE>\bin\SDL2_image.dll
+	War of Raekidion\libraries\SDL2_image-2.0.0\<YOUR ARCHITECTURE>\bin\libpng16_16.dll
 	War of Raekidion\libraries\SDL2_image-2.0.0\<YOUR ARCHITECTURE>\bin\zlib1.dll
-	War of Raekidion\libraries\SDL2_image-2.0.0\<YOUR ARCHITECTURE>\bin\linpng16_16.dll
+	War of Raekidion\libraries\SDL2_image-2.0.0\<YOUR ARCHITECTURE>\bin\SDL2_image.dll
+	War of Raekidion\libraries\SDL2_mixer-2.0.0\<YOUR ARCHITECTURE>\bin\libogg-0.dll
+	War of Raekidion\libraries\SDL2_mixer-2.0.0\<YOUR ARCHITECTURE>\bin\libvorbis-0.dll
+	War of Raekidion\libraries\SDL2_mixer-2.0.0\<YOUR ARCHITECTURE>\bin\libvorbisfile-3.dll
+	War of Raekidion\libraries\SDL2_mixer-2.0.0\<YOUR ARCHITECTURE>\bin\SDL2_mixer.dll
+	War of Raekidion\libraries\SDL2_ttf-2.0.12\<YOUR ARCHITECTURE>\bin\libfreetype-6.dll
+	War of Raekidion\libraries\SDL2_ttf-2.0.12\<YOUR ARCHITECTURE>\bin\SDL2_ttf.dll
 	
 All these files go into
 	
+	War of Raekidion\libogg-0.dll
+	War of Raekidion\libfreetype-6.dll
+	War of Raekidion\libpng16_16.dll
+	War of Raekidion\libvorbis-0.dll
+	War of Raekidion\libvorbisfile-3.dll
 	War of Raekidion\SDL2.dll 
 	War of Raekidion\SDL2_image.dll
+	War of Raekidion\SDL2_mixer.dll
+	War of Raekidion\SDL2_ttf.dll
 	War of Raekidion\zlib1.dll
-	War of Raekidion\linpng16_16.dll
 
 ### Installing on Linux (Debian)
 
-For Linux, you will have to install libsdl2-dev and libsdl2-image from the default Debian 
-sid source:
+For Linux, you will have to install the following packages from the Debian sid repository:
 
-	sudo apt-get install libsdl2-dev libsdl2-image-dev
+	sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev
 
 Final words
 -----------
 
-We would like to thank our teacher, Louis (GitHub: [**tioui**][4]), for teaching us 
+We would like to thank our teacher, Louis (GitHub: [**tioui**][6]), for teaching us 
 Eiffel and Object Oriented Programming. Also, this project could not have been 
 possible without all the team behind SDL and SDL2.
 
@@ -96,4 +110,6 @@ Enjoy!
 [1]:  http://www.eiffel.com/
 [2]:  http://www.libsdl.org/release/SDL2-devel-2.0.1-mingw.tar.gz
 [3]:  https://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.0.0-mingw.tar.gz
-[4]:  http://github.com/tioui
+[4]:  https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-devel-2.0.12-mingw.tar.gz
+[5]:  https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-devel-2.0.0-mingw.tar.gz
+[6]:  http://github.com/tioui
