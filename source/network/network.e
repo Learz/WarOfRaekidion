@@ -24,6 +24,7 @@ feature {NONE} -- Initialization
 			player_ship := a_player_ship
 			spawner := a_spawner
 			is_ship := a_is_ship
+
 			if is_ship then
 				create node.make_client (a_address, 9001)
 			else
@@ -32,6 +33,9 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	player_ship: PLAYER_SHIP
+	spawner: SPAWNER
 
 	quit
 		do
@@ -44,8 +48,6 @@ feature -- Status
 
 feature {NONE} -- Implementation
 
-	player_ship: PLAYER_SHIP
-	spawner: SPAWNER
 	node: NODE
 
 	execute
@@ -61,6 +63,7 @@ feature {NONE} -- Implementation
 				if is_ship then
 					l_enemy_ship := node.recieve_new_enemy_ship
 					spawner.spawn_list.extend (l_enemy_ship)
+
 					if player_ship.has_moved then
 						node.send_player_position (player_ship.x.floor, player_ship.y.floor)
 					end
@@ -68,6 +71,7 @@ feature {NONE} -- Implementation
 					l_player_position := node.recieve_player_position
 					player_ship.set_x (l_player_position.x)
 					player_ship.set_y (l_player_position.y)
+					
 					from
 						spawner.spawn_list.start
 					until

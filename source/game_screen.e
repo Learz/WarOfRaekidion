@@ -36,21 +36,21 @@ feature {NONE} -- Initialization
 		    player.on_shoot.extend (agent spawn_projectile)
 		    spawner := create {SPAWNER}.make (window, key_binding, not is_player)
 		    spawner.on_spawn.extend (agent spawn_enemy)
+		    create l_network.make (player, spawner, is_player, "10.70.2.33")
 
 		    if is_multiplayer then
-		    	create l_network.make (player, spawner, is_player, "10.70.2.33")
 		    	if is_player then
 					l_event.on_key_pressed.extend (agent player.manage_key)
 				else
 					l_event.on_key_pressed.extend (agent spawner.manage_key)
 		    	end
+		    	
+				l_network.launch
 		    else
 				l_event.on_key_pressed.extend (agent player.manage_key)
 		    end
 
 			l_event.on_key_pressed.extend (agent manage_key)
---		    spawn_enemy (create {ENEMY_SHIP}.make ("enemy_red", window, 75, 100))
---		    spawn_enemy (create {ENEMY_SHIP}.make ("enemy_yellow", window, 150, 100))
 
 			from
 			until
@@ -67,8 +67,18 @@ feature {NONE} -- Initialization
 				window.clear
 				l_background.update
 
-				player.update
-				spawner.update
+				if is_multiplayer then
+					if is_player then
+						player.update
+						spawner := l_network.spawner
+					else
+						player := l_network.player_ship
+						spawner.update
+					end
+				else
+					player.update
+					spawner.update
+				end
 
 				from
 					enemy_list.start
@@ -130,9 +140,10 @@ feature {NONE} -- Initialization
 
 			    l_sidebar.update
 			    window.render
-			    l_memory.full_collect
 			   	{SDL_WRAPPER}.sdl_delay (4)
 			end
+
+			l_network.quit
 		end
 
 feature -- Status
