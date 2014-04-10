@@ -12,7 +12,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_key_binding: KEYS; is_multiplayer: BOOLEAN)
+	make (a_window: WINDOW; a_key_binding: KEYS; is_player, is_multiplayer: BOOLEAN)
 		local
 			l_ticks, l_lasttick, l_deltatime: INTEGER
 			l_background: BACKGROUND
@@ -32,12 +32,25 @@ feature {NONE} -- Initialization
 			l_event := create {EVENT_HANDLER}.make
 			l_background := create {BACKGROUND}.make ("background", window, 0, 0, 1)
 		    l_sidebar := create {SPRITE}.make ("sidebar", window, window.width - 75, 0)
-		    player := create {PLAYER_SHIP}.make (window, 112, 300, key_binding)
+		    player := create {PLAYER_SHIP}.make (window, 112, 300, key_binding, is_player)
 		    player.on_shoot.extend (agent spawn_projectile)
-			l_event.on_key_pressed.extend (agent player.manage_key)
+		    spawner := create {SPAWNER}.make (window, key_binding, not is_player)
+		    spawner.on_spawn.extend (agent spawn_enemy)
+
+		    if is_multiplayer then
+		    	create l_network.make (player, spawner, is_player, "10.70.2.33")
+		    	if is_player then
+					l_event.on_key_pressed.extend (agent player.manage_key)
+				else
+					l_event.on_key_pressed.extend (agent spawner.manage_key)
+		    	end
+		    else
+				l_event.on_key_pressed.extend (agent player.manage_key)
+		    end
+
 			l_event.on_key_pressed.extend (agent manage_key)
-		    spawn_enemy (create {ENEMY_SHIP}.make ("enemy_red", window, 75, 100))
-		    spawn_enemy (create {ENEMY_SHIP}.make ("enemy_yellow", window, 150, 100))
+--		    spawn_enemy (create {ENEMY_SHIP}.make ("enemy_red", window, 75, 100))
+--		    spawn_enemy (create {ENEMY_SHIP}.make ("enemy_yellow", window, 150, 100))
 
 			from
 			until
@@ -55,6 +68,7 @@ feature {NONE} -- Initialization
 				l_background.update
 
 				player.update
+				spawner.update
 
 				from
 					enemy_list.start

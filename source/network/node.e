@@ -62,7 +62,7 @@ feature -- Access
 			socket.put_integer (a_x)
 			socket.put_integer (a_y)
 		end
-		
+
 	send_new_enemy_ship (a_name: STRING; a_x, a_y: INTEGER)
 		do
 			socket.put_integer (a_name.count)

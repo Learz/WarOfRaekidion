@@ -20,7 +20,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_x, a_y: DOUBLE; a_key_binding: KEYS)
+	make (a_window: WINDOW; a_x, a_y: DOUBLE; a_key_binding: KEYS; a_is_player: BOOLEAN)
 		do
 			ship_make ("player", a_window, a_x, a_y, 500)
 			set_key_binding (a_key_binding)
@@ -46,6 +46,12 @@ feature -- Access
 				end
 			end
 
+			if is_moving_up or is_moving_down or is_moving_left or is_moving_right then
+				has_moved := true
+			else
+				has_moved := false
+			end
+
 			if is_moving_up then
 				trajectory.set_y (speed)
 			elseif is_moving_down then
@@ -66,6 +72,8 @@ feature -- Access
 				trajectory.set_force (speed)
 			end
 
+			precursor {SHIP}
+
 			if y <= -height / 3 then
 				set_y (-height / 3)
 			elseif y >= window.height - 2 * (height / 3) then
@@ -77,8 +85,6 @@ feature -- Access
 			elseif x >= window.width - 2 * (width / 3) - 75 then
 				set_x (window.width - 2 * (width / 3) - 75)
 			end
-
-			precursor {SHIP}
 		end
 
 	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
@@ -113,6 +119,10 @@ feature -- Access
 				end
 			end
 		end
+
+feature -- Status
+
+	has_moved: BOOLEAN
 
 feature -- Element change
 
