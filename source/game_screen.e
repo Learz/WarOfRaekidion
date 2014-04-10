@@ -12,12 +12,13 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_key_binding: KEYS)
+	make (a_window: WINDOW; a_key_binding: KEYS; is_multiplayer: BOOLEAN)
 		local
 			l_ticks, l_lasttick, l_deltatime: INTEGER
 			l_background: BACKGROUND
 			l_sidebar: SPRITE
 			l_event: EVENT_HANDLER
+			l_network: NETWORK
 			l_memory: MEMORY
 		do
 			window := a_window
@@ -35,8 +36,8 @@ feature {NONE} -- Initialization
 		    player.on_shoot.extend (agent spawn_projectile)
 			l_event.on_key_pressed.extend (agent player.manage_key)
 			l_event.on_key_pressed.extend (agent manage_key)
-		    spawn_enemy (create {ENEMY_SHIP}.make ("enemy_red", window, 75, 100, 20))
-		    spawn_enemy (create {ENEMY_SHIP}.make ("enemy_yellow", window, 150, 100, 20))
+		    spawn_enemy (create {ENEMY_SHIP}.make ("enemy_red", window, 75, 100))
+		    spawn_enemy (create {ENEMY_SHIP}.make ("enemy_yellow", window, 150, 100))
 
 			from
 			until
@@ -130,6 +131,7 @@ feature {NONE} -- Implementation
 	key_binding: KEYS
 	is_return_key_pressed: BOOLEAN
 	player: PLAYER_SHIP
+	spawner: SPAWNER
 	enemy_list: LINKED_LIST [detachable ENEMY_SHIP]
 	projectile_list: LINKED_LIST [detachable PROJECTILE]
 

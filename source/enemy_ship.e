@@ -9,8 +9,9 @@ class
 
 inherit
 	SHIP
+		rename
+			make as ship_make
 		redefine
-			make,
 			update
 		end
 
@@ -19,7 +20,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE; a_health: NATURAL_16)
+	make (a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE)
 		do
 			if a_name.is_equal ("enemy_red") then
 				bullet_type := "laser_red"
@@ -43,7 +44,7 @@ feature {NONE} -- Initialization
 				bullet_force := 2
 			end
 
-			precursor {SHIP} (a_name, a_window, a_x, a_y, a_health)
+			ship_make (a_name, a_window, a_x, a_y, 100)
 		end
 
 feature -- Access
