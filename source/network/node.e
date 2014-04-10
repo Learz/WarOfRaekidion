@@ -29,6 +29,8 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	socket: NETWORK_DATAGRAM_SOCKET
+
 	recieve_player_position: TUPLE [INTEGER, INTEGER]
 		local
 			l_x, l_y: INTEGER
@@ -54,6 +56,7 @@ feature -- Access
 			l_x := socket.last_integer
 			socket.read_integer
 			l_y := socket.last_integer
+			io.put_integer (l_x)
 			result := [l_name, l_x, l_y]
 		end
 
@@ -75,6 +78,5 @@ feature {NONE} -- Implementation
 
 	host: STRING
 	port: INTEGER
-	socket: NETWORK_DATAGRAM_SOCKET
 
 end

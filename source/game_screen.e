@@ -69,11 +69,21 @@ feature {NONE} -- Initialization
 
 				if is_multiplayer then
 					if is_player then
-						player.update
-						l_network.spawner.update
+						if player.has_moved then
+							l_network.node.send_player_position (player.x.floor, player.y.floor)
+						end
+
+						spawner := l_network.spawner
 					else
-						l_network.player_ship.update
-						spawner.update
+						from
+							spawner.spawn_list.start
+						until
+							spawner.spawn_list.exhausted
+						loop
+							l_network.node.send_new_enemy_ship (spawner.spawn_list.item.name, spawner.spawn_list.item.x, spawner.spawn_list.item.y)
+						end
+
+						player := l_network.player_ship
 					end
 				else
 					player.update

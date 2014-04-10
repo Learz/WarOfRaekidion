@@ -34,6 +34,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	node: NODE
 	player_ship: PLAYER_SHIP
 	spawner: SPAWNER
 
@@ -48,37 +49,23 @@ feature -- Status
 
 feature {NONE} -- Implementation
 
-	node: NODE
-
 	execute
 		local
 			l_enemy_ship: TUPLE [name: STRING; x, y: INTEGER]
 			l_player_position: TUPLE [x, y: INTEGER]
 		do
 			from
-				must_quit := true
+				must_quit := false
 			until
-				not must_quit
+				must_quit
 			loop
 				if is_ship then
 					l_enemy_ship := node.recieve_new_enemy_ship
 					spawner.spawn_list.extend (l_enemy_ship)
-
-					if player_ship.has_moved then
-						node.send_player_position (player_ship.x.floor, player_ship.y.floor)
-					end
 				else
 					l_player_position := node.recieve_player_position
 					player_ship.set_x (l_player_position.x)
 					player_ship.set_y (l_player_position.y)
-					
-					from
-						spawner.spawn_list.start
-					until
-						spawner.spawn_list.exhausted
-					loop
-						node.send_new_enemy_ship (spawner.spawn_list.item.name, spawner.spawn_list.item.x, spawner.spawn_list.item.y)
-					end
 				end
 			end
 
