@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 				if l_event.is_quit_event then
 					l_must_quit := true
 				end
-				l_new_game := create {GAME_SCREEN}.make (l_window, l_key_binding, true, true)
+				l_new_game := create {GAME_SCREEN}.make (l_window, l_key_binding, true, true, "10.70.2.33")
 				l_must_quit := l_new_game.must_quit
 			end
 

@@ -12,7 +12,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_key_binding: KEYS; is_player, is_multiplayer: BOOLEAN)
+	make (a_window: WINDOW; a_key_binding: KEYS; is_player, is_multiplayer: BOOLEAN; a_server: STRING)
 		local
 			l_ticks, l_lasttick, l_deltatime: INTEGER
 			l_background: BACKGROUND
@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 		    player.on_shoot.extend (agent spawn_projectile)
 		    spawner := create {SPAWNER}.make (window, key_binding, not is_player)
 		    spawner.on_spawn.extend (agent spawn_enemy)
-		    create l_network.make (player, spawner, is_player, "10.70.2.33")
+		    create l_network.make (player, spawner, is_player, a_server)
 
 		    if is_multiplayer then
 		    	if is_player then
@@ -44,7 +44,7 @@ feature {NONE} -- Initialization
 				else
 					l_event.on_key_pressed.extend (agent spawner.manage_key)
 		    	end
-		    	
+
 				l_network.launch
 		    else
 				l_event.on_key_pressed.extend (agent player.manage_key)
@@ -70,9 +70,9 @@ feature {NONE} -- Initialization
 				if is_multiplayer then
 					if is_player then
 						player.update
-						spawner := l_network.spawner
+						l_network.spawner.update
 					else
-						player := l_network.player_ship
+						l_network.player_ship.update
 						spawner.update
 					end
 				else
