@@ -37,28 +37,41 @@ feature -- Access
 			l_x, l_y: INTEGER
 		do
 			l_packet := socket.receive (64, 0)
+
 			if attached l_packet as la_packet then
-				l_x := l_packet.data.read_integer_32 (0)
-				l_y := l_packet.data.read_integer_32 (32)
+				l_x := la_packet.data.read_integer_32 (0)
+				l_y := la_packet.data.read_integer_32 (32)
 			end
+
 			result := [l_x, l_y]
 		end
 
 	recieve_new_enemy_ship: TUPLE [STRING, INTEGER, INTEGER]
 		local
-			l_name_count: INTEGER
+			l_packet: detachable PACKET
+			l_name_count, l_name_maximum: INTEGER
 			l_name: STRING
 			l_x, l_y: INTEGER
 		do
-			socket.read_integer
-			l_name_count := socket.last_integer
-			socket.read_stream (l_name_count)
-			l_name := socket.last_string
-			socket.read_integer
-			l_x := socket.last_integer
-			socket.read_integer
-			l_y := socket.last_integer
-			io.put_integer (l_x)
+			l_packet := socket.receive (128, 0)
+			create l_name.make_empty
+
+			if attached l_packet as la_packet then
+				l_name_maximum := la_packet.data.read_integer_32 (0)
+
+				from
+					l_name_count := 0
+				until
+					l_name_count = l_name_maximum
+				loop
+					l_name.append_character (la_packet.data.read_character (32 + l_name_count))
+					l_name_count := l_name_count + 1
+				end
+
+				l_x := la_packet.data.read_integer_32 (64)
+				l_y := la_packet.data.read_integer_32 (96)
+			end
+
 			result := [l_name, l_x, l_y]
 		end
 
@@ -73,11 +86,24 @@ feature -- Access
 		end
 
 	send_new_enemy_ship (a_name: STRING; a_x, a_y: INTEGER)
+		local
+			l_packet: PACKET
+			l_name_count: INTEGER
 		do
-			socket.put_integer (a_name.count)
-			socket.put_string (a_name)
-			socket.put_integer (a_x)
-			socket.put_integer (a_y)
+			create l_packet.make (128)
+			l_packet.data.put_integer_32 (a_name.count, 0)
+
+			from
+				l_name_count := 0
+			until
+				l_name_count = a_name.count
+			loop
+				l_packet.data.put_character (a_name.at (l_name_count), 32)
+				l_name_count := l_name_count + 1
+			end
+
+			l_packet.data.put_integer_32 (a_x, 64)
+			l_packet.data.put_integer_32 (a_y, 96)
 		end
 
 feature {NONE} -- Implementation
