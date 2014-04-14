@@ -59,7 +59,7 @@ feature {NONE} -- Initialization
 
 			from
 			until
-				must_quit or must_close
+				must_quit or must_close or must_end
 			loop
 				l_event.manage_event
 
@@ -67,6 +67,7 @@ feature {NONE} -- Initialization
 					l_pause_menu := create {OVERLAY_SCREEN}.make (window, key_binding, is_return_key_pressed, "PAUSE")
 					is_paused := false
 					must_quit := l_pause_menu.must_quit
+					must_end := l_pause_menu.must_end
 					is_return_key_pressed := l_pause_menu.is_return_key_pressed
 				end
 
@@ -74,7 +75,7 @@ feature {NONE} -- Initialization
 					must_quit := true
 				end
 
-				l_ticks := {SDL_WRAPPER}.sdl_getticks.to_integer_32
+				l_ticks := {SDL}.sdl_getticks.to_integer_32
 				l_deltatime := l_ticks - l_lasttick
 				l_lasttick := l_ticks
 				window.clear
@@ -167,7 +168,7 @@ feature {NONE} -- Initialization
 
 			    l_sidebar.update
 			    window.render
-			   	{SDL_WRAPPER}.sdl_delay (4)
+			   	{SDL}.sdl_delay (4)
 			end
 
 			l_network.quit

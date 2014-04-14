@@ -14,6 +14,12 @@ inherit
 		redefine
 			update
 		end
+	TEXT
+		rename
+			make as text_make
+		redefine
+			update
+		end
 
 create
 	make
@@ -24,6 +30,7 @@ feature {NONE} -- Initialization
 		do
 			title := a_title
 			sprite_make (a_name, a_window, a_x, a_y)
+			text_make (a_title, 12, a_window, a_x, a_y)
 		end
 
 feature -- Access
@@ -33,7 +40,7 @@ feature -- Access
 	update
 		do
 			precursor {SPRITE}
-			-- Font rendering
+			precursor {TEXT}
 		end
 
 end

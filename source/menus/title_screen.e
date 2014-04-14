@@ -63,7 +63,7 @@ feature {NONE} -- Initialization
 					if multiplayer then
 						l_screen := create {LOBBY_SCREEN}.make (window, key_binding)
 					else
-						l_screen := create {GAME_SCREEN}.make (window, key_binding, true, false, "")
+						l_screen := create {GAME_SCREEN}.make (window, key_binding, true, false, create {STRING}.make_empty)
 					end
 					start_game := false
 					must_quit := l_screen.must_quit

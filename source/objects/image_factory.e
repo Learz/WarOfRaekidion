@@ -39,7 +39,7 @@ feature {NONE} -- Initialization
 				l_filename_list.exhausted
 			loop
 				create l_filename_c.make (l_directory + l_filename_list.item)
-				file_list.extend ([l_filename_list.item, {SDL_WRAPPER}.sdl_loadimage (l_filename_c.item)])
+				file_list.extend ([l_filename_list.item, {SDL}.sdl_loadimage (l_filename_c.item)])
 				l_filename_list.forth
 			end
 
@@ -78,7 +78,7 @@ feature -- Access
 			until
 				file_list.exhausted
 			loop
-				{SDL_WRAPPER}.sdl_freesurface (file_list.item.object)
+				{SDL}.sdl_freesurface (file_list.item.object)
 				file_list.forth
 			end
 		end

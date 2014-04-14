@@ -23,7 +23,7 @@ feature -- Access
 
 feature -- Status
 
-	must_quit, must_close, is_return_key_pressed, mouse_button_down: BOOLEAN
+	must_quit, must_close, must_end, is_return_key_pressed, mouse_button_down: BOOLEAN
 
 feature {NONE} -- Implementation
 

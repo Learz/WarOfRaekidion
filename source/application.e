@@ -18,12 +18,14 @@ feature {NONE} -- Initialization
 			l_title_screen: TITLE_SCREEN
 			l_event: EVENT_HANDLER
 		do
-		    {SDL_WRAPPER}.sdl_init_noreturn ({SDL_WRAPPER}.sdl_init_video_timer)
-		    create l_window.make ("War of Raekidion", {SDL_WRAPPER}.sdl_windowpos_undefined, {SDL_WRAPPER}.sdl_windowpos_undefined, 300, 400, {SDL_WRAPPER}.sdl_window_hidden)
+		    {SDL}.sdl_init_noreturn ({SDL}.sdl_init_video_timer)
+		    --{SDL_TTF}.ttf_init_noreturn
+		    create l_window.make ("War of Raekidion", {SDL}.sdl_windowpos_undefined, {SDL}.sdl_windowpos_undefined, 300, 400, {SDL}.sdl_window_hidden)
 			create l_event.make
-		   	{SDL_WRAPPER}.sdl_show_window (l_window.window)
+		   	{SDL}.sdl_show_window (l_window.window)
 			create l_title_screen.make (l_window)
-		    {SDL_WRAPPER}.sdl_quit
+		    --{SDL_TTF}.ttf_quit
+		    {SDL}.sdl_quit
 		end
 
 end

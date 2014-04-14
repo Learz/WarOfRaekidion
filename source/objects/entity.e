@@ -23,7 +23,7 @@ feature {NONE} -- Initialization
 
 	make (a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE; a_health: NATURAL_16)
 		do
-			starttime := {SDL_WRAPPER}.sdl_getticks.to_integer_32
+			starttime := {SDL}.sdl_getticks.to_integer_32
 			health := a_health
 		    create trajectory.make_empty
 			sprite_make (a_name, a_window, a_x, a_y)

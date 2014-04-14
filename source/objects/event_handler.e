@@ -18,7 +18,7 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			event := event.memory_alloc ({SDL_WRAPPER}.sizeof_sdl_event_struct)
+			event := event.memory_alloc ({SDL}.sizeof_sdl_event_struct)
 			create on_key_pressed
 			create on_mouse_moved
 			create on_mouse_pressed
@@ -35,14 +35,14 @@ feature -- Access
 			l_must_quit: INTEGER
 		do
 			from
-				l_must_quit := {SDL_WRAPPER}.sdl_pollevent (event)
+				l_must_quit := {SDL}.sdl_pollevent (event)
 			until
 				l_must_quit = 0
 			loop
 				check_key_pressed
 				check_mouse_moved
 				check_mouse_pressed
-				l_must_quit := {SDL_WRAPPER}.sdl_pollevent (event)
+				l_must_quit := {SDL}.sdl_pollevent (event)
 			end
 
 
@@ -50,7 +50,7 @@ feature -- Access
 
 	is_quit_event: BOOLEAN
 		do
-			result := {SDL_WRAPPER}.get_sdl_event_type (event) = {SDL_WRAPPER}.sdl_quitevent
+			result := {SDL}.get_sdl_event_type (event) = {SDL}.sdl_quitevent
 		end
 
 feature {NONE} -- Implementation
@@ -59,10 +59,10 @@ feature {NONE} -- Implementation
 
 	check_key_pressed
 		do
-			if {SDL_WRAPPER}.get_sdl_event_type (event) = {SDL_WRAPPER}.sdl_keydown then
-				on_key_pressed.call ([{SDL_WRAPPER}.get_sdl_keypressed (event), true])
-			elseif {SDL_WRAPPER}.get_sdl_event_type (event) = {SDL_WRAPPER}.sdl_keyup then
-				on_key_pressed.call ([{SDL_WRAPPER}.get_sdl_keypressed (event), false])
+			if {SDL}.get_sdl_event_type (event) = {SDL}.sdl_keydown then
+				on_key_pressed.call ([{SDL}.get_sdl_keypressed (event), true])
+			elseif {SDL}.get_sdl_event_type (event) = {SDL}.sdl_keyup then
+				on_key_pressed.call ([{SDL}.get_sdl_keypressed (event), false])
 			end
 		end
 
@@ -70,8 +70,8 @@ feature {NONE} -- Implementation
 		local
 			l_x, l_y: INTEGER_32
 		do
-			if {SDL_WRAPPER}.get_sdl_event_type (event) = {SDL_WRAPPER}.sdl_mousemotion then
-				{SDL_WRAPPER}.get_sdl_mouse_state_noreturn ($l_x, $l_y)
+			if {SDL}.get_sdl_event_type (event) = {SDL}.sdl_mousemotion then
+				{SDL}.get_sdl_mouse_state_noreturn ($l_x, $l_y)
 				on_mouse_moved.call ([(l_x / 2).floor, (l_y / 2).floor])
 			end
 		end
@@ -81,11 +81,11 @@ feature {NONE} -- Implementation
 			l_x, l_y: INTEGER_32
 			l_button: NATURAL_32
 		do
-			if {SDL_WRAPPER}.get_sdl_event_type (event) = {SDL_WRAPPER}.sdl_mousebuttondown then
-				l_button := {SDL_WRAPPER}.get_sdl_mouse_state ($l_x, $l_y)
+			if {SDL}.get_sdl_event_type (event) = {SDL}.sdl_mousebuttondown then
+				l_button := {SDL}.get_sdl_mouse_state ($l_x, $l_y)
 				on_mouse_pressed.call ([l_button, (l_x / 2).floor, (l_y / 2).floor, true])
-			elseif {SDL_WRAPPER}.get_sdl_event_type (event) = {SDL_WRAPPER}.sdl_mousebuttonup then
-				l_button := {SDL_WRAPPER}.get_sdl_mouse_state ($l_x, $l_y)
+			elseif {SDL}.get_sdl_event_type (event) = {SDL}.sdl_mousebuttonup then
+				l_button := {SDL}.get_sdl_mouse_state ($l_x, $l_y)
 				on_mouse_pressed.call ([l_button, (l_x / 2).floor, (l_y / 2).floor, false])
 			end
 		end

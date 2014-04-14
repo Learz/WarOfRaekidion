@@ -20,31 +20,33 @@ feature {NONE} -- Initialization
 			create l_c_title.make (a_title)
 		    height := a_height
 		    width := a_width
-		    window := {SDL_WRAPPER}.sdl_createwindow (l_c_title.item, a_x, a_y, width * 2, height * 2, a_flags)
-		    renderer := {SDL_WRAPPER}.sdl_createrenderer (window, -1, {SDL_WRAPPER}.sdl_renderer_accelerated)
-		    {SDL_WRAPPER}.sdl_sethint ({SDL_WRAPPER}.sdl_hintrenderscalequality, 0)
-			{SDL_WRAPPER}.sdl_rendersetlogicalsize (renderer, a_width, a_height)
+		    window := {SDL}.sdl_createwindow (l_c_title.item, a_x, a_y, width * 2, height * 2, a_flags)
+		    renderer := {SDL}.sdl_createrenderer (window, -1, {SDL}.sdl_renderer_accelerated)
+		    {SDL}.sdl_sethint ({SDL}.sdl_hintrenderscalequality, 0)
+			{SDL}.sdl_rendersetlogicalsize (renderer, a_width, a_height)
+			--create l_c_title.make ("resources/fonts/zephyrea.ttf")
+			--font := {SDL_TTF}.ttf_open_font (l_c_title.item, 32)
 		end
 
 feature -- Access
 
-	window, renderer: POINTER
+	window, renderer, font: POINTER
 	height, width: INTEGER
 
 	render
 		do
-			{SDL_WRAPPER}.sdl_renderpresent (renderer)
+			{SDL}.sdl_renderpresent (renderer)
 		end
 
 	clear
 		do
-			{SDL_WRAPPER}.sdl_renderclear (renderer)
+			{SDL}.sdl_renderclear (renderer)
 		end
 
 	dispose
 		do
-		    {SDL_WRAPPER}.sdl_destroyrenderer (renderer)
-		    {SDL_WRAPPER}.sdl_destroywindow (window)
+		    {SDL}.sdl_destroyrenderer (renderer)
+		    {SDL}.sdl_destroywindow (window)
 		end
 
 end

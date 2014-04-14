@@ -22,7 +22,7 @@ feature {NONE} -- Initialization
 			default_image := a_name
 			window := a_window
 			renderer := window.renderer
-			targetarea := targetarea.memory_alloc ({SDL_WRAPPER}.sizeof_sdl_rect_struct)
+			targetarea := targetarea.memory_alloc ({SDL}.sizeof_sdl_rect_struct)
 			set_image (a_name)
 			set_x (a_x)
 			set_y (a_y)
@@ -35,7 +35,7 @@ feature -- Access
 
 	update
 		do
-		    {SDL_WRAPPER}.sdl_rendercopyex (renderer, texture, create {POINTER}, targetarea, angle, create {POINTER}, {SDL_WRAPPER}.sdl_flip_none)
+		    {SDL}.sdl_rendercopyex (renderer, texture, create {POINTER}, targetarea, angle, create {POINTER}, {SDL}.sdl_flip_none)
 		end
 
 feature -- Element change
@@ -51,16 +51,16 @@ feature -- Element change
 			image := imagefactory.image (a_name)
 
 			if not image.is_default_pointer then
-			    width := {SDL_WRAPPER}.get_sdl_loadbmp_width (image).as_integer_16
-			    height := {SDL_WRAPPER}.get_sdl_loadbmp_height (image).as_integer_16
-			    {SDL_WRAPPER}.set_sdl_rect_w (targetarea, width)
-			    {SDL_WRAPPER}.set_sdl_rect_h (targetarea, height)
-				texture := {SDL_WRAPPER}.sdl_createtexturefromsurface(renderer, image)
+			    width := {SDL}.get_sdl_loadbmp_width (image).as_integer_16
+			    height := {SDL}.get_sdl_loadbmp_height (image).as_integer_16
+			    {SDL}.set_sdl_rect_w (targetarea, width)
+			    {SDL}.set_sdl_rect_h (targetarea, height)
+				texture := {SDL}.sdl_createtexturefromsurface(renderer, image)
 			else
 				width := 0
 				height := 0
-			    {SDL_WRAPPER}.set_sdl_rect_w (targetarea, width)
-			    {SDL_WRAPPER}.set_sdl_rect_h (targetarea, height)
+			    {SDL}.set_sdl_rect_w (targetarea, width)
+			    {SDL}.set_sdl_rect_h (targetarea, height)
 				texture := create {POINTER}
 			end
 		end
@@ -68,13 +68,13 @@ feature -- Element change
 	set_x (a_x: DOUBLE)
 		do
 			x := a_x
-			{SDL_WRAPPER}.set_sdl_rect_x (targetarea, a_x.floor)
+			{SDL}.set_sdl_rect_x (targetarea, a_x.floor)
 		end
 
 	set_y (a_y: DOUBLE)
 		do
 			y := a_y
-			{SDL_WRAPPER}.set_sdl_rect_y (targetarea, a_y.floor)
+			{SDL}.set_sdl_rect_y (targetarea, a_y.floor)
 		end
 
 feature {NONE} -- Implementation
@@ -86,7 +86,7 @@ feature {NONE} -- Implementation
 
 	dispose
 		do
-			{SDL_WRAPPER}.sdl_destroytexture (texture)
+			{SDL}.sdl_destroytexture (texture)
 			texture.memory_free
 			targetarea.memory_free
 		end

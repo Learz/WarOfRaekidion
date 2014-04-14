@@ -22,6 +22,7 @@ feature {NONE} -- Initialization
 		local
 			l_ticks: INTEGER
 			l_event: EVENT_HANDLER
+			l_title: TEXT
 		do
 			create l_event.make
 			create buttons.make
@@ -32,12 +33,14 @@ feature {NONE} -- Initialization
 			l_event.on_key_pressed.extend (agent manage_key)
 			l_event.on_mouse_moved.extend (agent manage_mouse)
 			l_event.on_mouse_pressed.extend (agent manage_click)
+			create l_title.make (a_title, 16, window, 100, 50)
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 150, "Resume"))
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 200, "Quit"))
+			buttons.extend (create {BUTTON}.make ("button", window, 100, 250, "Quit to desktop"))
 
 			from
 			until
-				must_quit or must_close
+				must_quit or must_close or must_end
 			loop
 				l_event.manage_event
 
@@ -75,6 +78,8 @@ feature {NONE} -- Implementation
 				if a_button.title.is_equal ("Resume") then
 					must_close := true
 				elseif a_button.title.is_equal ("Quit") then
+					must_end := true
+				elseif a_button.title.is_equal ("Quit to desktop") then
 					must_quit := true
 				end
 		end

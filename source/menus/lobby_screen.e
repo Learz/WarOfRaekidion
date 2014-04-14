@@ -20,6 +20,7 @@ feature {NONE} -- Initialization
 
 	make (a_window: WINDOW; a_key_binding: KEYS)
 		local
+			l_address: STRING
 			l_ticks: INTEGER
 			l_event: EVENT_HANDLER
 			l_background: BACKGROUND
@@ -40,7 +41,7 @@ feature {NONE} -- Initialization
 
 			from
 			until
-				must_quit or must_close
+				must_quit or must_close or must_end
 			loop
 				l_event.manage_event
 
@@ -54,8 +55,16 @@ feature {NONE} -- Initialization
 				window.render
 
 				if start_game then
-					l_screen := create {GAME_SCREEN}.make (window, key_binding, true, true, "10.70.2.33")
+					if hosting then
+						-- Initiate connection wait
+						l_screen := create {GAME_SCREEN}.make (window, key_binding, false, true, create {STRING}.make_empty)
+					else
+						-- Ask for an IP address
+						l_address := "10.70.2.5"
+						l_screen := create {GAME_SCREEN}.make (window, key_binding, true, true, l_address)
+					end
 					must_quit := l_screen.must_quit
+					must_end := l_screen.must_end
 				end
 
 				l_ticks := l_ticks + 1
@@ -64,7 +73,7 @@ feature {NONE} -- Initialization
 
 feature -- Status
 
-	start_game: BOOLEAN
+	start_game, hosting: BOOLEAN
 
 feature {NONE} -- Implementation
 
@@ -91,10 +100,10 @@ feature {NONE} -- Implementation
 	click_button (a_button: BUTTON)
 		do
 				if a_button.title.is_equal ("Join") then
-					-- Ask for an IP address
+					hosting := false
 					start_game := true
 				elseif a_button.title.is_equal ("Host") then
-					-- Initiate connection wait
+					hosting := true
 					start_game := true
 				elseif a_button.title.is_equal ("Back") then
 					must_close := true
