@@ -24,8 +24,8 @@ feature {NONE} -- Initialization
 		    renderer := {SDL}.sdl_createrenderer (window, -1, {SDL}.sdl_renderer_accelerated)
 		    {SDL}.sdl_sethint ({SDL}.sdl_hintrenderscalequality, 0)
 			{SDL}.sdl_rendersetlogicalsize (renderer, a_width, a_height)
-			--create l_c_title.make ("resources/fonts/zephyrea.ttf")
-			--font := {SDL_TTF}.ttf_open_font (l_c_title.item, 32)
+			create l_c_title.make ("resources/fonts/zephyrea.ttf")
+			font := {SDL_TTF}.ttf_open_font (l_c_title.item, 16)
 		end
 
 feature -- Access

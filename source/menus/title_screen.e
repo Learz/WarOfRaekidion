@@ -114,7 +114,7 @@ feature {NONE} -- Implementation
 					end
 				elseif a_key = key_binding.accept_key then
 					if attached selection as la_selection then
-						click_button (la_selection)
+						click_button (buttons.index_of (la_selection, 1))
 					end
 				end
 			else
@@ -124,16 +124,16 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	click_button (a_button: BUTTON)
+	click_button (a_button: INTEGER)
 		do
-			if a_button.title.is_equal ("Singleplayer") then
+			if a_button = 1 then
 				multiplayer := false
 				start_game := true
-			elseif a_button.title.is_equal ("Multiplayer") then
+			elseif a_button = 2 then
 				multiplayer := true
 				start_game := true
-			elseif a_button.title.is_equal ("Options") then
-			elseif a_button.title.is_equal ("Quit") then
+			elseif a_button = 3 then
+			elseif a_button = 4 then
 				must_quit := true
 			end
 		end

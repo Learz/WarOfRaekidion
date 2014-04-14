@@ -70,7 +70,7 @@ feature {NONE} -- Implementation
 				if attached selection as la_selection then
 					if (a_x >= la_selection.x and a_x <= la_selection.x + la_selection.width)
 					and (a_y >= la_selection.y and a_y <= la_selection.y + la_selection.height) then
-						click_button (la_selection)
+						click_button (buttons.index_of (la_selection, 1))
 					end
 				end
 				mouse_button_down := false
@@ -79,7 +79,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	click_button (a_button: BUTTON)
+	click_button (a_button: INTEGER)
 		do
 		end
 

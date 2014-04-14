@@ -9,8 +9,8 @@ class
 	SPRITE
 
 inherit
+	SURFACE
 	IMAGE_FACTORY_SHARED
-	DISPOSABLE
 
 create
 	make
@@ -19,9 +19,9 @@ feature {NONE} -- Initialization
 
 	make (a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE)
 		do
-			default_image := a_name
 			window := a_window
-			renderer := window.renderer
+			default_image := a_name
+			renderer := a_window.renderer
 			targetarea := targetarea.memory_alloc ({SDL}.sizeof_sdl_rect_struct)
 			set_image (a_name)
 			set_x (a_x)
@@ -30,8 +30,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	width, height: INTEGER_16
-	x, y, angle: DOUBLE
+	angle: DOUBLE
 
 	update
 		do
@@ -65,22 +64,9 @@ feature -- Element change
 			end
 		end
 
-	set_x (a_x: DOUBLE)
-		do
-			x := a_x
-			{SDL}.set_sdl_rect_x (targetarea, a_x.floor)
-		end
-
-	set_y (a_y: DOUBLE)
-		do
-			y := a_y
-			{SDL}.set_sdl_rect_y (targetarea, a_y.floor)
-		end
-
 feature {NONE} -- Implementation
 
-	window: WINDOW
-	texture, targetarea, renderer, image: POINTER
+	image: POINTER
 	imagefactory: IMAGE_FACTORY
 	default_image: STRING
 

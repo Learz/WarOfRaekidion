@@ -35,8 +35,8 @@ feature {NONE} -- Initialization
 			l_event.on_mouse_pressed.extend (agent manage_click)
 			create l_title.make (a_title, 16, window, 100, 50)
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 150, "Resume"))
-			buttons.extend (create {BUTTON}.make ("button", window, 100, 200, "Quit"))
-			buttons.extend (create {BUTTON}.make ("button", window, 100, 250, "Quit to desktop"))
+			buttons.extend (create {BUTTON}.make ("button", window, 100, 200, "End game"))
+			buttons.extend (create {BUTTON}.make ("button", window, 100, 250, "Quit"))
 
 			from
 			until
@@ -73,13 +73,13 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	click_button (a_button: BUTTON)
+	click_button (a_button: INTEGER)
 		do
-				if a_button.title.is_equal ("Resume") then
+				if a_button = 1 then
 					must_close := true
-				elseif a_button.title.is_equal ("Quit") then
+				elseif a_button = 2 then
 					must_end := true
-				elseif a_button.title.is_equal ("Quit to desktop") then
+				elseif a_button = 3 then
 					must_quit := true
 				end
 		end

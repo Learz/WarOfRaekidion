@@ -97,15 +97,15 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	click_button (a_button: BUTTON)
+	click_button (a_button: INTEGER)
 		do
-				if a_button.title.is_equal ("Join") then
+				if a_button = 1 then
 					hosting := false
 					start_game := true
-				elseif a_button.title.is_equal ("Host") then
+				elseif a_button = 2 then
 					hosting := true
 					start_game := true
-				elseif a_button.title.is_equal ("Back") then
+				elseif a_button = 3 then
 					must_close := true
 				end
 		end
