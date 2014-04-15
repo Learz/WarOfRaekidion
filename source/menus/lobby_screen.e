@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 			l_title := create {TEXT}.make_centered ("Multiplayer", 24, window, 0, 0, window.width, 150, [255, 255, 255])
 			create l_background.make ("title_background", window, 0, 0, 0)
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 150, "Join"))
-			create textbox.make ("textbox", window, 50, 200)
+			create textbox.make ("textbox", window, 75, 200)
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 250, "Host"))
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 300, "Back"))
 
