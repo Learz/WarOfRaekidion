@@ -31,6 +31,7 @@ feature {NONE} -- Initialization
 			l_event.on_key_pressed.extend (agent manage_key)
 			l_event.on_mouse_moved.extend (agent manage_mouse)
 			l_event.on_mouse_pressed.extend (agent manage_click)
+
 			key_binding := create {KEYS_FPS}
 			create buttons.make
 			create l_background.make ("title_background", window, 0, 0, 0)

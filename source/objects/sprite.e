@@ -46,7 +46,7 @@ feature -- Element change
 
 	set_image (a_name: STRING)
 		do
-			imagefactory := factory
+			imagefactory := image_factory
 			image := imagefactory.image (a_name)
 
 			if not image.is_default_pointer then

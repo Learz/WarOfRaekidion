@@ -372,6 +372,14 @@ feature -- Constantes -SDL.h
 			"SDL_INIT_VIDEO | SDL_INIT_TIMER"
 		end
 
+	frozen sdl_init_video_timer_audio:NATURAL_32
+
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_AUDIO"
+		end
+
 	frozen sdl_swsurface:NATURAL_32
 
 		external
