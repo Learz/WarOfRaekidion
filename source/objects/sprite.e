@@ -21,8 +21,9 @@ feature {NONE} -- Initialization
 		do
 			window := a_window
 			default_image := a_name
+			current_image := ""
+			imagefactory := factory
 			renderer := a_window.renderer
-			targetarea := targetarea.memory_alloc ({SDL}.sizeof_sdl_rect_struct)
 			set_image (a_name)
 			set_x (a_x)
 			set_y (a_y)
@@ -31,6 +32,7 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	angle: DOUBLE
+	default_image, current_image: STRING
 
 	update
 		do
@@ -46,21 +48,25 @@ feature -- Element change
 
 	set_image (a_name: STRING)
 		do
-			imagefactory := factory
-			image := imagefactory.image (a_name)
+			if a_name /= current_image then
+				image := imagefactory.image (a_name)
+				targetarea := targetarea.memory_alloc ({SDL}.sizeof_sdl_rect_struct)
 
-			if not image.is_default_pointer then
-			    width := {SDL}.get_sdl_loadbmp_width (image).as_integer_16
-			    height := {SDL}.get_sdl_loadbmp_height (image).as_integer_16
-			    {SDL}.set_sdl_rect_w (targetarea, width)
-			    {SDL}.set_sdl_rect_h (targetarea, height)
-				texture := {SDL}.sdl_createtexturefromsurface(renderer, image)
-			else
-				width := 0
-				height := 0
-			    {SDL}.set_sdl_rect_w (targetarea, width)
-			    {SDL}.set_sdl_rect_h (targetarea, height)
-				texture := create {POINTER}
+				if not image.is_default_pointer then
+					set_x (x)
+					set_y (y)
+				    set_width ({SDL}.get_sdl_loadbmp_width (image))
+				    set_height ({SDL}.get_sdl_loadbmp_height (image))
+					texture := {SDL}.sdl_createtexturefromsurface (renderer, image)
+					current_image := a_name
+				else
+					set_x (x)
+					set_y (y)
+				    set_width (0)
+				    set_height (0)
+					texture := create {POINTER}
+					current_image := ""
+				end
 			end
 		end
 
@@ -68,7 +74,6 @@ feature {NONE} -- Implementation
 
 	image: POINTER
 	imagefactory: IMAGE_FACTORY
-	default_image: STRING
 
 	dispose
 		do

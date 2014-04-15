@@ -22,6 +22,7 @@ feature {NONE} -- Initialization
 		local
 			l_ticks: INTEGER
 			l_event: EVENT_HANDLER
+			l_title: SURFACE
 			l_background: BACKGROUND
 			l_screen: SCREEN
 		do
@@ -33,6 +34,7 @@ feature {NONE} -- Initialization
 			l_event.on_mouse_pressed.extend (agent manage_click)
 			key_binding := create {KEYS_FPS}
 			create buttons.make
+			l_title := create {TEXT}.make_centered ("War of Raekidion", 32, window, 0, 0, window.width, 150, [255, 255, 255])
 			create l_background.make ("title_background", window, 0, 0, 0)
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 150, "Singleplayer"))
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 200, "Multiplayer"))
@@ -40,6 +42,7 @@ feature {NONE} -- Initialization
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 300, "Quit"))
 			selection := buttons.first
 			button_index := buttons.index
+
 			if attached selection as la_selection then
 				la_selection.set_image ("button_pressed")
 			end
@@ -56,6 +59,7 @@ feature {NONE} -- Initialization
 
 				window.clear
 				l_background.update
+				l_title.update
 				update
 				window.render
 

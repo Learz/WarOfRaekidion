@@ -21,7 +21,7 @@ feature {NONE} -- Initialization
 			l_background: BACKGROUND
 			l_sidebar: SPRITE
 			l_event: EVENT_HANDLER
-			l_network: NETWORK
+			l_network: detachable NETWORK
 			l_pause_menu: SCREEN
 			l_memory: MEMORY
 		do
@@ -41,9 +41,10 @@ feature {NONE} -- Initialization
 		    player.on_shoot.extend (agent spawn_projectile)
 		    spawner := create {SPAWNER}.make (window, key_binding, not is_player)
 		    spawner.on_spawn.extend (agent spawn_enemy)
-		    create l_network.make (player, spawner, is_player, a_server)
 
 		    if is_multiplayer then
+		    	create l_network.make (player, spawner, is_player, a_server)
+
 		    	if is_player then
 					l_event.on_key_pressed.extend (agent player.manage_key)
 				else
@@ -121,15 +122,15 @@ feature {NONE} -- Initialization
 				    end
 				end
 
-				if is_multiplayer then
+				if is_multiplayer and attached l_network as la_network then
 					if is_player then
 						player.update
 						if player.has_moved then
-							l_network.node.send_player_position (player.x.floor, player.y.floor)
+							la_network.node.send_player_position (player.x.floor, player.y.floor)
 						end
 
-						l_network.spawner.update
-						spawner := l_network.spawner
+						la_network.spawner.update
+						spawner := la_network.spawner
 					else
 						spawner.update
 						from
@@ -137,11 +138,11 @@ feature {NONE} -- Initialization
 						until
 							spawner.spawn_list.exhausted
 						loop
-							l_network.node.send_new_enemy_ship (spawner.spawn_list.item.name, spawner.spawn_list.item.x, spawner.spawn_list.item.y)
+							la_network.node.send_new_enemy_ship (spawner.spawn_list.item.name, spawner.spawn_list.item.x, spawner.spawn_list.item.y)
 						end
 
-						l_network.player_ship.update
-						player := l_network.player_ship
+						la_network.player_ship.update
+						player := la_network.player_ship
 					end
 				else
 					player.update
@@ -171,7 +172,9 @@ feature {NONE} -- Initialization
 			   	{SDL}.sdl_delay (4)
 			end
 
-			l_network.quit
+			if is_multiplayer and attached l_network as la_network then
+				la_network.quit
+			end
 		end
 
 feature -- Status

@@ -25,13 +25,17 @@ feature {NONE} -- Initialization
 		    {SDL}.sdl_sethint ({SDL}.sdl_hintrenderscalequality, 0)
 			{SDL}.sdl_rendersetlogicalsize (renderer, a_width, a_height)
 			create l_c_title.make ("resources/fonts/zephyrea.ttf")
-			font := {SDL_TTF}.ttf_open_font (l_c_title.item, 16)
+			create font.make
+			font.extend ([16, {SDL_TTF}.ttf_open_font (l_c_title.item, 16)])
+			font.extend ([24, {SDL_TTF}.ttf_open_font (l_c_title.item, 24)])
+			font.extend ([32, {SDL_TTF}.ttf_open_font (l_c_title.item, 32)])
 		end
 
 feature -- Access
 
-	window, renderer, font: POINTER
+	window, renderer: POINTER
 	height, width: INTEGER
+	font: LINKED_LIST [TUPLE [point: INTEGER; font: POINTER]]
 
 	render
 		do

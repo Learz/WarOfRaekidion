@@ -41,8 +41,8 @@ feature {NONE} -- Implementation
 			loop
 				if (a_x >= buttons.item.x and a_x <= buttons.item.x + buttons.item.width)
 				and (a_y >= buttons.item.y and a_y <= buttons.item.y + buttons.item.height) then
-					buttons.item.set_image ("button_pressed")
-				else
+					buttons.item.set_image (buttons.item.default_image + "_pressed")
+				elseif buttons.item.current_image /= buttons.item.default_image then
 					buttons.item.reset_image
 				end
 
@@ -73,6 +73,7 @@ feature {NONE} -- Implementation
 						click_button (buttons.index_of (la_selection, 1))
 					end
 				end
+				
 				mouse_button_down := false
 			else
 				mouse_button_down := false

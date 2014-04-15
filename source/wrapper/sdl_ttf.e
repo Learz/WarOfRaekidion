@@ -58,13 +58,6 @@ feature -- Wrapper
             "b"
         end
 
-    frozen alpha (a_color: POINTER): NATURAL_8
-        external
-            "C [struct %"SDL.h%"] (SDL_Color): Uint8"
-        alias
-            "a"
-        end
-
     frozen set_red (a_color: POINTER; a_red: NATURAL_8)
         external
             "C [struct %"SDL.h%"] (SDL_Color, Uint8)"
@@ -84,13 +77,6 @@ feature -- Wrapper
             "C [struct %"SDL.h%"] (SDL_Color, Uint8)"
         alias
             "b"
-        end
-
-    frozen set_alpha (a_color: POINTER; a_alpha: NATURAL_8)
-        external
-            "C [struct %"SDL.h%"] (SDL_Color, Uint8)"
-        alias
-            "a"
         end
 
     frozen sizeof_sdl_color_struct: INTEGER

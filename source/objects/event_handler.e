@@ -19,6 +19,7 @@ feature {NONE} -- Initialization
 	make
 		do
 			event := event.memory_alloc ({SDL}.sizeof_sdl_event_struct)
+			create on_typing
 			create on_key_pressed
 			create on_mouse_moved
 			create on_mouse_pressed
@@ -26,6 +27,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	on_typing: ACTION_SEQUENCE [TUPLE [keyname: STRING]]
 	on_key_pressed: ACTION_SEQUENCE [TUPLE [key: INTEGER_32; state: BOOLEAN]]
 	on_mouse_moved: ACTION_SEQUENCE [TUPLE [x, y: INTEGER_32]]
 	on_mouse_pressed: ACTION_SEQUENCE [TUPLE [button: NATURAL_32; x, y: INTEGER_32; state: BOOLEAN]]
@@ -39,6 +41,7 @@ feature -- Access
 			until
 				l_must_quit = 0
 			loop
+				check_key_typed
 				check_key_pressed
 				check_mouse_moved
 				check_mouse_pressed
@@ -56,6 +59,16 @@ feature -- Access
 feature {NONE} -- Implementation
 
 	event: POINTER
+
+	check_key_typed
+		local
+			l_c_string: C_STRING
+		do
+			if {SDL}.get_sdl_event_type (event) = {SDL}.sdl_keydown then
+				create l_c_string.make_by_pointer ({SDL}.get_sdl_key_name ({SDL}.get_sdl_keypressed (event)))
+				on_typing.call ([l_c_string.string])
+			end
+		end
 
 	check_key_pressed
 		do

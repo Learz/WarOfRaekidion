@@ -306,18 +306,18 @@ feature -- Structure Getters -SDL.h
 			"y"
 		end
 
-		frozen get_sdl_surface_w(a_sdl_surface:POINTER):INTEGER
+		frozen get_sdl_rect_w(a_sdl_rect:POINTER):INTEGER
 
 		external
-			"C [struct <SDL.h>] (SDL_Surface) : int"
+			"C [struct <SDL.h>] (SDL_Rect) : int"
 		alias
 			"w"
 		end
 
-		frozen get_sdl_surface_h(a_sdl_surface:POINTER):INTEGER
+		frozen get_sdl_rect_h(a_sdl_rect:POINTER):INTEGER
 
 		external
-			"C [struct <SDL.h>] (SDL_Surface) : int"
+			"C [struct <SDL.h>] (SDL_Rect) : int"
 		alias
 			"h"
 		end
@@ -352,6 +352,14 @@ feature -- Structure Getters -SDL.h
 			"C (int*, int*) : Uint32 | <SDL.h>"
 		alias
 			"SDL_GetMouseState"
+		end
+
+		frozen get_sdl_key_name (a_keycode: INTEGER): POINTER
+
+		external
+			"C (SDL_Keycode) : const char* | <SDL.h>"
+		alias
+			"SDL_GetKeyName"
 		end
 
 feature -- Constantes -SDL.h
