@@ -28,6 +28,22 @@ feature -- Access
 		deferred
 		end
 
+feature -- Status
+
+	hidden: BOOLEAN
+	
+feature -- Element change
+
+	hide
+		do
+			hidden := true
+		end
+
+	show
+		do
+			hidden := false
+		end
+
 	set_x (a_x: DOUBLE)
 		do
 			x := a_x

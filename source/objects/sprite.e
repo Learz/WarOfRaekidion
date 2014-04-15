@@ -36,7 +36,9 @@ feature -- Access
 
 	update
 		do
-		    {SDL}.sdl_rendercopyex (renderer, texture, create {POINTER}, targetarea, angle, create {POINTER}, {SDL}.sdl_flip_none)
+			if not hidden then
+		    	{SDL}.sdl_rendercopyex (renderer, texture, create {POINTER}, targetarea, angle, create {POINTER}, {SDL}.sdl_flip_none)
+			end
 		end
 
 feature -- Element change

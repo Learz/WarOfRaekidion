@@ -96,7 +96,9 @@ feature -- Access
 
 	update
 		do
-		    {SDL}.sdl_rendercopy (renderer, texture, create {POINTER}, targetarea)
+			if not hidden then
+		    	{SDL}.sdl_rendercopy (renderer, texture, create {POINTER}, targetarea)
+		    end
 		end
 
 feature {NONE} -- Implementation

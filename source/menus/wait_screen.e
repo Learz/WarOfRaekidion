@@ -1,11 +1,11 @@
 note
-	description: "Summary description for {LOBBY_SCREEN}."
+	description: "Summary description for {WAITING_MENU}."
 	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
 
 class
-	LOBBY_SCREEN
+	WAIT_SCREEN
 
 inherit
 	SCREEN

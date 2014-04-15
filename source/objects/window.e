@@ -26,6 +26,7 @@ feature {NONE} -- Initialization
 			{SDL}.sdl_rendersetlogicalsize (renderer, a_width, a_height)
 			create l_c_title.make ("resources/fonts/zephyrea.ttf")
 			create font.make
+			font.extend ([9, {SDL_TTF}.ttf_open_font (l_c_title.item, 9)])
 			font.extend ([16, {SDL_TTF}.ttf_open_font (l_c_title.item, 16)])
 			font.extend ([24, {SDL_TTF}.ttf_open_font (l_c_title.item, 24)])
 			font.extend ([32, {SDL_TTF}.ttf_open_font (l_c_title.item, 32)])
