@@ -22,7 +22,7 @@ feature {NONE} -- Initialization
 			window := a_window
 			default_image := a_name
 			current_image := ""
-			imagefactory := factory
+			factory := image_factory
 			renderer := a_window.renderer
 			set_image (a_name)
 			set_x (a_x)
@@ -49,7 +49,7 @@ feature -- Element change
 	set_image (a_name: STRING)
 		do
 			if a_name /= current_image then
-				image := imagefactory.image (a_name)
+				image := factory.image (a_name)
 				targetarea := targetarea.memory_alloc ({SDL}.sizeof_sdl_rect_struct)
 
 				if not image.is_default_pointer then
@@ -73,7 +73,7 @@ feature -- Element change
 feature {NONE} -- Implementation
 
 	image: POINTER
-	imagefactory: IMAGE_FACTORY
+	factory: IMAGE_FACTORY
 
 	dispose
 		do

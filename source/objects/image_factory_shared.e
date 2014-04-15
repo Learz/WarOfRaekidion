@@ -10,7 +10,7 @@ deferred class
 
 feature {NONE} -- Access
 
-	factory: IMAGE_FACTORY
+	image_factory: IMAGE_FACTORY
 		once
 			create Result.make
 		end
