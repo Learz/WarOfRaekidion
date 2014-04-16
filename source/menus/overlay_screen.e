@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 			l_event.on_key_pressed.extend (agent manage_key)
 			l_event.on_mouse_moved.extend (agent manage_mouse)
 			l_event.on_mouse_pressed.extend (agent manage_click)
-			l_title := create {TEXT}.make_centered (a_title, 24, window, 0, 0, window.width, 150, [255, 255, 255])
+			l_title := create {TEXT}.make_centered (a_title, 24, window, 0, 0, window.width, 150, [255, 255, 255], true)
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 150, "Resume"))
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 200, "End game"))
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 250, "Quit"))

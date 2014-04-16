@@ -24,7 +24,7 @@ feature {NONE} -- Initialization
 		do
 			title := a_title
 			sprite_make (a_name, a_window, a_x, a_y)
-			create text.make_centered (a_title, 16, a_window, x, y, width, height, [192, 192, 255])
+			create text.make_centered (a_title, 16, a_window, x, y, width, height, [192, 192, 255], true)
 		end
 
 feature -- Access

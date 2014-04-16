@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 			l_event.on_mouse_pressed.extend (agent manage_click)
 			key_binding := create {KEYS_FPS}
 			create buttons.make
-			l_title := create {TEXT}.make_centered ("War of Raekidion", 32, window, 0, 0, window.width, 150, [255, 255, 255])
+			l_title := create {TEXT}.make_centered ("War of Raekidion", 32, window, 0, 0, window.width, 150, [255, 255, 255], true)
 			create l_background.make ("title_background", window, 0, 0, 0)
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 150, "Singleplayer"))
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 200, "Multiplayer"))
@@ -67,8 +67,9 @@ feature {NONE} -- Initialization
 					if multiplayer then
 						l_screen := create {LOBBY_SCREEN}.make (window, key_binding)
 					else
-						l_screen := create {GAME_SCREEN}.make (window, key_binding, true, false, create {STRING}.make_empty)
+						l_screen := create {GAME_SCREEN}.make (window, key_binding, true, void)
 					end
+
 					start_game := false
 					must_quit := l_screen.must_quit
 					is_return_key_pressed := l_screen.is_return_key_pressed

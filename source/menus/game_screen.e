@@ -15,9 +15,9 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_key_binding: KEYS; is_player, is_multiplayer: BOOLEAN; a_server: STRING)
+	make (a_window: WINDOW; a_key_binding: KEYS; a_is_player: BOOLEAN; a_network: detachable NETWORK)
 		local
-			l_ticks, l_lasttick, l_deltatime: INTEGER
+			l_ticks, l_deltatime: INTEGER
 			l_background: BACKGROUND
 			l_sidebar: SPRITE
 			l_event: EVENT_HANDLER
@@ -33,25 +33,24 @@ feature {NONE} -- Initialization
 		    create buttons.make
 			create enemy_list.make
 			create projectile_list.make
+			l_network := a_network
 			l_memory.collection_on
 			l_event := create {EVENT_HANDLER}.make
 			l_background := create {BACKGROUND}.make ("background", window, 0, 0, 1)
 		    l_sidebar := create {SPRITE}.make ("sidebar", window, window.width - 75, 0)
-		    player := create {PLAYER_SHIP}.make (window, 112, 300, key_binding, is_player)
+		    player := create {PLAYER_SHIP}.make (window, 112, 300, key_binding, a_is_player)
 		    player.on_shoot.extend (agent spawn_projectile)
-		    spawner := create {SPAWNER}.make (window, key_binding, not is_player)
+		    spawner := create {SPAWNER}.make (window, key_binding, not a_is_player)
 		    spawner.on_spawn.extend (agent spawn_enemy)
 
-		    if is_multiplayer then
-		    	create l_network.make (player, spawner, is_player, a_server)
+		    if attached l_network as la_network then
+		    	la_network.set_player_and_spawner (player, spawner)
 
-		    	if is_player then
+		    	if a_is_player then
 					l_event.on_key_pressed.extend (agent player.manage_key)
 				else
 					l_event.on_key_pressed.extend (agent spawner.manage_key)
 		    	end
-
-				l_network.launch
 		    else
 				l_event.on_key_pressed.extend (agent player.manage_key)
 		    end
@@ -62,6 +61,7 @@ feature {NONE} -- Initialization
 			until
 				must_quit or must_close or must_end
 			loop
+				l_ticks := {SDL}.sdl_getticks.to_integer_32
 				l_event.manage_event
 
 				if is_paused then
@@ -76,9 +76,6 @@ feature {NONE} -- Initialization
 					must_quit := true
 				end
 
-				l_ticks := {SDL}.sdl_getticks.to_integer_32
-				l_deltatime := l_ticks - l_lasttick
-				l_lasttick := l_ticks
 				window.clear
 				l_background.update
 
@@ -122,15 +119,17 @@ feature {NONE} -- Initialization
 				    end
 				end
 
-				if is_multiplayer and attached l_network as la_network then
-					if is_player then
+				if attached l_network as la_network then
+					if a_is_player then
 						player.update
 						if player.has_moved then
 							la_network.node.send_player_position (player.x.floor, player.y.floor)
 						end
 
-						la_network.spawner.update
-						spawner := la_network.spawner
+						if attached la_network.spawner as la_spawner then
+							la_spawner.update
+							spawner := la_spawner
+						end
 					else
 						spawner.update
 						from
@@ -141,8 +140,10 @@ feature {NONE} -- Initialization
 							la_network.node.send_new_enemy_ship (spawner.spawn_list.item.name, spawner.spawn_list.item.x, spawner.spawn_list.item.y)
 						end
 
-						la_network.player_ship.update
-						player := la_network.player_ship
+						if attached la_network.player_ship as la_player_ship then
+							la_player_ship.update
+							player := la_player_ship
+						end
 					end
 				else
 					player.update
@@ -169,10 +170,14 @@ feature {NONE} -- Initialization
 
 			    l_sidebar.update
 			    window.render
-			   	{SDL}.sdl_delay (4)
+				l_deltatime := {SDL}.sdl_getticks.to_integer_32 - l_ticks
+
+				if l_deltatime < (1000 / 60).floor then
+			   		{SDL}.sdl_delay ((1000 / 60).floor - l_deltatime)
+				end
 			end
 
-			if is_multiplayer and attached l_network as la_network then
+			if attached l_network as la_network then
 				la_network.quit
 			end
 		end

@@ -14,22 +14,81 @@ create
 feature {NONE} -- Initialization
 
 	make_client (a_address: STRING; a_port: INTEGER)
+		local
+			l_address: INET_ADDRESS_FACTORY
 		do
-			host := a_address
+			create l_address
+			client_address := l_address.create_from_name (a_address)
 			port := a_port
-			create socket.make_targeted (host, port)
+			io.put_string ("Opening client on: "+client_address+":"+port.out+".%N")
+
+			if client_address = Void then
+				io.put_string ("Address " + a_address + " is invalid.%N")
+			else
+				create client.make_client_by_address_and_port (client_address, port)
+
+				if client.invalid_address then
+					io.put_string ("Impossible to connect to "+a_address+":"+port.out+".%N")
+				else
+					client.connect
+
+					if not client.is_connected then
+						io.put_string ("Impossible to connect to "+a_address+":"+port.out+".%N")
+					else
+						client.put_string (client_address.host_address.host_address)
+						client.read_line
+						io.put_string ("Server sent: "+client.last_string+"%N")
+						client.close
+					end
+				end
+			end
 		end
 
 	make_server (a_port: INTEGER)
 		do
-			host := ""
+			server_address := ""
 			port := a_port
-			create socket.make_bound (port)
+			io.put_string ("Opening server on port "+l_port.out+".%N")
+			create server.make_server_by_port (port)
+
+			if not server.is_bound then
+				io.put_string ("Port "+port.out+" already in use")
+			else
+				server_address := server.address
+
+				check
+					Address_attached: server_address /= void
+				end
+
+				io.put_string ("Socket open and bound to: "+server_address.host_address.host_address+":"+server_address.port.out+".%N")
+				server.listen (1)
+				server.accept
+				client := server.accepted
+
+				if client = void then
+					io.put_string ("Impossible to connect to client.%N")
+				else
+					client_address := server.peer_address
+
+					check
+						Client_address_attached: client_address /= void
+					end
+
+					io.put_string ("Connected to client: "+client_address.host_address.host_address+":"+client_address.port.out+".%N")
+					client.read_line
+					io.put_string ("Client sent: "+client.last_string+"%N")
+					client.put_string (server_address.host_address.host_address)
+					client.close
+				end
+			end
+			server.close
 		end
 
 feature -- Access
 
-	socket: NETWORK_DATAGRAM_SOCKET
+	client, server: NETWORK_STREAM_SOCKET
+	client_address, server_address: NETWORK_SOCKET_ADDRESS
+	port: INTEGER
 
 	recieve_player_position: TUPLE [INTEGER, INTEGER]
 		local
@@ -105,10 +164,5 @@ feature -- Access
 			l_packet.data.put_integer_32 (a_x, 64)
 			l_packet.data.put_integer_32 (a_y, 96)
 		end
-
-feature {NONE} -- Implementation
-
-	host: STRING
-	port: INTEGER
 
 end

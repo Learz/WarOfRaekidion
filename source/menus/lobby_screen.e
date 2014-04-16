@@ -26,7 +26,7 @@ feature {NONE} -- Initialization
 			l_event: EVENT_HANDLER
 			l_title: TEXT
 			l_background: BACKGROUND
-			l_screen: detachable GAME_SCREEN
+			l_screen: detachable WAIT_SCREEN
 		do
 			l_event := create {EVENT_HANDLER}.make
 			window := a_window
@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 			l_event.on_mouse_pressed.extend (agent manage_click)
 			key_binding := a_key_binding
 			create buttons.make
-			l_title := create {TEXT}.make_centered ("Multiplayer", 24, window, 0, 0, window.width, 150, [255, 255, 255])
+			l_title := create {TEXT}.make_centered ("Multiplayer", 24, window, 0, 0, window.width, 150, [255, 255, 255], true)
 			create l_background.make ("title_background", window, 0, 0, 0)
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 150, "Join"))
 			create textbox.make ("textbox", window, 75, 200)
@@ -63,17 +63,16 @@ feature {NONE} -- Initialization
 
 				if start_game then
 					if hosting then
-						-- Initiate connection wait
-						l_screen := create {GAME_SCREEN}.make (window, key_binding, false, true, create {STRING}.make_empty)
+						l_screen := create {WAIT_SCREEN}.make (window, key_binding, false, create {STRING}.make_empty)
 					else
 						l_address := textbox.char_string
 
 						if is_valid_host (l_address) then
-							l_screen := create {GAME_SCREEN}.make (window, key_binding, true, true, l_address)
-						else
-							start_game := false
+							l_screen := create {WAIT_SCREEN}.make (window, key_binding, true, l_address)
 						end
 					end
+
+					start_game := false
 
 					if attached l_screen as la_screen then
 						must_quit := l_screen.must_quit
