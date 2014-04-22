@@ -51,7 +51,7 @@ feature -- Access
 		do
 			if a_state then
 				if a_key = key_binding.move_down_key then
-					spawn_list.extend (["enemy_red", 100, 100])
+					spawn_list.extend (["Sprayer", 100, 100])
 				end
 			end
 		end

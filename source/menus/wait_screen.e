@@ -12,21 +12,23 @@ inherit
 		redefine
 			click_button
 		end
+	AUDIO_FACTORY_SHARED
 
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_key_binding: KEYS; a_is_player: BOOLEAN; a_server: STRING)
+	make (a_window: WINDOW; a_key_binding: KEYS; a_is_server: BOOLEAN; a_server: STRING)
 		local
 			l_address: STRING
 			l_ticks: INTEGER
 			l_event: EVENT_HANDLER
 			l_title: TEXT
-			l_network: detachable NETWORK
+			l_network: NETWORK
 			l_background: BACKGROUND
 			l_screen: detachable GAME_SCREEN
+			l_dots: INTEGER
 		do
 			l_event := create {EVENT_HANDLER}.make
 			window := a_window
@@ -37,16 +39,22 @@ feature {NONE} -- Initialization
 			key_binding := a_key_binding
 			l_address := a_server
 			create buttons.make
-			l_title := create {TEXT}.make_centered ("Waiting for connection...", 16, window, 0, 0, window.width, 350, [255, 255, 255], true)
+			l_title := create {TEXT}.make_centered ("Waiting for connection", 16, window, 0, 0, window.width, 350, [255, 255, 255], true)
 			create l_background.make ("title_background", window, 0, 0, 0)
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 200, "Cancel"))
+
+			if a_is_server then
+				create l_network.make_server
+			else
+				create l_network.make_client (a_server)
+			end
+
+			l_network.launch
 
 			from
 			until
 				must_quit or must_close or must_end
 			loop
-				l_network := create {NETWORK}.make_waiting (a_is_player, a_server)
-				l_network.launch
 				l_event.manage_event
 
 				if l_event.is_quit_event then
@@ -55,12 +63,25 @@ feature {NONE} -- Initialization
 
 				window.clear
 				l_background.update
+
+				if l_ticks \\ 1000 = 0 then
+					if l_dots < 3 then
+						l_title.set_text (l_title.text + ".", 16)
+						l_dots := l_dots + 1
+					else
+						l_dots := 0
+						l_title.set_text ("Waiting for connection", 16)
+					end
+				end
+
 				l_title.update
 				update
 				window.render
 
-				if l_network.connected_ip.count > 1 then
-					l_screen := create {GAME_SCREEN}.make (window, key_binding, a_is_player, l_network)
+				if l_network.is_init then
+					l_screen := create {GAME_SCREEN}.make (window, key_binding, a_is_server)
+					stop_music
+					play_music ("quiet", -1)
 
 					if attached l_screen as la_screen then
 						must_quit := l_screen.must_quit
@@ -70,6 +91,8 @@ feature {NONE} -- Initialization
 
 				l_ticks := l_ticks + 1
 			end
+
+			l_network.quit
 		end
 
 feature -- Status

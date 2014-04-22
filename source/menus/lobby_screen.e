@@ -62,14 +62,11 @@ feature {NONE} -- Initialization
 				window.render
 
 				if start_game then
-					if hosting then
-						l_screen := create {WAIT_SCREEN}.make (window, key_binding, false, create {STRING}.make_empty)
+					if is_server then
+						l_screen := create {WAIT_SCREEN}.make (window, key_binding, is_server, "")
 					else
 						l_address := textbox.char_string
-
-						if is_valid_host (l_address) then
-							l_screen := create {WAIT_SCREEN}.make (window, key_binding, true, l_address)
-						end
+						l_screen := create {WAIT_SCREEN}.make (window, key_binding, is_server, l_address)
 					end
 
 					start_game := false
@@ -86,7 +83,7 @@ feature {NONE} -- Initialization
 
 feature -- Status
 
-	start_game, hosting, textbox_focus: BOOLEAN
+	start_game, is_server, textbox_focus: BOOLEAN
 
 feature {NONE} -- Implementation
 
@@ -155,11 +152,11 @@ feature {NONE} -- Implementation
 		do
 				if a_button = 1 then
 					if textbox.char_string.count > 0 then
-						hosting := false
+						is_server := false
 						start_game := true
 					end
 				elseif a_button = 2 then
-					hosting := true
+					is_server := true
 					start_game := true
 				elseif a_button = 3 then
 					must_close := true

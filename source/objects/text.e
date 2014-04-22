@@ -34,6 +34,8 @@ feature {NONE} -- Initialization
 				{SDL_TTF}.set_blue (bg_color, 0)
 			end
 
+			text := a_name
+			size := a_size
 			set_text (a_name, a_size)
 			set_x (a_x)
 			set_y (a_y)
@@ -56,6 +58,8 @@ feature {NONE} -- Initialization
 				{SDL_TTF}.set_blue (bg_color, 0)
 			end
 
+			text := a_name
+			size := a_size
 			set_text (a_name, a_size)
 			set_x ((a_width / 2) + a_x - (width / 2))
 			set_y ((a_height / 2) + a_y - (height / 2))
@@ -78,11 +82,16 @@ feature {NONE} -- Initialization
 				{SDL_TTF}.set_blue (bg_color, 0)
 			end
 
+			text := ""
+			size := 0
 			x := a_x
 			y := a_y
 		end
 
 feature -- Access
+
+	text: STRING
+	size: INTEGER
 
 	set_text (a_text: STRING; a_size: INTEGER)
 		local
@@ -115,6 +124,8 @@ feature -- Access
 							bg_texture := {SDL}.sdl_createtexturefromsurface (renderer, bg_surface)
 						end
 
+						text := a_text
+						size := a_size
 						l_result_found := true
 					end
 
@@ -150,6 +161,8 @@ feature -- Access
 		    		{SDL}.sdl_rendercopy (renderer, bg_texture, create {POINTER}, bg_targetarea)
 		    	end
 
+				{SDL}.set_sdl_rect_x (targetarea, x.floor)
+				{SDL}.set_sdl_rect_y (targetarea, y.floor)
 		    	{SDL}.sdl_rendercopy (renderer, texture, create {POINTER}, targetarea)
 		    end
 		end

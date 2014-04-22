@@ -12,7 +12,7 @@ feature {NONE} -- Access
 
 	image_factory: IMAGE_FACTORY
 		once
-			create Result.make
+			create result.make
 		end
 
 end

@@ -11,45 +11,30 @@ inherit
 	THREAD
 
 create
-	make_waiting,
-	make_game
+	make_server,
+	make_client
 
 feature {NONE} -- Initialization
 
-	make_waiting (a_is_ship: BOOLEAN; a_address: STRING)
+	make_server
 		do
 			make
-			waiting := true
-			is_ship := a_is_ship
-			create connected_ip.make_empty
-
-			if is_ship then
-				create node.make_client (a_address, 9001)
-			else
-				create node.make_server (9001)
-			end
+			create address.make_empty
+			is_server := true
 		end
 
-	make_game (a_player_ship: PLAYER_SHIP; a_spawner: SPAWNER; a_is_ship: BOOLEAN; a_address: STRING)
+	make_client (a_address: STRING)
 		do
 			make
-			waiting := false
-			is_ship := a_is_ship
-			player_ship := a_player_ship
-			spawner := a_spawner
-			create connected_ip.make_empty
-
-			if is_ship then
-				create node.make_client (a_address, 9001)
-			else
-				create node.make_server (9001)
-			end
+			address := a_address
+			is_server := false
 		end
 
 feature -- Access
 
-	node: NODE
-	connected_ip: STRING
+	node: detachable NODE
+	timer, delay, timeout: INTEGER
+	address: STRING
 	player_ship: detachable PLAYER_SHIP
 	spawner: detachable SPAWNER
 
@@ -60,7 +45,7 @@ feature -- Access
 
 feature -- Status
 
-	must_quit, is_ship, waiting: BOOLEAN
+	must_quit, is_server, is_init: BOOLEAN
 
 feature -- Element change
 
@@ -74,45 +59,46 @@ feature {NONE} -- Implementation
 
 	execute
 		do
-			if waiting then
-				execute_waiting
-			else
-				execute_game
-			end
-		end
-
-	execute_waiting
-		do
-			if is_ship then
-				node.send_ip
-			else
-				connected_ip := node.recieve_ip
-			end
-		end
-
-	execute_game
-		local
-			l_enemy_ship: TUPLE [name: STRING; x, y: INTEGER]
-			l_player_position: TUPLE [x, y: INTEGER]
-		do
 			from
 				must_quit := false
 			until
 				must_quit
 			loop
-				if is_ship then
-					if attached spawner as la_spawner then
-						l_enemy_ship := node.recieve_new_enemy_ship
-						la_spawner.spawn_list.extend (l_enemy_ship)
-					end
-				else
-					if attached player_ship as la_player_ship then
-						l_player_position := node.recieve_player_position
-						la_player_ship.set_x (l_player_position.x)
-						la_player_ship.set_y (l_player_position.y)
+				if attached node as la_node then
+					if is_init then
+						if is_server then
+							if attached spawner as la_spawner then
+		--						la_node.receive_client_data
+							end
+						else
+							if attached player_ship as la_player_ship then
+		--						la_node.receive_server_data
+							end
+						end
+					else
+						if is_server then
+							create node.make_server (9001)
+							is_init := true
+						else
+							create node.make_client (address, 9001)
+
+							if attached la_node.socket as la_socket then
+								if la_socket.is_connected then
+									is_init := true
+								else
+									io.put_string (address)
+								end
+							end
+						end
 					end
 				end
 			end
+
+			if attached node as la_node then
+				la_node.close
+			end
+
+			exit
 		end
 
 end

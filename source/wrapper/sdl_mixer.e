@@ -44,32 +44,67 @@ feature -- Fonctions
 			"Mix_LoadWAV"
 		end
 
-	frozen mix_allocatechannels(a_numchans: INTEGER): INTEGER
+	frozen mix_load_music(a_file: POINTER) : POINTER
 		external
-			"C (int): int | <SDL_mixer.h>"
+			"C (const char*) : Mix_Music* | <SDL_mixer.h>"
+		alias
+			"Mix_LoadMUS"
+		end
+
+	frozen mix_allocatechannels(a_numchans: INTEGER)
+		external
+			"C (int) | <SDL_mixer.h>"
 		alias
 			"Mix_AllocateChannels"
 		end
 
-	frozen mix_volumechunk(a_chunk: POINTER; volume: INTEGER)--: INTEGER
+	frozen mix_volumechunk(a_chunk: POINTER; volume: INTEGER)
 		external
-			"C (Mix_Chunk*, int)| <SDL_mixer.h>" --Add int
+			"C (Mix_Chunk*, int) | <SDL_mixer.h>"
 		alias
 			"Mix_VolumeChunk"
 		end
 
-	frozen Mix_Volume(a_channel: INTEGER; volume: INTEGER): INTEGER
+	frozen mix_volumemusic(volume: INTEGER)
 		external
-			"C (int, int) : int | <SDL_mixer.h>"
+			"C (int) | <SDL_mixer.h>"
+		alias
+			"Mix_VolumeMusic"
+		end
+
+	frozen Mix_Volume(a_channel: INTEGER; volume: INTEGER)
+		external
+			"C (int, int) | <SDL_mixer.h>"
 		alias
 			"Mix_Volume"
 		end
 
-	frozen Mix_PlayChannel(a_channel: INTEGER; a_chunk: POINTER; a_loops: INTEGER) : INTEGER
+	frozen Mix_PlayChannel(a_channel: INTEGER; a_chunk: POINTER; a_loops: INTEGER)
 		external
-			"C (int, Mix_Chunk*, int) : int | <SDL_mixer.h>"
+			"C (int, Mix_Chunk*, int) | <SDL_mixer.h>"
 		alias
 			"Mix_PlayChannel"
+		end
+
+	frozen Mix_PlayMusic(a_music: POINTER; a_loops: INTEGER)
+		external
+			"C (Mix_Music*, int) | <SDL_mixer.h>"
+		alias
+			"Mix_PlayMusic"
+		end
+
+	frozen Mix_HaltChannel(a_channel: INTEGER)
+		external
+			"C (int) | <SDL_mixer.h>"
+		alias
+			"Mix_HaltChannel"
+		end
+
+	frozen Mix_HaltMusic
+		external
+			"C | <SDL_mixer.h>"
+		alias
+			"Mix_HaltMusic"
 		end
 
 	frozen mix_freechunk(chunk: POINTER)
@@ -77,6 +112,13 @@ feature -- Fonctions
 			"C (Mix_Chunk*) | <SDL_mixer.h>"
 		alias
 			"Mix_FreeChunk"
+		end
+
+	frozen mix_freemusic(chunk: POINTER)
+		external
+			"C (Mix_Music*) | <SDL_mixer.h>"
+		alias
+			"Mix_FreeMusic"
 		end
 
 	frozen mix_quit

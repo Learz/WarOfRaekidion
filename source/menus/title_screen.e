@@ -12,6 +12,7 @@ inherit
 		redefine
 			click_button
 		end
+	AUDIO_FACTORY_SHARED
 
 create
 	make
@@ -42,6 +43,8 @@ feature {NONE} -- Initialization
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 300, "Quit"))
 			selection := buttons.first
 			button_index := buttons.index
+			stop_music
+			play_music ("quiet", -1)
 
 			if attached selection as la_selection then
 				la_selection.set_image ("button_pressed")
@@ -67,7 +70,10 @@ feature {NONE} -- Initialization
 					if multiplayer then
 						l_screen := create {LOBBY_SCREEN}.make (window, key_binding)
 					else
-						l_screen := create {GAME_SCREEN}.make (window, key_binding, true, void)
+--						l_screen := create {GAME_SCREEN}.make (window, key_binding, true, void)
+						l_screen := create {GAME_SCREEN}.make (window, key_binding, true)
+						stop_music
+						play_music ("quiet", -1)
 					end
 
 					start_game := false

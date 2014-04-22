@@ -27,9 +27,9 @@ feature {NONE} -- Initialization
 		do
 			l_directory := "resources/sounds/"
 			directory_make (l_directory)
-			create file_list.make
+			create sounds_list.make
 			create l_filename_list.make
-			l_filename_list := list_files ("wav")
+			l_filename_list := list_files ("ogg")
 
 			from
 				l_filename_list.start
@@ -37,7 +37,23 @@ feature {NONE} -- Initialization
 				l_filename_list.exhausted
 			loop
 				create l_filename_c.make (l_directory + l_filename_list.item)
-				file_list.extend ([l_filename_list.item, {SDL_MIXER}.mix_load_wav (l_filename_c.item)])
+				sounds_list.extend ([l_filename_list.item, {SDL_MIXER}.mix_load_wav (l_filename_c.item)])
+				l_filename_list.forth
+			end
+
+			l_directory := "resources/music/"
+			directory_make (l_directory)
+			create music_list.make
+			create l_filename_list.make
+			l_filename_list := list_files ("ogg")
+
+			from
+				l_filename_list.start
+			until
+				l_filename_list.exhausted
+			loop
+				create l_filename_c.make (l_directory + l_filename_list.item)
+				music_list.extend ([l_filename_list.item, {SDL_MIXER}.mix_load_music (l_filename_c.item)])
 				l_filename_list.forth
 			end
 
@@ -54,36 +70,67 @@ feature -- Access
 			l_name: STRING
 		do
 			from
-				file_list.start
+				sounds_list.start
 			until
-				file_list.exhausted
+				sounds_list.exhausted
 			loop
-				l_count := file_list.item.filename.index_of ('.', 1).as_natural_16
-				l_name := file_list.item.filename.substring (1, l_count - 1)
+				l_count := sounds_list.item.filename.index_of ('.', 1).as_natural_16
+				l_name := sounds_list.item.filename.substring (1, l_count - 1)
 
 				if l_name.is_equal (a_name) then
-					Result := file_list.item.object
+					result := sounds_list.item.object
 				end
 
-				file_list.forth
+				sounds_list.forth
+			end
+		end
+
+	music (a_name: STRING): POINTER
+		local
+			l_count: NATURAL_16
+			l_name: STRING
+		do
+			from
+				music_list.start
+			until
+				music_list.exhausted
+			loop
+				l_count := music_list.item.filename.index_of ('.', 1).as_natural_16
+				l_name := music_list.item.filename.substring (1, l_count - 1)
+
+				if l_name.is_equal (a_name) then
+					result := music_list.item.object
+				end
+
+				music_list.forth
 			end
 		end
 
 	dispose
 		do
 			from
-				file_list.start
+				sounds_list.start
 			until
-				file_list.exhausted
+				sounds_list.exhausted
 			loop
-				{SDL_MIXER}.mix_freechunk (file_list.item.object)
-				file_list.forth
+				{SDL_MIXER}.mix_freechunk (sounds_list.item.object)
+				sounds_list.forth
+			end
+
+			from
+				music_list.start
+			until
+				music_list.exhausted
+			loop
+				{SDL_MIXER}.mix_freemusic (music_list.item.object)
+				music_list.forth
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	file_list: LINKED_LIST[TUPLE[filename: STRING; object: POINTER]]
+	sounds_list: LINKED_LIST[TUPLE[filename: STRING; object: POINTER]]
+	music_list: LINKED_LIST[TUPLE[filename: STRING; object: POINTER]]
 
 	is_init: CELL[BOOLEAN]
 		once

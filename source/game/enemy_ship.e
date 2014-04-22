@@ -8,11 +8,11 @@ class
 	ENEMY_SHIP
 
 inherit
+	ENEMY_FACTORY_SHARED
 	SHIP
 		rename
-			make as ship_make
-		redefine
-			update
+			make as ship_make,
+			update as ship_update
 		end
 
 create
@@ -22,56 +22,51 @@ feature {NONE} -- Initialization
 
 	make (a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE)
 		do
-			if a_name.is_equal ("enemy_red") then
-				bullet_type := "laser_red"
-				bullet_angle := {DOUBLE_MATH}.pi_4 * 10
-				bullet_firerate := 2
-				bullet_force := 1
-			elseif a_name.is_equal ("enemy_yellow") then
-				bullet_type := "laser_yellow"
-				bullet_angle := -{DOUBLE_MATH}.pi_2 * 10
-				bullet_firerate := 4
-				bullet_force := 1
-			elseif a_name.is_equal ("enemy_black") then
-				bullet_type := "laser_white"
-				bullet_angle := {DOUBLE_MATH}.pi * 10
-				bullet_firerate := 1
-				bullet_force := 1
-			else
-				bullet_type := "laser_red"
-				bullet_angle := 0 + 90
-				bullet_firerate := 10
-				bullet_force := 2
-			end
+			enemyfactory := enemy_factory
+			enemy_properties := enemyfactory.enemy (a_name)
 
-			ship_make (a_name, a_window, a_x, a_y, 100)
+			if attached enemy_properties as la_enemy then
+				ship_make (la_enemy.name, a_window, a_x, a_y, la_enemy.health)
+				bullet_type := la_enemy.bullet
+				bullet_count := la_enemy.count
+				ship_speed := la_enemy.speed
+				bullet_spread := la_enemy.spread
+				bullet_firerate := la_enemy.firerate
+			else
+				ship_make ("", a_window, a_x, a_y, 0)
+				bullet_type := ""
+				bullet_count := 0
+				ship_speed := 0
+				bullet_spread := 0
+				bullet_firerate := 0
+			end
 		end
 
 feature -- Access
 
-	update
+	id: INTEGER
+
+	update (a_x, a_y: DOUBLE)
 		local
 			l_projectile: PROJECTILE
 		do
-			projectile_delay := (projectile_delay + 1) \\ bullet_firerate
-
-			if projectile_delay = 0 then
-				l_projectile := create {PROJECTILE}.make (bullet_type, window, x + (width / 2).floor, y + (height / 2).floor, false)
-				l_projectile.trajectory.enable_degree_mode
-				l_projectile.trajectory.set_angle (lifetime * bullet_angle)
-				l_projectile.trajectory.set_force (bullet_force)
-				on_shoot.call (l_projectile)
-			end
-
-			precursor {SHIP}
+			l_projectile := create {PROJECTILE}.make (bullet_type, window, x + (width / 2).floor, y + (height / 2).floor, false)
+			l_projectile.trajectory.enable_degree_mode
+			l_projectile.trajectory.set_x_and_y (a_x, a_y)
+			l_projectile.trajectory.set_force (3)
+			on_shoot.call (l_projectile)
+			ship_update
 		end
 
 feature {NONE} -- Implementation
 
+	enemyfactory: ENEMY_FACTORY
+	enemy_properties: detachable ENEMY_PROPERTIES
+	ship_speed: DOUBLE
 	bullet_type: STRING
-	bullet_angle, bullet_force: DOUBLE
-	bullet_firerate: NATURAL_8
+	bullet_count: INTEGER
+	bullet_spread: DOUBLE
+	bullet_firerate: DOUBLE
 	create_projectile: BOOLEAN
-	projectile_delay: NATURAL_8
 
 end
