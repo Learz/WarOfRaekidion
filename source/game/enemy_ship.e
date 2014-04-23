@@ -24,7 +24,6 @@ feature {NONE} -- Initialization
 		do
 			enemyfactory := enemy_factory
 			enemy_properties := enemyfactory.enemy (a_name)
-			check is_enem_valid: enemy_properties.name /= "" end
 			ship_make (enemy_properties.filename, a_window, a_x, a_y, enemy_properties.health)
 		ensure
 			enemy_properties_not_null: enemy_properties.name /= ""
@@ -38,13 +37,13 @@ feature -- Access
 		local
 			l_projectile: PROJECTILE
 		do
-			if lifetime // 20 = 0 then
-				l_projectile := create {PROJECTILE}.make (enemy_properties.bullet, window, x + (width / 2).floor, y + (height / 2).floor, 0, false)
-				l_projectile.trajectory.enable_degree_mode
-				l_projectile.trajectory.set_x_and_y (a_x, a_y)
+			if lifetime \\ 20 = 0 then
+				create l_projectile.make (enemy_properties.bullet, window, x + (width / 2).floor, y + (height / 2).floor, 0, false)
+				l_projectile.trajectory.set_x_and_y (a_x - x, -a_y + y)
+				l_projectile.trajectory.set_force (l_projectile.projectile_properties.speed)
 				on_shoot.call (l_projectile)
 			end
-			
+
 			ship_update
 		end
 

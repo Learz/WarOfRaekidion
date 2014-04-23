@@ -10,8 +10,9 @@ class
 inherit
 	SCREEN
 		redefine
-			click_button,
-			manage_click
+			manage_key,
+			manage_click,
+			click_button
 		end
 
 create
@@ -43,6 +44,12 @@ feature {NONE} -- Initialization
 			create textbox.make ("textbox", window, 75, 200)
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 250, "Host"))
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 300, "Back"))
+			selection := buttons.first
+			button_index := 1
+
+			if attached selection as la_selection then
+				la_selection.set_image ("button_pressed")
+			end
 
 			from
 			until
@@ -94,11 +101,6 @@ feature {NONE} -- Implementation
 
 	textbox: TEXTBOX
 
-	is_valid_host (a_address: STRING): BOOLEAN
-		do
-			result := true
-		end
-
 	manage_typing (a_key: STRING)
 		do
 			if textbox_focus then
@@ -123,24 +125,18 @@ feature {NONE} -- Implementation
 				if a_key = key_binding.return_key and not is_return_key_pressed then
 					is_return_key_pressed := true
 					must_close := true
-				elseif a_key = key_binding.move_up_key then
-					-- Button selection
-				elseif a_key = key_binding.move_down_key then
-					-- Button selection
-				elseif a_key = key_binding.accept_key then
-					-- Button checkup
 				end
 			else
 				if a_key = key_binding.return_key and is_return_key_pressed then
 					is_return_key_pressed := false
 				end
 			end
+
+			precursor {SCREEN} (a_key, a_state)
 		end
 
 	manage_click (a_button: NATURAL_32; a_x, a_y: INTEGER; a_state: BOOLEAN)
 		do
-			precursor {SCREEN} (a_button, a_x, a_y, a_state)
-
 			if a_state then
 				if (a_x >= textbox.x and a_x <= textbox.x + textbox.width)
 				and (a_y >= textbox.y and a_y <= textbox.y + textbox.height) then
@@ -151,6 +147,8 @@ feature {NONE} -- Implementation
 					textbox.reset_image
 				end
 			end
+
+			precursor {SCREEN} (a_button, a_x, a_y, a_state)
 		end
 
 	click_button (a_button: INTEGER)

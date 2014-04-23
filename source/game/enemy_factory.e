@@ -52,9 +52,9 @@ feature {NONE} -- Initialization
 --			end
 
 		-- TEMPORARY
-			create l_enemy_properties.make ("Sprayer", "sprayer", "Sprays bullets in a straight line right onto the player.", "small_laser", 1, 100, 0.2, 0, 2.5)
+			create l_enemy_properties.make ("Sprayer", "sprayer", "Sprays bullets in a straight line right onto the player.", "small_laser", 100, 1, 0.2, 0, 2.5)
 			file_list.force ([l_enemy_properties.filename, l_enemy_properties])
-			create l_enemy_properties.make ("Mauler", "mauler", "Hauls huge chunks of bullets at you, shotgun-style.", "small_bullet", 10, 150, 1, 20, 2)
+			create l_enemy_properties.make ("Mauler", "mauler", "Hauls huge chunks of bullets at you, shotgun-style.", "small_bullet", 150, 10, 1, 20, 2)
 			file_list.force ([l_enemy_properties.filename, l_enemy_properties])
 		-- TEMPORARY
 

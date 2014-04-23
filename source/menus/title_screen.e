@@ -10,6 +10,7 @@ class
 inherit
 	SCREEN
 		redefine
+			manage_key,
 			click_button
 		end
 	AUDIO_FACTORY_SHARED
@@ -42,7 +43,7 @@ feature {NONE} -- Initialization
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 250, "Options"))
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 300, "Quit"))
 			selection := buttons.first
-			button_index := buttons.index
+			button_index := 1
 			stop_music
 			play_music ("quiet", -1)
 
@@ -71,8 +72,7 @@ feature {NONE} -- Initialization
 					if multiplayer then
 						l_screen := create {LOBBY_SCREEN}.make (window, key_binding)
 					else
---						l_screen := create {GAME_SCREEN}.make (window, key_binding, true, void)
-						l_screen := create {GAME_SCREEN}.make (window, key_binding, true)
+						l_screen := create {GAME_SCREEN}.make (window, key_binding, true, void)
 						stop_music
 						play_music ("quiet", -1)
 					end
@@ -96,48 +96,20 @@ feature -- Status
 
 feature {NONE} -- Implementation
 
-	button_index: INTEGER
-
-	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
+	manage_key (a_key: INTEGER; a_state: BOOLEAN)
 		do
 			if a_state then
 				if a_key = key_binding.return_key and not is_return_key_pressed then
 					is_return_key_pressed := true
 					must_quit := true
-				elseif a_key = key_binding.move_up_key then
-					if attached selection as la_selection then
-						la_selection.reset_image
-						if la_selection = buttons.first then
-							button_index := buttons.count + 1
-							selection := buttons.last
-						else
-							button_index := button_index - 1
-							selection := buttons.at (button_index)
-						end
-						la_selection.set_image ("button_pressed")
-					end
-				elseif a_key = key_binding.move_down_key then
-					if attached selection as la_selection then
-						la_selection.reset_image
-						if la_selection = buttons.last then
-							button_index := 1
-							selection := buttons.first
-						else
-							button_index := button_index + 1
-							selection := buttons.at (button_index)
-						end
-						la_selection.set_image ("button_pressed")
-					end
-				elseif a_key = key_binding.accept_key then
-					if attached selection as la_selection then
-						click_button (buttons.index_of (la_selection, 1))
-					end
 				end
 			else
 				if a_key = key_binding.return_key and is_return_key_pressed then
 					is_return_key_pressed := false
 				end
 			end
+
+			precursor {SCREEN} (a_key, a_state)
 		end
 
 	click_button (a_button: INTEGER)

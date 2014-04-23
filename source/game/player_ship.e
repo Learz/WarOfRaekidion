@@ -34,7 +34,7 @@ feature -- Access
 	update
 		do
 			if shoot then
-				if lifetime // 20 = 0 then
+				if lifetime \\ 5 = 0 then
 					on_shoot.call (create {PROJECTILE}.make ("small_laser", window, x + (width / 2).floor, y + (height / 2).floor, 90, true))
 				end
 			end

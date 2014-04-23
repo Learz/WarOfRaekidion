@@ -71,9 +71,6 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	chunk (a_name: STRING): POINTER
-		local
-			l_count: NATURAL_16
-			l_name: STRING
 		do
 			from
 				sounds_list.start
@@ -89,9 +86,6 @@ feature -- Access
 		end
 
 	music (a_name: STRING): POINTER
-		local
-			l_count: NATURAL_16
-			l_name: STRING
 		do
 			from
 				music_list.start

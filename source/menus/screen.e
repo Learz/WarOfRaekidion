@@ -30,7 +30,41 @@ feature {NONE} -- Implementation
 	key_binding: KEYS
 	window: WINDOW
 	buttons: LINKED_LIST [BUTTON]
+	button_index: INTEGER
 	selection: detachable BUTTON
+
+	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
+		do
+			if a_state then
+				if a_key = key_binding.move_up_key then
+					if buttons.count > 1 then
+						buttons.at (button_index).reset_image
+
+						if button_index <= 1 then
+							button_index := buttons.count
+						else
+							button_index := button_index - 1
+						end
+
+						buttons.at (button_index).set_image ("button_pressed")
+					end
+				elseif a_key = key_binding.move_down_key then
+					if buttons.count > 1 then
+						buttons.at (button_index).reset_image
+
+						if button_index >= buttons.count then
+							button_index := 1
+						else
+							button_index := button_index + 1
+						end
+
+						buttons.at (button_index).set_image ("button_pressed")
+					end
+				elseif a_key = key_binding.accept_key then
+					click_button (button_index)
+				end
+			end
+		end
 
 	manage_mouse (a_x, a_y: INTEGER)
 		do
@@ -73,7 +107,7 @@ feature {NONE} -- Implementation
 						click_button (buttons.index_of (la_selection, 1))
 					end
 				end
-				
+
 				mouse_button_down := false
 			else
 				mouse_button_down := false

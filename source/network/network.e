@@ -35,8 +35,6 @@ feature -- Access
 	node: detachable NODE
 	timer, delay, timeout: INTEGER
 	address: STRING
-	player_ship: detachable PLAYER_SHIP
-	spawner: detachable SPAWNER
 
 	quit
 		do
@@ -45,15 +43,7 @@ feature -- Access
 
 feature -- Status
 
-	must_quit, is_server, is_init: BOOLEAN
-
-feature -- Element change
-
-	set_player_and_spawner (a_player_ship: PLAYER_SHIP; a_spawner: SPAWNER)
-		do
-			player_ship := a_player_ship
-			spawner := a_spawner
-		end
+	must_quit, is_server, is_init, connexion_error: BOOLEAN
 
 feature {NONE} -- Implementation
 
@@ -64,33 +54,39 @@ feature {NONE} -- Implementation
 			until
 				must_quit
 			loop
-				if attached node as la_node then
-					if is_init then
+				if is_init then
+					if attached node as la_node then
 						if is_server then
-							if attached spawner as la_spawner then
-		--						la_node.receive_client_data
-							end
+		--					la_node.receive_client_data
 						else
-							if attached player_ship as la_player_ship then
-		--						la_node.receive_server_data
-							end
+		--					la_node.receive_server_data
 						end
 					else
-						if is_server then
-							create node.make_server (9001)
-							is_init := true
-						else
-							create node.make_client (address, 9001)
+						connexion_error := true
+					end
+				else
+					if is_server then
+						create node.make_server (9001)
+						is_init := true
+					else
+						create node.make_client (address, 9001)
 
-							if attached la_node.socket as la_socket then
+						if attached node as la_node then
+							if attached la_node.local_socket as la_socket then
 								if la_socket.is_connected then
 									is_init := true
-								else
-									io.put_string (address)
 								end
+							else
+								connexion_error := true
 							end
+						else
+							connexion_error := true
 						end
 					end
+				end
+
+				if not connexion_error and attached node as la_node then
+					connexion_error := la_node.connexion_error
 				end
 			end
 

@@ -10,6 +10,7 @@ class
 inherit
 	SCREEN
 		redefine
+			manage_key,
 			click_button
 		end
 	AUDIO_FACTORY_SHARED
@@ -21,10 +22,10 @@ feature {NONE} -- Initialization
 
 	make (a_window: WINDOW; a_key_binding: KEYS; a_is_server: BOOLEAN; a_server: STRING)
 		local
-			l_address: STRING
+			l_address, waiting_text: STRING
 			l_frames, l_ticks, l_deltatime: INTEGER
 			l_event: EVENT_HANDLER
-			l_title: TEXT
+			l_title, l_error: TEXT
 			l_network: NETWORK
 			l_background: BACKGROUND
 			l_screen: detachable GAME_SCREEN
@@ -39,9 +40,18 @@ feature {NONE} -- Initialization
 			key_binding := a_key_binding
 			l_address := a_server
 			create buttons.make
-			l_title := create {TEXT}.make_centered ("Waiting for connection", 16, window, 0, 0, window.width, 350, [255, 255, 255], true)
+			create waiting_text.make_from_string ("Waiting for connection")
+			l_title := create {TEXT}.make_centered (waiting_text, 16, window, 0, 0, window.width, 350, [255, 255, 255], true)
+			l_error := create {TEXT}.make_centered ("Connexion error", 16, window, 0, 0, window.width, 350, [255, 255, 255], true)
+			l_error.hide
 			create l_background.make ("title_background", window, 0, 0, 0)
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 200, "Cancel"))
+			selection := buttons.first
+			button_index := 1
+
+			if attached selection as la_selection then
+				la_selection.set_image ("button_pressed")
+			end
 
 			if a_is_server then
 				create l_network.make_server
@@ -65,22 +75,32 @@ feature {NONE} -- Initialization
 				window.clear
 				l_background.update
 
-				if l_frames \\ 60 = 0 then
+				if not connexion_error and l_frames \\ 60 = 0 then
 					if l_dots < 3 then
 						l_title.set_text (l_title.text + ".", 16)
 						l_dots := l_dots + 1
 					else
 						l_dots := 0
-						l_title.set_text ("Waiting for connection", 16)
+						l_title.set_text (waiting_text, 16)
 					end
 				end
 
-				l_title.update
 				update
+
+				if l_network.connexion_error then
+					connexion_error := true
+					l_network.quit
+					l_title.hide
+					l_error.show
+					l_error.update
+				else
+					l_title.update
+				end
+
 				window.render
 
 				if l_network.is_init then
-					l_screen := create {GAME_SCREEN}.make (window, key_binding, a_is_server)
+					l_screen := create {GAME_SCREEN}.make (window, key_binding, a_is_server, l_network)
 					stop_music
 					play_music ("quiet", -1)
 
@@ -104,7 +124,7 @@ feature {NONE} -- Initialization
 
 feature -- Status
 
-	hosting: BOOLEAN
+	hosting, connexion_error: BOOLEAN
 
 feature {NONE} -- Implementation
 
@@ -114,18 +134,14 @@ feature {NONE} -- Implementation
 				if a_key = key_binding.return_key and not is_return_key_pressed then
 					is_return_key_pressed := true
 					must_close := true
-				elseif a_key = key_binding.move_up_key then
-					-- Button selection
-				elseif a_key = key_binding.move_down_key then
-					-- Button selection
-				elseif a_key = key_binding.accept_key then
-					-- Button checkup
 				end
 			else
 				if a_key = key_binding.return_key and is_return_key_pressed then
 					is_return_key_pressed := false
 				end
 			end
+
+			precursor {SCREEN} (a_key, a_state)
 		end
 
 	click_button (a_button: INTEGER)

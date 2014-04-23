@@ -52,7 +52,7 @@ feature {NONE} -- Initialization
 --			end
 
 		-- TEMPORARY
-			create l_projectile_properties.make ("Small laser", "small_laser", "laser", 2, 3.5)
+			create l_projectile_properties.make ("Small laser", "small_laser", "laser", 2, 6)
 			file_list.force ([l_projectile_properties.filename, l_projectile_properties])
 			create l_projectile_properties.make ("Small bullet", "small_bullet", "laser", 1, 2.5)
 			file_list.force ([l_projectile_properties.filename, l_projectile_properties])

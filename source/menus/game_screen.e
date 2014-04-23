@@ -9,6 +9,9 @@ class
 
 inherit
 	SCREEN
+		redefine
+			manage_key
+		end
 	AUDIO_FACTORY_SHARED
 
 create
@@ -16,14 +19,13 @@ create
 
 feature {NONE} -- Initialization
 
---	make (a_window: WINDOW; a_key_binding: KEYS; a_is_server: BOOLEAN; a_network: detachable NETWORK)
-	make (a_window: WINDOW; a_key_binding: KEYS; a_is_server: BOOLEAN)
+	make (a_window: WINDOW; a_key_binding: KEYS; a_is_server: BOOLEAN; a_network: detachable NETWORK)
 		local
 			l_ticks, l_deltatime: INTEGER
 			l_background: BACKGROUND
 			l_sidebar: SPRITE
 			l_event: EVENT_HANDLER
---			l_network: detachable NETWORK
+			l_network: detachable NETWORK
 			l_pause_menu: SCREEN
 			l_memory: MEMORY
 		do
@@ -35,7 +37,7 @@ feature {NONE} -- Initialization
 		    create buttons.make
 			create enemy_list.make
 			create projectile_list.make
---			l_network := a_network
+			l_network := a_network
 			l_memory.collection_on
 			l_event := create {EVENT_HANDLER}.make
 			l_background := create {BACKGROUND}.make ("background", window, 0, 0, 1)
@@ -47,22 +49,16 @@ feature {NONE} -- Initialization
 			stop_music
 			play_music ("zombie", -1)
 
---		    if attached l_network as la_network then
---		    	la_network.set_player_and_spawner (player, spawner)
-
---		    	if a_is_server then
---					l_event.on_key_pressed.extend (agent player.manage_key)
---				else
---					l_event.on_key_pressed.extend (agent spawner.manage_key)
---		    	end
---		    else
+		    if attached l_network as la_network then
+		    	if a_is_server then
+					l_event.on_key_pressed.extend (agent player.manage_key)
+				else
+					l_event.on_key_pressed.extend (agent spawner.manage_key)
+		    	end
+		    else
 				l_event.on_key_pressed.extend (agent player.manage_key)
-
-			-- TEMPORARY
 				l_event.on_key_pressed.extend (agent spawner.manage_key)
-			-- TEMPORARY
-
---		    end
+		    end
 
 			l_event.on_key_pressed.extend (agent manage_key)
 
@@ -99,6 +95,7 @@ feature {NONE} -- Initialization
 				    	else
 				    		if not la_projectile.owner then
 								if player.has_collided (la_projectile) then
+									player.set_health (player.health - la_projectile.projectile_properties.damage)
 									la_projectile.destroy
 								end
 							else
@@ -109,6 +106,7 @@ feature {NONE} -- Initialization
 								loop
 					   				if attached enemy_list.item as la_enemy then
 										if la_enemy.has_collided (la_projectile) then
+											la_enemy.set_health (la_enemy.health - la_projectile.projectile_properties.damage)
 											la_projectile.destroy
 										end
 									end
@@ -128,36 +126,28 @@ feature {NONE} -- Initialization
 				    end
 				end
 
---				if attached l_network as la_network then
---					if a_is_server then
---						spawner.update
---						from
---							spawner.spawn_list.start
---						until
---							spawner.spawn_list.exhausted
---						loop
---							la_network.node.send_new_enemy_ship (spawner.spawn_list.item.name, spawner.spawn_list.item.x, spawner.spawn_list.item.y)
---						end
+				if attached l_network as la_network then
+					if a_is_server then
+						from
+							spawner.spawn_list.start
+						until
+							spawner.spawn_list.exhausted
+						loop
+							if attached la_network.node as la_node then
+								la_node.send_new_enemy_ship (spawner.spawn_list.item.name, spawner.spawn_list.item.x, spawner.spawn_list.item.y)
+							end
+						end
+					else
+						if player.has_moved then
+							if attached la_network.node as la_node then
+								la_node.send_player_position (player.x.floor, player.y.floor)
+							end
+						end
+					end
+				end
 
---						if attached la_network.player_ship as la_player_ship then
---							la_player_ship.update
---							player := la_player_ship
---						end
---					else
---						player.update
---						if player.has_moved then
---							la_network.node.send_player_position (player.x.floor, player.y.floor)
---						end
-
---						if attached la_network.spawner as la_spawner then
---							la_spawner.update
---							spawner := la_spawner
---						end
---					end
---				else
-					player.update
-					spawner.update
---				end
+				player.update
+				spawner.update
 
 				from
 					enemy_list.start

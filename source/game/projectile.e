@@ -26,7 +26,6 @@ feature {NONE} -- Initialization
 		do
 			projectilefactory := projectile_factory
 			projectile_properties := projectilefactory.projectile (a_name)
-			check is_projectile_valid: projectile_properties.name /= "" end
 			owner := a_owner
 			play_sound (projectile_properties.sound, -1)
 			entity_make (projectile_properties.filename, a_window, a_x, a_y, 1)
@@ -38,6 +37,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	projectile_properties: PROJECTILE_PROPERTIES
 	owner: BOOLEAN
 
 	update
@@ -58,6 +58,5 @@ feature -- Access
 feature {NONE} -- Implementation
 
 	projectilefactory: PROJECTILE_FACTORY
-	projectile_properties: PROJECTILE_PROPERTIES
 
 end

@@ -10,6 +10,7 @@ class
 inherit
 	SCREEN
 		redefine
+			manage_key,
 			click_button
 		end
 
@@ -37,6 +38,12 @@ feature {NONE} -- Initialization
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 150, "Resume"))
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 200, "End game"))
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 250, "Quit"))
+			selection := buttons.first
+			button_index := 1
+
+			if attached selection as la_selection then
+				la_selection.set_image ("button_pressed")
+			end
 
 			from
 			until
@@ -68,14 +75,14 @@ feature {NONE} -- Implementation
 				if a_key = key_binding.return_key and not is_return_key_pressed then
 					is_return_key_pressed := true
 					must_close := true
-				elseif a_key = key_binding.accept_key then
-					must_quit := true
 				end
 			else
 				if a_key = key_binding.return_key and is_return_key_pressed then
 					is_return_key_pressed := false
 				end
 			end
+
+			precursor {SCREEN} (a_key, a_state)
 		end
 
 	click_button (a_button: INTEGER)

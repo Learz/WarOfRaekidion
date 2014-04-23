@@ -19,7 +19,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE; a_health: NATURAL_16)
+	make (a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE; a_health: INTEGER)
 		do
 		    create on_shoot
 			precursor {ENTITY} (a_name, a_window, a_x, a_y, a_health)

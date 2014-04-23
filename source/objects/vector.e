@@ -124,20 +124,20 @@ feature -- Element change
 
 	enable_degree_mode
 		-- Set `Current' to use degrees instead of radians
-		require
-			is_degree_mode = false
 		do
-			is_degree_mode := true
-			angle := degree_value (angle)
+			if not is_degree_mode then
+				is_degree_mode := true
+				angle := degree_value (angle)
+			end
 		end
 
 	disable_degree_mode
 		-- Set `Current' to use radians instead of degrees
-		require
-			is_degree_mode = true
 		do
-			is_degree_mode := false
-			angle := radian_value (angle)
+			if is_degree_mode then
+				is_degree_mode := false
+				angle := radian_value (angle)
+			end
 		end
 
 	plus (a_factor: DOUBLE)

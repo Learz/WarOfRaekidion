@@ -21,7 +21,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE; a_health: NATURAL_16)
+	make (a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE; a_health: INTEGER)
 		do
 			starttime := {SDL}.sdl_getticks.to_integer_32
 			health := a_health
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	health: NATURAL
+	health: INTEGER
 	offset: INTEGER
 	trajectory: VECTOR
 
@@ -57,7 +57,7 @@ feature -- Status
 
 feature -- Element change
 
-	set_health (a_health: NATURAL_16)
+	set_health (a_health: INTEGER)
 		do
 			health := a_health
 		end
