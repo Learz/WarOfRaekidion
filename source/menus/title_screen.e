@@ -21,7 +21,7 @@ feature {NONE} -- Initialization
 
 	make (a_window: WINDOW)
 		local
-			l_ticks: INTEGER
+			l_ticks, l_deltatime: INTEGER
 			l_event: EVENT_HANDLER
 			l_title: SURFACE
 			l_background: BACKGROUND
@@ -54,6 +54,7 @@ feature {NONE} -- Initialization
 			until
 				must_quit
 			loop
+				l_ticks := {SDL}.sdl_getticks.to_integer_32
 				l_event.manage_event
 
 				if l_event.is_quit_event then
@@ -81,7 +82,11 @@ feature {NONE} -- Initialization
 					is_return_key_pressed := l_screen.is_return_key_pressed
 				end
 
-				l_ticks := l_ticks + 1
+				l_deltatime := {SDL}.sdl_getticks.to_integer_32 - l_ticks
+
+				if l_deltatime < (1000 / 60).floor then
+			   		{SDL}.sdl_delay ((1000 / 60).floor - l_deltatime)
+				end
 			end
 		end
 

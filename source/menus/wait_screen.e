@@ -22,7 +22,7 @@ feature {NONE} -- Initialization
 	make (a_window: WINDOW; a_key_binding: KEYS; a_is_server: BOOLEAN; a_server: STRING)
 		local
 			l_address: STRING
-			l_ticks: INTEGER
+			l_frames, l_ticks, l_deltatime: INTEGER
 			l_event: EVENT_HANDLER
 			l_title: TEXT
 			l_network: NETWORK
@@ -55,6 +55,7 @@ feature {NONE} -- Initialization
 			until
 				must_quit or must_close or must_end
 			loop
+				l_ticks := {SDL}.sdl_getticks.to_integer_32
 				l_event.manage_event
 
 				if l_event.is_quit_event then
@@ -64,7 +65,7 @@ feature {NONE} -- Initialization
 				window.clear
 				l_background.update
 
-				if l_ticks \\ 1000 = 0 then
+				if l_frames \\ 60 = 0 then
 					if l_dots < 3 then
 						l_title.set_text (l_title.text + ".", 16)
 						l_dots := l_dots + 1
@@ -89,7 +90,13 @@ feature {NONE} -- Initialization
 					end
 				end
 
-				l_ticks := l_ticks + 1
+				l_deltatime := {SDL}.sdl_getticks.to_integer_32 - l_ticks
+
+				if l_deltatime < (1000 / 60).floor then
+			   		{SDL}.sdl_delay ((1000 / 60).floor - l_deltatime)
+				end
+
+				l_frames := l_frames + 1
 			end
 
 			l_network.quit

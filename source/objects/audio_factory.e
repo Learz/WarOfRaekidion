@@ -22,6 +22,8 @@ feature {NONE} -- Initialization
 			is_not_already_initialised: not is_init.item
 		local
 			l_directory: STRING
+			l_count: INTEGER
+			l_name: STRING
 			l_filename_c: C_STRING
 			l_filename_list: LINKED_LIST[STRING]
 		do
@@ -36,8 +38,10 @@ feature {NONE} -- Initialization
 			until
 				l_filename_list.exhausted
 			loop
+				l_count := l_filename_list.item.index_of ('.', 1)
+				l_name := l_filename_list.item.substring (1, l_count - 1)
 				create l_filename_c.make (l_directory + l_filename_list.item)
-				sounds_list.extend ([l_filename_list.item, {SDL_MIXER}.mix_load_wav (l_filename_c.item)])
+				sounds_list.extend ([l_name, {SDL_MIXER}.mix_load_wav (l_filename_c.item)])
 				l_filename_list.forth
 			end
 
@@ -52,8 +56,10 @@ feature {NONE} -- Initialization
 			until
 				l_filename_list.exhausted
 			loop
+				l_count := l_filename_list.item.index_of ('.', 1)
+				l_name := l_filename_list.item.substring (1, l_count - 1)
 				create l_filename_c.make (l_directory + l_filename_list.item)
-				music_list.extend ([l_filename_list.item, {SDL_MIXER}.mix_load_music (l_filename_c.item)])
+				music_list.extend ([l_name, {SDL_MIXER}.mix_load_music (l_filename_c.item)])
 				l_filename_list.forth
 			end
 
@@ -74,10 +80,7 @@ feature -- Access
 			until
 				sounds_list.exhausted
 			loop
-				l_count := sounds_list.item.filename.index_of ('.', 1).as_natural_16
-				l_name := sounds_list.item.filename.substring (1, l_count - 1)
-
-				if l_name.is_equal (a_name) then
+				if sounds_list.item.filename.is_equal (a_name) then
 					result := sounds_list.item.object
 				end
 
@@ -95,10 +98,7 @@ feature -- Access
 			until
 				music_list.exhausted
 			loop
-				l_count := music_list.item.filename.index_of ('.', 1).as_natural_16
-				l_name := music_list.item.filename.substring (1, l_count - 1)
-
-				if l_name.is_equal (a_name) then
+				if music_list.item.filename.is_equal (a_name) then
 					result := music_list.item.object
 				end
 

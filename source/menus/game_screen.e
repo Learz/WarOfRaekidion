@@ -57,6 +57,11 @@ feature {NONE} -- Initialization
 --		    	end
 --		    else
 				l_event.on_key_pressed.extend (agent player.manage_key)
+
+			-- TEMPORARY
+				l_event.on_key_pressed.extend (agent spawner.manage_key)
+			-- TEMPORARY
+
 --		    end
 
 			l_event.on_key_pressed.extend (agent manage_key)

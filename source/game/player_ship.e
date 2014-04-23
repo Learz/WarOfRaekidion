@@ -26,24 +26,16 @@ feature {NONE} -- Initialization
 			offset := 16
 			set_key_binding (a_key_binding)
 		    trajectory.enable_degree_mode
-			speed := 1
+			speed := 2
 		end
 
 feature -- Access
 
 	update
-		local
-			l_projectile: PROJECTILE
 		do
 			if shoot then
-				projectile_delay := (projectile_delay + 1) \\ 20
-
-				if projectile_delay = 0 then
-					l_projectile := create {PROJECTILE}.make ("bullet_red", window, x + (width / 2).floor, y + (height / 2).floor, true)
-					l_projectile.trajectory.enable_degree_mode
-					l_projectile.trajectory.set_angle (90)
-					l_projectile.trajectory.set_force (3)
-					on_shoot.call (l_projectile)
+				if lifetime // 20 = 0 then
+					on_shoot.call (create {PROJECTILE}.make ("small_laser", window, x + (width / 2).floor, y + (height / 2).floor, 90, true))
 				end
 			end
 
@@ -102,7 +94,7 @@ feature -- Access
 				elseif a_key = key_binding.fire_key then
 					shoot := true
 				elseif a_key = key_binding.modifier_key then
-					speed := 0.4
+					speed := 1
 				end
 			else
 				if a_key = key_binding.move_up_key then
@@ -116,7 +108,7 @@ feature -- Access
 				elseif a_key = key_binding.fire_key then
 					shoot := false
 				elseif a_key = key_binding.modifier_key then
-					speed := 1
+					speed := 2
 				end
 			end
 		end
@@ -138,6 +130,5 @@ feature {NONE} -- Implementation
 	speed: DOUBLE
 	shoot: BOOLEAN
 	is_moving_up, is_moving_down, is_moving_left, is_moving_right: BOOLEAN
-	projectile_delay: NATURAL_8
 
 end

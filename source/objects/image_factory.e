@@ -24,6 +24,8 @@ feature {NONE} -- Initialization
 			is_not_already_initialised: not is_init.item
 		local
 			l_directory: STRING
+			l_count: INTEGER
+			l_name: STRING
 			l_filename_c: C_STRING
 			l_filename_list: LINKED_LIST[STRING]
 		do
@@ -38,8 +40,10 @@ feature {NONE} -- Initialization
 			until
 				l_filename_list.exhausted
 			loop
+				l_count := l_filename_list.item.index_of ('.', 1)
+				l_name := l_filename_list.item.substring (1, l_count - 1)
 				create l_filename_c.make (l_directory + l_filename_list.item)
-				file_list.extend ([l_filename_list.item, {SDL}.sdl_loadimage (l_filename_c.item)])
+				file_list.extend ([l_name, {SDL}.sdl_loadimage (l_filename_c.item)])
 				l_filename_list.forth
 			end
 
@@ -51,19 +55,13 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	image (a_name: STRING): POINTER
-		local
-			l_count: NATURAL_16
-			l_name: STRING
 		do
 			from
 				file_list.start
 			until
 				file_list.exhausted
 			loop
-				l_count := file_list.item.filename.index_of ('.', 1).as_natural_16
-				l_name := file_list.item.filename.substring (1, l_count - 1)
-
-				if l_name.is_equal (a_name) then
+				if file_list.item.filename.is_equal (a_name) then
 					Result := file_list.item.object
 				end
 

@@ -20,7 +20,7 @@ feature {NONE} -- Initialization
 
 	make (a_window: WINDOW; a_key_binding: KEYS; a_is_return_key_pressed: BOOLEAN; a_title: STRING)
 		local
-			l_ticks: INTEGER
+			l_ticks, l_deltatime: INTEGER
 			l_event: EVENT_HANDLER
 			l_title: TEXT
 		do
@@ -42,6 +42,7 @@ feature {NONE} -- Initialization
 			until
 				must_quit or must_close or must_end
 			loop
+				l_ticks := {SDL}.sdl_getticks.to_integer_32
 				l_event.manage_event
 
 				if l_event.is_quit_event then
@@ -51,8 +52,11 @@ feature {NONE} -- Initialization
 				l_title.update
 				update
 				window.render
+				l_deltatime := {SDL}.sdl_getticks.to_integer_32 - l_ticks
 
-				l_ticks := l_ticks + 1
+				if l_deltatime < (1000 / 60).floor then
+			   		{SDL}.sdl_delay ((1000 / 60).floor - l_deltatime)
+				end
 			end
 		end
 

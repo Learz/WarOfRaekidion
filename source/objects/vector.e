@@ -51,7 +51,14 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	x, y, angle, force: DOUBLE
+	x: DOUBLE
+		-- `x' coordinate.
+	y: DOUBLE
+		-- `y' coordinate.
+	angle: DOUBLE
+		-- `angle', or direction.
+	force: DOUBLE
+		-- `force', or length.
 
 feature -- Output
 
@@ -117,6 +124,8 @@ feature -- Element change
 
 	enable_degree_mode
 		-- Set `Current' to use degrees instead of radians
+		require
+			is_degree_mode = false
 		do
 			is_degree_mode := true
 			angle := degree_value (angle)
@@ -124,6 +133,8 @@ feature -- Element change
 
 	disable_degree_mode
 		-- Set `Current' to use radians instead of degrees
+		require
+			is_degree_mode = true
 		do
 			is_degree_mode := false
 			angle := radian_value (angle)

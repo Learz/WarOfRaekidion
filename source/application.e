@@ -20,7 +20,7 @@ feature {NONE} -- Initialization
 		do
 		    {SDL}.sdl_init_noreturn ({SDL}.sdl_init_video_timer_audio)
 		    {SDL_TTF}.ttf_init_noreturn
-		    --{SDL_MIXER}.mix_init_noreturn ({SDL_MIXER}.mix_init_ogg)
+		    {SDL_MIXER}.mix_init_noreturn ({SDL_MIXER}.mix_init_ogg)
 		    {SDL_MIXER}.mix_open_audio_noreturn (22050, {SDL_MIXER}.mix_default_format, 2, 4096)
 		    create l_window.make ("War of Raekidion", {SDL}.sdl_windowpos_undefined, {SDL}.sdl_windowpos_undefined, 300, 400, {SDL}.sdl_window_hidden)
 			create l_event.make

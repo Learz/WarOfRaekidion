@@ -14,47 +14,47 @@ feature -- Access
 
 	move_up_key: INTEGER
 		do
-			result := {SDL}.sdlk_w
+			result := {SDL_EVENTS}.sdlk_w
 		end
 
 	move_down_key: INTEGER
 		do
-			result := {SDL}.sdlk_s
+			result := {SDL_EVENTS}.sdlk_s
 		end
 
 	move_left_key: INTEGER
 		do
-			result := {SDL}.sdlk_a
+			result := {SDL_EVENTS}.sdlk_a
 		end
 
 	move_right_key: INTEGER
 		do
-			result := {SDL}.sdlk_d
+			result := {SDL_EVENTS}.sdlk_d
 		end
 
 	accept_key: INTEGER
 		do
-			result := {SDL}.sdlk_return
+			result := {SDL_EVENTS}.sdlk_return
 		end
 
 	return_key: INTEGER
 		do
-			result := {SDL}.sdlk_escape
+			result := {SDL_EVENTS}.sdlk_escape
 		end
 
 	fire_key: INTEGER
 		do
-			result := {SDL}.sdlk_space
+			result := {SDL_EVENTS}.sdlk_space
 		end
 
 	modifier_key: INTEGER
 		do
-			result := {SDL}.sdlk_lshift
+			result := {SDL_EVENTS}.sdlk_lshift
 		end
 
 	action_key: INTEGER
 		do
-			result := {SDL}.sdlk_e
+			result := {SDL_EVENTS}.sdlk_e
 		end
 
 end

@@ -50,8 +50,8 @@ feature -- Access
 	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
 		do
 			if a_state then
-				if a_key = key_binding.move_down_key then
-					spawn_list.extend (["Sprayer", 100, 100])
+				if a_key = key_binding.action_key then
+					spawn_list.extend (["sprayer", 125, 100])
 				end
 			end
 		end
