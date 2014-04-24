@@ -69,20 +69,14 @@ feature {NONE} -- Initialization
 				l_ticks := {SDL}.sdl_getticks.to_integer_32
 				l_event.manage_event
 
-				if is_paused then
-					l_pause_menu := create {OVERLAY_SCREEN}.make (window, key_binding, is_return_key_pressed, "PAUSE")
-					is_paused := false
-					must_quit := l_pause_menu.must_quit
-					must_end := l_pause_menu.must_end
-					is_return_key_pressed := l_pause_menu.is_return_key_pressed
-				end
-
 				if l_event.is_quit_event then
 					must_quit := true
 				end
 
 				window.clear
 				l_background.update
+				player.update
+				spawner.update
 
 				from
 					projectile_list.start
@@ -146,9 +140,6 @@ feature {NONE} -- Initialization
 					end
 				end
 
-				player.update
-				spawner.update
-
 				from
 					enemy_list.start
 				until
@@ -173,6 +164,21 @@ feature {NONE} -- Initialization
 
 				if l_deltatime < (1000 / 60).floor then
 			   		{SDL}.sdl_delay ((1000 / 60).floor - l_deltatime)
+				end
+
+				if player.is_destroyed then
+					l_pause_menu := create {OVERLAY_SCREEN}.make (window, key_binding, is_return_key_pressed, "GAME OVER", true)
+					must_quit := l_pause_menu.must_quit
+					must_end := l_pause_menu.must_end
+					is_return_key_pressed := l_pause_menu.is_return_key_pressed
+				end
+
+				if is_paused then
+					l_pause_menu := create {OVERLAY_SCREEN}.make (window, key_binding, is_return_key_pressed, "PAUSE", false)
+					is_paused := false
+					must_quit := l_pause_menu.must_quit
+					must_end := l_pause_menu.must_end
+					is_return_key_pressed := l_pause_menu.is_return_key_pressed
 				end
 			end
 

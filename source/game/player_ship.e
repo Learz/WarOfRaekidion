@@ -26,7 +26,7 @@ feature {NONE} -- Initialization
 			offset := 16
 			set_key_binding (a_key_binding)
 		    trajectory.enable_degree_mode
-			speed := 2
+			speed := 4
 		end
 
 feature -- Access
@@ -108,7 +108,7 @@ feature -- Access
 				elseif a_key = key_binding.fire_key then
 					shoot := false
 				elseif a_key = key_binding.modifier_key then
-					speed := 2
+					speed := 4
 				end
 			end
 		end

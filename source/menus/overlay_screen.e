@@ -19,7 +19,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_key_binding: KEYS; a_is_return_key_pressed: BOOLEAN; a_title: STRING)
+	make (a_window: WINDOW; a_key_binding: KEYS; a_is_return_key_pressed: BOOLEAN; a_title: STRING; a_resume_disabled: BOOLEAN)
 		local
 			l_ticks, l_deltatime: INTEGER
 			l_event: EVENT_HANDLER
@@ -35,7 +35,12 @@ feature {NONE} -- Initialization
 			l_event.on_mouse_moved.extend (agent manage_mouse)
 			l_event.on_mouse_pressed.extend (agent manage_click)
 			l_title := create {TEXT}.make_centered (a_title, 24, window, 0, 0, window.width, 150, [255, 255, 255], true)
-			buttons.extend (create {BUTTON}.make ("button", window, 100, 150, "Resume"))
+			resume_disabled := a_resume_disabled
+
+			if not resume_disabled then
+				buttons.extend (create {BUTTON}.make ("button", window, 100, 150, "Resume"))
+			end
+
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 200, "End game"))
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 250, "Quit"))
 			selection := buttons.first
@@ -67,6 +72,10 @@ feature {NONE} -- Initialization
 			end
 		end
 
+feature -- Status
+
+	resume_disabled: BOOLEAN
+
 feature {NONE} -- Implementation
 
 	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
@@ -87,6 +96,7 @@ feature {NONE} -- Implementation
 
 	click_button (a_button: INTEGER)
 		do
+			if not resume_disabled then
 				if a_button = 1 then
 					must_close := true
 				elseif a_button = 2 then
@@ -94,6 +104,13 @@ feature {NONE} -- Implementation
 				elseif a_button = 3 then
 					must_quit := true
 				end
+			else
+				if a_button = 1 then
+					must_end := true
+				elseif a_button = 2 then
+					must_quit := true
+				end
+			end
 		end
 
 end
