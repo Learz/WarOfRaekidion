@@ -42,9 +42,9 @@ feature {NONE} -- Initialization
 			l_event := create {EVENT_HANDLER}.make
 			l_background := create {BACKGROUND}.make ("background", window, 0, 0, 1)
 		    l_sidebar := create {SPRITE}.make ("sidebar", window, window.width - 75, 0)
-		    player := create {PLAYER_SHIP}.make (window, 112, 300, key_binding, not a_is_server)
+		    player := create {PLAYER_SHIP}.make (window, 112, 300, key_binding, not a_is_server, l_network)
 		    player.on_shoot.extend (agent spawn_projectile)
-		    spawner := create {SPAWNER}.make (window, key_binding, a_is_server)
+		    spawner := create {SPAWNER}.make (window, key_binding, a_is_server, l_network)
 		    spawner.on_spawn.extend (agent spawn_enemy)
 			stop_music
 			play_music ("zombie", -1)
@@ -128,7 +128,7 @@ feature {NONE} -- Initialization
 							spawner.spawn_list.exhausted
 						loop
 							if attached la_network.node as la_node then
-								la_node.send_new_enemy_ship (spawner.spawn_list.item.name, spawner.spawn_list.item.x, spawner.spawn_list.item.y)
+								la_node.send_new_enemy_ship (spawner.spawn_list.item.name, spawner.spawn_list.item.x, spawner.spawn_list.item.y, spawner.spawn_list.item.dest_x, spawner.spawn_list.item.dest_y)
 							end
 						end
 					else

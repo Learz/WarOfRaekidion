@@ -12,11 +12,16 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_key_binding: KEYS; a_is_player: BOOLEAN)
+	make (a_window: WINDOW; a_key_binding: KEYS; a_is_player: BOOLEAN; a_network: detachable NETWORK)
 		do
 			window := a_window
 			key_binding := a_key_binding
 			is_player := a_is_player
+
+			if attached a_network as la_network then
+				network := la_network
+			end
+
 			create random.make
 		    create on_spawn
 			create spawn_list.make
@@ -33,6 +38,7 @@ feature -- Access
 
 	update
 		do
+
 			from
 				spawn_list.start
 			until
@@ -66,6 +72,7 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
+	network: detachable NETWORK
 	random: RANDOM
 	window: WINDOW
 	key_binding: KEYS

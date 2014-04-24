@@ -20,13 +20,17 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_x, a_y: DOUBLE; a_key_binding: KEYS; a_is_player: BOOLEAN)
+	make (a_window: WINDOW; a_x, a_y: DOUBLE; a_key_binding: KEYS; a_is_player: BOOLEAN; a_network: detachable NETWORK)
 		do
 			ship_make ("player", a_window, a_x, a_y, 500)
 			offset := 16
 			set_key_binding (a_key_binding)
 		    trajectory.enable_degree_mode
 			speed := 4
+
+			if attached a_network as la_network then
+				network := la_network
+			end
 		end
 
 feature -- Access
@@ -126,6 +130,7 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
+	network: detachable NETWORK
 	key_binding: KEYS
 	speed: DOUBLE
 	shoot: BOOLEAN
