@@ -28,8 +28,8 @@ feature {NONE} -- Initialization
 			l_background: BACKGROUND
 			l_screen: SCREEN
 		do
-			l_event := create {EVENT_HANDLER}.make
 			window := a_window
+			create l_event.make (window)
 			must_quit := false
 			l_event.on_key_pressed.extend (agent manage_key)
 			l_event.on_mouse_moved.extend (agent manage_mouse)

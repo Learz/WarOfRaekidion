@@ -13,14 +13,15 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_title: STRING; a_x, a_y, a_width, a_height: INTEGER_32; a_flags: NATURAL_32)
+	make (a_title: STRING; a_x, a_y, a_width, a_height: INTEGER_32; a_scale: DOUBLE; a_flags: NATURAL_32)
 		local
 			l_c_title: C_STRING
 		do
 			create l_c_title.make (a_title)
 		    height := a_height
 		    width := a_width
-		    window := {SDL}.sdl_createwindow (l_c_title.item, a_x, a_y, width * 2, height * 2, a_flags)
+		    scale := a_scale
+		    window := {SDL}.sdl_createwindow (l_c_title.item, a_x, a_y, (width * scale).floor, (height * scale).floor, a_flags)
 		    renderer := {SDL}.sdl_createrenderer (window, -1, {SDL}.sdl_renderer_accelerated)
 		    {SDL}.sdl_sethint ({SDL}.sdl_hintrenderscalequality, 0)
 			{SDL}.sdl_rendersetlogicalsize (renderer, a_width, a_height)
@@ -36,6 +37,7 @@ feature -- Access
 
 	window, renderer: POINTER
 	height, width: INTEGER
+	scale: DOUBLE
 	font: LINKED_LIST [TUPLE [point: INTEGER; font: POINTER]]
 
 	render

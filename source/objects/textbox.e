@@ -33,7 +33,7 @@ feature -- Access
 	update
 		do
 			precursor {SPRITE}
-			text.set_text (char_string, 9)
+			text.set_text (char_string, 16)
 
 			if char_string.count > 0 then
 				text.set_x ((width / 2) + x - (text.width / 2))

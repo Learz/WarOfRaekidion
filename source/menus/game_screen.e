@@ -39,7 +39,7 @@ feature {NONE} -- Initialization
 			create projectile_list.make
 			l_network := a_network
 			l_memory.collection_on
-			l_event := create {EVENT_HANDLER}.make
+			create l_event.make (window)
 			l_background := create {BACKGROUND}.make ("background", window, 0, 0, 1)
 		    l_sidebar := create {SPRITE}.make ("sidebar", window, window.width - 75, 0)
 		    player := create {PLAYER_SHIP}.make (window, 112, 300, key_binding, not a_is_server, l_network)

@@ -16,8 +16,9 @@ create
 
 feature {NONE} -- Initialization
 
-	make
+	make (a_window: WINDOW)
 		do
+			window := a_window
 			event := event.memory_alloc ({SDL}.sizeof_sdl_event_struct)
 			create on_typing
 			create on_key_pressed
@@ -59,6 +60,7 @@ feature -- Access
 feature {NONE} -- Implementation
 
 	event: POINTER
+	window: WINDOW
 
 	check_key_typed
 		local
@@ -85,7 +87,7 @@ feature {NONE} -- Implementation
 		do
 			if {SDL_EVENTS}.get_sdl_event_type (event) = {SDL_EVENTS}.sdl_mousemotion then
 				{SDL_EVENTS}.get_sdl_mouse_state_noreturn ($l_x, $l_y)
-				on_mouse_moved.call ([(l_x / 2).floor, (l_y / 2).floor])
+				on_mouse_moved.call ([(l_x / window.scale).floor, (l_y / window.scale).floor])
 			end
 		end
 
@@ -96,10 +98,10 @@ feature {NONE} -- Implementation
 		do
 			if {SDL_EVENTS}.get_sdl_event_type (event) = {SDL_EVENTS}.sdl_mousebuttondown then
 				l_button := {SDL_EVENTS}.get_sdl_mouse_state ($l_x, $l_y)
-				on_mouse_pressed.call ([l_button, (l_x / 2).floor, (l_y / 2).floor, true])
+				on_mouse_pressed.call ([l_button, (l_x / window.scale).floor, (l_y / window.scale).floor, true])
 			elseif {SDL_EVENTS}.get_sdl_event_type (event) = {SDL_EVENTS}.sdl_mousebuttonup then
 				l_button := {SDL_EVENTS}.get_sdl_mouse_state ($l_x, $l_y)
-				on_mouse_pressed.call ([l_button, (l_x / 2).floor, (l_y / 2).floor, false])
+				on_mouse_pressed.call ([l_button, (l_x / window.scale).floor, (l_y / window.scale).floor, false])
 			end
 		end
 

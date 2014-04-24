@@ -79,7 +79,7 @@ feature -- Access
 							l_string.append_character (l_packet.data.read_character (192 + l_count))
 						end
 
-						new_enemies.extend (la_packet.data.read_integer_32 (32))
+					--	new_enemies.extend (la_packet.data.read_integer_32 (32))
 					end
 				end
 			end

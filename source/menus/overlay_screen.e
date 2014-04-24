@@ -25,16 +25,16 @@ feature {NONE} -- Initialization
 			l_event: EVENT_HANDLER
 			l_title: TEXT
 		do
-			create l_event.make
 			create buttons.make
 			window := a_window
+			create l_event.make (window)
 			key_binding := a_key_binding
 			must_quit := false
 			is_return_key_pressed := a_is_return_key_pressed
 			l_event.on_key_pressed.extend (agent manage_key)
 			l_event.on_mouse_moved.extend (agent manage_mouse)
 			l_event.on_mouse_pressed.extend (agent manage_click)
-			l_title := create {TEXT}.make_centered (a_title, 24, window, 0, 0, window.width, 150, [255, 255, 255], true)
+			create l_title.make_centered (a_title, 24, window, 0, 0, window.width, 150, [255, 255, 255], true)
 			resume_disabled := a_resume_disabled
 
 			if not resume_disabled then

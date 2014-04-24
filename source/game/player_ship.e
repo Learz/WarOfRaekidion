@@ -37,10 +37,13 @@ feature -- Access
 
 	update
 		do
-			if shoot then
-				if lifetime \\ 5 = 0 then
+			if shoot_delay <= 0 then
+				if is_shooting then
 					on_shoot.call (create {PROJECTILE}.make ("small_laser", window, x + (width / 2).floor, y + (height / 2).floor, 90, true))
+					shoot_delay := 15
 				end
+			else
+				shoot_delay := shoot_delay - 1
 			end
 
 			if is_moving_up or is_moving_down or is_moving_left or is_moving_right then
@@ -96,7 +99,7 @@ feature -- Access
 				elseif a_key = key_binding.move_right_key then
 					is_moving_right := true
 				elseif a_key = key_binding.fire_key then
-					shoot := true
+					is_shooting := true
 				elseif a_key = key_binding.modifier_key then
 					speed := 1
 				end
@@ -110,7 +113,7 @@ feature -- Access
 				elseif a_key = key_binding.move_right_key then
 					is_moving_right := false
 				elseif a_key = key_binding.fire_key then
-					shoot := false
+					is_shooting := false
 				elseif a_key = key_binding.modifier_key then
 					speed := 4
 				end
@@ -120,6 +123,8 @@ feature -- Access
 feature -- Status
 
 	has_moved: BOOLEAN
+	is_shooting: BOOLEAN
+	is_moving_up, is_moving_down, is_moving_left, is_moving_right: BOOLEAN
 
 feature -- Element change
 
@@ -131,9 +136,8 @@ feature -- Element change
 feature {NONE} -- Implementation
 
 	network: detachable NETWORK
+	shoot_delay: INTEGER
 	key_binding: KEYS
 	speed: DOUBLE
-	shoot: BOOLEAN
-	is_moving_up, is_moving_down, is_moving_left, is_moving_right: BOOLEAN
 
 end

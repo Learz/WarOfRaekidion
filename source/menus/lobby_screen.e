@@ -29,8 +29,8 @@ feature {NONE} -- Initialization
 			l_background: BACKGROUND
 			l_screen: detachable WAIT_SCREEN
 		do
-			l_event := create {EVENT_HANDLER}.make
 			window := a_window
+			create l_event.make (window)
 			must_quit := false
 			l_event.on_typing.extend (agent manage_typing)
 			l_event.on_key_pressed.extend (agent manage_key)
@@ -110,7 +110,6 @@ feature {NONE} -- Implementation
 						(a_key.at (1) >= '0' and a_key.at (1) <= '9') or
 						a_key.at (1) = '.'
 					then
-
 						textbox.char_string.append_character (a_key.at (1))
 					end
 				elseif a_key.is_equal ("Backspace") then
