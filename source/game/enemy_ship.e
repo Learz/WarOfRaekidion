@@ -34,43 +34,36 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	enemy_properties: ENEMY_PROPERTIES
-	
+
 	update (a_x, a_y: DOUBLE)
 		local
 			l_vector: VECTOR
 			l_random: RANDOM
 			l_random_int: INTEGER
 			l_count: INTEGER
-			l_force: DOUBLE
 		do
-			if lifetime \\ enemy_properties.firerate = 0 then
-				create l_random.make
+			if dest_x - x <= 5 and dest_y - y <= 5 then
+				trajectory.set_force (0)
 
-				from
-					l_count := 0
-				until
-					l_count = enemy_properties.count
-				loop
-					l_random_int := (l_random.double_item * enemy_properties.spread).floor - (enemy_properties.spread / 2).floor
-					l_random.forth
-					create l_vector.make_from_x_y (a_x - x, -a_y + y)
-					l_vector.enable_degree_mode
-					on_shoot.call ([enemy_properties.bullet, (x + (width / 2)).floor, (y + (height / 2)).floor, l_vector.angle + l_random_int, false])
-					l_count := l_count + 1
-				end
-			end
+				if lifetime \\ enemy_properties.firerate = 0 then
+					create l_random.make
 
-			if not (dest_x - x = 0 and dest_y - y = 0) then
-				l_force := trajectory.force
-				trajectory.set_x_and_y (dest_x - x, -dest_y - y)
-
-				if (dest_x ^ 2 + dest_y ^ 2) - (x ^ 2 + y ^ 2) < 10 then
-					trajectory.set_force (l_force * 0.95)
-				else
-					trajectory.set_force (enemy_properties.speed)
+					from
+						l_count := 0
+					until
+						l_count = enemy_properties.count
+					loop
+						l_random_int := (l_random.double_item * enemy_properties.spread).floor - (enemy_properties.spread / 2).floor
+						l_random.forth
+						create l_vector.make_from_x_y (a_x - x, -a_y + y)
+						l_vector.enable_degree_mode
+						on_shoot.call ([enemy_properties.bullet, (x + (width / 2)).floor, (y + (height / 2)).floor, l_vector.angle + l_random_int, false])
+						l_count := l_count + 1
+					end
 				end
 			else
-				trajectory.set_force (0)
+				trajectory.set_x_and_y (dest_x - x, -dest_y - y)
+				trajectory.set_force (enemy_properties.speed)
 			end
 
 			ship_update

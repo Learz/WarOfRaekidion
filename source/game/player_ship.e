@@ -22,7 +22,7 @@ feature {NONE} -- Initialization
 
 	make (a_window: WINDOW; a_x, a_y: DOUBLE; a_key_binding: KEYS; a_is_player: BOOLEAN)
 		do
-			ship_make ("player", a_window, a_x, a_y, 500)
+			ship_make ("player", a_window, a_x, a_y, 100)
 			is_player := a_is_player
 			offset := 16
 			set_key_binding (a_key_binding)

@@ -61,12 +61,10 @@ feature {NONE} -- Initialization
 		    if attached network as la_network then
 		    	if is_server then
 					l_event.on_key_pressed.extend (agent player.manage_key)
-				else
-					l_event.on_key_pressed.extend (agent spawner.manage_key)
 		    	end
 		    else
 				l_event.on_key_pressed.extend (agent player.manage_key)
-				l_event.on_key_pressed.extend (agent spawner.manage_key)
+				spawner.set_ai (true)
 		    end
 
 			l_event.on_key_pressed.extend (agent manage_key)
@@ -109,6 +107,7 @@ feature {NONE} -- Initialization
 									end
 
 									player.set_health (player.health - la_projectile.projectile_properties.damage)
+									spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * 5))
 									la_projectile.destroy
 								end
 							else
@@ -130,6 +129,7 @@ feature {NONE} -- Initialization
 											end
 
 											la_enemy.set_health (la_enemy.health - la_projectile.projectile_properties.damage)
+											spawner.set_money (spawner.money + la_projectile.projectile_properties.damage)
 											la_projectile.destroy
 										end
 									end
@@ -174,9 +174,9 @@ feature {NONE} -- Initialization
 				if attached network as la_network then
 					if attached la_network.node as la_node then
 						if is_server then
-							if player.has_moved then
+--							if player.has_moved then
 								la_node.send_player_position (player.x.floor, player.y.floor)
-							end
+--							end
 						else
 							player.set_x (la_node.new_player_position.x)
 							player.set_y (la_node.new_player_position.y)
@@ -261,18 +261,24 @@ feature {NONE} -- Implementation
 		local
 			l_enemy: ENEMY_SHIP
 		do
-			create l_enemy.make (a_name, window, a_x, a_y, a_dest_x, a_dest_y)
-			enemy_list.extend (l_enemy)
+			if enemy_list.count < 10 then
+				create l_enemy.make (a_name, window, a_x, a_y, a_dest_x, a_dest_y)
 
-			if not is_server then
-				if attached network as la_network then
-					if not is_server and attached la_network.node as la_node then
-						la_node.send_new_enemy_ship (a_name, a_x, a_y, a_dest_x, a_dest_y)
+				if spawner.money >= l_enemy.enemy_properties.price then
+					enemy_list.extend (l_enemy)
+					spawner.set_money (spawner.money - l_enemy.enemy_properties.price)
+				end
+
+				if not is_server then
+					if attached network as la_network then
+						if not is_server and attached la_network.node as la_node then
+							la_node.send_new_enemy_ship (a_name, a_x, a_y, a_dest_x, a_dest_y)
+						end
 					end
 				end
-			end
 
-		    l_enemy.on_shoot.extend (agent spawn_projectile)
+			    l_enemy.on_shoot.extend (agent spawn_projectile)
+			end
 		end
 
 	spawn_projectile (a_name: STRING; a_x, a_y: INTEGER; a_angle: DOUBLE; a_owner: BOOLEAN)

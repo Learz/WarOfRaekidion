@@ -21,7 +21,7 @@ feature {NONE} -- Access
 			chunk := audio_factory.chunk (a_name)
 
 			if chunk.is_default_pointer then
-				io.put_string ("Audio file not found")
+--				io.put_string ("Audio file not found: "+a_name)
 			else
 				{SDL_MIXER}.mix_volumechunk (chunk, 128)
 				{SDL_MIXER}.mix_playchannel (a_channel, chunk, 0)
@@ -38,7 +38,7 @@ feature {NONE} -- Access
 			music := audio_factory.music (a_name)
 
 			if music.is_default_pointer then
-				io.put_string ("Audio file not found")
+--				io.put_string ("Audio file not found: "+a_name)
 			else
 				{SDL_MIXER}.mix_volumemusic (128)
 				{SDL_MIXER}.mix_playmusic (music, -1)

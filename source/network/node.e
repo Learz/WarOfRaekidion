@@ -29,22 +29,22 @@ feature {NONE} -- Initialization
 				create distant_socket.make_client_by_address_and_port (l_address, a_port)
 
 				if attached distant_socket as la_socket then
-					io.put_string ("Connecting...") ; io.put_new_line
+--					io.put_string ("Connecting...") ; io.put_new_line
 					la_socket.connect
 
-					if la_socket.was_error then
+					if not la_socket.is_connected then
 						connexion_error := true
-						io.put_string ("Connexion error. (socket disconnected)") ; io.put_new_line
+--						io.put_string ("Connexion error. (socket disconnected)") ; io.put_new_line
 					else
-						io.put_string ("Connection accepted!") ; io.put_new_line
+--						io.put_string ("Connection accepted!") ; io.put_new_line
 					end
 				else
 					connexion_error := true
-					io.put_string ("Connexion error. (socket does not exist)") ; io.put_new_line
+--					io.put_string ("Connexion error. (socket does not exist)") ; io.put_new_line
 				end
 			else
 				connexion_error := true
-				io.put_string ("Connexion error. (invalid address)") ; io.put_new_line
+--				io.put_string ("Connexion error. (invalid address)") ; io.put_new_line
 			end
 		end
 
@@ -57,19 +57,19 @@ feature {NONE} -- Initialization
 			create local_socket.make_server_by_port (a_port)
 
 			if attached local_socket as la_socket then
-				io.put_string ("Listening...") ; io.put_new_line
+--				io.put_string ("Listening...") ; io.put_new_line
 				la_socket.listen (1)
 				la_socket.accept
 				distant_socket := la_socket.accepted
-				io.put_string ("Accepted connection!") ; io.put_new_line
+--				io.put_string ("Accepted connection!") ; io.put_new_line
 
 				if la_socket.was_error then
 					connexion_error := true
-					io.put_string ("Connexion error. (socket disconnected)") ; io.put_new_line
+--					io.put_string ("Connexion error. (socket disconnected)") ; io.put_new_line
 				end
 			else
 				connexion_error := true
-				io.put_string ("Connexion error. (socket does not exist)") ; io.put_new_line
+--				io.put_string ("Connexion error. (socket does not exist)") ; io.put_new_line
 			end
 		end
 
@@ -87,6 +87,7 @@ feature -- Access
 
 	receive_data
 		local
+			l_choice: INTEGER
 			l_packet: detachable PACKET
 			l_count: INTEGER
 			l_string: STRING
@@ -98,7 +99,9 @@ feature -- Access
 					l_packet := la_socket.receive (256, 0)
 
 					if attached l_packet as la_packet then
-						if l_packet.data.read_integer_32 (0) = 1 then
+						l_choice := l_packet.data.read_integer_32 (0)
+
+						if l_choice = 1 then
 
 								-- Enemy creation is 1
 
@@ -112,12 +115,12 @@ feature -- Access
 
 							new_enemies.extend (l_string, la_packet.data.read_integer_32 (32), la_packet.data.read_integer_32 (64),
 														  la_packet.data.read_integer_32 (96), la_packet.data.read_integer_32 (128))
-						elseif l_packet.data.read_integer_32 (0) = 2 then
+						elseif l_choice = 2 then
 
 								-- Player movement is 2
 
 							new_player_position := [la_packet.data.read_integer_32 (32), la_packet.data.read_integer_32 (64)]
-						elseif l_packet.data.read_integer_32 (0) = 3 then
+						elseif l_choice = 3 then
 
 								-- Projectile creation is 3
 
@@ -131,7 +134,7 @@ feature -- Access
 
 							new_projectiles.extend (l_string, la_packet.data.read_integer_32 (32),
 								la_packet.data.read_integer_32 (64), la_packet.data.read_real_64 (96))
-						elseif l_packet.data.read_integer_32 (0) = 4 then
+						elseif l_choice = 4 then
 
 								-- Collision is 4
 

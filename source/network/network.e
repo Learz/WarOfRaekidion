@@ -61,33 +61,38 @@ feature {NONE} -- Implementation
 						connexion_error := true
 					end
 				else
-					if is_server then
-						create node.make_server (9001)
+					if not attached node as la_node then
+						if is_server then
+							create node.make_server (9001)
 
-						if attached node as la_node then
-							if attached la_node.distant_socket as la_socket then
-								if la_socket.is_bound then
+							if attached node as la_node then
+								if attached la_node.distant_socket as la_socket then
 									is_init := true
+								else
+									la_node.close
+									connexion_error := true
 								end
 							else
 								connexion_error := true
 							end
 						else
-							connexion_error := true
-						end
-					else
-						create node.make_client (address, 9001)
+							create node.make_client (address, 9001)
 
-						if attached node as la_node then
-							if attached la_node.distant_socket as la_socket then
-								if la_socket.is_connected then
-									is_init := true
+							if attached node as la_node then
+								if attached la_node.distant_socket as la_socket then
+									if la_socket.is_connected then
+										is_init := true
+									else
+										la_node.close
+										connexion_error := true
+									end
+								else
+									la_node.close
+									connexion_error := true
 								end
 							else
 								connexion_error := true
 							end
-						else
-							connexion_error := true
 						end
 					end
 				end

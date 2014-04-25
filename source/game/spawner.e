@@ -20,11 +20,12 @@ feature {NONE} -- Initialization
 			create random.make
 		    create on_spawn
 			create spawn_list.make
+			money := 50
 		end
 
 feature -- Status
 
-	is_player: BOOLEAN
+	is_player, is_ai: BOOLEAN
 
 feature -- Access
 
@@ -33,7 +34,24 @@ feature -- Access
 	spawn_list: LINKED_LIST [TUPLE [name: STRING; x, y, dest_x, dest_y: INTEGER]]
 
 	update
+		local
+			l_x, l_y: INTEGER
 		do
+			if is_ai then
+				random.forth
+				l_x := (random.double_item * 200).floor
+				random.forth
+				l_y := (random.double_item * 100).floor - 50
+				random.forth
+
+				if random.double_item > 0.5 then
+					spawn_list.extend (["sprayer", (random.double_item * 200).floor, -25, l_x, l_y])
+				else
+					spawn_list.extend (["mauler", (random.double_item * 200).floor, -25, l_x, l_y])
+				end
+
+				random.forth
+			end
 
 			from
 				spawn_list.start
@@ -50,20 +68,16 @@ feature -- Access
 			on_spawn.wipe_out
 		end
 
-	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
-		local
-			l_x, l_y: INTEGER
+feature -- Element change
+
+	set_ai (a: BOOLEAN)
 		do
-			if a_state then
-				if a_key = key_binding.action_key then
-					l_x := (random.double_item * 200).floor
-					random.forth
-					l_y := (random.double_item * 200).floor - 50
-					random.forth
-					spawn_list.extend (["sprayer", (random.double_item * 200).floor, -25, l_x, l_y])
-					random.forth
-				end
-			end
+			is_ai := a
+		end
+
+	set_money (a_money: INTEGER)
+		do
+			money := a_money
 		end
 
 feature {NONE} -- Implementation
