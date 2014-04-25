@@ -20,17 +20,14 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_x, a_y: DOUBLE; a_key_binding: KEYS; a_is_player: BOOLEAN; a_network: detachable NETWORK)
+	make (a_window: WINDOW; a_x, a_y: DOUBLE; a_key_binding: KEYS; a_is_player: BOOLEAN)
 		do
 			ship_make ("player", a_window, a_x, a_y, 500)
+			is_player := a_is_player
 			offset := 16
 			set_key_binding (a_key_binding)
 		    trajectory.enable_degree_mode
 			speed := 4
-
-			if attached a_network as la_network then
-				network := la_network
-			end
 		end
 
 feature -- Access
@@ -39,8 +36,8 @@ feature -- Access
 		do
 			if shoot_delay <= 0 then
 				if is_shooting then
-					on_shoot.call (create {PROJECTILE}.make ("small_laser", window, x + (width / 2).floor, y + (height / 2).floor, 90, true))
-					shoot_delay := 15
+					on_shoot.call (["small_laser", (x + (width / 2)).floor, (y + (height / 2)).floor, 90.0, true])
+					shoot_delay := 5
 				end
 			else
 				shoot_delay := shoot_delay - 1
@@ -123,6 +120,7 @@ feature -- Access
 feature -- Status
 
 	has_moved: BOOLEAN
+	is_player: BOOLEAN
 	is_shooting: BOOLEAN
 	is_moving_up, is_moving_down, is_moving_left, is_moving_right: BOOLEAN
 
@@ -135,7 +133,6 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	network: detachable NETWORK
 	shoot_delay: INTEGER
 	key_binding: KEYS
 	speed: DOUBLE

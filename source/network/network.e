@@ -56,23 +56,30 @@ feature {NONE} -- Implementation
 			loop
 				if is_init then
 					if attached node as la_node then
-						if is_server then
-		--					la_node.receive_client_data
-						else
-		--					la_node.receive_server_data
-						end
+						la_node.receive_data
 					else
 						connexion_error := true
 					end
 				else
 					if is_server then
 						create node.make_server (9001)
-						is_init := true
+
+						if attached node as la_node then
+							if attached la_node.distant_socket as la_socket then
+								if la_socket.is_bound then
+									is_init := true
+								end
+							else
+								connexion_error := true
+							end
+						else
+							connexion_error := true
+						end
 					else
 						create node.make_client (address, 9001)
 
 						if attached node as la_node then
-							if attached la_node.local_socket as la_socket then
+							if attached la_node.distant_socket as la_socket then
 								if la_socket.is_connected then
 									is_init := true
 								end

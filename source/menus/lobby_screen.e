@@ -120,18 +120,20 @@ feature {NONE} -- Implementation
 
 	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
 		do
-			if a_state then
-				if a_key = key_binding.return_key and not is_return_key_pressed then
-					is_return_key_pressed := true
-					must_close := true
+			if not textbox_focus then
+				if a_state then
+					if a_key = key_binding.return_key and not is_return_key_pressed then
+						is_return_key_pressed := true
+						must_close := true
+					end
+				else
+					if a_key = key_binding.return_key and is_return_key_pressed then
+						is_return_key_pressed := false
+					end
 				end
-			else
-				if a_key = key_binding.return_key and is_return_key_pressed then
-					is_return_key_pressed := false
-				end
-			end
 
-			precursor {SCREEN} (a_key, a_state)
+				precursor {SCREEN} (a_key, a_state)
+			end
 		end
 
 	manage_click (a_button: NATURAL_32; a_x, a_y: INTEGER; a_state: BOOLEAN)

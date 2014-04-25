@@ -27,7 +27,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	on_shoot: ACTION_SEQUENCE [TUPLE [a_projectile: PROJECTILE]]
+	on_shoot: ACTION_SEQUENCE [TUPLE [name: STRING; x, y: INTEGER; angle: DOUBLE; owner: BOOLEAN]]
 
 	destroy
 		do

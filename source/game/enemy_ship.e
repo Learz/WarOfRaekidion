@@ -33,9 +33,11 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	enemy_properties: ENEMY_PROPERTIES
+	
 	update (a_x, a_y: DOUBLE)
 		local
-			l_projectile: PROJECTILE
+			l_vector: VECTOR
 			l_random: RANDOM
 			l_random_int: INTEGER
 			l_count: INTEGER
@@ -51,11 +53,9 @@ feature -- Access
 				loop
 					l_random_int := (l_random.double_item * enemy_properties.spread).floor - (enemy_properties.spread / 2).floor
 					l_random.forth
-					create l_projectile.make (enemy_properties.bullet, window, x + (width / 2).floor, y + (height / 2).floor, 0, false)
-					l_projectile.trajectory.set_x_and_y (a_x - x, -a_y + y)
-					l_projectile.trajectory.set_angle (l_projectile.trajectory.angle + l_random_int)
-					l_projectile.trajectory.set_force (l_projectile.projectile_properties.speed)
-					on_shoot.call (l_projectile)
+					create l_vector.make_from_x_y (a_x - x, -a_y + y)
+					l_vector.enable_degree_mode
+					on_shoot.call ([enemy_properties.bullet, (x + (width / 2)).floor, (y + (height / 2)).floor, l_vector.angle + l_random_int, false])
 					l_count := l_count + 1
 				end
 			end
@@ -80,7 +80,6 @@ feature {NONE} -- Implementation
 
 	dest_x, dest_y: DOUBLE
 	enemyfactory: ENEMY_FACTORY
-	enemy_properties: ENEMY_PROPERTIES
 	create_projectile: BOOLEAN
 
 end

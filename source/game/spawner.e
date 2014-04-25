@@ -12,16 +12,11 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_key_binding: KEYS; a_is_player: BOOLEAN; a_network: detachable NETWORK)
+	make (a_window: WINDOW; a_key_binding: KEYS; a_is_player: BOOLEAN)
 		do
 			window := a_window
 			key_binding := a_key_binding
 			is_player := a_is_player
-
-			if attached a_network as la_network then
-				network := la_network
-			end
-
 			create random.make
 		    create on_spawn
 			create spawn_list.make
@@ -33,7 +28,8 @@ feature -- Status
 
 feature -- Access
 
-	on_spawn: ACTION_SEQUENCE [TUPLE [a_enemy_ship: ENEMY_SHIP]]
+	money: INTEGER
+	on_spawn: ACTION_SEQUENCE [TUPLE [name: STRING; x, y, dest_x, dest_y: INTEGER]]
 	spawn_list: LINKED_LIST [TUPLE [name: STRING; x, y, dest_x, dest_y: INTEGER]]
 
 	update
@@ -44,7 +40,7 @@ feature -- Access
 			until
 				spawn_list.exhausted
 			loop
-				on_spawn.call (create {ENEMY_SHIP}.make (spawn_list.item.name, window, spawn_list.item.x, spawn_list.item.y, spawn_list.item.dest_x, spawn_list.item.dest_y))
+				on_spawn.call (spawn_list.item)
 				spawn_list.remove
 			end
 		end
@@ -72,7 +68,6 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	network: detachable NETWORK
 	random: RANDOM
 	window: WINDOW
 	key_binding: KEYS
