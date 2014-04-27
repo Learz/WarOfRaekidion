@@ -39,7 +39,7 @@ feature {NONE} -- Initialization
 			difficulty := 1
 			create buttons.make
 			l_title := create {TEXT}.make_centered ("War of Raekidion", 32, window, 0, 0, window.width, 150, [255, 255, 255], true)
-			l_version := create {TEXT}.make ("0.5.0", 10, window, 3, 387, [64, 64, 96], false)
+			l_version := create {TEXT}.make ("0.5.1", 10, window, 3, 387, [64, 64, 96], false)
 			create l_background.make ("title_background", window, 0, 0, 0)
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 150, "Singleplayer"))
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 200, "Multiplayer"))
