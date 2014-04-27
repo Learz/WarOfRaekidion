@@ -27,6 +27,8 @@ feature {NONE} -- Initialization
 			l_filename_c: C_STRING
 			l_filename_list: LINKED_LIST[STRING]
 		do
+			sounds_volume := 128
+			music_volume := 128
 			l_directory := "resources/sounds/"
 			directory_make (l_directory)
 			create sounds_list.make
@@ -69,6 +71,8 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	sounds_volume, music_volume: INTEGER
 
 	chunk (a_name: STRING): POINTER
 		do
@@ -119,6 +123,24 @@ feature -- Access
 				{SDL_MIXER}.mix_freemusic (music_list.item.object)
 				music_list.forth
 			end
+		end
+
+feature -- Element change
+
+	set_music_volume (a_volume: INTEGER)
+		do
+			music_volume := a_volume
+			{SDL_MIXER}.mix_volumemusic (a_volume)
+		ensure
+			music_volume >= 0 and music_volume <= 128
+		end
+
+	set_sounds_volume (a_volume: INTEGER)
+		do
+			sounds_volume := a_volume
+			{SDL_MIXER}.mix_volume (-1, a_volume)
+		ensure
+			sounds_volume >= 0 and sounds_volume <= 128
 		end
 
 feature {NONE} -- Implementation

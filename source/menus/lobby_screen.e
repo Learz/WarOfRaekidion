@@ -20,7 +20,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_key_binding: KEYS)
+	make (a_window: WINDOW; a_key_binding: KEYS; a_difficulty: INTEGER)
 		local
 			l_address: STRING
 			l_ticks, l_deltatime: INTEGER
@@ -48,7 +48,7 @@ feature {NONE} -- Initialization
 			button_index := 1
 
 			if attached selection as la_selection then
-				la_selection.set_image ("button_pressed")
+				la_selection.set_image (la_selection.default_image+"_pressed")
 			end
 
 			from
@@ -71,10 +71,10 @@ feature {NONE} -- Initialization
 
 				if start_game then
 					if is_server then
-						l_screen := create {WAIT_SCREEN}.make (window, key_binding, is_server, "")
+						l_screen := create {WAIT_SCREEN}.make (window, key_binding, is_server, a_difficulty, "")
 					else
 						l_address := textbox.char_string
-						l_screen := create {WAIT_SCREEN}.make (window, key_binding, is_server, l_address)
+						l_screen := create {WAIT_SCREEN}.make (window, key_binding, is_server, a_difficulty, l_address)
 					end
 
 					start_game := false

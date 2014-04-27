@@ -58,11 +58,18 @@ feature -- Fonctions
 			"Mix_AllocateChannels"
 		end
 
-	frozen mix_volumechunk(a_chunk: POINTER; volume: INTEGER)
+	frozen mix_volume(a_channe, volume: INTEGER)
 		external
-			"C (Mix_Chunk*, int) | <SDL_mixer.h>"
+			"C (int, int) | <SDL_mixer.h>"
 		alias
-			"Mix_VolumeChunk"
+			"Mix_Volume"
+		end
+
+	frozen mix_getvolume(a_channel, volume: INTEGER): INTEGER
+		external
+			"C (int, int): int | <SDL_mixer.h>"
+		alias
+			"Mix_Volume"
 		end
 
 	frozen mix_volumemusic(volume: INTEGER)
@@ -72,11 +79,11 @@ feature -- Fonctions
 			"Mix_VolumeMusic"
 		end
 
-	frozen Mix_Volume(a_channel: INTEGER; volume: INTEGER)
+	frozen mix_getvolumemusic(volume: INTEGER): INTEGER
 		external
-			"C (int, int) | <SDL_mixer.h>"
+			"C (int): int | <SDL_mixer.h>"
 		alias
-			"Mix_Volume"
+			"Mix_VolumeMusic"
 		end
 
 	frozen Mix_PlayChannel(a_channel: INTEGER; a_chunk: POINTER; a_loops: INTEGER)

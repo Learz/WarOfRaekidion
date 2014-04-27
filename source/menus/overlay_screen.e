@@ -48,7 +48,7 @@ feature {NONE} -- Initialization
 			button_index := 1
 
 			if attached selection as la_selection then
-				la_selection.set_image ("button_pressed")
+				la_selection.set_image (la_selection.default_image+"_pressed")
 			end
 
 			from

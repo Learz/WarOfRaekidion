@@ -8,21 +8,20 @@ class
 	PROJECTILE
 
 inherit
+	AUDIO_FACTORY_SHARED
 	PROJECTILE_FACTORY_SHARED
 	ENTITY
 		rename
-			make as entity_make
-		redefine
-			update
+			make as entity_make,
+			update as entity_update
 		end
-	AUDIO_FACTORY_SHARED
 
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make (a_name: STRING; a_window: WINDOW; a_x, a_y, a_angle: DOUBLE; a_owner: BOOLEAN)
+	make (a_name: STRING; a_window: WINDOW; a_x, a_y, a_angle: DOUBLE; a_owner: INTEGER)
 		do
 			projectilefactory := projectile_factory
 			projectile_properties := projectilefactory.projectile (a_name)
@@ -38,21 +37,31 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	projectile_properties: PROJECTILE_PROPERTIES
-	owner: BOOLEAN
+	owner: INTEGER
 
-	update
+	update (a_x, a_y: DOUBLE)
+		local
+			l_vector: VECTOR
 		do
 			if
-				y < -height or
-				y > (window.height + height) or
-				x < -width or
-				x > (window.width + width)
+				y < 0 or
+				y > window.height or
+				x < 0 or
+				x > window.width - 75
 			then
 				destroy
 			end
 
+			if projectile_properties.homing then
+				l_vector := trajectory
+				trajectory.set_x_and_y (a_x - x, -a_y + y)
+				trajectory.set_force (projectile_properties.speed)
+				trajectory.plus_vector (l_vector)
+				trajectory.set_force (projectile_properties.speed)
+			end
+
 			angle := trajectory.angle - 90
-			precursor {ENTITY}
+			entity_update
 		end
 
 feature {NONE} -- Implementation

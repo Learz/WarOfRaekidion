@@ -61,6 +61,10 @@ feature {NONE} -- Initialization
 			text := a_name
 			size := a_size
 			set_text (a_name, a_size)
+			p_x := a_x
+			p_y := a_y
+			p_width := a_width
+			p_height := a_height
 			set_x ((a_width / 2) + a_x - (width / 2))
 			set_y ((a_height / 2) + a_y - (height / 2))
 		end
@@ -167,12 +171,19 @@ feature -- Access
 		    end
 		end
 
+	recenter
+		do
+			set_x ((p_width / 2) + p_x - (width / 2))
+			set_y ((p_height / 2) + p_y - (height / 2))
+		end
+
 feature -- Status
 
 	shadow: BOOLEAN
 
 feature {NONE} -- Implementation
 
+	p_x, p_y, p_width, p_height: DOUBLE
 	color, bg_color, surface, bg_surface, bg_texture, font, bg_targetarea: POINTER
 
 	dispose

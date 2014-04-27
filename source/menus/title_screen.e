@@ -25,6 +25,7 @@ feature {NONE} -- Initialization
 			l_ticks, l_deltatime: INTEGER
 			l_event: EVENT_HANDLER
 			l_title: SURFACE
+			l_version: TEXT
 			l_background: BACKGROUND
 			l_screen: SCREEN
 		do
@@ -35,8 +36,10 @@ feature {NONE} -- Initialization
 			l_event.on_mouse_moved.extend (agent manage_mouse)
 			l_event.on_mouse_pressed.extend (agent manage_click)
 			key_binding := create {KEYS_FPS}
+			difficulty := 1
 			create buttons.make
 			l_title := create {TEXT}.make_centered ("War of Raekidion", 32, window, 0, 0, window.width, 150, [255, 255, 255], true)
+			l_version := create {TEXT}.make ("0.5.0", 10, window, 3, 387, [64, 64, 96], false)
 			create l_background.make ("title_background", window, 0, 0, 0)
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 150, "Singleplayer"))
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 200, "Multiplayer"))
@@ -48,7 +51,7 @@ feature {NONE} -- Initialization
 			play_music ("quiet", -1)
 
 			if attached selection as la_selection then
-				la_selection.set_image ("button_pressed")
+				la_selection.set_image (la_selection.default_image+"_pressed")
 			end
 
 			from
@@ -65,14 +68,15 @@ feature {NONE} -- Initialization
 				window.clear
 				l_background.update
 				l_title.update
+				l_version.update
 				update
 				window.render
 
 				if start_game then
 					if multiplayer then
-						l_screen := create {LOBBY_SCREEN}.make (window, key_binding)
+						l_screen := create {LOBBY_SCREEN}.make (window, key_binding, difficulty)
 					else
-						l_screen := create {GAME_SCREEN}.make (window, key_binding, true, void)
+						l_screen := create {GAME_SCREEN}.make (window, key_binding, true, difficulty, void)
 						stop_music
 						play_music ("quiet", -1)
 					end
@@ -80,6 +84,19 @@ feature {NONE} -- Initialization
 					start_game := false
 					must_quit := l_screen.must_quit
 					is_return_key_pressed := l_screen.is_return_key_pressed
+				end
+
+				if options then
+					l_screen := create {OPTIONS_SCREEN}.make (window, key_binding, difficulty)
+					must_quit := l_screen.must_quit
+					key_binding := l_screen.key_binding
+
+					if attached {OPTIONS_SCREEN} l_screen as la_options then
+						difficulty := la_options.difficulty
+					end
+
+					is_return_key_pressed := l_screen.is_return_key_pressed
+					options := false
 				end
 
 				l_deltatime := {SDL}.sdl_getticks.to_integer_32 - l_ticks
@@ -92,9 +109,11 @@ feature {NONE} -- Initialization
 
 feature -- Status
 
-	start_game, multiplayer: BOOLEAN
+	start_game, multiplayer, options: BOOLEAN
 
 feature {NONE} -- Implementation
+
+	difficulty: INTEGER
 
 	manage_key (a_key: INTEGER; a_state: BOOLEAN)
 		do
@@ -121,6 +140,7 @@ feature {NONE} -- Implementation
 				multiplayer := true
 				start_game := true
 			elseif a_button = 3 then
+				options := true
 			elseif a_button = 4 then
 				must_quit := true
 			end

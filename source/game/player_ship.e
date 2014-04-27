@@ -36,7 +36,7 @@ feature -- Access
 		do
 			if shoot_delay <= 0 then
 				if is_shooting then
-					on_shoot.call (["small_laser", (x + (width / 2)).floor, (y + (height / 2)).floor, 90.0, true])
+					on_shoot.call (["White laser", x.floor, y.floor, 90.0, 0])
 					shoot_delay := 5
 				end
 			else
@@ -71,16 +71,16 @@ feature -- Access
 
 			precursor {SHIP}
 
-			if y <= -height / 3 then
-				set_y (-height / 3)
-			elseif y >= window.height - 2 * (height / 3) then
-				set_y (window.height - 2 * (height / 3))
+			if y <= height / 3 then
+				set_y (height / 3)
+			elseif y >= window.height - height / 3 then
+				set_y (window.height - height / 3)
 			end
 
-			if x <= -width / 3 then
-				set_x (-width / 3)
-			elseif x >= window.width - 2 * (width / 3) - 75 then
-				set_x (window.width - 2 * (width / 3) - 75)
+			if x <= width / 3 then
+				set_x (width / 3)
+			elseif x >= window.width - width / 3 - 75 then
+				set_x (window.width - width / 3 - 75)
 			end
 		end
 

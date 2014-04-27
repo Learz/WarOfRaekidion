@@ -37,6 +37,18 @@ feature -- Access
 			text.update
 		end
 
+feature -- Element change
+
+	recenter
+		do
+			text.recenter
+		end
+
+	set_text (a_text: STRING)
+		do
+			text.set_text (a_text, text.size)
+		end
+
 feature {NONE} -- Implementation
 
 	text: TEXT

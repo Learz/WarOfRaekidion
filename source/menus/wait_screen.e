@@ -20,7 +20,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_key_binding: KEYS; a_is_server: BOOLEAN; a_server: STRING)
+	make (a_window: WINDOW; a_key_binding: KEYS; a_is_server: BOOLEAN; a_difficulty: INTEGER; a_server: STRING)
 		local
 			l_address, waiting_text: STRING
 			l_frames, l_ticks, l_deltatime: INTEGER
@@ -50,7 +50,7 @@ feature {NONE} -- Initialization
 			button_index := 1
 
 			if attached selection as la_selection then
-				la_selection.set_image ("button_pressed")
+				la_selection.set_image (la_selection.default_image+"_pressed")
 			end
 
 			if a_is_server then
@@ -100,7 +100,7 @@ feature {NONE} -- Initialization
 				window.render
 
 				if l_network.is_init then
-					l_screen := create {GAME_SCREEN}.make (window, key_binding, a_is_server, l_network)
+					l_screen := create {GAME_SCREEN}.make (window, key_binding, a_is_server, a_difficulty, l_network)
 					stop_music
 					play_music ("quiet", -1)
 

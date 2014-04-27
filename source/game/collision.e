@@ -21,8 +21,8 @@ feature -- Access
 			l_center_distance_squared, l_radius_sum_squared: DOUBLE
 			l_first_offset_squared, l_second_offset_squared: DOUBLE
 		do
-			l_x_difference := (a_other.x + (a_other.width / 2)) - (x + (width / 2))
-			l_y_difference := (a_other.y + (a_other.height / 2)) - (y + (height / 2))
+			l_x_difference := a_other.x - x
+			l_y_difference := a_other.y - y
 			l_center_distance_squared := (l_x_difference ^ 2) + (l_y_difference ^ 2)
 			l_radius_sum_squared := ((a_other.width / 2) + (width / 2)) ^ 2
 

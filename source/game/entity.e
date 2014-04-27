@@ -11,9 +11,13 @@ inherit
 	COLLISION
 	SPRITE
 		rename
-			make as sprite_make
+			make as sprite_make,
+			x as sprite_x,
+			y as sprite_y
 		redefine
-			update
+			update,
+			set_x,
+			set_y
 		end
 
 create
@@ -27,12 +31,14 @@ feature {NONE} -- Initialization
 			health := a_health
 		    create trajectory.make_empty
 			sprite_make (a_name, a_window, a_x, a_y)
-		    x := x - width / 2
-		    y := y - height / 2
+			set_x (a_x)
+			set_y (a_y)
 		end
 
 feature -- Access
 
+	x: DOUBLE
+	y: DOUBLE
 	health: INTEGER
 	offset: INTEGER
 	trajectory: VECTOR
@@ -56,6 +62,20 @@ feature -- Status
 	is_destroyed: BOOLEAN
 
 feature -- Element change
+
+	set_x (a_x: DOUBLE)
+		do
+			x := a_x
+		    sprite_x := a_x - width / 2
+			precursor {SPRITE} (sprite_x)
+		end
+
+	set_y (a_y: DOUBLE)
+		do
+			y := a_y
+		    sprite_y := a_y - height / 2
+			precursor {SPRITE} (sprite_y)
+		end
 
 	set_health (a_health: INTEGER)
 		do

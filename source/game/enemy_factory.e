@@ -52,10 +52,14 @@ feature {NONE} -- Initialization
 --			end
 
 		-- TEMPORARY
-			create l_enemy_properties.make ("Sprayer", "sprayer", "Sprays bullets in a straight line right onto the player.", "small_laser", 20, 1, 10, 30, 0, 2.5)
-			file_list.force ([l_enemy_properties.filename, l_enemy_properties])
-			create l_enemy_properties.make ("Mauler", "mauler", "Hauls huge chunks of bullets at you, shotgun-style.", "small_bullet", 35, 10, 30, 45, 20, 1.5)
-			file_list.force ([l_enemy_properties.filename, l_enemy_properties])
+			create l_enemy_properties.make ("Sprayer", "sprayer", "Sprays bullets in a straight line right onto the player.", "Red laser", 20, 1, 20, 15, 0, 2.5)
+			file_list.force ([l_enemy_properties.name, l_enemy_properties])
+			create l_enemy_properties.make ("Mauler", "mauler", "Hauls huge chunks of bullets at you, shotgun-style.", "Blue bullet", 25, 8, 80, 25, 30, 1.5)
+			file_list.force ([l_enemy_properties.name, l_enemy_properties])
+			create l_enemy_properties.make ("Homing", "homing", "Shoots homing missiles by pair of two.", "Small missile", 30, 2, 120, 65, 45, 2.0)
+			file_list.force ([l_enemy_properties.name, l_enemy_properties])
+			create l_enemy_properties.make ("Laser", "laser", "Fires a deadly bullet ray to burn through your ship.", "Yellow laser", 25, 1, 5, 75, 0, 2.5)
+			file_list.force ([l_enemy_properties.name, l_enemy_properties])
 		-- TEMPORARY
 
 		    is_init.replace (true)
@@ -76,7 +80,7 @@ feature -- Access
 				l_found or
 				file_list.exhausted
 			loop
-				if file_list.item.filename.is_equal (a_name) then
+				if file_list.item.name.is_equal (a_name) then
 					l_found := true
 				end
 
@@ -93,7 +97,7 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	file_list: LINKED_LIST[TUPLE[filename: STRING; object: ENEMY_PROPERTIES]]
+	file_list: LINKED_LIST[TUPLE[name: STRING; object: ENEMY_PROPERTIES]]
 
 	is_init: CELL[BOOLEAN]
 		once

@@ -9,6 +9,8 @@ deferred class
 
 feature -- Access
 
+	key_binding: KEYS
+
 	update
 		do
 			from
@@ -26,8 +28,6 @@ feature -- Status
 	must_quit, must_close, must_end, is_return_key_pressed, mouse_button_down: BOOLEAN
 
 feature {NONE} -- Implementation
-
-	key_binding: KEYS
 	window: WINDOW
 	buttons: LINKED_LIST [BUTTON]
 	button_index: INTEGER
@@ -46,7 +46,7 @@ feature {NONE} -- Implementation
 							button_index := button_index - 1
 						end
 
-						buttons.at (button_index).set_image ("button_pressed")
+						buttons.at (button_index).set_image (buttons.at (button_index).default_image + "_pressed")
 					end
 				elseif a_key = key_binding.move_down_key then
 					if buttons.count > 1 then
@@ -58,7 +58,7 @@ feature {NONE} -- Implementation
 							button_index := button_index + 1
 						end
 
-						buttons.at (button_index).set_image ("button_pressed")
+						buttons.at (button_index).set_image (buttons.at (button_index).default_image + "_pressed")
 					end
 				elseif a_key = key_binding.accept_key then
 					click_button (button_index)

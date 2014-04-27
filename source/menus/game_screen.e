@@ -19,7 +19,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_key_binding: KEYS; a_is_server: BOOLEAN; a_network: detachable NETWORK)
+	make (a_window: WINDOW; a_key_binding: KEYS; a_is_server: BOOLEAN; a_difficulty: INTEGER; a_network: detachable NETWORK)
 		local
 			l_ticks, l_deltatime: INTEGER
 			l_background: BACKGROUND
@@ -37,8 +37,10 @@ feature {NONE} -- Initialization
 		    create buttons.make
 			create enemy_list.make
 			create projectile_list.make
+			create powerup_list.make
 			network := a_network
 			is_server := a_is_server
+			difficulty := a_difficulty
 			l_memory.collection_on
 			create l_event.make (window)
 			create l_background.make ("background", window, 0, 0, 1)
@@ -86,6 +88,38 @@ feature {NONE} -- Initialization
 				spawner.update
 
 				from
+					powerup_list.start
+				until
+					powerup_list.exhausted
+				loop
+				    if attached powerup_list.item as la_powerup then
+				    	if la_powerup.is_destroyed then
+				    		powerup_list.remove
+				    	else
+							if player.has_collided (la_powerup) then
+								if spawner.is_ai and difficulty = 1 then
+									if player.health >= 100 then
+										if is_server then
+											score := score + 1
+										end
+									else
+										player.set_health (player.health + 1)
+									end
+								end
+
+								la_powerup.destroy
+							end
+
+				    		la_powerup.update (player.x, player.y)
+
+						    if not powerup_list.exhausted then
+								powerup_list.forth
+						    end
+				    	end
+				    end
+				end
+
+				from
 					projectile_list.start
 				until
 					projectile_list.exhausted
@@ -94,7 +128,7 @@ feature {NONE} -- Initialization
 				    	if la_projectile.is_destroyed then
 				    		projectile_list.remove
 				    	else
-				    		if not la_projectile.owner then
+				    		if la_projectile.owner /= 0 then
 								if player.has_collided (la_projectile) then
 									if not is_server and not player.is_destroyed then
 										score := score + (la_projectile.projectile_properties.damage * 10)
@@ -107,7 +141,13 @@ feature {NONE} -- Initialization
 									end
 
 									player.set_health (player.health - la_projectile.projectile_properties.damage)
-									spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * 5))
+
+									if spawner.is_ai then
+										spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * difficulty * 1.5).floor)
+									else
+										spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * 3))
+									end
+
 									la_projectile.destroy
 								end
 							else
@@ -129,7 +169,13 @@ feature {NONE} -- Initialization
 											end
 
 											la_enemy.set_health (la_enemy.health - la_projectile.projectile_properties.damage)
-											spawner.set_money (spawner.money + la_projectile.projectile_properties.damage)
+
+											if spawner.is_ai then
+												spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * difficulty))
+											else
+												spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * 2))
+											end
+
 											la_projectile.destroy
 										end
 									end
@@ -140,7 +186,7 @@ feature {NONE} -- Initialization
 								end
 				    		end
 
-				    		la_projectile.update
+				    		la_projectile.update (player.x, player.y)
 
 						    if not projectile_list.exhausted then
 								projectile_list.forth
@@ -158,6 +204,23 @@ feature {NONE} -- Initialization
 				    	if la_enemy.is_destroyed then
 							if is_server then
 								score := score + (la_enemy.enemy_properties.health * 10)
+							end
+
+							from
+								projectile_list.start
+							until
+								projectile_list.exhausted
+							loop
+								if attached projectile_list.item as la_projectile then
+									if la_projectile.owner = la_enemy.id then
+										powerup_list.extend (create {POWERUP}.make ("powerup", window, la_projectile.x, la_projectile.y, 1))
+										projectile_list.remove
+									end
+								end
+
+							    if not projectile_list.exhausted then
+									projectile_list.forth
+							    end
 							end
 
 				    		enemy_list.remove
@@ -236,12 +299,14 @@ feature -- Status
 
 feature {NONE} -- Implementation
 
+	difficulty: INTEGER
 	score: INTEGER
 	player: PLAYER_SHIP
 	network: detachable NETWORK
 	spawner: SPAWNER
 	enemy_list: LINKED_LIST [detachable ENEMY_SHIP]
 	projectile_list: LINKED_LIST [detachable PROJECTILE]
+	powerup_list: LINKED_LIST [detachable POWERUP]
 
 	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
 		do
@@ -262,7 +327,7 @@ feature {NONE} -- Implementation
 			l_enemy: ENEMY_SHIP
 		do
 			if enemy_list.count < 10 then
-				create l_enemy.make (a_name, window, a_x, a_y, a_dest_x, a_dest_y)
+				create l_enemy.make (a_name, window, a_x, a_y, a_dest_x, a_dest_y, enemy_list.count + 1)
 
 				if spawner.money >= l_enemy.enemy_properties.price then
 					enemy_list.extend (l_enemy)
@@ -281,11 +346,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	spawn_projectile (a_name: STRING; a_x, a_y: INTEGER; a_angle: DOUBLE; a_owner: BOOLEAN)
+	spawn_projectile (a_name: STRING; a_x, a_y: INTEGER; a_angle: DOUBLE; a_owner: INTEGER)
 		do
 			projectile_list.extend (create {PROJECTILE}.make (a_name, window, a_x, a_y, a_angle, a_owner))
 
-			if is_server and a_owner then
+			if is_server and a_owner = 0 then
 				if attached network as la_network then
 					if attached la_network.node as la_node then
 						la_node.send_projectile (a_name, a_x, a_y, a_angle)

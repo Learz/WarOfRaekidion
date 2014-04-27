@@ -23,7 +23,6 @@ feature {NONE} -- Access
 			if chunk.is_default_pointer then
 --				io.put_string ("Audio file not found: "+a_name)
 			else
-				{SDL_MIXER}.mix_volumechunk (chunk, 128)
 				{SDL_MIXER}.mix_playchannel (a_channel, chunk, 0)
 			end
 		end
@@ -40,7 +39,6 @@ feature {NONE} -- Access
 			if music.is_default_pointer then
 --				io.put_string ("Audio file not found: "+a_name)
 			else
-				{SDL_MIXER}.mix_volumemusic (128)
 				{SDL_MIXER}.mix_playmusic (music, -1)
 			end
 		end

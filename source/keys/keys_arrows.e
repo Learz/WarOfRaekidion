@@ -14,47 +14,47 @@ feature -- Access
 
 	move_up_key: INTEGER
 		do
-			result := {SDL_WRAPPER}.sdlk_up
+			result := {SDL_EVENTS}.sdlk_up
 		end
 
 	move_down_key: INTEGER
 		do
-			result := {SDL_WRAPPER}.sdlk_down
+			result := {SDL_EVENTS}.sdlk_down
 		end
 
 	move_left_key: INTEGER
 		do
-			result := {SDL_WRAPPER}.sdlk_left
+			result := {SDL_EVENTS}.sdlk_left
 		end
 
 	move_right_key: INTEGER
 		do
-			result := {SDL_WRAPPER}.sdlk_right
+			result := {SDL_EVENTS}.sdlk_right
 		end
 
 	accept_key: INTEGER
 		do
-			result := {SDL_WRAPPER}.sdlk_return
+			result := {SDL_EVENTS}.sdlk_return
 		end
 
 	return_key: INTEGER
 		do
-			result := {SDL_WRAPPER}.sdlk_escape
+			result := {SDL_EVENTS}.sdlk_escape
 		end
 
 	fire_key: INTEGER
 		do
-			result := {SDL_WRAPPER}.sdlk_z
+			result := {SDL_EVENTS}.sdlk_z
 		end
 
 	modifier_key: INTEGER
 		do
-			result := {SDL_WRAPPER}.sdlk_x
+			result := {SDL_EVENTS}.sdlk_x
 		end
 
 	action_key: INTEGER
 		do
-			result := {SDL_WRAPPER}.sdlk_c
+			result := {SDL_EVENTS}.sdlk_c
 		end
 
 end

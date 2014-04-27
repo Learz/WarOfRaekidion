@@ -20,7 +20,7 @@ feature {NONE} -- Initialization
 			create random.make
 		    create on_spawn
 			create spawn_list.make
-			money := 50
+			money := 20
 		end
 
 feature -- Status
@@ -39,18 +39,24 @@ feature -- Access
 		do
 			if is_ai then
 				random.forth
-				l_x := (random.double_item * 200).floor
+				l_x := (random.double_item * 200).floor + 12
 				random.forth
-				l_y := (random.double_item * 100).floor - 50
+				l_y := (random.double_item * 100).floor + 12
 				random.forth
 
-				if random.double_item > 0.5 then
-					spawn_list.extend (["sprayer", (random.double_item * 200).floor, -25, l_x, l_y])
-				else
-					spawn_list.extend (["mauler", (random.double_item * 200).floor, -25, l_x, l_y])
+				if (random.double_item * 4).floor = 0 then
+					random.forth
+					spawn_list.extend (["Sprayer", (random.double_item * 200).floor + 12, -25, l_x, l_y])
+				elseif (random.double_item * 4).floor = 1 then
+					random.forth
+					spawn_list.extend (["Mauler", (random.double_item * 200).floor + 12, -25, l_x, l_y])
+				elseif (random.double_item * 4).floor = 2 then
+					random.forth
+					spawn_list.extend (["Homing", (random.double_item * 200).floor + 12, -25, l_x, l_y])
+				elseif (random.double_item * 4).floor = 3 then
+					random.forth
+					spawn_list.extend (["Laser", (random.double_item * 200).floor + 12, -25, l_x, l_y])
 				end
-
-				random.forth
 			end
 
 			from

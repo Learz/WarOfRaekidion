@@ -52,10 +52,16 @@ feature {NONE} -- Initialization
 --			end
 
 		-- TEMPORARY
-			create l_projectile_properties.make ("Small laser", "small_laser", "laser", 1, 3)
-			file_list.force ([l_projectile_properties.filename, l_projectile_properties])
-			create l_projectile_properties.make ("Small bullet", "small_bullet", "laser", 1, 1.5)
-			file_list.force ([l_projectile_properties.filename, l_projectile_properties])
+			create l_projectile_properties.make ("White laser", "white_laser", "laser", 1, 4.5, false)
+			file_list.force ([l_projectile_properties.name, l_projectile_properties])
+			create l_projectile_properties.make ("Red laser", "red_laser", "laser", 1, 3.0, false)
+			file_list.force ([l_projectile_properties.name, l_projectile_properties])
+			create l_projectile_properties.make ("Blue bullet", "blue_bullet", "", 1, 2.0, false)
+			file_list.force ([l_projectile_properties.name, l_projectile_properties])
+			create l_projectile_properties.make ("Small missile", "small_missile", "", 3, 1, true)
+			file_list.force ([l_projectile_properties.name, l_projectile_properties])
+			create l_projectile_properties.make ("Yellow laser", "yellow_laser", "laser", 1, 5.0, false)
+			file_list.force ([l_projectile_properties.name, l_projectile_properties])
 		-- TEMPORARY
 
 		    is_init.replace (true)
@@ -76,7 +82,7 @@ feature -- Access
 				l_found or
 				file_list.exhausted
 			loop
-				if file_list.item.filename.is_equal (a_name) then
+				if file_list.item.name.is_equal (a_name) then
 					l_found := true
 				end
 
@@ -87,13 +93,13 @@ feature -- Access
 				file_list.back
 				result := file_list.item.object
 			else
-				create result.make ("", "", "", 0, 0)
+				create result.make ("", "", "", 0, 0, false)
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	file_list: LINKED_LIST[TUPLE[filename: STRING; object: PROJECTILE_PROPERTIES]]
+	file_list: LINKED_LIST[TUPLE[name: STRING; object: PROJECTILE_PROPERTIES]]
 
 	is_init: CELL[BOOLEAN]
 		once
