@@ -52,7 +52,7 @@ feature {NONE} -- Initialization
 --			end
 
 		-- TEMPORARY
-			create l_projectile_properties.make ("White laser", "white_laser", "laser", 1, 4.5, false)
+			create l_projectile_properties.make ("White laser", "white_laser", "laser", 2, 4.5, false)
 			file_list.force ([l_projectile_properties.name, l_projectile_properties])
 			create l_projectile_properties.make ("Red laser", "red_laser", "laser", 1, 3.0, false)
 			file_list.force ([l_projectile_properties.name, l_projectile_properties])
@@ -61,6 +61,8 @@ feature {NONE} -- Initialization
 			create l_projectile_properties.make ("Small missile", "small_missile", "", 3, 1, true)
 			file_list.force ([l_projectile_properties.name, l_projectile_properties])
 			create l_projectile_properties.make ("Yellow laser", "yellow_laser", "laser", 1, 5.0, false)
+			file_list.force ([l_projectile_properties.name, l_projectile_properties])
+			create l_projectile_properties.make ("Red bullet", "red_bullet", "", 1, 0.5, false)
 			file_list.force ([l_projectile_properties.name, l_projectile_properties])
 		-- TEMPORARY
 

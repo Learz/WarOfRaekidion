@@ -53,11 +53,16 @@ feature -- Access
 					until
 						l_count = enemy_properties.count
 					loop
-						l_random_int := (random.double_item * enemy_properties.spread).floor - (enemy_properties.spread / 2).floor
-						random.forth
-						create l_vector.make_from_x_y (a_x - x, -a_y + y)
-						l_vector.enable_degree_mode
-						on_shoot.call ([enemy_properties.bullet, x.floor, y.floor, l_vector.angle + l_random_int, id])
+						if enemy_properties.aiming then
+							l_random_int := (random.double_item * enemy_properties.spread).floor - (enemy_properties.spread / 2).floor
+							random.forth
+							create l_vector.make_from_x_y (a_x - x, -a_y + y)
+							l_vector.enable_degree_mode
+							on_shoot.call ([enemy_properties.bullet, x.floor, y.floor, l_vector.angle + l_random_int, id])
+						else
+							on_shoot.call ([enemy_properties.bullet, x.floor, y.floor, lifetime * enemy_properties.spread, id])
+						end
+
 						l_count := l_count + 1
 					end
 				end

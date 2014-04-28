@@ -44,18 +44,21 @@ feature -- Access
 				l_y := (random.double_item * 100).floor + 12
 				random.forth
 
-				if (random.double_item * 4).floor = 0 then
+				if (random.double_item * 5).floor = 0 then
 					random.forth
 					spawn_list.extend (["Sprayer", (random.double_item * 200).floor + 12, -25, l_x, l_y])
-				elseif (random.double_item * 4).floor = 1 then
+				elseif (random.double_item * 5).floor = 1 then
 					random.forth
 					spawn_list.extend (["Mauler", (random.double_item * 200).floor + 12, -25, l_x, l_y])
-				elseif (random.double_item * 4).floor = 2 then
+				elseif (random.double_item * 5).floor = 2 then
 					random.forth
 					spawn_list.extend (["Homing", (random.double_item * 200).floor + 12, -25, l_x, l_y])
-				elseif (random.double_item * 4).floor = 3 then
+				elseif (random.double_item * 5).floor = 3 then
 					random.forth
 					spawn_list.extend (["Laser", (random.double_item * 200).floor + 12, -25, l_x, l_y])
+				elseif (random.double_item * 5).floor = 4 then
+					random.forth
+					spawn_list.extend (["Spiral", (random.double_item * 200).floor + 12, -25, l_x, l_y])
 				end
 			end
 
