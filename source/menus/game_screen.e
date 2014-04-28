@@ -14,6 +14,7 @@ inherit
 		end
 	AUDIO_FACTORY_SHARED
 
+
 create
 	make
 
@@ -63,6 +64,8 @@ feature {NONE} -- Initialization
 		    if attached network as la_network then
 		    	if is_server then
 					l_event.on_key_pressed.extend (agent player.manage_key)
+				else
+					spawner.set_ai (true)
 		    	end
 		    else
 				l_event.on_key_pressed.extend (agent player.manage_key)
@@ -86,6 +89,34 @@ feature {NONE} -- Initialization
 				l_background.update
 				player.update
 				spawner.update
+
+				if attached network as la_network then
+					if attached la_network.node as la_node then
+						if is_server then
+							from
+								la_node.new_enemies.start
+							until
+								la_node.new_enemies.exhausted
+							loop
+								spawn_enemy (la_node.new_enemies.item.name, la_node.new_enemies.item.x,
+											 la_node.new_enemies.item.y, la_node.new_enemies.item.dest_x, la_node.new_enemies.item.dest_y)
+								la_node.new_enemies.remove
+								la_node.new_enemies.forth
+							end
+						else
+							from
+								la_node.new_projectiles.start
+							until
+								la_node.new_projectiles.exhausted
+							loop
+								spawn_projectile (la_node.new_projectiles.item.name, la_node.new_projectiles.item.x,
+												  la_node.new_projectiles.item.y, la_node.new_projectiles.item.angle, 0)
+								la_node.new_projectiles.remove
+								la_node.new_projectiles.forth
+							end
+						end
+					end
+				end
 
 				from
 					powerup_list.start
@@ -135,7 +166,7 @@ feature {NONE} -- Initialization
 									else
 										if attached network as la_network then
 											if attached la_network.node as la_node then
-												la_node.send_collision (0, projectile_list.index)
+--												la_node.send_collision (0, projectile_list.index)
 											end
 										end
 									end
@@ -163,7 +194,7 @@ feature {NONE} -- Initialization
 
 												if attached network as la_network then
 													if attached la_network.node as la_node then
-														la_node.send_collision (enemy_list.index, projectile_list.index)
+--														la_node.send_collision (enemy_list.index, projectile_list.index)
 													end
 												end
 											end
@@ -237,9 +268,9 @@ feature {NONE} -- Initialization
 				if attached network as la_network then
 					if attached la_network.node as la_node then
 						if is_server then
---							if player.has_moved then
+							if player.has_moved then
 								la_node.send_player_position (player.x.floor, player.y.floor)
---							end
+							end
 						else
 							player.set_x (la_node.new_player_position.x)
 							player.set_y (la_node.new_player_position.y)
@@ -336,7 +367,7 @@ feature {NONE} -- Implementation
 
 				if not is_server then
 					if attached network as la_network then
-						if not is_server and attached la_network.node as la_node then
+						if attached la_network.node as la_node then
 							la_node.send_new_enemy_ship (a_name, a_x, a_y, a_dest_x, a_dest_y)
 						end
 					end

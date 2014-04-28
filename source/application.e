@@ -10,6 +10,13 @@ class
 create
 	make
 
+feature {NONE} -- Implementation
+
+	version: STRING = "0.5.2"
+	window_width: INTEGER = 300
+	window_height: INTEGER = 400
+	pixel_ratio: INTEGER = 2
+
 feature {NONE} -- Initialization
 
 	make
@@ -22,10 +29,10 @@ feature {NONE} -- Initialization
 		    {SDL_TTF}.ttf_init_noreturn
 		    {SDL_MIXER}.mix_init_noreturn ({SDL_MIXER}.mix_init_ogg)
 		    {SDL_MIXER}.mix_open_audio_noreturn (22050, {SDL_MIXER}.mix_default_format, 2, 4096)
-		    create l_window.make ("War of Raekidion", {SDL}.sdl_windowpos_undefined, {SDL}.sdl_windowpos_undefined, 300, 400, 2, {SDL}.sdl_window_hidden)
+		    create l_window.make ("War of Raekidion", {SDL}.sdl_windowpos_undefined, {SDL}.sdl_windowpos_undefined, window_width, window_height, pixel_ratio, {SDL}.sdl_window_hidden)
 			create l_event.make (l_window)
 		   	{SDL}.sdl_show_window (l_window.window)
-			create l_title_screen.make (l_window)
+			create l_title_screen.make (l_window, version)
 			{SDL_MIXER}.mix_quit
 			{SDL_MIXER}.mix_close_audio
 		    {SDL_TTF}.ttf_quit
