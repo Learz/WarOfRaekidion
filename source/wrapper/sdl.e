@@ -248,6 +248,14 @@ feature -- Structure Setters -SDL.h
 			"h"
 		end
 
+		frozen set_sdl_window_size (a_window: POINTER; a_w, a_h: INTEGER)
+
+		external
+			"C (SDL_Window*, int, int) | <SDL.h>"
+		alias
+			"SDL_SetWindowSize"
+		end
+
 feature -- Structure Getters -SDL.h
 
 		frozen get_sdl_loadbmp_width (a_sdl_surface:POINTER):INTEGER

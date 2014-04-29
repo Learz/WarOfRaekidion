@@ -18,10 +18,12 @@ feature {NONE} -- Initialization
 			l_c_title: C_STRING
 		do
 			create l_c_title.make (a_title)
-		    height := a_height
 		    width := a_width
+		    height := a_height
 		    scale := a_scale
-		    window := {SDL}.sdl_createwindow (l_c_title.item, a_x, a_y, (width * scale).floor, (height * scale).floor, a_flags)
+		    scaled_width := (width * scale).floor
+		    scaled_height := (height * scale).floor
+		    window := {SDL}.sdl_createwindow (l_c_title.item, a_x, a_y, scaled_width, scaled_height, a_flags)
 		    renderer := {SDL}.sdl_createrenderer (window, -1, {SDL}.sdl_renderer_accelerated)
 		    {SDL}.sdl_sethint ({SDL}.sdl_hintrenderscalequality, 0)
 			{SDL}.sdl_rendersetlogicalsize (renderer, a_width, a_height)
@@ -36,7 +38,7 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	window, renderer: POINTER
-	height, width: INTEGER
+	height, width, scaled_height, scaled_width: INTEGER
 	scale: DOUBLE
 	font: LINKED_LIST [TUPLE [point: INTEGER; font: POINTER]]
 
@@ -54,6 +56,16 @@ feature -- Access
 		do
 		    {SDL}.sdl_destroyrenderer (renderer)
 		    {SDL}.sdl_destroywindow (window)
+		end
+
+feature -- Element change
+
+	change_size (a_scale: DOUBLE)
+		do
+			scaled_width := (width * a_scale).floor
+			scaled_height := (height * a_scale).floor
+			scale := a_scale
+			{SDL}.set_sdl_window_size (window, scaled_width, scaled_height)
 		end
 
 end

@@ -60,7 +60,7 @@ feature {NONE} -- Initialization
 			file_list.force ([l_enemy_properties.name, l_enemy_properties])
 			create l_enemy_properties.make ("Laser", "laser", "Fires a deadly bullet ray to burn through your ship.", "Yellow laser", 25, 1, 15, 75, 0, 2.5, true)
 			file_list.force ([l_enemy_properties.name, l_enemy_properties])
-			create l_enemy_properties.make ("Spiral", "spiral", "A ship that does not aim, but hoots in a spiraling pattern.", "Red bullet", 35, 1, 5, 90, {DOUBLE_MATH}.pi, 1.0, false)
+			create l_enemy_properties.make ("Spiral", "spiral", "A ship that does not aim, but hoots in a spiraling pattern.", "Red bullet", 45, 1, 5, 90, {DOUBLE_MATH}.pi, 1.0, false)
 			file_list.force ([l_enemy_properties.name, l_enemy_properties])
 		-- TEMPORARY
 

@@ -52,7 +52,7 @@ feature {NONE} -- Initialization
 			if audio_factory.music_volume = 128 then
 				buttons.extend (create {BUTTON}.make ("small_button", window, 100, 200, "LOUD"))
 			elseif audio_factory.music_volume = 64 then
-				buttons.extend (create {BUTTON}.make ("small_button", window, 100, 200, "MUTE"))
+				buttons.extend (create {BUTTON}.make ("small_button", window, 100, 200, "LOW"))
 			else
 				buttons.extend (create {BUTTON}.make ("small_button", window, 100, 200, "OFF"))
 			end
@@ -62,13 +62,21 @@ feature {NONE} -- Initialization
 			if audio_factory.sounds_volume = 128 then
 				buttons.extend (create {BUTTON}.make ("small_button", window, 160, 200, "LOUD"))
 			elseif audio_factory.sounds_volume = 64 then
-				buttons.extend (create {BUTTON}.make ("small_button", window, 160, 200, "MUTE"))
+				buttons.extend (create {BUTTON}.make ("small_button", window, 160, 200, "LOW"))
 			else
 				buttons.extend (create {BUTTON}.make ("small_button", window, 160, 200, "OFF"))
 			end
 
 			descriptions.extend (create {TEXT}.make_centered ("Screen size", 10, window, 100, 240, 40, 0, [255, 255, 255], true))
-			buttons.extend (create {BUTTON}.make ("small_button", window, 100, 250, "2x"))
+
+			if window.scale = 2 then
+				buttons.extend (create {BUTTON}.make ("small_button", window, 100, 250, "2x"))
+			elseif window.scale = 1.5 then
+				buttons.extend (create {BUTTON}.make ("small_button", window, 100, 250, "1.5x"))
+			else
+				buttons.extend (create {BUTTON}.make ("small_button", window, 100, 250, "1x"))
+			end
+
 			descriptions.extend (create {TEXT}.make_centered ("Difficulty", 10, window, 160, 240, 40, 0, [255, 255, 255], true))
 
 			if difficulty = 1 then
@@ -163,7 +171,7 @@ feature {NONE} -- Implementation
 				end
 			elseif a_button = 2 then
 				if audio_factory.music_volume = 128 then
-					buttons.at (a_button).set_text ("MUTE")
+					buttons.at (a_button).set_text ("LOW")
 					buttons.at (a_button).recenter
 					audio_factory.set_music_volume (64)
 				elseif audio_factory.music_volume = 64 then
@@ -177,7 +185,7 @@ feature {NONE} -- Implementation
 				end
 			elseif a_button = 3 then
 				if audio_factory.sounds_volume = 128 then
-					buttons.at (a_button).set_text ("MUTE")
+					buttons.at (a_button).set_text ("LOW")
 					buttons.at (a_button).recenter
 					audio_factory.set_sounds_volume (64)
 				elseif audio_factory.sounds_volume = 64 then
@@ -190,6 +198,19 @@ feature {NONE} -- Implementation
 					audio_factory.set_sounds_volume (128)
 				end
 			elseif a_button = 4 then
+				if window.scale = 1 then
+					buttons.at (a_button).set_text ("1.5x")
+					buttons.at (a_button).recenter
+					window.change_size (1.5)
+				elseif window.scale = 1.5 then
+					buttons.at (a_button).set_text ("2x")
+					buttons.at (a_button).recenter
+					window.change_size (2)
+				else
+					buttons.at (a_button).set_text ("1x")
+					buttons.at (a_button).recenter
+					window.change_size (1)
+				end
 			elseif a_button = 5 then
 				if difficulty = 1 then
 					buttons.at (a_button).set_text ("HARD")

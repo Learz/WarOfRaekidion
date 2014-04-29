@@ -20,7 +20,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_version: STRING)
+	make (a_window: WINDOW; a_version: STRING; a_debug: BOOLEAN)
 		local
 			l_ticks, l_deltatime: INTEGER
 			l_event: EVENT_HANDLER
@@ -29,6 +29,7 @@ feature {NONE} -- Initialization
 			l_background: BACKGROUND
 			l_screen: SCREEN
 		do
+			debug_on := a_debug
 			window := a_window
 			create l_event.make (window)
 			must_quit := false
@@ -42,7 +43,13 @@ feature {NONE} -- Initialization
 			l_version := create {TEXT}.make (a_version, 10, window, 3, 387, [64, 64, 96], false)
 			create l_background.make ("title_background", window, 0, 0, 0)
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 150, "Singleplayer"))
-			buttons.extend (create {BUTTON}.make ("button", window, 100, 200, "Multiplayer"))
+
+			if debug_on then
+				buttons.extend (create {BUTTON}.make ("button", window, 100, 200, "Multiplayer"))
+			else
+				buttons.extend (create {BUTTON}.make ("button", window, 100, 200, "Out of order"))
+			end
+
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 250, "Options"))
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 300, "Quit"))
 			selection := buttons.first
@@ -109,7 +116,7 @@ feature {NONE} -- Initialization
 
 feature -- Status
 
-	start_game, multiplayer, options: BOOLEAN
+	start_game, multiplayer, options, debug_on: BOOLEAN
 
 feature {NONE} -- Implementation
 
@@ -137,8 +144,10 @@ feature {NONE} -- Implementation
 				multiplayer := false
 				start_game := true
 			elseif a_button = 2 then
-				multiplayer := true
-				start_game := true
+				if debug_on then
+					multiplayer := true
+					start_game := true
+				end
 			elseif a_button = 3 then
 				options := true
 			elseif a_button = 4 then
