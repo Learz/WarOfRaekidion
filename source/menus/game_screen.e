@@ -25,7 +25,7 @@ feature {NONE} -- Initialization
 			l_ticks, l_deltatime: INTEGER
 			l_background: BACKGROUND
 			l_sidebar: SPRITE
-			l_score, l_health: TEXT
+			l_score, l_label, l_health: TEXT
 			l_event: EVENT_HANDLER
 			l_pause_menu: SCREEN
 			l_memory: MEMORY
@@ -53,9 +53,11 @@ feature {NONE} -- Initialization
 		    create l_score.make ("0", 16, window, 237, 3, [255, 255, 255], true)
 
 		    if is_server then
-		    	create l_health.make (player.health.out, 16, window, 237, 21, [255, 255, 255], true)
+		    	create l_label.make ("HP: ", 16, window, 237, 21, [255, 255, 255], true)
+		    	create l_health.make (player.health.floor.out, 16, window, 257, 21, [255, 255, 255], true)
 		    else
-		    	create l_health.make (spawner.money.out, 16, window, 237, 21, [255, 255, 255], true)
+		    	create l_label.make ("C$: ", 16, window, 237, 21, [255, 255, 255], true)
+		    	create l_health.make (spawner.money.out, 16, window, 257, 21, [255, 255, 255], true)
 		    end
 
 			stop_music
@@ -128,7 +130,7 @@ feature {NONE} -- Initialization
 				    		powerup_list.remove
 				    	else
 							if player.has_collided (la_powerup) then
-								if spawner.is_ai and difficulty = 1 then
+								if spawner.is_ai and (difficulty = 1 or difficulty = 2) then
 									if player.health >= 100 then
 										if is_server then
 											score := score + 1
@@ -287,9 +289,10 @@ feature {NONE} -- Initialization
 			    l_sidebar.update
 			    l_score.set_text (score.out, 16)
 				l_score.update
+			    l_label.update
 
 				if is_server then
-					l_health.set_text (player.health.out, 16)
+					l_health.set_text (player.health.floor.out, 16)
 				else
 					l_health.set_text (spawner.money.out, 16)
 				end
