@@ -20,7 +20,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE; a_health: INTEGER)
+	make (a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE; a_health: DOUBLE)
 		do
 			precursor {ENTITY} (a_name, a_window, a_x, a_y, 1)
 			trajectory.enable_degree_mode

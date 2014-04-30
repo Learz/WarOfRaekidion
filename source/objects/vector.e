@@ -25,7 +25,7 @@ create
 feature {NONE} -- Initialization
 
 	make_empty
-		-- Initialization of `Current' to null (0) values
+		-- Initialize `Current' to null (0) values
 		do
 			x := 0
 			y := 0
@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 		end
 
 	make_from_x_y (a_x, a_y: DOUBLE)
-		-- Initialization of `Current' from `a_x' and `a_y'. Automatically adjust `angle' and `force'
+		-- Initialize `Current' from `a_x' and `a_y'. Automatically adjust `angle' and `force'
 		do
 			x := a_x
 			y := a_y
@@ -42,7 +42,7 @@ feature {NONE} -- Initialization
 		end
 
 	make_from_angle_force (a_angle, a_force: DOUBLE)
-		-- Initialization of `Current' from `angle' and `force'. Automatically adjust `x' and `y'
+		-- Initialize `Current' from `angle' and `force'. Automatically adjust `x' and `y'
 		do
 			angle := a_angle
 			force := a_force
@@ -52,13 +52,16 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	x: DOUBLE
-		-- `x' coordinate.
+		-- x coordinate.
+
 	y: DOUBLE
-		-- `y' coordinate.
+		-- y coordinate.
+
 	angle: DOUBLE
-		-- `angle', or direction.
+		-- angle, or direction.
+
 	force: DOUBLE
-		-- `force', or length.
+		-- force, or length.
 
 feature -- Output
 

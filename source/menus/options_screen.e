@@ -81,8 +81,10 @@ feature {NONE} -- Initialization
 
 			if difficulty = 1 then
 				buttons.extend (create {BUTTON}.make ("small_button", window, 160, 250, "EASY"))
-			else
+			elseif difficulty = 2 then
 				buttons.extend (create {BUTTON}.make ("small_button", window, 160, 250, "HARD"))
+			else
+				buttons.extend (create {BUTTON}.make ("small_button", window, 160, 250, "HELL"))
 			end
 
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 300, "Back"))
@@ -216,6 +218,10 @@ feature {NONE} -- Implementation
 					buttons.at (a_button).set_text ("HARD")
 					buttons.at (a_button).recenter
 					difficulty := 2
+				elseif difficulty = 2 then
+					buttons.at (a_button).set_text ("HELL")
+					buttons.at (a_button).recenter
+					difficulty := 4
 				else
 					buttons.at (a_button).set_text ("EASY")
 					buttons.at (a_button).recenter

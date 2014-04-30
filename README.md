@@ -4,14 +4,14 @@ War of Raekidion
 Welcome to the repository of War of Raekidion. This game is made in Eiffel, 
 with the help of SDL 2. 
 
-War of Raekidion is a "bullet hell" type top-down shooter game. It involves 
-basic gameplay like dodging enemies' projectiles and progressing through 
-the level. However, it also includes interesting new features like a 
-simple to use modding format, which allows to add enemy ships and projectile 
-types through XML files. Also, the main feature of this game consists of a 
-online multiplayer mode making one player control the ship and progressing 
-normally through the level, while the other sends enemies and attacks to his 
-opponent.
+War of Raekidion is a bullet hell type online multiplayer top-down shooter game 
+inspired from Touhou. It involves basic gameplay like dodging enemies' projectiles 
+and progressing through the level. However, it also includes interesting new 
+features like a simple to use modding format, which allows to add enemy ships 
+and projectile types through XML files. Also, the main feature of this game 
+consists of a online multiplayer mode making one player control the ship and 
+progressing normally through the level, while the other sends enemies and attacks 
+to his opponent.
 
 Installing the game
 ----------------------

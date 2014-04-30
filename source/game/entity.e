@@ -25,7 +25,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE; a_health: INTEGER)
+	make (a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE; a_health: DOUBLE)
 		do
 			starttime := {SDL}.sdl_getticks.to_integer_32
 			health := a_health
@@ -39,7 +39,7 @@ feature -- Access
 
 	x: DOUBLE
 	y: DOUBLE
-	health: INTEGER
+	health: DOUBLE
 	offset: INTEGER
 	trajectory: VECTOR
 
@@ -77,7 +77,7 @@ feature -- Element change
 			precursor {SPRITE} (sprite_y)
 		end
 
-	set_health (a_health: INTEGER)
+	set_health (a_health: DOUBLE)
 		do
 			health := a_health
 		end

@@ -1,8 +1,12 @@
 note
-	description: "Summary description for {TEXT}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description : "[
+						War of Raekidion - A rendered text
+						A {TEXT} is a rendered texture that can be directly
+						applied to a rectangle.
+					]"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
 
 class
 	TEXT
@@ -18,6 +22,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_name: STRING; a_size: INTEGER; a_window: WINDOW; a_x, a_y: DOUBLE; a_color: TUPLE [r, g, b: INTEGER]; a_shadow: BOOLEAN)
+		-- Initialize `Current'
 		do
 			window := a_window
 			renderer := a_window.renderer
@@ -42,6 +47,7 @@ feature {NONE} -- Initialization
 		end
 
 	make_centered (a_name: STRING; a_size: INTEGER; a_window: WINDOW; a_x, a_y, a_width, a_height: DOUBLE; a_color: TUPLE [r, g, b: INTEGER]; a_shadow: BOOLEAN)
+		-- Initialize `Current' centered
 		do
 			window := a_window
 			renderer := a_window.renderer
@@ -70,6 +76,7 @@ feature {NONE} -- Initialization
 		end
 
 	make_empty (a_window: WINDOW; a_x, a_y: DOUBLE; a_color: TUPLE [r, g, b: INTEGER]; a_shadow: BOOLEAN)
+		-- Initialize `Current' to nothing
 		do
 			window := a_window
 			renderer := a_window.renderer
@@ -95,9 +102,13 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	text: STRING
+		-- The text to show
+
 	size: INTEGER
+		-- The size of the text (in points)
 
 	set_text (a_text: STRING; a_size: INTEGER)
+		-- Changes the displayed text to `a_text', of size `a_size'
 		local
 			l_c_text: C_STRING
 			l_result_found: BOOLEAN
@@ -117,15 +128,21 @@ feature -- Access
 					if window.font.item.point = a_size then
 						create l_c_text.make (a_text)
 						surface := {SDL_TTF}.ttf_show_text (window.font.item.font, l_c_text.item, color)
-					    set_width ({SDL}.get_sdl_loadbmp_width (surface))
-					    set_height ({SDL}.get_sdl_loadbmp_height (surface))
-						texture := {SDL}.sdl_createtexturefromsurface (renderer, surface)
+
+						if not surface.is_default_pointer then
+						    set_width ({SDL}.get_sdl_loadbmp_width (surface))
+						    set_height ({SDL}.get_sdl_loadbmp_height (surface))
+							texture := {SDL}.sdl_createtexturefromsurface (renderer, surface)
+						end
 
 						if shadow then
 							bg_surface := {SDL_TTF}.ttf_show_text (window.font.item.font, l_c_text.item, bg_color)
-							{SDL}.set_sdl_rect_w (bg_targetarea, width)
-							{SDL}.set_sdl_rect_h (bg_targetarea, height)
-							bg_texture := {SDL}.sdl_createtexturefromsurface (renderer, bg_surface)
+
+							if not bg_surface.is_default_pointer then
+								{SDL}.set_sdl_rect_w (bg_targetarea, width)
+								{SDL}.set_sdl_rect_h (bg_targetarea, height)
+								bg_texture := {SDL}.sdl_createtexturefromsurface (renderer, bg_surface)
+							end
 						end
 
 						text := a_text
@@ -157,6 +174,7 @@ feature -- Access
 		end
 
 	update
+		-- Update the text on screen
 		do
 			if not hidden then
 				if shadow then
@@ -172,6 +190,7 @@ feature -- Access
 		end
 
 	recenter
+		-- Recenters the text inside its boundaries
 		do
 			set_x ((p_width / 2) + p_x - (width / 2))
 			set_y ((p_height / 2) + p_y - (height / 2))
@@ -180,13 +199,45 @@ feature -- Access
 feature -- Status
 
 	shadow: BOOLEAN
+		-- If true, the text will have a shadow under it
 
 feature {NONE} -- Implementation
 
-	p_x, p_y, p_width, p_height: DOUBLE
-	color, bg_color, surface, bg_surface, bg_texture, font, bg_targetarea: POINTER
+	p_x: DOUBLE
+		-- x coordinate of the parent area
+
+	p_y: DOUBLE
+		-- y coordinate of the parent area
+
+	p_width: DOUBLE
+		-- Width of the parent area
+
+	p_height: DOUBLE
+		-- Height of the parent area
+
+	color: POINTER
+		-- Color to apply to the text
+
+	font: POINTER
+		-- Font object to apply on the text
+
+	surface: POINTER
+		-- The actual text to render
+
+	bg_color: POINTER
+		-- Color to apply to the shadow
+
+	bg_surface: POINTER
+		-- The actual shadow to render
+
+	bg_texture: POINTER
+		-- The shadow texture
+
+	bg_targetarea: POINTER
+		-- The slighlty moved area for the shadow
 
 	dispose
+		-- Free every texture, surface or rectangle used from memory
 		do
 			{SDL}.sdl_destroytexture (texture)
 			color.memory_free

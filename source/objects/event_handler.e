@@ -1,9 +1,12 @@
 note
-	description : "War of Raekidion - {EVENT_HANDLER} class"
+	description : "[
+						War of Raekidion - Events handler
+						A {EVENT_HANDLER} looks for keyboard and mouse events 
+						and sends them to action sequences to use with agents.
+					]"
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
 	date		: "$Date$"
 	revision	: "$Revision$"
-
 
 class
 	EVENT_HANDLER
@@ -17,6 +20,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_window: WINDOW)
+		-- Initialize `Current'
 		do
 			window := a_window
 			event := event.memory_alloc ({SDL}.sizeof_sdl_event_struct)
@@ -29,11 +33,19 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	on_typing: ACTION_SEQUENCE [TUPLE [keyname: STRING]]
+		-- Characters typed on the keyboard, by their name
+
 	on_key_pressed: ACTION_SEQUENCE [TUPLE [key: INTEGER_32; state: BOOLEAN]]
+		-- Keys pressed on the keyboard, by their keycode and state (up or down)
+
 	on_mouse_moved: ACTION_SEQUENCE [TUPLE [x, y: INTEGER_32]]
+		-- Position of the mouse everytime it is moved
+
 	on_mouse_pressed: ACTION_SEQUENCE [TUPLE [button: NATURAL_32; x, y: INTEGER_32; state: BOOLEAN]]
+		-- Position, button and state of the button of the mouse everytime a button is pressed
 
 	manage_event
+		-- Event checkup
 		local
 			l_must_quit: INTEGER
 		do
@@ -48,11 +60,10 @@ feature -- Access
 				check_mouse_pressed
 				l_must_quit := {SDL_EVENTS}.sdl_pollevent (event)
 			end
-
-
 		end
 
 	is_quit_event: BOOLEAN
+		-- If the event is a kill signal
 		do
 			result := {SDL_EVENTS}.get_sdl_event_type (event) = {SDL_EVENTS}.sdl_quitevent
 		end
@@ -60,9 +71,13 @@ feature -- Access
 feature {NONE} -- Implementation
 
 	event: POINTER
+		-- The event object to handle
+
 	window: WINDOW
+		-- The window in which to handle events
 
 	check_key_typed
+		-- Check any key typed and get their name
 		local
 			l_c_string: C_STRING
 		do
@@ -73,6 +88,7 @@ feature {NONE} -- Implementation
 		end
 
 	check_key_pressed
+		-- Check any key pressed or released and get their keycode and state
 		do
 			if {SDL_EVENTS}.get_sdl_event_type (event) = {SDL_EVENTS}.sdl_keydown then
 				on_key_pressed.call ([{SDL_EVENTS}.get_sdl_keypressed (event), true])
@@ -82,6 +98,7 @@ feature {NONE} -- Implementation
 		end
 
 	check_mouse_moved
+		-- Check mouse position if it has moved
 		local
 			l_x, l_y: INTEGER_32
 		do
@@ -92,6 +109,7 @@ feature {NONE} -- Implementation
 		end
 
 	check_mouse_pressed
+		-- Check any mouse button pressed, its state and mouse position
 		local
 			l_x, l_y: INTEGER_32
 			l_button: NATURAL_32
@@ -106,6 +124,7 @@ feature {NONE} -- Implementation
 		end
 
 	dispose
+		-- Free the event from memory
 		do
 			event.memory_free
 		end

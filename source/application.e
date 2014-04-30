@@ -1,5 +1,9 @@
 note
-	description : "War of Raekidion - {APPLICATION} class"
+	description : "[
+						War of Raekidion - {APPLICATION} main class
+						War of Raekidion is a bullet hell type online multiplayer 
+						top-down shooter game inspired from Touhou.
+					]"
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
 	date		: "$Date$"
 	revision	: "$Revision$"
@@ -15,14 +19,22 @@ create
 
 feature {NONE} -- Implementation
 
-	version: STRING = "0.5.3"
+	version: STRING = "0.5.4"
+		-- Current game's version
+
 	window_width: INTEGER = 300
+		-- The window's default width
+
 	window_height: INTEGER = 400
+		-- The window's default height
+
 	pixel_ratio: INTEGER = 2
+		-- The window's default scale
 
 feature {NONE} -- Initialization
 
 	make
+		-- Initialize `Current'
 		local
 			l_window: WINDOW
 			l_title_screen: TITLE_SCREEN

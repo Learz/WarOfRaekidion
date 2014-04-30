@@ -1,9 +1,11 @@
 note
-	description : "War of Raekidion - {SPRITE} class"
+	description : "[
+						War of Raekidion - A 2D sprite
+						A {SPRITE} is a movable and animable image.
+					]"
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
 	date		: "$Date$"
 	revision	: "$Revision$"
-
 
 class
 	SPRITE
@@ -18,6 +20,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE)
+		-- Initialize `Current'
 		do
 			window := a_window
 			default_image := a_name
@@ -32,9 +35,16 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	angle: DOUBLE
-	default_image, current_image: STRING
+		-- The angle at which the image is rotated
+
+	default_image: STRING
+		-- The default image (useful for animations)
+
+	current_image: STRING
+		-- The current image used for the sprite
 
 	update
+		-- Update `Current' on screen
 		do
 			if not hidden then
 		    	{SDL}.sdl_rendercopyex (renderer, texture, create {POINTER}, targetarea, angle, create {POINTER}, {SDL}.sdl_flip_none)
@@ -44,11 +54,13 @@ feature -- Access
 feature -- Element change
 
 	reset_image
+		-- Reset `current_image' to `default_image'
 		do
 			set_image (default_image)
 		end
 
 	set_image (a_name: STRING)
+		-- Set `current_image' to `a_name'
 		do
 			if a_name /= current_image then
 				image := factory.image (a_name)
@@ -75,9 +87,13 @@ feature -- Element change
 feature {NONE} -- Implementation
 
 	image: POINTER
+		-- The current image object
+
 	factory: IMAGE_FACTORY
+		-- The image factory containing all loaded images
 
 	dispose
+		-- Free the rectangle and texture from memory
 		do
 			{SDL}.sdl_destroytexture (texture)
 			texture.memory_free

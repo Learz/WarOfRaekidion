@@ -1,8 +1,12 @@
 note
-	description: "Summary description for {AUDIO_FACTORY}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description : "[
+						War of Raekidion - An audio factory
+						An {AUDIO_FACTORY} loads and stores every audio file found in 
+						the game's folders and puts them in a list.
+					]"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
 
 class
 	AUDIO_FACTORY
@@ -18,6 +22,7 @@ create make
 feature {NONE} -- Initialization
 
 	make
+		-- Initialize `Current'
 		require
 			is_not_already_initialised: not is_init.item
 		local
@@ -72,9 +77,14 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	sounds_volume, music_volume: INTEGER
+	sounds_volume: INTEGER
+		-- Sounds (all channels) volume, ranging from 0 to 128
 
-	chunk (a_name: STRING): POINTER
+	music_volume: INTEGER
+		-- Music volume, ranging from 0 to 128
+
+	sound (a_name: STRING): POINTER
+		-- Find a loaded sound file from `a_name'
 		do
 			from
 				sounds_list.start
@@ -90,6 +100,7 @@ feature -- Access
 		end
 
 	music (a_name: STRING): POINTER
+		-- Find a loaded music file from `a_name'
 		do
 			from
 				music_list.start
@@ -105,6 +116,7 @@ feature -- Access
 		end
 
 	dispose
+		-- Free every sound and music from memory
 		do
 			from
 				sounds_list.start
@@ -128,29 +140,44 @@ feature -- Access
 feature -- Element change
 
 	set_music_volume (a_volume: INTEGER)
+		-- Change the music channel's volume to `a_volume'
+		require
+			valid_volume: a_volume >= 0 and a_volume <= 128
 		do
 			music_volume := a_volume
 			{SDL_MIXER}.mix_volumemusic (a_volume)
 		ensure
-			music_volume >= 0 and music_volume <= 128
+			volume_set: music_volume = a_volume
 		end
 
 	set_sounds_volume (a_volume: INTEGER)
+		-- Change all sounds channels' volume to `a_volume'
+		require
+			valid_volume: a_volume >= 0 and a_volume <= 128
 		do
 			sounds_volume := a_volume
 			{SDL_MIXER}.mix_volume (-1, a_volume)
 		ensure
-			sounds_volume >= 0 and sounds_volume <= 128
+			volume_set: sounds_volume = a_volume
 		end
 
 feature {NONE} -- Implementation
 
-	sounds_list: LINKED_LIST[TUPLE[filename: STRING; object: POINTER]]
-	music_list: LINKED_LIST[TUPLE[filename: STRING; object: POINTER]]
+	sounds_list: LINKED_LIST [TUPLE [filename: STRING; object: POINTER]]
+		-- The list of sound files
 
-	is_init: CELL[BOOLEAN]
+	music_list: LINKED_LIST [TUPLE [filename: STRING; object: POINTER]]
+		-- The list of music files
+
+	is_init: CELL [BOOLEAN]
+		-- If this class has been initialized, don't initialize it again
 		once
 			create result.put (false)
 		end
+
+invariant
+
+	valid_music_volume: music_volume >= 0 and music_volume <= 128
+	valid_sounds_volume: sounds_volume >= 0 and sounds_volume <= 128
 
 end

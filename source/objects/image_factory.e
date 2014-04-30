@@ -1,9 +1,12 @@
 note
-	description : "War of Raekidion - {IMAGE_FACTORY} class"
+	description : "[
+						War of Raekidion - An image factory
+						An {IMAGE_FACTORY} loads and stores every image file found in 
+						the game's folders and puts them in a list.
+					]"
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
 	date		: "$Date$"
 	revision	: "$Revision$"
-
 
 class
 	IMAGE_FACTORY
@@ -20,6 +23,7 @@ create
 feature {NONE} -- Initialization
 
 	make
+		-- Initialize `Current'
 		require
 			is_not_already_initialised: not is_init.item
 		local
@@ -55,6 +59,7 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	image (a_name: STRING): POINTER
+		-- Find a loaded image from `a_name'
 		do
 			from
 				file_list.start
@@ -70,6 +75,7 @@ feature -- Access
 		end
 
 	dispose
+		-- Free every image from memory
 		do
 			from
 				file_list.start
@@ -83,9 +89,11 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	file_list: LINKED_LIST[TUPLE[filename: STRING; object: POINTER]]
+	file_list: LINKED_LIST [TUPLE [filename: STRING; object: POINTER]]
+		-- The list of image files
 
-	is_init: CELL[BOOLEAN]
+	is_init: CELL [BOOLEAN]
+		-- If this class has been initialized, don't initialize it again
 		once
 			create result.put (false)
 		end

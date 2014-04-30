@@ -1,9 +1,12 @@
 note
-	description : "War of Raekidion - {WINDOW} class"
+	description : "[
+						War of Raekidion - A fixed window
+						A {WINDOW} is a fixed, unresizable window in which 
+						sprites can be rendered.
+					]"
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
 	date		: "$Date$"
 	revision	: "$Revision$"
-
 
 class
 	WINDOW
@@ -14,6 +17,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_title: STRING; a_x, a_y, a_width, a_height: INTEGER_32; a_scale: DOUBLE; a_flags: NATURAL_32)
+		-- Initialize `Current'
 		local
 			l_c_title: C_STRING
 		do
@@ -37,22 +41,44 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	window, renderer: POINTER
-	height, width, scaled_height, scaled_width: INTEGER
+	window: POINTER
+		-- The window itself
+
+	renderer: POINTER
+		-- The window's drawable surface
+
+	height: INTEGER
+		-- Height of `Current' in pixels
+
+	width: INTEGER
+		-- Width of `Current' in pixels
+
+	scaled_height: INTEGER
+		-- Scaled height of `Current'
+
+	scaled_width: INTEGER
+		-- Scaled width of `Current'
+
 	scale: DOUBLE
+		-- Scaling factor of the window
+
 	font: LINKED_LIST [TUPLE [point: INTEGER; font: POINTER]]
+		-- All fonts usable in the window
 
 	render
+		-- Render the next frame
 		do
 			{SDL}.sdl_renderpresent (renderer)
 		end
 
 	clear
+		-- Erase the current frame
 		do
 			{SDL}.sdl_renderclear (renderer)
 		end
 
 	dispose
+		-- Free the renderer and the window from memory
 		do
 		    {SDL}.sdl_destroyrenderer (renderer)
 		    {SDL}.sdl_destroywindow (window)
@@ -61,6 +87,7 @@ feature -- Access
 feature -- Element change
 
 	change_size (a_scale: DOUBLE)
+		-- Scale the window to `a_scale'
 		do
 			scaled_width := (width * a_scale).floor
 			scaled_height := (height * a_scale).floor

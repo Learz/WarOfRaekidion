@@ -1,9 +1,12 @@
 note
-	description : "War of Raekidion - {USER_INTERFACE} class"
+	description : "[
+						War of Raekidion - A scrolling background image
+						A {BACKGROUND} is an image duplicated, then placed on top 
+						of each other to create the impression of endless scrolling.
+					]"
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
 	date		: "$Date$"
 	revision	: "$Revision$"
-
 
 class
 	BACKGROUND
@@ -22,6 +25,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_name: STRING; a_window: WINDOW; a_x, a_y: INTEGER_16; a_scroll_speed: DOUBLE)
+		-- Initialize `Current'
 		do
 			origin_y := a_y
 			scroll_speed := a_scroll_speed
@@ -38,6 +42,7 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	update
+		-- Update `Current' movement
 		do
 			set_y (y + scroll_speed)
 			wrapped_sprite.set_y (wrapped_sprite.y + scroll_speed)
@@ -56,7 +61,12 @@ feature -- Access
 feature {NONE} -- Implementation
 
 	scroll_speed: DOUBLE
+		-- Vertical scrolling speed (can be negative)
+
 	origin_y: INTEGER_16
+		-- Original y, for reference
+
 	wrapped_sprite: SPRITE
+		-- The superposed sprite
 
 end

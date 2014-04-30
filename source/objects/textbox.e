@@ -1,8 +1,12 @@
 note
-	description: "Summary description for {TEXTBOX}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description : "[
+						War of Raekidion - A text input container
+						A {TEXTBOX} receives text input and directly shows it 
+						on top of its sprite.
+					]"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
 
 class
 	TEXTBOX
@@ -20,6 +24,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE)
+		-- Initialize `Current'
 		do
 			precursor {SPRITE} (a_name, a_window, a_x, a_y)
 			create text.make_empty (a_window, a_x, a_y, [0, 0, 0], false)
@@ -29,8 +34,10 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	char_string: STRING
+		-- Character sequence to display
 
 	update
+		-- Update `Current' on screen
 		do
 			precursor {SPRITE}
 			text.set_text (char_string, 16)
@@ -46,5 +53,6 @@ feature -- Access
 feature {NONE} -- Implementation
 
 	text: TEXT
+		-- The text object to render
 
 end

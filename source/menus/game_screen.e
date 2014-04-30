@@ -134,7 +134,7 @@ feature {NONE} -- Initialization
 											score := score + 1
 										end
 									else
-										player.set_health (player.health + 1)
+										player.set_health (player.health + (0.1 / difficulty))
 									end
 								end
 
@@ -234,7 +234,7 @@ feature {NONE} -- Initialization
 				    if attached enemy_list.item as la_enemy then
 				    	if la_enemy.is_destroyed then
 							if is_server then
-								score := score + (la_enemy.enemy_properties.health * 10)
+								score := score + (la_enemy.enemy_properties.health * 10).floor
 							end
 
 							from
