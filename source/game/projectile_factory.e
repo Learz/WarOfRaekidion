@@ -52,17 +52,17 @@ feature {NONE} -- Initialization
 --			end
 
 		-- TEMPORARY
-			create l_projectile_properties.make ("White laser", "white_laser", "laser", 2, 4.5, false)
+			create l_projectile_properties.make ("White laser", "white_laser", "laser", 2, 4.5, false, -1, false)
 			file_list.force ([l_projectile_properties.name, l_projectile_properties])
-			create l_projectile_properties.make ("Red laser", "red_laser", "laser", 1, 3.0, false)
+			create l_projectile_properties.make ("Red laser", "red_laser", "laser", 1, 3.0, false, -1, false)
 			file_list.force ([l_projectile_properties.name, l_projectile_properties])
-			create l_projectile_properties.make ("Blue bullet", "blue_bullet", "", 1, 2.0, false)
+			create l_projectile_properties.make ("Blue bullet", "blue_bullet", "", 1, 2.0, false, -1, false)
 			file_list.force ([l_projectile_properties.name, l_projectile_properties])
-			create l_projectile_properties.make ("Small missile", "small_missile", "", 3, 1, true)
+			create l_projectile_properties.make ("Small missile", "small_missile", "", 3, 1, true, 10, true)
 			file_list.force ([l_projectile_properties.name, l_projectile_properties])
-			create l_projectile_properties.make ("Yellow laser", "yellow_laser", "laser", 1, 5.0, false)
+			create l_projectile_properties.make ("Yellow laser", "yellow_laser", "laser", 1, 5.0, false, -1, false)
 			file_list.force ([l_projectile_properties.name, l_projectile_properties])
-			create l_projectile_properties.make ("Red bullet", "red_bullet", "", 1, 0.5, false)
+			create l_projectile_properties.make ("Red bullet", "red_bullet", "", 1, 0.5, false, -1, true)
 			file_list.force ([l_projectile_properties.name, l_projectile_properties])
 		-- TEMPORARY
 
@@ -95,7 +95,7 @@ feature -- Access
 				file_list.back
 				result := file_list.item.object
 			else
-				create result.make ("", "", "", 0, 0, false)
+				create result.make ("", "", "", 0, 0, false, 0, false)
 			end
 		end
 

@@ -14,7 +14,6 @@ inherit
 		end
 	AUDIO_FACTORY_SHARED
 
-
 create
 	make
 
@@ -28,21 +27,20 @@ feature {NONE} -- Initialization
 			l_score, l_label, l_health: TEXT
 			l_event: EVENT_HANDLER
 			l_pause_menu: SCREEN
-			l_memory: MEMORY
 		do
 			window := a_window
 			key_binding := a_key_binding
 			must_quit := false
 		    is_return_key_pressed := false
-		    create l_memory
+		    create difficulty_text.make_empty
 		    create buttons.make
 			create enemy_list.make
 			create projectile_list.make
 			create powerup_list.make
+			create explosion_list.make
 			network := a_network
 			is_server := a_is_server
 			difficulty := a_difficulty
-			l_memory.collection_on
 			create l_event.make (window)
 			create l_background.make ("background", window, 0, 0, 1)
 		    create l_sidebar.make ("sidebar", window, window.width - 75, 0)
@@ -103,7 +101,10 @@ feature {NONE} -- Initialization
 								spawn_enemy (la_node.new_enemies.item.name, la_node.new_enemies.item.x,
 											 la_node.new_enemies.item.y, la_node.new_enemies.item.dest_x, la_node.new_enemies.item.dest_y)
 								la_node.new_enemies.remove
-								la_node.new_enemies.forth
+
+								if not la_node.new_enemies.exhausted then
+									la_node.new_enemies.forth
+								end
 							end
 						else
 							from
@@ -112,9 +113,12 @@ feature {NONE} -- Initialization
 								la_node.new_projectiles.exhausted
 							loop
 								spawn_projectile (la_node.new_projectiles.item.name, la_node.new_projectiles.item.x,
-												  la_node.new_projectiles.item.y, la_node.new_projectiles.item.angle, 0)
+												  la_node.new_projectiles.item.y, la_node.new_projectiles.item.angle, player)
 								la_node.new_projectiles.remove
-								la_node.new_projectiles.forth
+
+								if not la_node.new_projectiles.exhausted then
+									la_node.new_projectiles.forth
+								end
 							end
 						end
 					end
@@ -136,7 +140,7 @@ feature {NONE} -- Initialization
 											score := score + 1
 										end
 									else
-										player.set_health (player.health + (0.1 / difficulty))
+										player.set_health (player.health + (0.25 / difficulty))
 									end
 								end
 
@@ -160,8 +164,12 @@ feature {NONE} -- Initialization
 				    if attached projectile_list.item as la_projectile then
 				    	if la_projectile.is_destroyed then
 				    		projectile_list.remove
+
+				    		if la_projectile.projectile_properties.explodes then
+								explosion_list.extend (create {ANIMABLE}.make ("explosion", 14, 500, window, la_projectile.x - (la_projectile.width / 2), la_projectile.x - (la_projectile.width / 2), false))
+				    		end
 				    	else
-				    		if la_projectile.owner /= 0 then
+				    		if la_projectile.owner /= player then
 								if player.has_collided (la_projectile) then
 									if not is_server and not player.is_destroyed then
 										score := score + (la_projectile.projectile_properties.damage * 10)
@@ -245,7 +253,7 @@ feature {NONE} -- Initialization
 								projectile_list.exhausted
 							loop
 								if attached projectile_list.item as la_projectile then
-									if la_projectile.owner = la_enemy.id then
+									if la_projectile.owner = la_enemy then
 										powerup_list.extend (create {POWERUP}.make ("powerup", window, la_projectile.x, la_projectile.y, 1))
 										projectile_list.remove
 									end
@@ -256,6 +264,7 @@ feature {NONE} -- Initialization
 							    end
 							end
 
+							explosion_list.extend (create {ANIMABLE}.make ("explosion", 14, 500, window, la_enemy.x - (la_enemy.width / 2), la_enemy.x - (la_enemy.width / 2), false))
 				    		enemy_list.remove
 				    	else
 				    		la_enemy.update (player.x, player.y)
@@ -264,6 +273,24 @@ feature {NONE} -- Initialization
 								enemy_list.forth
 						    end
 				    	end
+				    end
+				end
+
+				from
+					explosion_list.start
+				until
+					explosion_list.exhausted
+				loop
+				    if attached explosion_list.item as la_explosion then
+				    	if la_explosion.is_destroyed then
+				    		explosion_list.remove
+				    	end
+
+			    		la_explosion.update
+
+					    if not explosion_list.exhausted then
+							explosion_list.forth
+					    end
 				    end
 				end
 
@@ -301,14 +328,22 @@ feature {NONE} -- Initialization
 			    window.render
 
 				if player.is_destroyed then
-					l_pause_menu := create {OVERLAY_SCREEN}.make (window, key_binding, is_return_key_pressed, "GAME OVER", "Score: "+score.out, true)
+					if difficulty = 4 then
+						difficulty_text := "HELL"
+					elseif difficulty = 2 then
+						difficulty_text := "HARD"
+					else
+						difficulty_text := "EASY"
+					end
+
+					l_pause_menu := create {OVERLAY_SCREEN}.make (window, key_binding, is_return_key_pressed, "GAME OVER", "Score: "+score.out, difficulty_text, true)
 					must_quit := l_pause_menu.must_quit
 					must_end := l_pause_menu.must_end
 					is_return_key_pressed := l_pause_menu.is_return_key_pressed
 				end
 
 				if is_paused then
-					l_pause_menu := create {OVERLAY_SCREEN}.make (window, key_binding, is_return_key_pressed, "PAUSE", "", false)
+					l_pause_menu := create {OVERLAY_SCREEN}.make (window, key_binding, is_return_key_pressed, "PAUSE", "", "", false)
 					is_paused := false
 					must_quit := l_pause_menu.must_quit
 					must_end := l_pause_menu.must_end
@@ -325,6 +360,8 @@ feature {NONE} -- Initialization
 			if attached network as la_network then
 				la_network.quit
 			end
+
+			full_coalesce
 		end
 
 feature -- Status
@@ -334,6 +371,7 @@ feature -- Status
 feature {NONE} -- Implementation
 
 	difficulty: INTEGER
+	difficulty_text: STRING
 	score: INTEGER
 	player: PLAYER_SHIP
 	network: detachable NETWORK
@@ -341,6 +379,7 @@ feature {NONE} -- Implementation
 	enemy_list: LINKED_LIST [detachable ENEMY_SHIP]
 	projectile_list: LINKED_LIST [detachable PROJECTILE]
 	powerup_list: LINKED_LIST [detachable POWERUP]
+	explosion_list: LINKED_LIST [detachable ANIMABLE]
 
 	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
 		do
@@ -361,7 +400,7 @@ feature {NONE} -- Implementation
 			l_enemy: ENEMY_SHIP
 		do
 			if enemy_list.count < 10 then
-				create l_enemy.make (a_name, window, a_x, a_y, a_dest_x, a_dest_y, enemy_list.count + 1)
+				create l_enemy.make (a_name, window, a_x, a_y, a_dest_x, a_dest_y)
 
 				if spawner.money >= l_enemy.enemy_properties.price then
 					enemy_list.extend (l_enemy)
@@ -380,11 +419,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	spawn_projectile (a_name: STRING; a_x, a_y: INTEGER; a_angle: DOUBLE; a_owner: INTEGER)
+	spawn_projectile (a_name: STRING; a_x, a_y: INTEGER; a_angle: DOUBLE; a_owner: SHIP)
 		do
 			projectile_list.extend (create {PROJECTILE}.make (a_name, window, a_x, a_y, a_angle, a_owner))
 
-			if is_server and a_owner = 0 then
+			if is_server and a_owner = player then
 				if attached network as la_network then
 					if attached la_network.node as la_node then
 						la_node.send_projectile (a_name, a_x, a_y, a_angle)

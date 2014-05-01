@@ -36,7 +36,7 @@ feature -- Access
 		do
 			if shoot_delay <= 0 then
 				if is_shooting then
-					on_shoot.call (["White laser", x.floor, y.floor, 90.0, 0])
+					on_shoot.call (["White laser", x.floor, y.floor, 90.0, Current])
 					shoot_delay := 5
 				end
 			else

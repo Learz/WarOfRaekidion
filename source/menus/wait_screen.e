@@ -120,6 +120,7 @@ feature {NONE} -- Initialization
 			end
 
 			l_network.quit
+			full_coalesce
 		end
 
 feature -- Status

@@ -127,6 +127,8 @@ feature {NONE} -- Initialization
 			   		{SDL}.sdl_delay ((1000 / 60).floor - l_deltatime)
 				end
 			end
+
+			full_coalesce
 		end
 
 feature -- Status

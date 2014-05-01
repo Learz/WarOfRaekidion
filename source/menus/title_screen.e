@@ -28,6 +28,7 @@ feature {NONE} -- Initialization
 			l_version: TEXT
 			l_background: BACKGROUND
 			l_screen: SCREEN
+			l_test: ANIMABLE
 		do
 			debug_on := a_debug
 			window := a_window
@@ -61,6 +62,8 @@ feature {NONE} -- Initialization
 				la_selection.set_image (la_selection.default_image+"_pressed")
 			end
 
+			create l_test.make ("explosion", 14, 5000, window, 0, 0, false)
+
 			from
 			until
 				must_quit
@@ -76,6 +79,7 @@ feature {NONE} -- Initialization
 				l_background.update
 				l_title.update
 				l_version.update
+				l_test.update
 				update
 				window.render
 
@@ -112,6 +116,8 @@ feature {NONE} -- Initialization
 			   		{SDL}.sdl_delay ((1000 / 60).floor - l_deltatime)
 				end
 			end
+
+			full_coalesce
 		end
 
 feature -- Status

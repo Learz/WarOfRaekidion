@@ -19,11 +19,11 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_key_binding: KEYS; a_is_return_key_pressed: BOOLEAN; a_title, a_description: STRING; a_resume_disabled: BOOLEAN)
+	make (a_window: WINDOW; a_key_binding: KEYS; a_is_return_key_pressed: BOOLEAN; a_title, a_description, a_comment: STRING; a_resume_disabled: BOOLEAN)
 		local
 			l_ticks, l_deltatime: INTEGER
 			l_event: EVENT_HANDLER
-			l_title, l_description: TEXT
+			l_title, l_description, l_comment: TEXT
 		do
 			create buttons.make
 			window := a_window
@@ -35,7 +35,8 @@ feature {NONE} -- Initialization
 			l_event.on_mouse_moved.extend (agent manage_mouse)
 			l_event.on_mouse_pressed.extend (agent manage_click)
 			create l_title.make_centered (a_title, 24, window, 0, 0, window.width, 150, [255, 255, 255], true)
-			create l_description.make_centered (a_description, 16, window, 0, 50, window.width, 150, [255, 255, 255], true)
+			create l_description.make_centered (a_description, 16, window, 0, 25, window.width, 150, [192, 255, 192], true)
+			create l_comment.make_centered (a_comment, 16, window, 0, 50, window.width, 150, [192, 192, 255], true)
 			resume_disabled := a_resume_disabled
 
 			if not resume_disabled then
@@ -64,6 +65,7 @@ feature {NONE} -- Initialization
 
 				l_title.update
 				l_description.update
+				l_comment.update
 				update
 				window.render
 				l_deltatime := {SDL}.sdl_getticks.to_integer_32 - l_ticks
@@ -72,6 +74,8 @@ feature {NONE} -- Initialization
 			   		{SDL}.sdl_delay ((1000 / 60).floor - l_deltatime)
 				end
 			end
+
+			full_coalesce
 		end
 
 feature -- Status

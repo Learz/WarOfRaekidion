@@ -21,7 +21,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_name: STRING; a_window: WINDOW; a_x, a_y, a_angle: DOUBLE; a_owner: INTEGER)
+	make (a_name: STRING; a_window: WINDOW; a_x, a_y, a_angle: DOUBLE; a_owner: SHIP)
 		do
 			projectilefactory := projectile_factory
 			projectile_properties := projectilefactory.projectile (a_name)
@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	projectile_properties: PROJECTILE_PROPERTIES
-	owner: INTEGER
+	owner: SHIP
 
 	update (a_x, a_y: DOUBLE)
 		local
@@ -49,6 +49,10 @@ feature -- Access
 				x < 0 or
 				x > window.width - 75
 			then
+				destroy
+			end
+
+			if projectile_properties.lifetime > 0 and then lifetime >= projectile_properties.lifetime * 100 then
 				destroy
 			end
 

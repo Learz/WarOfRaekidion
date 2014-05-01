@@ -117,6 +117,7 @@ feature -- Access
 								l_count = la_packet.data.read_integer_32 (20)
 							loop
 								l_string.append_character (l_packet.data.read_character (24 + l_count))
+								l_count := l_count + 1
 							end
 
 							new_enemies.extend (l_string, la_packet.data.read_integer_32 (4), la_packet.data.read_integer_32 (8),
@@ -136,6 +137,7 @@ feature -- Access
 								l_count = la_packet.data.read_integer_32 (20)
 							loop
 								l_string.append_character (l_packet.data.read_character (24 + l_count))
+								l_count := l_count + 1
 							end
 
 							new_projectiles.extend (l_string, la_packet.data.read_integer_32 (4),

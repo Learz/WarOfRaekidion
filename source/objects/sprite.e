@@ -22,6 +22,7 @@ feature {NONE} -- Initialization
 	make (a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE)
 		-- Initialize `Current'
 		do
+			targetarea := targetarea.memory_alloc ({SDL}.sizeof_sdl_rect_struct)
 			window := a_window
 			default_image := a_name
 			current_image := ""
@@ -64,13 +65,18 @@ feature -- Element change
 		do
 			if a_name /= current_image then
 				image := factory.image (a_name)
-				targetarea := targetarea.memory_alloc ({SDL}.sizeof_sdl_rect_struct)
+
 
 				if not image.is_default_pointer then
 					set_x (x)
 					set_y (y)
 				    set_width ({SDL}.get_sdl_loadbmp_width (image))
 				    set_height ({SDL}.get_sdl_loadbmp_height (image))
+
+				    if not texture.is_default_pointer then
+				    	{SDL}.sdl_destroytexture (texture)
+				    end
+				    
 					texture := {SDL}.sdl_createtexturefromsurface (renderer, image)
 					current_image := a_name
 				else
@@ -95,6 +101,7 @@ feature {NONE} -- Implementation
 	dispose
 		-- Free the rectangle and texture from memory
 		do
+			image.memory_free
 			{SDL}.sdl_destroytexture (texture)
 			texture.memory_free
 			targetarea.memory_free

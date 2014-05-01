@@ -20,8 +20,6 @@ feature {NONE} -- Initialization
 		-- Initialize `Current' from directory `a_path'
 		do
 			create directory.make_with_name (a_path)
-		ensure
-			directory_exists: directory.exists
 		end
 
 feature -- Access

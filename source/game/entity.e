@@ -81,7 +81,7 @@ feature -- Element change
 		do
 			health := a_health
 		end
-
+		
 	destroy
 		do
 			is_destroyed := true

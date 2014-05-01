@@ -74,7 +74,7 @@ feature -- Element change
 feature {NONE} -- Implementation
 
 	window: WINDOW
-		-- The weapon which to display the surface
+		-- The window on which to display the surface
 
 	renderer: POINTER
 		-- The window's renderer
@@ -83,7 +83,7 @@ feature {NONE} -- Implementation
 		-- The texture made from an image
 
 	targetarea: POINTER
-		-- The rectangle to apply the texture
+		-- The rectangle containing the image
 
 	set_width (a_width: INTEGER)
 		-- Change `width' to `a_width'

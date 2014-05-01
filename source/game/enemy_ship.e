@@ -20,14 +20,13 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_name: STRING; a_window: WINDOW; a_x, a_y, a_dest_x, a_dest_y: DOUBLE; a_id: INTEGER)
+	make (a_name: STRING; a_window: WINDOW; a_x, a_y, a_dest_x, a_dest_y: DOUBLE)
 		do
 			enemyfactory := enemy_factory
 			enemy_properties := enemyfactory.enemy (a_name)
 			ship_make (enemy_properties.filename, a_window, a_x, a_y, enemy_properties.health)
 			dest_x := a_dest_x
 			dest_y := a_dest_y
-			id := a_id
 			create random.make
 		ensure
 			enemy_properties_not_null: enemy_properties.name /= ""
@@ -35,7 +34,6 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	id: INTEGER
 	enemy_properties: ENEMY_PROPERTIES
 
 	update (a_x, a_y: DOUBLE)
@@ -58,9 +56,9 @@ feature -- Access
 							random.forth
 							create l_vector.make_from_x_y (a_x - x, -a_y + y)
 							l_vector.enable_degree_mode
-							on_shoot.call ([enemy_properties.bullet, x.floor, y.floor, l_vector.angle + l_random_int, id])
+							on_shoot.call ([enemy_properties.bullet, x.floor, y.floor, l_vector.angle + l_random_int, Current])
 						else
-							on_shoot.call ([enemy_properties.bullet, x.floor, y.floor, lifetime * enemy_properties.spread, id])
+							on_shoot.call ([enemy_properties.bullet, x.floor, y.floor, lifetime * enemy_properties.spread, Current])
 						end
 
 						l_count := l_count + 1

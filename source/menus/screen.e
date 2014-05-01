@@ -7,6 +7,9 @@ note
 deferred class
 	SCREEN
 
+inherit
+	MEMORY
+
 feature -- Access
 
 	key_binding: KEYS
@@ -21,6 +24,8 @@ feature -- Access
 				buttons.item.update
 				buttons.forth
 			end
+
+			full_collect
 		end
 
 feature -- Status

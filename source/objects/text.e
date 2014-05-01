@@ -24,6 +24,7 @@ feature {NONE} -- Initialization
 	make (a_name: STRING; a_size: INTEGER; a_window: WINDOW; a_x, a_y: DOUBLE; a_color: TUPLE [r, g, b: INTEGER]; a_shadow: BOOLEAN)
 		-- Initialize `Current'
 		do
+			targetarea := targetarea.memory_alloc ({SDL}.sizeof_sdl_rect_struct)
 			window := a_window
 			renderer := a_window.renderer
 			shadow := a_shadow
@@ -33,6 +34,7 @@ feature {NONE} -- Initialization
 			{SDL_TTF}.set_blue (color, a_color.b.as_natural_8)
 
 			if shadow then
+				bg_targetarea := bg_targetarea.memory_alloc ({SDL}.sizeof_sdl_rect_struct)
 				bg_color := color.memory_alloc ({SDL_TTF}.sizeof_sdl_color_struct)
 				{SDL_TTF}.set_red (bg_color, 0)
 				{SDL_TTF}.set_green (bg_color, 0)
@@ -49,6 +51,7 @@ feature {NONE} -- Initialization
 	make_centered (a_name: STRING; a_size: INTEGER; a_window: WINDOW; a_x, a_y, a_width, a_height: DOUBLE; a_color: TUPLE [r, g, b: INTEGER]; a_shadow: BOOLEAN)
 		-- Initialize `Current' centered
 		do
+			targetarea := targetarea.memory_alloc ({SDL}.sizeof_sdl_rect_struct)
 			window := a_window
 			renderer := a_window.renderer
 			shadow := a_shadow
@@ -58,6 +61,7 @@ feature {NONE} -- Initialization
 			{SDL_TTF}.set_blue (color, a_color.b.as_natural_8)
 
 			if shadow then
+				bg_targetarea := bg_targetarea.memory_alloc ({SDL}.sizeof_sdl_rect_struct)
 				bg_color := color.memory_alloc ({SDL_TTF}.sizeof_sdl_color_struct)
 				{SDL_TTF}.set_red (bg_color, 0)
 				{SDL_TTF}.set_green (bg_color, 0)
@@ -78,6 +82,7 @@ feature {NONE} -- Initialization
 	make_empty (a_window: WINDOW; a_x, a_y: DOUBLE; a_color: TUPLE [r, g, b: INTEGER]; a_shadow: BOOLEAN)
 		-- Initialize `Current' to nothing
 		do
+			targetarea := targetarea.memory_alloc ({SDL}.sizeof_sdl_rect_struct)
 			window := a_window
 			renderer := a_window.renderer
 			shadow := a_shadow
@@ -87,6 +92,7 @@ feature {NONE} -- Initialization
 			{SDL_TTF}.set_blue (color, a_color.b.as_natural_8)
 
 			if shadow then
+				bg_targetarea := bg_targetarea.memory_alloc ({SDL}.sizeof_sdl_rect_struct)
 				bg_color := color.memory_alloc ({SDL_TTF}.sizeof_sdl_color_struct)
 				{SDL_TTF}.set_red (bg_color, 0)
 				{SDL_TTF}.set_green (bg_color, 0)
@@ -113,11 +119,7 @@ feature -- Access
 			l_c_text: C_STRING
 			l_result_found: BOOLEAN
 		do
-			targetarea := targetarea.memory_alloc ({SDL}.sizeof_sdl_rect_struct)
 
-			if shadow then
-				bg_targetarea := bg_targetarea.memory_alloc ({SDL}.sizeof_sdl_rect_struct)
-			end
 
 			if a_text.count > 0 then
 				from
