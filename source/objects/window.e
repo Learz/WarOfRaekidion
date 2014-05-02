@@ -80,6 +80,15 @@ feature -- Access
 	dispose
 		-- Free the renderer and the window from memory
 		do
+			from
+				font.start
+			until
+				font.exhausted
+			loop
+				font.item.font.memory_free
+				font.forth
+			end
+
 		    {SDL}.sdl_destroyrenderer (renderer)
 		    {SDL}.sdl_destroywindow (window)
 		end

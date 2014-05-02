@@ -58,10 +58,10 @@ feature -- Access
 		-- y coordinate.
 
 	angle: DOUBLE
-		-- angle, or direction.
+		-- Angle, or direction.
 
 	force: DOUBLE
-		-- force, or length.
+		-- Force, or length.
 
 feature -- Output
 

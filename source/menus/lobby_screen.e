@@ -29,6 +29,7 @@ feature {NONE} -- Initialization
 			l_background: BACKGROUND
 			l_screen: detachable WAIT_SCREEN
 		do
+			collection_on
 			window := a_window
 			create l_event.make (window)
 			must_quit := false
@@ -91,8 +92,6 @@ feature {NONE} -- Initialization
 			   		{SDL}.sdl_delay ((1000 / 60).floor - l_deltatime)
 				end
 			end
-
-			full_coalesce
 		end
 
 feature -- Status

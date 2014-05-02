@@ -39,9 +39,19 @@ feature -- Access
 		deferred
 		end
 
+	destroy
+		-- Destroy `Current'
+		do
+			is_destroyed := true
+		end
+
 feature -- Status
 
 	hidden: BOOLEAN
+		-- If true, the surface will not show
+
+	is_destroyed: BOOLEAN
+		-- If true, the surface should be removed from memory
 
 feature -- Element change
 

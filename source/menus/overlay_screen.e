@@ -25,6 +25,7 @@ feature {NONE} -- Initialization
 			l_event: EVENT_HANDLER
 			l_title, l_description, l_comment: TEXT
 		do
+			collection_on
 			create buttons.make
 			window := a_window
 			create l_event.make (window)
@@ -74,8 +75,6 @@ feature {NONE} -- Initialization
 			   		{SDL}.sdl_delay ((1000 / 60).floor - l_deltatime)
 				end
 			end
-
-			full_coalesce
 		end
 
 feature -- Status

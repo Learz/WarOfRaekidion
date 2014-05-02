@@ -44,10 +44,10 @@ feature -- Access
 			l_vector: VECTOR
 		do
 			if
-				y < 0 or
-				y > window.height or
-				x < 0 or
-				x > window.width - 75
+				y < -height or
+				y > window.height + height or
+				x < -width or
+				x > window.width - 75 + width
 			then
 				destroy
 			end

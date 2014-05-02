@@ -28,6 +28,7 @@ feature {NONE} -- Initialization
 			l_event: EVENT_HANDLER
 			l_pause_menu: SCREEN
 		do
+			collection_on
 			window := a_window
 			key_binding := a_key_binding
 			must_quit := false
@@ -89,210 +90,11 @@ feature {NONE} -- Initialization
 				l_background.update
 				player.update
 				spawner.update
-
-				if attached network as la_network then
-					if attached la_network.node as la_node then
-						if is_server then
-							from
-								la_node.new_enemies.start
-							until
-								la_node.new_enemies.exhausted
-							loop
-								spawn_enemy (la_node.new_enemies.item.name, la_node.new_enemies.item.x,
-											 la_node.new_enemies.item.y, la_node.new_enemies.item.dest_x, la_node.new_enemies.item.dest_y)
-								la_node.new_enemies.remove
-
-								if not la_node.new_enemies.exhausted then
-									la_node.new_enemies.forth
-								end
-							end
-						else
-							from
-								la_node.new_projectiles.start
-							until
-								la_node.new_projectiles.exhausted
-							loop
-								spawn_projectile (la_node.new_projectiles.item.name, la_node.new_projectiles.item.x,
-												  la_node.new_projectiles.item.y, la_node.new_projectiles.item.angle, player)
-								la_node.new_projectiles.remove
-
-								if not la_node.new_projectiles.exhausted then
-									la_node.new_projectiles.forth
-								end
-							end
-						end
-					end
-				end
-
-				from
-					powerup_list.start
-				until
-					powerup_list.exhausted
-				loop
-				    if attached powerup_list.item as la_powerup then
-				    	if la_powerup.is_destroyed then
-				    		powerup_list.remove
-				    	else
-							if player.has_collided (la_powerup) then
-								if spawner.is_ai and (difficulty = 1 or difficulty = 2) then
-									if player.health >= 100 then
-										if is_server then
-											score := score + 1
-										end
-									else
-										player.set_health (player.health + (0.25 / difficulty))
-									end
-								end
-
-								la_powerup.destroy
-							end
-
-				    		la_powerup.update (player.x, player.y)
-
-						    if not powerup_list.exhausted then
-								powerup_list.forth
-						    end
-				    	end
-				    end
-				end
-
-				from
-					projectile_list.start
-				until
-					projectile_list.exhausted
-				loop
-				    if attached projectile_list.item as la_projectile then
-				    	if la_projectile.is_destroyed then
-				    		projectile_list.remove
-
-				    		if la_projectile.projectile_properties.explodes then
-								explosion_list.extend (create {ANIMABLE}.make ("explosion", 14, 500, window, la_projectile.x - (la_projectile.width / 2), la_projectile.x - (la_projectile.width / 2), false))
-				    		end
-				    	else
-				    		if la_projectile.owner /= player then
-								if player.has_collided (la_projectile) then
-									if not is_server and not player.is_destroyed then
-										score := score + (la_projectile.projectile_properties.damage * 10)
-									else
-										if attached network as la_network then
-											if attached la_network.node as la_node then
---												la_node.send_collision (0, projectile_list.index)
-											end
-										end
-									end
-
-									player.set_health (player.health - la_projectile.projectile_properties.damage)
-
-									if spawner.is_ai then
-										spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * difficulty * 1.5).floor)
-									else
-										spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * 3))
-									end
-
-									la_projectile.destroy
-								end
-							else
-								from
-									enemy_list.start
-								until
-									enemy_list.exhausted
-								loop
-					   				if attached enemy_list.item as la_enemy then
-										if la_enemy.has_collided (la_projectile) then
-											if is_server then
-												score := score + (la_projectile.projectile_properties.damage * 10)
-
-												if attached network as la_network then
-													if attached la_network.node as la_node then
---														la_node.send_collision (enemy_list.index, projectile_list.index)
-													end
-												end
-											end
-
-											la_enemy.set_health (la_enemy.health - la_projectile.projectile_properties.damage)
-
-											if spawner.is_ai then
-												spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * difficulty))
-											else
-												spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * 2))
-											end
-
-											la_projectile.destroy
-										end
-									end
-
-								    if not enemy_list.exhausted then
-										enemy_list.forth
-								    end
-								end
-				    		end
-
-				    		la_projectile.update (player.x, player.y)
-
-						    if not projectile_list.exhausted then
-								projectile_list.forth
-						    end
-				    	end
-				    end
-				end
-
-				from
-					enemy_list.start
-				until
-					enemy_list.exhausted
-				loop
-				    if attached enemy_list.item as la_enemy then
-				    	if la_enemy.is_destroyed then
-							if is_server then
-								score := score + (la_enemy.enemy_properties.health * 10).floor
-							end
-
-							from
-								projectile_list.start
-							until
-								projectile_list.exhausted
-							loop
-								if attached projectile_list.item as la_projectile then
-									if la_projectile.owner = la_enemy then
-										powerup_list.extend (create {POWERUP}.make ("powerup", window, la_projectile.x, la_projectile.y, 1))
-										projectile_list.remove
-									end
-								end
-
-							    if not projectile_list.exhausted then
-									projectile_list.forth
-							    end
-							end
-
-							explosion_list.extend (create {ANIMABLE}.make ("explosion", 14, 500, window, la_enemy.x - (la_enemy.width / 2), la_enemy.x - (la_enemy.width / 2), false))
-				    		enemy_list.remove
-				    	else
-				    		la_enemy.update (player.x, player.y)
-
-						    if not enemy_list.exhausted then
-								enemy_list.forth
-						    end
-				    	end
-				    end
-				end
-
-				from
-					explosion_list.start
-				until
-					explosion_list.exhausted
-				loop
-				    if attached explosion_list.item as la_explosion then
-				    	if la_explosion.is_destroyed then
-				    		explosion_list.remove
-				    	end
-
-			    		la_explosion.update
-
-					    if not explosion_list.exhausted then
-							explosion_list.forth
-					    end
-				    end
-				end
+				network_update
+				powerup_update
+				collisions_update
+				projectiles_update
+				explosions_update
 
 				if attached network as la_network then
 					if attached la_network.node as la_node then
@@ -360,8 +162,6 @@ feature {NONE} -- Initialization
 			if attached network as la_network then
 				la_network.quit
 			end
-
-			full_coalesce
 		end
 
 feature -- Status
@@ -379,7 +179,228 @@ feature {NONE} -- Implementation
 	enemy_list: LINKED_LIST [detachable ENEMY_SHIP]
 	projectile_list: LINKED_LIST [detachable PROJECTILE]
 	powerup_list: LINKED_LIST [detachable POWERUP]
-	explosion_list: LINKED_LIST [detachable ANIMABLE]
+	explosion_list: LINKED_LIST [detachable EXPLOSION]
+
+	network_update
+		do
+			if attached network as la_network then
+				if attached la_network.node as la_node then
+					if is_server then
+						from
+							la_node.new_enemies.start
+						until
+							la_node.new_enemies.exhausted
+						loop
+							spawn_enemy (la_node.new_enemies.item.name, la_node.new_enemies.item.x,
+										 la_node.new_enemies.item.y, la_node.new_enemies.item.dest_x, la_node.new_enemies.item.dest_y)
+							la_node.new_enemies.remove
+
+							if not la_node.new_enemies.exhausted then
+								la_node.new_enemies.forth
+							end
+						end
+					else
+						from
+							la_node.new_projectiles.start
+						until
+							la_node.new_projectiles.exhausted
+						loop
+							spawn_projectile (la_node.new_projectiles.item.name, la_node.new_projectiles.item.x,
+											  la_node.new_projectiles.item.y, la_node.new_projectiles.item.angle, player)
+							la_node.new_projectiles.remove
+
+							if not la_node.new_projectiles.exhausted then
+								la_node.new_projectiles.forth
+							end
+						end
+					end
+				end
+			end
+		end
+
+	collisions_update
+		do
+			from
+				projectile_list.start
+			until
+				projectile_list.exhausted
+			loop
+			    if attached projectile_list.item as la_projectile then
+			    	if la_projectile.is_destroyed then
+			    		projectile_list.remove
+
+			    		if la_projectile.projectile_properties.explodes then
+							explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, la_projectile.x, la_projectile.y, false))
+						else
+							explosion_list.extend (create {EXPLOSION}.make ("explosion", 14, 20, window, la_projectile.x, la_projectile.y, false))
+			    		end
+			    	else
+			    		if la_projectile.owner /= player then
+							if player.has_collided (la_projectile) then
+								if not is_server and not player.is_destroyed then
+									score := score + (la_projectile.projectile_properties.damage * 10)
+--								else
+--									if attached network as la_network then
+--										if attached la_network.node as la_node then
+--											la_node.send_collision (0, projectile_list.index)
+--										end
+--									end
+								end
+
+								player.set_health (player.health - la_projectile.projectile_properties.damage)
+
+								if spawner.is_ai then
+									spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * difficulty * 1.5).floor)
+								else
+									spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * 3))
+								end
+
+								la_projectile.destroy
+							end
+						else
+							from
+								enemy_list.start
+							until
+								enemy_list.exhausted
+							loop
+				   				if attached enemy_list.item as la_enemy then
+									if la_enemy.has_collided (la_projectile) then
+										if is_server then
+											score := score + (la_projectile.projectile_properties.damage * 10)
+
+--											if attached network as la_network then
+--												if attached la_network.node as la_node then
+--													la_node.send_collision (enemy_list.index, projectile_list.index)
+--												end
+--											end
+										end
+
+										la_enemy.set_health (la_enemy.health - la_projectile.projectile_properties.damage)
+
+										if spawner.is_ai then
+											spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * difficulty))
+										else
+											spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * 2))
+										end
+
+										la_projectile.destroy
+									end
+								end
+
+							    if not enemy_list.exhausted then
+									enemy_list.forth
+							    end
+							end
+			    		end
+
+			    		la_projectile.update (player.x, player.y)
+
+					    if not projectile_list.exhausted then
+							projectile_list.forth
+					    end
+			    	end
+			    end
+			end
+		end
+
+	powerup_update
+		do
+			from
+				powerup_list.start
+			until
+				powerup_list.exhausted
+			loop
+			    if attached powerup_list.item as la_powerup then
+			    	if la_powerup.is_destroyed then
+			    		powerup_list.remove
+			    	else
+						if player.has_collided (la_powerup) then
+							if spawner.is_ai and (difficulty = 1 or difficulty = 2) then
+								if player.health >= 100 then
+									if is_server then
+										score := score + 1
+									end
+								else
+									player.set_health (player.health + (0.5 / difficulty))
+								end
+							end
+
+							la_powerup.destroy
+						end
+
+			    		la_powerup.update (player.x, player.y)
+
+					    if not powerup_list.exhausted then
+							powerup_list.forth
+					    end
+			    	end
+				end
+			end
+		end
+
+	projectiles_update
+		do
+			from
+				enemy_list.start
+			until
+				enemy_list.exhausted
+			loop
+			    if attached enemy_list.item as la_enemy then
+			    	if la_enemy.is_destroyed then
+						if is_server then
+							score := score + (la_enemy.enemy_properties.health * 10).floor
+						end
+
+						from
+							projectile_list.start
+						until
+							projectile_list.exhausted
+						loop
+							if attached projectile_list.item as la_projectile then
+								if la_projectile.owner = la_enemy then
+									powerup_list.extend (create {POWERUP}.make ("powerup", window, la_projectile.x, la_projectile.y, 1))
+									projectile_list.remove
+								end
+							end
+
+						    if not projectile_list.exhausted then
+								projectile_list.forth
+						    end
+						end
+
+						explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, la_enemy.x, la_enemy.y, false))
+			    		enemy_list.remove
+			    	else
+			    		la_enemy.update (player.x, player.y)
+
+					    if not enemy_list.exhausted then
+							enemy_list.forth
+				   		end
+			    	end
+			    end
+			end
+		end
+
+	explosions_update
+		do
+			from
+				explosion_list.start
+			until
+				explosion_list.exhausted
+			loop
+			    if attached explosion_list.item as la_explosion then
+			    	if la_explosion.is_destroyed then
+			    		explosion_list.remove
+			    	else
+			    		la_explosion.update
+
+					    if not explosion_list.exhausted then
+							explosion_list.forth
+					    end
+			    	end
+			    end
+			end
+		end
 
 	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
 		do

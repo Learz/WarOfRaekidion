@@ -31,6 +31,7 @@ feature {NONE} -- Initialization
 			l_screen: detachable GAME_SCREEN
 			l_dots: INTEGER
 		do
+			collection_on
 			window := a_window
 			create l_event.make (window)
 			must_quit := false
@@ -120,7 +121,6 @@ feature {NONE} -- Initialization
 			end
 
 			l_network.quit
-			full_coalesce
 		end
 
 feature -- Status

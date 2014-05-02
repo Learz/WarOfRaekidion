@@ -25,7 +25,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE; a_health: DOUBLE)
+	make (a_name: STRING; a_window: WINDOW; a_x, a_y, a_health: DOUBLE)
 		do
 			starttime := {SDL}.sdl_getticks.to_integer_32
 			health := a_health
@@ -57,10 +57,6 @@ feature -- Access
 			precursor {SPRITE}
 		end
 
-feature -- Status
-
-	is_destroyed: BOOLEAN
-
 feature -- Element change
 
 	set_x (a_x: DOUBLE)
@@ -80,11 +76,6 @@ feature -- Element change
 	set_health (a_health: DOUBLE)
 		do
 			health := a_health
-		end
-		
-	destroy
-		do
-			is_destroyed := true
 		end
 
 feature {NONE} -- Implementation
