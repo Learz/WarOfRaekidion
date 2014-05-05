@@ -52,7 +52,7 @@ feature {NONE} -- Initialization
 --			end
 
 		-- TEMPORARY
-			create l_projectile_properties.make ("White laser", "white_laser", "laser", 2, 4.5, false, -1, false)
+			create l_projectile_properties.make ("White laser", "white_laser", "laser", 2, 6.5, false, -1, false)
 			file_list.force ([l_projectile_properties.name, l_projectile_properties])
 			create l_projectile_properties.make ("Red laser", "red_laser", "laser", 1, 3.0, false, -1, false)
 			file_list.force ([l_projectile_properties.name, l_projectile_properties])

@@ -66,7 +66,6 @@ feature -- Element change
 			if a_name /= current_image then
 				image := factory.image (a_name)
 
-
 				if not image.is_default_pointer then
 					set_x (x)
 					set_y (y)
@@ -76,7 +75,7 @@ feature -- Element change
 				    if not texture.is_default_pointer then
 				    	{SDL}.sdl_destroytexture (texture)
 				    end
-				    
+
 					texture := {SDL}.sdl_createtexturefromsurface (renderer, image)
 					current_image := a_name
 				else

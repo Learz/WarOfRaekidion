@@ -95,7 +95,7 @@ feature {NONE} -- Initialization
 				end
 
 				if options then
-					l_screen := create {OPTIONS_SCREEN}.make (window, key_binding, difficulty)
+					l_screen := create {OPTIONS_SCREEN}.make (window, key_binding, difficulty, false)
 					must_quit := l_screen.must_quit
 					key_binding := l_screen.key_binding
 

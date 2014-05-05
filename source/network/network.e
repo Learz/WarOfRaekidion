@@ -56,7 +56,11 @@ feature {NONE} -- Implementation
 			loop
 				if is_init then
 					if attached node as la_node then
-						la_node.receive_data
+						if la_node.connexion_error then
+							connexion_error := true
+						else
+							la_node.receive_data
+						end
 					else
 						connexion_error := true
 					end

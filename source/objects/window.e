@@ -29,7 +29,8 @@ feature {NONE} -- Initialization
 		    scaled_height := (height * scale).floor
 		    window := {SDL}.sdl_createwindow (l_c_title.item, a_x, a_y, scaled_width, scaled_height, a_flags)
 		    renderer := {SDL}.sdl_createrenderer (window, -1, {SDL}.sdl_renderer_accelerated)
-		    {SDL}.sdl_sethint ({SDL}.sdl_hintrenderscalequality, 0)
+		    create l_c_title.make ("0")
+		    {SDL}.sdl_sethint ({SDL}.sdl_hintrenderscalequality, l_c_title.item)
 			{SDL}.sdl_rendersetlogicalsize (renderer, a_width, a_height)
 			create l_c_title.make ("resources/fonts/zephyrea.ttf")
 			create font.make

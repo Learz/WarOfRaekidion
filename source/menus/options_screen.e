@@ -20,7 +20,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_key_binding: KEYS; a_difficulty: INTEGER)
+	make (a_window: WINDOW; a_key_binding: KEYS; a_difficulty: INTEGER; a_in_game: BOOLEAN)
 		local
 			l_ticks, l_deltatime: INTEGER
 			l_event: EVENT_HANDLER
@@ -36,6 +36,7 @@ feature {NONE} -- Initialization
 			l_event.on_mouse_pressed.extend (agent manage_click)
 			key_binding := a_key_binding
 			difficulty := a_difficulty
+			in_game := a_in_game
 			create buttons.make
 			create descriptions.make
 			l_title := create {TEXT}.make_centered ("Options", 24, window, 0, 0, window.width, 150, [255, 255, 255], true)
@@ -80,12 +81,16 @@ feature {NONE} -- Initialization
 
 			descriptions.extend (create {TEXT}.make_centered ("Difficulty", 10, window, 160, 240, 40, 0, [255, 255, 255], true))
 
-			if difficulty = 1 then
-				buttons.extend (create {BUTTON}.make ("small_button", window, 160, 250, "EASY"))
-			elseif difficulty = 2 then
-				buttons.extend (create {BUTTON}.make ("small_button", window, 160, 250, "HARD"))
+			if not in_game then
+				if difficulty = 1 then
+					buttons.extend (create {BUTTON}.make ("small_button", window, 160, 250, "EASY"))
+				elseif difficulty = 2 then
+					buttons.extend (create {BUTTON}.make ("small_button", window, 160, 250, "HARD"))
+				else
+					buttons.extend (create {BUTTON}.make ("small_button", window, 160, 250, "HELL"))
+				end
 			else
-				buttons.extend (create {BUTTON}.make ("small_button", window, 160, 250, "HELL"))
+				buttons.extend (create {BUTTON}.make ("small_button", window, 160, 250, ""))
 			end
 
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 300, "Back"))
@@ -132,7 +137,7 @@ feature {NONE} -- Initialization
 
 feature -- Status
 
-	start_game, is_server, textbox_focus: BOOLEAN
+	start_game, is_server, textbox_focus, in_game: BOOLEAN
 
 feature -- Access
 
@@ -215,18 +220,20 @@ feature {NONE} -- Implementation
 					window.change_size (1)
 				end
 			elseif a_button = 5 then
-				if difficulty = 1 then
-					buttons.at (a_button).set_text ("HARD")
-					buttons.at (a_button).recenter
-					difficulty := 2
-				elseif difficulty = 2 then
-					buttons.at (a_button).set_text ("HELL")
-					buttons.at (a_button).recenter
-					difficulty := 4
-				else
-					buttons.at (a_button).set_text ("EASY")
-					buttons.at (a_button).recenter
-					difficulty := 1
+				if not in_game then
+					if difficulty = 1 then
+						buttons.at (a_button).set_text ("HARD")
+						buttons.at (a_button).recenter
+						difficulty := 2
+					elseif difficulty = 2 then
+						buttons.at (a_button).set_text ("HELL")
+						buttons.at (a_button).recenter
+						difficulty := 4
+					else
+						buttons.at (a_button).set_text ("EASY")
+						buttons.at (a_button).recenter
+						difficulty := 1
+					end
 				end
 			elseif a_button = 6 then
 				must_close := true

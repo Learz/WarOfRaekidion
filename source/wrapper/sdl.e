@@ -18,7 +18,7 @@ feature -- Fonctions -SDL.h
 			"SDL_CreateWindow"
 		end
 
-	frozen sdl_sethint (a_name: POINTER; a_value: INTEGER)
+	frozen sdl_sethint (a_name: POINTER; a_value: POINTER)
 		-- Set a hint with normal priority.
 		external
 			"C (const char*, const char*) | <SDL.h>"
@@ -64,6 +64,14 @@ feature -- Fonctions -SDL.h
 			"C (SDL_Renderer*) | <SDL.h>"
 		alias
 			"SDL_DestroyRenderer"
+		end
+
+	frozen sdl_creatergbsurface (a_flags: NATURAL_32; a_width, a_height, a_depth: INTEGER; a_rmask, a_gmask, a_bmask, a_amask: NATURAL_32): POINTER
+		-- Return `a_window' as a surface
+		external
+			"C (Uint32, int, int, int, Uint32, Uint32, Uint32, Uint32) : SDL_Surface* | <SDL.h>"
+		alias
+			"SDL_CreateRGBSurface"
 		end
 
 	frozen sdl_getwindowflags (a_window: POINTER): NATURAL_32
@@ -195,6 +203,14 @@ feature -- Fonctions -SDL.h
 			"SDL_CreateTextureFromSurface"
 		end
 
+	frozen sdl_renderreadpixels (a_renderer, a_rect: POINTER; a_format: NATURAL_32; a_pixels: POINTER; a_pitch: INTEGER)
+		-- Read pixels from `a_rect' and write them into `a_pixels'.
+		external
+			"C (SDL_Renderer*, const SDL_Rect*, Uint32, void*, int) | <SDL.h>"
+		alias
+			"SDL_RenderReadPixels"
+		end
+
 	frozen sdl_destroytexture (a_texture: POINTER)
 		-- Destroy `a_texture'
 		external
@@ -277,6 +293,22 @@ feature -- Structure Getters -SDL.h
 			"C [struct <SDL.h>] (SDL_Surface) : int"
 		alias
 			"h"
+		end
+
+		frozen get_sdl_surface_pitch(a_sdl_surface:POINTER):INTEGER
+		-- Number of pixels in a row on `a_sdl_surface'
+		external
+			"C [struct <SDL.h>] (SDL_Surface) : int"
+		alias
+			"pitch"
+		end
+
+		frozen get_sdl_surface_pixels(a_sdl_surface:POINTER):POINTER
+		-- All pixels of `a_sdl_surface'
+		external
+			"C [struct <SDL.h>] (SDL_Surface) : void*"
+		alias
+			"pixels"
 		end
 
 		frozen get_sdl_surface_format(a_sdl_surface:POINTER):POINTER
@@ -375,6 +407,14 @@ feature -- Constantes -SDL.h
 			"C (SDL_Window*) | <SDL.h>"
 		alias
 			"SDL_ShowWindow"
+		end
+
+	frozen sdl_pixelformat_argb8888:NATURAL_32
+		-- Flag for an ARGB pixel format
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_ARGB8888"
 		end
 
 	frozen sdl_window_borderless:NATURAL_32
