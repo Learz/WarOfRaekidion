@@ -104,7 +104,7 @@ feature {NONE} -- Initialization
 				end
 
 				spawner.update
-				network_update
+--				network_update
 				powerup_update
 				collisions_update
 				projectiles_update
@@ -126,6 +126,7 @@ feature {NONE} -- Initialization
 				if player.is_destroyed then
 					if not is_server then
 						score := score + 10000
+						score_changed := true
 					end
 				end
 
@@ -140,11 +141,11 @@ feature {NONE} -- Initialization
 			    l_label.update
 
 				if health_changed then
-					if is_server then
+--					if is_server then
 						l_health.set_text (player.health.floor.out, 16)
-					else
-						l_health.set_text (spawner.money.out, 16)
-					end
+--					else
+--						l_health.set_text (spawner.money.out, 16)
+--					end
 
 					health_changed := false
 				end
@@ -251,11 +252,11 @@ feature {NONE} -- Implementation
 			loop
 			    if attached projectile_list.item as la_projectile then
 			    	if la_projectile.is_destroyed then
-			    		if la_projectile.projectile_properties.explodes then
-							explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, la_projectile.x, la_projectile.y, false))
-						else
-							explosion_list.extend (create {EXPLOSION}.make ("explosion", 14, 20, window, la_projectile.x, la_projectile.y, false))
-			    		end
+--			    		if la_projectile.projectile_properties.explodes then
+--							explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, la_projectile.x, la_projectile.y, false))
+--						else
+--							explosion_list.extend (create {EXPLOSION}.make ("explosion", 14, 20, window, la_projectile.x, la_projectile.y, false))
+--			    		end
 
 			    		free (la_projectile)
 			    		projectile_list.remove
@@ -283,6 +284,10 @@ feature {NONE} -- Implementation
 									spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * difficulty * 1.5).floor)
 								else
 									spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * 3))
+
+									if not is_server then
+										health_changed := true
+									end
 								end
 
 								la_projectile.destroy

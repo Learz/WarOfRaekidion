@@ -25,7 +25,7 @@ feature -- Access
 				buttons.forth
 			end
 
-			full_collect
+			--full_collect
 		end
 
 feature -- Status

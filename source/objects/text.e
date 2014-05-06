@@ -127,41 +127,25 @@ feature -- Access
 				loop
 					if window.font.item.point = a_size then
 						create l_c_text.make (a_text)
-
-				    	if not surface.is_default_pointer then
-				    		surface.memory_free
-				    	end
+						{SDL}.sdl_freesurface (surface)
 
 						surface := {SDL_TTF}.ttf_show_text (window.font.item.font, l_c_text.item, color)
 
 						if not surface.is_default_pointer then
 						    set_width ({SDL}.get_sdl_loadbmp_width (surface))
 						    set_height ({SDL}.get_sdl_loadbmp_height (surface))
-
-						    if not texture.is_default_pointer then
-								{SDL}.sdl_destroytexture (texture)
-								texture.memory_free
-						    end
-
+							{SDL}.sdl_destroytexture (texture)
 							texture := {SDL}.sdl_createtexturefromsurface (renderer, surface)
 						end
 
 						if shadow then
-					    	if not bg_surface.is_default_pointer then
-					    		bg_surface.memory_free
-					    	end
-
+					    	{SDL}.sdl_freesurface (bg_surface)
 							bg_surface := {SDL_TTF}.ttf_show_text (window.font.item.font, l_c_text.item, bg_color)
 
 							if not bg_surface.is_default_pointer then
 								{SDL}.set_sdl_rect_w (bg_targetarea, width)
 								{SDL}.set_sdl_rect_h (bg_targetarea, height)
-
-							    if not bg_texture.is_default_pointer then
-									{SDL}.sdl_destroytexture (bg_texture)
-									bg_texture.memory_free
-							    end
-
+								{SDL}.sdl_destroytexture (bg_texture)
 								bg_texture := {SDL}.sdl_createtexturefromsurface (renderer, bg_surface)
 							end
 						end
@@ -261,6 +245,7 @@ feature {NONE} -- Implementation
 		-- Free every texture, surface or rectangle used from memory
 		do
 			{SDL}.sdl_destroytexture (texture)
+			{SDL}.sdl_freesurface (surface)
 			color.memory_free
 			surface.memory_free
 			texture.memory_free
@@ -268,6 +253,7 @@ feature {NONE} -- Implementation
 
 			if shadow then
 				{SDL}.sdl_destroytexture (bg_texture)
+				{SDL}.sdl_freesurface (bg_surface)
 				bg_color.memory_free
 				bg_surface.memory_free
 				bg_texture.memory_free

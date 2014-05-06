@@ -71,11 +71,7 @@ feature -- Element change
 					set_y (y)
 				    set_width ({SDL}.get_sdl_loadbmp_width (image))
 				    set_height ({SDL}.get_sdl_loadbmp_height (image))
-
-				    if not texture.is_default_pointer then
-				    	{SDL}.sdl_destroytexture (texture)
-				    end
-
+				    {SDL}.sdl_destroytexture (texture)
 					texture := {SDL}.sdl_createtexturefromsurface (renderer, image)
 					current_image := a_name
 				else
