@@ -45,6 +45,8 @@ feature {NONE} -- Initialization
 			l_title := create {TEXT}.make_centered (waiting_text, 16, window, 0, 0, window.width, 350, [255, 255, 255], true)
 			l_error := create {TEXT}.make_centered ("Connexion error", 16, window, 0, 0, window.width, 350, [255, 255, 255], true)
 			l_error.hide
+			create version.make (window.version, 10, window, 3, 397, [64, 64, 96], false)
+			version.set_y (version.y - version.height)
 			create l_background.make ("title_background", window, 0, 0, 0)
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 200, "Cancel"))
 			selection := buttons.first
@@ -102,12 +104,16 @@ feature {NONE} -- Initialization
 
 				if l_network.is_init then
 					l_screen := create {GAME_SCREEN}.make (window, key_binding, a_is_server, a_difficulty, l_network)
+					key_binding := l_screen.key_binding
 					stop_music
-					play_music ("quiet", -1)
 
 					if attached l_screen as la_screen then
 						must_quit := l_screen.must_quit
 						must_end := l_screen.must_end
+					end
+
+					if not must_quit and not must_end then
+						play_music ("quiet", -1)
 					end
 				end
 

@@ -40,6 +40,8 @@ feature {NONE} -- Initialization
 			create buttons.make
 			create descriptions.make
 			l_title := create {TEXT}.make_centered ("Options", 24, window, 0, 0, window.width, 150, [255, 255, 255], true)
+			create version.make (window.version, 10, window, 3, 397, [64, 64, 96], false)
+			version.set_y (version.y - version.height)
 			create l_background.make ("title_background", window, 0, 0, 0)
 			descriptions.extend (create {TEXT}.make_centered ("Key layout", 10, window, 100, 140, 100, 0, [255, 255, 255], true))
 
@@ -90,7 +92,7 @@ feature {NONE} -- Initialization
 					buttons.extend (create {BUTTON}.make ("small_button", window, 160, 250, "HELL"))
 				end
 			else
-				buttons.extend (create {BUTTON}.make ("small_button", window, 160, 250, ""))
+				buttons.extend (create {BUTTON}.make ("disabled_small_button", window, 160, 250, ""))
 			end
 
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 300, "Back"))

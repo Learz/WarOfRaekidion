@@ -28,11 +28,16 @@ feature {NONE} -- Initialization
 			owner := a_owner
 			play_sound (projectile_properties.sound, -1)
 			entity_make (projectile_properties.filename, a_window, a_x, a_y, 1)
+			will_explode := true
 			trajectory.enable_degree_mode
 			trajectory.set_angle_and_force (a_angle, projectile_properties.speed)
 		ensure
 			projectile_properties_not_null: projectile_properties.name /= ""
 		end
+
+feature -- Status
+
+	will_explode: BOOLEAN
 
 feature -- Access
 
@@ -49,6 +54,7 @@ feature -- Access
 				x < -width or
 				x > window.width - 75 + width
 			then
+				will_explode := false
 				destroy
 			end
 

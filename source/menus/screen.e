@@ -25,6 +25,7 @@ feature -- Access
 				buttons.forth
 			end
 
+			version.update
 			--full_collect
 		end
 
@@ -33,10 +34,12 @@ feature -- Status
 	must_quit, must_close, must_end, is_return_key_pressed, mouse_button_down: BOOLEAN
 
 feature {NONE} -- Implementation
+
 	window: WINDOW
 	buttons: LINKED_LIST [BUTTON]
 	button_index: INTEGER
 	selection: detachable BUTTON
+	version: TEXT
 
 	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
 		do

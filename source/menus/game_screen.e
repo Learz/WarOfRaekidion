@@ -50,6 +50,9 @@ feature {NONE} -- Initialization
 		    create spawner.make (window, key_binding, not a_is_server)
 		    spawner.on_spawn.extend (agent spawn_enemy)
 		    create l_score.make ("0", 16, window, 237, 3, [255, 255, 255], true)
+			create version.make (window.version, 10, window, 294, 394, [192, 192, 192], false)
+			version.set_x (version.x - version.width)
+			version.set_y (version.y - version.height)
 
 		    if is_server then
 		    	create l_label.make ("HP: ", 16, window, 237, 21, [255, 255, 255], true)
@@ -139,6 +142,7 @@ feature {NONE} -- Initialization
 
 				l_score.update
 			    l_label.update
+			    version.update
 
 				if health_changed then
 --					if is_server then
@@ -171,6 +175,9 @@ feature {NONE} -- Initialization
 				if is_paused then
 					l_pause_menu := create {OVERLAY_SCREEN}.make (window, key_binding, is_return_key_pressed, "PAUSE", "", "", false, difficulty)
 					is_paused := false
+					key_binding := l_pause_menu.key_binding
+					player.set_key_binding (key_binding)
+					spawner.set_key_binding (key_binding)
 					must_quit := l_pause_menu.must_quit
 					must_end := l_pause_menu.must_end
 					is_return_key_pressed := l_pause_menu.is_return_key_pressed
@@ -252,11 +259,13 @@ feature {NONE} -- Implementation
 			loop
 			    if attached projectile_list.item as la_projectile then
 			    	if la_projectile.is_destroyed then
---			    		if la_projectile.projectile_properties.explodes then
---							explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, la_projectile.x, la_projectile.y, false))
---						else
---							explosion_list.extend (create {EXPLOSION}.make ("explosion", 14, 20, window, la_projectile.x, la_projectile.y, false))
---			    		end
+			    		if la_projectile.will_explode then
+			    			if la_projectile.projectile_properties.explodes then
+								explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, la_projectile.x, la_projectile.y, false))
+							else
+								explosion_list.extend (create {EXPLOSION}.make ("explosion", 14, 20, window, la_projectile.x, la_projectile.y, false))
+				    		end
+			    		end
 
 			    		free (la_projectile)
 			    		projectile_list.remove
@@ -264,7 +273,7 @@ feature {NONE} -- Implementation
 			    		if la_projectile.owner /= player then
 							if player.has_collided (la_projectile) then
 								if not is_server and not player.is_destroyed then
-									score := score + (la_projectile.projectile_properties.damage * 10)
+									score := score + (la_projectile.projectile_properties.damage * 10).floor
 									score_changed := true
 --								else
 --									if attached network as la_network then
@@ -283,7 +292,7 @@ feature {NONE} -- Implementation
 								if spawner.is_ai then
 									spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * difficulty * 1.5).floor)
 								else
-									spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * 3))
+									spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * 3).floor)
 
 									if not is_server then
 										health_changed := true
@@ -301,7 +310,7 @@ feature {NONE} -- Implementation
 				   				if attached enemy_list.item as la_enemy then
 									if la_enemy.has_collided (la_projectile) then
 										if is_server then
-											score := score + (la_projectile.projectile_properties.damage * 10)
+											score := score + (la_projectile.projectile_properties.damage * 10 * (difficulty / 2)).floor
 											score_changed := true
 
 --											if attached network as la_network then
@@ -314,9 +323,9 @@ feature {NONE} -- Implementation
 										la_enemy.set_health (la_enemy.health - la_projectile.projectile_properties.damage)
 
 										if spawner.is_ai then
-											spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * difficulty))
+											spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * difficulty).floor)
 										else
-											spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * 2))
+											spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * 2).floor)
 
 											if not is_server then
 												health_changed := true
@@ -356,7 +365,7 @@ feature {NONE} -- Implementation
 			    		powerup_list.remove
 			    	else
 						if player.has_collided (la_powerup) then
-							if spawner.is_ai and (difficulty = 1 or difficulty = 2) then
+							if spawner.is_ai then
 								if player.health >= 100 then
 									if is_server then
 										score := score + 1
@@ -394,7 +403,7 @@ feature {NONE} -- Implementation
 			    if attached enemy_list.item as la_enemy then
 			    	if la_enemy.is_destroyed then
 						if is_server then
-							score := score + (la_enemy.enemy_properties.health * 10).floor
+							score := score + (la_enemy.enemy_properties.health * 10 * (difficulty / 2)).floor
 							score_changed := true
 						end
 

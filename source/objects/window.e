@@ -16,7 +16,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_title: STRING; a_x, a_y, a_width, a_height: INTEGER_32; a_scale: DOUBLE; a_flags: NATURAL_32)
+	make (a_title: STRING; a_x, a_y, a_width, a_height: INTEGER_32; a_scale: DOUBLE; a_flags: NATURAL_32; a_version: STRING)
 		-- Initialize `Current'
 		local
 			l_c_title: C_STRING
@@ -25,6 +25,7 @@ feature {NONE} -- Initialization
 		    width := a_width
 		    height := a_height
 		    scale := a_scale
+		    version := a_version
 		    scaled_width := (width * scale).floor
 		    scaled_height := (height * scale).floor
 		    window := {SDL}.sdl_createwindow (l_c_title.item, a_x, a_y, scaled_width, scaled_height, a_flags)
@@ -32,6 +33,8 @@ feature {NONE} -- Initialization
 		    create l_c_title.make ("0")
 		    {SDL}.sdl_sethint ({SDL}.sdl_hintrenderscalequality, l_c_title.item)
 			{SDL}.sdl_rendersetlogicalsize (renderer, a_width, a_height)
+			create l_c_title.make ("icon.ico")
+			{SDL}.sdl_setwindowicon (window, {SDL}.sdl_loadimage (l_c_title.item))
 			create l_c_title.make ("resources/fonts/zephyrea.ttf")
 			create font.make
 			font.extend ([10, {SDL_TTF}.ttf_open_font (l_c_title.item, 10)])
@@ -65,6 +68,9 @@ feature -- Access
 
 	font: LINKED_LIST [TUPLE [point: INTEGER; font: POINTER]]
 		-- All fonts usable in the window
+
+	version: STRING
+		-- Game version
 
 	render
 		-- Render the next frame

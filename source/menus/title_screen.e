@@ -20,12 +20,11 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_version: STRING; a_debug: BOOLEAN)
+	make (a_window: WINDOW; a_debug: BOOLEAN)
 		local
 			l_ticks, l_deltatime: INTEGER
 			l_event: EVENT_HANDLER
 			l_title: SURFACE
-			l_version: TEXT
 			l_background: BACKGROUND
 			l_screen: SCREEN
 		do
@@ -41,14 +40,15 @@ feature {NONE} -- Initialization
 			difficulty := 1
 			create buttons.make
 			l_title := create {TEXT}.make_centered ("War of Raekidion", 32, window, 0, 0, window.width, 150, [255, 255, 255], true)
-			l_version := create {TEXT}.make (a_version, 10, window, 3, 387, [64, 64, 96], false)
+			create version.make (window.version, 10, window, 3, 397, [64, 64, 96], false)
+			version.set_y (version.y - version.height)
 			create l_background.make ("title_background", window, 0, 0, 0)
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 150, "Singleplayer"))
 
 			if debug_on then
 				buttons.extend (create {BUTTON}.make ("button", window, 100, 200, "Multiplayer"))
 			else
-				buttons.extend (create {BUTTON}.make ("button", window, 100, 200, "Out of order"))
+				buttons.extend (create {BUTTON}.make ("disabled_button", window, 100, 200, ""))
 			end
 
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 250, "Options"))
@@ -76,7 +76,6 @@ feature {NONE} -- Initialization
 				window.clear
 				l_background.update
 				l_title.update
-				l_version.update
 				update
 				window.render
 
@@ -90,6 +89,7 @@ feature {NONE} -- Initialization
 					end
 
 					start_game := false
+					key_binding := l_screen.key_binding
 					must_quit := l_screen.must_quit
 					is_return_key_pressed := l_screen.is_return_key_pressed
 				end

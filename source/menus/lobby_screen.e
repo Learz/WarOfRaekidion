@@ -40,6 +40,8 @@ feature {NONE} -- Initialization
 			key_binding := a_key_binding
 			create buttons.make
 			l_title := create {TEXT}.make_centered ("Multiplayer", 24, window, 0, 0, window.width, 150, [255, 255, 255], true)
+			create version.make (window.version, 10, window, 3, 397, [64, 64, 96], false)
+			version.set_y (version.y - version.height)
 			create l_background.make ("title_background", window, 0, 0, 0)
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 150, "Join"))
 			create textbox.make ("textbox", window, 75, 200)
@@ -79,6 +81,7 @@ feature {NONE} -- Initialization
 					end
 
 					start_game := false
+					key_binding := l_screen.key_binding
 
 					if attached l_screen as la_screen then
 						must_quit := l_screen.must_quit

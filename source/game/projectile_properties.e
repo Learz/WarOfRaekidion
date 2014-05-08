@@ -12,7 +12,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_name, a_filename, a_sound: STRING; a_damage: INTEGER; a_speed: DOUBLE; a_homing: BOOLEAN; a_lifetime: INTEGER; a_explodes: BOOLEAN)
+	make (a_name, a_filename, a_sound: STRING; a_damage, a_speed: DOUBLE; a_homing: BOOLEAN; a_lifetime: INTEGER; a_explodes: BOOLEAN)
 		-- Initialization for `Current'.
 		do
 			name := a_name
@@ -30,7 +30,7 @@ feature -- Access
 	name: STRING
 	filename: STRING
 	sound: STRING
-	damage: INTEGER
+	damage: DOUBLE
 	speed: DOUBLE
 	homing: BOOLEAN
 	lifetime: INTEGER

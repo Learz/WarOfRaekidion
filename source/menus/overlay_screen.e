@@ -39,6 +39,8 @@ feature {NONE} -- Initialization
 			create l_title.make_centered (a_title, 24, window, 0, 0, window.width, 150, [255, 255, 255], true)
 			create l_description.make_centered (a_description, 16, window, 0, 25, window.width, 150, [255, 255, 255], true)
 			create l_comment.make_centered (a_comment, 16, window, 0, 50, window.width, 150, [192, 192, 192], true)
+			create version.make_centered (window.version, 10, window, 0, 397, window.width, 0, [96, 96, 96], false)
+			version.set_y (version.y - (version.height * 2))
 			resume_disabled := a_resume_disabled
 
 			if not resume_disabled then

@@ -18,6 +18,14 @@ feature -- Fonctions -SDL.h
 			"SDL_CreateWindow"
 		end
 
+	frozen sdl_setwindowicon (a_window, a_surface: POINTER)
+		-- Set the window icon
+		external
+			"C (SDL_Window*, SDL_Surface*) | <SDL.h>"
+		alias
+			"SDL_SetWindowIcon"
+		end
+
 	frozen sdl_sethint (a_name: POINTER; a_value: POINTER)
 		-- Set a hint with normal priority.
 		external

@@ -79,6 +79,11 @@ feature -- Access
 
 feature -- Element change
 
+	set_key_binding (a_key_binding: KEYS)
+		do
+			key_binding := a_key_binding
+		end
+		
 	set_ai (a: BOOLEAN)
 		do
 			is_ai := a
