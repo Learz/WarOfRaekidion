@@ -53,8 +53,10 @@ feature {NONE} -- Initialization
 			create l_event.make (l_window)
 			{SDL}.sdl_show_window (l_window.window)
 			create l_title_screen.make (l_window, l_debug)
-			{SDL_MIXER}.mix_quit
+			l_event.destroy
+			l_window.destroy
 			{SDL_MIXER}.mix_close_audio
+			{SDL_MIXER}.mix_quit
 			{SDL_TTF}.ttf_quit
 			{SDL}.sdl_quit
 		end

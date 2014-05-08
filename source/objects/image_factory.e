@@ -82,6 +82,7 @@ feature -- Access
 			until
 				file_list.exhausted
 			loop
+				file_list.item.object.memory_free
 				{SDL}.sdl_freesurface (file_list.item.object)
 				file_list.forth
 			end

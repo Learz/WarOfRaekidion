@@ -84,7 +84,7 @@ feature -- Access
 			{SDL}.sdl_renderclear (renderer)
 		end
 
-	dispose
+	destroy
 		-- Free the renderer and the window from memory
 		do
 			from

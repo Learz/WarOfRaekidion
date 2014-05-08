@@ -54,55 +54,64 @@ feature {NONE} -- Implementation
 			until
 				must_quit
 			loop
-				if is_init then
+				if connexion_error then
 					if attached node as la_node then
-						if la_node.connexion_error then
-							connexion_error := true
-						else
-							la_node.receive_data
-						end
-					else
-						connexion_error := true
+						la_node.close
 					end
-				else
-					if not attached node as la_node then
-						if is_server then
-							create node.make_server (9001)
 
-							if attached node as la_node then
-								if attached la_node.distant_socket as la_socket then
-									is_init := true
-								else
-									la_node.close
-									connexion_error := true
-								end
-							else
+					quit
+					exit
+				else
+					if attached node as la_node then
+						connexion_error := la_node.connexion_error
+					end
+
+					if is_init then
+						if attached node as la_node then
+							if la_node.connexion_error then
 								connexion_error := true
+							else
+								la_node.receive_data
 							end
 						else
-							create node.make_client (address, 9001)
+							connexion_error := true
+						end
+					else
+						if not attached node as la_node then
+							if is_server then
+								create node.make_server (9001)
 
-							if attached node as la_node then
-								if attached la_node.distant_socket as la_socket then
-									if la_socket.is_connected then
+								if attached node as la_node then
+									if attached la_node.distant_socket as la_socket then
 										is_init := true
 									else
 										la_node.close
 										connexion_error := true
 									end
 								else
-									la_node.close
 									connexion_error := true
 								end
 							else
-								connexion_error := true
+								create node.make_client (address, 9001)
+
+								if attached node as la_node then
+									if attached la_node.distant_socket as la_socket then
+										if la_socket.is_connected then
+											is_init := true
+										else
+											la_node.close
+											connexion_error := true
+										end
+									else
+										la_node.close
+										connexion_error := true
+									end
+								else
+									connexion_error := true
+								end
 							end
 						end
 					end
-				end
-
-				if not connexion_error and attached node as la_node then
-					connexion_error := la_node.connexion_error
 				end
 			end
 
@@ -110,6 +119,7 @@ feature {NONE} -- Implementation
 				la_node.close
 			end
 
+			quit
 			exit
 		end
 

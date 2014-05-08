@@ -11,9 +11,6 @@ note
 class
 	EVENT_HANDLER
 
-inherit
-	DISPOSABLE
-
 create
 	make
 
@@ -66,6 +63,16 @@ feature -- Access
 		-- If the event is a kill signal
 		do
 			result := {SDL_EVENTS}.get_sdl_event_type (event) = {SDL_EVENTS}.sdl_quitevent
+		end
+
+	destroy
+		-- Free the event from memory
+		do
+			event.memory_free
+			on_typing.wipe_out
+			on_key_pressed.wipe_out
+			on_mouse_moved.wipe_out
+			on_mouse_pressed.wipe_out
 		end
 
 feature {NONE} -- Implementation
@@ -121,12 +128,6 @@ feature {NONE} -- Implementation
 				l_button := {SDL_EVENTS}.get_sdl_mouse_state ($l_x, $l_y)
 				on_mouse_pressed.call ([l_button, (l_x / window.scale).floor, (l_y / window.scale).floor, false])
 			end
-		end
-
-	dispose
-		-- Free the event from memory
-		do
-			event.memory_free
 		end
 
 end
