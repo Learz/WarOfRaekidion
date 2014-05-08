@@ -62,7 +62,9 @@ feature {NONE} -- Initialization
 			file_list.force ([l_projectile_properties.name, l_projectile_properties])
 			create l_projectile_properties.make ("Yellow laser", "yellow_laser", "laser", 1.0, 5.0, false, -1, false)
 			file_list.force ([l_projectile_properties.name, l_projectile_properties])
-			create l_projectile_properties.make ("Red bullet", "red_bullet", "", 2.0, 0.5, false, -1, true)
+			create l_projectile_properties.make ("Small bomb", "small_bomb", "", 2.0, 0.5, false, -1, true)
+			file_list.force ([l_projectile_properties.name, l_projectile_properties])
+			create l_projectile_properties.make ("Red bullet", "red_bullet", "", 0.5, 1.5, false, -1, false)
 			file_list.force ([l_projectile_properties.name, l_projectile_properties])
 		-- TEMPORARY
 

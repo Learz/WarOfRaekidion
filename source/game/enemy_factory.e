@@ -60,7 +60,9 @@ feature {NONE} -- Initialization
 			file_list.force ([l_enemy_properties.name, l_enemy_properties])
 			create l_enemy_properties.make ("Laser", "laser", "Fires a deadly bullet ray to burn through your ship.", "Yellow laser", 25, 1, 15, 75, 0, 2.5, true)
 			file_list.force ([l_enemy_properties.name, l_enemy_properties])
-			create l_enemy_properties.make ("Spiral", "spiral", "A ship that does not aim, but hoots in a spiraling pattern.", "Red bullet", 45, 1, 5, 90, {DOUBLE_MATH}.pi, 1.0, false)
+			create l_enemy_properties.make ("Spiral", "spiral", "A ship that does not aim, but shoots in a spiraling pattern.", "Small bomb", 45, 1, 5, 90, {DOUBLE_MATH}.pi, 1.0, false)
+			file_list.force ([l_enemy_properties.name, l_enemy_properties])
+			create l_enemy_properties.make ("Barrage", "barrage", "Fires a huge barrage of deadly bullets towards you.", "Red bullet", 40, 24, 100, 115, 90, 0.5, true)
 			file_list.force ([l_enemy_properties.name, l_enemy_properties])
 		-- TEMPORARY
 
@@ -70,6 +72,8 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	file_list: LINKED_LIST[TUPLE[name: STRING; object: ENEMY_PROPERTIES]]
 
 	enemy (a_name: STRING): ENEMY_PROPERTIES
 		local
@@ -98,8 +102,6 @@ feature -- Access
 		end
 
 feature {NONE} -- Implementation
-
-	file_list: LINKED_LIST[TUPLE[name: STRING; object: ENEMY_PROPERTIES]]
 
 	is_init: CELL[BOOLEAN]
 		once

@@ -7,6 +7,9 @@ note
 class
 	SPAWNER
 
+inherit
+	ENEMY_FACTORY_SHARED
+
 create
 	make
 
@@ -35,7 +38,7 @@ feature -- Access
 
 	update
 		local
-			l_x, l_y: INTEGER
+			l_x, l_y, l_random: INTEGER
 		do
 			if is_ai then
 				random.forth
@@ -43,23 +46,9 @@ feature -- Access
 				random.forth
 				l_y := (random.double_item * 100).floor + 12
 				random.forth
-
-				if (random.double_item * 5).floor = 0 then
-					random.forth
-					spawn_list.extend (["Sprayer", (random.double_item * 200).floor + 12, -25, l_x, l_y])
-				elseif (random.double_item * 5).floor = 1 then
-					random.forth
-					spawn_list.extend (["Mauler", (random.double_item * 200).floor + 12, -25, l_x, l_y])
-				elseif (random.double_item * 5).floor = 2 then
-					random.forth
-					spawn_list.extend (["Homing", (random.double_item * 200).floor + 12, -25, l_x, l_y])
-				elseif (random.double_item * 5).floor = 3 then
-					random.forth
-					spawn_list.extend (["Laser", (random.double_item * 200).floor + 12, -25, l_x, l_y])
-				elseif (random.double_item * 5).floor = 4 then
-					random.forth
-					spawn_list.extend (["Spiral", (random.double_item * 200).floor + 12, -25, l_x, l_y])
-				end
+				l_random := (random.double_item * enemy_factory.file_list.count).floor + 1
+				random.forth
+				spawn_list.extend ([enemy_factory.file_list.at (l_random).name, (random.double_item * 200).floor + 12, -25, l_x, l_y])
 			end
 
 			from
@@ -83,7 +72,7 @@ feature -- Element change
 		do
 			key_binding := a_key_binding
 		end
-		
+
 	set_ai (a: BOOLEAN)
 		do
 			is_ai := a
