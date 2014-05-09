@@ -146,9 +146,7 @@ feature {NONE} -- Implementation
 	dispose
 		-- Free the rectangle and texture from memory
 		do
-			image.memory_free
 			{SDL}.sdl_destroytexture (texture)
-			texture.memory_free
 			targetarea.memory_free
 			sizearea.memory_free
 		end

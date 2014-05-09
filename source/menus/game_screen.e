@@ -412,17 +412,13 @@ feature {NONE} -- Implementation
 						until
 							projectile_list.exhausted
 						loop
-							if attached projectile_list.item as la_projectile then
-								if la_projectile.owner = la_enemy then
-									powerup_list.extend (create {POWERUP}.make ("powerup", window, la_projectile.x, la_projectile.y, 1))
-									free (la_projectile)
-									projectile_list.remove
-								end
-							end
-
-						    if not projectile_list.exhausted then
+							if attached projectile_list.item as la_projectile and then la_projectile.owner = la_enemy then
+								powerup_list.extend (create {POWERUP}.make ("powerup", window, la_projectile.x, la_projectile.y, 1))
+								free (la_projectile)
+								projectile_list.remove
+							else
 								projectile_list.forth
-						    end
+							end
 						end
 
 						explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, la_enemy.x, la_enemy.y, false))

@@ -106,10 +106,9 @@ feature {NONE} -- Initialization
 				end
 			end
 
-			{SDL}.sdl_destroytexture (texture)
-			texture.memory_free
-			surface.memory_free
-			targetarea.memory_free
+--			{SDL}.sdl_destroytexture (texture)
+--			{SDL}.sdl_freesurface (surface)
+--			targetarea.memory_free
 		end
 
 feature -- Status

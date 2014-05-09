@@ -12,9 +12,14 @@ class
 	IMAGE_FACTORY
 
 inherit
+	DISPOSABLE
+		select
+			dispose
+		end
 	DIRECTORY_LIST
 		rename
-			make as directory_make
+			make as directory_make,
+			dispose as directory_dispose
 		end
 
 create
@@ -37,7 +42,7 @@ feature {NONE} -- Initialization
 			directory_make (l_directory)
 			create file_list.make
 			create l_filename_list.make
-			l_filename_list := list_files ("png")
+			l_filename_list := files_with_type ("png")
 
 			from
 				l_filename_list.start

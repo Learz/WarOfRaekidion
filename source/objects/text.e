@@ -247,16 +247,12 @@ feature {NONE} -- Implementation
 			{SDL}.sdl_destroytexture (texture)
 			{SDL}.sdl_freesurface (surface)
 			color.memory_free
-			surface.memory_free
-			texture.memory_free
 			targetarea.memory_free
 
 			if shadow then
 				{SDL}.sdl_destroytexture (bg_texture)
 				{SDL}.sdl_freesurface (bg_surface)
 				bg_color.memory_free
-				bg_surface.memory_free
-				bg_texture.memory_free
 				bg_targetarea.memory_free
 			end
 		end

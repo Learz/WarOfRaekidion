@@ -65,7 +65,7 @@ feature -- Fonctions
 			"Mix_AllocateChannels"
 		end
 
-	frozen mix_volume(a_channe, volume: INTEGER)
+	frozen mix_volume(a_channel, volume: INTEGER)
 		external
 			"C (int, int) | <SDL_mixer.h>"
 		alias

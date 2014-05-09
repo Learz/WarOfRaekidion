@@ -238,7 +238,7 @@ feature -- Fonctions -SDL.h
 	frozen sdl_getticks: NATURAL_32
 		-- Number of milliseconds since the SDL library initialization.
 		external
-			"C inline use <SDL.h>"
+			"C : Uint32 | <SDL.h>"
 		alias
 			"SDL_GetTicks"
 		end

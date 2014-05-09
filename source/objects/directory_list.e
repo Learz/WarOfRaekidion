@@ -11,20 +11,15 @@ note
 class
 	DIRECTORY_LIST
 
+inherit
+	DIRECTORY
+
 create
 	make
 
-feature {NONE} -- Initialization
-
-	make (a_path: STRING)
-		-- Initialize `Current' from directory `a_path'
-		do
-			create directory.make_with_name (a_path)
-		end
-
 feature -- Access
 
-    list_files (a_type: STRING): LINKED_LIST[STRING]
+    files_with_type (a_type: STRING): LINKED_LIST[STRING]
     	-- Make a list of filenames of extension `a_type'
     	local
     		l_filename: STRING
@@ -32,12 +27,12 @@ feature -- Access
 		do
 			create l_names_list.make
 			if a_type.is_equal ("all") then
-				across directory.entries as ic loop
+				across entries as ic loop
           			l_filename := ic.item.utf_8_name
           			l_names_list.extend (l_filename)
 				end
 			else
-				across directory.entries as ic loop
+				across entries as ic loop
           			if ic.item.has_extension (a_type) then
           				l_filename := ic.item.utf_8_name
           				l_names_list.extend (l_filename)
@@ -46,10 +41,5 @@ feature -- Access
 			end
 			result := l_names_list
 		end
-
-feature {NONE} -- Implementation
-
-	directory: DIRECTORY
-		-- The directory for `Current'
 
 end
