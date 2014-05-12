@@ -31,6 +31,7 @@ feature {NONE} -- Initialization
 		-- Initialize `Current'
 		require
 			is_not_already_initialised: not is_init.item
+				-- Ensure the factory doesn't already exist
 		local
 			l_directory: STRING
 			l_count: INTEGER
@@ -59,6 +60,7 @@ feature {NONE} -- Initialization
 		    is_init.replace (true)
 		ensure
 		   	is_initialised: is_init.item
+		   		-- Ensure the factory is now marked as initialized
 		end
 
 feature -- Access

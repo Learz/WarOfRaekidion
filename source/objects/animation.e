@@ -26,13 +26,13 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_name: STRING; a_frames, a_time: INTEGER; a_window: WINDOW; a_x, a_y: DOUBLE; a_repeat: BOOLEAN)
-		-- Initialize `Current'
+	make (a_name: STRING; a_frames, a_duration: INTEGER; a_window: WINDOW; a_x, a_y: DOUBLE; a_repeat: BOOLEAN)
+		-- Initialize `Current' from `a_name', `a_frames', `a_duration', `a_window', `a_x', `a_y' and `a_repeat'
 		do
 			targetarea := targetarea.memory_alloc ({SDL}.sizeof_sdl_rect_struct)
 			sizearea := sizearea.memory_alloc ({SDL}.sizeof_sdl_rect_struct)
 			frames := a_frames
-			time := a_time
+			time := a_duration
 			window := a_window
 			factory := image_factory
 			renderer := a_window.renderer
@@ -48,6 +48,7 @@ feature {NONE} -- Initialization
 			end
 		ensure
 			image_valid: not image.is_default_pointer
+				-- Ensure the image exists
 		end
 
 feature -- Access
@@ -131,6 +132,7 @@ feature {NONE} -- Implementation
 		-- Change `width' to `a_width'
 		require else
 			frames_not_null: frames > 0
+				-- Ensure there is at least one frame
 		do
 			{SDL}.set_sdl_rect_w (sizearea, (a_width / frames).floor)
 			{SDL}.set_sdl_rect_w (targetarea, (a_width / frames).floor)
@@ -154,7 +156,12 @@ feature {NONE} -- Implementation
 invariant
 
 	current_frame_valid: current_frame < frames
+		-- Ensure we never get to an inexistent frame
+
 	frames_not_null: frames > 0
+		-- Ensure we are always on a frame
+
 	time_not_null: time > 0
+		-- Ensure the time is never null
 
 end

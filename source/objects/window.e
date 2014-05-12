@@ -17,7 +17,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_title: STRING; a_x, a_y, a_width, a_height: INTEGER_32; a_scale: DOUBLE; a_flags: NATURAL_32; a_version: STRING)
-		-- Initialize `Current'
+		-- Initialize `Current' from `a_title', `a_x', `a_y', `a_width', `a_heigh', `a_scale', `a_flags' and `a_version'
 		local
 			l_c_title: C_STRING
 		do

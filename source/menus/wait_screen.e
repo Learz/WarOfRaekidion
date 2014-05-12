@@ -1,8 +1,12 @@
 note
-	description: "Summary description for {WAITING_MENU}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description : "[
+						War of Raekidion - The connection screen
+						The {WAIT_SCREEN} will wait for a connection to be made between the client 
+						and the server, then start the game when the connection is established.
+					]"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
 
 class
 	WAIT_SCREEN

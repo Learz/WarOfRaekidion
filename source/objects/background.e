@@ -25,7 +25,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_name: STRING; a_window: WINDOW; a_x, a_y: INTEGER_16; a_scroll_speed: DOUBLE)
-		-- Initialize `Current'
+		-- Initialize `Current' from `a_name', `a_window', `a_x', `a_y' and `a_scroll_speed'
 		do
 			origin_y := a_y
 			scroll_speed := a_scroll_speed

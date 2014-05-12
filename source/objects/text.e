@@ -22,7 +22,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_name: STRING; a_size: INTEGER; a_window: WINDOW; a_x, a_y: DOUBLE; a_color: TUPLE [r, g, b: INTEGER]; a_shadow: BOOLEAN)
-		-- Initialize `Current'
+		-- Initialize `Current' from `a_name', `a_size', `a_window', `a_x', `a_y', `a_color' (rgb) and `a_shadow'
 		do
 			targetarea := targetarea.memory_alloc ({SDL}.sizeof_sdl_rect_struct)
 			window := a_window
@@ -49,7 +49,7 @@ feature {NONE} -- Initialization
 		end
 
 	make_centered (a_name: STRING; a_size: INTEGER; a_window: WINDOW; a_x, a_y, a_width, a_height: DOUBLE; a_color: TUPLE [r, g, b: INTEGER]; a_shadow: BOOLEAN)
-		-- Initialize `Current' centered
+		-- Initialize `Current' centered from `a_name', `a_size', `a_window', `a_x', `a_y', `a_width', `a_height', `a_color' (rgb) and `a_shadow'
 		do
 			targetarea := targetarea.memory_alloc ({SDL}.sizeof_sdl_rect_struct)
 			window := a_window
@@ -80,7 +80,7 @@ feature {NONE} -- Initialization
 		end
 
 	make_empty (a_window: WINDOW; a_x, a_y: DOUBLE; a_color: TUPLE [r, g, b: INTEGER]; a_shadow: BOOLEAN)
-		-- Initialize `Current' to nothing
+		-- Initialize `Current' to null from `a_window', `a_x', `a_y', `a_color' (rgb) and `a_shadow'
 		do
 			targetarea := targetarea.memory_alloc ({SDL}.sizeof_sdl_rect_struct)
 			window := a_window

@@ -20,7 +20,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE)
-		-- Initialize `Current'
+		-- Initialize `Current' from `a_name', `a_window', `a_x' and `a_y'
 		do
 			targetarea := targetarea.memory_alloc ({SDL}.sizeof_sdl_rect_struct)
 			window := a_window

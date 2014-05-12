@@ -17,7 +17,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_window: WINDOW)
-		-- Initialize `Current'
+		-- Initialize `Current' from `a_window'
 		do
 			window := a_window
 			event := event.memory_alloc ({SDL}.sizeof_sdl_event_struct)

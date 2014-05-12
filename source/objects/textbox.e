@@ -24,7 +24,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE)
-		-- Initialize `Current'
+		-- Initialize `Current' from `a_name', `a_window', `a_x' and `a_y'
 		do
 			precursor {SPRITE} (a_name, a_window, a_x, a_y)
 			create text.make_empty (a_window, a_x, a_y, [0, 0, 0], false)

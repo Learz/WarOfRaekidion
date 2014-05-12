@@ -25,7 +25,7 @@ create
 feature {NONE} -- Initialization
 
 	make_empty
-		-- Initialize `Current' to null (0) values
+		-- Initialize `Current' to null
 		do
 			x := 0
 			y := 0
@@ -147,6 +147,7 @@ feature -- Element change
 		-- Adds `a_factor' to the current `force' and adjust `x' and `y'
 		require
 			factor_positive: a_factor > 0
+				-- Ensure the factor is positive
 		do
 			set_force (force.plus (a_factor))
 		end
@@ -155,6 +156,7 @@ feature -- Element change
 		-- Adds `a_other' to the current `x' and `y' and adjust `angle' and `force'
 		require
 			other_exists: a_other /= void
+				-- Ensure the other vector is not null
 		do
 			set_x_and_y (x.plus (a_other.x), y.plus (a_other.y))
 		end
@@ -163,6 +165,7 @@ feature -- Element change
 		-- Removes `a_factor' from the current `force' and adjust `x' and `y'
 		require
 			factor_positive: a_factor > 0
+				-- Ensure the factor is positive
 		do
 			set_force (force.minus (a_factor))
 		end
@@ -171,6 +174,7 @@ feature -- Element change
 		-- Removes `a_other' from the current `x' and `y' and adjust `angle' and `force'
 		require
 			other_exists: a_other /= void
+				-- Ensure the other vector is not null
 		do
 			set_x_and_y (x.minus (a_other.x), y.minus (a_other.y))
 		end
@@ -186,6 +190,7 @@ feature -- Element change
 		-- Swaps the vector around to be pointing in the exact opposite direction
 		require
 			is_not_zero: x /= 0 and y /= 0
+				-- Ensure both `x' and `y' are not 0, as we could not calculate the angle
 		do
 			set_x_and_y (-x, -y)
 		end

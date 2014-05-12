@@ -30,6 +30,7 @@ feature {NONE} -- Initialization
 		-- Initialize `Current'
 		require
 			is_not_already_initialised: not is_init.item
+				-- Ensure the factory doesn't already exist
 		local
 			l_directory: STRING
 			l_count: INTEGER
@@ -78,6 +79,7 @@ feature {NONE} -- Initialization
 		    is_init.replace (true)
 		ensure
 		   	is_initialised: is_init.item
+		   		-- Ensure the factory is now marked as initialized
 		end
 
 feature -- Access
@@ -148,6 +150,7 @@ feature -- Element change
 		-- Change the music channel's volume to `a_volume'
 		require
 			valid_volume: a_volume >= 0 and a_volume <= 128
+				-- Ensure the volume is in a valid format for SDL
 		do
 			music_volume := a_volume
 			{SDL_MIXER}.mix_volumemusic (a_volume)
@@ -159,6 +162,7 @@ feature -- Element change
 		-- Change all sounds channels' volume to `a_volume'
 		require
 			valid_volume: a_volume >= 0 and a_volume <= 128
+				-- Ensure the volume is in a valid format for SDL
 		do
 			sounds_volume := a_volume
 			{SDL_MIXER}.mix_volume (-1, a_volume)
@@ -183,6 +187,9 @@ feature {NONE} -- Implementation
 invariant
 
 	valid_music_volume: music_volume >= 0 and music_volume <= 128
+		-- Ensure the music volume is in a valid format for SDL
+
 	valid_sounds_volume: sounds_volume >= 0 and sounds_volume <= 128
+		-- Ensure the sounds volume is in a valid format for SDL
 
 end

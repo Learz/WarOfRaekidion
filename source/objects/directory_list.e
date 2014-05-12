@@ -26,6 +26,7 @@ feature -- Access
     		l_names_list: LINKED_LIST[STRING]
 		do
 			create l_names_list.make
+
 			if a_type.is_equal ("all") then
 				across entries as ic loop
           			l_filename := ic.item.utf_8_name
@@ -39,6 +40,7 @@ feature -- Access
           			end
 				end
 			end
+			
 			result := l_names_list
 		end
 
