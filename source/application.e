@@ -19,7 +19,7 @@ create
 
 feature {NONE} -- Implementation
 
-	version: STRING = "0.6.2"
+	version: STRING = "0.6.3"
 			-- Current game's version
 
 	window_width: INTEGER = 300

@@ -54,13 +54,13 @@ feature {NONE} -- Initialization
 			version.set_x (version.x - version.width)
 			version.set_y (version.y - version.height)
 
-		    if is_server then
+--		    if is_server then
 		    	create l_label.make ("HP: ", 16, window, 237, 21, [255, 255, 255], true)
 		    	create l_health.make (player.health.floor.out, 16, window, 257, 21, [255, 255, 255], true)
-		    else
-		    	create l_label.make ("C$: ", 16, window, 237, 21, [255, 255, 255], true)
-		    	create l_health.make (spawner.money.out, 16, window, 257, 21, [255, 255, 255], true)
-		    end
+--		    else
+--		    	create l_label.make ("C$: ", 16, window, 237, 21, [255, 255, 255], true)
+--		    	create l_health.make (spawner.money.out, 16, window, 257, 21, [255, 255, 255], true)
+--		    end
 
 			stop_music
 			play_music ("zombie", -1)
@@ -100,10 +100,15 @@ feature {NONE} -- Initialization
 				player.update
 
 				if attached network as la_network and then attached network_player as la_network_player and then attached la_network.node as la_node then
-					la_node.send_player_position (player.x.floor, player.y.floor)
-					la_network_player.set_x (la_node.new_player_position.x)
-					la_network_player.set_y (la_node.new_player_position.y)
-					la_network_player.update
+					if la_network.connexion_error then
+						la_network.quit
+						network := void
+					else
+						la_node.send_player_position (player.x.floor, player.y.floor)
+						la_network_player.set_x (la_node.new_player_position.x)
+						la_network_player.set_y (la_node.new_player_position.y)
+						la_network_player.update
+					end
 				end
 
 				spawner.update
@@ -126,12 +131,12 @@ feature {NONE} -- Initialization
 --					end
 --				end
 
-				if player.is_destroyed then
-					if not is_server then
-						score := score + 10000
-						score_changed := true
-					end
-				end
+--				if player.is_destroyed then
+--					if not is_server then
+--						score := score + 10000
+--						score_changed := true
+--					end
+--				end
 
 			    l_sidebar.update
 

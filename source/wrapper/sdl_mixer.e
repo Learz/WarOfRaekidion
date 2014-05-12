@@ -57,10 +57,10 @@ feature -- Fonctions
 			"Mix_LoadMUS"
 		end
 
-	frozen mix_allocatechannels(a_numchans: INTEGER)
+	frozen mix_allocatechannels(a_numchans: INTEGER): INTEGER
 		-- Set `a_numchans' channels to be mixed.
 		external
-			"C (int) | <SDL_mixer.h>"
+			"C (int) : int | <SDL_mixer.h>"
 		alias
 			"Mix_AllocateChannels"
 		end

@@ -119,7 +119,6 @@ feature {NONE} -- Implementation
 				la_node.close
 			end
 
-			quit
 			exit
 		end
 

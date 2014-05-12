@@ -156,18 +156,25 @@ feature -- Element change
 			{SDL_MIXER}.mix_volumemusic (a_volume)
 		ensure
 			volume_set: music_volume = a_volume
+				-- Ensure the volume has been changed to the desired value
 		end
 
 	set_sounds_volume (a_volume: INTEGER)
 		-- Change all sounds channels' volume to `a_volume'
 		require
+			valid_channels: {SDL_MIXER}.mix_allocatechannels (16) /= 0
+				-- Ensure the number of channels is not 0
 			valid_volume: a_volume >= 0 and a_volume <= 128
 				-- Ensure the volume is in a valid format for SDL
 		do
 			sounds_volume := a_volume
-			{SDL_MIXER}.mix_volume (-1, a_volume)
+			
+			if {SDL_MIXER}.mix_allocatechannels (16) /= 0 then
+				{SDL_MIXER}.mix_volume (-1, a_volume)
+			end
 		ensure
 			volume_set: sounds_volume = a_volume
+				-- Ensure the volume has been changed to the desired value
 		end
 
 feature {NONE} -- Implementation
