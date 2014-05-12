@@ -92,65 +92,72 @@ feature -- Access
 			l_count: INTEGER
 			l_string: STRING
 		do
-			l_string := ""
+			if connexion_error then
+				close
+			else
+				l_string := ""
 
-			if attached distant_socket as la_socket then
-				if la_socket.is_readable and la_socket.is_open_read then
-					l_packet := la_socket.receive (4, 0)
+				if attached distant_socket as la_socket then
+					if la_socket.is_readable and la_socket.is_open_read then
+						l_packet := la_socket.receive (4, 0)
 
-					if attached l_packet as la_packet then
-						l_count := l_packet.data.read_integer_32 (0)
-					end
+						if attached l_packet as la_packet then
+							l_count := l_packet.data.read_integer_32 (0)
+						end
 
-					l_packet := la_socket.receive (l_count, 0)
+						l_packet := la_socket.receive (l_count, 0)
 
-					if attached l_packet as la_packet then
-						l_choice := l_packet.data.read_integer_32 (0)
+						if attached l_packet as la_packet then
+							l_choice := l_packet.data.read_integer_32 (0)
 
-						if l_choice = 1 then
+							if l_choice = 1 then
 
-								-- Enemy creation is 1
+									-- Enemy creation is 1
 
-							from
-								l_count := 0
-							until
-								l_count = la_packet.data.read_integer_32 (20)
-							loop
-								l_string.append_character (l_packet.data.read_character (24 + l_count))
-								l_count := l_count + 1
+								from
+									l_count := 0
+								until
+									l_count = la_packet.data.read_integer_32 (20)
+								loop
+									l_string.append_character (l_packet.data.read_character (24 + l_count))
+									l_count := l_count + 1
+								end
+
+								new_enemies.extend (l_string, la_packet.data.read_integer_32 (4), la_packet.data.read_integer_32 (8),
+															  la_packet.data.read_integer_32 (12), la_packet.data.read_integer_32 (16))
+							elseif l_choice = 2 then
+
+									-- Player movement is 2
+
+								new_player_position := [la_packet.data.read_integer_32 (4), la_packet.data.read_integer_32 (8)]
+							elseif l_choice = 3 then
+
+									-- Projectile creation is 3
+
+								from
+									l_count := 0
+								until
+									l_count = la_packet.data.read_integer_32 (20)
+								loop
+									l_string.append_character (l_packet.data.read_character (24 + l_count))
+									l_count := l_count + 1
+								end
+
+								new_projectiles.extend (l_string, la_packet.data.read_integer_32 (4),
+									la_packet.data.read_integer_32 (8), la_packet.data.read_real_64 (12))
+							elseif l_choice = 4 then
+
+									-- Collision is 4
+
+								new_collisions.extend (la_packet.data.read_integer_32 (4), la_packet.data.read_integer_32 (8))
 							end
-
-							new_enemies.extend (l_string, la_packet.data.read_integer_32 (4), la_packet.data.read_integer_32 (8),
-														  la_packet.data.read_integer_32 (12), la_packet.data.read_integer_32 (16))
-						elseif l_choice = 2 then
-
-								-- Player movement is 2
-
-							new_player_position := [la_packet.data.read_integer_32 (4), la_packet.data.read_integer_32 (8)]
-						elseif l_choice = 3 then
-
-								-- Projectile creation is 3
-
-							from
-								l_count := 0
-							until
-								l_count = la_packet.data.read_integer_32 (20)
-							loop
-								l_string.append_character (l_packet.data.read_character (24 + l_count))
-								l_count := l_count + 1
-							end
-
-							new_projectiles.extend (l_string, la_packet.data.read_integer_32 (4),
-								la_packet.data.read_integer_32 (8), la_packet.data.read_real_64 (12))
-						elseif l_choice = 4 then
-
-								-- Collision is 4
-
-							new_collisions.extend (la_packet.data.read_integer_32 (4), la_packet.data.read_integer_32 (8))
 						end
 					end
 				end
 			end
+		rescue
+			connexion_error := true
+			retry
 		end
 
 	send_new_enemy_ship (a_name: STRING; a_x, a_y, a_dest_x, a_dest_y: INTEGER)
@@ -159,31 +166,38 @@ feature -- Access
 			l_size: PACKET
 			l_packet: PACKET
 		do
-			create l_size.make (4)
-			l_size.data.put_integer_32 (24 + a_name.count, 0)
-			create l_packet.make (24 + a_name.count)
-			l_packet.data.put_integer_32 (1, 0)
-			l_packet.data.put_integer_32 (a_x, 4)
-			l_packet.data.put_integer_32 (a_y, 8)
-			l_packet.data.put_integer_32 (a_x, 12)
-			l_packet.data.put_integer_32 (a_y, 16)
-			l_packet.data.put_integer_32 (a_name.count, 20)
+			if connexion_error then
+				close
+			else
+				create l_size.make (4)
+				l_size.data.put_integer_32 (24 + a_name.count, 0)
+				create l_packet.make (24 + a_name.count)
+				l_packet.data.put_integer_32 (1, 0)
+				l_packet.data.put_integer_32 (a_x, 4)
+				l_packet.data.put_integer_32 (a_y, 8)
+				l_packet.data.put_integer_32 (a_x, 12)
+				l_packet.data.put_integer_32 (a_y, 16)
+				l_packet.data.put_integer_32 (a_name.count, 20)
 
-			from
-				l_count := 0
-			until
-				l_count = a_name.count
-			loop
-				l_count := l_count + 1
-				l_packet.data.put_character (a_name.at (l_count), 24)
-			end
+				from
+					l_count := 0
+				until
+					l_count = a_name.count
+				loop
+					l_count := l_count + 1
+					l_packet.data.put_character (a_name.at (l_count), 24)
+				end
 
-			if attached distant_socket as la_socket then
-				if la_socket.is_writable and la_socket.is_open_write then
-					la_socket.send (l_size, 0)
-					la_socket.send (l_packet, 0)
+				if attached distant_socket as la_socket then
+					if la_socket.is_writable and la_socket.is_open_write then
+						la_socket.send (l_size, 0)
+						la_socket.send (l_packet, 0)
+					end
 				end
 			end
+		rescue
+			connexion_error := true
+			retry
 		end
 
 	send_player_position (a_x, a_y: INTEGER)
@@ -191,19 +205,26 @@ feature -- Access
 			l_size: PACKET
 			l_packet: PACKET
 		do
-			create l_size.make (4)
-			l_size.data.put_integer_32 (12, 0)
-			create l_packet.make (12)
-			l_packet.data.put_integer_32 (2, 0)
-			l_packet.data.put_integer_32 (a_x, 4)
-			l_packet.data.put_integer_32 (a_y, 8)
+			if connexion_error then
+				close
+			else
+				create l_size.make (4)
+				l_size.data.put_integer_32 (12, 0)
+				create l_packet.make (12)
+				l_packet.data.put_integer_32 (2, 0)
+				l_packet.data.put_integer_32 (a_x, 4)
+				l_packet.data.put_integer_32 (a_y, 8)
 
-			if attached distant_socket as la_socket then
-				if la_socket.is_writable and la_socket.is_open_write then
-					la_socket.send (l_size, 0)
-					la_socket.send (l_packet, 0)
+				if attached distant_socket as la_socket then
+					if la_socket.is_writable and la_socket.is_open_write then
+						la_socket.send (l_size, 0)
+						la_socket.send (l_packet, 0)
+					end
 				end
 			end
+		rescue
+			connexion_error := true
+			retry
 		end
 
 	send_projectile (a_name: STRING; a_x, a_y: INTEGER; a_angle: DOUBLE)
@@ -212,30 +233,37 @@ feature -- Access
 			l_size: PACKET
 			l_packet: PACKET
 		do
-			create l_size.make (4)
-			l_size.data.put_integer_32 (24 + a_name.count, 0)
-			create l_packet.make (24 + a_name.count)
-			l_packet.data.put_integer_32 (3, 0)
-			l_packet.data.put_integer_32 (a_x, 4)
-			l_packet.data.put_integer_32 (a_y, 8)
-			l_packet.data.put_real_64 (a_angle, 12)
-			l_packet.data.put_integer_32 (a_name.count, 20)
+			if connexion_error then
+				close
+			else
+				create l_size.make (4)
+				l_size.data.put_integer_32 (24 + a_name.count, 0)
+				create l_packet.make (24 + a_name.count)
+				l_packet.data.put_integer_32 (3, 0)
+				l_packet.data.put_integer_32 (a_x, 4)
+				l_packet.data.put_integer_32 (a_y, 8)
+				l_packet.data.put_real_64 (a_angle, 12)
+				l_packet.data.put_integer_32 (a_name.count, 20)
 
-			from
-				l_count := 0
-			until
-				l_count = a_name.count
-			loop
-				l_count := l_count + 1
-				l_packet.data.put_character (a_name.at (l_count), 24)
-			end
+				from
+					l_count := 0
+				until
+					l_count = a_name.count
+				loop
+					l_count := l_count + 1
+					l_packet.data.put_character (a_name.at (l_count), 24)
+				end
 
-			if attached distant_socket as la_socket then
-				if la_socket.is_writable and la_socket.is_open_write then
-					la_socket.send (l_size, 0)
-					la_socket.send (l_packet, 0)
+				if attached distant_socket as la_socket then
+					if la_socket.is_writable and la_socket.is_open_write then
+						la_socket.send (l_size, 0)
+						la_socket.send (l_packet, 0)
+					end
 				end
 			end
+		rescue
+			connexion_error := true
+			retry
 		end
 
 	send_collision (a_enemy_id, a_projectile_id: INTEGER)
@@ -243,19 +271,26 @@ feature -- Access
 			l_size: PACKET
 			l_packet: PACKET
 		do
-			create l_size.make (4)
-			l_size.data.put_integer_32 (12, 0)
-			create l_packet.make (12)
-			l_packet.data.put_integer_32 (4, 0)
-			l_packet.data.put_integer_32 (a_enemy_id, 4)
-			l_packet.data.put_integer_32 (a_projectile_id, 8)
+			if connexion_error then
+				close
+			else
+				create l_size.make (4)
+				l_size.data.put_integer_32 (12, 0)
+				create l_packet.make (12)
+				l_packet.data.put_integer_32 (4, 0)
+				l_packet.data.put_integer_32 (a_enemy_id, 4)
+				l_packet.data.put_integer_32 (a_projectile_id, 8)
 
-			if attached distant_socket as la_socket then
-				if la_socket.is_writable and la_socket.is_open_write then
-					la_socket.send (l_size, 0)
-					la_socket.send (l_packet, 0)
+				if attached distant_socket as la_socket then
+					if la_socket.is_writable and la_socket.is_open_write then
+						la_socket.send (l_size, 0)
+						la_socket.send (l_packet, 0)
+					end
 				end
 			end
+		rescue
+			connexion_error := true
+			retry
 		end
 
 	close
