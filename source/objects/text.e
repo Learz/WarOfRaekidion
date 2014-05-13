@@ -116,49 +116,60 @@ feature -- Access
 	set_text (a_text: STRING; a_size: INTEGER)
 		-- Changes the displayed text to `a_text', of size `a_size'
 		local
+			l_retries: INTEGER
 			l_c_text: C_STRING
 			l_result_found: BOOLEAN
 		do
-			if a_text.count > 0 then
-				from
-					window.font.start; l_result_found := false
-				until
-					window.font.exhausted or l_result_found
-				loop
-					if window.font.item.point = a_size then
-						create l_c_text.make (a_text)
-						{SDL}.sdl_freesurface (surface)
+			if l_retries < 2 then
+				if a_text.count > 0 then
+					from
+						window.font.start; l_result_found := false
+					until
+						window.font.exhausted or l_result_found
+					loop
+						if window.font.item.point = a_size then
+							create l_c_text.make (a_text)
+							{SDL}.sdl_freesurface (surface)
 
-						surface := {SDL_TTF}.ttf_show_text (window.font.item.font, l_c_text.item, color)
+							surface := {SDL_TTF}.ttf_show_text (window.font.item.font, l_c_text.item, color)
 
-						if not surface.is_default_pointer then
-						    set_width ({SDL}.get_sdl_loadbmp_width (surface))
-						    set_height ({SDL}.get_sdl_loadbmp_height (surface))
-							{SDL}.sdl_destroytexture (texture)
-							texture := {SDL}.sdl_createtexturefromsurface (renderer, surface)
-						end
-
-						if shadow then
-					    	{SDL}.sdl_freesurface (bg_surface)
-							bg_surface := {SDL_TTF}.ttf_show_text (window.font.item.font, l_c_text.item, bg_color)
-
-							if not bg_surface.is_default_pointer then
-								{SDL}.set_sdl_rect_w (bg_targetarea, width)
-								{SDL}.set_sdl_rect_h (bg_targetarea, height)
-								{SDL}.sdl_destroytexture (bg_texture)
-								bg_texture := {SDL}.sdl_createtexturefromsurface (renderer, bg_surface)
+							if not surface.is_default_pointer then
+							    set_width ({SDL}.get_sdl_loadbmp_width (surface))
+							    set_height ({SDL}.get_sdl_loadbmp_height (surface))
+								{SDL}.sdl_destroytexture (texture)
+								texture := {SDL}.sdl_createtexturefromsurface (renderer, surface)
 							end
+
+							if shadow then
+						    	{SDL}.sdl_freesurface (bg_surface)
+								bg_surface := {SDL_TTF}.ttf_show_text (window.font.item.font, l_c_text.item, bg_color)
+
+								if not bg_surface.is_default_pointer then
+									{SDL}.set_sdl_rect_w (bg_targetarea, width)
+									{SDL}.set_sdl_rect_h (bg_targetarea, height)
+									{SDL}.sdl_destroytexture (bg_texture)
+									bg_texture := {SDL}.sdl_createtexturefromsurface (renderer, bg_surface)
+								end
+							end
+
+							text := a_text
+							size := a_size
+							l_result_found := true
 						end
 
-						text := a_text
-						size := a_size
-						l_result_found := true
+						window.font.forth
 					end
 
-					window.font.forth
-				end
+					if not l_result_found then
+					    set_width (0)
+					    set_height (0)
+						texture := create {POINTER}
 
-				if not l_result_found then
+						if shadow then
+							bg_texture := create {POINTER}
+						end
+					end
+				else
 				    set_width (0)
 				    set_height (0)
 					texture := create {POINTER}
@@ -167,15 +178,10 @@ feature -- Access
 						bg_texture := create {POINTER}
 					end
 				end
-			else
-			    set_width (0)
-			    set_height (0)
-				texture := create {POINTER}
-
-				if shadow then
-					bg_texture := create {POINTER}
-				end
 			end
+		rescue
+			l_retries := l_retries + 1
+			retry
 		end
 
 	update

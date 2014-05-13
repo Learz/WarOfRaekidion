@@ -24,7 +24,10 @@ feature {NONE} -- Initialization
 			l_ticks, l_deltatime: INTEGER
 			l_background: BACKGROUND
 			l_sidebar: SPRITE
-			l_score, l_label, l_health: TEXT
+			l_score: TEXT
+			l_opponent_score: detachable TEXT
+			l_label: TEXT
+			l_health: TEXT
 			l_event: EVENT_HANDLER
 			l_pause_menu: SCREEN
 		do
@@ -64,25 +67,21 @@ feature {NONE} -- Initialization
 
 			stop_music
 			play_music ("zombie", -1)
-
---		    if attached network as la_network then
---		    	if is_server then
---					l_event.on_key_pressed.extend (agent player.manage_key)
---				else
---					spawner.set_ai (true)
---		    	end
---		    else
---				l_event.on_key_pressed.extend (agent player.manage_key)
---				spawner.set_ai (true)
---		    end
+			l_event.on_key_pressed.extend (agent manage_key)
 
 			if attached network as la_network then
+				create l_opponent_score.make ("0", 16, window, 237, 39, [192, 192, 192], true)
 				create network_player.make ("disabled_player", window, 1000, 1000, 1)
-			end
 
-			l_event.on_key_pressed.extend (agent player.manage_key)
-			spawner.set_ai (true)
-			l_event.on_key_pressed.extend (agent manage_key)
+--		    	if is_server then
+					l_event.on_key_pressed.extend (agent player.manage_key)
+--				else
+					spawner.set_ai (true)
+--		    	end
+		    else
+				l_event.on_key_pressed.extend (agent player.manage_key)
+				spawner.set_ai (true)
+			end
 
 			from
 			until
@@ -99,7 +98,9 @@ feature {NONE} -- Initialization
 				l_background.update
 				player.update
 
-				if attached network as la_network and then attached network_player as la_network_player and then attached la_network.node as la_node then
+				if attached network as la_network and then
+				attached network_player as la_network_player and then
+				attached la_network.node as la_node and attached l_opponent_score as la_score then
 					if la_network.connexion_error then
 						la_network.quit
 						network := void
@@ -107,6 +108,11 @@ feature {NONE} -- Initialization
 						la_node.send_player_position (player.x.floor, player.y.floor)
 						la_network_player.set_x (la_node.new_player_position.x)
 						la_network_player.set_y (la_node.new_player_position.y)
+
+						if la_node.new_score /= la_score.text.to_integer_32 then
+							la_score.set_text (la_node.new_score.out, 16)
+						end
+
 						la_network_player.update
 					end
 				end
@@ -141,12 +147,21 @@ feature {NONE} -- Initialization
 			    l_sidebar.update
 
 			    if score_changed then
+			    	if attached network as la_network and then attached la_network.node as la_node then
+						la_node.send_score (score)
+					end
+
 			    	l_score.set_text (score.out, 16)
 			    	score_changed := false
 			    end
 
 				l_score.update
 			    l_label.update
+
+			    if attached l_opponent_score as la_score then
+			    	la_score.update
+			    end
+
 			    version.update
 
 				if health_changed then

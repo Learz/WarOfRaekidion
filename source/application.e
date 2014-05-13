@@ -31,6 +31,9 @@ feature {NONE} -- Implementation
 	pixel_ratio: INTEGER = 2
 			-- The window's default scale
 
+	debug_mode: BOOLEAN = true
+			-- Are some restricted games functionnalities enabled anyway?
+
 feature {NONE} -- Initialization
 
 	make
@@ -39,11 +42,10 @@ feature {NONE} -- Initialization
 			l_window: WINDOW
 			l_title_screen: TITLE_SCREEN
 			l_event: EVENT_HANDLER
-			l_debug: BOOLEAN
 		do
-			if attached separate_character_option_value ('d') as la_parameter then
-				l_debug := true
-			end
+--			if attached separate_character_option_value ('d') as la_parameter then
+--				debug_mode := true
+--			end
 
 			{SDL}.sdl_init_noreturn ({SDL}.sdl_init_video_timer_audio)
 			{SDL_TTF}.ttf_init_noreturn
@@ -52,7 +54,7 @@ feature {NONE} -- Initialization
 			create l_window.make ("War of Raekidion", {SDL}.sdl_windowpos_undefined, {SDL}.sdl_windowpos_undefined, window_width, window_height, pixel_ratio, {SDL}.sdl_window_hidden, version)
 			create l_event.make (l_window)
 			{SDL}.sdl_show_window (l_window.window)
-			create l_title_screen.make (l_window, l_debug)
+			create l_title_screen.make (l_window, debug_mode)
 			l_event.destroy
 			l_window.destroy
 			{SDL_MIXER}.mix_close_audio

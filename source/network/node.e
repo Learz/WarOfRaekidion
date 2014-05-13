@@ -79,6 +79,7 @@ feature -- Status
 
 feature -- Access
 
+	new_score: INTEGER
 	local_socket, distant_socket: detachable NETWORK_STREAM_SOCKET
 	new_enemies: LINKED_LIST [TUPLE [name: STRING; x, y, dest_x, dest_y: INTEGER]]
 	new_player_position: TUPLE [x, y: INTEGER]
@@ -150,6 +151,11 @@ feature -- Access
 									-- Collision is 4
 
 								new_collisions.extend (la_packet.data.read_integer_32 (4), la_packet.data.read_integer_32 (8))
+							elseif l_choice = 5 then
+
+									-- Score is 5
+
+								new_score := la_packet.data.read_integer_32 (4)
 							end
 						end
 					end
@@ -287,6 +293,25 @@ feature -- Access
 						la_socket.send (l_packet, 0)
 					end
 				end
+			end
+		rescue
+			connexion_error := true
+			retry
+		end
+
+	send_score (a_score: INTEGER)
+		local
+			l_size: PACKET
+			l_packet: PACKET
+		do
+			if connexion_error then
+				close
+			else
+				create l_size.make (4)
+				l_size.data.put_integer_32 (8, 0)
+				create l_packet.make (8)
+				l_packet.data.put_integer_32 (5, 0)
+				l_packet.data.put_integer_32 (a_score, 4)
 			end
 		rescue
 			connexion_error := true

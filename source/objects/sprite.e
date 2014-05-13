@@ -62,27 +62,34 @@ feature -- Element change
 
 	set_image (a_name: STRING)
 		-- Set `current_image' to `a_name'
+		local
+			l_retries: INTEGER
 		do
-			if a_name /= current_image then
-				image := factory.image (a_name)
+			if l_retries < 2 then
+				if a_name /= current_image then
+					image := factory.image (a_name)
 
-				if not image.is_default_pointer then
-					set_x (x)
-					set_y (y)
-				    set_width ({SDL}.get_sdl_loadbmp_width (image))
-				    set_height ({SDL}.get_sdl_loadbmp_height (image))
-				    {SDL}.sdl_destroytexture (texture)
-					texture := {SDL}.sdl_createtexturefromsurface (renderer, image)
-					current_image := a_name
-				else
-					set_x (x)
-					set_y (y)
-				    set_width (0)
-				    set_height (0)
-					texture := create {POINTER}
-					current_image := ""
+					if not image.is_default_pointer then
+						set_x (x)
+						set_y (y)
+					    set_width ({SDL}.get_sdl_loadbmp_width (image))
+					    set_height ({SDL}.get_sdl_loadbmp_height (image))
+					    {SDL}.sdl_destroytexture (texture)
+						texture := {SDL}.sdl_createtexturefromsurface (renderer, image)
+						current_image := a_name
+					else
+						set_x (x)
+						set_y (y)
+					    set_width (0)
+					    set_height (0)
+						texture := create {POINTER}
+						current_image := ""
+					end
 				end
 			end
+		rescue
+			l_retries := l_retries + 1
+			retry
 		end
 
 feature {NONE} -- Implementation
