@@ -99,11 +99,18 @@ feature {NONE} -- Initialization
 				player.update
 
 				if attached network as la_network and then
-				attached network_player as la_network_player and then
-				attached la_network.node as la_node and attached l_opponent_score as la_score then
+				attached la_network.node as la_node and
+				attached network_player as la_network_player and
+				attached l_opponent_score as la_score then
 					if la_network.connexion_error then
 						la_network.quit
 						network := void
+						la_score.destroy
+						l_opponent_score := void
+						l_pause_menu := create {OVERLAY_SCREEN}.make (window, key_binding, is_return_key_pressed, "YOU WON!", "Your score: "+score.out, "Your opponent's score: "+la_node.new_score.out, true, difficulty)
+						must_quit := l_pause_menu.must_quit
+						must_end := l_pause_menu.must_end
+						is_return_key_pressed := l_pause_menu.is_return_key_pressed
 					else
 						la_node.send_player_position (player.x.floor, player.y.floor)
 						la_network_player.set_x (la_node.new_player_position.x)
@@ -178,15 +185,20 @@ feature {NONE} -- Initialization
 			    window.render
 
 				if player.is_destroyed then
-					if difficulty = 4 then
-						difficulty_text := "HELL"
-					elseif difficulty = 2 then
-						difficulty_text := "HARD"
+					if attached network as la_network and then attached la_network.node as la_node then
+						l_pause_menu := create {OVERLAY_SCREEN}.make (window, key_binding, is_return_key_pressed, "YOU LOST!", "Your score: "+score.out, "Your opponent's score: "+la_node.new_score.out, true, difficulty)
 					else
-						difficulty_text := "EASY"
+						if difficulty = 4 then
+							difficulty_text := "HELL"
+						elseif difficulty = 2 then
+							difficulty_text := "HARD"
+						else
+							difficulty_text := "EASY"
+						end
+
+						l_pause_menu := create {OVERLAY_SCREEN}.make (window, key_binding, is_return_key_pressed, "GAME OVER", "Score: "+score.out, difficulty_text, true, difficulty)
 					end
 
-					l_pause_menu := create {OVERLAY_SCREEN}.make (window, key_binding, is_return_key_pressed, "GAME OVER", "Score: "+score.out, difficulty_text, true, difficulty)
 					must_quit := l_pause_menu.must_quit
 					must_end := l_pause_menu.must_end
 					is_return_key_pressed := l_pause_menu.is_return_key_pressed

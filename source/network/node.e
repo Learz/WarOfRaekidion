@@ -79,12 +79,12 @@ feature -- Status
 
 feature -- Access
 
-	new_score: INTEGER
 	local_socket, distant_socket: detachable NETWORK_STREAM_SOCKET
 	new_enemies: LINKED_LIST [TUPLE [name: STRING; x, y, dest_x, dest_y: INTEGER]]
 	new_player_position: TUPLE [x, y: INTEGER]
 	new_projectiles: LINKED_LIST [TUPLE [name: STRING; x, y: INTEGER; angle: DOUBLE]]
 	new_collisions: LINKED_LIST [TUPLE [enemy_id, projectile_id: INTEGER]]
+	new_score: INTEGER
 
 	receive_data
 		local
