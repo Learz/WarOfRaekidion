@@ -115,11 +115,7 @@ feature {NONE} -- Initialization
 						la_node.send_player_position (player.x.floor, player.y.floor)
 						la_network_player.set_x (la_node.new_player_position.x)
 						la_network_player.set_y (la_node.new_player_position.y)
-
-						if la_node.new_score /= la_score.text.to_integer_32 then
-							la_score.set_text (la_node.new_score.out, 16)
-						end
-
+						la_score.set_text (la_node.new_score.out, 16)
 						la_network_player.update
 					end
 				end
