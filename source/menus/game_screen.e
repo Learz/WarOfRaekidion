@@ -181,7 +181,14 @@ feature {NONE} -- Initialization
 			    window.render
 
 				if player.is_destroyed then
-					if attached network as la_network and then attached la_network.node as la_node then
+					if attached network as la_network and then
+					attached la_network.node as la_node and
+					attached network_player as la_network_player and
+					attached l_opponent_score as la_score then
+						la_network.quit
+						network := void
+						la_score.destroy
+						l_opponent_score := void
 						l_pause_menu := create {OVERLAY_SCREEN}.make (window, key_binding, is_return_key_pressed, "YOU LOST!", "Your score: "+score.out, "Your opponent's score: "+la_node.new_score.out, true, difficulty)
 					else
 						if difficulty = 4 then

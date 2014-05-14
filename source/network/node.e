@@ -312,6 +312,13 @@ feature -- Access
 				create l_packet.make (8)
 				l_packet.data.put_integer_32 (5, 0)
 				l_packet.data.put_integer_32 (a_score, 4)
+
+				if attached distant_socket as la_socket then
+					if la_socket.is_writable and la_socket.is_open_write then
+						la_socket.send (l_size, 0)
+						la_socket.send (l_packet, 0)
+					end
+				end
 			end
 		rescue
 			connexion_error := true
