@@ -82,7 +82,7 @@ feature {NONE} -- Initialization
 				window.clear
 				l_background.update
 
-				if not connexion_error and l_frames \\ 60 = 0 then
+				if not connection_error and l_frames \\ 60 = 0 then
 					if l_dots < 3 then
 						l_title.set_text (l_title.text + ".", 16)
 						l_dots := l_dots + 1
@@ -94,8 +94,8 @@ feature {NONE} -- Initialization
 
 				update
 
-				if l_network.connexion_error then
-					connexion_error := true
+				if l_network.connection_error then
+					connection_error := true
 					l_network.quit
 					l_title.hide
 					l_error.show
@@ -136,7 +136,7 @@ feature {NONE} -- Initialization
 
 feature -- Status
 
-	hosting, connexion_error: BOOLEAN
+	hosting, connection_error: BOOLEAN
 
 feature {NONE} -- Implementation
 

@@ -43,7 +43,7 @@ feature -- Access
 
 feature -- Status
 
-	must_quit, is_server, is_init, connexion_error: BOOLEAN
+	must_quit, is_server, is_init, connection_error: BOOLEAN
 
 feature {NONE} -- Implementation
 
@@ -54,7 +54,7 @@ feature {NONE} -- Implementation
 			until
 				must_quit
 			loop
-				if connexion_error then
+				if connection_error then
 					if attached node as la_node then
 						la_node.close
 					end
@@ -63,18 +63,18 @@ feature {NONE} -- Implementation
 					exit
 				else
 					if attached node as la_node then
-						connexion_error := la_node.connexion_error
+						connection_error := la_node.connection_error
 					end
 
 					if is_init then
 						if attached node as la_node then
-							if la_node.connexion_error then
-								connexion_error := true
+							if la_node.connection_error then
+								connection_error := true
 							else
 								la_node.receive_data
 							end
 						else
-							connexion_error := true
+							connection_error := true
 						end
 					else
 						if not attached node as la_node then
@@ -86,10 +86,10 @@ feature {NONE} -- Implementation
 										is_init := true
 									else
 										la_node.close
-										connexion_error := true
+										connection_error := true
 									end
 								else
-									connexion_error := true
+									connection_error := true
 								end
 							else
 								create node.make_client (address, 9001)
@@ -100,14 +100,14 @@ feature {NONE} -- Implementation
 											is_init := true
 										else
 											la_node.close
-											connexion_error := true
+											connection_error := true
 										end
 									else
 										la_node.close
-										connexion_error := true
+										connection_error := true
 									end
 								else
-									connexion_error := true
+									connection_error := true
 								end
 							end
 						end

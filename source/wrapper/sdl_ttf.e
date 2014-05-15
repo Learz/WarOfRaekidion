@@ -1,8 +1,8 @@
 note
-	description: "Summary description for {SDL_TTF}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description : "War of Raekidion - {SDL_TTF} is a wrapper for the C library SDL2_ttf."
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
 
 class
 	SDL_TTF

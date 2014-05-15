@@ -4,7 +4,6 @@ note
 	date		: "$Date$"
 	revision	: "$Revision$"
 
-
 class
 	SDL
 

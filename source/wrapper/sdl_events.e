@@ -1,8 +1,8 @@
 note
-	description: "Summary description for {SDL_EVENTS}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description : "War of Raekidion - {SDL_EVENTS} is a wrapper for the events section of the C library SDL2."
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
 
 class
 	SDL_EVENTS

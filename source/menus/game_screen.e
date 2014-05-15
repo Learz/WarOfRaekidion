@@ -102,7 +102,7 @@ feature {NONE} -- Initialization
 				attached la_network.node as la_node and
 				attached network_player as la_network_player and
 				attached l_opponent_score as la_score then
-					if la_network.connexion_error then
+					if la_network.connection_error then
 						la_network.quit
 						network := void
 						la_score.destroy

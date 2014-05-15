@@ -1,12 +1,12 @@
 note
-	description: "[
-		War of Raekidion - {APPLICATION} main class
-		War of Raekidion is a bullet hell type online multiplayer 
-		top-down shooter game inspired from Touhou.
-	]"
-	author: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
-	date: "$Date$"
-	revision: "$Revision$"
+	description	: "[
+					War of Raekidion - {APPLICATION} main class
+					War of Raekidion is a bullet hell type online multiplayer
+					top-down shooter game inspired from Touhou.
+				]"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
 
 class
 	APPLICATION

@@ -1,8 +1,8 @@
 note
-	description: "Summary description for {SDL_MIXER}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description : "War of Raekidion - {SDL_MIXER} is a wrapper for the C library SDL2_mixer."
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
 
 class
 	SDL_MIXER
