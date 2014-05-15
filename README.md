@@ -17,11 +17,12 @@ Installing the game
 ----------------------
 
 To install the game, you only have to download the appropriate binary file from 
-the download page. All content and libraries are included within the installer. 
-To launch the game on Windows, simply click on the shortcut on your desktop, or 
-in the Start menu. For Linux, run the "raekidion" executable file from a terminal or, if 
-you have the Debian menu or equivalent, you will find it under the Games category. A 
-desktop file should also be created, along with an entry for the Unity menu.
+the download page on the website or from the download branch on the repository page. 
+All content and libraries are included within the installer. To launch the game on 
+Windows, simply click on the shortcut on your desktop, or in the Start menu. For 
+Linux, run the "raekidion" executable file from a terminal or, if you have the 
+Debian menu or equivalent, you will find it under the Games category. A desktop 
+file should also be created, along with an entry for the Unity menu.
 
 Compiling the source
 ---------------------

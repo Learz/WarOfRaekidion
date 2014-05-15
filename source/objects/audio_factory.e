@@ -22,7 +22,8 @@ inherit
 			dispose as directory_dispose
 		end
 
-create make
+create
+	make
 
 feature {NONE} -- Initialization
 
@@ -168,7 +169,7 @@ feature -- Element change
 				-- Ensure the volume is in a valid format for SDL
 		do
 			sounds_volume := a_volume
-			
+
 			if {SDL_MIXER}.mix_allocatechannels (16) /= 0 then
 				{SDL_MIXER}.mix_volume (-1, a_volume)
 			end

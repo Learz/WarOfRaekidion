@@ -44,12 +44,12 @@ feature -- Access
 
 	fire_key: INTEGER
 		do
-			result := {SDL_EVENTS}.sdlk_z
+			result := {SDL_EVENTS}.sdlk_x
 		end
 
 	modifier_key: INTEGER
 		do
-			result := {SDL_EVENTS}.sdlk_x
+			result := {SDL_EVENTS}.sdlk_z
 		end
 
 	action_key: INTEGER

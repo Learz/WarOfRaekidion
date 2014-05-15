@@ -28,19 +28,15 @@ feature {NONE} -- Initialization
 			window := a_window
 			renderer := a_window.renderer
 			shadow := a_shadow
+
+			if shadow then
+				create shadow_text.make (a_name, a_size, a_window, a_x + 1, a_y + 1, [0, 0, 0], false)
+			end
+
 			color := color.memory_alloc ({SDL_TTF}.sizeof_sdl_color_struct)
 			{SDL_TTF}.set_red (color, a_color.r.as_natural_8)
 			{SDL_TTF}.set_green (color, a_color.g.as_natural_8)
 			{SDL_TTF}.set_blue (color, a_color.b.as_natural_8)
-
-			if shadow then
-				bg_targetarea := bg_targetarea.memory_alloc ({SDL}.sizeof_sdl_rect_struct)
-				bg_color := color.memory_alloc ({SDL_TTF}.sizeof_sdl_color_struct)
-				{SDL_TTF}.set_red (bg_color, 0)
-				{SDL_TTF}.set_green (bg_color, 0)
-				{SDL_TTF}.set_blue (bg_color, 0)
-			end
-
 			text := a_name
 			size := a_size
 			set_text (a_name, a_size)
@@ -55,19 +51,15 @@ feature {NONE} -- Initialization
 			window := a_window
 			renderer := a_window.renderer
 			shadow := a_shadow
+
+			if shadow then
+				create shadow_text.make_centered (a_name, a_size, a_window, a_x + 1, a_y + 1, a_width, a_height, [0, 0, 0], false)
+			end
+
 			color := color.memory_alloc ({SDL_TTF}.sizeof_sdl_color_struct)
 			{SDL_TTF}.set_red (color, a_color.r.as_natural_8)
 			{SDL_TTF}.set_green (color, a_color.g.as_natural_8)
 			{SDL_TTF}.set_blue (color, a_color.b.as_natural_8)
-
-			if shadow then
-				bg_targetarea := bg_targetarea.memory_alloc ({SDL}.sizeof_sdl_rect_struct)
-				bg_color := color.memory_alloc ({SDL_TTF}.sizeof_sdl_color_struct)
-				{SDL_TTF}.set_red (bg_color, 0)
-				{SDL_TTF}.set_green (bg_color, 0)
-				{SDL_TTF}.set_blue (bg_color, 0)
-			end
-
 			text := a_name
 			size := a_size
 			set_text (a_name, a_size)
@@ -86,19 +78,15 @@ feature {NONE} -- Initialization
 			window := a_window
 			renderer := a_window.renderer
 			shadow := a_shadow
+
+			if shadow then
+				create shadow_text.make_empty (a_window, a_x + 1, a_y + 1, [0, 0, 0], false)
+			end
+
 			color := color.memory_alloc ({SDL_TTF}.sizeof_sdl_color_struct)
 			{SDL_TTF}.set_red (color, a_color.r.as_natural_8)
 			{SDL_TTF}.set_green (color, a_color.g.as_natural_8)
 			{SDL_TTF}.set_blue (color, a_color.b.as_natural_8)
-
-			if shadow then
-				bg_targetarea := bg_targetarea.memory_alloc ({SDL}.sizeof_sdl_rect_struct)
-				bg_color := color.memory_alloc ({SDL_TTF}.sizeof_sdl_color_struct)
-				{SDL_TTF}.set_red (bg_color, 0)
-				{SDL_TTF}.set_green (bg_color, 0)
-				{SDL_TTF}.set_blue (bg_color, 0)
-			end
-
 			text := ""
 			size := 0
 			x := a_x
@@ -140,18 +128,6 @@ feature -- Access
 								texture := {SDL}.sdl_createtexturefromsurface (renderer, surface)
 							end
 
-							if shadow then
-						    	{SDL}.sdl_freesurface (bg_surface)
-								bg_surface := {SDL_TTF}.ttf_show_text (window.font.item.font, l_c_text.item, bg_color)
-
-								if not bg_surface.is_default_pointer then
-									{SDL}.set_sdl_rect_w (bg_targetarea, width)
-									{SDL}.set_sdl_rect_h (bg_targetarea, height)
-									{SDL}.sdl_destroytexture (bg_texture)
-									bg_texture := {SDL}.sdl_createtexturefromsurface (renderer, bg_surface)
-								end
-							end
-
 							text := a_text
 							size := a_size
 							l_result_found := true
@@ -164,20 +140,16 @@ feature -- Access
 					    set_width (0)
 					    set_height (0)
 						texture := create {POINTER}
-
-						if shadow then
-							bg_texture := create {POINTER}
-						end
 					end
 				else
 				    set_width (0)
 				    set_height (0)
 					texture := create {POINTER}
-
-					if shadow then
-						bg_texture := create {POINTER}
-					end
 				end
+
+		    	if shadow and attached shadow_text as la_shadow then
+			    	la_shadow.set_text (a_text, a_size)
+		    	end
 			end
 		rescue
 			l_retries := l_retries + 1
@@ -188,10 +160,8 @@ feature -- Access
 		-- Update the text on screen
 		do
 			if not hidden then
-				if shadow then
-					{SDL}.set_sdl_rect_x (bg_targetarea, (x + 1).floor)
-					{SDL}.set_sdl_rect_y (bg_targetarea, (y + 1).floor)
-		    		{SDL}.sdl_rendercopy (renderer, bg_texture, create {POINTER}, bg_targetarea)
+		    	if shadow and attached shadow_text as la_shadow then
+					la_shadow.update
 		    	end
 
 				{SDL}.set_sdl_rect_x (targetarea, x.floor)
@@ -205,6 +175,10 @@ feature -- Access
 		do
 			set_x ((p_width / 2) + p_x - (width / 2))
 			set_y ((p_height / 2) + p_y - (height / 2))
+
+	    	if shadow and attached shadow_text as la_shadow then
+				la_shadow.recenter
+	    	end
 		end
 
 feature -- Status
@@ -235,17 +209,8 @@ feature {NONE} -- Implementation
 	surface: POINTER
 		-- The actual text to render
 
-	bg_color: POINTER
-		-- Color to apply to the shadow
-
-	bg_surface: POINTER
-		-- The actual shadow to render
-
-	bg_texture: POINTER
-		-- The shadow texture
-
-	bg_targetarea: POINTER
-		-- The slighlty moved area for the shadow
+	shadow_text: detachable TEXT
+		-- Shadow text to apply below the actual text
 
 	dispose
 		-- Free every texture, surface or rectangle used from memory
@@ -254,13 +219,6 @@ feature {NONE} -- Implementation
 			{SDL}.sdl_freesurface (surface)
 			color.memory_free
 			targetarea.memory_free
-
-			if shadow then
-				{SDL}.sdl_destroytexture (bg_texture)
-				{SDL}.sdl_freesurface (bg_surface)
-				bg_color.memory_free
-				bg_targetarea.memory_free
-			end
 		end
 
 end

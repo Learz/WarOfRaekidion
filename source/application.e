@@ -28,7 +28,7 @@ feature {NONE} -- Implementation
 	window_height: INTEGER = 400
 			-- The window's default height
 
-	pixel_ratio: INTEGER = 2
+	pixel_ratio: DOUBLE = 1.5
 			-- The window's default scale
 
 	debug_mode: BOOLEAN = true

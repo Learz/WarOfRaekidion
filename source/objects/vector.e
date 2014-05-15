@@ -184,6 +184,11 @@ feature -- Element change
 		do
 			force := 1
 			adjust_x_and_y (angle, 1)
+		ensure
+			angle_not_changed: angle = old angle
+				-- Ensure the angle has not changed
+			force_set: force = 1
+				-- Ensure the force has been set
 		end
 
 	invert
