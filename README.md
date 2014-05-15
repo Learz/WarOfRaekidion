@@ -17,29 +17,33 @@ Installing the game
 ----------------------
 
 To install the game, you only have to download the appropriate binary file from 
-the "**release**" folder. All content and libraries are included within the installer. 
+the download page. All content and libraries are included within the installer. 
 To launch the game on Windows, simply click on the shortcut on your desktop, or 
 in the Start menu. For Linux, run the "raekidion" executable file from a terminal or, if 
 you have the Debian menu or equivalent, you will find it under the Games category. A 
 desktop file should also be created, along with an entry for the Unity menu.
 
-Installing the SDK
+Compiling the source
 ---------------------
 
-If you want to open the code and work with it, we recommend the official Eiffel 
-SDK at the following address: 
+You must first download the source from the repo at:
 
-- [**Eiffel Studio website**][1]
+- [**War of Raekidion repository**][1]
+
+If you want to open the code and work with it, we recommend the official Eiffel 
+IDE at the following address: 
+
+- [**Eiffel Studio website**][2]
 
 First, create an account on the Eiffel Studio's website. Then, download the adequate 
 version of Eiffel Studio and install it to your machine.
 
 You will also have to download and install the required **development libraries**: 
 
-- [**SDL 2.0.1**][2]
-- [**SDL Image 2.0.0**][3]
-- [**SDL Mixer 2.0.0**][4]
-- [**SDL TTF 2.0.12**][5]
+- [**SDL 2.0.1**][3]
+- [**SDL Image 2.0.0**][4]
+- [**SDL Mixer 2.0.0**][5]
+- [**SDL TTF 2.0.12**][6]
 
 ### Installing on Windows
 
@@ -47,7 +51,6 @@ For Windows, you will have to put your extracted SDL 2.0.1 and SDL Image 2.0.0
 folders inside the project's directory, like this:
 
     |+ War of Raekidion
-		|
 		|- .git
 		|+ libraries
 			|+ SDL2-2.0.1
@@ -91,14 +94,15 @@ All these files go into
 
 ### Installing on Linux (Debian)
 
-For Linux, you will have to install the following packages from the Debian sid repository:
+For Linux, you will have to install the following packages from the Debian Sid repository 
+or the latest Ubuntu version (actually Trusty Tahr) repositories:
 
 	sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev
 
 Final words
 -----------
 
-We would like to thank our teacher, Louis (GitHub: [**tioui**][6]), for teaching us 
+We would like to thank our teacher, Louis (GitHub: [**tioui**][7]), for teaching us 
 Eiffel and Object Oriented Programming. Also, this project could not have been 
 possible without all the team behind SDL and SDL2.
 
@@ -107,9 +111,10 @@ credits if you use our project somewhere else.
 
 Enjoy!
 
-[1]:  http://www.eiffel.com/
-[2]:  http://www.libsdl.org/release/SDL2-devel-2.0.1-mingw.tar.gz
-[3]:  https://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.0.0-mingw.tar.gz
-[4]:  https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-devel-2.0.12-mingw.tar.gz
-[5]:  https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-devel-2.0.0-mingw.tar.gz
-[6]:  http://github.com/tioui
+[1]:  http://www.bitbucket.org/Learz/raekidion
+[2]:  http://www.eiffel.com/
+[3]:  http://www.libsdl.org/release/SDL2-devel-2.0.1-mingw.tar.gz
+[4]:  http://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.0.0-mingw.tar.gz
+[5]:  http://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-devel-2.0.12-mingw.tar.gz
+[6]:  http://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-devel-2.0.0-mingw.tar.gz
+[7]:  http://www.github.com/tioui
