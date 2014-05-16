@@ -96,7 +96,7 @@ All these files go into
 ### Installing on Linux (Debian)
 
 For Linux, you will have to install the following packages from the Debian Sid repository 
-or the latest Ubuntu version (actually Trusty Tahr) repositories:
+or the latest Ubuntu version (currently Trusty Tahr) repositories:
 
 	sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev
 
