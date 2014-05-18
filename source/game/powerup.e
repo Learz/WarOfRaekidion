@@ -1,8 +1,12 @@
 note
-	description: "Summary description for {POWERUP}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description	: "[
+					War of Raekidion - A powerup
+					A {POWERUP} is similar to a projectile in its behavior, 
+					but it does not cause damage and is not provided by a factory.
+				]"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
 
 class
 	POWERUP
@@ -21,6 +25,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_name: STRING; a_window: WINDOW; a_x, a_y: DOUBLE; a_health: DOUBLE)
+		-- Initialize `Current' from `a_name', `a_window', `a_x', `a_y' and `a_health'
 		do
 			precursor {ENTITY} (a_name, a_window, a_x, a_y, 1)
 			trajectory.enable_degree_mode
@@ -29,6 +34,7 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	update (a_x, a_y: DOUBLE)
+		-- Update the enemy on screen from player's `a_x' and `a_y'
 		do
 			if
 				y < -height or
@@ -53,5 +59,6 @@ feature -- Access
 feature {NONE} -- Implementation
 
 	previous_force: DOUBLE
+		-- What the force was the previous frame
 
 end

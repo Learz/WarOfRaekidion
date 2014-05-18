@@ -1,8 +1,12 @@
 note
-	description: "Summary description for {PROJECTILE}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description	: "[
+					War of Raekidion - A projectile
+					A {PROJECTILE} is a bullet fired by a ship, 
+					aimed to destroy other ships.
+				]"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
 
 class
 	PROJECTILE
@@ -22,6 +26,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_name: STRING; a_window: WINDOW; a_x, a_y, a_angle: DOUBLE; a_owner: SHIP)
+		-- Initialize `Current' from `a_name', `a_window', `a_x', `a_y', `a_angle' and `a_owner'
 		do
 			projectilefactory := projectile_factory
 			projectile_properties := projectilefactory.projectile (a_name)
@@ -33,18 +38,24 @@ feature {NONE} -- Initialization
 			trajectory.set_angle_and_force (a_angle, projectile_properties.speed)
 		ensure
 			projectile_properties_not_null: projectile_properties.name /= ""
+				-- Ensure the projectile type exists
 		end
 
 feature -- Status
 
 	will_explode: BOOLEAN
+		-- True if the projectile should explode on impact
 
 feature -- Access
 
 	projectile_properties: PROJECTILE_PROPERTIES
+		-- The projectile type from which the projectile will be created
+
 	owner: SHIP
+		-- The ship from which the bullet has been fired
 
 	update (a_x, a_y: DOUBLE)
+		-- Update the enemy on screen from player's `a_x' and `a_y'
 		local
 			l_vector: VECTOR
 		do
@@ -77,5 +88,6 @@ feature -- Access
 feature {NONE} -- Implementation
 
 	projectilefactory: PROJECTILE_FACTORY
+		-- The factory containing the projectile types
 
 end

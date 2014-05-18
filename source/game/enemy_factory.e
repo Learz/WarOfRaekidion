@@ -1,18 +1,15 @@
 note
-	description : "War of Raekidion - {ENEMY_FACTORY} class"
+	description	: "[
+					War of Raekidion - An enemy factory
+					An {ENEMY_FACTORY} contains a list of every enemy 
+					type able to get spawned in the game screen.
+				]"
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
 	date		: "$Date$"
 	revision	: "$Revision$"
 
-
 class
 	ENEMY_FACTORY
-
---inherit
---	DIRECTORY_LIST
---		rename
---			make as directory_make
---		end
 
 create
 	make
@@ -20,36 +17,14 @@ create
 feature {NONE} -- Initialization
 
 	make
+		-- Initialize `Current'
 		require
 			is_not_already_initialised: not is_init.item
+				-- Ensure the factory doesn't already exist
 		local
---			l_directory: STRING
---			l_path: PATH
---			l_count: INTEGER
---			l_name: STRING
 			l_enemy_properties: ENEMY_PROPERTIES
---			l_filename_list: LINKED_LIST[STRING]
---			l_xml_parser: XML_STANDARD_PARSER
 		do
---			l_directory := "resources/ships/"
---			directory_make (l_directory)
 			create file_list.make
---			create l_xml_parser.make
---			create l_filename_list.make
---			l_filename_list := list_files ("xml")
-
---			from
---				l_filename_list.start
---			until
---				l_filename_list.exhausted
---			loop
---				create l_path.make_from_string (l_directory + l_filename_list.item)
---				l_xml_parser.parse_from_path (l_path)
---				l_count := l_filename_list.item.index_of ('.', 1)
---				l_name := l_filename_list.item.substring (1, l_count - 1)
---				file_list.extend ([l_filename_list.item, l_enemy_properties])
---				l_filename_list.forth
---			end
 
 		-- TEMPORARY
 			create l_enemy_properties.make ("Sprayer", "sprayer", "Sprays bullets in a straight line right onto the player.", "Red laser", 20, 1, 40, 15, 0, 2.5, true)
@@ -69,13 +44,16 @@ feature {NONE} -- Initialization
 		    is_init.replace (true)
 		ensure
 		   	is_initialised: is_init.item
+		   		-- Ensure the factory is now marked as initialized
 		end
 
 feature -- Access
 
 	file_list: LINKED_LIST[TUPLE[name: STRING; object: ENEMY_PROPERTIES]]
+		-- The list for all the different loaded enemy properties
 
 	enemy (a_name: STRING): ENEMY_PROPERTIES
+		-- Return a loaded enemy type from `a_name'
 		local
 			l_found: BOOLEAN
 		do
@@ -104,6 +82,7 @@ feature -- Access
 feature {NONE} -- Implementation
 
 	is_init: CELL[BOOLEAN]
+		-- If this class has been initialized, don't initialize it again
 		once
 			create result.put (false)
 		end

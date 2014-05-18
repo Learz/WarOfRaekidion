@@ -1,8 +1,12 @@
 note
-	description: "Summary description for {COLLISION}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description	: "[
+					War of Raekidion - A collidable object
+					A {COLLISION} is an entity capable of reacting to 
+					being in the same space as another collidable object.
+				]"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
 
 deferred class
 	COLLISION
@@ -10,12 +14,21 @@ deferred class
 feature -- Access
 
 	offset: INTEGER deferred end
+		-- The radius to add to the real `Current''s radius
+
 	width: INTEGER deferred end
+		-- Width of `Current'
+
 	height: INTEGER deferred end
+		-- Height of `Current'
+
 	x: DOUBLE deferred end
+		-- x position of `Current'
 	y: DOUBLE deferred end
+		-- y position of `Current'
 
 	has_collided (a_other: COLLISION): BOOLEAN
+		-- Has current's bounding area collided with another {COLLISION}
 		local
 			l_x_difference, l_y_difference: DOUBLE
 			l_center_distance_squared, l_radius_sum_squared: DOUBLE

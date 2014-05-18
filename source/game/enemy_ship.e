@@ -1,5 +1,9 @@
 note
-	description : "War of Raekidion - {ENEMY_SHIP} class"
+	description	: "[
+					War of Raekidion - An enemy ship
+					An {ENEMY_SHIP} is an entity who's only goal is 
+					to shoot at the player.
+				]"
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
 	date		: "$Date$"
 	revision	: "$Revision$"
@@ -21,6 +25,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_name: STRING; a_window: WINDOW; a_x, a_y, a_dest_x, a_dest_y: DOUBLE)
+		-- Initialize `Current' from `a_name', `a_window', `a_x', `a_y', `a_dest_x' and `a_dest_y'
 		do
 			enemyfactory := enemy_factory
 			enemy_properties := enemyfactory.enemy (a_name)
@@ -30,13 +35,16 @@ feature {NONE} -- Initialization
 			create random.make
 		ensure
 			enemy_properties_not_null: enemy_properties.name /= ""
+				-- Ensure the enemy type exists
 		end
 
 feature -- Access
 
 	enemy_properties: ENEMY_PROPERTIES
+		-- The enemy type the enemy will copy
 
 	update (a_x, a_y: DOUBLE)
+		-- Update the enemy on screen from player's `a_x' and `a_y'
 		local
 			l_vector: VECTOR
 			l_random_int: INTEGER
@@ -75,8 +83,18 @@ feature -- Access
 feature {NONE} -- Implementation
 
 	random: RANDOM
-	dest_x, dest_y: DOUBLE
+		-- The random number generator
+
+	dest_x: DOUBLE
+		-- The x coordinate the enemy is aiming to reach
+
+	dest_y: DOUBLE
+		-- The y coordinate the enemy is aiming to reach
+
 	enemyfactory: ENEMY_FACTORY
+		-- The factory containing the enemy types
+
 	create_projectile: BOOLEAN
+		-- True if the enemy is ready to shoot
 
 end

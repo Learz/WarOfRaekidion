@@ -1,8 +1,12 @@
 note
-	description : "War of Raekidion - {NETWORK} class"
+	description	: "[
+					War of Raekidion - A network thread
+					A {NETWORK} is a bridge between the application and another 
+					distant application. Reception is done in a new thread.
+				]"
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
-	date: "$Date$"
-	revision: "$Revision$"
+	date		: "$Date$"
+	revision	: "$Revision$"
 
 class
 	NETWORK
@@ -17,6 +21,7 @@ create
 feature {NONE} -- Initialization
 
 	make_server
+		-- Initialize `Current'
 		do
 			make
 			create address.make_empty
@@ -24,6 +29,7 @@ feature {NONE} -- Initialization
 		end
 
 	make_client (a_address: STRING)
+		-- Initialize `Current' from `a_address'
 		do
 			make
 			address := a_address
@@ -33,21 +39,35 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	node: detachable NODE
-	timer, delay, timeout: INTEGER
+		-- The node is used to make the connection between the two game instances
+
 	address: STRING
+		-- The server address
 
 	quit
+		-- Gracefully end execution of `Current'
 		do
 			must_quit := true
 		end
 
 feature -- Status
 
-	must_quit, is_server, is_init, connection_error: BOOLEAN
+	must_quit: BOOLEAN
+		-- True if the network socket must be closed
+
+	is_server: BOOLEAN
+		-- Is the class initialized as a server?
+
+	is_init: BOOLEAN
+		-- Is the socket bound or connected?
+
+	connection_error: BOOLEAN
+		-- Has a networking error happened?
 
 feature {NONE} -- Implementation
 
 	execute
+		-- Create the sockets, then receive data
 		do
 			from
 				must_quit := false

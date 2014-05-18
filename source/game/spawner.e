@@ -1,8 +1,12 @@
 note
-	description: "Summary description for {SPAWNER}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description	: "[
+					War of Raekidion - The spawner
+					A {SPAWNER} is a controllable entity that creates 
+					enemy ships in order to destroy the player ship.
+				]"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
 
 class
 	SPAWNER
@@ -16,6 +20,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_window: WINDOW; a_key_binding: KEYS; a_is_player: BOOLEAN)
+		-- Initialize `Current' from `a_window', `a_key_binding' and `a_is_player'
 		do
 			window := a_window
 			key_binding := a_key_binding
@@ -28,15 +33,25 @@ feature {NONE} -- Initialization
 
 feature -- Status
 
-	is_player, is_ai: BOOLEAN
+	is_player: BOOLEAN
+		-- True if `Current' is controllable
+
+	is_ai: BOOLEAN
+		-- True if `Current' acts by itself
 
 feature -- Access
 
 	money: INTEGER
+		-- The currency with which `Current' can buy more ships
+
 	on_spawn: ACTION_SEQUENCE [TUPLE [name: STRING; x, y, dest_x, dest_y: INTEGER]]
+		-- The list of spawning events
+
 	spawn_list: LINKED_LIST [TUPLE [name: STRING; x, y, dest_x, dest_y: INTEGER]]
+		-- The list of ships to spawn next
 
 	update
+		-- Update `Current'
 		local
 			l_x, l_y, l_random: INTEGER
 		do
@@ -62,6 +77,7 @@ feature -- Access
 		end
 
 	destroy
+		-- Destroy `Current'
 		do
 			on_spawn.wipe_out
 		end
@@ -69,16 +85,19 @@ feature -- Access
 feature -- Element change
 
 	set_key_binding (a_key_binding: KEYS)
+		-- Assign `key_binding' to `a_key_binding'
 		do
 			key_binding := a_key_binding
 		end
 
 	set_ai (a: BOOLEAN)
+		-- Assign `is_ai' to `a'
 		do
 			is_ai := a
 		end
 
 	set_money (a_money: INTEGER)
+		-- Assign `money' to `a_money'
 		do
 			money := a_money
 		end
@@ -86,7 +105,12 @@ feature -- Element change
 feature {NONE} -- Implementation
 
 	random: RANDOM
+		-- The random number generator
+
 	window: WINDOW
+		-- The window in which to spawn the ships
+
 	key_binding: KEYS
+		-- The current key binding
 
 end

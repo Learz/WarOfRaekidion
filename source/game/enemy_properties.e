@@ -1,8 +1,12 @@
 note
-	description: "Summary description for {ENEMY_PROPERTIES}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description	: "[
+					War of Raekidion - An enemy type definition
+					An {ENEMY_PROPERTIES} contains every properties an 
+					enemy needs to be instanciated.
+				]"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
 
 class
 	ENEMY_PROPERTIES
@@ -13,7 +17,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_name, a_filename, a_description, a_bullet: STRING; a_health: DOUBLE; a_count, a_firerate, a_price: INTEGER; a_spread, a_speed: DOUBLE; a_aiming: BOOLEAN)
-		-- Initialization for `Current'.
+		-- Initialize `Current' from `a_name', `a_description', `a_bullet', `a_health', `a_count', `a_firerate', `a_price', `a_spread', `a_speed' and `a_aiming'
 		do
 			name := a_name
 			filename := a_filename
@@ -31,15 +35,36 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	name: STRING
+		-- The enemy ship's name
+
 	filename: STRING
+		-- The image file name
+
 	description: STRING
+		-- The enemy ship's description
+
 	bullet: STRING
+		-- The bullet type the enemy shoots
+
 	health: DOUBLE
+		-- The enemy's health
+
 	count: INTEGER
+		-- The number of bullets the enemy shoots at once
+
 	firerate: INTEGER
+		-- The number of frames to wait for another bullet
+
 	price: INTEGER
+		-- The price of the ship for the spawner
+
 	spread: DOUBLE
+		-- The spread angle of the bullets
+
 	speed: DOUBLE
+		-- The arrival speed of the ship
+
 	aiming: BOOLEAN
+		-- True if the bullets should automatically aim for the player
 
 end

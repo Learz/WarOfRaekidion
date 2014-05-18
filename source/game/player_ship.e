@@ -1,5 +1,9 @@
 note
-	description : "War of Raekidion - {PLAYER_SHIP} class"
+	description	: "[
+					War of Raekidion - The player ship
+					A {PLAYER_SHIP} is a controllable ship that triggers 
+					an "end game" event when it dies.
+				]"
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
 	date		: "$Date$"
 	revision	: "$Revision$"
@@ -21,6 +25,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_window: WINDOW; a_x, a_y: DOUBLE; a_key_binding: KEYS; a_is_player: BOOLEAN)
+		-- Initialize `Current' from `a_window', `a_x', `a_y', `a_key_binding' and `a_is_player'
 		do
 			ship_make ("player", a_window, a_x, a_y, 100)
 			is_player := a_is_player
@@ -33,6 +38,7 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	update
+		-- Update `Current' on screen
 		do
 			if shoot_delay <= 0 then
 				if is_shooting then
@@ -85,6 +91,7 @@ feature -- Access
 		end
 
 	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
+		-- Manage `a_key' and `a_state'
 		do
 			if a_state = true then
 				if a_key = key_binding.move_up_key then
@@ -120,13 +127,31 @@ feature -- Access
 feature -- Status
 
 	has_moved: BOOLEAN
+		-- True if the `Current' position changed since last frame
+
 	is_player: BOOLEAN
+		-- True if the ship is controllable by the player
+
 	is_shooting: BOOLEAN
-	is_moving_up, is_moving_down, is_moving_left, is_moving_right: BOOLEAN
+		-- True if the player should shoot
+
+	is_moving_up: BOOLEAN
+		-- True if the ship is moving up
+
+	is_moving_down: BOOLEAN
+		-- True if the ship is moving down
+
+	is_moving_left: BOOLEAN
+		-- True if the ship is moving left
+
+	is_moving_right: BOOLEAN
+		-- True if the ship is moving right
+
 
 feature -- Element change
 
 	set_key_binding (a_key_binding: KEYS)
+		-- Assign `key_binding' to `a_key_binding'
 		do
 			key_binding := a_key_binding
 		end
@@ -134,7 +159,12 @@ feature -- Element change
 feature {NONE} -- Implementation
 
 	shoot_delay: INTEGER
+		-- Number of frames between each shot
+
 	key_binding: KEYS
+		-- The current keys allowing the ship to move
+
 	speed: DOUBLE
+		-- The ship's speed
 
 end

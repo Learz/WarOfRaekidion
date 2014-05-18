@@ -1,8 +1,12 @@
 note
-	description: "Summary description for {EXPLOSION}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description	: "[
+					War of Raekidion - An animated explosion
+					An {EXPLOSION} is an animated sprite which simply dies 
+					at the ending frame.
+				]"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
 
 class
 	EXPLOSION
@@ -47,5 +51,5 @@ feature -- Element change
 			{SDL}.set_sdl_rect_y (sizearea, animation_y.floor)
 			{SDL}.set_sdl_rect_x (targetarea, 0)
 		end
-		
+
 end

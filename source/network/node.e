@@ -76,14 +76,29 @@ feature -- Status
 
 feature -- Access
 
-	local_socket, distant_socket: detachable NETWORK_STREAM_SOCKET
+	local_socket: detachable NETWORK_STREAM_SOCKET
+		-- The local socket used to identify the server locally
+
+	distant_socket: detachable NETWORK_STREAM_SOCKET
+		-- The distant socket used to identify clients or the distant server
+
 	new_enemies: LINKED_LIST [TUPLE [name: STRING; x, y, dest_x, dest_y: INTEGER]]
+		-- A list of received enemies to be added into the game
+
 	new_player_position: TUPLE [x, y: INTEGER]
+		-- The most recent player's coordinates
+
 	new_projectiles: LINKED_LIST [TUPLE [name: STRING; x, y: INTEGER; angle: DOUBLE]]
+		-- A list of projectiles to be spawned on screen
+
 	new_collisions: LINKED_LIST [TUPLE [enemy_id, projectile_id: INTEGER]]
+		-- A list of recent collisions to update
+
 	new_score: INTEGER
+		-- The post recent opponent's score
 
 	receive_data
+		-- Fill variables with distant packets' data
 		local
 			l_choice: INTEGER
 			l_packet: detachable PACKET
@@ -154,6 +169,7 @@ feature -- Access
 		end
 
 	send_new_enemy_ship (a_name: STRING; a_x, a_y, a_dest_x, a_dest_y: INTEGER)
+		-- Send a packet containing `a_name', `a_x', `a_y', `a_dest_x' and `a_dest_y'
 		local
 			l_count: INTEGER
 			l_size: PACKET
@@ -194,6 +210,7 @@ feature -- Access
 		end
 
 	send_player_position (a_x, a_y: INTEGER)
+		-- Send a packet containing `a_x' and `a_y'
 		local
 			l_size: PACKET
 			l_packet: PACKET
@@ -221,6 +238,7 @@ feature -- Access
 		end
 
 	send_projectile (a_name: STRING; a_x, a_y: INTEGER; a_angle: DOUBLE)
+		-- Send a packet containing `a_name', `a_x', `a_y' and `a_angle'
 		local
 			l_count: INTEGER
 			l_size: PACKET
@@ -260,6 +278,7 @@ feature -- Access
 		end
 
 	send_collision (a_enemy_id, a_projectile_id: INTEGER)
+		-- Send a packet containing `a_enemy_id' and `a_projectile'
 		local
 			l_size: PACKET
 			l_packet: PACKET
@@ -287,6 +306,7 @@ feature -- Access
 		end
 
 	send_score (a_score: INTEGER)
+		-- Send a packet containing `a_score'
 		local
 			l_size: PACKET
 			l_packet: PACKET
