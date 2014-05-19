@@ -81,6 +81,13 @@ feature -- Fonctions -SDL.h
 			"SDL_CreateRGBSurface"
 		end
 
+	frozen sdl_settexturealphamod (a_texture: POINTER; a_value: NATURAL_8)
+		external
+			"C (SDL_Texture*, Uint8) | <SDL.h>"
+		alias
+			"SDL_SetTextureAlphaMod"
+		end
+
 	frozen sdl_getwindowflags (a_window: POINTER): NATURAL_32
 		-- Get the flags of `a_window'
 		external

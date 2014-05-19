@@ -27,10 +27,12 @@ feature {NONE} -- Initialization
 			l_title: SURFACE
 			l_background: BACKGROUND
 			l_screen: SCREEN
+			l_splash: SPLASH_SCREEN
 		do
 			collection_on
 			debug_on := a_debug
 			window := a_window
+			create l_splash.make ("splash", window)
 			create l_event.make (window)
 			must_quit := false
 			l_event.on_key_pressed.extend (agent manage_key)

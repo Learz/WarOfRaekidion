@@ -8,7 +8,6 @@ class
 	OPTIONS_SCREEN
 
 inherit
-	AUDIO_FACTORY_SHARED
 	SCREEN
 		redefine
 			manage_key,
