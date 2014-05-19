@@ -26,7 +26,6 @@ feature -- Access
 			end
 
 			version.update
-			--full_collect
 		end
 
 feature -- Status
@@ -70,6 +69,8 @@ feature {NONE} -- Implementation
 					end
 				elseif a_key = key_binding.accept_key then
 					click_button (button_index)
+				elseif a_key = key_binding.screenshot_key then
+					window.take_screenshot
 				end
 			end
 		end

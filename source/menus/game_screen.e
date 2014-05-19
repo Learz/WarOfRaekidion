@@ -498,6 +498,8 @@ feature {NONE} -- Implementation
 				if a_key = key_binding.return_key and not is_return_key_pressed then
 					is_return_key_pressed := true
 					is_paused := true
+				elseif a_key = key_binding.screenshot_key then
+					window.take_screenshot
 				end
 			else
 				if a_key = key_binding.return_key and is_return_key_pressed then

@@ -249,4 +249,12 @@ feature
 			"SDLK_SPACE"
 		end
 
+	frozen sdlk_f12:INTEGER
+		-- F12 key
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDLK_F12"
+		end
+
 end

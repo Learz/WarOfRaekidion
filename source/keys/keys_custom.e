@@ -57,6 +57,11 @@ feature -- Access
 			result := i_action_key
 		end
 
+	screenshot_key: INTEGER assign set_screenshot_key
+		do
+			result := i_screenshot_key
+		end
+
 feature -- Element change
 
 	set_move_up_key (a_move_up_key: INTEGER)
@@ -104,6 +109,11 @@ feature -- Element change
 			i_action_key := a_action_key
 		end
 
+	set_screenshot_key (a_screenshot_key: INTEGER)
+		do
+			i_screenshot_key := a_screenshot_key
+		end
+
 feature {NONE} -- Implementation
 
 	i_move_up_key: INTEGER
@@ -115,5 +125,6 @@ feature {NONE} -- Implementation
 	i_fire_key: INTEGER
 	i_modifier_key: INTEGER
 	i_action_key: INTEGER
+	i_screenshot_key: INTEGER
 
 end

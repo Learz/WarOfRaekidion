@@ -25,6 +25,7 @@ feature {NONE} -- Initialization
 			l_event: EVENT_HANDLER
 			l_title, l_description, l_comment: TEXT
 			l_screen: SCREEN
+			l_screenshot: SCREENSHOT
 		do
 			collection_on
 			create buttons.make
@@ -39,8 +40,7 @@ feature {NONE} -- Initialization
 			create l_title.make_centered (a_title, 24, window, 0, 0, window.width, 150, [255, 255, 255], true)
 			create l_description.make_centered (a_description, 16, window, 0, 25, window.width, 150, [255, 255, 255], true)
 			create l_comment.make_centered (a_comment, 16, window, 0, 50, window.width, 150, [192, 192, 192], true)
-			create version.make_centered (window.version, 10, window, 0, 397, window.width, 0, [96, 96, 96], false)
-			version.set_y (version.y - (version.height * 2))
+			create version.make_empty (window, 0, 0, [0, 0, 0], false)
 			resume_disabled := a_resume_disabled
 
 			if not resume_disabled then
@@ -60,17 +60,7 @@ feature {NONE} -- Initialization
 				la_selection.set_image (la_selection.default_image+"_pressed")
 			end
 
---			surface := {SDL}.sdl_creatergbsurface (0, window.width, window.height, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000)
-
---			if not surface.is_default_pointer then
---				targetarea := targetarea.memory_alloc ({SDL}.sizeof_sdl_rect_struct)
---				{SDL}.set_sdl_rect_x (targetarea, 0)
---				{SDL}.set_sdl_rect_y (targetarea, 0)
---			    {SDL}.set_sdl_rect_w (targetarea, window.width)
---			    {SDL}.set_sdl_rect_h (targetarea, window.height)
---			    {SDL}.sdl_renderreadpixels (window.renderer, create {POINTER}, {SDL}.SDL_PIXELFORMAT_ARGB8888, {SDL}.get_sdl_surface_pixels (surface), {SDL}.get_sdl_surface_pitch (surface));
---				texture := {SDL}.sdl_createtexturefromsurface (window.renderer, surface)
---			end
+			create l_screenshot.make (window)
 
 			from
 			until
@@ -84,7 +74,7 @@ feature {NONE} -- Initialization
 				end
 
 				window.clear
-				{SDL}.sdl_rendercopy (window.renderer, texture, create {POINTER}, targetarea)
+				l_screenshot.update
 				l_title.update
 				l_description.update
 				l_comment.update
@@ -105,10 +95,6 @@ feature {NONE} -- Initialization
 			   		{SDL}.sdl_delay ((1000 / 60).floor - l_deltatime)
 				end
 			end
-
---			{SDL}.sdl_destroytexture (texture)
---			{SDL}.sdl_freesurface (surface)
---			targetarea.memory_free
 		end
 
 feature -- Status
@@ -116,8 +102,6 @@ feature -- Status
 	resume_disabled, options: BOOLEAN
 
 feature {NONE} -- Implementation
-
-	targetarea, surface, texture: POINTER
 
 	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
 		do

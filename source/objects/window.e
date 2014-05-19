@@ -72,10 +72,23 @@ feature -- Access
 	version: STRING
 		-- Game version
 
+	last_screen_number: INTEGER
+		-- Last saved screenshot number
+
 	render
 		-- Render the next frame
 		do
 			{SDL}.sdl_renderpresent (renderer)
+		end
+
+	take_screenshot
+		-- Saves a screenshot into the folder "screenshots"
+		local
+			l_screenshot: SCREENSHOT
+		do
+			last_screen_number := last_screen_number + 1
+			create l_screenshot.make (Current)
+			l_screenshot.save (last_screen_number.out+".bmp")
 		end
 
 	clear

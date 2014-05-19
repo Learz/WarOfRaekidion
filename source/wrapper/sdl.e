@@ -164,6 +164,14 @@ feature -- Fonctions -SDL.h
 --			"SDL_LoadBMP"
 --		end
 
+	frozen sdl_savebmp (a_surface, a_filename: POINTER)
+		-- Save `a_surface' as a BMP image in `a_filename'
+		external
+			"C (SDL_Surface*, const char*) | <SDL.h>"
+		alias
+			"SDL_SaveBMP"
+		end
+
 	frozen sdl_loadimage (a_file: POINTER): POINTER
 		-- Load `a_file' for use as an image in a new surface.
 		external

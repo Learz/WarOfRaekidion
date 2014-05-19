@@ -46,4 +46,8 @@ feature -- Access
 		deferred
 		end
 
+	screenshot_key: INTEGER
+		deferred
+		end
+
 end

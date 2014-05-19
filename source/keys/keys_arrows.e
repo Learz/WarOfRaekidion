@@ -57,4 +57,9 @@ feature -- Access
 			result := {SDL_EVENTS}.sdlk_c
 		end
 
+	screenshot_key: INTEGER
+		do
+			result := {SDL_EVENTS}.sdlk_f12
+		end
+
 end
