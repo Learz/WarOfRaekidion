@@ -49,6 +49,8 @@ feature {NONE} -- Initialization
 				buttons.extend (create {BUTTON}.make ("button", window, 100, 250, "End game"))
 				buttons.extend (create {BUTTON}.make ("button", window, 100, 300, "Quit"))
 			else
+				stop_music
+				play_music ("spooky", -1)
 				buttons.extend (create {BUTTON}.make ("button", window, 100, 200, "End game"))
 				buttons.extend (create {BUTTON}.make ("button", window, 100, 250, "Quit"))
 			end

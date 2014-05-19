@@ -12,7 +12,6 @@ inherit
 		redefine
 			manage_key
 		end
-	AUDIO_FACTORY_SHARED
 
 create
 	make
@@ -66,7 +65,7 @@ feature {NONE} -- Initialization
 --		    end
 
 			stop_music
-			play_music ("zombie", -1)
+			play_music ("chicago", -1)
 			l_event.on_key_pressed.extend (agent manage_key)
 
 			if attached network as la_network then
@@ -297,8 +296,10 @@ feature {NONE} -- Implementation
 			    		if la_projectile.will_explode then
 			    			if la_projectile.projectile_properties.explodes then
 								explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, la_projectile.x, la_projectile.y, false))
+								play_sound ("explosion", -1)
 							else
 								explosion_list.extend (create {EXPLOSION}.make ("explosion", 14, 20, window, la_projectile.x, la_projectile.y, false))
+								play_sound ("hit", -1)
 				    		end
 			    		end
 
@@ -319,6 +320,10 @@ feature {NONE} -- Implementation
 								end
 
 								player.set_health (player.health - la_projectile.projectile_properties.damage)
+
+								if player.health < 0 then
+									player.set_health (0)
+								end
 
 								if is_server then
 									health_changed := true
@@ -415,6 +420,7 @@ feature {NONE} -- Implementation
 								end
 							end
 
+							play_sound ("powerup", -1)
 							la_powerup.destroy
 						end
 
@@ -457,6 +463,7 @@ feature {NONE} -- Implementation
 						end
 
 						explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, la_enemy.x, la_enemy.y, false))
+						play_sound ("explosion", -1)
 						free (la_enemy)
 			    		enemy_list.remove
 			    	else

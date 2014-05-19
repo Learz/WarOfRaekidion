@@ -26,19 +26,19 @@ feature {NONE} -- Initialization
 			create file_list.make
 
 		-- TEMPORARY
-			create l_projectile_properties.make ("White laser", "white_laser", "laser", 2.0, 6.5, false, -1, false)
+			create l_projectile_properties.make ("White laser", "white_laser", "laser1", 2.0, 6.5, false, -1, false)
 			file_list.force ([l_projectile_properties.name, l_projectile_properties])
-			create l_projectile_properties.make ("Red laser", "red_laser", "laser", 1.0, 3.0, false, -1, false)
+			create l_projectile_properties.make ("Red laser", "red_laser", "laser3", 1.0, 3.0, false, -1, false)
 			file_list.force ([l_projectile_properties.name, l_projectile_properties])
-			create l_projectile_properties.make ("Blue bullet", "blue_bullet", "", 0.5, 2.0, false, -1, false)
+			create l_projectile_properties.make ("Blue bullet", "blue_bullet", "hit", 0.5, 2.0, false, -1, false)
 			file_list.force ([l_projectile_properties.name, l_projectile_properties])
-			create l_projectile_properties.make ("Small missile", "small_missile", "", 5.0, 1, true, 5, true)
+			create l_projectile_properties.make ("Small missile", "small_missile", "missile", 5.0, 1, true, 5, true)
 			file_list.force ([l_projectile_properties.name, l_projectile_properties])
-			create l_projectile_properties.make ("Yellow laser", "yellow_laser", "laser", 1.0, 5.0, false, -1, false)
+			create l_projectile_properties.make ("Yellow laser", "yellow_laser", "laser2", 1.0, 5.0, false, -1, false)
 			file_list.force ([l_projectile_properties.name, l_projectile_properties])
-			create l_projectile_properties.make ("Small bomb", "small_bomb", "", 2.0, 0.5, false, -1, true)
+			create l_projectile_properties.make ("Small bomb", "small_bomb", "hit", 2.0, 0.5, false, -1, true)
 			file_list.force ([l_projectile_properties.name, l_projectile_properties])
-			create l_projectile_properties.make ("Red bullet", "red_bullet", "", 0.5, 1.5, false, -1, false)
+			create l_projectile_properties.make ("Red bullet", "red_bullet", "hit", 0.5, 1.5, false, -1, false)
 			file_list.force ([l_projectile_properties.name, l_projectile_properties])
 		-- TEMPORARY
 

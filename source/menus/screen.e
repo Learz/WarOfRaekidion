@@ -9,6 +9,7 @@ deferred class
 
 inherit
 	MEMORY
+	AUDIO_FACTORY_SHARED
 
 feature -- Access
 
@@ -69,8 +70,10 @@ feature {NONE} -- Implementation
 					end
 				elseif a_key = key_binding.accept_key then
 					click_button (button_index)
+					play_sound ("select", -1)
 				elseif a_key = key_binding.screenshot_key then
 					window.take_screenshot
+					play_sound ("powerup", -1)
 				end
 			end
 		end
@@ -114,6 +117,7 @@ feature {NONE} -- Implementation
 					if (a_x >= la_selection.x and a_x <= la_selection.x + la_selection.width)
 					and (a_y >= la_selection.y and a_y <= la_selection.y + la_selection.height) then
 						click_button (buttons.index_of (la_selection, 1))
+						play_sound ("select", -1)
 					end
 				end
 

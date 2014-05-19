@@ -24,6 +24,7 @@ feature -- Access
 
 	x: DOUBLE deferred end
 		-- x position of `Current'
+		
 	y: DOUBLE deferred end
 		-- y position of `Current'
 
