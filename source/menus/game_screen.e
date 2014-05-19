@@ -19,6 +19,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_window: WINDOW; a_key_binding: KEYS; a_is_server: BOOLEAN; a_difficulty: INTEGER; a_network: detachable NETWORK)
+		-- Initialize `Current' from `a_window', `a_key_binding', `a_is_server', `a_difficulty' and `a_network'
 		local
 			l_ticks, l_deltatime: INTEGER
 			l_background: BACKGROUND
@@ -231,23 +232,56 @@ feature {NONE} -- Initialization
 
 feature -- Status
 
-	is_paused, is_server, score_changed, health_changed: BOOLEAN
+	is_paused: BOOLEAN
+		-- True if the game is paused
+
+	is_server: BOOLEAN
+		-- True if the player is hosting
+
+	score_changed: BOOLEAN
+		-- True if the player score changes
+
+	health_changed: BOOLEAN
+		-- True if the player health changes
+
 
 feature {NONE} -- Implementation
 
 	difficulty: INTEGER
+		-- Difficulty of the game
+
 	difficulty_text: STRING
+		-- Name of the current difficulty
+
 	score: INTEGER
+		-- Score of `player'
+
 	player: PLAYER_SHIP
+		-- Ship object for the player
+
 	network_player: detachable ENTITY
+		-- Entity to represent the ship of the network opponent
+
 	network: detachable NETWORK
+		-- Network object for online communications
+
 	spawner: SPAWNER
+		-- Ennemy spawner
+
 	enemy_list: LINKED_LIST [detachable ENEMY_SHIP]
+		-- List of ennemies
+
 	projectile_list: LINKED_LIST [detachable PROJECTILE]
+		-- List of projectiles
+
 	powerup_list: LINKED_LIST [detachable POWERUP]
+		-- List of powerups
+
 	explosion_list: LINKED_LIST [detachable EXPLOSION]
+		-- List of explosions
 
 	network_update
+		-- (OBSOLETE) Update the network transferred data
 		do
 			if attached network as la_network then
 				if attached la_network.node as la_node then
@@ -285,6 +319,7 @@ feature {NONE} -- Implementation
 		end
 
 	collisions_update
+		-- Update the collision detection and react in accordance
 		do
 			from
 				projectile_list.start
@@ -393,6 +428,7 @@ feature {NONE} -- Implementation
 		end
 
 	powerup_update
+		-- Update the powerup list
 		do
 			from
 				powerup_list.start
@@ -435,6 +471,7 @@ feature {NONE} -- Implementation
 		end
 
 	projectiles_update
+		-- Update the projectile list
 		do
 			from
 				enemy_list.start
@@ -478,6 +515,7 @@ feature {NONE} -- Implementation
 		end
 
 	explosions_update
+		-- Update the explosion list
 		do
 			from
 				explosion_list.start
@@ -500,6 +538,7 @@ feature {NONE} -- Implementation
 		end
 
 	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
+		-- Manage the pause action and the screenshot action
 		do
 			if a_state then
 				if a_key = key_binding.return_key and not is_return_key_pressed then
@@ -516,6 +555,7 @@ feature {NONE} -- Implementation
 		end
 
 	spawn_enemy (a_name: STRING; a_x, a_y, a_dest_x, a_dest_y: INTEGER)
+		-- Add ennemy `a_name' originating from `a_x' and `a_y' moving to `a_dest_x' and `a_dest_y'
 		local
 			l_enemy: ENEMY_SHIP
 		do
@@ -540,6 +580,7 @@ feature {NONE} -- Implementation
 		end
 
 	spawn_projectile (a_name: STRING; a_x, a_y: INTEGER; a_angle: DOUBLE; a_owner: SHIP)
+		-- Add projectile `a_name' originating from `a_x' and `a_y' at angle `a_angle' from the owner `a_owner'
 		do
 			projectile_list.extend (create {PROJECTILE}.make (a_name, window, a_x, a_y, a_angle, a_owner))
 

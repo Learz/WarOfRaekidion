@@ -21,6 +21,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_window: WINDOW; a_debug: BOOLEAN)
+		-- Initialize `Current' from `a_window' and `a_debug'
 		local
 			l_ticks, l_deltatime: INTEGER
 			l_event: EVENT_HANDLER
@@ -117,11 +118,22 @@ feature {NONE} -- Initialization
 
 feature -- Status
 
-	start_game, multiplayer, options, debug_on: BOOLEAN
+	start_game: BOOLEAN
+		-- True if the game is ready to start
+
+	multiplayer: BOOLEAN
+		-- True if the multiplayer lobby screen must display
+
+	options: BOOLEAN
+		-- True if the option screen must display
+
+	debug_on: BOOLEAN
+		-- True if debug functionnalities are activated
 
 feature {NONE} -- Implementation
 
 	difficulty: INTEGER
+		-- Difficulty of the game
 
 	manage_key (a_key: INTEGER; a_state: BOOLEAN)
 		do

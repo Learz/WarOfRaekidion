@@ -25,6 +25,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_window: WINDOW; a_key_binding: KEYS; a_is_server: BOOLEAN; a_difficulty: INTEGER; a_server: STRING)
+		-- Initialize `Current' from `a_window', `a_key_binding', `a_is_server', `a_difficulty' and `a_server'
 		local
 			l_address, waiting_text: STRING
 			l_frames, l_ticks, l_deltatime: INTEGER
@@ -136,7 +137,11 @@ feature {NONE} -- Initialization
 
 feature -- Status
 
-	hosting, connection_error: BOOLEAN
+	hosting: BOOLEAN
+		-- True if the player is hosting the session
+
+	connection_error: BOOLEAN
+		-- True if there is any connection error
 
 feature {NONE} -- Implementation
 

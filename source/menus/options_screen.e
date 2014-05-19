@@ -21,6 +21,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_window: WINDOW; a_key_binding: KEYS; a_difficulty: INTEGER; a_in_game: BOOLEAN)
+		-- Initialize `Current' from `a_window', `a_key_binding', `a_difficulty' and `a_in_game'
 		local
 			l_ticks, l_deltatime: INTEGER
 			l_event: EVENT_HANDLER
@@ -139,15 +140,27 @@ feature {NONE} -- Initialization
 
 feature -- Status
 
-	start_game, is_server, textbox_focus, in_game: BOOLEAN
+	start_game: BOOLEAN
+		-- True if the game is ready to start
+
+	is_server: BOOLEAN
+		-- True if the player is hosting
+
+	textbox_focus: BOOLEAN
+		-- True if the textbox is focused
+		
+	in_game: BOOLEAN
+		-- True if the option menu is open while in a game
 
 feature -- Access
 
 	difficulty: INTEGER
+		-- Difficulty of the game
 
 feature {NONE} -- Implementation
 
 	descriptions: LINKED_LIST [TEXT]
+		-- Description of each options
 
 	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
 		do

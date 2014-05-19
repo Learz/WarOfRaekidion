@@ -21,6 +21,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_window: WINDOW; a_key_binding: KEYS; a_difficulty: INTEGER)
+		-- Initialize `Current' from `a_window', `a_key_binding' and `a_difficulty'
 		local
 			l_address: STRING
 			l_ticks, l_deltatime: INTEGER
@@ -99,13 +100,22 @@ feature {NONE} -- Initialization
 
 feature -- Status
 
-	start_game, is_server, textbox_focus: BOOLEAN
+	start_game: BOOLEAN
+		-- True if the game is ready to start
+
+	is_server: BOOLEAN
+		-- True if the player is hosting
+
+	textbox_focus: BOOLEAN
+		-- True if the textbox is clicked
 
 feature {NONE} -- Implementation
 
 	textbox: TEXTBOX
+		-- Textbox object for the IP adress
 
 	manage_typing (a_key: STRING)
+		-- Manage keyboard characters if the textbox is focused
 		do
 			if textbox_focus then
 				if a_key.count = 1 then

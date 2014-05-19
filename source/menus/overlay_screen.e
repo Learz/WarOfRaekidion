@@ -20,6 +20,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_window: WINDOW; a_key_binding: KEYS; a_is_return_key_pressed: BOOLEAN; a_title, a_description, a_comment: STRING; a_resume_disabled: BOOLEAN; a_difficulty: INTEGER)
+		-- Initialize `Current' from `a_window', `a_key_binding', `a_is_return_key_pressed', `a_title', `a_description', `a_comment', `a_resume_disabled' and `a_difficulty'
 		local
 			l_ticks, l_deltatime: INTEGER
 			l_event: EVENT_HANDLER
@@ -101,7 +102,11 @@ feature {NONE} -- Initialization
 
 feature -- Status
 
-	resume_disabled, options: BOOLEAN
+	resume_disabled: BOOLEAN
+		-- True if the resume capabilities must be disabled
+
+	options: BOOLEAN
+		-- True if the option screen must display
 
 feature {NONE} -- Implementation
 
