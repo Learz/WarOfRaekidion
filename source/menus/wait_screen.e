@@ -17,7 +17,6 @@ inherit
 			manage_key,
 			click_button
 		end
-	AUDIO_FACTORY_SHARED
 
 create
 	make
@@ -116,10 +115,10 @@ feature {NONE} -- Initialization
 					if attached l_screen as la_screen then
 						must_quit := l_screen.must_quit
 						must_end := l_screen.must_end
-					end
 
-					if not must_quit and not must_end then
-						play_music ("quiet", -1)
+						if not must_quit then
+							play_music ("quiet", -1)
+						end
 					end
 				end
 

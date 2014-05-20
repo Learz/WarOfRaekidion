@@ -101,29 +101,6 @@ feature {NONE} -- Initialization
 				window.clear
 				l_background.update
 				player.update
-
-				if attached network as la_network and then
-				attached la_network.node as la_node and
-				attached network_player as la_network_player and
-				attached l_opponent_score as la_score then
-					if la_network.connection_error then
-						la_network.quit
-						network := void
-						la_score.destroy
-						l_opponent_score := void
-						l_pause_menu := create {OVERLAY_SCREEN}.make (window, key_binding, is_return_key_pressed, "YOU WON!", "Your score: "+score.out, "Your opponent's score: "+la_node.new_score.out, true, difficulty)
-						must_quit := l_pause_menu.must_quit
-						must_end := l_pause_menu.must_end
-						is_return_key_pressed := l_pause_menu.is_return_key_pressed
-					else
-						la_node.send_player_position (player.x.floor, player.y.floor)
-						la_network_player.set_x (la_node.new_player_position.x)
-						la_network_player.set_y (la_node.new_player_position.y)
-						la_score.set_text (la_node.new_score.out, 16)
-						la_network_player.update
-					end
-				end
-
 				spawner.update
 --				network_update
 				powerup_update
@@ -183,6 +160,28 @@ feature {NONE} -- Initialization
 
 				l_health.update
 			    window.render
+
+			    if attached network as la_network and then
+				attached la_network.node as la_node and
+				attached network_player as la_network_player and
+				attached l_opponent_score as la_score then
+					if la_network.connection_error then
+						la_network.quit
+						network := void
+						la_score.destroy
+						l_opponent_score := void
+						l_pause_menu := create {OVERLAY_SCREEN}.make (window, key_binding, is_return_key_pressed, "YOU WON!", "Your score: "+score.out, "Your opponent's score: "+la_node.new_score.out, true, difficulty)
+						must_quit := l_pause_menu.must_quit
+						must_end := l_pause_menu.must_end
+						is_return_key_pressed := l_pause_menu.is_return_key_pressed
+					else
+						la_node.send_player_position (player.x.floor, player.y.floor)
+						la_network_player.set_x (la_node.new_player_position.x)
+						la_network_player.set_y (la_node.new_player_position.y)
+						la_score.set_text (la_node.new_score.out, 16)
+						la_network_player.update
+					end
+				end
 
 				if player.is_destroyed then
 					if attached network as la_network and then

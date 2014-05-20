@@ -17,7 +17,6 @@ inherit
 			manage_key,
 			click_button
 		end
-	AUDIO_FACTORY_SHARED
 
 create
 	make
