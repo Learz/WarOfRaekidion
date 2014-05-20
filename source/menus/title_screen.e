@@ -35,9 +35,9 @@ feature {NONE} -- Initialization
 			l_splash: SPLASH_SCREEN
 		do
 			collection_on
-			create l_splash.make ("splash", window)
 			debug_on := a_debug
 			window := a_window
+			create l_splash.make ("splash", window)
 			create l_event.make (window)
 			must_quit := false
 			l_event.on_key_pressed.extend (agent manage_key)
