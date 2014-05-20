@@ -1,8 +1,11 @@
 note
-	description: "Summary description for {KEYS_CUSTOM}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description : "[
+						War of Raekidion - {KEYS_CUSTOM} class
+						Unused key scheme for personalized keys
+					]"
+	author		: ""
+	date		: "$Date$"
+	revision	: "$Revision$"
 
 class
 	KEYS_CUSTOM

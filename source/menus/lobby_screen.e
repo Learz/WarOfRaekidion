@@ -1,8 +1,12 @@
 note
-	description: "Summary description for {LOBBY_SCREEN}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description : "[
+						War of Raekidion - The lobby screen
+						The {LOBBY_SCREEN} serves as a menu to choose whether the player hosts 
+						or connect to someone by putting the IP adress in the textbox.
+					]"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
 
 class
 	LOBBY_SCREEN
@@ -21,6 +25,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_window: WINDOW; a_key_binding: KEYS; a_difficulty: INTEGER)
+		-- Initialize `Current' from `a_window', `a_key_binding' and `a_difficulty'
 		local
 			l_address: STRING
 			l_ticks, l_deltatime: INTEGER
@@ -99,13 +104,22 @@ feature {NONE} -- Initialization
 
 feature -- Status
 
-	start_game, is_server, textbox_focus: BOOLEAN
+	start_game: BOOLEAN
+		-- True if the game is ready to start
+
+	is_server: BOOLEAN
+		-- True if the player is hosting
+
+	textbox_focus: BOOLEAN
+		-- True if the textbox is clicked
 
 feature {NONE} -- Implementation
 
 	textbox: TEXTBOX
+		-- Textbox object for the IP adress
 
 	manage_typing (a_key: STRING)
+		-- Manage keyboard characters if the textbox is focused
 		do
 			if textbox_focus then
 				if a_key.count = 1 then
@@ -123,6 +137,7 @@ feature {NONE} -- Implementation
 		end
 
 	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
+		-- Manage keyboard keys using `a_key' and `a_state'
 		do
 			if not textbox_focus then
 				if a_state then
@@ -141,6 +156,7 @@ feature {NONE} -- Implementation
 		end
 
 	manage_click (a_button: NATURAL_32; a_x, a_y: INTEGER; a_state: BOOLEAN)
+		-- Manage mouse clicks using `a_button', `a_x', `a_y' and `a_state'
 		do
 			if a_state then
 				if (a_x >= textbox.x and a_x <= textbox.x + textbox.width)
@@ -157,6 +173,7 @@ feature {NONE} -- Implementation
 		end
 
 	click_button (a_button: INTEGER)
+		-- Click actions from `a_button'
 		do
 				if a_button = 1 then
 					if textbox.char_string.count > 0 then

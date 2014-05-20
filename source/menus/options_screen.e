@@ -1,8 +1,12 @@
 note
-	description: "Summary description for {OPTIONS_SCREEN}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description : "[
+						War of Raekidion - The options screen
+						The {OPTIONS_SCREEN} allows to change settings about the game such as
+						the screen size, the volume and the difficulty.
+					]"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
 
 class
 	OPTIONS_SCREEN
@@ -20,6 +24,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_window: WINDOW; a_key_binding: KEYS; a_difficulty: INTEGER; a_in_game: BOOLEAN)
+		-- Initialize `Current' from `a_window', `a_key_binding', `a_difficulty' and `a_in_game'
 		local
 			l_ticks, l_deltatime: INTEGER
 			l_event: EVENT_HANDLER
@@ -138,17 +143,30 @@ feature {NONE} -- Initialization
 
 feature -- Status
 
-	start_game, is_server, textbox_focus, in_game: BOOLEAN
+	start_game: BOOLEAN
+		-- True if the game is ready to start
+
+	is_server: BOOLEAN
+		-- True if the player is hosting
+
+	textbox_focus: BOOLEAN
+		-- True if the textbox is focused
+
+	in_game: BOOLEAN
+		-- True if the option menu is open while in a game
 
 feature -- Access
 
 	difficulty: INTEGER
+		-- Difficulty of the game
 
 feature {NONE} -- Implementation
 
 	descriptions: LINKED_LIST [TEXT]
+		-- Description of each options
 
 	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
+		-- Manage keyboard keys using `a_key' and `a_state'
 		do
 			if not textbox_focus then
 				if a_state then
@@ -167,6 +185,7 @@ feature {NONE} -- Implementation
 		end
 
 	click_button (a_button: INTEGER)
+		-- Click actions from `a_button'
 		do
 			if a_button = 1 then
 				if attached {KEYS_ARROWS} key_binding then

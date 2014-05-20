@@ -1,8 +1,12 @@
 note
-	description: "Summary description for {OVERLAY_SCREEN}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description : "[
+						War of Raekidion - The overlay screen
+						The {OVERLAY_SCREEN} is used to give options to a player while
+						playing the game such as quitting or accessing the {OPTIONS_SCREEN}.
+					]"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
 
 class
 	OVERLAY_SCREEN
@@ -20,6 +24,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_window: WINDOW; a_key_binding: KEYS; a_is_return_key_pressed: BOOLEAN; a_title, a_description, a_comment: STRING; a_resume_disabled: BOOLEAN; a_difficulty: INTEGER)
+		-- Initialize `Current' from `a_window', `a_key_binding', `a_is_return_key_pressed', `a_title', `a_description', `a_comment', `a_resume_disabled' and `a_difficulty'
 		local
 			l_ticks, l_deltatime: INTEGER
 			l_event: EVENT_HANDLER
@@ -101,11 +106,16 @@ feature {NONE} -- Initialization
 
 feature -- Status
 
-	resume_disabled, options: BOOLEAN
+	resume_disabled: BOOLEAN
+		-- True if the resume capabilities must be disabled
+
+	options: BOOLEAN
+		-- True if the option screen must display
 
 feature {NONE} -- Implementation
 
 	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
+		-- Manage keyboard keys using `a_key' and `a_state'
 		do
 			if a_state then
 				if a_key = key_binding.return_key and not is_return_key_pressed then
@@ -122,6 +132,7 @@ feature {NONE} -- Implementation
 		end
 
 	click_button (a_button: INTEGER)
+		-- Click actions from `a_button'
 		do
 			if not resume_disabled then
 				if a_button = 1 then

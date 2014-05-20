@@ -14,8 +14,10 @@ inherit
 feature -- Access
 
 	key_binding: KEYS
+		-- Current key binding
 
 	update
+		-- Update content of the screen
 		do
 			from
 				buttons.start
@@ -31,17 +33,40 @@ feature -- Access
 
 feature -- Status
 
-	must_quit, must_close, must_end, is_return_key_pressed, mouse_button_down: BOOLEAN
+	must_quit: BOOLEAN
+		-- True if the screen must quit
+
+	must_close: BOOLEAN
+		-- True if the screen must close
+
+	must_end: BOOLEAN
+		-- True if the game must end
+
+	is_return_key_pressed: BOOLEAN
+		-- True if the return key is pressed
+
+	mouse_button_down: BOOLEAN
+		-- True if a mouse button is down
 
 feature {NONE} -- Implementation
 
 	window: WINDOW
+		-- Window object to use
+
 	buttons: LINKED_LIST [BUTTON]
+		-- List of buttons
+
 	button_index: INTEGER
+		-- Current active button from `buttons'
+
 	selection: detachable BUTTON
+		-- Selected button
+
 	version: TEXT
+		-- Game version
 
 	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
+		-- Manage keyboard keys using `a_key' and `a_state'
 		do
 			if a_state then
 				if a_key = key_binding.move_up_key then
@@ -79,6 +104,7 @@ feature {NONE} -- Implementation
 		end
 
 	manage_mouse (a_x, a_y: INTEGER)
+		-- Manage button appearance using the mouse position `a_x' and `a_y'
 		do
 			from
 				buttons.start
@@ -97,6 +123,7 @@ feature {NONE} -- Implementation
 		end
 
 	manage_click (a_button: NATURAL_32; a_x, a_y: INTEGER; a_state: BOOLEAN)
+		-- Manage mouse clicks using `a_button', `a_x', `a_y' and `a_state'
 		do
 			if a_state then
 				from
@@ -128,6 +155,7 @@ feature {NONE} -- Implementation
 		end
 
 	click_button (a_button: INTEGER)
+		-- Click actions from `a_button'
 		do
 		end
 

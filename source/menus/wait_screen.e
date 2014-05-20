@@ -25,6 +25,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_window: WINDOW; a_key_binding: KEYS; a_is_server: BOOLEAN; a_difficulty: INTEGER; a_server: STRING)
+		-- Initialize `Current' from `a_window', `a_key_binding', `a_is_server', `a_difficulty' and `a_server'
 		local
 			l_address, waiting_text: STRING
 			l_frames, l_ticks, l_deltatime: INTEGER
@@ -136,11 +137,16 @@ feature {NONE} -- Initialization
 
 feature -- Status
 
-	hosting, connection_error: BOOLEAN
+	hosting: BOOLEAN
+		-- True if the player is hosting the session
+
+	connection_error: BOOLEAN
+		-- True if there is any connection error
 
 feature {NONE} -- Implementation
 
 	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
+		-- Manage keyboard keys using `a_key' and `a_state'
 		do
 			if a_state then
 				if a_key = key_binding.return_key and not is_return_key_pressed then
@@ -157,6 +163,7 @@ feature {NONE} -- Implementation
 		end
 
 	click_button (a_button: INTEGER)
+		-- Click actions from `a_button'
 		do
 			if a_button = 1 then
 				must_close := true

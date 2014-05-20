@@ -1,8 +1,12 @@
 note
-	description: "Summary description for {TITLE_SCREEN}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description : "[
+						War of Raekidion - The title screen
+						The {TITLE_SCREEN} gives the user the choice to either play
+						alone or online, access the options or quit the game.
+					]"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
 
 class
 	TITLE_SCREEN
@@ -21,6 +25,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_window: WINDOW; a_debug: BOOLEAN)
+		-- Initialize `Current' from `a_window' and `a_debug'
 		local
 			l_ticks, l_deltatime: INTEGER
 			l_event: EVENT_HANDLER
@@ -30,9 +35,9 @@ feature {NONE} -- Initialization
 			l_splash: SPLASH_SCREEN
 		do
 			collection_on
+			create l_splash.make ("splash", window)
 			debug_on := a_debug
 			window := a_window
-			create l_splash.make ("splash", window)
 			create l_event.make (window)
 			must_quit := false
 			l_event.on_key_pressed.extend (agent manage_key)
@@ -119,13 +124,25 @@ feature {NONE} -- Initialization
 
 feature -- Status
 
-	start_game, multiplayer, options, debug_on: BOOLEAN
+	start_game: BOOLEAN
+		-- True if the game is ready to start
+
+	multiplayer: BOOLEAN
+		-- True if the multiplayer lobby screen must display
+
+	options: BOOLEAN
+		-- True if the option screen must display
+
+	debug_on: BOOLEAN
+		-- True if debug functionnalities are activated
 
 feature {NONE} -- Implementation
 
 	difficulty: INTEGER
+		-- Difficulty of the game
 
 	manage_key (a_key: INTEGER; a_state: BOOLEAN)
+		-- Manage keyboard keys using `a_key' and `a_state'
 		do
 			if a_state then
 				if a_key = key_binding.return_key and not is_return_key_pressed then
@@ -142,6 +159,7 @@ feature {NONE} -- Implementation
 		end
 
 	click_button (a_button: INTEGER)
+		-- Click actions from `a_button'
 		do
 			if a_button = 1 then
 				multiplayer := false
