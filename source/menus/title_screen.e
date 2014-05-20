@@ -1,8 +1,12 @@
 note
-	description: "Summary description for {TITLE_SCREEN}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description : "[
+						War of Raekidion - The title screen
+						The {TITLE_SCREEN} gives the user the choice to either play
+						alone or online, access the options or quit the game.
+					]"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
 
 class
 	TITLE_SCREEN
@@ -136,6 +140,7 @@ feature {NONE} -- Implementation
 		-- Difficulty of the game
 
 	manage_key (a_key: INTEGER; a_state: BOOLEAN)
+		-- Manage keyboard keys using `a_key' and `a_state'
 		do
 			if a_state then
 				if a_key = key_binding.return_key and not is_return_key_pressed then
@@ -152,6 +157,7 @@ feature {NONE} -- Implementation
 		end
 
 	click_button (a_button: INTEGER)
+		-- Click actions from `a_button'
 		do
 			if a_button = 1 then
 				multiplayer := false

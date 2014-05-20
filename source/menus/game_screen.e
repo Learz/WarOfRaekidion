@@ -1,8 +1,12 @@
 note
-	description: "Summary description for {GAME_SCREEN}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description : "[
+						War of Raekidion - The game screen
+						The {GAME_SCREEN} is the main screen of the game, containing all player
+						and ennemy actions as well as the use of the network capabilities.
+					]"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
 
 class
 	GAME_SCREEN

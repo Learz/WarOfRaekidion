@@ -1,8 +1,12 @@
 note
-	description: "Summary description for {LOBBY_SCREEN}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description : "[
+						War of Raekidion - The lobby screen
+						The {LOBBY_SCREEN} serves as a menu to choose whether the player hosts 
+						or connect to someone by putting the IP adress in the textbox.
+					]"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
 
 class
 	LOBBY_SCREEN
@@ -133,6 +137,7 @@ feature {NONE} -- Implementation
 		end
 
 	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
+		-- Manage keyboard keys using `a_key' and `a_state'
 		do
 			if not textbox_focus then
 				if a_state then
@@ -151,6 +156,7 @@ feature {NONE} -- Implementation
 		end
 
 	manage_click (a_button: NATURAL_32; a_x, a_y: INTEGER; a_state: BOOLEAN)
+		-- Manage mouse clicks using `a_button', `a_x', `a_y' and `a_state'
 		do
 			if a_state then
 				if (a_x >= textbox.x and a_x <= textbox.x + textbox.width)
@@ -167,6 +173,7 @@ feature {NONE} -- Implementation
 		end
 
 	click_button (a_button: INTEGER)
+		-- Click actions from `a_button'
 		do
 				if a_button = 1 then
 					if textbox.char_string.count > 0 then

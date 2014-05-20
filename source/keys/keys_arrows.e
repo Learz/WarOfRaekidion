@@ -1,8 +1,11 @@
 note
-	description: "Summary description for {KEYS_ARROWS}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description : "[
+						War of Raekidion - {KEYS_ARROWS} class
+						Arcade styled key scheme using the arrow keys for movement
+					]"
+	author		: ""
+	date		: "$Date$"
+	revision	: "$Revision$"
 
 class
 	KEYS_ARROWS

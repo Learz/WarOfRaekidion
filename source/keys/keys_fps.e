@@ -1,8 +1,11 @@
 note
-	description: "Summary description for {KEYS_FPS}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description : "[
+						War of Raekidion - {KEYS_FPS} class
+						First person shooter styled key scheme using w,a,s and d for movement
+					]"
+	author		: ""
+	date		: "$Date$"
+	revision	: "$Revision$"
 
 class
 	KEYS_FPS

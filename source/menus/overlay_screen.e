@@ -1,8 +1,12 @@
 note
-	description: "Summary description for {OVERLAY_SCREEN}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description : "[
+						War of Raekidion - The overlay screen
+						The {OVERLAY_SCREEN} is used to give options to a player while
+						playing the game such as quitting or accessing the {OPTIONS_SCREEN}.
+					]"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date$"
+	revision	: "$Revision$"
 
 class
 	OVERLAY_SCREEN
@@ -111,6 +115,7 @@ feature -- Status
 feature {NONE} -- Implementation
 
 	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
+		-- Manage keyboard keys using `a_key' and `a_state'
 		do
 			if a_state then
 				if a_key = key_binding.return_key and not is_return_key_pressed then
@@ -127,6 +132,7 @@ feature {NONE} -- Implementation
 		end
 
 	click_button (a_button: INTEGER)
+		-- Click actions from `a_button'
 		do
 			if not resume_disabled then
 				if a_button = 1 then

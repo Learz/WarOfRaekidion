@@ -1,5 +1,8 @@
 note
-	description : "War of Raekidion - {KEYS} class"
+	description : "[
+						War of Raekidion - {KEYS} class
+						Interface representing all possible keys used in the game
+					]"
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
 	date		: "$Date$"
 	revision	: "$Revision$"
