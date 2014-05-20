@@ -36,7 +36,11 @@ feature {NONE} -- Initialization
 			collection_on
 			debug_on := a_debug
 			window := a_window
-			create l_splash.make ("splash", window)
+
+			if not debug_on then
+				create l_splash.make ("splash", window)
+			end
+
 			create l_event.make (window)
 			must_quit := false
 			l_event.on_key_pressed.extend (agent manage_key)
@@ -50,15 +54,16 @@ feature {NONE} -- Initialization
 			version.set_y (version.y - version.height)
 			create l_background.make ("title_background", window, 0, 0, 0)
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 150, "Singleplayer"))
+			buttons.extend (create {BUTTON}.make ("button", window, 100, 190, "Multiplayer"))
 
 			if debug_on then
-				buttons.extend (create {BUTTON}.make ("button", window, 100, 200, "Multiplayer"))
+				buttons.extend (create {BUTTON}.make ("button", window, 100, 230, "Highscores"))
 			else
-				buttons.extend (create {BUTTON}.make ("disabled_button", window, 100, 200, ""))
+				buttons.extend (create {BUTTON}.make ("disabled_button", window, 100, 230, ""))
 			end
 
-			buttons.extend (create {BUTTON}.make ("button", window, 100, 250, "Options"))
-			buttons.extend (create {BUTTON}.make ("button", window, 100, 300, "Quit"))
+			buttons.extend (create {BUTTON}.make ("button", window, 100, 270, "Options"))
+			buttons.extend (create {BUTTON}.make ("button", window, 100, 310, "Quit"))
 			selection := buttons.first
 			button_index := 1
 			stop_music
@@ -100,6 +105,14 @@ feature {NONE} -- Initialization
 					is_return_key_pressed := l_screen.is_return_key_pressed
 				end
 
+				if highscores then
+					l_screen := create {HIGHSCORE_SCREEN}.make (window, key_binding, difficulty)
+					must_quit := l_screen.must_quit
+					key_binding := l_screen.key_binding
+					is_return_key_pressed := l_screen.is_return_key_pressed
+					highscores := false
+				end
+
 				if options then
 					l_screen := create {OPTIONS_SCREEN}.make (window, key_binding, difficulty, false)
 					must_quit := l_screen.must_quit
@@ -128,6 +141,9 @@ feature -- Status
 
 	multiplayer: BOOLEAN
 		-- True if the multiplayer lobby screen must display
+
+	highscores: BOOLEAN
+		-- True if the highscores screen must display
 
 	options: BOOLEAN
 		-- True if the option screen must display
@@ -164,13 +180,15 @@ feature {NONE} -- Implementation
 				multiplayer := false
 				start_game := true
 			elseif a_button = 2 then
-				if debug_on then
-					multiplayer := true
-					start_game := true
-				end
+				multiplayer := true
+				start_game := true
 			elseif a_button = 3 then
-				options := true
+				if debug_on then
+					highscores := true
+				end
 			elseif a_button = 4 then
+				options := true
+			elseif a_button = 5 then
 				must_quit := true
 			end
 		end

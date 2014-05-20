@@ -149,7 +149,7 @@ feature -- Status
 	is_server: BOOLEAN
 		-- True if the player is hosting
 
-	textbox_focus: BOOLEAN
+	--textbox_focus: BOOLEAN
 		-- True if the textbox is focused
 
 	in_game: BOOLEAN
@@ -168,20 +168,18 @@ feature {NONE} -- Implementation
 	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
 		-- Manage keyboard keys using `a_key' and `a_state'
 		do
-			if not textbox_focus then
-				if a_state then
-					if a_key = key_binding.return_key and not is_return_key_pressed then
-						is_return_key_pressed := true
-						must_close := true
-					end
-				else
-					if a_key = key_binding.return_key and is_return_key_pressed then
-						is_return_key_pressed := false
-					end
+			if a_state then
+				if a_key = key_binding.return_key and not is_return_key_pressed then
+					is_return_key_pressed := true
+					must_close := true
 				end
-
-				precursor {SCREEN} (a_key, a_state)
+			else
+				if a_key = key_binding.return_key and is_return_key_pressed then
+					is_return_key_pressed := false
+				end
 			end
+
+			precursor {SCREEN} (a_key, a_state)
 		end
 
 	click_button (a_button: INTEGER)

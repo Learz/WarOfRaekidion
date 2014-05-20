@@ -31,7 +31,7 @@ feature {NONE} -- Implementation
 	pixel_ratio: DOUBLE = 1.5
 			-- The window's default scale
 
-	debug_mode: BOOLEAN = true
+	debug_mode: BOOLEAN
 			-- Are some restricted games functionnalities enabled anyway?
 
 feature {NONE} -- Initialization
@@ -43,9 +43,9 @@ feature {NONE} -- Initialization
 			l_title_screen: TITLE_SCREEN
 			l_event: EVENT_HANDLER
 		do
---			if attached separate_character_option_value ('d') as la_parameter then
---				debug_mode := true
---			end
+			if attached separate_character_option_value ('d') as la_parameter then
+				debug_mode := true
+			end
 
 			{SDL}.sdl_init_noreturn ({SDL}.sdl_init_video_timer_audio)
 			{SDL_TTF}.ttf_init_noreturn

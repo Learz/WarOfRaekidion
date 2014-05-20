@@ -29,6 +29,8 @@ feature {NONE} -- Initialization
 			l_ticks, l_deltatime: INTEGER
 			l_event: EVENT_HANDLER
 			l_title, l_description, l_comment: TEXT
+			l_highscore: detachable TEXT
+			l_textbox: detachable TEXTBOX
 			l_screen: SCREEN
 			l_screenshot: SCREENSHOT
 		do
@@ -56,8 +58,11 @@ feature {NONE} -- Initialization
 			else
 				stop_music
 				play_music ("spooky", -1)
-				buttons.extend (create {BUTTON}.make ("button", window, 100, 200, "End game"))
-				buttons.extend (create {BUTTON}.make ("button", window, 100, 250, "Quit"))
+				create l_highscore.make_centered ("Highscore", 10, window, 0, 160, window.width, 0, [255, 255, 255], true)
+				create l_textbox.make ("small_textbox", window, 100, 175)
+				buttons.extend (create {BUTTON}.make ("small_button", window, 160, 175, "Save"))
+				buttons.extend (create {BUTTON}.make ("button", window, 100, 225, "End game"))
+				buttons.extend (create {BUTTON}.make ("button", window, 100, 275, "Quit"))
 			end
 
 			selection := buttons.first
@@ -85,6 +90,15 @@ feature {NONE} -- Initialization
 				l_title.update
 				l_description.update
 				l_comment.update
+
+				if attached l_highscore as la_highscore then
+					la_highscore.update
+				end
+
+				if attached l_textbox as la_textbox then
+					la_textbox.update
+				end
+
 				update
 				window.render
 
@@ -145,9 +159,9 @@ feature {NONE} -- Implementation
 					must_quit := true
 				end
 			else
-				if a_button = 1 then
+				if a_button = 2 then
 					must_end := true
-				elseif a_button = 2 then
+				elseif a_button = 3 then
 					must_quit := true
 				end
 			end
