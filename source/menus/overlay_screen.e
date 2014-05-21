@@ -12,6 +12,10 @@ class
 	OVERLAY_SCREEN
 
 inherit
+	HIGHSCORE
+		rename
+			make as highscore_make
+		end
 	SCREEN
 		redefine
 			manage_key,
@@ -23,24 +27,27 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_key_binding: KEYS; a_is_return_key_pressed: BOOLEAN; a_title, a_description, a_comment: STRING; a_resume_disabled: BOOLEAN; a_difficulty: INTEGER)
-		-- Initialize `Current' from `a_window', `a_key_binding', `a_is_return_key_pressed', `a_title', `a_description', `a_comment', `a_resume_disabled' and `a_difficulty'
+	make (a_window: WINDOW; a_key_binding: KEYS; a_is_return_key_pressed: BOOLEAN; a_title, a_description, a_comment: STRING; a_resume_disabled, a_debug: BOOLEAN; a_difficulty, a_score: INTEGER)
+		-- Initialize `Current' from `a_window', `a_key_binding', `a_is_return_key_pressed', `a_title', `a_description', `a_comment', `a_resume_disabled', `a_debug' and `a_difficulty'
 		local
 			l_ticks, l_deltatime: INTEGER
 			l_event: EVENT_HANDLER
 			l_title, l_description, l_comment: TEXT
 			l_highscore: detachable TEXT
-			l_textbox: detachable TEXTBOX
 			l_screen: SCREEN
 			l_screenshot: SCREENSHOT
 		do
 			collection_on
+			highscore_make
 			create buttons.make
 			window := a_window
 			create l_event.make (window)
 			key_binding := a_key_binding
 			must_quit := false
+			debug_on := a_debug
+			score := a_score
 			is_return_key_pressed := a_is_return_key_pressed
+			l_event.on_typing.extend (agent manage_typing)
 			l_event.on_key_pressed.extend (agent manage_key)
 			l_event.on_mouse_moved.extend (agent manage_mouse)
 			l_event.on_mouse_pressed.extend (agent manage_click)
@@ -58,11 +65,17 @@ feature {NONE} -- Initialization
 			else
 				stop_music
 				play_music ("spooky", -1)
-				create l_highscore.make_centered ("Highscore", 10, window, 0, 160, window.width, 0, [255, 255, 255], true)
-				create l_textbox.make ("small_textbox", window, 100, 175)
-				buttons.extend (create {BUTTON}.make ("small_button", window, 160, 175, "Save"))
-				buttons.extend (create {BUTTON}.make ("button", window, 100, 225, "End game"))
-				buttons.extend (create {BUTTON}.make ("button", window, 100, 275, "Quit"))
+
+				if debug_on then
+					create l_highscore.make_centered ("Highscore", 10, window, 0, 160, window.width, 0, [255, 255, 255], true)
+					create textbox.make ("small_textbox", window, 100, 175)
+					buttons.extend (create {BUTTON}.make ("small_button", window, 160, 175, "Save"))
+					buttons.extend (create {BUTTON}.make ("button", window, 100, 225, "End game"))
+					buttons.extend (create {BUTTON}.make ("button", window, 100, 275, "Quit"))
+				else
+					buttons.extend (create {BUTTON}.make ("button", window, 100, 200, "End game"))
+					buttons.extend (create {BUTTON}.make ("button", window, 100, 250, "Quit"))
+				end
 			end
 
 			selection := buttons.first
@@ -95,7 +108,7 @@ feature {NONE} -- Initialization
 					la_highscore.update
 				end
 
-				if attached l_textbox as la_textbox then
+				if attached textbox as la_textbox then
 					la_textbox.update
 				end
 
@@ -126,7 +139,33 @@ feature -- Status
 	options: BOOLEAN
 		-- True if the option screen must display
 
+	textbox_focus: BOOLEAN
+		-- True if the textbox is clicked
+
 feature {NONE} -- Implementation
+
+	textbox: detachable TEXTBOX
+		-- Textbox object for player name
+
+	score: INTEGER
+		-- The points scored throughout the game
+
+	manage_typing (a_key: STRING)
+		-- Manage keyboard characters if the textbox is focused
+		do
+			if attached textbox as la_textbox and then textbox_focus then
+				if a_key.count = 1 then
+					if
+						(a_key.at (1) >= 'A' and a_key.at (1) <= 'Z') or
+						(a_key.at (1) >= '0' and a_key.at (1) <= '9')
+					then
+						la_textbox.char_string.append_character (a_key.at (1))
+					end
+				elseif a_key.is_equal ("Backspace") then
+					la_textbox.char_string.remove_tail (1)
+				end
+			end
+		end
 
 	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
 		-- Manage keyboard keys using `a_key' and `a_state'
@@ -158,10 +197,20 @@ feature {NONE} -- Implementation
 				elseif a_button = 4 then
 					must_quit := true
 				end
-			else
+			elseif debug_on then
 				if a_button = 2 then
+					if attached textbox as la_textbox then
+						set_highscore (la_textbox.char_string, score)
+					end
+				elseif a_button = 2 then
 					must_end := true
 				elseif a_button = 3 then
+					must_quit := true
+				end
+			else
+				if a_button = 1 then
+					must_end := true
+				elseif a_button = 2 then
 					must_quit := true
 				end
 			end

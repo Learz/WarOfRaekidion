@@ -107,8 +107,8 @@ feature {NONE} -- Initialization
 				window.render
 
 				if l_network.is_init then
---					l_screen := create {GAME_SCREEN}.make (window, key_binding, a_is_server, a_difficulty, l_network)
-					l_screen := create {GAME_SCREEN}.make (window, key_binding, true, 2, l_network)
+--					l_screen := create {GAME_SCREEN}.make (window, key_binding, a_is_server, debug_on, a_difficulty, l_network)
+					l_screen := create {GAME_SCREEN}.make (window, key_binding, true, debug_on, 2, l_network)
 					key_binding := l_screen.key_binding
 					stop_music
 

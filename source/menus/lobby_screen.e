@@ -116,7 +116,7 @@ feature -- Status
 feature {NONE} -- Implementation
 
 	textbox: TEXTBOX
-		-- Textbox object for the IP adress
+		-- Textbox object for the IP address
 
 	manage_typing (a_key: STRING)
 		-- Manage keyboard characters if the textbox is focused

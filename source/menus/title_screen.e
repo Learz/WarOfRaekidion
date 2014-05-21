@@ -94,7 +94,7 @@ feature {NONE} -- Initialization
 					if multiplayer then
 						l_screen := create {LOBBY_SCREEN}.make (window, key_binding, difficulty)
 					else
-						l_screen := create {GAME_SCREEN}.make (window, key_binding, true, difficulty, void)
+						l_screen := create {GAME_SCREEN}.make (window, key_binding, true, debug_on, difficulty, void)
 						stop_music
 						play_music ("quiet", -1)
 					end
@@ -147,9 +147,6 @@ feature -- Status
 
 	options: BOOLEAN
 		-- True if the option screen must display
-
-	debug_on: BOOLEAN
-		-- True if debug functionnalities are activated
 
 feature {NONE} -- Implementation
 

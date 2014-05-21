@@ -48,6 +48,9 @@ feature -- Status
 	mouse_button_down: BOOLEAN
 		-- True if a mouse button is down
 
+	debug_on: BOOLEAN
+		-- True if debug functionalities are activated
+
 feature {NONE} -- Implementation
 
 	window: WINDOW

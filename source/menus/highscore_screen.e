@@ -30,6 +30,8 @@ feature {NONE} -- Initialization
 			l_event: EVENT_HANDLER
 			l_title, l_description: TEXT
 			l_background: BACKGROUND
+			l_highscore_db: HIGHSCORE
+			l_highscores: LINKED_LIST [TUPLE [name: STRING; score: INTEGER]]
 		do
 			collection_on
 			window := a_window
@@ -55,13 +57,18 @@ feature {NONE} -- Initialization
 			create version.make (window.version, 10, window, 3, 397, [64, 64, 96], false)
 			version.set_y (version.y - version.height)
 			create l_background.make ("title_background", window, 0, 0, 0)
-			scores.extend (create {TEXT}.make ("AAA | 1000000", 16, window, 110, 125, [192, 192, 192], true))
-			scores.extend (create {TEXT}.make ("AAA | 500000", 16, window, 110, 150, [192, 192, 192], true))
-			scores.extend (create {TEXT}.make ("AAA | 250000", 16, window, 110, 175, [192, 192, 192], true))
-			scores.extend (create {TEXT}.make ("AAA | 100000", 16, window, 110, 200, [192, 192, 192], true))
-			scores.extend (create {TEXT}.make ("BNR | 82347", 16, window, 110, 225, [192, 192, 192], true))
-			scores.extend (create {TEXT}.make ("AAA | 50000", 16, window, 110, 250, [192, 192, 192], true))
-			scores.extend (create {TEXT}.make ("AAA | 10000", 16, window, 110, 275, [192, 192, 192], true))
+			create l_highscore_db.make
+			l_highscores := l_highscore_db.highscores (6)
+
+			from
+				l_highscores.start
+			until
+				l_highscores.exhausted
+			loop
+				scores.extend (create {TEXT}.make (l_highscores.item.name+" | "+l_highscores.item.score.out, 16, window, 110, 100+(25*l_highscores.index), [192, 192, 192], true))
+				l_highscores.forth
+			end
+
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 310, "Back"))
 			selection := buttons.first
 			button_index := 1
