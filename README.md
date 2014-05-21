@@ -127,5 +127,5 @@ Enjoy!
 [4]:  http://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.0.0-mingw.tar.gz
 [5]:  http://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-devel-2.0.12-mingw.tar.gz
 [6]:  http://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-devel-2.0.0-mingw.tar.gz
-[7]:  http://www.raekidion.sml.name/sqlite3_winfix.7z
+[7]:  http://www.raekidion.sml.name/files/sqlite3_winfix.7z
 [8]:  http://www.github.com/tioui
