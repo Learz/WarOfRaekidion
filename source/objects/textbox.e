@@ -15,7 +15,9 @@ inherit
 	SPRITE
 		redefine
 			make,
-			update
+			update,
+			hide,
+			show
 		end
 
 create
@@ -48,6 +50,22 @@ feature -- Access
 			end
 
 			text.update
+		end
+
+feature -- Element change
+
+	hide
+		-- Make `Current' disapear on screen
+		do
+			text.hide
+			Precursor {SPRITE}
+		end
+
+	show
+		-- Make `Current' visible on screen
+		do
+			text.show
+			Precursor {SPRITE}
 		end
 
 feature {NONE} -- Implementation

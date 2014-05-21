@@ -16,7 +16,9 @@ inherit
 		rename
 			make as sprite_make
 		redefine
-			update
+			update,
+			hide,
+			show
 		end
 
 create
@@ -42,6 +44,20 @@ feature -- Access
 
 feature -- Element change
 
+	hide
+		-- Make `Current' disapear on screen
+		do
+			text.hide
+			Precursor {SPRITE}
+		end
+
+	show
+		-- Make `Current' visible on screen
+		do
+			text.show
+			Precursor {SPRITE}
+		end
+
 	recenter
 		-- Replaces the text in the center
 		do
@@ -52,6 +68,13 @@ feature -- Element change
 		-- Replaces the text with `a_text'
 		do
 			text.set_text (a_text, text.size)
+		end
+
+	set_type (a_image, a_text: STRING)
+		-- Changes the button image and text entirely
+		do
+			default_image := a_image
+			set_text (a_text)
 		end
 
 feature {NONE} -- Implementation

@@ -8,7 +8,7 @@ class
 	HIGHSCORE
 
 inherit
-	DATABASE_CONNECT
+	DATABASE_MANAGER_SHARED
 
 create
 	make
@@ -20,6 +20,10 @@ feature {NONE} -- Initialization
 		do
 			database := connexion.database
 			create highscores_list.make
+
+			if highscores (1).count = 0 then
+				fill_default_highscores
+			end
 		end
 
 feature -- Access
@@ -30,7 +34,7 @@ feature -- Access
 			l_query: SQLITE_QUERY_STATEMENT
 		do
 			highscores_list.wipe_out
-			create l_query.make ("SELECT name, score FROM scores ORDER BY score LIMIT ?1;", database)
+			create l_query.make ("SELECT name, score FROM scores ORDER BY score DESC LIMIT ?1;", database)
 			check l_query_is_compiled: l_query.is_compiled end
 			l_query.execute_with_arguments (agent fill_highscores, [a_number])
 			Result := highscores_list
@@ -49,6 +53,19 @@ feature -- Element change
 			l_insert.execute_with_arguments ([a_name, a_score])
 			database.commit
 		end
+
+	fill_default_highscores
+		-- Add default scores to `database'
+		do
+			set_highscore ("AAA", 500000)
+			set_highscore ("AAA", 250000)
+			set_highscore ("AAA", 100000)
+			set_highscore ("AAA", 50000)
+			set_highscore ("AAA", 25000)
+			set_highscore ("AAA", 10000)
+			set_highscore ("AAA", 5000)
+		end
+
 
 feature {NONE} -- Implementation
 

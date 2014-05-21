@@ -58,7 +58,7 @@ feature {NONE} -- Initialization
 			version.set_y (version.y - version.height)
 			create l_background.make ("title_background", window, 0, 0, 0)
 			create l_highscore_db.make
-			l_highscores := l_highscore_db.highscores (6)
+			l_highscores := l_highscore_db.highscores (7)
 
 			from
 				l_highscores.start

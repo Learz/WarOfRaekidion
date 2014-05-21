@@ -32,15 +32,24 @@ feature {NONE} -- Initialization
 			l_background: BACKGROUND
 			l_screen: SCREEN
 			l_splash: SPLASH_SCREEN
+			l_resources: RESOURCE_LOAD
 		do
 			collection_on
 			debug_on := a_debug
 			window := a_window
+			create l_resources.make
 
 			if not debug_on then
 				create l_splash.make ("splash", window)
 			end
 
+			from
+			until
+				l_resources.must_quit
+			loop
+			end
+
+			l_resources.join
 			create l_event.make (window)
 			must_quit := false
 			l_event.on_key_pressed.extend (agent manage_key)

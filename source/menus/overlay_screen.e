@@ -19,6 +19,7 @@ inherit
 	SCREEN
 		redefine
 			manage_key,
+			manage_click,
 			click_button
 		end
 
@@ -33,7 +34,6 @@ feature {NONE} -- Initialization
 			l_ticks, l_deltatime: INTEGER
 			l_event: EVENT_HANDLER
 			l_title, l_description, l_comment: TEXT
-			l_highscore: detachable TEXT
 			l_screen: SCREEN
 			l_screenshot: SCREENSHOT
 		do
@@ -67,7 +67,7 @@ feature {NONE} -- Initialization
 				play_music ("spooky", -1)
 
 				if debug_on then
-					create l_highscore.make_centered ("Highscore", 10, window, 0, 160, window.width, 0, [255, 255, 255], true)
+					create highscore.make_centered ("Highscore", 10, window, 0, 160, window.width, 0, [255, 255, 255], true)
 					create textbox.make ("small_textbox", window, 100, 175)
 					buttons.extend (create {BUTTON}.make ("small_button", window, 160, 175, "Save"))
 					buttons.extend (create {BUTTON}.make ("button", window, 100, 225, "End game"))
@@ -104,7 +104,7 @@ feature {NONE} -- Initialization
 				l_description.update
 				l_comment.update
 
-				if attached l_highscore as la_highscore then
+				if attached highscore as la_highscore then
 					la_highscore.update
 				end
 
@@ -142,7 +142,13 @@ feature -- Status
 	textbox_focus: BOOLEAN
 		-- True if the textbox is clicked
 
+	highscore_set: BOOLEAN
+		-- True if the highscore has been saved
+
 feature {NONE} -- Implementation
+
+	highscore: detachable TEXT
+		-- Text for the highscore description
 
 	textbox: detachable TEXTBOX
 		-- Textbox object for player name
@@ -153,8 +159,8 @@ feature {NONE} -- Implementation
 	manage_typing (a_key: STRING)
 		-- Manage keyboard characters if the textbox is focused
 		do
-			if attached textbox as la_textbox and then textbox_focus then
-				if a_key.count = 1 then
+			if attached textbox as la_textbox and textbox_focus then
+				if a_key.count = 1 and la_textbox.char_string.count < 3 then
 					if
 						(a_key.at (1) >= 'A' and a_key.at (1) <= 'Z') or
 						(a_key.at (1) >= '0' and a_key.at (1) <= '9')
@@ -170,18 +176,37 @@ feature {NONE} -- Implementation
 	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
 		-- Manage keyboard keys using `a_key' and `a_state'
 		do
-			if a_state then
-				if a_key = key_binding.return_key and not is_return_key_pressed then
-					is_return_key_pressed := true
-					must_close := true
+			if not textbox_focus then
+				if a_state then
+					if a_key = key_binding.return_key and not is_return_key_pressed then
+						is_return_key_pressed := true
+						must_close := true
+					end
+				else
+					if a_key = key_binding.return_key and is_return_key_pressed then
+						is_return_key_pressed := false
+					end
 				end
-			else
-				if a_key = key_binding.return_key and is_return_key_pressed then
-					is_return_key_pressed := false
+
+				precursor {SCREEN} (a_key, a_state)
+			end
+		end
+
+	manage_click (a_button: NATURAL_32; a_x, a_y: INTEGER; a_state: BOOLEAN)
+		-- Manage mouse clicks using `a_button', `a_x', `a_y' and `a_state'
+		do
+			if attached textbox as la_textbox and a_state then
+				if (a_x >= la_textbox.x and a_x <= la_textbox.x + la_textbox.width)
+				and (a_y >= la_textbox.y and a_y <= la_textbox.y + la_textbox.height) then
+					textbox_focus := true
+					la_textbox.set_image (la_textbox.default_image + "_pressed")
+				else
+					textbox_focus := false
+					la_textbox.reset_image
 				end
 			end
 
-			precursor {SCREEN} (a_key, a_state)
+			precursor {SCREEN} (a_button, a_x, a_y, a_state)
 		end
 
 	click_button (a_button: INTEGER)
@@ -198,14 +223,21 @@ feature {NONE} -- Implementation
 					must_quit := true
 				end
 			elseif debug_on then
-				if a_button = 2 then
-					if attached textbox as la_textbox then
-						set_highscore (la_textbox.char_string, score)
+				if attached textbox as la_textbox and then attached highscore as la_highscore and then la_textbox.char_string.count = 3 then
+					if a_button = 1 then
+						if not highscore_set then
+							la_textbox.hide
+							buttons.at (1).hide
+							la_highscore.set_text ("Highscore saved!", 16)
+							la_highscore.recenter
+							set_highscore (la_textbox.char_string, score)
+							highscore_set := True
+						end
+					elseif a_button = 2 then
+						must_end := true
+					elseif a_button = 3 then
+						must_quit := true
 					end
-				elseif a_button = 2 then
-					must_end := true
-				elseif a_button = 3 then
-					must_quit := true
 				end
 			else
 				if a_button = 1 then
