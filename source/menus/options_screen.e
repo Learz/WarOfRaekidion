@@ -23,7 +23,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_key_binding: KEYS; a_difficulty: INTEGER; a_in_game: BOOLEAN)
+	make (a_window: WINDOW; a_key_binding: KEYS; a_difficulty: INTEGER; a_in_game, a_debug: BOOLEAN)
 		-- Initialize `Current' from `a_window', `a_key_binding', `a_difficulty' and `a_in_game'
 		local
 			l_ticks, l_deltatime: INTEGER
@@ -32,6 +32,7 @@ feature {NONE} -- Initialization
 			l_background: BACKGROUND
 		do
 			collection_on
+			debug_on := a_debug
 			window := a_window
 			create l_event.make (window)
 			must_quit := false

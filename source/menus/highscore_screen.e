@@ -23,7 +23,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_key_binding: KEYS; a_difficulty: INTEGER)
+	make (a_window: WINDOW; a_key_binding: KEYS; a_difficulty: INTEGER; a_debug: BOOLEAN)
 		-- Initialize `Current' from `a_window', `a_key_binding' and `a_difficulty'
 		local
 			l_ticks, l_deltatime: INTEGER
@@ -34,6 +34,7 @@ feature {NONE} -- Initialization
 			l_highscores: LINKED_LIST [TUPLE [name: STRING; score: INTEGER]]
 		do
 			collection_on
+			debug_on := a_debug
 			window := a_window
 			create l_event.make (window)
 			must_quit := false

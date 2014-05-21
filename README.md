@@ -92,6 +92,15 @@ All these files go into
 	War of Raekidion\SDL2_mixer.dll
 	War of Raekidion\SDL2_ttf.dll
 	War of Raekidion\zlib1.dll
+	
+Finally, you will need a patch to make SQLite3 work on Windows with mingw. The patch can 
+be downloaded here:
+
+- [**SQLite3 Windows Fix**][7]
+
+The folder must be extracted into your Eiffel Studio installation folder, normally:
+
+	C:\Program Files\Eiffel Software\EiffelStudio 13.11 GPL\<SQLITE3 FIX FOLDER>
 
 ### Installing on Linux (Debian)
 
@@ -103,7 +112,7 @@ or the latest Ubuntu version (currently Trusty Tahr) repositories:
 Final words
 -----------
 
-We would like to thank our teacher, Louis (GitHub: [**tioui**][7]), for teaching us 
+We would like to thank our teacher, Louis (GitHub: [**tioui**][8]), for teaching us 
 Eiffel and Object Oriented Programming. Also, this project could not have been 
 possible without all the team behind SDL and SDL2.
 
@@ -118,4 +127,5 @@ Enjoy!
 [4]:  http://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.0.0-mingw.tar.gz
 [5]:  http://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-devel-2.0.12-mingw.tar.gz
 [6]:  http://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-devel-2.0.0-mingw.tar.gz
-[7]:  http://www.github.com/tioui
+[7]:  http://www.raekidion.sml.name/sqlite3_winfix.7z
+[8]:  http://www.github.com/tioui

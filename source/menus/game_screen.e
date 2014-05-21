@@ -36,8 +36,8 @@ feature {NONE} -- Initialization
 			l_pause_menu: SCREEN
 		do
 			collection_on
-			window := a_window
 			debug_on := a_debug
+			window := a_window
 			key_binding := a_key_binding
 			must_quit := false
 		    is_return_key_pressed := false

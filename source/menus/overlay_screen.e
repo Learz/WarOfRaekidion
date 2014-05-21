@@ -38,13 +38,13 @@ feature {NONE} -- Initialization
 			l_screenshot: SCREENSHOT
 		do
 			collection_on
+			debug_on := a_debug
 			highscore_make
 			create buttons.make
 			window := a_window
 			create l_event.make (window)
 			key_binding := a_key_binding
 			must_quit := false
-			debug_on := a_debug
 			score := a_score
 			is_return_key_pressed := a_is_return_key_pressed
 			l_event.on_typing.extend (agent manage_typing)
@@ -65,17 +65,11 @@ feature {NONE} -- Initialization
 			else
 				stop_music
 				play_music ("spooky", -1)
-
-				if debug_on then
-					create highscore.make_centered ("Highscore", 10, window, 0, 160, window.width, 0, [255, 255, 255], true)
-					create textbox.make ("small_textbox", window, 100, 175)
-					buttons.extend (create {BUTTON}.make ("small_button", window, 160, 175, "Save"))
-					buttons.extend (create {BUTTON}.make ("button", window, 100, 225, "End game"))
-					buttons.extend (create {BUTTON}.make ("button", window, 100, 275, "Quit"))
-				else
-					buttons.extend (create {BUTTON}.make ("button", window, 100, 200, "End game"))
-					buttons.extend (create {BUTTON}.make ("button", window, 100, 250, "Quit"))
-				end
+				create highscore.make_centered ("Highscore", 10, window, 0, 160, window.width, 0, [255, 255, 255], true)
+				create textbox.make ("small_textbox", window, 100, 175)
+				buttons.extend (create {BUTTON}.make ("small_button", window, 160, 175, "Save"))
+				buttons.extend (create {BUTTON}.make ("button", window, 100, 225, "End game"))
+				buttons.extend (create {BUTTON}.make ("button", window, 100, 275, "Quit"))
 			end
 
 			selection := buttons.first
@@ -116,7 +110,7 @@ feature {NONE} -- Initialization
 				window.render
 
 				if options then
-					l_screen := create {OPTIONS_SCREEN}.make (window, key_binding, a_difficulty, true)
+					l_screen := create {OPTIONS_SCREEN}.make (window, key_binding, a_difficulty, true, debug_on)
 					must_quit := l_screen.must_quit
 					key_binding := l_screen.key_binding
 					is_return_key_pressed := l_screen.is_return_key_pressed
@@ -222,7 +216,7 @@ feature {NONE} -- Implementation
 				elseif a_button = 4 then
 					must_quit := true
 				end
-			elseif debug_on then
+			else
 				if attached textbox as la_textbox and then attached highscore as la_highscore and then la_textbox.char_string.count = 3 then
 					if a_button = 1 then
 						if not highscore_set then
@@ -238,12 +232,6 @@ feature {NONE} -- Implementation
 					elseif a_button = 3 then
 						must_quit := true
 					end
-				end
-			else
-				if a_button = 1 then
-					must_end := true
-				elseif a_button = 2 then
-					must_quit := true
 				end
 			end
 		end

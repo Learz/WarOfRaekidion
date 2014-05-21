@@ -24,7 +24,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_key_binding: KEYS; a_difficulty: INTEGER)
+	make (a_window: WINDOW; a_key_binding: KEYS; a_difficulty: INTEGER; a_debug: BOOLEAN)
 		-- Initialize `Current' from `a_window', `a_key_binding' and `a_difficulty'
 		local
 			l_address: STRING
@@ -35,6 +35,7 @@ feature {NONE} -- Initialization
 			l_screen: detachable WAIT_SCREEN
 		do
 			collection_on
+			debug_on := a_debug
 			window := a_window
 			create l_event.make (window)
 			must_quit := false
@@ -79,10 +80,10 @@ feature {NONE} -- Initialization
 
 				if start_game then
 					if is_server then
-						l_screen := create {WAIT_SCREEN}.make (window, key_binding, is_server, a_difficulty, "")
+						l_screen := create {WAIT_SCREEN}.make (window, key_binding, is_server, debug_on, a_difficulty, "")
 					else
 						l_address := textbox.char_string
-						l_screen := create {WAIT_SCREEN}.make (window, key_binding, is_server, a_difficulty, l_address)
+						l_screen := create {WAIT_SCREEN}.make (window, key_binding, is_server, debug_on, a_difficulty, l_address)
 					end
 
 					start_game := false

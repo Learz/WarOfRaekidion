@@ -23,7 +23,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_key_binding: KEYS; a_is_server: BOOLEAN; a_difficulty: INTEGER; a_server: STRING)
+	make (a_window: WINDOW; a_key_binding: KEYS; a_is_server, a_debug: BOOLEAN; a_difficulty: INTEGER; a_server: STRING)
 		-- Initialize `Current' from `a_window', `a_key_binding', `a_is_server', `a_difficulty' and `a_server'
 		local
 			l_address, waiting_text: STRING
@@ -36,6 +36,7 @@ feature {NONE} -- Initialization
 			l_dots: INTEGER
 		do
 			collection_on
+			debug_on := a_debug
 			window := a_window
 			create l_event.make (window)
 			must_quit := false
