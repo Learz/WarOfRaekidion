@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 			debug_on := a_debug
 			window := a_window
 
-			if debug_on then
+			if not debug_on then
 				create l_resources.make
 				create l_splash.make ("splash", window)
 
