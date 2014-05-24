@@ -1,4 +1,8 @@
-<HTML><HEAD>
+<HTML>
+<HEAD>
+<META NAME="generator" CONTENT="ISE EiffelStudio version 13.11.9.3542 GPL Edition - linux-x86-64">
+<META NAME="viewport" CONTENT="width=device-width">
+<META HTTP-EQUIV="content-type" CONTENT="text/html; charset=utf-8">
 <meta name="description" content="TTTObjects representing a path, i.e. a way to identify a file or a directory for the TTTcurrent underlying platform. A path is made of two components: TTT1 - an optional root which can either be: TTTTa - a drive letter followed by colon on Windows, i.e. C: or C:\ TTTTb - / for UNIX root directory. TTTTc - \ for Windows root directory. TTTTd - \\server\share or \\server\share\ for Microsoft UNC path. TTT2 - a sequence of zero or more names. TTT TTTA path is absolute if it has a root, and on windows if the root is a drive, then it should TTTbe followed by \. Otherwise a path is relative.   TTTValidity TTT======== TTT TTTThe current class will not check the validity of filenames. Check your file TTTsystem for your operating system manual for the list of invalid characters.   TTTWindows consideration TTT===================== TTT TTTWhen the root of a Windows path is a drive, be aware of the following behavior: TTT1 - C:filename.txt refers to the file name filename.txt in the current directory  TTT    on drive C:. TTT2 - C:sub\filename.txt refers to the file name filename.txt in a subdirectory sub TTT    of the current directory on drive C:. TTT3 - C:\sub\filename.txt refers to the file name filename.txt in a subdirectory sub TTT    located at the root of the drive C:. TTT TTTBoth forward and backslashes are accepted, but forward slashes are internally converted TTTto backward slashes whenever they are used to construct a path. TTT TTTOn Windows, there is a limit of 259 characters for a path. If you need to create a larger TTTpath, you can do so by using the following conventions which will let you have paths of TTTabout 32,767 characters: TTT1 - Use \\?\ for non-UNC path and let the rest unchanged. TTT2 - Use \\?\UNC\server\share for UNC path and let the rest unchanged. TTTThe above path cannot be used to specify a relative path. TTT TTTTo know more about Windows paths, read the Naming Files, Paths, and Namespaces TTTdocument located at: TTT  http://msdn.microsoft.com/en-us/library/windows/desktop/aa365247(v=vs.85).aspx   TTTUnicode consideration TTT===================== TTT TTTThe PATH class treats strings as sequence of Unicode characters, i.e. an instance of  TTTa READABLE_STRING_8 or descendant will be treated as if characters in the range TTT128 .. 255 were Unicode code points. TTTThis contrasts to the FILE/DIRECTORY classes where to preserve backward compatibility, those TTTcharacters are treated as is. TTT TTT TTTMixed-encoding consideration TTT============================ TTT TTTMost operating systems have conventions for paths that are incompatible with Unicode. TTTOn UNIX, in a sequence of names, each name is just a null-terminated byte sequence, it TTTdoes not follow any specific encoding. Usually the locale setting enables you to see TTTthe filename the way you expect. TTTOn Windows, the sequence of names is made of null-terminated UTF-16 code unit sequence. Windows TTTdoes not guarantee that the sequence is actually a valid UTF-16 sequence. TTT TTTIn other words, when there is an invalid UTF-8 encoding on UNIX, or an invalid UTF-16 encoding TTTon Windows, the filename is not directly representable as a Unicode string. To make it possible TTTto create and store paths in a textually representable form, the query `name' will create TTTan encoded representation that can be then later used in `make_from_string' to create a PATH TTTequivalent to the original path. The encoding is described in UTF_CONVERTER's note clause TTTand is a fourth variant of the recommended practice for replacement characters in Unicode TTT(see http://www.unicode.org/review/pr-121.html).  TTTTTT TTTImmutability TTT============ TTT TTTInstances of the current class are immutable."/>
 <meta name="library" content="Free implementation of ELKS library"/>
 <meta name="keywords" content="Eiffel class"/>
@@ -6,673 +10,716 @@
 <meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
 <meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
 <meta name="keywords" content="Eiffel class"/>
-<TITLE>path Flat contracts</TITLE></HEAD>
-<BODY BGCOLOR="white">
-<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
-<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="path_chart.html">Chart</A></TD><TD><A HREF="path_links.html">Relations</A></TD><TD><A HREF="path.html">Text</A></TD><TD><A HREF="path_flat.html">Flat</A></TD><TD><A HREF="path_short.html">Contracts</A></TD><TD>Flat contracts</TD></TR></TABLE><B>note</B>
-    description: "[
-        			Objects representing a path, i.e. a way to identify a file or a directory for the
-        			current underlying platform. A path is made of two components:
-        			1 - an optional root which can either be:
-        				a - a drive letter followed by colon on Windows, i.e. "C:" or "C:\"
-        				b - "/" for UNIX root directory.
-        				c - "\" for Windows root directory.
-        				d - "\\server\share" or "\\server\share\" for Microsoft UNC path.
-        			2 - a sequence of zero or more names.
-        			
-        			A path is absolute if it has a root, and on windows if the root is a drive, then it should
-        			be followed by "\". Otherwise a path is relative.
-        
-        
-        			Validity
-        			========
-        			
-        			The current class will not check the validity of filenames. Check your file
-        			system for your operating system manual for the list of invalid characters.
-        
-        
-        			Windows consideration
-        			=====================
-        			
-        			When the root of a Windows path is a drive, be aware of the following behavior:
-        			1 - "C:filename.txt" refers to the file name "filename.txt" in the current directory 
-        			    on drive "C:".
-        			2 - "C:sub\filename.txt" refers to the file name "filename.txt" in a subdirectory "sub"
-        			    of the current directory on drive "C:".
-        			3 - "C:\sub\filename.txt" refers to the file name "filename.txt" in a subdirectory "sub"
-        			    located at the root of the drive "C:".
-        			
-        			Both forward and backslashes are accepted, but forward slashes are internally converted
-        			to backward slashes whenever they are used to construct a path.
-        			
-        			On Windows, there is a limit of 259 characters for a path. If you need to create a larger
-        			path, you can do so by using the following conventions which will let you have paths of
-        			about 32,767 characters:
-        			1 - Use \\?\ for non-UNC path and let the rest unchanged.
-        			2 - Use \\?\UNC\server\share for UNC path and let the rest unchanged.
-        			The above path cannot be used to specify a relative path.
-        			
-        			To know more about Windows paths, read the "Naming Files, Paths, and Namespaces"
-        			document located at:
-        			  <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/aa365247">http://msdn.microsoft.com/en-us/library/windows/desktop/aa365247</a>(v=vs.85).aspx
-        
-        
-        			Unicode consideration
-        			=====================
-        			
-        			The PATH class treats strings as sequence of Unicode characters, i.e. an instance of 
-        			a READABLE_STRING_8 or descendant will be treated as if characters in the range
-        			128 .. 255 were Unicode code points.
-        			This contrasts to the FILE/DIRECTORY classes where to preserve backward compatibility, those
-        			characters are treated as is.
-        			
-        			
-        			Mixed-encoding consideration
-        			============================
-        			
-        			Most operating systems have conventions for paths that are incompatible with Unicode.
-        			On UNIX, in a sequence of names, each name is just a null-terminated byte sequence, it
-        			does not follow any specific encoding. Usually the locale setting enables you to see
-        			the filename the way you expect.
-        			On Windows, the sequence of names is made of null-terminated UTF-16 code unit sequence. Windows
-        			does not guarantee that the sequence is actually a valid UTF-16 sequence.
-        			
-        			In other words, when there is an invalid UTF-8 encoding on UNIX, or an invalid UTF-16 encoding
-        			on Windows, the filename is not directly representable as a Unicode string. To make it possible
-        			to create and store paths in a textually representable form, the query <A HREF="../elks/path_flatshort.html#f_name">name</A> will create
-        			an encoded representation that can be then later used in <A HREF="../elks/path_flatshort.html#f_make_from_string">make_from_string</A> to create a PATH
-        			equivalent to the original path. The encoding is described in UTF_CONVERTER's note clause
-        			and is a fourth variant of the recommended practice for replacement characters in Unicode
-        			(see <a href="http://www.unicode.org/review/pr-121.html">http://www.unicode.org/review/pr-121.html</a>).
-        
-        						
-        			Immutability
-        			============
-        			
-        			Instances of the current class are immutable.
-    ]"
-    library: "Free implementation of ELKS library"
-    status: "See notice at end of class."
-    date: "$Date: 2013-05-21 17:58:33 -0700 (Tue, 21 May 2013) $"
-    revision: "$Revision: 92569 $"
+<TITLE>War of Raekidion - path Flat contracts</TITLE>
+<LINK REL="stylesheet" HREF="http://meyerweb.com/eric/tools/css/reset/reset.css" TYPE="text/css">
+<LINK REL="stylesheet" HREF="http://fonts.googleapis.com/css?family=Open+Sans:300" TYPE="text/css">
+<LINK REL="stylesheet" HREF="http://raekidion.sml.name/stylesheet.css" TYPE="text/css">
+<LINK REL="stylesheet" HREF="http://raekidion.sml.name/documentation.css" TYPE="text/css">
+<LINK REL="icon" HREF="http://raekidion.sml.name/favicon.ico" TYPE="image/x-icon">
+<SCRIPT TYPE="text/javascript" SRC="../goto.html"></SCRIPT>
+</HEAD>
+<BODY>
+<DIV CLASS="wrapper">
+<IMG SRC="http://raekidion.sml.name/raekidion_icon_double.png"/>
+<DIV CLASS="category">
+<DIV CLASS="menu">
+<A HREF="http://raekidion.sml.name/">Overview</A>
+<A HREF="http://raekidion.sml.name/gallery">Gallery</A>
+<A HREF="http://raekidion.sml.name/download">Download</A>
+<A HREF="http://raekidion.sml.name/changelog">Changelog</A>
+<A HREF="http://raekidion.sml.name/issues">Issues</A>
+<A HREF="http://raekidion.sml.name/documentation">Documentation</A>
+</DIV>
+<HR/>
+<div class="container"><pre><FORM ONSUBMIT="go_to('../',this.c.value);return false;">
+<UL>
+<A CLASS="link1" HREF="../class_list.html"><LI CLASS="link1">Classes</LI></A>
+<A CLASS="link1" HREF="../cluster_list.html"><LI CLASS="link1">Clusters</LI></A>
+<A CLASS="link1" HREF="../cluster_hierarchy.html"><LI CLASS="link1">Cluster hierarchy</LI></A>
+<A CLASS="link2" HREF="path_chart.html"><LI CLASS="link2">Chart</LI></A>
+<A CLASS="link2" HREF="path_links.html"><LI CLASS="link2">Relations</LI></A>
+<A CLASS="link2" HREF="path.html"><LI CLASS="link2">Text</LI></A>
+<A CLASS="link2" HREF="path_flat.html"><LI CLASS="link2">Flat</LI></A>
+<A CLASS="link2" HREF="path_short.html"><LI CLASS="link2">Contracts</LI></A>
+<LI CLASS="nolink2">Flat contracts</LI>
+<LI CLASS="link2">Go to: <INPUT NAME="c" VALUE="path"></LI>
+</UL></FORM><SPAN CLASS="ekeyword">note</SPAN>
+	<SPAN CLASS="eitag">description</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;</SPAN><SPAN CLASS="estring">[</SPAN>
+		<SPAN CLASS="estring">			Objects representing a path, i.e. a way to identify a file or a directory for the</SPAN>
+		<SPAN CLASS="estring">			current underlying platform. A path is made of two components:</SPAN>
+		<SPAN CLASS="estring">			1 - an optional root which can either be:</SPAN>
+		<SPAN CLASS="estring">				a - a drive letter followed by colon on Windows, i.e. &quot;C:&quot; or &quot;C:\&quot;</SPAN>
+		<SPAN CLASS="estring">				b - &quot;/&quot; for UNIX root directory.</SPAN>
+		<SPAN CLASS="estring">				c - &quot;\&quot; for Windows root directory.</SPAN>
+		<SPAN CLASS="estring">				d - &quot;\\server\share&quot; or &quot;\\server\share\&quot; for Microsoft UNC path.</SPAN>
+		<SPAN CLASS="estring">			2 - a sequence of zero or more names.</SPAN>
+		<SPAN CLASS="estring">			</SPAN>
+		<SPAN CLASS="estring">			A path is absolute if it has a root, and on windows if the root is a drive, then it should</SPAN>
+		<SPAN CLASS="estring">			be followed by &quot;\&quot;. Otherwise a path is relative.</SPAN>
+		
+		
+		<SPAN CLASS="estring">			Validity</SPAN>
+		<SPAN CLASS="estring">			========</SPAN>
+		<SPAN CLASS="estring">			</SPAN>
+		<SPAN CLASS="estring">			The current class will not check the validity of filenames. Check your file</SPAN>
+		<SPAN CLASS="estring">			system for your operating system manual for the list of invalid characters.</SPAN>
+		
+		
+		<SPAN CLASS="estring">			Windows consideration</SPAN>
+		<SPAN CLASS="estring">			=====================</SPAN>
+		<SPAN CLASS="estring">			</SPAN>
+		<SPAN CLASS="estring">			When the root of a Windows path is a drive, be aware of the following behavior:</SPAN>
+		<SPAN CLASS="estring">			1 - &quot;C:filename.txt&quot; refers to the file name &quot;filename.txt&quot; in the current directory </SPAN>
+		<SPAN CLASS="estring">			 &nbsp;&nbsp;&nbsp;on drive &quot;C:&quot;.</SPAN>
+		<SPAN CLASS="estring">			2 - &quot;C:sub\filename.txt&quot; refers to the file name &quot;filename.txt&quot; in a subdirectory &quot;sub&quot;</SPAN>
+		<SPAN CLASS="estring">			 &nbsp;&nbsp;&nbsp;of the current directory on drive &quot;C:&quot;.</SPAN>
+		<SPAN CLASS="estring">			3 - &quot;C:\sub\filename.txt&quot; refers to the file name &quot;filename.txt&quot; in a subdirectory &quot;sub&quot;</SPAN>
+		<SPAN CLASS="estring">			 &nbsp;&nbsp;&nbsp;located at the root of the drive &quot;C:&quot;.</SPAN>
+		<SPAN CLASS="estring">			</SPAN>
+		<SPAN CLASS="estring">			Both forward and backslashes are accepted, but forward slashes are internally converted</SPAN>
+		<SPAN CLASS="estring">			to backward slashes whenever they are used to construct a path.</SPAN>
+		<SPAN CLASS="estring">			</SPAN>
+		<SPAN CLASS="estring">			On Windows, there is a limit of 259 characters for a path. If you need to create a larger</SPAN>
+		<SPAN CLASS="estring">			path, you can do so by using the following conventions which will let you have paths of</SPAN>
+		<SPAN CLASS="estring">			about 32,767 characters:</SPAN>
+		<SPAN CLASS="estring">			1 - Use \\?\ for non-UNC path and let the rest unchanged.</SPAN>
+		<SPAN CLASS="estring">			2 - Use \\?\UNC\server\share for UNC path and let the rest unchanged.</SPAN>
+		<SPAN CLASS="estring">			The above path cannot be used to specify a relative path.</SPAN>
+		<SPAN CLASS="estring">			</SPAN>
+		<SPAN CLASS="estring">			To know more about Windows paths, read the &quot;Naming Files, Paths, and Namespaces&quot;</SPAN>
+		<SPAN CLASS="estring">			document located at:</SPAN>
+		<SPAN CLASS="estring">			 &nbsp;</SPAN><A CLASS="estring" HREF="http://msdn.microsoft.com/en-us/library/windows/desktop/aa365247">http://msdn.microsoft.com/en-us/library/windows/desktop/aa365247</A><SPAN CLASS="estring">(v=vs.85).aspx</SPAN>
+		
+		
+		<SPAN CLASS="estring">			Unicode consideration</SPAN>
+		<SPAN CLASS="estring">			=====================</SPAN>
+		<SPAN CLASS="estring">			</SPAN>
+		<SPAN CLASS="estring">			The PATH class treats strings as sequence of Unicode characters, i.e. an instance of </SPAN>
+		<SPAN CLASS="estring">			a READABLE_STRING_8 or descendant will be treated as if characters in the range</SPAN>
+		<SPAN CLASS="estring">			128 .. 255 were Unicode code points.</SPAN>
+		<SPAN CLASS="estring">			This contrasts to the FILE/DIRECTORY classes where to preserve backward compatibility, those</SPAN>
+		<SPAN CLASS="estring">			characters are treated as is.</SPAN>
+		<SPAN CLASS="estring">			</SPAN>
+		<SPAN CLASS="estring">			</SPAN>
+		<SPAN CLASS="estring">			Mixed-encoding consideration</SPAN>
+		<SPAN CLASS="estring">			============================</SPAN>
+		<SPAN CLASS="estring">			</SPAN>
+		<SPAN CLASS="estring">			Most operating systems have conventions for paths that are incompatible with Unicode.</SPAN>
+		<SPAN CLASS="estring">			On UNIX, in a sequence of names, each name is just a null-terminated byte sequence, it</SPAN>
+		<SPAN CLASS="estring">			does not follow any specific encoding. Usually the locale setting enables you to see</SPAN>
+		<SPAN CLASS="estring">			the filename the way you expect.</SPAN>
+		<SPAN CLASS="estring">			On Windows, the sequence of names is made of null-terminated UTF-16 code unit sequence. Windows</SPAN>
+		<SPAN CLASS="estring">			does not guarantee that the sequence is actually a valid UTF-16 sequence.</SPAN>
+		<SPAN CLASS="estring">			</SPAN>
+		<SPAN CLASS="estring">			In other words, when there is an invalid UTF-8 encoding on UNIX, or an invalid UTF-16 encoding</SPAN>
+		<SPAN CLASS="estring">			on Windows, the filename is not directly representable as a Unicode string. To make it possible</SPAN>
+		<SPAN CLASS="estring">			to create and store paths in a textually representable form, the query </SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_name">name</A><SPAN CLASS="estring"> will create</SPAN>
+		<SPAN CLASS="estring">			an encoded representation that can be then later used in </SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_make_from_string">make_from_string</A><SPAN CLASS="estring"> to create a PATH</SPAN>
+		<SPAN CLASS="estring">			equivalent to the original path. The encoding is described in UTF_CONVERTER's note clause</SPAN>
+		<SPAN CLASS="estring">			and is a fourth variant of the recommended practice for replacement characters in Unicode</SPAN>
+		<SPAN CLASS="estring">			(see </SPAN><A CLASS="estring" HREF="http://www.unicode.org/review/pr-121.html">http://www.unicode.org/review/pr-121.html</A><SPAN CLASS="estring">).</SPAN>
+		
+		<SPAN CLASS="estring">						</SPAN>
+		<SPAN CLASS="estring">			Immutability</SPAN>
+		<SPAN CLASS="estring">			============</SPAN>
+		<SPAN CLASS="estring">			</SPAN>
+		<SPAN CLASS="estring">			Instances of the current class are immutable.</SPAN>
+	<SPAN CLASS="estring">]</SPAN><SPAN CLASS="estring">&quot;</SPAN>
+	<SPAN CLASS="eitag">library</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;Free implementation of ELKS library&quot;</SPAN>
+	<SPAN CLASS="eitag">status</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;See notice at end of class.&quot;</SPAN>
+	<SPAN CLASS="eitag">date</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;$Date: 2013-05-21 17:58:33 -0700 (Tue, 21 May 2013) $&quot;</SPAN>
+	<SPAN CLASS="eitag">revision</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;$Revision: 92569 $&quot;</SPAN>
 
-<B>class</B> <B>interface</B>
-    <A HREF="../elks/path_flatshort.html">PATH</A>
+<SPAN CLASS="ekeyword">class</SPAN> <SPAN CLASS="ekeyword">interface</SPAN>
+	<A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A>
 
-<B>create</B> {<A HREF="../elks/native_string_handler_flatshort.html">NATIVE_STRING_HANDLER</A>}
-    <A NAME="f_make_from_pointer"><A HREF="../elks/path_flatshort.html#f_make_from_pointer">make_from_pointer</A> (a_path_pointer: <A HREF="../elks/pointer_flatshort.html">POINTER</A>)
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize current from </FONT>`a_path_pointer'<FONT COLOR="red">, a platform system specific encoding of</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> a path that is null-terminated.</FONT>
-        <B>require</B>
-            a_path_pointer_not_null: a_path_pointer /= <A HREF="../elks/any_flatshort.html#f_default_pointer">default_pointer</A>
-</A>
+<SPAN CLASS="ekeyword">create</SPAN> <SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../elks/native_string_handler_flatshort.html">NATIVE_STRING_HANDLER</A><SPAN CLASS="esymbol">}</SPAN>
+	<A NAME="f_make_from_pointer"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_make_from_pointer">make_from_pointer</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_path_pointer</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/pointer_flatshort.html">POINTER</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Initialize current from </SPAN>`a_path_pointer'<SPAN CLASS="ecomment">, a platform system specific encoding of</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> a path that is null-terminated.</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN>
+			<SPAN CLASS="etag">a_path_pointer_not_null</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">a_path_pointer</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <A CLASS="efeature" HREF="../elks/any_flatshort.html#f_default_pointer">default_pointer</A>
 
-<B>create</B> {<A HREF="../elks/path_flatshort.html">PATH</A>}
-    <A NAME="f_make_from_storage"><A HREF="../elks/path_flatshort.html#f_make_from_storage">make_from_storage</A> (a_path: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>)
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize current from </FONT>`a_path'<FONT COLOR="red"> and normalize </FONT>`a_path'<FONT COLOR="red"> as it may be coming</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> from a user provided string or from a C API.</FONT>
-        <B>require</B>
-            a_path_not_void: a_path /= <B>Void</B>
-        <B>ensure</B>
-            shared: <A HREF="../elks/path_flatshort.html#f_storage">storage</A> = a_path
-            is_normalized: <A HREF="../elks/path_flatshort.html#f_is_normalized">is_normalized</A>
-</A>
-    <A NAME="f_make_from_normalized_storage"><A HREF="../elks/path_flatshort.html#f_make_from_normalized_storage">make_from_normalized_storage</A> (a_path: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>)
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize current from </FONT>`a_path'<FONT COLOR="red"> which has already been normalized.</FONT>
-        <B>require</B>
-            a_path_not_void: a_path /= <B>Void</B>
-        <B>ensure</B>
-            shared: <A HREF="../elks/path_flatshort.html#f_storage">storage</A> = a_path
-            is_normalized: <A HREF="../elks/path_flatshort.html#f_is_normalized">is_normalized</A>
-</A>
 
-<B>create</B> 
-    <A NAME="f_make_empty"><A HREF="../elks/path_flatshort.html#f_make_empty">make_empty</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize current as an empty path.</FONT>
-        <B>ensure</B>
-            is_empty: <A HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A>
-            is_normalized: <A HREF="../elks/path_flatshort.html#f_is_normalized">is_normalized</A>
-</A>
-    <A NAME="f_make_current"><A HREF="../elks/path_flatshort.html#f_make_current">make_current</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize current as the symbolic representation of the current working directory</FONT>
-        <B>ensure</B>
-            not_empty: <B>not</B> <A HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A>
-            is_normalized: <A HREF="../elks/path_flatshort.html#f_is_normalized">is_normalized</A>
-            is_current: <A HREF="../elks/path_flatshort.html#f_is_current_symbol">is_current_symbol</A>
-</A>
-    <A NAME="f_make_from_string"><A HREF="../elks/path_flatshort.html#f_make_from_string">make_from_string</A> (a_path: <A HREF="../elks/readable_string_general_flatshort.html">READABLE_STRING_GENERAL</A>)
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize current from </FONT>`a_path'<FONT COLOR="red"> treated as a sequence of Unicode characters.</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If </FONT>`a_path'<FONT COLOR="red"> is trying to represent a mixed-encoded path, then </FONT>`a_path'<FONT COLOR="red"> should use</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> the escaped representation as described in UTF_CONVERTER.</FONT>
-        <B>require</B>
-            a_path_not_void: a_path /= <B>Void</B>
-        <B>ensure</B>
-            not_empty: <B>not</B> a_path.<A HREF="../elks/readable_string_general_flatshort.html#f_is_empty">is_empty</A> <B>implies</B> <B>not</B> <A HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A>
-            is_normalized: <A HREF="../elks/path_flatshort.html#f_is_normalized">is_normalized</A>
-            roundtrip: <B>True</B>
-            roundtrip_with_trailing: <B>True</B>
-</A>
-    <A NAME="f_make_from_separate"><A HREF="../elks/path_flatshort.html#f_make_from_separate">make_from_separate</A> (a_path: <A HREF="../elks/path_flatshort.html">PATH</A>)
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize from separate </FONT>`a_path'<FONT COLOR="red">.</FONT>
-        <B>require</B>
-            a_path_not_void: a_path /= <B>Void</B>
-        <B>ensure</B>
-            not_empty: <B>not</B> a_path.<A HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A> <B>implies</B> <B>not</B> <A HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A>
-            is_normalized: <A HREF="../elks/path_flatshort.html#f_is_normalized">is_normalized</A>
-</A>
-<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+<SPAN CLASS="ekeyword">create</SPAN> <SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A><SPAN CLASS="esymbol">}</SPAN>
+	<A NAME="f_make_from_storage"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_make_from_storage">make_from_storage</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_path</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/string_8_flatshort.html">STRING_8</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Initialize current from </SPAN>`a_path'<SPAN CLASS="ecomment"> and normalize </SPAN>`a_path'<SPAN CLASS="ecomment"> as it may be coming</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> from a user provided string or from a C API.</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN>
+			<SPAN CLASS="etag">a_path_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">a_path</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN>
+			<SPAN CLASS="etag">shared</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_storage">storage</A> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="elocal">a_path</SPAN>
+			<SPAN CLASS="etag">is_normalized</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_normalized">is_normalized</A>
 
-    <A NAME="f_absolute_path"><A HREF="../elks/path_flatshort.html#f_absolute_path">absolute_path</A>: <A HREF="../elks/path_flatshort.html">PATH</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Absolute path of Current.</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If Current is already absolute, then return Current.</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If Current is empty, then return the current working directory.</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Otherwise resolve the path in a platform specific way:</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> * On UNIX, resolve against the current working directory</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> * On Windows:</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red">    a) if current has a drive letter which is not followed by "\"</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red">       resolve against the current working directory for that drive letter,</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red">       otherwise resolve against the current working directory.</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red">    b) if current path starts with "\", not a double "\\", then resolve</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red">       against the root of the current working directory (i.e. a drive</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red">       letter "C:\" or a UNC path "\\server\share\".)</FONT>
-</A>
-    <A NAME="f_absolute_path_in"><A HREF="../elks/path_flatshort.html#f_absolute_path_in">absolute_path_in</A> (a_current_directory: <A HREF="../elks/path_flatshort.html">PATH</A>): <A HREF="../elks/path_flatshort.html">PATH</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Absolute path of Current in the context of </FONT>`a_current_directory'<FONT COLOR="red">.</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If Current is already absolute, then return Current.</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If Current is empty, then return </FONT>`a_current_directory'<FONT COLOR="red">.</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Otherwise resolve the path in a platform specific way:</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> * On UNIX, resolve against </FONT>`a_current_directory'
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> * On Windows:</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red">    a) if current has a drive letter which is not followed by "\"</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red">       resolve against </FONT>`a_current_directory'<FONT COLOR="red"> for that drive letter,</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red">       otherwise resolve against </FONT>`a_current_directory'<FONT COLOR="red">.</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red">    b) if current path starts with "\", not a double "\\", then resolve</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red">       against the root of `a_current_directory; (i.e. a drive</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red">       letter "C:\" or a UNC path "\\server\share\".)</FONT>
-        <B>require</B>
-            a_current_directory_not_void: a_current_directory /= <B>Void</B>
-            a_current_directory_absolute: a_current_directory.<A HREF="../elks/path_flatshort.html#f_is_absolute">is_absolute</A>
-        <B>ensure</B>
-            has_root: <B>Result</B>.<A HREF="../elks/path_flatshort.html#f_has_root">has_root</A>
-</A>
-    <A NAME="f_canonical_path"><A HREF="../elks/path_flatshort.html#f_canonical_path">canonical_path</A>: <A HREF="../elks/path_flatshort.html">PATH</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Canonical path of Current.</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Similar to </FONT><A HREF="../elks/path_flatshort.html#f_absolute_path">absolute_path</A><FONT COLOR="red"> except that sequences containing "." or ".." are</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> resolved.</FONT>
-</A>
-    <A NAME="f_components"><A HREF="../elks/path_flatshort.html#f_components">components</A>: <A HREF="../elks/arrayed_list_flatshort.html">ARRAYED_LIST</A> [<A HREF="../elks/path_flatshort.html">PATH</A>]
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Sequence of simple paths making up Current, including </FONT><A HREF="../elks/path_flatshort.html#f_root">root</A><FONT COLOR="red"> if any.</FONT>
-</A>
-    <A NAME="f_directory_separator"><A HREF="../elks/path_flatshort.html#f_directory_separator">directory_separator</A>: <A HREF="../elks/character_8_flatshort.html">CHARACTER_8</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default directory separator for the current platform.</FONT>
-</A>
-    <A NAME="f_entry"><A HREF="../elks/path_flatshort.html#f_entry">entry</A>: <B>detachable</B> <A HREF="../elks/path_flatshort.html">PATH</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of file or directory denoted by Current if any.</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> This is the last name in the current sequence.</FONT>
-        <B>ensure</B>
-            not_empty: <B>Result</B> /= <B>Void</B> <B>implies</B> <B>not</B> <B>Result</B>.<A HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A>
-</A>
-    <A NAME="f_extension"><A HREF="../elks/path_flatshort.html#f_extension">extension</A>: <B>detachable</B> <A HREF="../elks/immutable_string_32_flatshort.html">IMMUTABLE_STRING_32</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Extension if any of current entry.</FONT>
-        <B>ensure</B>
-            not_empty: <B>attached</B> <B>Result</B> <B>implies</B> <B>not</B> <B>Result</B>.<A HREF="../elks/immutable_string_32_flatshort.html#f_is_empty">is_empty</A>
-            no_dot: <B>attached</B> <B>Result</B> <B>implies</B> <B>not</B> <B>Result</B>.<A HREF="../elks/readable_string_32_flatshort.html#f_has">has</A> ('.'.<A HREF="../elks/character_8_flatshort.html#f_to_character_32">to_character_32</A>)
-</A>
-    <A NAME="f_generating_type"><A HREF="../elks/any_flatshort.html#f_generating_type">generating_type</A>: <A HREF="../elks/type_flatshort.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/path_flatshort.html">PATH</A>]
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Type of current object</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (type of which it is a direct instance)</FONT>
-            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
-        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
-            generating_type_not_void: <B>Result</B> /= <B>Void</B>
-</A>
-    <A NAME="f_generator"><A HREF="../elks/any_flatshort.html#f_generator">generator</A>: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of current object's generating class</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (base class of the type of which it is a direct instance)</FONT>
-            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
-        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
-            generator_not_void: <B>Result</B> /= <B>Void</B>
-            generator_not_empty: <B>not</B> <B>Result</B>.<A HREF="../elks/finite_flatshort.html#f_is_empty">is_empty</A>
-</A>
-    <A NAME="f_hash_code"><A HREF="../elks/path_flatshort.html#f_hash_code">hash_code</A>: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Hash code value</FONT>
-        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/hashable_flatshort.html">HASHABLE</A>
-            good_hash_value: <B>Result</B> &gt;= 0
-</A>
-    <A NAME="f_native_string"><A HREF="../elks/path_flatshort.html#f_native_string">native_string</A>: <A HREF="../elks/native_string_flatshort.html">NATIVE_STRING</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert current into an instance of NATIVE_STRING</FONT>
-        <B>ensure</B>
-            set: <B>Result</B>.<A HREF="../elks/native_string_flatshort.html#f_raw_string">raw_string</A>.<A HREF="../elks/readable_string_8_flatshort.html#f_same_string">same_string</A> (<A HREF="../elks/path_flatshort.html#f_storage">storage</A>)
-</A>
-    <A NAME="f_parent"><A HREF="../elks/path_flatshort.html#f_parent">parent</A>: <A HREF="../elks/path_flatshort.html">PATH</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Parent directory if any, otherwise current working path.</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The parent of a path consists of </FONT><A HREF="../elks/path_flatshort.html#f_root">root</A><FONT COLOR="red"> if any, and of each</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> simple names in the current sequence except for the last.</FONT>
-</A>
-    <A NAME="f_root"><A HREF="../elks/path_flatshort.html#f_root">root</A>: <B>detachable</B> <A HREF="../elks/path_flatshort.html">PATH</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Root if any of current path.</FONT>
-        <B>ensure</B>
-            has_root_implies_not_void: <A HREF="../elks/path_flatshort.html#f_has_root">has_root</A> <B>implies</B> <B>Result</B> /= <B>Void</B>
-</A>
-    <A NAME="f_unix_separator"><A HREF="../elks/path_flatshort.html#f_unix_separator">Unix_separator</A>: <A HREF="../elks/character_8_flatshort.html">CHARACTER_8</A> = '/'</A>
+	<A NAME="f_make_from_normalized_storage"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_make_from_normalized_storage">make_from_normalized_storage</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_path</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/string_8_flatshort.html">STRING_8</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Initialize current from </SPAN>`a_path'<SPAN CLASS="ecomment"> which has already been normalized.</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN>
+			<SPAN CLASS="etag">a_path_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">a_path</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN>
+			<SPAN CLASS="etag">shared</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_storage">storage</A> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="elocal">a_path</SPAN>
+			<SPAN CLASS="etag">is_normalized</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_normalized">is_normalized</A>
 
-    <A NAME="f_windows_separator"><A HREF="../elks/path_flatshort.html#f_windows_separator">Windows_separator</A>: <A HREF="../elks/character_8_flatshort.html">CHARACTER_8</A> = '\'</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Platform specific directory separator.</FONT>
-    
-<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
 
-    <A NAME="f_deep_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or attached to isomorphic object structures?</FONT>
-            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
-        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
-            shallow_implies_deep: <A HREF="../elks/any_flatshort.html#f_standard_equal">standard_equal</A> (a, b) <B>implies</B> <B>Result</B>
-            both_or_none_void: (a = <B>Void</B>) <B>implies</B> (<B>Result</B> = (b = <B>Void</B>))
-            same_type: (<B>Result</B> <B>and</B> (a /= <B>Void</B>)) <B>implies</B> (b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (b))
-            symmetric: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A> (b, a)
-</A>
-    <A NAME="f_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_equal">equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to objects considered equal?</FONT>
-            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
-        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
-            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flatshort.html#f_is_equal">is_equal</A> (b))
-</A>
-    <A NAME="f_is_case_insensitive_equal"><A HREF="../elks/path_flatshort.html#f_is_case_insensitive_equal">is_case_insensitive_equal</A> (other: <A HREF="../elks/path_flatshort.html">PATH</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Compare path without paying attention to case. If the path is containing some mixed-encoding</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> we might ignore many characters when doing the case comparison.</FONT>
-        <B>require</B>
-            other_not_void: other /= <B>Void</B>
-</A>
-    <A NAME="f_is_case_sensitive_equal"><A HREF="../elks/path_flatshort.html#f_is_case_sensitive_equal">is_case_sensitive_equal</A> (other: <A HREF="../elks/path_flatshort.html">PATH</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Compare path and paying attention to case.</FONT>
-        <B>require</B>
-            other_not_void: other /= <B>Void</B>
-</A>
-    <A NAME="f_is_deep_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_is_deep_equal">is_deep_equal</A> (other: <B>attached</B> <A HREF="../elks/path_flatshort.html">PATH</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`Current'<FONT COLOR="red"> and </FONT>`other'<FONT COLOR="red"> attached to isomorphic object structures?</FONT>
-            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
-        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
-            other_not_void: other /= <B>Void</B>
-        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
-            shallow_implies_deep: <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
-            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other)
-            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flatshort.html#f_is_deep_equal">is_deep_equal</A> (<B>Current</B>)
-</A>
-    <A NAME="f_is_equal"><A HREF="../elks/path_flatshort.html#f_is_equal">is_equal</A> (other: <B>like</B> <B>Current</B>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object considered</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to current object?</FONT>
-        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
-            other_not_void: other /= <B>Void</B>
-        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
-            symmetric: <B>Result</B> <B>implies</B> other ~ <B>Current</B>
-            consistent: <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
-        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/comparable_flatshort.html">COMPARABLE</A>
-            trichotomy: <B>Result</B> = (<B>not</B> (<B>Current</B> &lt; other) <B>and</B> <B>not</B> (other &lt; <B>Current</B>))
-</A>
-    <A NAME="f_is_greater"><A HREF="../elks/comparable_flatshort.html#f_is_greater">is_greater</A> <B>alias</B> "&gt;" (other: <B>attached</B> <A HREF="../elks/path_flatshort.html">PATH</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current object greater than </FONT>`other'<FONT COLOR="red">?</FONT>
-            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/comparable_flatshort.html">COMPARABLE</A><FONT COLOR="red">)</FONT>
-        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/part_comparable_flatshort.html">PART_COMPARABLE</A>
-            other_exists: other /= <B>Void</B>
-        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/comparable_flatshort.html">COMPARABLE</A>
-            definition: <B>Result</B> = (other &lt; <B>Current</B>)
-</A>
-    <A NAME="f_is_greater_equal"><A HREF="../elks/comparable_flatshort.html#f_is_greater_equal">is_greater_equal</A> <B>alias</B> "&gt;=" (other: <B>attached</B> <A HREF="../elks/path_flatshort.html">PATH</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current object greater than or equal to </FONT>`other'<FONT COLOR="red">?</FONT>
-            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/comparable_flatshort.html">COMPARABLE</A><FONT COLOR="red">)</FONT>
-        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/part_comparable_flatshort.html">PART_COMPARABLE</A>
-            other_exists: other /= <B>Void</B>
-        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/comparable_flatshort.html">COMPARABLE</A>
-            definition: <B>Result</B> = (other &lt;= <B>Current</B>)
-</A>
-    <A NAME="f_is_less"><A HREF="../elks/path_flatshort.html#f_is_less">is_less</A> <B>alias</B> "&lt;" (other: <B>like</B> <B>Current</B>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current object less than </FONT>`other'<FONT COLOR="red">?</FONT>
-        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/part_comparable_flatshort.html">PART_COMPARABLE</A>
-            other_exists: other /= <B>Void</B>
-        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/comparable_flatshort.html">COMPARABLE</A>
-            asymmetric: <B>Result</B> <B>implies</B> <B>not</B> (other &lt; <B>Current</B>)
-</A>
-    <A NAME="f_is_less_equal"><A HREF="../elks/comparable_flatshort.html#f_is_less_equal">is_less_equal</A> <B>alias</B> "&lt;=" (other: <B>attached</B> <A HREF="../elks/path_flatshort.html">PATH</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current object less than or equal to </FONT>`other'<FONT COLOR="red">?</FONT>
-            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/comparable_flatshort.html">COMPARABLE</A><FONT COLOR="red">)</FONT>
-        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/part_comparable_flatshort.html">PART_COMPARABLE</A>
-            other_exists: other /= <B>Void</B>
-        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/comparable_flatshort.html">COMPARABLE</A>
-            definition: <B>Result</B> = ((<B>Current</B> &lt; other) <B>or</B> (<B>Current</B> ~ other))
-</A>
-    <A NAME="f_max"><A HREF="../elks/comparable_flatshort.html#f_max">max</A> (other: <B>attached</B> <A HREF="../elks/path_flatshort.html">PATH</A>): <B>attached</B> <A HREF="../elks/path_flatshort.html">PATH</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The greater of current object and </FONT>`other'
-            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/comparable_flatshort.html">COMPARABLE</A><FONT COLOR="red">)</FONT>
-        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/comparable_flatshort.html">COMPARABLE</A>
-            other_exists: other /= <B>Void</B>
-        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/comparable_flatshort.html">COMPARABLE</A>
-            current_if_not_smaller: <B>Current</B> &gt;= other <B>implies</B> <B>Result</B> = <B>Current</B>
-            other_if_smaller: <B>Current</B> &lt; other <B>implies</B> <B>Result</B> = other
-</A>
-    <A NAME="f_min"><A HREF="../elks/comparable_flatshort.html#f_min">min</A> (other: <B>attached</B> <A HREF="../elks/path_flatshort.html">PATH</A>): <B>attached</B> <A HREF="../elks/path_flatshort.html">PATH</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The smaller of current object and </FONT>`other'
-            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/comparable_flatshort.html">COMPARABLE</A><FONT COLOR="red">)</FONT>
-        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/comparable_flatshort.html">COMPARABLE</A>
-            other_exists: other /= <B>Void</B>
-        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/comparable_flatshort.html">COMPARABLE</A>
-            current_if_not_greater: <B>Current</B> &lt;= other <B>implies</B> <B>Result</B> = <B>Current</B>
-            other_if_greater: <B>Current</B> &gt; other <B>implies</B> <B>Result</B> = other
-</A>
-    <A NAME="f_same_as"><A HREF="../elks/path_flatshort.html#f_same_as">same_as</A> (other: <B>detachable</B> <A HREF="../elks/path_flatshort.html">PATH</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is Current the same path as </FONT>`other'<FONT COLOR="red">?</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note that no canonicalization is being performed to compare paths,</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> paths are compared using the OS-specific convention for letter case.</FONT>
-</A>
-    <A NAME="f_standard_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_standard_equal">standard_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached to</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical objects of the same type?</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default object comparison criterion.</FONT>
-            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
-        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
-            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (b))
-</A>
-    <A NAME="f_standard_is_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (other: <B>attached</B> <A HREF="../elks/path_flatshort.html">PATH</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object of the same type</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as current object, and field-by-field identical to it?</FONT>
-            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
-        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
-            other_not_void: other /= <B>Void</B>
-        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
-            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other)
-            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
-</A>
-    <A NAME="f_three_way_comparison"><A HREF="../elks/comparable_flatshort.html#f_three_way_comparison">three_way_comparison</A> (other: <B>attached</B> <A HREF="../elks/path_flatshort.html">PATH</A>): <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If current object equal to </FONT>`other'<FONT COLOR="red">, 0;</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> if smaller, -1; if greater, 1</FONT>
-            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/comparable_flatshort.html">COMPARABLE</A><FONT COLOR="red">)</FONT>
-        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/comparable_flatshort.html">COMPARABLE</A>
-            other_exists: other /= <B>Void</B>
-        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/comparable_flatshort.html">COMPARABLE</A>
-            equal_zero: (<B>Result</B> = 0) = (<B>Current</B> ~ other)
-            smaller_negative: (<B>Result</B> = -1) = (<B>Current</B> &lt; other)
-            greater_positive: (<B>Result</B> = 1) = (<B>Current</B> &gt; other)
-</A>    
-<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+<SPAN CLASS="ekeyword">create</SPAN> 
+	<A NAME="f_make_empty"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_make_empty">make_empty</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Initialize current as an empty path.</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN>
+			<SPAN CLASS="etag">is_empty</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A>
+			<SPAN CLASS="etag">is_normalized</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_normalized">is_normalized</A>
 
-    <A NAME="f_conforms_to"><A HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A> (other: <A HREF="../elks/any_flatshort.html">ANY</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does type of current object conform to type</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of </FONT>`other'<FONT COLOR="red"> (as per Eiffel: The Language, chapter 13)?</FONT>
-            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
-        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
-            other_not_void: other /= <B>Void</B>
-</A>
-    <A NAME="f_has_extension"><A HREF="../elks/path_flatshort.html#f_has_extension">has_extension</A> (a_ext: <A HREF="../elks/readable_string_general_flatshort.html">READABLE_STRING_GENERAL</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`Current'<FONT COLOR="red"> has an extension </FONT>`a_ext'<FONT COLOR="red"> compared in a case insensitive manner?</FONT>
-        <B>require</B>
-            a_ext_not_void: a_ext /= <B>Void</B>
-            a_ext_not_empty: <B>not</B> a_ext.<A HREF="../elks/readable_string_general_flatshort.html#f_is_empty">is_empty</A>
-            a_ext_has_no_dot: <B>not</B> a_ext.<A HREF="../elks/readable_string_general_flatshort.html#f_has">has</A> ('.'.<A HREF="../elks/character_8_flatshort.html#f_to_character_32">to_character_32</A>)
-</A>
-    <A NAME="f_has_root"><A HREF="../elks/path_flatshort.html#f_has_root">has_root</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does current have a root?</FONT>
-        <B>ensure</B>
-            defintion: <B>Result</B> <B>implies</B> <B>not</B> <A HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A>
-</A>
-    <A NAME="f_is_absolute"><A HREF="../elks/path_flatshort.html#f_is_absolute">is_absolute</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current path absolute?</FONT>
-</A>
-    <A NAME="f_is_current_symbol"><A HREF="../elks/path_flatshort.html#f_is_current_symbol">is_current_symbol</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is Current a representation of "."?</FONT>
-</A>
-    <A NAME="f_is_empty"><A HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current empty, i.e. no root and no sequence of names?</FONT>
-</A>
-    <A NAME="f_is_hashable"><A HREF="../elks/hashable_flatshort.html#f_is_hashable">is_hashable</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May current object be hashed?</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (True by default.)</FONT>
-            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/hashable_flatshort.html">HASHABLE</A><FONT COLOR="red">)</FONT>
-</A>
-    <A NAME="f_is_parent_symbol"><A HREF="../elks/path_flatshort.html#f_is_parent_symbol">is_parent_symbol</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is Current Representation of ".."?</FONT>
-</A>
-    <A NAME="f_is_relative"><A HREF="../elks/path_flatshort.html#f_is_relative">is_relative</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current path relative?</FONT>
-</A>
-    <A NAME="f_is_same_file_as"><A HREF="../elks/path_flatshort.html#f_is_same_file_as">is_same_file_as</A> (a_path: <A HREF="../elks/path_flatshort.html">PATH</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`Current'<FONT COLOR="red"> and </FONT>`a_path'<FONT COLOR="red"> points to the same file on disk? It is different from path equality</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as it will take into account symbolic links.</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If </FONT>`Current'<FONT COLOR="red"> or/and </FONT>`a_path'<FONT COLOR="red"> do not exists, it will yield false, otherwise it will compare</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> the file at the file system level.</FONT>
-        <B>require</B>
-            a_path_not_void: a_path /= <B>Void</B>
-</A>
-    <A NAME="f_is_simple"><A HREF="../elks/path_flatshort.html#f_is_simple">is_simple</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current path made of only one name and no root?</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> I.e. readme.txt, usr or the empty path.</FONT>
-</A>
-    <A NAME="f_same_type"><A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other: <A HREF="../elks/any_flatshort.html">ANY</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is type of current object identical to type of </FONT>`other'<FONT COLOR="red">?</FONT>
-            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
-        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
-            other_not_void: other /= <B>Void</B>
-        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
-            definition: <B>Result</B> = (<A HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A> (other) <B>and</B> other.<A HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A> (<B>Current</B>))
-</A>    
-<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status setting</FONT>
+	<A NAME="f_make_current"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_make_current">make_current</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Initialize current as the symbolic representation of the current working directory</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN>
+			<SPAN CLASS="etag">not_empty</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A>
+			<SPAN CLASS="etag">is_normalized</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_normalized">is_normalized</A>
+			<SPAN CLASS="etag">is_current</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_current_symbol">is_current_symbol</A>
 
-    <A NAME="f_appended"><A HREF="../elks/path_flatshort.html#f_appended">appended</A> (a_extra: <A HREF="../elks/readable_string_general_flatshort.html">READABLE_STRING_GENERAL</A>): <A HREF="../elks/path_flatshort.html">PATH</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New path instance of current where </FONT><A HREF="../elks/path_flatshort.html#f_entry">entry</A><FONT COLOR="red"> is appended with </FONT>`a_extra'<FONT COLOR="red"> without</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> adding a directory separator.</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> For example if Current path is "C:" and </FONT>`a_path'<FONT COLOR="red"> is "path\file.txt", it will yield</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> "C:path\file.txt".</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note that </FONT>`a_extra'<FONT COLOR="red"> can be an encoding of a mixed-encoding simple name and it will</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> be decoded accordingly (see note clause for the class for more details.)</FONT>
-        <B>require</B>
-            a_extra_not_void: a_extra /= <B>Void</B>
-            a_extra_not_empty: <B>not</B> a_extra.<A HREF="../elks/readable_string_general_flatshort.html#f_is_empty">is_empty</A>
-        <B>ensure</B>
-            not_empty: <B>not</B> <B>Result</B>.<A HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A>
-            appended: <B>Result</B>.<A HREF="../elks/path_flatshort.html#f_name">name</A>.<A HREF="../elks/readable_string_32_flatshort.html#f_same_string">same_string</A> (<A HREF="../elks/path_flatshort.html#f_name">name</A> + (<B>create</B> {<A HREF="../elks/path_flatshort.html">PATH</A>}.<A HREF="../elks/path_flatshort.html#f_make_from_string">make_from_string</A> (a_extra)).<A HREF="../elks/path_flatshort.html#f_name">name</A>)
-</A>
-    <A NAME="f_appended_with_extension"><A HREF="../elks/path_flatshort.html#f_appended_with_extension">appended_with_extension</A> (a_ext: <A HREF="../elks/readable_string_general_flatshort.html">READABLE_STRING_GENERAL</A>): <A HREF="../elks/path_flatshort.html">PATH</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New path instance of current where </FONT><A HREF="../elks/path_flatshort.html#f_entry">entry</A><FONT COLOR="red"> is extended with a dot followed by </FONT>`a_ext'<FONT COLOR="red">.</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If Current already has a dot, no dot is added.</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note that </FONT>`a_ext'<FONT COLOR="red"> can be an encoding of a mixed-encoding simple name and it will</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> be decoded accordingly (see note clause for the class for more details.)</FONT>
-        <B>require</B>
-            a_ext_not_void: a_ext /= <B>Void</B>
-            a_ext_not_empty: <B>not</B> a_ext.<A HREF="../elks/readable_string_general_flatshort.html#f_is_empty">is_empty</A>
-            a_ext_has_no_dot: <B>not</B> a_ext.<A HREF="../elks/readable_string_general_flatshort.html#f_has">has</A> ('.'.<A HREF="../elks/character_8_flatshort.html#f_to_character_32">to_character_32</A>)
-            a_ext_has_no_directory_separator: <B>not</B> a_ext.<A HREF="../elks/readable_string_general_flatshort.html#f_has">has</A> (<A HREF="../elks/path_flatshort.html#f_windows_separator">Windows_separator</A>.<A HREF="../elks/character_8_flatshort.html#f_to_character_32">to_character_32</A>) <B>and</B> <B>not</B> a_ext.<A HREF="../elks/readable_string_general_flatshort.html#f_has">has</A> (<A HREF="../elks/path_flatshort.html#f_unix_separator">Unix_separator</A>.<A HREF="../elks/character_8_flatshort.html#f_to_character_32">to_character_32</A>)
-            has_entry: <A HREF="../elks/path_flatshort.html#f_entry">entry</A> /= <B>Void</B>
-        <B>ensure</B>
-            not_empty: <B>not</B> <B>Result</B>.<A HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A>
-            extension_set: <B>attached</B> <B>Result</B>.<A HREF="../elks/path_flatshort.html#f_extension">extension</A> <B>as</B> l_ext <B>and then</B> l_ext.<A HREF="../elks/readable_string_general_flatshort.html#f_same_string">same_string_general</A> (a_ext)
-            components_stable: <B>Result</B>.<A HREF="../elks/path_flatshort.html#f_components">components</A>.<A HREF="../elks/arrayed_list_flatshort.html#f_count">count</A> = <A HREF="../elks/path_flatshort.html#f_components">components</A>.<A HREF="../elks/arrayed_list_flatshort.html#f_count">count</A>
-</A>
-    <A NAME="f_extended"><A HREF="../elks/path_flatshort.html#f_extended">extended</A> (a_name: <A HREF="../elks/readable_string_general_flatshort.html">READABLE_STRING_GENERAL</A>): <A HREF="../elks/path_flatshort.html">PATH</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New path instance of current extended with path </FONT>`a_name'<FONT COLOR="red">.</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If current is not empty, then </FONT>`a_name'<FONT COLOR="red"> cannot have a root.</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> A directory separator is added between two entries except</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 1 - </FONT>`a_name'<FONT COLOR="red"> starts with a directory separator (i.e. it has a root)</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 2 - if current is empty or is just a root.</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note that </FONT>`a_name'<FONT COLOR="red"> can be an encoding of a mixed-encoding simple name and it will</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> be decoded accordingly (see note clause for the class for more details.)</FONT>
-        <B>require</B>
-            a_name_not_void: a_name /= <B>Void</B>
-            a_name_not_empty: <B>not</B> a_name.<A HREF="../elks/readable_string_general_flatshort.html#f_is_empty">is_empty</A>
-            a_name_has_no_root: <B>not</B> <A HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A> <B>implies</B> <B>not</B> (<B>create</B> {<A HREF="../elks/path_flatshort.html">PATH</A>}.<A HREF="../elks/path_flatshort.html#f_make_from_string">make_from_string</A> (a_name)).<A HREF="../elks/path_flatshort.html#f_has_root">has_root</A>
-        <B>ensure</B>
-            associated_path_of_name: <B>attached</B> (<B>create</B> {<A HREF="../elks/path_flatshort.html">PATH</A>}.<A HREF="../elks/path_flatshort.html#f_make_from_string">make_from_string</A> (a_name)) <B>as</B> l_path
-            not_empty: <B>not</B> <B>Result</B>.<A HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A>
-            extended_with_only_empty_or_root: (<A HREF="../elks/path_flatshort.html#f_same_as">same_as</A> (<A HREF="../elks/path_flatshort.html#f_root">root</A>) <B>or</B> <A HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A>) <B>implies</B> <B>Result</B>.<A HREF="../elks/path_flatshort.html#f_name">name</A>.<A HREF="../elks/readable_string_32_flatshort.html#f_same_string">same_string</A> (<A HREF="../elks/path_flatshort.html#f_name">name</A> + l_path.<A HREF="../elks/path_flatshort.html#f_name">name</A>)
-            extended_with_more_than_root_or_not_empty: (<B>not</B> <A HREF="../elks/path_flatshort.html#f_same_as">same_as</A> (<A HREF="../elks/path_flatshort.html#f_root">root</A>) <B>and</B> <B>not</B> <A HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A>) <B>implies</B> <B>Result</B>.<A HREF="../elks/path_flatshort.html#f_name">name</A>.<A HREF="../elks/readable_string_32_flatshort.html#f_same_string">same_string</A> (<A HREF="../elks/path_flatshort.html#f_name">name</A> + <A HREF="../elks/path_flatshort.html#f_directory_separator_string">Directory_separator_string</A> + l_path.<A HREF="../elks/path_flatshort.html#f_name">name</A>)
-</A>
-    <A NAME="f_extended_path"><A HREF="../elks/path_flatshort.html#f_extended_path">extended_path</A> <B>alias</B> "+" (a_path: <A HREF="../elks/path_flatshort.html">PATH</A>): <A HREF="../elks/path_flatshort.html">PATH</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New path instance of current extended with path </FONT>`a_path'<FONT COLOR="red">.</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If current is not empty, then </FONT>`a_path'<FONT COLOR="red"> cannot have a root.</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> A directory separator is added between two entries except</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 1 - </FONT>`a_path'<FONT COLOR="red"> starts with a directory separator (i.e. it has a root)</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 2 - if current is empty or is just a root.</FONT>
-        <B>require</B>
-            a_path_not_void: a_path /= <B>Void</B>
-            a_path_not_empty: <B>not</B> a_path.<A HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A>
-            a_path_has_no_root: <B>not</B> <A HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A> <B>implies</B> <B>not</B> a_path.<A HREF="../elks/path_flatshort.html#f_has_root">has_root</A>
-        <B>ensure</B>
-            not_empty: <B>not</B> <B>Result</B>.<A HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A>
-            extended_with_only_empty_or_root: (<A HREF="../elks/path_flatshort.html#f_same_as">same_as</A> (<A HREF="../elks/path_flatshort.html#f_root">root</A>) <B>or</B> <A HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A>) <B>implies</B> <B>Result</B>.<A HREF="../elks/path_flatshort.html#f_name">name</A>.<A HREF="../elks/readable_string_32_flatshort.html#f_same_string">same_string</A> (<A HREF="../elks/path_flatshort.html#f_name">name</A> + a_path.<A HREF="../elks/path_flatshort.html#f_name">name</A>)
-            extended_with_more_than_root_or_not_empty: (<B>not</B> <A HREF="../elks/path_flatshort.html#f_same_as">same_as</A> (<A HREF="../elks/path_flatshort.html#f_root">root</A>) <B>and</B> <B>not</B> <A HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A>) <B>implies</B> <B>Result</B>.<A HREF="../elks/path_flatshort.html#f_name">name</A>.<A HREF="../elks/readable_string_32_flatshort.html#f_same_string">same_string</A> (<A HREF="../elks/path_flatshort.html#f_name">name</A> + <A HREF="../elks/path_flatshort.html#f_directory_separator_string">Directory_separator_string</A> + a_path.<A HREF="../elks/path_flatshort.html#f_name">name</A>)
-</A>    
-<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+	<A NAME="f_make_from_string"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_make_from_string">make_from_string</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_path</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/readable_string_general_flatshort.html">READABLE_STRING_GENERAL</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Initialize current from </SPAN>`a_path'<SPAN CLASS="ecomment"> treated as a sequence of Unicode characters.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> If </SPAN>`a_path'<SPAN CLASS="ecomment"> is trying to represent a mixed-encoded path, then </SPAN>`a_path'<SPAN CLASS="ecomment"> should use</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> the escaped representation as described in UTF_CONVERTER.</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN>
+			<SPAN CLASS="etag">a_path_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">a_path</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN>
+			<SPAN CLASS="etag">not_empty</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <SPAN CLASS="elocal">a_path</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/readable_string_general_flatshort.html#f_is_empty">is_empty</A> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A>
+			<SPAN CLASS="etag">is_normalized</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_normalized">is_normalized</A>
+			<SPAN CLASS="etag">roundtrip</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">True</SPAN>
+			<SPAN CLASS="etag">roundtrip_with_trailing</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">True</SPAN>
 
-    <A NAME="f_copy"><A HREF="../elks/path_flatshort.html#f_copy">copy</A> (other: <B>like</B> <B>Current</B>)
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update current object using fields of object attached</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to </FONT>`other'<FONT COLOR="red">, so as to yield equal objects.</FONT>
-        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
-            other_not_void: other /= <B>Void</B>
-            type_identity: <A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other)
-        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
-            is_equal: <B>Current</B> ~ other
-</A>
-    <A NAME="f_deep_copy"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_deep_copy">deep_copy</A> (other: <B>attached</B> <A HREF="../elks/path_flatshort.html">PATH</A>)
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Effect equivalent to that of:</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red">		</FONT><A HREF="../elks/path_flatshort.html#f_copy">copy</A><FONT COLOR="red"> (</FONT>`other'<FONT COLOR="red"> . </FONT><A HREF="../elks/any_flatshort.html#f_deep_twin">deep_twin</A><FONT COLOR="red">)</FONT>
-            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
-        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
-            other_not_void: other /= <B>Void</B>
-        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
-            deep_equal: <A HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A> (<B>Current</B>, other)
-</A>
-    <A NAME="f_deep_twin"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_deep_twin">deep_twin</A>: <B>attached</B> <A HREF="../elks/path_flatshort.html">PATH</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object structure recursively duplicated from Current.</FONT>
-            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
-        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
-            deep_twin_not_void: <B>Result</B> /= <B>Void</B>
-            deep_equal: <A HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A> (<B>Current</B>, <B>Result</B>)
-</A>
-    <A NAME="f_standard_copy"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_standard_copy">standard_copy</A> (other: <B>attached</B> <A HREF="../elks/path_flatshort.html">PATH</A>)
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy every field of </FONT>`other'<FONT COLOR="red"> onto corresponding field</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object.</FONT>
-            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
-        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
-            other_not_void: other /= <B>Void</B>
-            type_identity: <A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other)
-        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
-            is_standard_equal: <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (other)
-</A>
-    <A NAME="f_standard_twin"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_standard_twin">standard_twin</A>: <B>attached</B> <A HREF="../elks/path_flatshort.html">PATH</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
-            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
-        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
-            standard_twin_not_void: <B>Result</B> /= <B>Void</B>
-            equal: <A HREF="../elks/any_flatshort.html#f_standard_equal">standard_equal</A> (<B>Result</B>, <B>Current</B>)
-</A>
-    <A NAME="f_twin"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_twin">twin</A>: <B>attached</B> <A HREF="../elks/path_flatshort.html">PATH</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object equal to </FONT>`Current'
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/any_flatshort.html#f_twin">twin</A><FONT COLOR="red"> calls </FONT><A HREF="../elks/path_flatshort.html#f_copy">copy</A><FONT COLOR="red">; to change copying/twinning semantics, redefine </FONT><A HREF="../elks/path_flatshort.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
-            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
-        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
-            twin_not_void: <B>Result</B> /= <B>Void</B>
-            is_equal: <B>Result</B> ~ <B>Current</B>
-</A>    
-<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+	<A NAME="f_make_from_separate"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_make_from_separate">make_from_separate</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_path</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Initialize from separate </SPAN>`a_path'<SPAN CLASS="ecomment">.</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN>
+			<SPAN CLASS="etag">a_path_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">a_path</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN>
+			<SPAN CLASS="etag">not_empty</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <SPAN CLASS="elocal">a_path</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A>
+			<SPAN CLASS="etag">is_normalized</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_normalized">is_normalized</A>
 
-    <A NAME="f_as_attached"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_as_attached">as_attached</A>: <B>attached</B> <A HREF="../elks/path_flatshort.html">PATH</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attached version of Current</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Can be used during transitional period to convert</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> non-void-safe classes to void-safe ones.)</FONT>
-            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
-</A>
-    <A NAME="f_default"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_default">default</A>: <B>detachable</B> <A HREF="../elks/path_flatshort.html">PATH</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of object's type</FONT>
-            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
-</A>
-    <A NAME="f_default_pointer"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_default_pointer">default_pointer</A>: <A HREF="../elks/pointer_flatshort.html">POINTER</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of type </FONT>`POINTER'
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Avoid the need to write </FONT>`p'<FONT COLOR="red">.</FONT><A HREF="../elks/any_flatshort.html#f_default">default</A><FONT COLOR="red"> for</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> some </FONT>`p'<FONT COLOR="red"> of type </FONT>`POINTER'<FONT COLOR="red">.)</FONT>
-            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
-</A>
-    <A NAME="f_default_rescue"><A HREF="../elks/any_flatshort.html#f_default_rescue">default_rescue</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process exception for routines with no Rescue clause.</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
-            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
-</A>
-    <A NAME="f_do_nothing"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_do_nothing">do_nothing</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execute a null action.</FONT>
-            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
-</A>    
-<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output</FONT>
+<SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Access</SPAN>
 
-    <A NAME="f_io"><A HREF="../elks/any_flatshort.html#f_io">Io</A>: <A HREF="../elks/std_files_flatshort.html">STD_FILES</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Handle to standard file setup</FONT>
-            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
-        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
-            io_not_void: <B>Result</B> /= <B>Void</B>
-</A>
-    <A NAME="f_name"><A HREF="../elks/path_flatshort.html#f_name">name</A>: <A HREF="../elks/immutable_string_32_flatshort.html">IMMUTABLE_STRING_32</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If current is representable in Unicode, the Unicode representation.</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Otherwise all non-valid sequences for the current platform in the path are escaped</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as mentioned in the note clause of the class.</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> To ensure roundtrip, you cannot use </FONT><A HREF="../elks/path_flatshort.html#f_name">name</A><FONT COLOR="red"> directly to create a </FONT>`FILE'<FONT COLOR="red">, you have to</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> create a </FONT>`PATH'<FONT COLOR="red"> instance using </FONT><A HREF="../elks/path_flatshort.html#f_make_from_string">make_from_string</A><FONT COLOR="red"> before passing it to the creation</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> procedure of </FONT>`FILE'<FONT COLOR="red"> taking an instance of </FONT>`PATH'<FONT COLOR="red">.</FONT>
-        <B>ensure</B>
-            roundtrip: <A HREF="../elks/path_flatshort.html#f_same_as">same_as</A> (<B>create</B> {<A HREF="../elks/path_flatshort.html">PATH</A>}.<A HREF="../elks/path_flatshort.html#f_make_from_string">make_from_string</A> (<B>Result</B>))
-</A>
-    <A NAME="f_out"><A HREF="../elks/path_flatshort.html#f_out">out</A>: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> ASCII representation of the underlying filename if representable,</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> otherwise a UTF-8 encoded version.</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Use </FONT><A HREF="../elks/path_flatshort.html#f_utf_8_name">utf_8_name</A><FONT COLOR="red"> to have a printable representation whose format is not going</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to be changed in the future.</FONT>
-        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
-            out_not_void: <B>Result</B> /= <B>Void</B>
-</A>
-    <A NAME="f_print"><A HREF="../elks/any_flatshort.html#f_print">print</A> (o: <B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>)
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write terse external representation of </FONT>`o'
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on standard output.</FONT>
-            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
-</A>
-    <A NAME="f_tagged_out"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_tagged_out">tagged_out</A>: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
-            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
-        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
-            tagged_out_not_void: <B>Result</B> /= <B>Void</B>
-</A>
-    <A NAME="f_utf_8_name"><A HREF="../elks/path_flatshort.html#f_utf_8_name">utf_8_name</A>: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> UTF-8 representation of the underlying filename.</FONT>
-</A>    
-<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Platform</FONT>
+	<A NAME="f_absolute_path"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_absolute_path">absolute_path</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Absolute path of Current.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> If Current is already absolute, then return Current.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> If Current is empty, then return the current working directory.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Otherwise resolve the path in a platform specific way:</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> * On UNIX, resolve against the current working directory</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> * On Windows:</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> &nbsp;&nbsp;&nbsp;a) if current has a drive letter which is not followed by &quot;\&quot;</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resolve against the current working directory for that drive letter,</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise resolve against the current working directory.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> &nbsp;&nbsp;&nbsp;b) if current path starts with &quot;\&quot;, not a double &quot;\\&quot;, then resolve</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;against the root of the current working directory (i.e. a drive</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;letter &quot;C:\&quot; or a UNC path &quot;\\server\share\&quot;.)</SPAN>
 
-    <A NAME="f_operating_environment"><A HREF="../elks/any_flatshort.html#f_operating_environment">Operating_environment</A>: <A HREF="../elks/operating_environment_flatshort.html">OPERATING_ENVIRONMENT</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Objects available from the operating system</FONT>
-            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
-        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
-            operating_environment_not_void: <B>Result</B> /= <B>Void</B>
-</A>    
-<B>invariant</B>
-    little_endian_windows: {<A HREF="../elks/platform_flatshort.html">PLATFORM</A>}.<A HREF="../elks/platform_flatshort.html#f_is_windows">is_windows</A> <B>implies</B> <A HREF="../elks/path_flatshort.html#f_platform">Platform</A>.<A HREF="../elks/platform_flatshort.html#f_is_little_endian">Is_little_endian</A>
-    even_count_on_windows: {<A HREF="../elks/platform_flatshort.html">PLATFORM</A>}.<A HREF="../elks/platform_flatshort.html#f_is_windows">is_windows</A> <B>implies</B> <A HREF="../elks/path_flatshort.html#f_storage">storage</A>.<A HREF="../elks/readable_string_8_flatshort.html#f_count">count</A> \\ <A HREF="../elks/path_flatshort.html#f_unit_size">unit_size</A> = 0
-    no_forward_slash_on_windows: {<A HREF="../elks/platform_flatshort.html">PLATFORM</A>}.<A HREF="../elks/platform_flatshort.html#f_is_windows">is_windows</A> <B>implies</B> <B>not</B> <A HREF="../elks/path_flatshort.html#f_storage">storage</A>.<A HREF="../elks/readable_string_general_flatshort.html#f_has_substring">has_substring</A> ("/%U")
+	<A NAME="f_absolute_path_in"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_absolute_path_in">absolute_path_in</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_current_directory</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Absolute path of Current in the context of </SPAN>`a_current_directory'<SPAN CLASS="ecomment">.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> If Current is already absolute, then return Current.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> If Current is empty, then return </SPAN>`a_current_directory'<SPAN CLASS="ecomment">.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Otherwise resolve the path in a platform specific way:</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> * On UNIX, resolve against </SPAN>`a_current_directory'
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> * On Windows:</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> &nbsp;&nbsp;&nbsp;a) if current has a drive letter which is not followed by &quot;\&quot;</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resolve against </SPAN>`a_current_directory'<SPAN CLASS="ecomment"> for that drive letter,</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise resolve against </SPAN>`a_current_directory'<SPAN CLASS="ecomment">.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> &nbsp;&nbsp;&nbsp;b) if current path starts with &quot;\&quot;, not a double &quot;\\&quot;, then resolve</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;against the root of `a_current_directory; (i.e. a drive</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;letter &quot;C:\&quot; or a UNC path &quot;\\server\share\&quot;.)</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN>
+			<SPAN CLASS="etag">a_current_directory_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">a_current_directory</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+			<SPAN CLASS="etag">a_current_directory_absolute</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">a_current_directory</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_absolute">is_absolute</A>
+		<SPAN CLASS="ekeyword">ensure</SPAN>
+			<SPAN CLASS="etag">has_root</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_has_root">has_root</A>
 
-        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
-    reflexive_equality: <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
-    reflexive_conformance: <A HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A> (<B>Current</B>)
+	<A NAME="f_canonical_path"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_canonical_path">canonical_path</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Canonical path of Current.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Similar to </SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_absolute_path">absolute_path</A><SPAN CLASS="ecomment"> except that sequences containing &quot;.&quot; or &quot;..&quot; are</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> resolved.</SPAN>
 
-        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/comparable_flatshort.html">COMPARABLE</A>
-    irreflexive_comparison: <B>not</B> (<B>Current</B> &lt; <B>Current</B>)
+	<A NAME="f_components"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_components">components</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/arrayed_list_flatshort.html">ARRAYED_LIST</A> <SPAN CLASS="esymbol">[</SPAN><A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A><SPAN CLASS="esymbol">]</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Sequence of simple paths making up Current, including </SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_root">root</A><SPAN CLASS="ecomment"> if any.</SPAN>
 
-<B>note</B>
-    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
-    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
-    source: "[
-        Eiffel Software
-        5949 Hollister Ave., Goleta, CA 93117 USA
-        Telephone 805-685-1006, Fax 805-685-6869
-        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
-        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
-    ]"
+	<A NAME="f_directory_separator"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_directory_separator">directory_separator</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/character_8_flatshort.html">CHARACTER_8</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Default directory separator for the current platform.</SPAN>
 
-<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/path_flatshort.html">PATH</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="path_chart.html">Chart</A></TD><TD><A HREF="path_links.html">Relations</A></TD><TD><A HREF="path.html">Text</A></TD><TD><A HREF="path_flat.html">Flat</A></TD><TD><A HREF="path_short.html">Contracts</A></TD><TD>Flat contracts</TD></TR></TABLE></PRE>
-<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
-<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+	<A NAME="f_entry"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_entry">entry</A><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">detachable</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Name of file or directory denoted by Current if any.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> This is the last name in the current sequence.</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN>
+			<SPAN CLASS="etag">not_empty</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A>
+
+	<A NAME="f_extension"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_extension">extension</A><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">detachable</SPAN> <A CLASS="eclass" HREF="../elks/immutable_string_32_flatshort.html">IMMUTABLE_STRING_32</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Extension if any of current entry.</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN>
+			<SPAN CLASS="etag">not_empty</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/immutable_string_32_flatshort.html#f_is_empty">is_empty</A>
+			<SPAN CLASS="etag">no_dot</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/readable_string_32_flatshort.html#f_has">has</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="echar">'.'</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/character_8_flatshort.html#f_to_character_32">to_character_32</A><SPAN CLASS="esymbol">)</SPAN>
+
+	<A NAME="f_generating_type"></A><A CLASS="efeature" HREF="../elks/any_flatshort.html#f_generating_type">generating_type</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/type_flatshort.html">TYPE</A> <SPAN CLASS="esymbol">[</SPAN><SPAN CLASS="ekeyword">detachable</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A><SPAN CLASS="esymbol">]</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Type of current object</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> (type of which it is a direct instance)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A>
+			<SPAN CLASS="etag">generating_type_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+
+	<A NAME="f_generator"></A><A CLASS="efeature" HREF="../elks/any_flatshort.html#f_generator">generator</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/string_8_flatshort.html">STRING_8</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Name of current object's generating class</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> (base class of the type of which it is a direct instance)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A>
+			<SPAN CLASS="etag">generator_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+			<SPAN CLASS="etag">generator_not_empty</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/finite_flatshort.html#f_is_empty">is_empty</A>
+
+	<A NAME="f_hash_code"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_hash_code">hash_code</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Hash code value</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/hashable_flatshort.html">HASHABLE</A>
+			<SPAN CLASS="etag">good_hash_value</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <A CLASS="esymbol" HREF="../elks/comparable_flatshort.html#f_is_greater_equal">&gt;=</A> <SPAN CLASS="enumber">0</SPAN>
+
+	<A NAME="f_native_string"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_native_string">native_string</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/native_string_flatshort.html">NATIVE_STRING</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Convert current into an instance of NATIVE_STRING</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN>
+			<SPAN CLASS="etag">set</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/native_string_flatshort.html#f_raw_string">raw_string</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/readable_string_8_flatshort.html#f_same_string">same_string</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_storage">storage</A><SPAN CLASS="esymbol">)</SPAN>
+
+	<A NAME="f_parent"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_parent">parent</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Parent directory if any, otherwise current working path.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> The parent of a path consists of </SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_root">root</A><SPAN CLASS="ecomment"> if any, and of each</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> simple names in the current sequence except for the last.</SPAN>
+
+	<A NAME="f_root"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_root">root</A><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">detachable</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Root if any of current path.</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN>
+			<SPAN CLASS="etag">has_root_implies_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_has_root">has_root</A> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+
+	<A NAME="f_unix_separator"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_unix_separator">Unix_separator</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/character_8_flatshort.html">CHARACTER_8</A> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="echar">'/'</SPAN>
+
+	<A NAME="f_windows_separator"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_windows_separator">Windows_separator</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/character_8_flatshort.html">CHARACTER_8</A> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="echar">'\'</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Platform specific directory separator.</SPAN>
+	
+<SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Comparison</SPAN>
+
+	<A NAME="f_deep_equal"></A><SPAN CLASS="ekeyword">frozen</SPAN> <A CLASS="efeature" HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">detachable</SPAN> <A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A><SPAN CLASS="esymbol">;</SPAN> <SPAN CLASS="elocal">b</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">like</SPAN> arg #<SPAN CLASS="enumber">1</SPAN><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Are </SPAN>`a'<SPAN CLASS="ecomment"> and </SPAN>`b'<SPAN CLASS="ecomment"> either both void</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> or attached to isomorphic object structures?</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A>
+			<SPAN CLASS="etag">shallow_implies_deep</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/any_flatshort.html#f_standard_equal">standard_equal</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="elocal">b</SPAN><SPAN CLASS="esymbol">)</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <SPAN CLASS="ekeyword">Result</SPAN>
+			<SPAN CLASS="etag">both_or_none_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN><SPAN CLASS="esymbol">)</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">b</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="etag">same_type</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">Result</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_conjuncted">and</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">)</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">b</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_conjuncted_semistrict">and then</A> <SPAN CLASS="elocal">a</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/any_flatshort.html#f_same_type">same_type</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">b</SPAN><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="etag">symmetric</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <A CLASS="efeature" HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">b</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="elocal">a</SPAN><SPAN CLASS="esymbol">)</SPAN>
+
+	<A NAME="f_equal"></A><SPAN CLASS="ekeyword">frozen</SPAN> <A CLASS="efeature" HREF="../elks/any_flatshort.html#f_equal">equal</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">detachable</SPAN> <A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A><SPAN CLASS="esymbol">;</SPAN> <SPAN CLASS="elocal">b</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">like</SPAN> arg #<SPAN CLASS="enumber">1</SPAN><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Are </SPAN>`a'<SPAN CLASS="ecomment"> and </SPAN>`b'<SPAN CLASS="ecomment"> either both void or attached</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> to objects considered equal?</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A>
+			<SPAN CLASS="etag">definition</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_conjuncted">and</A> <SPAN CLASS="elocal">b</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN><SPAN CLASS="esymbol">)</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_disjuncted_semistrict">or else</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_conjuncted">and</A> <SPAN CLASS="elocal">b</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN><SPAN CLASS="esymbol">)</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_conjuncted_semistrict">and then</A> <SPAN CLASS="elocal">a</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/any_flatshort.html#f_is_equal">is_equal</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">b</SPAN><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">)</SPAN>
+
+	<A NAME="f_is_case_insensitive_equal"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_case_insensitive_equal">is_case_insensitive_equal</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Compare path without paying attention to case. If the path is containing some mixed-encoding</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> we might ignore many characters when doing the case comparison.</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN>
+			<SPAN CLASS="etag">other_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">other</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+
+	<A NAME="f_is_case_sensitive_equal"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_case_sensitive_equal">is_case_sensitive_equal</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Compare path and paying attention to case.</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN>
+			<SPAN CLASS="etag">other_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">other</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+
+	<A NAME="f_is_deep_equal"></A><SPAN CLASS="ekeyword">frozen</SPAN> <A CLASS="efeature" HREF="../elks/any_flatshort.html#f_is_deep_equal">is_deep_equal</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Are </SPAN>`Current'<SPAN CLASS="ecomment"> and </SPAN>`other'<SPAN CLASS="ecomment"> attached to isomorphic object structures?</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A>
+			<SPAN CLASS="etag">other_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">other</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A>
+			<SPAN CLASS="etag">shallow_implies_deep</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">)</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <SPAN CLASS="ekeyword">Result</SPAN>
+			<SPAN CLASS="etag">same_type</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <A CLASS="efeature" HREF="../elks/any_flatshort.html#f_same_type">same_type</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="etag">symmetric</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <SPAN CLASS="elocal">other</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/any_flatshort.html#f_is_deep_equal">is_deep_equal</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">Current</SPAN><SPAN CLASS="esymbol">)</SPAN>
+
+	<A NAME="f_is_equal"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_equal">is_equal</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">like</SPAN> <SPAN CLASS="ekeyword">Current</SPAN><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Is </SPAN>`other'<SPAN CLASS="ecomment"> attached to an object considered</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> equal to current object?</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A>
+			<SPAN CLASS="etag">other_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">other</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A>
+			<SPAN CLASS="etag">symmetric</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <SPAN CLASS="elocal">other</SPAN> <SPAN CLASS="esymbol">~</SPAN> <SPAN CLASS="ekeyword">Current</SPAN>
+			<SPAN CLASS="etag">consistent</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">)</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <SPAN CLASS="ekeyword">Result</SPAN>
+		<SPAN CLASS="ekeyword">ensure then</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/comparable_flatshort.html">COMPARABLE</A>
+			<SPAN CLASS="etag">trichotomy</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="esymbol">(</SPAN><A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">Current</SPAN> <A CLASS="esymbol" HREF="../elks/path_flatshort.html#f_is_less">&lt;</A> <SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">)</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_conjuncted">and</A> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN> <A CLASS="esymbol" HREF="../elks/path_flatshort.html#f_is_less">&lt;</A> <SPAN CLASS="ekeyword">Current</SPAN><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">)</SPAN>
+
+	<A NAME="f_is_greater"></A><A CLASS="efeature" HREF="../elks/comparable_flatshort.html#f_is_greater">is_greater</A> <SPAN CLASS="ekeyword">alias</SPAN> <SPAN CLASS="esymbol">&quot;</SPAN><A CLASS="esymbol" HREF="../elks/comparable_flatshort.html#f_is_greater">&gt;</A><SPAN CLASS="esymbol">&quot;</SPAN> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Is current object greater than </SPAN>`other'<SPAN CLASS="ecomment">?</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../elks/comparable_flatshort.html">COMPARABLE</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/part_comparable_flatshort.html">PART_COMPARABLE</A>
+			<SPAN CLASS="etag">other_exists</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">other</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+		<SPAN CLASS="ekeyword">ensure then</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/comparable_flatshort.html">COMPARABLE</A>
+			<SPAN CLASS="etag">definition</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN> <A CLASS="esymbol" HREF="../elks/path_flatshort.html#f_is_less">&lt;</A> <SPAN CLASS="ekeyword">Current</SPAN><SPAN CLASS="esymbol">)</SPAN>
+
+	<A NAME="f_is_greater_equal"></A><A CLASS="efeature" HREF="../elks/comparable_flatshort.html#f_is_greater_equal">is_greater_equal</A> <SPAN CLASS="ekeyword">alias</SPAN> <SPAN CLASS="esymbol">&quot;</SPAN><A CLASS="esymbol" HREF="../elks/comparable_flatshort.html#f_is_greater_equal">&gt;=</A><SPAN CLASS="esymbol">&quot;</SPAN> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Is current object greater than or equal to </SPAN>`other'<SPAN CLASS="ecomment">?</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../elks/comparable_flatshort.html">COMPARABLE</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/part_comparable_flatshort.html">PART_COMPARABLE</A>
+			<SPAN CLASS="etag">other_exists</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">other</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+		<SPAN CLASS="ekeyword">ensure then</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/comparable_flatshort.html">COMPARABLE</A>
+			<SPAN CLASS="etag">definition</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN> <A CLASS="esymbol" HREF="../elks/comparable_flatshort.html#f_is_less_equal">&lt;=</A> <SPAN CLASS="ekeyword">Current</SPAN><SPAN CLASS="esymbol">)</SPAN>
+
+	<A NAME="f_is_less"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_less">is_less</A> <SPAN CLASS="ekeyword">alias</SPAN> <SPAN CLASS="esymbol">&quot;</SPAN><A CLASS="esymbol" HREF="../elks/path_flatshort.html#f_is_less">&lt;</A><SPAN CLASS="esymbol">&quot;</SPAN> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">like</SPAN> <SPAN CLASS="ekeyword">Current</SPAN><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Is current object less than </SPAN>`other'<SPAN CLASS="ecomment">?</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/part_comparable_flatshort.html">PART_COMPARABLE</A>
+			<SPAN CLASS="etag">other_exists</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">other</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+		<SPAN CLASS="ekeyword">ensure then</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/comparable_flatshort.html">COMPARABLE</A>
+			<SPAN CLASS="etag">asymmetric</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN> <A CLASS="esymbol" HREF="../elks/path_flatshort.html#f_is_less">&lt;</A> <SPAN CLASS="ekeyword">Current</SPAN><SPAN CLASS="esymbol">)</SPAN>
+
+	<A NAME="f_is_less_equal"></A><A CLASS="efeature" HREF="../elks/comparable_flatshort.html#f_is_less_equal">is_less_equal</A> <SPAN CLASS="ekeyword">alias</SPAN> <SPAN CLASS="esymbol">&quot;</SPAN><A CLASS="esymbol" HREF="../elks/comparable_flatshort.html#f_is_less_equal">&lt;=</A><SPAN CLASS="esymbol">&quot;</SPAN> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Is current object less than or equal to </SPAN>`other'<SPAN CLASS="ecomment">?</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../elks/comparable_flatshort.html">COMPARABLE</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/part_comparable_flatshort.html">PART_COMPARABLE</A>
+			<SPAN CLASS="etag">other_exists</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">other</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+		<SPAN CLASS="ekeyword">ensure then</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/comparable_flatshort.html">COMPARABLE</A>
+			<SPAN CLASS="etag">definition</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">Current</SPAN> <A CLASS="esymbol" HREF="../elks/path_flatshort.html#f_is_less">&lt;</A> <SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">)</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_disjuncted">or</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">Current</SPAN> <SPAN CLASS="esymbol">~</SPAN> <SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">)</SPAN>
+
+	<A NAME="f_max"></A><A CLASS="efeature" HREF="../elks/comparable_flatshort.html#f_max">max</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> The greater of current object and </SPAN>`other'
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../elks/comparable_flatshort.html">COMPARABLE</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/comparable_flatshort.html">COMPARABLE</A>
+			<SPAN CLASS="etag">other_exists</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">other</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/comparable_flatshort.html">COMPARABLE</A>
+			<SPAN CLASS="etag">current_if_not_smaller</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Current</SPAN> <A CLASS="esymbol" HREF="../elks/comparable_flatshort.html#f_is_greater_equal">&gt;=</A> <SPAN CLASS="elocal">other</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="ekeyword">Current</SPAN>
+			<SPAN CLASS="etag">other_if_smaller</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Current</SPAN> <A CLASS="esymbol" HREF="../elks/path_flatshort.html#f_is_less">&lt;</A> <SPAN CLASS="elocal">other</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="elocal">other</SPAN>
+
+	<A NAME="f_min"></A><A CLASS="efeature" HREF="../elks/comparable_flatshort.html#f_min">min</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> The smaller of current object and </SPAN>`other'
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../elks/comparable_flatshort.html">COMPARABLE</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/comparable_flatshort.html">COMPARABLE</A>
+			<SPAN CLASS="etag">other_exists</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">other</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/comparable_flatshort.html">COMPARABLE</A>
+			<SPAN CLASS="etag">current_if_not_greater</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Current</SPAN> <A CLASS="esymbol" HREF="../elks/comparable_flatshort.html#f_is_less_equal">&lt;=</A> <SPAN CLASS="elocal">other</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="ekeyword">Current</SPAN>
+			<SPAN CLASS="etag">other_if_greater</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Current</SPAN> <A CLASS="esymbol" HREF="../elks/comparable_flatshort.html#f_is_greater">&gt;</A> <SPAN CLASS="elocal">other</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="elocal">other</SPAN>
+
+	<A NAME="f_same_as"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_same_as">same_as</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">detachable</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Is Current the same path as </SPAN>`other'<SPAN CLASS="ecomment">?</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Note that no canonicalization is being performed to compare paths,</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> paths are compared using the OS-specific convention for letter case.</SPAN>
+
+	<A NAME="f_standard_equal"></A><SPAN CLASS="ekeyword">frozen</SPAN> <A CLASS="efeature" HREF="../elks/any_flatshort.html#f_standard_equal">standard_equal</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">detachable</SPAN> <A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A><SPAN CLASS="esymbol">;</SPAN> <SPAN CLASS="elocal">b</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">like</SPAN> arg #<SPAN CLASS="enumber">1</SPAN><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Are </SPAN>`a'<SPAN CLASS="ecomment"> and </SPAN>`b'<SPAN CLASS="ecomment"> either both void or attached to</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> field-by-field identical objects of the same type?</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Always uses default object comparison criterion.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A>
+			<SPAN CLASS="etag">definition</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_conjuncted">and</A> <SPAN CLASS="elocal">b</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN><SPAN CLASS="esymbol">)</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_disjuncted_semistrict">or else</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_conjuncted">and</A> <SPAN CLASS="elocal">b</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN><SPAN CLASS="esymbol">)</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_conjuncted_semistrict">and then</A> <SPAN CLASS="elocal">a</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">b</SPAN><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">)</SPAN>
+
+	<A NAME="f_standard_is_equal"></A><SPAN CLASS="ekeyword">frozen</SPAN> <A CLASS="efeature" HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Is </SPAN>`other'<SPAN CLASS="ecomment"> attached to an object of the same type</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> as current object, and field-by-field identical to it?</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A>
+			<SPAN CLASS="etag">other_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">other</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A>
+			<SPAN CLASS="etag">same_type</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <A CLASS="efeature" HREF="../elks/any_flatshort.html#f_same_type">same_type</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="etag">symmetric</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <SPAN CLASS="elocal">other</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">Current</SPAN><SPAN CLASS="esymbol">)</SPAN>
+
+	<A NAME="f_three_way_comparison"></A><A CLASS="efeature" HREF="../elks/comparable_flatshort.html#f_three_way_comparison">three_way_comparison</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> If current object equal to </SPAN>`other'<SPAN CLASS="ecomment">, 0;</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> if smaller, -1; if greater, 1</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../elks/comparable_flatshort.html">COMPARABLE</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/comparable_flatshort.html">COMPARABLE</A>
+			<SPAN CLASS="etag">other_exists</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">other</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/comparable_flatshort.html">COMPARABLE</A>
+			<SPAN CLASS="etag">equal_zero</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="enumber">0</SPAN><SPAN CLASS="esymbol">)</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">Current</SPAN> <SPAN CLASS="esymbol">~</SPAN> <SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="etag">smaller_negative</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="enumber">-1</SPAN><SPAN CLASS="esymbol">)</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">Current</SPAN> <A CLASS="esymbol" HREF="../elks/path_flatshort.html#f_is_less">&lt;</A> <SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="etag">greater_positive</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="enumber">1</SPAN><SPAN CLASS="esymbol">)</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">Current</SPAN> <A CLASS="esymbol" HREF="../elks/comparable_flatshort.html#f_is_greater">&gt;</A> <SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">)</SPAN>
+	
+<SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Status report</SPAN>
+
+	<A NAME="f_conforms_to"></A><A CLASS="efeature" HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Does type of current object conform to type</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> of </SPAN>`other'<SPAN CLASS="ecomment"> (as per Eiffel: The Language, chapter 13)?</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A>
+			<SPAN CLASS="etag">other_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">other</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+
+	<A NAME="f_has_extension"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_has_extension">has_extension</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_ext</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/readable_string_general_flatshort.html">READABLE_STRING_GENERAL</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Does </SPAN>`Current'<SPAN CLASS="ecomment"> has an extension </SPAN>`a_ext'<SPAN CLASS="ecomment"> compared in a case insensitive manner?</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN>
+			<SPAN CLASS="etag">a_ext_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">a_ext</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+			<SPAN CLASS="etag">a_ext_not_empty</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <SPAN CLASS="elocal">a_ext</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/readable_string_general_flatshort.html#f_is_empty">is_empty</A>
+			<SPAN CLASS="etag">a_ext_has_no_dot</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <SPAN CLASS="elocal">a_ext</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/readable_string_general_flatshort.html#f_has">has</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="echar">'.'</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/character_8_flatshort.html#f_to_character_32">to_character_32</A><SPAN CLASS="esymbol">)</SPAN>
+
+	<A NAME="f_has_root"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_has_root">has_root</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Does current have a root?</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN>
+			<SPAN CLASS="etag">defintion</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A>
+
+	<A NAME="f_is_absolute"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_absolute">is_absolute</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Is current path absolute?</SPAN>
+
+	<A NAME="f_is_current_symbol"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_current_symbol">is_current_symbol</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Is Current a representation of &quot;.&quot;?</SPAN>
+
+	<A NAME="f_is_empty"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Is current empty, i.e. no root and no sequence of names?</SPAN>
+
+	<A NAME="f_is_hashable"></A><A CLASS="efeature" HREF="../elks/hashable_flatshort.html#f_is_hashable">is_hashable</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> May current object be hashed?</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> (True by default.)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../elks/hashable_flatshort.html">HASHABLE</A><SPAN CLASS="ecomment">)</SPAN>
+
+	<A NAME="f_is_parent_symbol"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_parent_symbol">is_parent_symbol</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Is Current Representation of &quot;..&quot;?</SPAN>
+
+	<A NAME="f_is_relative"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_relative">is_relative</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Is current path relative?</SPAN>
+
+	<A NAME="f_is_same_file_as"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_same_file_as">is_same_file_as</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_path</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Does </SPAN>`Current'<SPAN CLASS="ecomment"> and </SPAN>`a_path'<SPAN CLASS="ecomment"> points to the same file on disk? It is different from path equality</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> as it will take into account symbolic links.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> If </SPAN>`Current'<SPAN CLASS="ecomment"> or/and </SPAN>`a_path'<SPAN CLASS="ecomment"> do not exists, it will yield false, otherwise it will compare</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> the file at the file system level.</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN>
+			<SPAN CLASS="etag">a_path_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">a_path</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+
+	<A NAME="f_is_simple"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_simple">is_simple</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Is current path made of only one name and no root?</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> I.e. readme.txt, usr or the empty path.</SPAN>
+
+	<A NAME="f_same_type"></A><A CLASS="efeature" HREF="../elks/any_flatshort.html#f_same_type">same_type</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Is type of current object identical to type of </SPAN>`other'<SPAN CLASS="ecomment">?</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A>
+			<SPAN CLASS="etag">other_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">other</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A>
+			<SPAN CLASS="etag">definition</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">)</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_conjuncted">and</A> <SPAN CLASS="elocal">other</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">Current</SPAN><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">)</SPAN>
+	
+<SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Status setting</SPAN>
+
+	<A NAME="f_appended"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_appended">appended</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_extra</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/readable_string_general_flatshort.html">READABLE_STRING_GENERAL</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> New path instance of current where </SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_entry">entry</A><SPAN CLASS="ecomment"> is appended with </SPAN>`a_extra'<SPAN CLASS="ecomment"> without</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> adding a directory separator.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> For example if Current path is &quot;C:&quot; and </SPAN>`a_path'<SPAN CLASS="ecomment"> is &quot;path\file.txt&quot;, it will yield</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> &quot;C:path\file.txt&quot;.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Note that </SPAN>`a_extra'<SPAN CLASS="ecomment"> can be an encoding of a mixed-encoding simple name and it will</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> be decoded accordingly (see note clause for the class for more details.)</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN>
+			<SPAN CLASS="etag">a_extra_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">a_extra</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+			<SPAN CLASS="etag">a_extra_not_empty</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <SPAN CLASS="elocal">a_extra</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/readable_string_general_flatshort.html#f_is_empty">is_empty</A>
+		<SPAN CLASS="ekeyword">ensure</SPAN>
+			<SPAN CLASS="etag">not_empty</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A>
+			<SPAN CLASS="etag">appended</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_name">name</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/readable_string_32_flatshort.html#f_same_string">same_string</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_name">name</A> <A CLASS="esymbol" HREF="../elks/immutable_string_32_flatshort.html#f_plus">+</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">create</SPAN><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A><SPAN CLASS="esymbol">}</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_make_from_string">make_from_string</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_extra</SPAN><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_name">name</A><SPAN CLASS="esymbol">)</SPAN>
+
+	<A NAME="f_appended_with_extension"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_appended_with_extension">appended_with_extension</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_ext</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/readable_string_general_flatshort.html">READABLE_STRING_GENERAL</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> New path instance of current where </SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_entry">entry</A><SPAN CLASS="ecomment"> is extended with a dot followed by </SPAN>`a_ext'<SPAN CLASS="ecomment">.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> If Current already has a dot, no dot is added.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Note that </SPAN>`a_ext'<SPAN CLASS="ecomment"> can be an encoding of a mixed-encoding simple name and it will</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> be decoded accordingly (see note clause for the class for more details.)</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN>
+			<SPAN CLASS="etag">a_ext_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">a_ext</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+			<SPAN CLASS="etag">a_ext_not_empty</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <SPAN CLASS="elocal">a_ext</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/readable_string_general_flatshort.html#f_is_empty">is_empty</A>
+			<SPAN CLASS="etag">a_ext_has_no_dot</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <SPAN CLASS="elocal">a_ext</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/readable_string_general_flatshort.html#f_has">has</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="echar">'.'</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/character_8_flatshort.html#f_to_character_32">to_character_32</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="etag">a_ext_has_no_directory_separator</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <SPAN CLASS="elocal">a_ext</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/readable_string_general_flatshort.html#f_has">has</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_windows_separator">Windows_separator</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/character_8_flatshort.html#f_to_character_32">to_character_32</A><SPAN CLASS="esymbol">)</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_conjuncted">and</A> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <SPAN CLASS="elocal">a_ext</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/readable_string_general_flatshort.html#f_has">has</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_unix_separator">Unix_separator</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/character_8_flatshort.html#f_to_character_32">to_character_32</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="etag">has_entry</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_entry">entry</A> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN>
+			<SPAN CLASS="etag">not_empty</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A>
+			<SPAN CLASS="etag">extension_set</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_extension">extension</A> <SPAN CLASS="ekeyword">as</SPAN> l_ext <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_conjuncted_semistrict">and then</A> <SPAN CLASS="elocal">l_ext</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/readable_string_general_flatshort.html#f_same_string">same_string_general</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_ext</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="etag">components_stable</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_components">components</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/arrayed_list_flatshort.html#f_count">count</A> <SPAN CLASS="esymbol">=</SPAN> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_components">components</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/arrayed_list_flatshort.html#f_count">count</A>
+
+	<A NAME="f_extended"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_extended">extended</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_name</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/readable_string_general_flatshort.html">READABLE_STRING_GENERAL</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> New path instance of current extended with path </SPAN>`a_name'<SPAN CLASS="ecomment">.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> If current is not empty, then </SPAN>`a_name'<SPAN CLASS="ecomment"> cannot have a root.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> A directory separator is added between two entries except</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> 1 - </SPAN>`a_name'<SPAN CLASS="ecomment"> starts with a directory separator (i.e. it has a root)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> 2 - if current is empty or is just a root.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Note that </SPAN>`a_name'<SPAN CLASS="ecomment"> can be an encoding of a mixed-encoding simple name and it will</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> be decoded accordingly (see note clause for the class for more details.)</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN>
+			<SPAN CLASS="etag">a_name_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">a_name</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+			<SPAN CLASS="etag">a_name_not_empty</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <SPAN CLASS="elocal">a_name</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/readable_string_general_flatshort.html#f_is_empty">is_empty</A>
+			<SPAN CLASS="etag">a_name_has_no_root</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">create</SPAN><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A><SPAN CLASS="esymbol">}</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_make_from_string">make_from_string</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_name</SPAN><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_has_root">has_root</A>
+		<SPAN CLASS="ekeyword">ensure</SPAN>
+			<SPAN CLASS="etag">associated_path_of_name</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">create</SPAN><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A><SPAN CLASS="esymbol">}</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_make_from_string">make_from_string</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_name</SPAN><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">)</SPAN> <SPAN CLASS="ekeyword">as</SPAN> l_path
+			<SPAN CLASS="etag">not_empty</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A>
+			<SPAN CLASS="etag">extended_with_only_empty_or_root</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_same_as">same_as</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_root">root</A><SPAN CLASS="esymbol">)</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_disjuncted">or</A> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A><SPAN CLASS="esymbol">)</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_name">name</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/readable_string_32_flatshort.html#f_same_string">same_string</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_name">name</A> <A CLASS="esymbol" HREF="../elks/immutable_string_32_flatshort.html#f_plus">+</A> <SPAN CLASS="elocal">l_path</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_name">name</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="etag">extended_with_more_than_root_or_not_empty</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="esymbol">(</SPAN><A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_same_as">same_as</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_root">root</A><SPAN CLASS="esymbol">)</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_conjuncted">and</A> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A><SPAN CLASS="esymbol">)</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_name">name</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/readable_string_32_flatshort.html#f_same_string">same_string</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_name">name</A> <A CLASS="esymbol" HREF="../elks/immutable_string_32_flatshort.html#f_plus">+</A> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_directory_separator_string">Directory_separator_string</A> <A CLASS="esymbol" HREF="../elks/immutable_string_32_flatshort.html#f_plus">+</A> <SPAN CLASS="elocal">l_path</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_name">name</A><SPAN CLASS="esymbol">)</SPAN>
+
+	<A NAME="f_extended_path"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_extended_path">extended_path</A> <SPAN CLASS="ekeyword">alias</SPAN> <SPAN CLASS="esymbol">&quot;</SPAN><A CLASS="esymbol" HREF="../elks/path_flatshort.html#f_extended_path">+</A><SPAN CLASS="esymbol">&quot;</SPAN> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_path</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> New path instance of current extended with path </SPAN>`a_path'<SPAN CLASS="ecomment">.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> If current is not empty, then </SPAN>`a_path'<SPAN CLASS="ecomment"> cannot have a root.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> A directory separator is added between two entries except</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> 1 - </SPAN>`a_path'<SPAN CLASS="ecomment"> starts with a directory separator (i.e. it has a root)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> 2 - if current is empty or is just a root.</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN>
+			<SPAN CLASS="etag">a_path_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">a_path</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+			<SPAN CLASS="etag">a_path_not_empty</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <SPAN CLASS="elocal">a_path</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A>
+			<SPAN CLASS="etag">a_path_has_no_root</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <SPAN CLASS="elocal">a_path</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_has_root">has_root</A>
+		<SPAN CLASS="ekeyword">ensure</SPAN>
+			<SPAN CLASS="etag">not_empty</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A>
+			<SPAN CLASS="etag">extended_with_only_empty_or_root</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_same_as">same_as</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_root">root</A><SPAN CLASS="esymbol">)</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_disjuncted">or</A> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A><SPAN CLASS="esymbol">)</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_name">name</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/readable_string_32_flatshort.html#f_same_string">same_string</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_name">name</A> <A CLASS="esymbol" HREF="../elks/immutable_string_32_flatshort.html#f_plus">+</A> <SPAN CLASS="elocal">a_path</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_name">name</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="etag">extended_with_more_than_root_or_not_empty</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="esymbol">(</SPAN><A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_same_as">same_as</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_root">root</A><SPAN CLASS="esymbol">)</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_conjuncted">and</A> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_is_empty">is_empty</A><SPAN CLASS="esymbol">)</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_name">name</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/readable_string_32_flatshort.html#f_same_string">same_string</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_name">name</A> <A CLASS="esymbol" HREF="../elks/immutable_string_32_flatshort.html#f_plus">+</A> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_directory_separator_string">Directory_separator_string</A> <A CLASS="esymbol" HREF="../elks/immutable_string_32_flatshort.html#f_plus">+</A> <SPAN CLASS="elocal">a_path</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_name">name</A><SPAN CLASS="esymbol">)</SPAN>
+	
+<SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Duplication</SPAN>
+
+	<A NAME="f_copy"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_copy">copy</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">like</SPAN> <SPAN CLASS="ekeyword">Current</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Update current object using fields of object attached</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> to </SPAN>`other'<SPAN CLASS="ecomment">, so as to yield equal objects.</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A>
+			<SPAN CLASS="etag">other_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">other</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+			<SPAN CLASS="etag">type_identity</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/any_flatshort.html#f_same_type">same_type</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">)</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A>
+			<SPAN CLASS="etag">is_equal</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Current</SPAN> <SPAN CLASS="esymbol">~</SPAN> <SPAN CLASS="elocal">other</SPAN>
+
+	<A NAME="f_deep_copy"></A><SPAN CLASS="ekeyword">frozen</SPAN> <A CLASS="efeature" HREF="../elks/any_flatshort.html#f_deep_copy">deep_copy</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Effect equivalent to that of:</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment">		</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_copy">copy</A><SPAN CLASS="ecomment"> (</SPAN>`other'<SPAN CLASS="ecomment"> . </SPAN><A CLASS="efeature" HREF="../elks/any_flatshort.html#f_deep_twin">deep_twin</A><SPAN CLASS="ecomment">)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A>
+			<SPAN CLASS="etag">other_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">other</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A>
+			<SPAN CLASS="etag">deep_equal</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">Current</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">)</SPAN>
+
+	<A NAME="f_deep_twin"></A><SPAN CLASS="ekeyword">frozen</SPAN> <A CLASS="efeature" HREF="../elks/any_flatshort.html#f_deep_twin">deep_twin</A><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> New object structure recursively duplicated from Current.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A>
+			<SPAN CLASS="etag">deep_twin_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+			<SPAN CLASS="etag">deep_equal</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">Current</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="esymbol">)</SPAN>
+
+	<A NAME="f_standard_copy"></A><SPAN CLASS="ekeyword">frozen</SPAN> <A CLASS="efeature" HREF="../elks/any_flatshort.html#f_standard_copy">standard_copy</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Copy every field of </SPAN>`other'<SPAN CLASS="ecomment"> onto corresponding field</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> of current object.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A>
+			<SPAN CLASS="etag">other_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">other</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+			<SPAN CLASS="etag">type_identity</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/any_flatshort.html#f_same_type">same_type</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">)</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A>
+			<SPAN CLASS="etag">is_standard_equal</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">)</SPAN>
+
+	<A NAME="f_standard_twin"></A><SPAN CLASS="ekeyword">frozen</SPAN> <A CLASS="efeature" HREF="../elks/any_flatshort.html#f_standard_twin">standard_twin</A><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> New object field-by-field identical to </SPAN>`other'<SPAN CLASS="ecomment">.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Always uses default copying semantics.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A>
+			<SPAN CLASS="etag">standard_twin_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+			<SPAN CLASS="etag">equal</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/any_flatshort.html#f_standard_equal">standard_equal</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="ekeyword">Current</SPAN><SPAN CLASS="esymbol">)</SPAN>
+
+	<A NAME="f_twin"></A><SPAN CLASS="ekeyword">frozen</SPAN> <A CLASS="efeature" HREF="../elks/any_flatshort.html#f_twin">twin</A><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> New object equal to </SPAN>`Current'
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> </SPAN><A CLASS="efeature" HREF="../elks/any_flatshort.html#f_twin">twin</A><SPAN CLASS="ecomment"> calls </SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_copy">copy</A><SPAN CLASS="ecomment">; to change copying/twinning semantics, redefine </SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_copy">copy</A><SPAN CLASS="ecomment">.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A>
+			<SPAN CLASS="etag">twin_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+			<SPAN CLASS="etag">is_equal</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">~</SPAN> <SPAN CLASS="ekeyword">Current</SPAN>
+	
+<SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Basic operations</SPAN>
+
+	<A NAME="f_as_attached"></A><SPAN CLASS="ekeyword">frozen</SPAN> <A CLASS="efeature" HREF="../elks/any_flatshort.html#f_as_attached">as_attached</A><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Attached version of Current</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> (Can be used during transitional period to convert</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> non-void-safe classes to void-safe ones.)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A><SPAN CLASS="ecomment">)</SPAN>
+
+	<A NAME="f_default"></A><SPAN CLASS="ekeyword">frozen</SPAN> <A CLASS="efeature" HREF="../elks/any_flatshort.html#f_default">default</A><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">detachable</SPAN> <A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Default value of object's type</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A><SPAN CLASS="ecomment">)</SPAN>
+
+	<A NAME="f_default_pointer"></A><SPAN CLASS="ekeyword">frozen</SPAN> <A CLASS="efeature" HREF="../elks/any_flatshort.html#f_default_pointer">default_pointer</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/pointer_flatshort.html">POINTER</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Default value of type </SPAN>`POINTER'
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> (Avoid the need to write </SPAN>`p'<SPAN CLASS="ecomment">.</SPAN><A CLASS="efeature" HREF="../elks/any_flatshort.html#f_default">default</A><SPAN CLASS="ecomment"> for</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> some </SPAN>`p'<SPAN CLASS="ecomment"> of type </SPAN>`POINTER'<SPAN CLASS="ecomment">.)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A><SPAN CLASS="ecomment">)</SPAN>
+
+	<A NAME="f_default_rescue"></A><A CLASS="efeature" HREF="../elks/any_flatshort.html#f_default_rescue">default_rescue</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Process exception for routines with no Rescue clause.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> (Default: do nothing.)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A><SPAN CLASS="ecomment">)</SPAN>
+
+	<A NAME="f_do_nothing"></A><SPAN CLASS="ekeyword">frozen</SPAN> <A CLASS="efeature" HREF="../elks/any_flatshort.html#f_do_nothing">do_nothing</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Execute a null action.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A><SPAN CLASS="ecomment">)</SPAN>
+	
+<SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Output</SPAN>
+
+	<A NAME="f_io"></A><A CLASS="efeature" HREF="../elks/any_flatshort.html#f_io">Io</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/std_files_flatshort.html">STD_FILES</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Handle to standard file setup</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A>
+			<SPAN CLASS="etag">io_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+
+	<A NAME="f_name"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_name">name</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/immutable_string_32_flatshort.html">IMMUTABLE_STRING_32</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> If current is representable in Unicode, the Unicode representation.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Otherwise all non-valid sequences for the current platform in the path are escaped</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> as mentioned in the note clause of the class.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> To ensure roundtrip, you cannot use </SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_name">name</A><SPAN CLASS="ecomment"> directly to create a </SPAN>`FILE'<SPAN CLASS="ecomment">, you have to</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> create a </SPAN>`PATH'<SPAN CLASS="ecomment"> instance using </SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_make_from_string">make_from_string</A><SPAN CLASS="ecomment"> before passing it to the creation</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> procedure of </SPAN>`FILE'<SPAN CLASS="ecomment"> taking an instance of </SPAN>`PATH'<SPAN CLASS="ecomment">.</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN>
+			<SPAN CLASS="etag">roundtrip</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_same_as">same_as</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">create</SPAN><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A><SPAN CLASS="esymbol">}</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_make_from_string">make_from_string</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">)</SPAN>
+
+	<A NAME="f_out"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_out">out</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/string_8_flatshort.html">STRING_8</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> ASCII representation of the underlying filename if representable,</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> otherwise a UTF-8 encoded version.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Use </SPAN><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_utf_8_name">utf_8_name</A><SPAN CLASS="ecomment"> to have a printable representation whose format is not going</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> to be changed in the future.</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A>
+			<SPAN CLASS="etag">out_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+
+	<A NAME="f_print"></A><A CLASS="efeature" HREF="../elks/any_flatshort.html#f_print">print</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">o</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">detachable</SPAN> <A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Write terse external representation of </SPAN>`o'
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> on standard output.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A><SPAN CLASS="ecomment">)</SPAN>
+
+	<A NAME="f_tagged_out"></A><SPAN CLASS="ekeyword">frozen</SPAN> <A CLASS="efeature" HREF="../elks/any_flatshort.html#f_tagged_out">tagged_out</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/string_8_flatshort.html">STRING_8</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> New string containing terse printable representation</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> of current object</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A>
+			<SPAN CLASS="etag">tagged_out_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+
+	<A NAME="f_utf_8_name"></A><A CLASS="efeature" HREF="../elks/path_flatshort.html#f_utf_8_name">utf_8_name</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/string_8_flatshort.html">STRING_8</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> UTF-8 representation of the underlying filename.</SPAN>
+	
+<SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Platform</SPAN>
+
+	<A NAME="f_operating_environment"></A><A CLASS="efeature" HREF="../elks/any_flatshort.html#f_operating_environment">Operating_environment</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/operating_environment_flatshort.html">OPERATING_ENVIRONMENT</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Objects available from the operating system</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A>
+			<SPAN CLASS="etag">operating_environment_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+	
+<SPAN CLASS="ekeyword">invariant</SPAN>
+	<SPAN CLASS="etag">little_endian_windows</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../elks/platform_flatshort.html">PLATFORM</A><SPAN CLASS="esymbol">}</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/platform_flatshort.html#f_is_windows">is_windows</A> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_platform">Platform</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/platform_flatshort.html#f_is_little_endian">Is_little_endian</A>
+	<SPAN CLASS="etag">even_count_on_windows</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../elks/platform_flatshort.html">PLATFORM</A><SPAN CLASS="esymbol">}</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/platform_flatshort.html#f_is_windows">is_windows</A> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_storage">storage</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/readable_string_8_flatshort.html#f_count">count</A> <A CLASS="esymbol" HREF="../elks/integer_32_flatshort.html#f_integer_remainder">\\</A> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_unit_size">unit_size</A> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="enumber">0</SPAN>
+	<SPAN CLASS="etag">no_forward_slash_on_windows</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../elks/platform_flatshort.html">PLATFORM</A><SPAN CLASS="esymbol">}</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/platform_flatshort.html#f_is_windows">is_windows</A> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_implication">implies</A> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <A CLASS="efeature" HREF="../elks/path_flatshort.html#f_storage">storage</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/readable_string_general_flatshort.html#f_has_substring">has_substring</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;/%U&quot;<SPAN CLASS="esymbol">)</SPAN>
+
+		<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/any_flatshort.html">ANY</A>
+	<SPAN CLASS="etag">reflexive_equality</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">Current</SPAN><SPAN CLASS="esymbol">)</SPAN>
+	<SPAN CLASS="etag">reflexive_conformance</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">Current</SPAN><SPAN CLASS="esymbol">)</SPAN>
+
+		<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../elks/comparable_flatshort.html">COMPARABLE</A>
+	<SPAN CLASS="etag">irreflexive_comparison</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean_flatshort.html#f_negated">not</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">Current</SPAN> <A CLASS="esymbol" HREF="../elks/path_flatshort.html#f_is_less">&lt;</A> <SPAN CLASS="ekeyword">Current</SPAN><SPAN CLASS="esymbol">)</SPAN>
+
+<SPAN CLASS="ekeyword">note</SPAN>
+	<SPAN CLASS="eitag">copyright</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;Copyright (c) 1984-2013, Eiffel Software and others&quot;</SPAN>
+	<SPAN CLASS="eitag">license</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;Eiffel Forum License v2 (see </SPAN><A CLASS="estring" HREF="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</A><SPAN CLASS="estring">)&quot;</SPAN>
+	<SPAN CLASS="eitag">source</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;</SPAN><SPAN CLASS="estring">[</SPAN>
+		<SPAN CLASS="estring">Eiffel Software</SPAN>
+		<SPAN CLASS="estring">5949 Hollister Ave., Goleta, CA 93117 USA</SPAN>
+		<SPAN CLASS="estring">Telephone 805-685-1006, Fax 805-685-6869</SPAN>
+		<SPAN CLASS="estring">Website </SPAN><A CLASS="estring" HREF="http://www.eiffel.com">http://www.eiffel.com</A>
+		<SPAN CLASS="estring">Customer support </SPAN><A CLASS="estring" HREF="http://support.eiffel.com">http://support.eiffel.com</A>
+	<SPAN CLASS="estring">]</SPAN><SPAN CLASS="estring">&quot;</SPAN>
+
+<SPAN CLASS="ekeyword">end</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">class </SPAN><A CLASS="eclass" HREF="../elks/path_flatshort.html">PATH</A><FORM ONSUBMIT="go_to('../',this.c.value);return false;">
+<UL>
+<A CLASS="link1" HREF="../class_list.html"><LI CLASS="link1">Classes</LI></A>
+<A CLASS="link1" HREF="../cluster_list.html"><LI CLASS="link1">Clusters</LI></A>
+<A CLASS="link1" HREF="../cluster_hierarchy.html"><LI CLASS="link1">Cluster hierarchy</LI></A>
+<A CLASS="link2" HREF="path_chart.html"><LI CLASS="link2">Chart</LI></A>
+<A CLASS="link2" HREF="path_links.html"><LI CLASS="link2">Relations</LI></A>
+<A CLASS="link2" HREF="path.html"><LI CLASS="link2">Text</LI></A>
+<A CLASS="link2" HREF="path_flat.html"><LI CLASS="link2">Flat</LI></A>
+<A CLASS="link2" HREF="path_short.html"><LI CLASS="link2">Contracts</LI></A>
+<LI CLASS="nolink2">Flat contracts</LI>
+<LI CLASS="link2">Go to: <INPUT NAME="c" VALUE="path"></LI>
+</UL></FORM></pre></div>
+</DIV>
+<SMALL CLASS="copy">This project is available for free and open-source under the <A HREF="http://opensource.org/licenses/GPL-3.0">GPL-3.0</A> license.</SMALL>
+</DIV>
 </BODY>
 </HTML>
 

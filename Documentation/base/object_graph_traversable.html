@@ -1,4 +1,8 @@
-<HTML><HEAD>
+<HTML>
+<HEAD>
+<META NAME="generator" CONTENT="ISE EiffelStudio version 13.11.9.3542 GPL Edition - linux-x86-64">
+<META NAME="viewport" CONTENT="width=device-width">
+<META HTTP-EQUIV="content-type" CONTENT="text/html; charset=utf-8">
 <meta name="description" content="TTUtility class to traverse object graphs starting at a root object.   TTWhen traversing a graph the class distinguishes four different types of references: TT TTT(1) Normal references TTT(2) References with copy-semantics, which are usually seen when attaching  TTTTan expanded object to an ANY reference TTT(3) User-defined expanded objects, embedded inside another object.  TTTTSemantically this is a special case of a copy-semantics reference. TTT(4) Language-defined expanded objects (INTEGER, POINTER etc) embedded inside another object.  TTTTSemantically, this is a special case of a copy-semantics reference. TTTT TTThis class will follow all reference types except (4).  TT TTDuring traversal the agent `on_processing_object_action' will be called for each object TTand the agent `on_processing_reference_action' for each reference, if present. This includes TTreferences to objects that have already been processed. TT TTThe algorighm has two output values: `visited_objects' and `visited_types': TTAny standard object without copy-semantics (i.e. reference type (1)) will be stored TTby aliasing inside `visited_object'. For references of type (2) and (3) a copy will be stored. TTThe `visited_types' hash table contains the dynamic type id of all types encountered during  TTtraversal. The key and value in the hashtable are the same. TT TTSetting `is_skip_copy_semantics_reference' to true means that references of (2) and (3) will TTnot be stored in `visited_types'. Note that this is the only effect of this setting - i.e. TTthe traversal algorithm will still follow the references, the agents will be called, and the TT`visited_types' array will be extended anyway.  TTNOTE: TT TTDue to a limitation in the reflection library, references of type (2) and (3) within TUPLE  TTand references of type (3) within SPECIAL cannot be handled without causing a copy. This is  TTproblematic for agents, especially when they want to change the object. Therefore TTthe algorithm will raise an exception when an agent is attached. TTIn read-only situations it may be acceptable to use a copy of an object. Therefore to disable the TTexception behaviour you can set `is_exception_on_copy_suppressed' to True. TT TTNOTE: TT TTTo maintain backwards compatibility the traversal algorithm will silently ignore any kind of  TTexception and just return normally, with `traversed_objects' set to whatever value it had before  TTinvoking `traverse'. In order to get exceptions you need to set `is_exception_propagated' to True."/>
 <meta name="library" content="Free implementation of ELKS library"/>
 <meta name="legal" content="See notice at end of class."/>
@@ -8,492 +12,535 @@
 <meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
 <meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
 <meta name="keywords" content="Eiffel class"/>
-<TITLE>object_graph_traversable Text</TITLE></HEAD>
-<BODY BGCOLOR="white">
-<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
-<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="object_graph_traversable_chart.html">Chart</A></TD><TD><A HREF="object_graph_traversable_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="object_graph_traversable_flat.html">Flat</A></TD><TD><A HREF="object_graph_traversable_short.html">Contracts</A></TD><TD><A HREF="object_graph_traversable_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
-    description: "[
-        		Utility class to traverse object graphs starting at a root object.
-        
-        
-        		When traversing a graph the class distinguishes four different types of references:
-        		
-        			(1) Normal references
-        			(2) References with copy-semantics, which are usually seen when attaching 
-        				an expanded object to an ANY reference
-        			(3) User-defined expanded objects, embedded inside another object. 
-        				Semantically this is a special case of a copy-semantics reference.
-        			(4) Language-defined expanded objects (INTEGER, POINTER etc) embedded inside another object. 
-        				Semantically, this is a special case of a copy-semantics reference.
-        				
-        		This class will follow all reference types except (4). 
-        		
-        		During traversal the agent <A HREF="../elks/object_graph_traversable.html#f_on_processing_object_action">on_processing_object_action</A> will be called for each object
-        		and the agent <A HREF="../elks/object_graph_traversable.html#f_on_processing_reference_action">on_processing_reference_action</A> for each reference, if present. This includes
-        		references to objects that have already been processed.
-        		
-        		The algorighm has two output values: <A HREF="../elks/object_graph_traversable.html#f_visited_objects">visited_objects</A> and <A HREF="../elks/object_graph_traversable.html#f_visited_types">visited_types</A>:
-        		Any standard object without copy-semantics (i.e. reference type (1)) will be stored
-        		by aliasing inside `visited_object'. For references of type (2) and (3) a copy will be stored.
-        		The <A HREF="../elks/object_graph_traversable.html#f_visited_types">visited_types</A> hash table contains the dynamic type id of all types encountered during 
-        		traversal. The key and value in the hashtable are the same.
-        		
-        		Setting <A HREF="../elks/object_graph_traversable.html#f_is_skip_copy_semantics_reference">is_skip_copy_semantics_reference</A> to true means that references of (2) and (3) will
-        		not be stored in <A HREF="../elks/object_graph_traversable.html#f_visited_types">visited_types</A>. Note that this is the only effect of this setting - i.e.
-        		the traversal algorithm will still follow the references, the agents will be called, and the
-        		<A HREF="../elks/object_graph_traversable.html#f_visited_types">visited_types</A> array will be extended anyway.
-        
-        		NOTE:
-        		
-        		Due to a limitation in the reflection library, references of type (2) and (3) within TUPLE 
-        		and references of type (3) within SPECIAL cannot be handled without causing a copy. This is 
-        		problematic for agents, especially when they want to change the object. Therefore
-        		the algorithm will raise an exception when an agent is attached.
-        		In read-only situations it may be acceptable to use a copy of an object. Therefore to disable the
-        		exception behaviour you can set <A HREF="../elks/object_graph_traversable.html#f_is_exception_on_copy_suppressed">is_exception_on_copy_suppressed</A> to True.
-        		
-        		NOTE:
-        		
-        		To maintain backwards compatibility the traversal algorithm will silently ignore any kind of 
-        		exception and just return normally, with `traversed_objects' set to whatever value it had before 
-        		invoking <A HREF="../elks/object_graph_traversable.html#f_traverse">traverse</A>. In order to get exceptions you need to set <A HREF="../elks/object_graph_traversable.html#f_is_exception_propagated">is_exception_propagated</A> to True.
-    ]"
-    library: "Free implementation of ELKS library"
-    legal: "See notice at end of class."
-    status: "See notice at end of class."
-    author: "Stephanie Balzer"
-    date: "$Date: 2013-11-19 13:41:44 -0800 (Tue, 19 Nov 2013) $"
-    revision: "$Revision: 93442 $"
+<TITLE>War of Raekidion - object_graph_traversable Text</TITLE>
+<LINK REL="stylesheet" HREF="http://meyerweb.com/eric/tools/css/reset/reset.css" TYPE="text/css">
+<LINK REL="stylesheet" HREF="http://fonts.googleapis.com/css?family=Open+Sans:300" TYPE="text/css">
+<LINK REL="stylesheet" HREF="http://raekidion.sml.name/stylesheet.css" TYPE="text/css">
+<LINK REL="stylesheet" HREF="http://raekidion.sml.name/documentation.css" TYPE="text/css">
+<LINK REL="icon" HREF="http://raekidion.sml.name/favicon.ico" TYPE="image/x-icon">
+<SCRIPT TYPE="text/javascript" SRC="../goto.html"></SCRIPT>
+</HEAD>
+<BODY>
+<DIV CLASS="wrapper">
+<IMG SRC="http://raekidion.sml.name/raekidion_icon_double.png"/>
+<DIV CLASS="category">
+<DIV CLASS="menu">
+<A HREF="http://raekidion.sml.name/">Overview</A>
+<A HREF="http://raekidion.sml.name/gallery">Gallery</A>
+<A HREF="http://raekidion.sml.name/download">Download</A>
+<A HREF="http://raekidion.sml.name/changelog">Changelog</A>
+<A HREF="http://raekidion.sml.name/issues">Issues</A>
+<A HREF="http://raekidion.sml.name/documentation">Documentation</A>
+</DIV>
+<HR/>
+<div class="container"><pre><FORM ONSUBMIT="go_to('../',this.c.value);return false;">
+<UL>
+<A CLASS="link1" HREF="../class_list.html"><LI CLASS="link1">Classes</LI></A>
+<A CLASS="link1" HREF="../cluster_list.html"><LI CLASS="link1">Clusters</LI></A>
+<A CLASS="link1" HREF="../cluster_hierarchy.html"><LI CLASS="link1">Cluster hierarchy</LI></A>
+<A CLASS="link2" HREF="object_graph_traversable_chart.html"><LI CLASS="link2">Chart</LI></A>
+<A CLASS="link2" HREF="object_graph_traversable_links.html"><LI CLASS="link2">Relations</LI></A>
+<LI CLASS="nolink2">Text</LI>
+<A CLASS="link2" HREF="object_graph_traversable_flat.html"><LI CLASS="link2">Flat</LI></A>
+<A CLASS="link2" HREF="object_graph_traversable_short.html"><LI CLASS="link2">Contracts</LI></A>
+<A CLASS="link2" HREF="object_graph_traversable_flatshort.html"><LI CLASS="link2">Flat contracts</LI></A>
+<LI CLASS="link2">Go to: <INPUT NAME="c" VALUE="object_graph_traversable"></LI>
+</UL></FORM><SPAN CLASS="ekeyword">note</SPAN>
+	<SPAN CLASS="eitag">description</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;</SPAN><SPAN CLASS="estring">[</SPAN>
+		<SPAN CLASS="estring">		Utility class to traverse object graphs starting at a root object.</SPAN>
+		
+		
+		<SPAN CLASS="estring">		When traversing a graph the class distinguishes four different types of references:</SPAN>
+		<SPAN CLASS="estring">		</SPAN>
+		<SPAN CLASS="estring">			(1) Normal references</SPAN>
+		<SPAN CLASS="estring">			(2) References with copy-semantics, which are usually seen when attaching </SPAN>
+		<SPAN CLASS="estring">				an expanded object to an ANY reference</SPAN>
+		<SPAN CLASS="estring">			(3) User-defined expanded objects, embedded inside another object. </SPAN>
+		<SPAN CLASS="estring">				Semantically this is a special case of a copy-semantics reference.</SPAN>
+		<SPAN CLASS="estring">			(4) Language-defined expanded objects (INTEGER, POINTER etc) embedded inside another object. </SPAN>
+		<SPAN CLASS="estring">				Semantically, this is a special case of a copy-semantics reference.</SPAN>
+		<SPAN CLASS="estring">				</SPAN>
+		<SPAN CLASS="estring">		This class will follow all reference types except (4). </SPAN>
+		<SPAN CLASS="estring">		</SPAN>
+		<SPAN CLASS="estring">		During traversal the agent </SPAN><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_on_processing_object_action">on_processing_object_action</A><SPAN CLASS="estring"> will be called for each object</SPAN>
+		<SPAN CLASS="estring">		and the agent </SPAN><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_on_processing_reference_action">on_processing_reference_action</A><SPAN CLASS="estring"> for each reference, if present. This includes</SPAN>
+		<SPAN CLASS="estring">		references to objects that have already been processed.</SPAN>
+		<SPAN CLASS="estring">		</SPAN>
+		<SPAN CLASS="estring">		The algorighm has two output values: </SPAN><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_visited_objects">visited_objects</A><SPAN CLASS="estring"> and </SPAN><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_visited_types">visited_types</A><SPAN CLASS="estring">:</SPAN>
+		<SPAN CLASS="estring">		Any standard object without copy-semantics (i.e. reference type (1)) will be stored</SPAN>
+		<SPAN CLASS="estring">		by aliasing inside </SPAN><SPAN CLASS="estring">`visited_object'</SPAN><SPAN CLASS="estring">. For references of type (2) and (3) a copy will be stored.</SPAN>
+		<SPAN CLASS="estring">		The </SPAN><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_visited_types">visited_types</A><SPAN CLASS="estring"> hash table contains the dynamic type id of all types encountered during </SPAN>
+		<SPAN CLASS="estring">		traversal. The key and value in the hashtable are the same.</SPAN>
+		<SPAN CLASS="estring">		</SPAN>
+		<SPAN CLASS="estring">		Setting </SPAN><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_skip_copy_semantics_reference">is_skip_copy_semantics_reference</A><SPAN CLASS="estring"> to true means that references of (2) and (3) will</SPAN>
+		<SPAN CLASS="estring">		not be stored in </SPAN><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_visited_types">visited_types</A><SPAN CLASS="estring">. Note that this is the only effect of this setting - i.e.</SPAN>
+		<SPAN CLASS="estring">		the traversal algorithm will still follow the references, the agents will be called, and the</SPAN>
+		<SPAN CLASS="estring">		</SPAN><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_visited_types">visited_types</A><SPAN CLASS="estring"> array will be extended anyway.</SPAN>
+		
+		<SPAN CLASS="estring">		NOTE:</SPAN>
+		<SPAN CLASS="estring">		</SPAN>
+		<SPAN CLASS="estring">		Due to a limitation in the reflection library, references of type (2) and (3) within TUPLE </SPAN>
+		<SPAN CLASS="estring">		and references of type (3) within SPECIAL cannot be handled without causing a copy. This is </SPAN>
+		<SPAN CLASS="estring">		problematic for agents, especially when they want to change the object. Therefore</SPAN>
+		<SPAN CLASS="estring">		the algorithm will raise an exception when an agent is attached.</SPAN>
+		<SPAN CLASS="estring">		In read-only situations it may be acceptable to use a copy of an object. Therefore to disable the</SPAN>
+		<SPAN CLASS="estring">		exception behaviour you can set </SPAN><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_exception_on_copy_suppressed">is_exception_on_copy_suppressed</A><SPAN CLASS="estring"> to True.</SPAN>
+		<SPAN CLASS="estring">		</SPAN>
+		<SPAN CLASS="estring">		NOTE:</SPAN>
+		<SPAN CLASS="estring">		</SPAN>
+		<SPAN CLASS="estring">		To maintain backwards compatibility the traversal algorithm will silently ignore any kind of </SPAN>
+		<SPAN CLASS="estring">		exception and just return normally, with </SPAN><SPAN CLASS="estring">`traversed_objects'</SPAN><SPAN CLASS="estring"> set to whatever value it had before </SPAN>
+		<SPAN CLASS="estring">		invoking </SPAN><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_traverse">traverse</A><SPAN CLASS="estring">. In order to get exceptions you need to set </SPAN><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_exception_propagated">is_exception_propagated</A><SPAN CLASS="estring"> to True.</SPAN>
+	<SPAN CLASS="estring">]</SPAN><SPAN CLASS="estring">&quot;</SPAN>
+	<SPAN CLASS="eitag">library</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;Free implementation of ELKS library&quot;</SPAN>
+	<SPAN CLASS="eitag">legal</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;See notice at end of class.&quot;</SPAN>
+	<SPAN CLASS="eitag">status</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;See notice at end of class.&quot;</SPAN>
+	<SPAN CLASS="eitag">author</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;Stephanie Balzer&quot;</SPAN>
+	<SPAN CLASS="eitag">date</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;$Date: 2013-11-19 13:41:44 -0800 (Tue, 19 Nov 2013) $&quot;</SPAN>
+	<SPAN CLASS="eitag">revision</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;$Revision: 93442 $&quot;</SPAN>
 
-<B>deferred</B> <B>class</B> 
-    <A HREF="../elks/object_graph_traversable.html">OBJECT_GRAPH_TRAVERSABLE</A>
+<SPAN CLASS="ekeyword">deferred</SPAN> <SPAN CLASS="ekeyword">class</SPAN> 
+	<A CLASS="eclass" HREF="../elks/object_graph_traversable.html">OBJECT_GRAPH_TRAVERSABLE</A>
 
-<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+<SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Access</SPAN>
 
-    <A NAME="f_root_object"><A HREF="../elks/object_graph_traversable.html#f_root_object">root_object</A>: <B>detachable</B> <A HREF="../elks/any.html">ANY</A></A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Starting point of graph traversing</FONT>
+	<A NAME="f_root_object"></A><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_root_object">root_object</A><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">detachable</SPAN> <A CLASS="eclass" HREF="../elks/any.html">ANY</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Starting point of graph traversing</SPAN>
 
-    <A NAME="f_on_processing_object_action"><A HREF="../elks/object_graph_traversable.html#f_on_processing_object_action">on_processing_object_action</A>: <B>detachable</B> <A HREF="../elks/procedure.html">PROCEDURE</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A> [<A HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A>]]</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Action called on every object in the object graph.</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note: The argument is reused later for a different object. Do not alias it.</FONT>
+	<A NAME="f_on_processing_object_action"></A><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_on_processing_object_action">on_processing_object_action</A><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">detachable</SPAN> <A CLASS="eclass" HREF="../elks/procedure.html">PROCEDURE</A> <SPAN CLASS="esymbol">[</SPAN><A CLASS="eclass" HREF="../elks/any.html">ANY</A><SPAN CLASS="esymbol">,</SPAN> <A CLASS="eclass" HREF="../elks/tuple.html">TUPLE</A> <SPAN CLASS="esymbol">[</SPAN><A CLASS="eclass" HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A><SPAN CLASS="esymbol">]</SPAN><SPAN CLASS="esymbol">]</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Action called on every object in the object graph.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Note: The argument is reused later for a different object. Do not alias it.</SPAN>
 
-    <A NAME="f_on_processing_reference_action"><A HREF="../elks/object_graph_traversable.html#f_on_processing_reference_action">on_processing_reference_action</A>: <B>detachable</B> <A HREF="../elks/procedure.html">PROCEDURE</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A> [referer: <A HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A>; referee: <A HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A>]]</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Action called on every reference in the object graph.</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note: The arguments are reused later for different objects. Do not alias them.</FONT>
+	<A NAME="f_on_processing_reference_action"></A><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_on_processing_reference_action">on_processing_reference_action</A><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">detachable</SPAN> <A CLASS="eclass" HREF="../elks/procedure.html">PROCEDURE</A> <SPAN CLASS="esymbol">[</SPAN><A CLASS="eclass" HREF="../elks/any.html">ANY</A><SPAN CLASS="esymbol">,</SPAN> <A CLASS="eclass" HREF="../elks/tuple.html">TUPLE</A> <SPAN CLASS="esymbol">[</SPAN><SPAN CLASS="elocal">referer</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A><SPAN CLASS="esymbol">;</SPAN> <SPAN CLASS="elocal">referee</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A><SPAN CLASS="esymbol">]</SPAN><SPAN CLASS="esymbol">]</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Action called on every reference in the object graph.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Note: The arguments are reused later for different objects. Do not alias them.</SPAN>
 
-    <A NAME="f_object_action"><A HREF="../elks/object_graph_traversable.html#f_object_action">object_action</A>: <B>detachable</B> <A HREF="../elks/procedure.html">PROCEDURE</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A> [<A HREF="../elks/any.html">ANY</A>]]</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Action called on every object in object graph</FONT>
+	<A NAME="f_object_action"></A><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_object_action">object_action</A><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">detachable</SPAN> <A CLASS="eclass" HREF="../elks/procedure.html">PROCEDURE</A> <SPAN CLASS="esymbol">[</SPAN><A CLASS="eclass" HREF="../elks/any.html">ANY</A><SPAN CLASS="esymbol">,</SPAN> <A CLASS="eclass" HREF="../elks/tuple.html">TUPLE</A> <SPAN CLASS="esymbol">[</SPAN><A CLASS="eclass" HREF="../elks/any.html">ANY</A><SPAN CLASS="esymbol">]</SPAN><SPAN CLASS="esymbol">]</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Action called on every object in object graph</SPAN>
 
-    <A NAME="f_visited_objects"><A HREF="../elks/object_graph_traversable.html#f_visited_objects">visited_objects</A>: <B>detachable</B> <A HREF="../elks/arrayed_list.html">ARRAYED_LIST</A> [<A HREF="../elks/any.html">ANY</A>]</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> List referencing objects of object graph that have been visited in </FONT><A HREF="../elks/object_graph_traversable.html#f_traverse">traverse</A><FONT COLOR="red">.</FONT>
+	<A NAME="f_visited_objects"></A><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_visited_objects">visited_objects</A><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">detachable</SPAN> <A CLASS="eclass" HREF="../elks/arrayed_list.html">ARRAYED_LIST</A> <SPAN CLASS="esymbol">[</SPAN><A CLASS="eclass" HREF="../elks/any.html">ANY</A><SPAN CLASS="esymbol">]</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> List referencing objects of object graph that have been visited in </SPAN><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_traverse">traverse</A><SPAN CLASS="ecomment">.</SPAN>
 
-    <A NAME="f_visited_types"><A HREF="../elks/object_graph_traversable.html#f_visited_types">visited_types</A>: <B>detachable</B> <A HREF="../elks/hash_table.html">HASH_TABLE</A> [<A HREF="../elks/integer_32.html">INTEGER_32</A>, <A HREF="../elks/integer_32.html">INTEGER_32</A>]</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> List of all types encountered during traversal</FONT>
-    
-<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+	<A NAME="f_visited_types"></A><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_visited_types">visited_types</A><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">detachable</SPAN> <A CLASS="eclass" HREF="../elks/hash_table.html">HASH_TABLE</A> <SPAN CLASS="esymbol">[</SPAN><A CLASS="eclass" HREF="../elks/integer_32.html">INTEGER_32</A><SPAN CLASS="esymbol">,</SPAN> <A CLASS="eclass" HREF="../elks/integer_32.html">INTEGER_32</A><SPAN CLASS="esymbol">]</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> List of all types encountered during traversal</SPAN>
+	
+<SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Status report</SPAN>
 
-    <A NAME="f_has_failed"><A HREF="../elks/object_graph_traversable.html#f_has_failed">has_failed</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was the last traversal successful?</FONT>
+	<A NAME="f_has_failed"></A><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_has_failed">has_failed</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Was the last traversal successful?</SPAN>
 
-    <A NAME="f_is_root_object_set"><A HREF="../elks/object_graph_traversable.html#f_is_root_object_set">is_root_object_set</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is starting point of graph traversing set?</FONT>
-        <B>do</B>
-            <B>Result</B> := <A HREF="../elks/object_graph_traversable.html#f_root_object">root_object</A> /= <B>Void</B>
-        <B>end</B></A>
+	<A NAME="f_is_root_object_set"></A><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_root_object_set">is_root_object_set</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Is starting point of graph traversing set?</SPAN>
+		<SPAN CLASS="ekeyword">do</SPAN>
+			<SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_root_object">root_object</A> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+		<SPAN CLASS="ekeyword">end</SPAN>
 
-    <A NAME="f_is_object_action_set"><A HREF="../elks/object_graph_traversable.html#f_is_object_action_set">is_object_action_set</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is procedure to call on every object set?</FONT>
-        <B>do</B>
-            <B>Result</B> := <A HREF="../elks/object_graph_traversable.html#f_object_action">object_action</A> /= <B>Void</B>
-        <B>end</B></A>
+	<A NAME="f_is_object_action_set"></A><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_object_action_set">is_object_action_set</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Is procedure to call on every object set?</SPAN>
+		<SPAN CLASS="ekeyword">do</SPAN>
+			<SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_object_action">object_action</A> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+		<SPAN CLASS="ekeyword">end</SPAN>
 
-    <A NAME="f_has_reference_with_copy_semantics"><A HREF="../elks/object_graph_traversable.html#f_has_reference_with_copy_semantics">has_reference_with_copy_semantics</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does the traversed graph of objects contain reference with copy semantics?</FONT>
+	<A NAME="f_has_reference_with_copy_semantics"></A><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_has_reference_with_copy_semantics">has_reference_with_copy_semantics</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Does the traversed graph of objects contain reference with copy semantics?</SPAN>
 
-    <A NAME="f_is_skip_transient"><A HREF="../elks/object_graph_traversable.html#f_is_skip_transient">is_skip_transient</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do we skip transient attribute during traversal?</FONT>
+	<A NAME="f_is_skip_transient"></A><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_skip_transient">is_skip_transient</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Do we skip transient attribute during traversal?</SPAN>
 
-    <A NAME="f_is_skip_copy_semantics_reference"><A HREF="../elks/object_graph_traversable.html#f_is_skip_copy_semantics_reference">is_skip_copy_semantics_reference</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do we skip copy semantics reference from </FONT><A HREF="../elks/object_graph_traversable.html#f_visited_objects">visited_objects</A><FONT COLOR="red"> during traversal?</FONT>
+	<A NAME="f_is_skip_copy_semantics_reference"></A><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_skip_copy_semantics_reference">is_skip_copy_semantics_reference</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Do we skip copy semantics reference from </SPAN><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_visited_objects">visited_objects</A><SPAN CLASS="ecomment"> during traversal?</SPAN>
 
-    <A NAME="f_is_exception_on_copy_suppressed"><A HREF="../elks/object_graph_traversable.html#f_is_exception_on_copy_suppressed">is_exception_on_copy_suppressed</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do we suppress an exception when </FONT><A HREF="../elks/object_graph_traversable.html#f_object_action">object_action</A><FONT COLOR="red"> is called on a copied object?</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> A copy happens when encountering tuples containing copy-semantics references</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or with SPECIAL</FONT><FONT COLOR="red">[XX]</FONT><FONT COLOR="red">, where XX is a user-defined expanded type.</FONT>
+	<A NAME="f_is_exception_on_copy_suppressed"></A><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_exception_on_copy_suppressed">is_exception_on_copy_suppressed</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Do we suppress an exception when </SPAN><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_object_action">object_action</A><SPAN CLASS="ecomment"> is called on a copied object?</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> A copy happens when encountering tuples containing copy-semantics references</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> or with SPECIAL</SPAN><SPAN CLASS="ecomment">[XX]</SPAN><SPAN CLASS="ecomment">, where XX is a user-defined expanded type.</SPAN>
 
-    <A NAME="f_is_exception_propagated"><A HREF="../elks/object_graph_traversable.html#f_is_exception_propagated">is_exception_propagated</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does the algorithm propagate any exceptions to the user?</FONT>
-    
-<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+	<A NAME="f_is_exception_propagated"></A><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_exception_propagated">is_exception_propagated</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Does the algorithm propagate any exceptions to the user?</SPAN>
+	
+<SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Element change</SPAN>
 
-    <A NAME="f_set_root_object"><A HREF="../elks/object_graph_traversable.html#f_set_root_object">set_root_object</A> (an_object: <B>like</B> <A HREF="../elks/object_graph_traversable.html#f_root_object">root_object</A>)
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/object_graph_traversable.html#f_root_object">root_object</A><FONT COLOR="red"> with 'an_object'.</FONT>
-        <B>require</B>
-            an_object_not_void: an_object /= <B>Void</B>
-        <B>do</B>
-            <A HREF="../elks/object_graph_traversable.html#f_root_object">root_object</A> := an_object
-        <B>ensure</B>
-            root_object_set: <A HREF="../elks/object_graph_traversable.html#f_root_object">root_object</A> = an_object <B>and</B> <A HREF="../elks/object_graph_traversable.html#f_is_root_object_set">is_root_object_set</A>
-        <B>end</B></A>
+	<A NAME="f_set_root_object"></A><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_set_root_object">set_root_object</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">an_object</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">like</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_root_object">root_object</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Set </SPAN><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_root_object">root_object</A><SPAN CLASS="ecomment"> with 'an_object'.</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN>
+			<SPAN CLASS="etag">an_object_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">an_object</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+		<SPAN CLASS="ekeyword">do</SPAN>
+			<A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_root_object">root_object</A> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">an_object</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN>
+			<SPAN CLASS="etag">root_object_set</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_root_object">root_object</A> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="elocal">an_object</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean.html#f_conjuncted">and</A> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_root_object_set">is_root_object_set</A>
+		<SPAN CLASS="ekeyword">end</SPAN>
 
-    <A NAME="f_set_on_processing_object_action"><A HREF="../elks/object_graph_traversable.html#f_set_on_processing_object_action">set_on_processing_object_action</A> (an_action: <B>like</B> <A HREF="../elks/object_graph_traversable.html#f_on_processing_object_action">on_processing_object_action</A>)
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/object_graph_traversable.html#f_on_processing_object_action">on_processing_object_action</A><FONT COLOR="red"> with </FONT>`an_action'
-        <B>require</B>
-            an_action_not_void: an_action /= <B>Void</B>
-        <B>do</B>
-            <A HREF="../elks/object_graph_traversable.html#f_on_processing_object_action">on_processing_object_action</A> := an_action
-        <B>ensure</B>
-            on_processing_object_action_set: <A HREF="../elks/object_graph_traversable.html#f_on_processing_object_action">on_processing_object_action</A> = an_action
-        <B>end</B></A>
+	<A NAME="f_set_on_processing_object_action"></A><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_set_on_processing_object_action">set_on_processing_object_action</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">an_action</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">like</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_on_processing_object_action">on_processing_object_action</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Set </SPAN><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_on_processing_object_action">on_processing_object_action</A><SPAN CLASS="ecomment"> with </SPAN>`an_action'
+		<SPAN CLASS="ekeyword">require</SPAN>
+			<SPAN CLASS="etag">an_action_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">an_action</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+		<SPAN CLASS="ekeyword">do</SPAN>
+			<A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_on_processing_object_action">on_processing_object_action</A> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">an_action</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN>
+			<SPAN CLASS="etag">on_processing_object_action_set</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_on_processing_object_action">on_processing_object_action</A> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="elocal">an_action</SPAN>
+		<SPAN CLASS="ekeyword">end</SPAN>
 
-    <A NAME="f_set_on_processing_reference_action"><A HREF="../elks/object_graph_traversable.html#f_set_on_processing_reference_action">set_on_processing_reference_action</A> (an_action: <B>like</B> <A HREF="../elks/object_graph_traversable.html#f_on_processing_reference_action">on_processing_reference_action</A>)
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/object_graph_traversable.html#f_on_processing_object_action">on_processing_object_action</A><FONT COLOR="red"> with </FONT>`an_action'
-        <B>require</B>
-            an_action_not_void: an_action /= <B>Void</B>
-        <B>do</B>
-            <A HREF="../elks/object_graph_traversable.html#f_on_processing_reference_action">on_processing_reference_action</A> := an_action
-        <B>ensure</B>
-            on_processing_reference_action_set: <A HREF="../elks/object_graph_traversable.html#f_on_processing_reference_action">on_processing_reference_action</A> = an_action
-        <B>end</B></A>
+	<A NAME="f_set_on_processing_reference_action"></A><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_set_on_processing_reference_action">set_on_processing_reference_action</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">an_action</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">like</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_on_processing_reference_action">on_processing_reference_action</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Set </SPAN><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_on_processing_object_action">on_processing_object_action</A><SPAN CLASS="ecomment"> with </SPAN>`an_action'
+		<SPAN CLASS="ekeyword">require</SPAN>
+			<SPAN CLASS="etag">an_action_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">an_action</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+		<SPAN CLASS="ekeyword">do</SPAN>
+			<A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_on_processing_reference_action">on_processing_reference_action</A> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">an_action</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN>
+			<SPAN CLASS="etag">on_processing_reference_action_set</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_on_processing_reference_action">on_processing_reference_action</A> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="elocal">an_action</SPAN>
+		<SPAN CLASS="ekeyword">end</SPAN>
 
-    <A NAME="f_set_object_action"><A HREF="../elks/object_graph_traversable.html#f_set_object_action">set_object_action</A> (an_object_action: <B>like</B> <A HREF="../elks/object_graph_traversable.html#f_object_action">object_action</A>)
-        <B>obsolete</B> "Use set_on_processing_object_action to read and manipulate objects via REFLECTED_OBJECT"
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/object_graph_traversable.html#f_object_action">object_action</A><FONT COLOR="red"> with </FONT>`an_object_action'<FONT COLOR="red">.</FONT>
-        <B>require</B>
-            an_object_action_not_void: an_object_action /= <B>Void</B>
-        <B>do</B>
-            <A HREF="../elks/object_graph_traversable.html#f_object_action">object_action</A> := an_object_action
-        <B>ensure</B>
-            an_object_action_set: <A HREF="../elks/object_graph_traversable.html#f_object_action">object_action</A> = an_object_action <B>and</B> <A HREF="../elks/object_graph_traversable.html#f_is_object_action_set">is_object_action_set</A>
-        <B>end</B></A>
+	<A NAME="f_set_object_action"></A><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_set_object_action">set_object_action</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">an_object_action</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">like</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_object_action">object_action</A><SPAN CLASS="esymbol">)</SPAN>
+		<SPAN CLASS="ekeyword">obsolete</SPAN> &quot;Use set_on_processing_object_action to read and manipulate objects via REFLECTED_OBJECT&quot;
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Set </SPAN><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_object_action">object_action</A><SPAN CLASS="ecomment"> with </SPAN>`an_object_action'<SPAN CLASS="ecomment">.</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN>
+			<SPAN CLASS="etag">an_object_action_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">an_object_action</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+		<SPAN CLASS="ekeyword">do</SPAN>
+			<A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_object_action">object_action</A> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">an_object_action</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN>
+			<SPAN CLASS="etag">an_object_action_set</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_object_action">object_action</A> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="elocal">an_object_action</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean.html#f_conjuncted">and</A> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_object_action_set">is_object_action_set</A>
+		<SPAN CLASS="ekeyword">end</SPAN>
 
-    <A NAME="f_set_is_skip_transient"><A HREF="../elks/object_graph_traversable.html#f_set_is_skip_transient">set_is_skip_transient</A> (v: <B>like</B> <A HREF="../elks/object_graph_traversable.html#f_is_skip_transient">is_skip_transient</A>)
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/object_graph_traversable.html#f_is_skip_transient">is_skip_transient</A><FONT COLOR="red"> with </FONT>`v'<FONT COLOR="red">.</FONT>
-        <B>do</B>
-            <A HREF="../elks/object_graph_traversable.html#f_is_skip_transient">is_skip_transient</A> := v
-        <B>ensure</B>
-            is_skip_transient_set: <A HREF="../elks/object_graph_traversable.html#f_is_skip_transient">is_skip_transient</A> = v
-        <B>end</B></A>
+	<A NAME="f_set_is_skip_transient"></A><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_set_is_skip_transient">set_is_skip_transient</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">v</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">like</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_skip_transient">is_skip_transient</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Set </SPAN><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_skip_transient">is_skip_transient</A><SPAN CLASS="ecomment"> with </SPAN>`v'<SPAN CLASS="ecomment">.</SPAN>
+		<SPAN CLASS="ekeyword">do</SPAN>
+			<A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_skip_transient">is_skip_transient</A> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">v</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN>
+			<SPAN CLASS="etag">is_skip_transient_set</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_skip_transient">is_skip_transient</A> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="elocal">v</SPAN>
+		<SPAN CLASS="ekeyword">end</SPAN>
 
-    <A NAME="f_set_is_skip_copy_semantics_reference"><A HREF="../elks/object_graph_traversable.html#f_set_is_skip_copy_semantics_reference">set_is_skip_copy_semantics_reference</A> (v: <B>like</B> <A HREF="../elks/object_graph_traversable.html#f_is_skip_copy_semantics_reference">is_skip_copy_semantics_reference</A>)
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/object_graph_traversable.html#f_is_skip_copy_semantics_reference">is_skip_copy_semantics_reference</A><FONT COLOR="red"> with </FONT>`v'<FONT COLOR="red">.</FONT>
-        <B>do</B>
-            <A HREF="../elks/object_graph_traversable.html#f_is_skip_copy_semantics_reference">is_skip_copy_semantics_reference</A> := v
-        <B>ensure</B>
-            is_skip_copy_semantics_reference_set: <A HREF="../elks/object_graph_traversable.html#f_is_skip_copy_semantics_reference">is_skip_copy_semantics_reference</A> = v
-        <B>end</B></A>
+	<A NAME="f_set_is_skip_copy_semantics_reference"></A><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_set_is_skip_copy_semantics_reference">set_is_skip_copy_semantics_reference</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">v</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">like</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_skip_copy_semantics_reference">is_skip_copy_semantics_reference</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Set </SPAN><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_skip_copy_semantics_reference">is_skip_copy_semantics_reference</A><SPAN CLASS="ecomment"> with </SPAN>`v'<SPAN CLASS="ecomment">.</SPAN>
+		<SPAN CLASS="ekeyword">do</SPAN>
+			<A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_skip_copy_semantics_reference">is_skip_copy_semantics_reference</A> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">v</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN>
+			<SPAN CLASS="etag">is_skip_copy_semantics_reference_set</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_skip_copy_semantics_reference">is_skip_copy_semantics_reference</A> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="elocal">v</SPAN>
+		<SPAN CLASS="ekeyword">end</SPAN>
 
-    <A NAME="f_set_is_exception_on_copy_suppressed"><A HREF="../elks/object_graph_traversable.html#f_set_is_exception_on_copy_suppressed">set_is_exception_on_copy_suppressed</A> (v: <B>like</B> <A HREF="../elks/object_graph_traversable.html#f_is_exception_on_copy_suppressed">is_exception_on_copy_suppressed</A>)
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/object_graph_traversable.html#f_set_is_exception_on_copy_suppressed">set_is_exception_on_copy_suppressed</A><FONT COLOR="red"> with </FONT>`v'<FONT COLOR="red">.</FONT>
-        <B>do</B>
-            <A HREF="../elks/object_graph_traversable.html#f_is_exception_on_copy_suppressed">is_exception_on_copy_suppressed</A> := v
-        <B>ensure</B>
-            is_exception_on_copy_suppressed_set: <A HREF="../elks/object_graph_traversable.html#f_is_exception_on_copy_suppressed">is_exception_on_copy_suppressed</A> = v
-        <B>end</B></A>
+	<A NAME="f_set_is_exception_on_copy_suppressed"></A><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_set_is_exception_on_copy_suppressed">set_is_exception_on_copy_suppressed</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">v</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">like</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_exception_on_copy_suppressed">is_exception_on_copy_suppressed</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Set </SPAN><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_set_is_exception_on_copy_suppressed">set_is_exception_on_copy_suppressed</A><SPAN CLASS="ecomment"> with </SPAN>`v'<SPAN CLASS="ecomment">.</SPAN>
+		<SPAN CLASS="ekeyword">do</SPAN>
+			<A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_exception_on_copy_suppressed">is_exception_on_copy_suppressed</A> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">v</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN>
+			<SPAN CLASS="etag">is_exception_on_copy_suppressed_set</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_exception_on_copy_suppressed">is_exception_on_copy_suppressed</A> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="elocal">v</SPAN>
+		<SPAN CLASS="ekeyword">end</SPAN>
 
-    <A NAME="f_set_is_exception_propagated"><A HREF="../elks/object_graph_traversable.html#f_set_is_exception_propagated">set_is_exception_propagated</A> (v: <B>like</B> <A HREF="../elks/object_graph_traversable.html#f_is_exception_propagated">is_exception_propagated</A>)
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/object_graph_traversable.html#f_is_exception_propagated">is_exception_propagated</A><FONT COLOR="red"> with </FONT>`v'<FONT COLOR="red">.</FONT>
-        <B>do</B>
-            <A HREF="../elks/object_graph_traversable.html#f_is_exception_propagated">is_exception_propagated</A> := v
-        <B>ensure</B>
-            is_exception_propagated_set: <A HREF="../elks/object_graph_traversable.html#f_is_exception_propagated">is_exception_propagated</A> = v
-        <B>end</B></A>
-    
-<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+	<A NAME="f_set_is_exception_propagated"></A><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_set_is_exception_propagated">set_is_exception_propagated</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">v</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">like</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_exception_propagated">is_exception_propagated</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Set </SPAN><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_exception_propagated">is_exception_propagated</A><SPAN CLASS="ecomment"> with </SPAN>`v'<SPAN CLASS="ecomment">.</SPAN>
+		<SPAN CLASS="ekeyword">do</SPAN>
+			<A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_exception_propagated">is_exception_propagated</A> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">v</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN>
+			<SPAN CLASS="etag">is_exception_propagated_set</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_exception_propagated">is_exception_propagated</A> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="elocal">v</SPAN>
+		<SPAN CLASS="ekeyword">end</SPAN>
+	
+<SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Basic operations</SPAN>
 
-    <A NAME="f_traverse"><B>frozen</B> <A HREF="../elks/object_graph_traversable.html#f_traverse">traverse</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Traverse object structure starting at 'root_object' and call object_action</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on every object in the graph.</FONT>
-        <B>require</B>
-            root_object_available: <A HREF="../elks/object_graph_traversable.html#f_is_root_object_set">is_root_object_set</A>
-        <B>local</B>
-            l_marker: <B>detachable</B> <A HREF="../elks/object_graph_marker.html">OBJECT_GRAPH_MARKER</A>
-            l_has_lock: <A HREF="../elks/boolean.html">BOOLEAN</A>
-            l_retried: <A HREF="../elks/boolean.html">BOOLEAN</A>
-        <B>do</B>
-            <B>if</B> <B>not</B> l_retried <B>and then</B> <B>attached</B> <A HREF="../elks/object_graph_traversable.html#f_root_object">root_object</A> <B>as</B> l_root <B>then</B>
-                <B>create</B> l_marker
-                l_marker.<A HREF="../elks/object_graph_marker.html#f_lock_marking">lock_marking</A>
-                l_has_lock := <B>True</B>
-                <A HREF="../elks/object_graph_traversable.html#f_internal_traverse">internal_traverse</A> (l_root)
-                l_marker.<A HREF="../elks/object_graph_marker.html#f_unlock_marking">unlock_marking</A>
-                <A HREF="../elks/object_graph_traversable.html#f_has_failed">has_failed</A> := <B>False</B>
-            <B>end</B>
-        <B>rescue</B>
-            l_retried := <B>True</B>
-            <A HREF="../elks/object_graph_traversable.html#f_has_failed">has_failed</A> := <B>True</B>
-            <B>if</B> l_has_lock <B>and then</B> l_marker /= <B>Void</B> <B>then</B>
-                l_marker.<A HREF="../elks/object_graph_marker.html#f_unlock_marking">unlock_marking</A>
-            <B>end</B>
-            <B>if</B> <B>not</B> <A HREF="../elks/object_graph_traversable.html#f_is_exception_propagated">is_exception_propagated</A> <B>then</B>
-                <B>retry</B>
-            <B>end</B>
-        <B>end</B></A>
+	<A NAME="f_traverse"></A><SPAN CLASS="ekeyword">frozen</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_traverse">traverse</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Traverse object structure starting at 'root_object' and call object_action</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> on every object in the graph.</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN>
+			<SPAN CLASS="etag">root_object_available</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_root_object_set">is_root_object_set</A>
+		<SPAN CLASS="ekeyword">local</SPAN>
+			<SPAN CLASS="elocal">l_marker</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">detachable</SPAN> <A CLASS="eclass" HREF="../elks/object_graph_marker.html">OBJECT_GRAPH_MARKER</A>
+			<SPAN CLASS="elocal">l_has_lock</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean.html">BOOLEAN</A>
+			<SPAN CLASS="elocal">l_retried</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean.html">BOOLEAN</A>
+		<SPAN CLASS="ekeyword">do</SPAN>
+			<SPAN CLASS="ekeyword">if</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean.html#f_negated">not</A> <SPAN CLASS="elocal">l_retried</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean.html#f_conjuncted_semistrict">and then</A> <SPAN CLASS="ekeyword">attached</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_root_object">root_object</A> <SPAN CLASS="ekeyword">as</SPAN> l_root <SPAN CLASS="ekeyword">then</SPAN>
+				<SPAN CLASS="ekeyword">create</SPAN> <SPAN CLASS="elocal">l_marker</SPAN>
+				<SPAN CLASS="elocal">l_marker</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/object_graph_marker.html#f_lock_marking">lock_marking</A>
+				<SPAN CLASS="elocal">l_has_lock</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="ekeyword">True</SPAN>
+				<A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_internal_traverse">internal_traverse</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_root</SPAN><SPAN CLASS="esymbol">)</SPAN>
+				<SPAN CLASS="elocal">l_marker</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/object_graph_marker.html#f_unlock_marking">unlock_marking</A>
+				<A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_has_failed">has_failed</A> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="ekeyword">False</SPAN>
+			<SPAN CLASS="ekeyword">end</SPAN>
+		<SPAN CLASS="ekeyword">rescue</SPAN>
+			<SPAN CLASS="elocal">l_retried</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="ekeyword">True</SPAN>
+			<A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_has_failed">has_failed</A> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="ekeyword">True</SPAN>
+			<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="elocal">l_has_lock</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean.html#f_conjuncted_semistrict">and then</A> <SPAN CLASS="elocal">l_marker</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN> <SPAN CLASS="ekeyword">then</SPAN>
+				<SPAN CLASS="elocal">l_marker</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/object_graph_marker.html#f_unlock_marking">unlock_marking</A>
+			<SPAN CLASS="ekeyword">end</SPAN>
+			<SPAN CLASS="ekeyword">if</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean.html#f_negated">not</A> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_exception_propagated">is_exception_propagated</A> <SPAN CLASS="ekeyword">then</SPAN>
+				<SPAN CLASS="ekeyword">retry</SPAN>
+			<SPAN CLASS="ekeyword">end</SPAN>
+		<SPAN CLASS="ekeyword">end</SPAN>
 
-    <A NAME="f_wipe_out"><A HREF="../elks/object_graph_traversable.html#f_wipe_out">wipe_out</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Clear current to default values</FONT>
-        <B>do</B>
-            <A HREF="../elks/object_graph_traversable.html#f_visited_objects">visited_objects</A> := <B>Void</B>
-            <A HREF="../elks/object_graph_traversable.html#f_visited_types">visited_types</A> := <B>Void</B>
-            <A HREF="../elks/object_graph_traversable.html#f_object_action">object_action</A> := <B>Void</B>
-            <A HREF="../elks/object_graph_traversable.html#f_root_object">root_object</A> := <B>Void</B>
-        <B>ensure</B>
-            visited_objects_reset: <A HREF="../elks/object_graph_traversable.html#f_visited_objects">visited_objects</A> = <B>Void</B>
-            object_action_not_set: <B>not</B> <A HREF="../elks/object_graph_traversable.html#f_is_object_action_set">is_object_action_set</A>
-            root_object_not_set: <B>not</B> <A HREF="../elks/object_graph_traversable.html#f_is_root_object_set">is_root_object_set</A>
-        <B>end</B></A>
-    
-<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+	<A NAME="f_wipe_out"></A><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_wipe_out">wipe_out</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Clear current to default values</SPAN>
+		<SPAN CLASS="ekeyword">do</SPAN>
+			<A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_visited_objects">visited_objects</A> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+			<A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_visited_types">visited_types</A> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+			<A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_object_action">object_action</A> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+			<A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_root_object">root_object</A> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN>
+			<SPAN CLASS="etag">visited_objects_reset</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_visited_objects">visited_objects</A> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+			<SPAN CLASS="etag">object_action_not_set</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean.html#f_negated">not</A> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_object_action_set">is_object_action_set</A>
+			<SPAN CLASS="etag">root_object_not_set</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean.html#f_negated">not</A> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_root_object_set">is_root_object_set</A>
+		<SPAN CLASS="ekeyword">end</SPAN>
+	
+<SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="esymbol">{</SPAN>NONE<SPAN CLASS="esymbol">}</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Implementation</SPAN>
 
-    <A NAME="f_new_dispenser"><A HREF="../elks/object_graph_traversable.html#f_new_dispenser">new_dispenser</A>: <A HREF="../elks/dispenser.html">DISPENSER</A> [<A HREF="../elks/any.html">ANY</A>]
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New dispenser to use for storing visited objects.</FONT>
-        <B>deferred</B>
-        <B>ensure</B>
-            new_dispenser_not_void: <B>Result</B> /= <B>Void</B>
-        <B>end</B></A>
+	<A NAME="f_new_dispenser"></A><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_new_dispenser">new_dispenser</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/dispenser.html">DISPENSER</A> <SPAN CLASS="esymbol">[</SPAN><A CLASS="eclass" HREF="../elks/any.html">ANY</A><SPAN CLASS="esymbol">]</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> New dispenser to use for storing visited objects.</SPAN>
+		<SPAN CLASS="ekeyword">deferred</SPAN>
+		<SPAN CLASS="ekeyword">ensure</SPAN>
+			<SPAN CLASS="etag">new_dispenser_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
+		<SPAN CLASS="ekeyword">end</SPAN>
 
-    <A NAME="f_default_size"><A HREF="../elks/object_graph_traversable.html#f_default_size">Default_size</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A> = 200</A>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default size for containers used during object traversal</FONT>
+	<A NAME="f_default_size"></A><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_default_size">Default_size</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/integer_32.html">INTEGER_32</A> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="enumber">200</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Default size for containers used during object traversal</SPAN>
 
-    <A NAME="f_internal_traverse"><A HREF="../elks/object_graph_traversable.html#f_internal_traverse">internal_traverse</A> (a_root_object: <A HREF="../elks/any.html">ANY</A>)
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Traverse object structure starting at 'root_object' and call object_action</FONT>
-            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on every object in the graph.</FONT>
-        <B>local</B>
-            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
-            l_object: <A HREF="../elks/any.html">ANY</A>
-            l_field: <B>like</B> {<A HREF="../elks/tuple.html">TUPLE</A>}.<A HREF="../elks/tuple.html#f_reference_item">reference_item</A>
-            l_field_type: <A HREF="../elks/integer_32.html">INTEGER_32</A>
-            l_marker: <A HREF="../elks/object_graph_marker.html">OBJECT_GRAPH_MARKER</A>
-            l_objects_to_visit: <B>like</B> <A HREF="../elks/object_graph_traversable.html#f_new_dispenser">new_dispenser</A>
-            l_visited: <B>like</B> <A HREF="../elks/object_graph_traversable.html#f_visited_objects">visited_objects</A>
-            l_visited_types: <B>like</B> <A HREF="../elks/object_graph_traversable.html#f_visited_types">visited_types</A>
-            l_action: <B>like</B> <A HREF="../elks/object_graph_traversable.html#f_object_action">object_action</A>
-            l_on_processing_object_action: <B>like</B> <A HREF="../elks/object_graph_traversable.html#f_on_processing_object_action">on_processing_object_action</A>
-            l_spec: <B>like</B> <A HREF="../elks/object_graph_traversable.html#f_visited_objects">visited_objects</A>.<A HREF="../elks/arrayed_list.html#f_area">area</A>
-            l_reflected_reference_object: <A HREF="../elks/reflected_reference_object.html">REFLECTED_REFERENCE_OBJECT</A>
-            l_reflected_object: <A HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A>
-            l_has_reference_with_copy_semantics: <A HREF="../elks/boolean.html">BOOLEAN</A>
-            l_on_processing_reference_action: <B>like</B> <A HREF="../elks/object_graph_traversable.html#f_on_processing_reference_action">on_processing_reference_action</A>
-            l_referee_object_cache: <A HREF="../elks/reflected_reference_object.html">REFLECTED_REFERENCE_OBJECT</A>
-            l_referee_object: <A HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A>
-        <B>do</B>
-            <B>from</B>
-                <B>create</B> l_marker
-                <B>create</B> l_reflected_reference_object.<A HREF="../elks/reflected_reference_object.html#f_make">make</A> (a_root_object)
-                l_reflected_object := l_reflected_reference_object
-                l_marker.<A HREF="../elks/object_graph_marker.html#f_mark">mark</A> (a_root_object)
-                <B>create</B> l_visited.<A HREF="../elks/arrayed_list.html#f_make">make</A> (<A HREF="../elks/object_graph_traversable.html#f_default_size">Default_size</A>)
-                <B>create</B> l_visited_types.<A HREF="../elks/hash_table.html#f_make">make</A> (<A HREF="../elks/object_graph_traversable.html#f_default_size">Default_size</A>)
-                l_objects_to_visit := <A HREF="../elks/object_graph_traversable.html#f_new_dispenser">new_dispenser</A>
-                l_objects_to_visit.<A HREF="../elks/dispenser.html#f_put">put</A> (a_root_object)
-                l_action := <A HREF="../elks/object_graph_traversable.html#f_object_action">object_action</A>
-                l_on_processing_object_action := <A HREF="../elks/object_graph_traversable.html#f_on_processing_object_action">on_processing_object_action</A>
-                l_on_processing_reference_action := <A HREF="../elks/object_graph_traversable.html#f_on_processing_reference_action">on_processing_reference_action</A>
-                <B>create</B> l_referee_object_cache.<A HREF="../elks/reflected_reference_object.html#f_make">make</A> (a_root_object)
-                l_referee_object := l_referee_object_cache
-                l_referee_object := l_referee_object_cache
-            <B>until</B>
-                l_objects_to_visit.<A HREF="../elks/finite.html#f_is_empty">is_empty</A>
-            <B>loop</B>
-                l_object := l_objects_to_visit.<A HREF="../elks/active.html#f_item">item</A>
-                l_objects_to_visit.<A HREF="../elks/active.html#f_remove">remove</A>
-                <B>if</B> <B>attached</B> {<A HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A>} l_object <B>as</B> l_copy_semantics_object <B>then</B>
-                    <B>check</B>
-                        embedded_or_copy_semantics: <B>attached</B> {<A HREF="../elks/reflected_copy_semantics_object.html">REFLECTED_COPY_SEMANTICS_OBJECT</A>} l_copy_semantics_object <B>or</B> (<B>attached</B> {<A HREF="../elks/reflected_reference_object.html">REFLECTED_REFERENCE_OBJECT</A>} l_copy_semantics_object <B>as</B> l_ref_obj <B>and then</B> l_ref_obj.<A HREF="../elks/reflected_reference_object.html#f_physical_offset">physical_offset</A> /= 0)
-                    <B>end</B>
-                    l_has_reference_with_copy_semantics := <B>True</B>
-                    l_reflected_object := l_copy_semantics_object
-                    <B>if</B> <B>not</B> <A HREF="../elks/object_graph_traversable.html#f_is_skip_copy_semantics_reference">is_skip_copy_semantics_reference</A> <B>then</B>
-                        l_visited.<A HREF="../elks/arrayed_list.html#f_extend">extend</A> (l_copy_semantics_object.<A HREF="../elks/reflected_object.html#f_object">object</A>)
-                    <B>end</B>
-                <B>else</B>
-                    l_reflected_reference_object.<A HREF="../elks/reflected_reference_object.html#f_set_object">set_object</A> (l_object)
-                    l_reflected_object := l_reflected_reference_object
-                    <B>if</B> l_reflected_reference_object.<A HREF="../elks/reflected_object.html#f_is_expanded">is_expanded</A> <B>then</B>
-                        l_has_reference_with_copy_semantics := <B>True</B>
-                        <B>if</B> <B>not</B> <A HREF="../elks/object_graph_traversable.html#f_is_skip_copy_semantics_reference">is_skip_copy_semantics_reference</A> <B>then</B>
-                            l_visited.<A HREF="../elks/arrayed_list.html#f_extend">extend</A> (l_object)
-                        <B>end</B>
-                    <B>else</B>
-                        l_visited.<A HREF="../elks/arrayed_list.html#f_extend">extend</A> (l_object)
-                    <B>end</B>
-                <B>end</B>
-                l_visited_types.<A HREF="../elks/hash_table.html#f_put">put</A> (l_reflected_object.<A HREF="../elks/reflected_object.html#f_dynamic_type">dynamic_type</A>, l_reflected_object.<A HREF="../elks/reflected_object.html#f_dynamic_type">dynamic_type</A>)
-                <B>if</B> l_action /= <B>Void</B> <B>or</B> l_on_processing_object_action /= <B>Void</B> <B>then</B>
-                    <B>if</B> <B>not</B> <A HREF="../elks/object_graph_traversable.html#f_is_exception_on_copy_suppressed">is_exception_on_copy_suppressed</A> <B>and then</B> l_reflected_object.<A HREF="../elks/reflected_object.html#f_is_expanded">is_expanded</A> <B>then</B>
-                        <A HREF="../elks/object_graph_traversable.html#f_raise_unwanted_copy_exception">raise_unwanted_copy_exception</A>
-                    <B>else</B>
-                        <B>if</B> l_action /= <B>Void</B> <B>then</B>
-                            l_action.<A HREF="../elks/procedure.html#f_call">call</A> ([l_object])
-                        <B>end</B>
-                        <B>if</B> <B>attached</B> l_on_processing_object_action <B>then</B>
-                            l_on_processing_object_action.<A HREF="../elks/procedure.html#f_call">call</A> ([l_reflected_object])
-                        <B>end</B>
-                    <B>end</B>
-                <B>end</B>
-                <B>if</B> l_reflected_object.<A HREF="../elks/reflected_object.html#f_is_special">is_special</A> <B>then</B>
-                    <B>if</B> l_reflected_object.<A HREF="../elks/reflected_object.html#f_is_special_of_reference">is_special_of_reference</A> <B>then</B>
-                        <B>if</B> <B>attached</B> {<A HREF="../elks/special.html">SPECIAL</A> [<B>detachable</B> <A HREF="../elks/any.html">ANY</A>]} l_object <B>as</B> l_sp <B>then</B>
-                            <B>from</B>
-                                i := 0
-                                nb := l_sp.<A HREF="../elks/special.html#f_count">count</A>
-                            <B>until</B>
-                                i = nb
-                            <B>loop</B>
-                                <B>if</B> l_reflected_object.<A HREF="../elks/reflected_object.html#f_is_special_copy_semantics_item">is_special_copy_semantics_item</A> (i) <B>then</B>
-                                    l_referee_object := l_reflected_object.<A HREF="../elks/reflected_object.html#f_special_copy_semantics_item">special_copy_semantics_item</A> (i)
-                                    l_field := l_referee_object
-                                    l_objects_to_visit.<A HREF="../elks/dispenser.html#f_put">put</A> (l_field)
-                                    <B>if</B> <B>attached</B> l_on_processing_reference_action <B>then</B>
-                                        l_on_processing_reference_action.<A HREF="../elks/procedure.html#f_call">call</A> ([l_reflected_object, l_referee_object])
-                                    <B>end</B>
-                                <B>else</B>
-                                    l_field := l_sp.<A HREF="../elks/special.html#f_item">item</A> (i)
-                                    <B>if</B> l_field /= <B>Void</B> <B>and then</B> <B>not</B> l_marker.<A HREF="../elks/object_graph_marker.html#f_is_marked">is_marked</A> (l_field) <B>then</B>
-                                        l_marker.<A HREF="../elks/object_graph_marker.html#f_mark">mark</A> (l_field)
-                                        l_objects_to_visit.<A HREF="../elks/dispenser.html#f_put">put</A> (l_field)
-                                    <B>end</B>
-                                    <B>if</B> <B>attached</B> l_on_processing_reference_action <B>and</B> <B>attached</B> l_field <B>then</B>
-                                        l_referee_object_cache.<A HREF="../elks/reflected_reference_object.html#f_set_object">set_object</A> (l_field)
-                                        l_referee_object := l_referee_object_cache
-                                        l_on_processing_reference_action.<A HREF="../elks/procedure.html#f_call">call</A> ([l_reflected_object, l_referee_object])
-                                    <B>end</B>
-                                <B>end</B>
-                                i := i + 1
-                            <B>end</B>
-                        <B>end</B>
-                    <B>elseif</B> l_reflected_object.<A HREF="../elks/reflected_object.html#f_is_special_of_expanded">is_special_of_expanded</A> <B>then</B>
-                        <B>if</B> <B>attached</B> {<A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/any.html">ANY</A>]} l_object <B>as</B> l_sp <B>then</B>
-                            <B>from</B>
-                                i := 0
-                                nb := l_sp.<A HREF="../elks/special.html#f_count">count</A>
-                            <B>until</B>
-                                i = nb
-                            <B>loop</B>
-                                l_field := l_sp.<A HREF="../elks/special.html#f_item">item</A> (i)
-                                l_objects_to_visit.<A HREF="../elks/dispenser.html#f_put">put</A> (l_field)
-                                <B>if</B> <B>attached</B> l_on_processing_reference_action <B>then</B>
-                                    <B>if</B> <A HREF="../elks/object_graph_traversable.html#f_is_exception_on_copy_suppressed">is_exception_on_copy_suppressed</A> <B>then</B>
-                                        l_referee_object_cache.<A HREF="../elks/reflected_reference_object.html#f_set_object">set_object</A> (l_field)
-                                        l_referee_object := l_referee_object_cache
-                                        l_on_processing_reference_action.<A HREF="../elks/procedure.html#f_call">call</A> ([l_reflected_object, l_referee_object])
-                                    <B>else</B>
-                                        <A HREF="../elks/object_graph_traversable.html#f_raise_unwanted_copy_exception">raise_unwanted_copy_exception</A>
-                                    <B>end</B>
-                                <B>end</B>
-                                i := i + 1
-                            <B>end</B>
-                        <B>end</B>
-                    <B>end</B>
-                <B>elseif</B> l_reflected_object.<A HREF="../elks/reflected_object.html#f_is_tuple">is_tuple</A> <B>then</B>
-                    <B>if</B> <B>attached</B> {<A HREF="../elks/tuple.html">TUPLE</A>} l_object <B>as</B> l_tuple_obj <B>then</B>
-                        <B>from</B>
-                            i := 1
-                            nb := l_tuple_obj.<A HREF="../elks/tuple.html#f_count">count</A> + 1
-                        <B>until</B>
-                            i = nb
-                        <B>loop</B>
-                            <B>if</B> l_tuple_obj.<A HREF="../elks/tuple.html#f_is_reference_item">is_reference_item</A> (i) <B>then</B>
-                                l_field := l_tuple_obj.<A HREF="../elks/tuple.html#f_reference_item">reference_item</A> (i)
-                                <B>if</B> l_field /= <B>Void</B> <B>and then</B> <B>not</B> l_marker.<A HREF="../elks/object_graph_marker.html#f_is_marked">is_marked</A> (l_field) <B>then</B>
-                                    l_marker.<A HREF="../elks/object_graph_marker.html#f_mark">mark</A> (l_field)
-                                    l_objects_to_visit.<A HREF="../elks/dispenser.html#f_put">put</A> (l_field)
-                                <B>end</B>
-                                <B>if</B> <B>attached</B> l_on_processing_reference_action <B>and</B> <B>attached</B> l_field <B>then</B>
-                                    <B>if</B> <A HREF="../elks/object_graph_traversable.html#f_is_exception_on_copy_suppressed">is_exception_on_copy_suppressed</A> <B>then</B>
-                                        l_referee_object_cache.<A HREF="../elks/reflected_reference_object.html#f_set_object">set_object</A> (l_field)
-                                        l_referee_object := l_referee_object_cache
-                                        l_on_processing_reference_action.<A HREF="../elks/procedure.html#f_call">call</A> ([l_reflected_object, l_referee_object])
-                                    <B>else</B>
-                                        <A HREF="../elks/object_graph_traversable.html#f_raise_unwanted_copy_exception">raise_unwanted_copy_exception</A>
-                                    <B>end</B>
-                                <B>end</B>
-                            <B>end</B>
-                            i := i + 1
-                        <B>end</B>
-                    <B>end</B>
-                <B>else</B>
-                    <B>from</B>
-                        i := 1
-                        nb := l_reflected_object.<A HREF="../elks/reflected_object.html#f_field_count">field_count</A> + 1
-                    <B>variant</B>
-                        nb - i
-                    <B>until</B>
-                        i = nb
-                    <B>loop</B>
-                        l_field_type := l_reflected_object.<A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i)
-                        <B>if</B> l_field_type = {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_reference_type">reference_type</A> <B>or</B> l_field_type = {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_expanded_type">expanded_type</A> <B>then</B>
-                            <B>if</B> <B>not</B> <A HREF="../elks/object_graph_traversable.html#f_is_skip_transient">is_skip_transient</A> <B>or else</B> <B>not</B> l_reflected_object.<A HREF="../elks/reflected_object.html#f_is_field_transient">is_field_transient</A> (i) <B>then</B>
-                                <B>if</B> l_field_type = {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_expanded_type">expanded_type</A> <B>then</B>
-                                    l_referee_object := l_reflected_object.<A HREF="../elks/reflected_object.html#f_expanded_field">expanded_field</A> (i)
-                                    l_objects_to_visit.<A HREF="../elks/dispenser.html#f_put">put</A> (l_referee_object)
-                                    <B>if</B> <B>attached</B> l_on_processing_reference_action <B>then</B>
-                                        l_on_processing_reference_action.<A HREF="../elks/procedure.html#f_call">call</A> ([l_reflected_object, l_referee_object])
-                                    <B>end</B>
-                                <B>elseif</B> l_reflected_object.<A HREF="../elks/reflected_object.html#f_is_copy_semantics_field">is_copy_semantics_field</A> (i) <B>then</B>
-                                    l_referee_object := l_reflected_object.<A HREF="../elks/reflected_object.html#f_copy_semantics_field">copy_semantics_field</A> (i)
-                                    l_objects_to_visit.<A HREF="../elks/dispenser.html#f_put">put</A> (l_referee_object)
-                                    <B>if</B> <B>attached</B> l_on_processing_reference_action <B>then</B>
-                                        l_on_processing_reference_action.<A HREF="../elks/procedure.html#f_call">call</A> ([l_reflected_object, l_referee_object])
-                                    <B>end</B>
-                                <B>else</B>
-                                    l_field := l_reflected_object.<A HREF="../elks/reflected_object.html#f_reference_field">reference_field</A> (i)
-                                    <B>if</B> l_field /= <B>Void</B> <B>then</B>
-                                        <B>if</B> <B>not</B> l_marker.<A HREF="../elks/object_graph_marker.html#f_is_marked">is_marked</A> (l_field) <B>then</B>
-                                            l_marker.<A HREF="../elks/object_graph_marker.html#f_mark">mark</A> (l_field)
-                                            l_objects_to_visit.<A HREF="../elks/dispenser.html#f_put">put</A> (l_field)
-                                        <B>end</B>
-                                        <B>if</B> <B>attached</B> l_on_processing_reference_action <B>then</B>
-                                            l_referee_object_cache.<A HREF="../elks/reflected_reference_object.html#f_set_object">set_object</A> (l_field)
-                                            l_referee_object := l_referee_object_cache
-                                            l_on_processing_reference_action.<A HREF="../elks/procedure.html#f_call">call</A> ([l_reflected_object, l_referee_object])
-                                        <B>end</B>
-                                    <B>end</B>
-                                <B>end</B>
-                            <B>end</B>
-                        <B>end</B>
-                        i := i + 1
-                    <B>end</B>
-                <B>end</B>
-            <B>end</B>
-            <B>from</B>
-                i := 0
-                nb := l_visited.<A HREF="../elks/arrayed_list.html#f_count">count</A>
-                l_spec := l_visited.<A HREF="../elks/arrayed_list.html#f_area">area</A>
-            <B>until</B>
-                i = nb
-            <B>loop</B>
-                l_marker.<A HREF="../elks/object_graph_marker.html#f_unmark">unmark</A> (l_spec.<A HREF="../elks/special.html#f_item">item</A> (i))
-                i := i + 1
-            <B>end</B>
-            <A HREF="../elks/object_graph_traversable.html#f_visited_objects">visited_objects</A> := l_visited
-            <A HREF="../elks/object_graph_traversable.html#f_visited_types">visited_types</A> := l_visited_types
-            <A HREF="../elks/object_graph_traversable.html#f_has_reference_with_copy_semantics">has_reference_with_copy_semantics</A> := l_has_reference_with_copy_semantics
-        <B>end</B></A>
+	<A NAME="f_internal_traverse"></A><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_internal_traverse">internal_traverse</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_root_object</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/any.html">ANY</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Traverse object structure starting at 'root_object' and call object_action</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> on every object in the graph.</SPAN>
+		<SPAN CLASS="ekeyword">local</SPAN>
+			<SPAN CLASS="elocal">i</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="elocal">nb</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/integer_32.html">INTEGER_32</A>
+			<SPAN CLASS="elocal">l_object</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/any.html">ANY</A>
+			<SPAN CLASS="elocal">l_field</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">like</SPAN> <SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../elks/tuple.html">TUPLE</A><SPAN CLASS="esymbol">}</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/tuple.html#f_reference_item">reference_item</A>
+			<SPAN CLASS="elocal">l_field_type</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/integer_32.html">INTEGER_32</A>
+			<SPAN CLASS="elocal">l_marker</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/object_graph_marker.html">OBJECT_GRAPH_MARKER</A>
+			<SPAN CLASS="elocal">l_objects_to_visit</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">like</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_new_dispenser">new_dispenser</A>
+			<SPAN CLASS="elocal">l_visited</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">like</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_visited_objects">visited_objects</A>
+			<SPAN CLASS="elocal">l_visited_types</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">like</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_visited_types">visited_types</A>
+			<SPAN CLASS="elocal">l_action</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">like</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_object_action">object_action</A>
+			<SPAN CLASS="elocal">l_on_processing_object_action</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">like</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_on_processing_object_action">on_processing_object_action</A>
+			<SPAN CLASS="elocal">l_spec</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">like</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_visited_objects">visited_objects</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/arrayed_list.html#f_area">area</A>
+			<SPAN CLASS="elocal">l_reflected_reference_object</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/reflected_reference_object.html">REFLECTED_REFERENCE_OBJECT</A>
+			<SPAN CLASS="elocal">l_reflected_object</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A>
+			<SPAN CLASS="elocal">l_has_reference_with_copy_semantics</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/boolean.html">BOOLEAN</A>
+			<SPAN CLASS="elocal">l_on_processing_reference_action</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">like</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_on_processing_reference_action">on_processing_reference_action</A>
+			<SPAN CLASS="elocal">l_referee_object_cache</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/reflected_reference_object.html">REFLECTED_REFERENCE_OBJECT</A>
+			<SPAN CLASS="elocal">l_referee_object</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A>
+		<SPAN CLASS="ekeyword">do</SPAN>
+			<SPAN CLASS="ekeyword">from</SPAN>
+				<SPAN CLASS="ekeyword">create</SPAN> <SPAN CLASS="elocal">l_marker</SPAN>
+				<SPAN CLASS="ekeyword">create</SPAN> <SPAN CLASS="elocal">l_reflected_reference_object</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/reflected_reference_object.html#f_make">make</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_root_object</SPAN><SPAN CLASS="esymbol">)</SPAN>
+				<SPAN CLASS="elocal">l_reflected_object</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_reflected_reference_object</SPAN>
+				<SPAN CLASS="elocal">l_marker</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/object_graph_marker.html#f_mark">mark</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_root_object</SPAN><SPAN CLASS="esymbol">)</SPAN>
+				<SPAN CLASS="ekeyword">create</SPAN> <SPAN CLASS="elocal">l_visited</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/arrayed_list.html#f_make">make</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_default_size">Default_size</A><SPAN CLASS="esymbol">)</SPAN>
+				<SPAN CLASS="ekeyword">create</SPAN> <SPAN CLASS="elocal">l_visited_types</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/hash_table.html#f_make">make</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_default_size">Default_size</A><SPAN CLASS="esymbol">)</SPAN>
+				<SPAN CLASS="elocal">l_objects_to_visit</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_new_dispenser">new_dispenser</A>
+				<SPAN CLASS="elocal">l_objects_to_visit</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/dispenser.html#f_put">put</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_root_object</SPAN><SPAN CLASS="esymbol">)</SPAN>
+				<SPAN CLASS="elocal">l_action</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_object_action">object_action</A>
+				<SPAN CLASS="elocal">l_on_processing_object_action</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_on_processing_object_action">on_processing_object_action</A>
+				<SPAN CLASS="elocal">l_on_processing_reference_action</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_on_processing_reference_action">on_processing_reference_action</A>
+				<SPAN CLASS="ekeyword">create</SPAN> <SPAN CLASS="elocal">l_referee_object_cache</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/reflected_reference_object.html#f_make">make</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_root_object</SPAN><SPAN CLASS="esymbol">)</SPAN>
+				<SPAN CLASS="elocal">l_referee_object</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_referee_object_cache</SPAN>
+				<SPAN CLASS="elocal">l_referee_object</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_referee_object_cache</SPAN>
+			<SPAN CLASS="ekeyword">until</SPAN>
+				<SPAN CLASS="elocal">l_objects_to_visit</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/finite.html#f_is_empty">is_empty</A>
+			<SPAN CLASS="ekeyword">loop</SPAN>
+				<SPAN CLASS="elocal">l_object</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_objects_to_visit</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/active.html#f_item">item</A>
+				<SPAN CLASS="elocal">l_objects_to_visit</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/active.html#f_remove">remove</A>
+				<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A><SPAN CLASS="esymbol">}</SPAN> <SPAN CLASS="elocal">l_object</SPAN> <SPAN CLASS="ekeyword">as</SPAN> l_copy_semantics_object <SPAN CLASS="ekeyword">then</SPAN>
+					<SPAN CLASS="ekeyword">check</SPAN>
+						<SPAN CLASS="etag">embedded_or_copy_semantics</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../elks/reflected_copy_semantics_object.html">REFLECTED_COPY_SEMANTICS_OBJECT</A><SPAN CLASS="esymbol">}</SPAN> <SPAN CLASS="elocal">l_copy_semantics_object</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean.html#f_disjuncted">or</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">attached</SPAN> <SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../elks/reflected_reference_object.html">REFLECTED_REFERENCE_OBJECT</A><SPAN CLASS="esymbol">}</SPAN> <SPAN CLASS="elocal">l_copy_semantics_object</SPAN> <SPAN CLASS="ekeyword">as</SPAN> l_ref_obj <A CLASS="ekeyword" HREF="../elks/boolean.html#f_conjuncted_semistrict">and then</A> <SPAN CLASS="elocal">l_ref_obj</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/reflected_reference_object.html#f_physical_offset">physical_offset</A> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="enumber">0</SPAN><SPAN CLASS="esymbol">)</SPAN>
+					<SPAN CLASS="ekeyword">end</SPAN>
+					<SPAN CLASS="elocal">l_has_reference_with_copy_semantics</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="ekeyword">True</SPAN>
+					<SPAN CLASS="elocal">l_reflected_object</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_copy_semantics_object</SPAN>
+					<SPAN CLASS="ekeyword">if</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean.html#f_negated">not</A> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_skip_copy_semantics_reference">is_skip_copy_semantics_reference</A> <SPAN CLASS="ekeyword">then</SPAN>
+						<SPAN CLASS="elocal">l_visited</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/arrayed_list.html#f_extend">extend</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_copy_semantics_object</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/reflected_object.html#f_object">object</A><SPAN CLASS="esymbol">)</SPAN>
+					<SPAN CLASS="ekeyword">end</SPAN>
+				<SPAN CLASS="ekeyword">else</SPAN>
+					<SPAN CLASS="elocal">l_reflected_reference_object</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/reflected_reference_object.html#f_set_object">set_object</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_object</SPAN><SPAN CLASS="esymbol">)</SPAN>
+					<SPAN CLASS="elocal">l_reflected_object</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_reflected_reference_object</SPAN>
+					<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="elocal">l_reflected_reference_object</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/reflected_object.html#f_is_expanded">is_expanded</A> <SPAN CLASS="ekeyword">then</SPAN>
+						<SPAN CLASS="elocal">l_has_reference_with_copy_semantics</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="ekeyword">True</SPAN>
+						<SPAN CLASS="ekeyword">if</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean.html#f_negated">not</A> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_skip_copy_semantics_reference">is_skip_copy_semantics_reference</A> <SPAN CLASS="ekeyword">then</SPAN>
+							<SPAN CLASS="elocal">l_visited</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/arrayed_list.html#f_extend">extend</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_object</SPAN><SPAN CLASS="esymbol">)</SPAN>
+						<SPAN CLASS="ekeyword">end</SPAN>
+					<SPAN CLASS="ekeyword">else</SPAN>
+						<SPAN CLASS="elocal">l_visited</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/arrayed_list.html#f_extend">extend</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_object</SPAN><SPAN CLASS="esymbol">)</SPAN>
+					<SPAN CLASS="ekeyword">end</SPAN>
+				<SPAN CLASS="ekeyword">end</SPAN>
+				<SPAN CLASS="elocal">l_visited_types</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/hash_table.html#f_put">put</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_reflected_object</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/reflected_object.html#f_dynamic_type">dynamic_type</A><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="elocal">l_reflected_object</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/reflected_object.html#f_dynamic_type">dynamic_type</A><SPAN CLASS="esymbol">)</SPAN>
+				<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="elocal">l_action</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean.html#f_disjuncted">or</A> <SPAN CLASS="elocal">l_on_processing_object_action</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN> <SPAN CLASS="ekeyword">then</SPAN>
+					<SPAN CLASS="ekeyword">if</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean.html#f_negated">not</A> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_exception_on_copy_suppressed">is_exception_on_copy_suppressed</A> <A CLASS="ekeyword" HREF="../elks/boolean.html#f_conjuncted_semistrict">and then</A> <SPAN CLASS="elocal">l_reflected_object</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/reflected_object.html#f_is_expanded">is_expanded</A> <SPAN CLASS="ekeyword">then</SPAN>
+						<A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_raise_unwanted_copy_exception">raise_unwanted_copy_exception</A>
+					<SPAN CLASS="ekeyword">else</SPAN>
+						<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="elocal">l_action</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN> <SPAN CLASS="ekeyword">then</SPAN>
+							<SPAN CLASS="elocal">l_action</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/procedure.html#f_call">call</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="esymbol">[</SPAN><SPAN CLASS="elocal">l_object</SPAN><SPAN CLASS="esymbol">]</SPAN><SPAN CLASS="esymbol">)</SPAN>
+						<SPAN CLASS="ekeyword">end</SPAN>
+						<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <SPAN CLASS="elocal">l_on_processing_object_action</SPAN> <SPAN CLASS="ekeyword">then</SPAN>
+							<SPAN CLASS="elocal">l_on_processing_object_action</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/procedure.html#f_call">call</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="esymbol">[</SPAN><SPAN CLASS="elocal">l_reflected_object</SPAN><SPAN CLASS="esymbol">]</SPAN><SPAN CLASS="esymbol">)</SPAN>
+						<SPAN CLASS="ekeyword">end</SPAN>
+					<SPAN CLASS="ekeyword">end</SPAN>
+				<SPAN CLASS="ekeyword">end</SPAN>
+				<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="elocal">l_reflected_object</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/reflected_object.html#f_is_special">is_special</A> <SPAN CLASS="ekeyword">then</SPAN>
+					<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="elocal">l_reflected_object</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/reflected_object.html#f_is_special_of_reference">is_special_of_reference</A> <SPAN CLASS="ekeyword">then</SPAN>
+						<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../elks/special.html">SPECIAL</A> <SPAN CLASS="esymbol">[</SPAN><SPAN CLASS="ekeyword">detachable</SPAN> <A CLASS="eclass" HREF="../elks/any.html">ANY</A><SPAN CLASS="esymbol">]</SPAN><SPAN CLASS="esymbol">}</SPAN> <SPAN CLASS="elocal">l_object</SPAN> <SPAN CLASS="ekeyword">as</SPAN> l_sp <SPAN CLASS="ekeyword">then</SPAN>
+							<SPAN CLASS="ekeyword">from</SPAN>
+								<SPAN CLASS="elocal">i</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="enumber">0</SPAN>
+								<SPAN CLASS="elocal">nb</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_sp</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/special.html#f_count">count</A>
+							<SPAN CLASS="ekeyword">until</SPAN>
+								<SPAN CLASS="elocal">i</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="elocal">nb</SPAN>
+							<SPAN CLASS="ekeyword">loop</SPAN>
+								<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="elocal">l_reflected_object</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/reflected_object.html#f_is_special_copy_semantics_item">is_special_copy_semantics_item</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">i</SPAN><SPAN CLASS="esymbol">)</SPAN> <SPAN CLASS="ekeyword">then</SPAN>
+									<SPAN CLASS="elocal">l_referee_object</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_reflected_object</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/reflected_object.html#f_special_copy_semantics_item">special_copy_semantics_item</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">i</SPAN><SPAN CLASS="esymbol">)</SPAN>
+									<SPAN CLASS="elocal">l_field</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_referee_object</SPAN>
+									<SPAN CLASS="elocal">l_objects_to_visit</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/dispenser.html#f_put">put</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_field</SPAN><SPAN CLASS="esymbol">)</SPAN>
+									<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <SPAN CLASS="elocal">l_on_processing_reference_action</SPAN> <SPAN CLASS="ekeyword">then</SPAN>
+										<SPAN CLASS="elocal">l_on_processing_reference_action</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/procedure.html#f_call">call</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="esymbol">[</SPAN><SPAN CLASS="elocal">l_reflected_object</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="elocal">l_referee_object</SPAN><SPAN CLASS="esymbol">]</SPAN><SPAN CLASS="esymbol">)</SPAN>
+									<SPAN CLASS="ekeyword">end</SPAN>
+								<SPAN CLASS="ekeyword">else</SPAN>
+									<SPAN CLASS="elocal">l_field</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_sp</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/special.html#f_item">item</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">i</SPAN><SPAN CLASS="esymbol">)</SPAN>
+									<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="elocal">l_field</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean.html#f_conjuncted_semistrict">and then</A> <A CLASS="ekeyword" HREF="../elks/boolean.html#f_negated">not</A> <SPAN CLASS="elocal">l_marker</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/object_graph_marker.html#f_is_marked">is_marked</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_field</SPAN><SPAN CLASS="esymbol">)</SPAN> <SPAN CLASS="ekeyword">then</SPAN>
+										<SPAN CLASS="elocal">l_marker</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/object_graph_marker.html#f_mark">mark</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_field</SPAN><SPAN CLASS="esymbol">)</SPAN>
+										<SPAN CLASS="elocal">l_objects_to_visit</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/dispenser.html#f_put">put</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_field</SPAN><SPAN CLASS="esymbol">)</SPAN>
+									<SPAN CLASS="ekeyword">end</SPAN>
+									<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <SPAN CLASS="elocal">l_on_processing_reference_action</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean.html#f_conjuncted">and</A> <SPAN CLASS="ekeyword">attached</SPAN> <SPAN CLASS="elocal">l_field</SPAN> <SPAN CLASS="ekeyword">then</SPAN>
+										<SPAN CLASS="elocal">l_referee_object_cache</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/reflected_reference_object.html#f_set_object">set_object</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_field</SPAN><SPAN CLASS="esymbol">)</SPAN>
+										<SPAN CLASS="elocal">l_referee_object</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_referee_object_cache</SPAN>
+										<SPAN CLASS="elocal">l_on_processing_reference_action</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/procedure.html#f_call">call</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="esymbol">[</SPAN><SPAN CLASS="elocal">l_reflected_object</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="elocal">l_referee_object</SPAN><SPAN CLASS="esymbol">]</SPAN><SPAN CLASS="esymbol">)</SPAN>
+									<SPAN CLASS="ekeyword">end</SPAN>
+								<SPAN CLASS="ekeyword">end</SPAN>
+								<SPAN CLASS="elocal">i</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">i</SPAN> <A CLASS="esymbol" HREF="../elks/integer_32.html#f_plus">+</A> <SPAN CLASS="enumber">1</SPAN>
+							<SPAN CLASS="ekeyword">end</SPAN>
+						<SPAN CLASS="ekeyword">end</SPAN>
+					<SPAN CLASS="ekeyword">elseif</SPAN> <SPAN CLASS="elocal">l_reflected_object</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/reflected_object.html#f_is_special_of_expanded">is_special_of_expanded</A> <SPAN CLASS="ekeyword">then</SPAN>
+						<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../elks/special.html">SPECIAL</A> <SPAN CLASS="esymbol">[</SPAN><A CLASS="eclass" HREF="../elks/any.html">ANY</A><SPAN CLASS="esymbol">]</SPAN><SPAN CLASS="esymbol">}</SPAN> <SPAN CLASS="elocal">l_object</SPAN> <SPAN CLASS="ekeyword">as</SPAN> l_sp <SPAN CLASS="ekeyword">then</SPAN>
+							<SPAN CLASS="ekeyword">from</SPAN>
+								<SPAN CLASS="elocal">i</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="enumber">0</SPAN>
+								<SPAN CLASS="elocal">nb</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_sp</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/special.html#f_count">count</A>
+							<SPAN CLASS="ekeyword">until</SPAN>
+								<SPAN CLASS="elocal">i</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="elocal">nb</SPAN>
+							<SPAN CLASS="ekeyword">loop</SPAN>
+								<SPAN CLASS="elocal">l_field</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_sp</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/special.html#f_item">item</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">i</SPAN><SPAN CLASS="esymbol">)</SPAN>
+								<SPAN CLASS="elocal">l_objects_to_visit</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/dispenser.html#f_put">put</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_field</SPAN><SPAN CLASS="esymbol">)</SPAN>
+								<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <SPAN CLASS="elocal">l_on_processing_reference_action</SPAN> <SPAN CLASS="ekeyword">then</SPAN>
+									<SPAN CLASS="ekeyword">if</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_exception_on_copy_suppressed">is_exception_on_copy_suppressed</A> <SPAN CLASS="ekeyword">then</SPAN>
+										<SPAN CLASS="elocal">l_referee_object_cache</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/reflected_reference_object.html#f_set_object">set_object</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_field</SPAN><SPAN CLASS="esymbol">)</SPAN>
+										<SPAN CLASS="elocal">l_referee_object</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_referee_object_cache</SPAN>
+										<SPAN CLASS="elocal">l_on_processing_reference_action</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/procedure.html#f_call">call</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="esymbol">[</SPAN><SPAN CLASS="elocal">l_reflected_object</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="elocal">l_referee_object</SPAN><SPAN CLASS="esymbol">]</SPAN><SPAN CLASS="esymbol">)</SPAN>
+									<SPAN CLASS="ekeyword">else</SPAN>
+										<A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_raise_unwanted_copy_exception">raise_unwanted_copy_exception</A>
+									<SPAN CLASS="ekeyword">end</SPAN>
+								<SPAN CLASS="ekeyword">end</SPAN>
+								<SPAN CLASS="elocal">i</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">i</SPAN> <A CLASS="esymbol" HREF="../elks/integer_32.html#f_plus">+</A> <SPAN CLASS="enumber">1</SPAN>
+							<SPAN CLASS="ekeyword">end</SPAN>
+						<SPAN CLASS="ekeyword">end</SPAN>
+					<SPAN CLASS="ekeyword">end</SPAN>
+				<SPAN CLASS="ekeyword">elseif</SPAN> <SPAN CLASS="elocal">l_reflected_object</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/reflected_object.html#f_is_tuple">is_tuple</A> <SPAN CLASS="ekeyword">then</SPAN>
+					<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../elks/tuple.html">TUPLE</A><SPAN CLASS="esymbol">}</SPAN> <SPAN CLASS="elocal">l_object</SPAN> <SPAN CLASS="ekeyword">as</SPAN> l_tuple_obj <SPAN CLASS="ekeyword">then</SPAN>
+						<SPAN CLASS="ekeyword">from</SPAN>
+							<SPAN CLASS="elocal">i</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="enumber">1</SPAN>
+							<SPAN CLASS="elocal">nb</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_tuple_obj</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/tuple.html#f_count">count</A> <A CLASS="esymbol" HREF="../elks/integer_32.html#f_plus">+</A> <SPAN CLASS="enumber">1</SPAN>
+						<SPAN CLASS="ekeyword">until</SPAN>
+							<SPAN CLASS="elocal">i</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="elocal">nb</SPAN>
+						<SPAN CLASS="ekeyword">loop</SPAN>
+							<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="elocal">l_tuple_obj</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/tuple.html#f_is_reference_item">is_reference_item</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">i</SPAN><SPAN CLASS="esymbol">)</SPAN> <SPAN CLASS="ekeyword">then</SPAN>
+								<SPAN CLASS="elocal">l_field</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_tuple_obj</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/tuple.html#f_reference_item">reference_item</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">i</SPAN><SPAN CLASS="esymbol">)</SPAN>
+								<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="elocal">l_field</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean.html#f_conjuncted_semistrict">and then</A> <A CLASS="ekeyword" HREF="../elks/boolean.html#f_negated">not</A> <SPAN CLASS="elocal">l_marker</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/object_graph_marker.html#f_is_marked">is_marked</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_field</SPAN><SPAN CLASS="esymbol">)</SPAN> <SPAN CLASS="ekeyword">then</SPAN>
+									<SPAN CLASS="elocal">l_marker</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/object_graph_marker.html#f_mark">mark</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_field</SPAN><SPAN CLASS="esymbol">)</SPAN>
+									<SPAN CLASS="elocal">l_objects_to_visit</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/dispenser.html#f_put">put</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_field</SPAN><SPAN CLASS="esymbol">)</SPAN>
+								<SPAN CLASS="ekeyword">end</SPAN>
+								<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <SPAN CLASS="elocal">l_on_processing_reference_action</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean.html#f_conjuncted">and</A> <SPAN CLASS="ekeyword">attached</SPAN> <SPAN CLASS="elocal">l_field</SPAN> <SPAN CLASS="ekeyword">then</SPAN>
+									<SPAN CLASS="ekeyword">if</SPAN> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_exception_on_copy_suppressed">is_exception_on_copy_suppressed</A> <SPAN CLASS="ekeyword">then</SPAN>
+										<SPAN CLASS="elocal">l_referee_object_cache</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/reflected_reference_object.html#f_set_object">set_object</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_field</SPAN><SPAN CLASS="esymbol">)</SPAN>
+										<SPAN CLASS="elocal">l_referee_object</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_referee_object_cache</SPAN>
+										<SPAN CLASS="elocal">l_on_processing_reference_action</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/procedure.html#f_call">call</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="esymbol">[</SPAN><SPAN CLASS="elocal">l_reflected_object</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="elocal">l_referee_object</SPAN><SPAN CLASS="esymbol">]</SPAN><SPAN CLASS="esymbol">)</SPAN>
+									<SPAN CLASS="ekeyword">else</SPAN>
+										<A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_raise_unwanted_copy_exception">raise_unwanted_copy_exception</A>
+									<SPAN CLASS="ekeyword">end</SPAN>
+								<SPAN CLASS="ekeyword">end</SPAN>
+							<SPAN CLASS="ekeyword">end</SPAN>
+							<SPAN CLASS="elocal">i</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">i</SPAN> <A CLASS="esymbol" HREF="../elks/integer_32.html#f_plus">+</A> <SPAN CLASS="enumber">1</SPAN>
+						<SPAN CLASS="ekeyword">end</SPAN>
+					<SPAN CLASS="ekeyword">end</SPAN>
+				<SPAN CLASS="ekeyword">else</SPAN>
+					<SPAN CLASS="ekeyword">from</SPAN>
+						<SPAN CLASS="elocal">i</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="enumber">1</SPAN>
+						<SPAN CLASS="elocal">nb</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_reflected_object</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/reflected_object.html#f_field_count">field_count</A> <A CLASS="esymbol" HREF="../elks/integer_32.html#f_plus">+</A> <SPAN CLASS="enumber">1</SPAN>
+					<SPAN CLASS="ekeyword">variant</SPAN>
+						<SPAN CLASS="elocal">nb</SPAN> <A CLASS="esymbol" HREF="../elks/integer_32.html#f_minus">-</A> <SPAN CLASS="elocal">i</SPAN>
+					<SPAN CLASS="ekeyword">until</SPAN>
+						<SPAN CLASS="elocal">i</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="elocal">nb</SPAN>
+					<SPAN CLASS="ekeyword">loop</SPAN>
+						<SPAN CLASS="elocal">l_field_type</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_reflected_object</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/reflected_object.html#f_field_type">field_type</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">i</SPAN><SPAN CLASS="esymbol">)</SPAN>
+						<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="elocal">l_field_type</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A><SPAN CLASS="esymbol">}</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/reflector_constants.html#f_reference_type">reference_type</A> <A CLASS="ekeyword" HREF="../elks/boolean.html#f_disjuncted">or</A> <SPAN CLASS="elocal">l_field_type</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A><SPAN CLASS="esymbol">}</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/reflector_constants.html#f_expanded_type">expanded_type</A> <SPAN CLASS="ekeyword">then</SPAN>
+							<SPAN CLASS="ekeyword">if</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean.html#f_negated">not</A> <A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_is_skip_transient">is_skip_transient</A> <A CLASS="ekeyword" HREF="../elks/boolean.html#f_disjuncted_semistrict">or else</A> <A CLASS="ekeyword" HREF="../elks/boolean.html#f_negated">not</A> <SPAN CLASS="elocal">l_reflected_object</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/reflected_object.html#f_is_field_transient">is_field_transient</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">i</SPAN><SPAN CLASS="esymbol">)</SPAN> <SPAN CLASS="ekeyword">then</SPAN>
+								<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="elocal">l_field_type</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A><SPAN CLASS="esymbol">}</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/reflector_constants.html#f_expanded_type">expanded_type</A> <SPAN CLASS="ekeyword">then</SPAN>
+									<SPAN CLASS="elocal">l_referee_object</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_reflected_object</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/reflected_object.html#f_expanded_field">expanded_field</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">i</SPAN><SPAN CLASS="esymbol">)</SPAN>
+									<SPAN CLASS="elocal">l_objects_to_visit</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/dispenser.html#f_put">put</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_referee_object</SPAN><SPAN CLASS="esymbol">)</SPAN>
+									<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <SPAN CLASS="elocal">l_on_processing_reference_action</SPAN> <SPAN CLASS="ekeyword">then</SPAN>
+										<SPAN CLASS="elocal">l_on_processing_reference_action</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/procedure.html#f_call">call</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="esymbol">[</SPAN><SPAN CLASS="elocal">l_reflected_object</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="elocal">l_referee_object</SPAN><SPAN CLASS="esymbol">]</SPAN><SPAN CLASS="esymbol">)</SPAN>
+									<SPAN CLASS="ekeyword">end</SPAN>
+								<SPAN CLASS="ekeyword">elseif</SPAN> <SPAN CLASS="elocal">l_reflected_object</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/reflected_object.html#f_is_copy_semantics_field">is_copy_semantics_field</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">i</SPAN><SPAN CLASS="esymbol">)</SPAN> <SPAN CLASS="ekeyword">then</SPAN>
+									<SPAN CLASS="elocal">l_referee_object</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_reflected_object</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/reflected_object.html#f_copy_semantics_field">copy_semantics_field</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">i</SPAN><SPAN CLASS="esymbol">)</SPAN>
+									<SPAN CLASS="elocal">l_objects_to_visit</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/dispenser.html#f_put">put</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_referee_object</SPAN><SPAN CLASS="esymbol">)</SPAN>
+									<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <SPAN CLASS="elocal">l_on_processing_reference_action</SPAN> <SPAN CLASS="ekeyword">then</SPAN>
+										<SPAN CLASS="elocal">l_on_processing_reference_action</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/procedure.html#f_call">call</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="esymbol">[</SPAN><SPAN CLASS="elocal">l_reflected_object</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="elocal">l_referee_object</SPAN><SPAN CLASS="esymbol">]</SPAN><SPAN CLASS="esymbol">)</SPAN>
+									<SPAN CLASS="ekeyword">end</SPAN>
+								<SPAN CLASS="ekeyword">else</SPAN>
+									<SPAN CLASS="elocal">l_field</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_reflected_object</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/reflected_object.html#f_reference_field">reference_field</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">i</SPAN><SPAN CLASS="esymbol">)</SPAN>
+									<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="elocal">l_field</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN> <SPAN CLASS="ekeyword">then</SPAN>
+										<SPAN CLASS="ekeyword">if</SPAN> <A CLASS="ekeyword" HREF="../elks/boolean.html#f_negated">not</A> <SPAN CLASS="elocal">l_marker</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/object_graph_marker.html#f_is_marked">is_marked</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_field</SPAN><SPAN CLASS="esymbol">)</SPAN> <SPAN CLASS="ekeyword">then</SPAN>
+											<SPAN CLASS="elocal">l_marker</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/object_graph_marker.html#f_mark">mark</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_field</SPAN><SPAN CLASS="esymbol">)</SPAN>
+											<SPAN CLASS="elocal">l_objects_to_visit</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/dispenser.html#f_put">put</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_field</SPAN><SPAN CLASS="esymbol">)</SPAN>
+										<SPAN CLASS="ekeyword">end</SPAN>
+										<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <SPAN CLASS="elocal">l_on_processing_reference_action</SPAN> <SPAN CLASS="ekeyword">then</SPAN>
+											<SPAN CLASS="elocal">l_referee_object_cache</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/reflected_reference_object.html#f_set_object">set_object</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_field</SPAN><SPAN CLASS="esymbol">)</SPAN>
+											<SPAN CLASS="elocal">l_referee_object</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_referee_object_cache</SPAN>
+											<SPAN CLASS="elocal">l_on_processing_reference_action</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/procedure.html#f_call">call</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="esymbol">[</SPAN><SPAN CLASS="elocal">l_reflected_object</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="elocal">l_referee_object</SPAN><SPAN CLASS="esymbol">]</SPAN><SPAN CLASS="esymbol">)</SPAN>
+										<SPAN CLASS="ekeyword">end</SPAN>
+									<SPAN CLASS="ekeyword">end</SPAN>
+								<SPAN CLASS="ekeyword">end</SPAN>
+							<SPAN CLASS="ekeyword">end</SPAN>
+						<SPAN CLASS="ekeyword">end</SPAN>
+						<SPAN CLASS="elocal">i</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">i</SPAN> <A CLASS="esymbol" HREF="../elks/integer_32.html#f_plus">+</A> <SPAN CLASS="enumber">1</SPAN>
+					<SPAN CLASS="ekeyword">end</SPAN>
+				<SPAN CLASS="ekeyword">end</SPAN>
+			<SPAN CLASS="ekeyword">end</SPAN>
+			<SPAN CLASS="ekeyword">from</SPAN>
+				<SPAN CLASS="elocal">i</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="enumber">0</SPAN>
+				<SPAN CLASS="elocal">nb</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_visited</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/arrayed_list.html#f_count">count</A>
+				<SPAN CLASS="elocal">l_spec</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_visited</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/arrayed_list.html#f_area">area</A>
+			<SPAN CLASS="ekeyword">until</SPAN>
+				<SPAN CLASS="elocal">i</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="elocal">nb</SPAN>
+			<SPAN CLASS="ekeyword">loop</SPAN>
+				<SPAN CLASS="elocal">l_marker</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/object_graph_marker.html#f_unmark">unmark</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_spec</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/special.html#f_item">item</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">i</SPAN><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">)</SPAN>
+				<SPAN CLASS="elocal">i</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">i</SPAN> <A CLASS="esymbol" HREF="../elks/integer_32.html#f_plus">+</A> <SPAN CLASS="enumber">1</SPAN>
+			<SPAN CLASS="ekeyword">end</SPAN>
+			<A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_visited_objects">visited_objects</A> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_visited</SPAN>
+			<A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_visited_types">visited_types</A> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_visited_types</SPAN>
+			<A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_has_reference_with_copy_semantics">has_reference_with_copy_semantics</A> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_has_reference_with_copy_semantics</SPAN>
+		<SPAN CLASS="ekeyword">end</SPAN>
 
-    <A NAME="f_raise_unwanted_copy_exception"><A HREF="../elks/object_graph_traversable.html#f_raise_unwanted_copy_exception">raise_unwanted_copy_exception</A>
-        <B>local</B>
-            l_exception: <A HREF="../elks/developer_exception.html">DEVELOPER_EXCEPTION</A>
-        <B>do</B>
-            <B>create</B> l_exception
-            l_exception.<A HREF="../elks/exception.html#f_set_description">set_description</A> ("An agent has been invoked on a copy of an object during object graph traversal.%NThis happens in TUPLE containing objects with copy-semantics or in SPECIAL[XX],%Nwhere XX is a user-defined expanded type.")
-            l_exception.<A HREF="../elks/exception.html#f_raise">raise</A>
-        <B>end</B></A>
-    
-<B>note</B>
-    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
-    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
-    source: "[
-        Eiffel Software
-        5949 Hollister Ave., Goleta, CA 93117 USA
-        Telephone 805-685-1006, Fax 805-685-6869
-        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
-        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
-    ]"
+	<A NAME="f_raise_unwanted_copy_exception"></A><A CLASS="efeature" HREF="../elks/object_graph_traversable.html#f_raise_unwanted_copy_exception">raise_unwanted_copy_exception</A>
+		<SPAN CLASS="ekeyword">local</SPAN>
+			<SPAN CLASS="elocal">l_exception</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/developer_exception.html">DEVELOPER_EXCEPTION</A>
+		<SPAN CLASS="ekeyword">do</SPAN>
+			<SPAN CLASS="ekeyword">create</SPAN> <SPAN CLASS="elocal">l_exception</SPAN>
+			<SPAN CLASS="elocal">l_exception</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/exception.html#f_set_description">set_description</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;An agent has been invoked on a copy of an object during object graph traversal.%NThis happens in TUPLE containing objects with copy-semantics or in SPECIAL[XX],%Nwhere XX is a user-defined expanded type.&quot;<SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="elocal">l_exception</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../elks/exception.html#f_raise">raise</A>
+		<SPAN CLASS="ekeyword">end</SPAN>
+	
+<SPAN CLASS="ekeyword">note</SPAN>
+	<SPAN CLASS="eitag">copyright</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;Copyright (c) 1984-2013, Eiffel Software and others&quot;</SPAN>
+	<SPAN CLASS="eitag">license</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;Eiffel Forum License v2 (see </SPAN><A CLASS="estring" HREF="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</A><SPAN CLASS="estring">)&quot;</SPAN>
+	<SPAN CLASS="eitag">source</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;</SPAN><SPAN CLASS="estring">[</SPAN>
+		<SPAN CLASS="estring">Eiffel Software</SPAN>
+		<SPAN CLASS="estring">5949 Hollister Ave., Goleta, CA 93117 USA</SPAN>
+		<SPAN CLASS="estring">Telephone 805-685-1006, Fax 805-685-6869</SPAN>
+		<SPAN CLASS="estring">Website </SPAN><A CLASS="estring" HREF="http://www.eiffel.com">http://www.eiffel.com</A>
+		<SPAN CLASS="estring">Customer support </SPAN><A CLASS="estring" HREF="http://support.eiffel.com">http://support.eiffel.com</A>
+	<SPAN CLASS="estring">]</SPAN><SPAN CLASS="estring">&quot;</SPAN>
 
-<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/object_graph_traversable.html">OBJECT_GRAPH_TRAVERSABLE</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="object_graph_traversable_chart.html">Chart</A></TD><TD><A HREF="object_graph_traversable_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="object_graph_traversable_flat.html">Flat</A></TD><TD><A HREF="object_graph_traversable_short.html">Contracts</A></TD><TD><A HREF="object_graph_traversable_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
-<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
-<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+<SPAN CLASS="ekeyword">end</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">class </SPAN><A CLASS="eclass" HREF="../elks/object_graph_traversable.html">OBJECT_GRAPH_TRAVERSABLE</A><FORM ONSUBMIT="go_to('../',this.c.value);return false;">
+<UL>
+<A CLASS="link1" HREF="../class_list.html"><LI CLASS="link1">Classes</LI></A>
+<A CLASS="link1" HREF="../cluster_list.html"><LI CLASS="link1">Clusters</LI></A>
+<A CLASS="link1" HREF="../cluster_hierarchy.html"><LI CLASS="link1">Cluster hierarchy</LI></A>
+<A CLASS="link2" HREF="object_graph_traversable_chart.html"><LI CLASS="link2">Chart</LI></A>
+<A CLASS="link2" HREF="object_graph_traversable_links.html"><LI CLASS="link2">Relations</LI></A>
+<LI CLASS="nolink2">Text</LI>
+<A CLASS="link2" HREF="object_graph_traversable_flat.html"><LI CLASS="link2">Flat</LI></A>
+<A CLASS="link2" HREF="object_graph_traversable_short.html"><LI CLASS="link2">Contracts</LI></A>
+<A CLASS="link2" HREF="object_graph_traversable_flatshort.html"><LI CLASS="link2">Flat contracts</LI></A>
+<LI CLASS="link2">Go to: <INPUT NAME="c" VALUE="object_graph_traversable"></LI>
+</UL></FORM></pre></div>
+</DIV>
+<SMALL CLASS="copy">This project is available for free and open-source under the <A HREF="http://opensource.org/licenses/GPL-3.0">GPL-3.0</A> license.</SMALL>
+</DIV>
 </BODY>
 </HTML>
 
