@@ -1,0 +1,656 @@
+<HTML><HEAD>
+<meta name="description" content="An SQLite database connection for reading, writing and creating SQLite databases.  Be sure you have installed the binaries from http://www.sqlite.org/download.html!"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software"/>
+<meta name="license" content="GPL version 2 (see http://www.eiffel.com/licensing/gpl.txt)"/>
+<meta name="licensing_options" content="http://www.eiffel.com/licensing"/>
+<meta name="copying" content="This file is part of Eiffel Software's Eiffel Development Environment.  Eiffel Software's Eiffel Development Environment is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 2 of the License (available at the URL listed under license above).  Eiffel Software's Eiffel Development Environment is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.  You should have received a copy of the GNU General Public License along with Eiffel Software's Eiffel Development Environment; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>sqlite_database Flat contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sqlite_database_chart.html">Chart</A></TD><TD><A HREF="sqlite_database_links.html">Relations</A></TD><TD><A HREF="sqlite_database.html">Text</A></TD><TD><A HREF="sqlite_database_flat.html">Flat</A></TD><TD><A HREF="sqlite_database_short.html">Contracts</A></TD><TD>Flat contracts</TD></TR></TABLE><B>note</B>
+    description: "[
+        An SQLite database connection for reading, writing and creating SQLite databases.
+        
+        Be sure you have installed the binaries from <a href="http://www.sqlite.org/download.html">http://www.sqlite.org/download.html</a>!
+    ]"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2013-11-07 12:09:47 -0800 (Thu, 07 Nov 2013) $"
+    revision: "$Revision: 93250 $"
+
+<B>class</B> <B>interface</B>
+    <A HREF="../sqlite/sqlite_database_flatshort.html">SQLITE_DATABASE</A>
+
+<B>create</B> 
+    <A NAME="f_make"><A HREF="../sqlite/sqlite_database_flatshort.html#f_make">make</A> (a_source: <A HREF="../sqlite/sqlite_source_flatshort.html">SQLITE_SOURCE</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initializes the database from a database source, which could be a file or in memory.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note: The connection is not opened when using this approach, use one of the </FONT>`open_*'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">       routines after initialization, or one of the </FONT>`make_open_*'<FONT COLOR="red"> convenience routines.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_source'<FONT COLOR="red">: The source where the database is or should be located.</FONT>
+        <B>require</B>
+            is_sqlite_available: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_sqlite_available">Is_sqlite_available</A>
+            a_source_attached: <B>attached</B> a_source
+        <B>ensure</B>
+            source_set: <A HREF="../sqlite/sqlite_database_flatshort.html#f_source">source</A> = a_source
+</A>
+    <A NAME="f_make_open_read"><A HREF="../sqlite/sqlite_database_flatshort.html#f_make_open_read">make_open_read</A> (a_file_name: <A HREF="../elks/readable_string_general_flatshort.html">READABLE_STRING_GENERAL</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Creates a database from a local file in a read-only mode.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_file_name'<FONT COLOR="red">: The file where the database is located.</FONT>
+        <B>require</B>
+            is_sqlite_available: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_sqlite_available">Is_sqlite_available</A>
+            a_file_name_attached: a_file_name /= <B>Void</B>
+            not_a_file_name_is_empty: <B>not</B> a_file_name.<A HREF="../elks/readable_string_general_flatshort.html#f_is_empty">is_empty</A>
+            a_file_name_is_string_8: a_file_name.<A HREF="../elks/readable_string_general_flatshort.html#f_is_string_8">is_string_8</A>
+            a_file_name_exists: (<B>create</B> {<A HREF="../elks/raw_file_flatshort.html">RAW_FILE</A>}.<A HREF="../elks/file_flatshort.html#f_make">make</A> (a_file_name.<A HREF="../elks/readable_string_general_flatshort.html#f_as_string_8">as_string_8</A>)).<A HREF="../elks/file_flatshort.html#f_exists">exists</A>
+</A>
+    <A NAME="f_make_open_read_write"><A HREF="../sqlite/sqlite_database_flatshort.html#f_make_open_read_write">make_open_read_write</A> (a_file_name: <A HREF="../elks/readable_string_general_flatshort.html">READABLE_STRING_GENERAL</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Creates a database from a local file in a read-write mode.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_file_name'<FONT COLOR="red">: The file where the database is located.</FONT>
+        <B>require</B>
+            is_sqlite_available: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_sqlite_available">Is_sqlite_available</A>
+            a_file_name_attached: a_file_name /= <B>Void</B>
+            not_a_file_name_is_empty: <B>not</B> a_file_name.<A HREF="../elks/readable_string_general_flatshort.html#f_is_empty">is_empty</A>
+            a_file_name_is_string_8: a_file_name.<A HREF="../elks/readable_string_general_flatshort.html#f_is_string_8">is_string_8</A>
+            a_file_name_exists: (<B>create</B> {<A HREF="../elks/raw_file_flatshort.html">RAW_FILE</A>}.<A HREF="../elks/file_flatshort.html#f_make">make</A> (a_file_name.<A HREF="../elks/readable_string_general_flatshort.html#f_as_string_8">as_string_8</A>)).<A HREF="../elks/file_flatshort.html#f_exists">exists</A>
+</A>
+    <A NAME="f_make_create_read_write"><A HREF="../sqlite/sqlite_database_flatshort.html#f_make_create_read_write">make_create_read_write</A> (a_file_name: <A HREF="../elks/readable_string_general_flatshort.html">READABLE_STRING_GENERAL</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Creates a database from a local file in a read-write mode. In the event the database doesn't</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> exist then a new database will be created.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_file_name'<FONT COLOR="red">: The file where the database is located.</FONT>
+        <B>require</B>
+            is_sqlite_available: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_sqlite_available">Is_sqlite_available</A>
+            a_file_name_attached: a_file_name /= <B>Void</B>
+            not_a_file_name_is_empty: <B>not</B> a_file_name.<A HREF="../elks/readable_string_general_flatshort.html#f_is_empty">is_empty</A>
+            a_file_name_is_string_8: a_file_name.<A HREF="../elks/readable_string_general_flatshort.html#f_is_string_8">is_string_8</A>
+</A>
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_generating_type"><A HREF="../elks/any_flatshort.html#f_generating_type">generating_type</A>: <A HREF="../elks/type_flatshort.html">TYPE</A> [<B>detachable</B> <A HREF="../sqlite/sqlite_database_flatshort.html">SQLITE_DATABASE</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Type of current object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            generating_type_not_void: <B>Result</B> /= <B>Void</B>
+</A>
+    <A NAME="f_generator"><A HREF="../elks/any_flatshort.html#f_generator">generator</A>: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of current object's generating class</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (base class of the type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            generator_not_void: <B>Result</B> /= <B>Void</B>
+            generator_not_empty: <B>not</B> <B>Result</B>.<A HREF="../elks/finite_flatshort.html#f_is_empty">is_empty</A>
+</A>
+    <A NAME="f_source"><A HREF="../sqlite/sqlite_database_flatshort.html#f_source">source</A>: <A HREF="../sqlite/sqlite_source_flatshort.html">SQLITE_SOURCE</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Database source where the data is, or is to be, located.</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_deep_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flatshort.html#f_standard_equal">standard_equal</A> (a, b) <B>implies</B> <B>Result</B>
+            both_or_none_void: (a = <B>Void</B>) <B>implies</B> (<B>Result</B> = (b = <B>Void</B>))
+            same_type: (<B>Result</B> <B>and</B> (a /= <B>Void</B>)) <B>implies</B> (b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (b))
+            symmetric: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A> (b, a)
+</A>
+    <A NAME="f_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_equal">equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to objects considered equal?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flatshort.html#f_is_equal">is_equal</A> (b))
+</A>
+    <A NAME="f_is_deep_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_is_deep_equal">is_deep_equal</A> (other: <B>attached</B> <A HREF="../sqlite/sqlite_database_flatshort.html">SQLITE_DATABASE</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`Current'<FONT COLOR="red"> and </FONT>`other'<FONT COLOR="red"> attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flatshort.html#f_is_deep_equal">is_deep_equal</A> (<B>Current</B>)
+</A>
+    <A NAME="f_is_equal"><A HREF="../elks/any_flatshort.html#f_is_equal">is_equal</A> (other: <B>attached</B> <A HREF="../sqlite/sqlite_database_flatshort.html">SQLITE_DATABASE</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object considered</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to current object?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            symmetric: <B>Result</B> <B>implies</B> other ~ <B>Current</B>
+            consistent: <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+</A>
+    <A NAME="f_standard_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_standard_equal">standard_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical objects of the same type?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default object comparison criterion.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (b))
+</A>
+    <A NAME="f_standard_is_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (other: <B>attached</B> <A HREF="../sqlite/sqlite_database_flatshort.html">SQLITE_DATABASE</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object of the same type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as current object, and field-by-field identical to it?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_conforms_to"><A HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A> (other: <A HREF="../elks/any_flatshort.html">ANY</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does type of current object conform to type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of </FONT>`other'<FONT COLOR="red"> (as per Eiffel: The Language, chapter 13)?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+</A>
+    <A NAME="f_has_error"><A HREF="../sqlite/sqlite_database_flatshort.html#f_has_error">has_error</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if an error occurred during the last operation on an open database.</FONT>
+        <B>require</B>
+            is_sqlite_available: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_sqlite_available">Is_sqlite_available</A>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_interface_usable">is_interface_usable</A>
+            not_is_closed: <B>not</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_closed">is_closed</A>
+        <B>ensure</B>
+            last_exception_attached: <B>Result</B> <B>implies</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_last_exception">last_exception</A> /= <B>Void</B>
+</A>
+    <A NAME="f_is_accessible"><A HREF="../sqlite/sqlite_database_flatshort.html#f_is_accessible">is_accessible</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if the database is accessible on the current thread.</FONT>
+        <B>ensure</B>
+            true_result: <B>not</B> {<A HREF="../elks/platform_flatshort.html">PLATFORM</A>}.<A HREF="../elks/platform_flatshort.html#f_is_thread_capable">is_thread_capable</A> <B>implies</B> <B>Result</B>
+            same_internal_thread_id: (<B>Result</B> <B>and</B> {<A HREF="../elks/platform_flatshort.html">PLATFORM</A>}.<A HREF="../elks/platform_flatshort.html#f_is_thread_capable">is_thread_capable</A> <B>and</B> <B>not</B> <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_sqlite_api">Sqlite_api</A>.<A HREF="../sqlite/sqlite_api_flatshort.html#f_is_thread_safe">is_thread_safe</A>) <B>implies</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_internal_thread_id">internal_thread_id</A> = <A HREF="../sqlite/sqlite_database_flatshort.html#f_get_current_thread_id">get_current_thread_id</A>.<A HREF="../elks/pointer_flatshort.html#f_to_integer_32">to_integer_32</A>
+</A>
+    <A NAME="f_is_closed"><A HREF="../sqlite/sqlite_database_flatshort.html#f_is_closed">is_closed</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if the database is closed.</FONT>
+        <B>require</B>
+            is_accessible: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_accessible">is_accessible</A>
+        <B>ensure</B>
+            db_handle_is_null: <B>Result</B> <B>implies</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_internal_db">internal_db</A> = <A HREF="../elks/any_flatshort.html#f_default_pointer">default_pointer</A>
+</A>
+    <A NAME="f_is_in_transaction"><A HREF="../sqlite/sqlite_database_flatshort.html#f_is_in_transaction">is_in_transaction</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if the database is currently in a transaction</FONT>
+        <B>require</B>
+            is_accessible: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_accessible">is_accessible</A>
+</A>
+    <A NAME="f_is_interface_usable"><A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_interface_usable">is_interface_usable</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Determines if the interface is usable.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_shared_api_flatshort.html">SQLITE_SHARED_API</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_shared_api_flatshort.html">SQLITE_SHARED_API</A>
+            sqlite_api_is_interface_usable: <B>Result</B> <B>implies</B> <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_sqlite_api">Sqlite_api</A>.<A HREF="../sqlite/sqlite_api_flatshort.html#f_is_interface_usable">is_interface_usable</A>
+</A>
+    <A NAME="f_is_readable"><A HREF="../sqlite/sqlite_database_flatshort.html#f_is_readable">is_readable</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if the database can be read from.</FONT>
+        <B>require</B>
+            is_accessible: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_accessible">is_accessible</A>
+        <B>ensure</B>
+            not_is_closed: <B>Result</B> <B>implies</B> <B>not</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_closed">is_closed</A>
+</A>
+    <A NAME="f_is_sqlite_available"><A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_sqlite_available">Is_sqlite_available</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if the sqlite API is available for use.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_shared_api_flatshort.html">SQLITE_SHARED_API</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_shared_api_flatshort.html">SQLITE_SHARED_API</A>
+            sqlite_api_is_interface_usable: <B>Result</B> <B>implies</B> <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_sqlite_api">Sqlite_api</A>.<A HREF="../sqlite/sqlite_api_flatshort.html#f_is_interface_usable">is_interface_usable</A>
+</A>
+    <A NAME="f_is_writable"><A HREF="../sqlite/sqlite_database_flatshort.html#f_is_writable">is_writable</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if the database can be written to.</FONT>
+        <B>require</B>
+            is_accessible: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_accessible">is_accessible</A>
+        <B>ensure</B>
+            not_is_closed: <B>Result</B> <B>implies</B> <B>not</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_closed">is_closed</A>
+            is_open_write: <B>Result</B> <B>implies</B> (<A HREF="../sqlite/sqlite_database_flatshort.html#f_internal_flags">internal_flags</A> &#38; {<A HREF="../sqlite/sqlite_open_mode_flatshort.html">SQLITE_OPEN_MODE</A>}.<A HREF="../sqlite/sqlite_open_mode_flatshort.html#f_read_write">read_write</A>) = {<A HREF="../sqlite/sqlite_open_mode_flatshort.html">SQLITE_OPEN_MODE</A>}.<A HREF="../sqlite/sqlite_open_mode_flatshort.html#f_read_write">read_write</A>
+</A>
+    <A NAME="f_same_type"><A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other: <A HREF="../elks/any_flatshort.html">ANY</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is type of current object identical to type of </FONT>`other'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            definition: <B>Result</B> = (<A HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A> (other) <B>and</B> other.<A HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A> (<B>Current</B>))
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_set_busy_handler"><A HREF="../sqlite/sqlite_database_flatshort.html#f_set_busy_handler">set_busy_handler</A> (a_handler: <B>like</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_busy_handler">busy_handler</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Sets the database busy handler, called when a action is blocked from being processed.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note: You may want to use </FONT><A HREF="../sqlite/sqlite_database_flatshort.html#f_set_busy_timeout">set_busy_timeout</A><FONT COLOR="red"> instead as a timeout and a busy handler are mutally exclusive.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_handler'<FONT COLOR="red">: Handler function called to determine if a action should continue waiting.</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_interface_usable">is_interface_usable</A>
+            is_accessible: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_accessible">is_accessible</A>
+            is_readable: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_readable">is_readable</A>
+            not_is_closed: <B>attached</B> a_handler <B>implies</B> <B>not</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_closed">is_closed</A>
+            already_set: <B>attached</B> a_handler <B>implies</B> <B>not</B> <B>attached</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_busy_handler">busy_handler</A>
+        <B>ensure</B>
+            busy_handler_set: <A HREF="../sqlite/sqlite_database_flatshort.html#f_busy_handler">busy_handler</A> = a_handler
+            busy_timeout_reset: <B>attached</B> a_handler <B>implies</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_busy_timeout">busy_timeout</A> = 0.<A HREF="../elks/integer_32_ref_flatshort.html#f_to_natural_32">to_natural_32</A>
+</A>
+    <A NAME="f_set_busy_timeout"><A HREF="../sqlite/sqlite_database_flatshort.html#f_set_busy_timeout">set_busy_timeout</A> (a_ms: <A HREF="../elks/natural_32_flatshort.html">NATURAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Sets a database busy operation timeout.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note: When setting a timeout and </FONT><A HREF="../sqlite/sqlite_database_flatshort.html#f_busy_handler">busy_handler</A><FONT COLOR="red"> will be removed as these are mutally</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">       exclusive in SQLite.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_ms'<FONT COLOR="red">: Timeout, in milliseconds, before a statement gives up trying to access a busy</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">         database. Use 0 to reset the timeout.</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_interface_usable">is_interface_usable</A>
+            is_accessible: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_accessible">is_accessible</A>
+            is_readable: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_readable">is_readable</A>
+            not_is_closed: <B>not</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_closed">is_closed</A>
+            busy_handler_already_set: <B>not</B> <B>attached</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_busy_handler">busy_handler</A>
+            a_ms_small_enough: a_ms &lt; {<A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>}.<A HREF="../elks/integer_32_ref_flatshort.html#f_max_value">max_value</A>.<A HREF="../elks/integer_32_flatshort.html#f_as_natural_32">as_natural_32</A>
+        <B>ensure</B>
+            busy_timeout_set: <A HREF="../sqlite/sqlite_database_flatshort.html#f_busy_timeout">busy_timeout</A> = a_ms
+</A>
+    <A NAME="f_set_commit_action"><A HREF="../sqlite/sqlite_database_flatshort.html#f_set_commit_action">set_commit_action</A> (a_function: <B>like</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_commit_action">commit_action</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Sets the commit callback action, called when a commit transaction is executed.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_function'<FONT COLOR="red">: Function to call during a commit phase. See </FONT><A HREF="../sqlite/sqlite_database_flatshort.html#f_commit_action">commit_action</A><FONT COLOR="red"> for more info.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">               Pass Void to unset.</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_interface_usable">is_interface_usable</A>
+            is_accessible: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_accessible">is_accessible</A>
+            is_readable: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_readable">is_readable</A>
+            not_is_closed: <B>attached</B> a_function <B>implies</B> <B>not</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_closed">is_closed</A>
+            already_set: <B>attached</B> a_function <B>implies</B> <B>not</B> <B>attached</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_commit_action">commit_action</A>
+        <B>ensure</B>
+            commit_action_set: <A HREF="../sqlite/sqlite_database_flatshort.html#f_commit_action">commit_action</A> = a_function
+</A>
+    <A NAME="f_set_progress_handler"><A HREF="../sqlite/sqlite_database_flatshort.html#f_set_progress_handler">set_progress_handler</A> (a_handler: <B>like</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_progress_handler">progress_handler</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Sets the database progress handler, called when a long running statement is being executed.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_handler'<FONT COLOR="red">: Handler function called during the long running statement.</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_interface_usable">is_interface_usable</A>
+            is_accessible: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_accessible">is_accessible</A>
+            is_readable: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_readable">is_readable</A>
+            not_is_closed: <B>attached</B> a_handler <B>implies</B> <B>not</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_closed">is_closed</A>
+            already_set: <B>attached</B> a_handler <B>implies</B> <B>not</B> <B>attached</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_progress_handler">progress_handler</A>
+        <B>ensure</B>
+            progress_handler_set: <A HREF="../sqlite/sqlite_database_flatshort.html#f_progress_handler">progress_handler</A> = a_handler
+</A>
+    <A NAME="f_set_rollback_action"><A HREF="../sqlite/sqlite_database_flatshort.html#f_set_rollback_action">set_rollback_action</A> (a_action: <B>like</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_rollback_action">rollback_action</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Sets the rollback callback action, called when a commit/rollback transaction failed or a</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> rollback was executed.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_action'<FONT COLOR="red">: Action to call during a commit-rollback transaction. See </FONT><A HREF="../sqlite/sqlite_database_flatshort.html#f_rollback_action">rollback_action</A><FONT COLOR="red"> for</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">             more info. Pass Void to unset.</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_interface_usable">is_interface_usable</A>
+            is_accessible: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_accessible">is_accessible</A>
+            is_readable: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_readable">is_readable</A>
+            not_is_closed: <B>attached</B> a_action <B>implies</B> <B>not</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_closed">is_closed</A>
+            already_set: <B>attached</B> a_action <B>implies</B> <B>not</B> <B>attached</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_rollback_action">rollback_action</A>
+        <B>ensure</B>
+            rollback_action_set: <A HREF="../sqlite/sqlite_database_flatshort.html#f_rollback_action">rollback_action</A> = a_action
+</A>
+    <A NAME="f_set_update_action"><A HREF="../sqlite/sqlite_database_flatshort.html#f_set_update_action">set_update_action</A> (a_action: <B>like</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_update_action">update_action</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Sets a database update action, called when an INSERT, DELETE or UPDATE statement is executed.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_action'<FONT COLOR="red">: Action to call during a database update. See </FONT><A HREF="../sqlite/sqlite_database_flatshort.html#f_update_action">update_action</A><FONT COLOR="red"> for more info.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">             Pass Void to unset.</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_interface_usable">is_interface_usable</A>
+            is_accessible: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_accessible">is_accessible</A>
+            is_readable: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_readable">is_readable</A>
+            not_is_closed: <B>attached</B> a_action <B>implies</B> <B>not</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_closed">is_closed</A>
+            already_set: <B>attached</B> a_action <B>implies</B> <B>not</B> <B>attached</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_update_action">update_action</A>
+        <B>ensure</B>
+            update_action_set: <A HREF="../sqlite/sqlite_database_flatshort.html#f_update_action">update_action</A> = a_action
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_copy"><A HREF="../elks/any_flatshort.html#f_copy">copy</A> (other: <B>attached</B> <A HREF="../sqlite/sqlite_database_flatshort.html">SQLITE_DATABASE</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update current object using fields of object attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to </FONT>`other'<FONT COLOR="red">, so as to yield equal objects.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            is_equal: <B>Current</B> ~ other
+</A>
+    <A NAME="f_deep_copy"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_deep_copy">deep_copy</A> (other: <B>attached</B> <A HREF="../sqlite/sqlite_database_flatshort.html">SQLITE_DATABASE</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Effect equivalent to that of:</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">		</FONT><A HREF="../elks/any_flatshort.html#f_copy">copy</A><FONT COLOR="red"> (</FONT>`other'<FONT COLOR="red"> . </FONT><A HREF="../elks/any_flatshort.html#f_deep_twin">deep_twin</A><FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            deep_equal: <A HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A> (<B>Current</B>, other)
+</A>
+    <A NAME="f_deep_twin"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_deep_twin">deep_twin</A>: <B>attached</B> <A HREF="../sqlite/sqlite_database_flatshort.html">SQLITE_DATABASE</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object structure recursively duplicated from Current.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            deep_twin_not_void: <B>Result</B> /= <B>Void</B>
+            deep_equal: <A HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A> (<B>Current</B>, <B>Result</B>)
+</A>
+    <A NAME="f_standard_copy"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_standard_copy">standard_copy</A> (other: <B>attached</B> <A HREF="../sqlite/sqlite_database_flatshort.html">SQLITE_DATABASE</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy every field of </FONT>`other'<FONT COLOR="red"> onto corresponding field</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            is_standard_equal: <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (other)
+</A>
+    <A NAME="f_standard_twin"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_standard_twin">standard_twin</A>: <B>attached</B> <A HREF="../sqlite/sqlite_database_flatshort.html">SQLITE_DATABASE</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            standard_twin_not_void: <B>Result</B> /= <B>Void</B>
+            equal: <A HREF="../elks/any_flatshort.html#f_standard_equal">standard_equal</A> (<B>Result</B>, <B>Current</B>)
+</A>
+    <A NAME="f_twin"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_twin">twin</A>: <B>attached</B> <A HREF="../sqlite/sqlite_database_flatshort.html">SQLITE_DATABASE</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object equal to </FONT>`Current'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/any_flatshort.html#f_twin">twin</A><FONT COLOR="red"> calls </FONT><A HREF="../elks/any_flatshort.html#f_copy">copy</A><FONT COLOR="red">; to change copying/twinning semantics, redefine </FONT><A HREF="../elks/any_flatshort.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            twin_not_void: <B>Result</B> /= <B>Void</B>
+            is_equal: <B>Result</B> ~ <B>Current</B>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_abort"><A HREF="../sqlite/sqlite_database_flatshort.html#f_abort">abort</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Performs an abort of any running operation.</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_interface_usable">is_interface_usable</A>
+            is_readable: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_readable">is_readable</A>
+</A>
+    <A NAME="f_as_attached"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_as_attached">as_attached</A>: <B>attached</B> <A HREF="../sqlite/sqlite_database_flatshort.html">SQLITE_DATABASE</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attached version of Current</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Can be used during transitional period to convert</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> non-void-safe classes to void-safe ones.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_close"><A HREF="../sqlite/sqlite_database_flatshort.html#f_close">close</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Closes an open database connection. If no connection is open nothing will happen. This is</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> for convenience.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note: Closed connections can be reopened using one of the </FONT>`open_*'<FONT COLOR="red"> routines.</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_interface_usable">is_interface_usable</A>
+            is_accessible: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_accessible">is_accessible</A>
+            not_is_in_transaction: <B>not</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_in_transaction">is_in_transaction</A>
+            not_is_locked: <B>not</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_locked">is_locked</A>
+        <B>ensure</B>
+            internal_db_is_null: <A HREF="../sqlite/sqlite_database_flatshort.html#f_internal_db">internal_db</A> = <A HREF="../elks/any_flatshort.html#f_default_pointer">default_pointer</A>
+            is_closed: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_closed">is_closed</A>
+</A>
+    <A NAME="f_default"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_default">default</A>: <B>detachable</B> <A HREF="../sqlite/sqlite_database_flatshort.html">SQLITE_DATABASE</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of object's type</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_default_pointer"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_default_pointer">default_pointer</A>: <A HREF="../elks/pointer_flatshort.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of type </FONT>`POINTER'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Avoid the need to write </FONT>`p'<FONT COLOR="red">.</FONT><A HREF="../elks/any_flatshort.html#f_default">default</A><FONT COLOR="red"> for</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> some </FONT>`p'<FONT COLOR="red"> of type </FONT>`POINTER'<FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_default_rescue"><A HREF="../elks/any_flatshort.html#f_default_rescue">default_rescue</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process exception for routines with no Rescue clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_do_nothing"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_do_nothing">do_nothing</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execute a null action.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_open_create_read_write"><A HREF="../sqlite/sqlite_database_flatshort.html#f_open_create_read_write">open_create_read_write</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Opens the database connection in a read/write mode and creates the database if if does</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> not already exist.</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_interface_usable">is_interface_usable</A>
+            is_accessible: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_accessible">is_accessible</A>
+            is_closed: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_closed">is_closed</A>
+        <B>ensure</B>
+            is_writable: <B>not</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_closed">is_closed</A> <B>implies</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_writable">is_writable</A>
+</A>
+    <A NAME="f_open_read"><A HREF="../sqlite/sqlite_database_flatshort.html#f_open_read">open_read</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Opens the database connection in a read-only mode.</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_interface_usable">is_interface_usable</A>
+            is_accessible: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_accessible">is_accessible</A>
+            is_closed: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_closed">is_closed</A>
+            source_exists: <A HREF="../sqlite/sqlite_database_flatshort.html#f_source">source</A>.<A HREF="../sqlite/sqlite_source_flatshort.html#f_exists">exists</A>
+</A>
+    <A NAME="f_open_read_write"><A HREF="../sqlite/sqlite_database_flatshort.html#f_open_read_write">open_read_write</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Opens the database connection in a read/write mode.</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_interface_usable">is_interface_usable</A>
+            is_accessible: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_accessible">is_accessible</A>
+            is_closed: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_closed">is_closed</A>
+            source_exists: <A HREF="../sqlite/sqlite_database_flatshort.html#f_source">source</A>.<A HREF="../sqlite/sqlite_source_flatshort.html#f_exists">exists</A>
+        <B>ensure</B>
+            is_writable: <B>not</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_closed">is_closed</A> <B>implies</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_writable">is_writable</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access: Actions</FONT>
+
+    <A NAME="f_busy_handler"><A HREF="../sqlite/sqlite_database_flatshort.html#f_busy_handler">busy_handler</A>: <B>detachable</B> <A HREF="../elks/function_flatshort.html">FUNCTION</A> [<A HREF="../elks/any_flatshort.html">ANY</A>, <A HREF="../elks/tuple_flatshort.html">TUPLE</A> [calls: <A HREF="../elks/natural_32_flatshort.html">NATURAL_32</A>], <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>] <B>assign</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_set_busy_handler">set_busy_handler</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Handler called when the database is processing an statement and another action has received a busy status.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 'calls': Number of calls made to the busy handler.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 'Result': True to continue waiting; False otherwise.</FONT>
+
+    <A NAME="f_commit_action"><A HREF="../sqlite/sqlite_database_flatshort.html#f_commit_action">commit_action</A>: <B>detachable</B> <A HREF="../elks/function_flatshort.html">FUNCTION</A> [<A HREF="../elks/any_flatshort.html">ANY</A>, <A HREF="../elks/tuple_flatshort.html">TUPLE</A>, <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>] <B>assign</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_set_commit_action">set_commit_action</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Action called when during the commit transaction.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 'Result': True to abort a commit; False otherwise.</FONT>
+
+    <A NAME="f_progress_handler"><A HREF="../sqlite/sqlite_database_flatshort.html#f_progress_handler">progress_handler</A>: <B>detachable</B> <A HREF="../elks/function_flatshort.html">FUNCTION</A> [<A HREF="../elks/any_flatshort.html">ANY</A>, <A HREF="../elks/tuple_flatshort.html">TUPLE</A>, <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>] <B>assign</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_set_progress_handler">set_progress_handler</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Progress update handler, called when a long running statement is being executed.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> This handler is useful to prevent UI or other run loops from being blocked.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 'Result': True to abort the long running statement; False to continue.</FONT>
+
+    <A NAME="f_rollback_action"><A HREF="../sqlite/sqlite_database_flatshort.html#f_rollback_action">rollback_action</A>: <B>detachable</B> <A HREF="../elks/procedure_flatshort.html">PROCEDURE</A> [<A HREF="../elks/any_flatshort.html">ANY</A>, <A HREF="../elks/tuple_flatshort.html">TUPLE</A>] <B>assign</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_set_rollback_action">set_rollback_action</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Action called when during the rollback of a commit.</FONT>
+
+    <A NAME="f_update_action"><A HREF="../sqlite/sqlite_database_flatshort.html#f_update_action">update_action</A>: <B>detachable</B> <A HREF="../elks/procedure_flatshort.html">PROCEDURE</A> [<A HREF="../elks/any_flatshort.html">ANY</A>, <A HREF="../elks/tuple_flatshort.html">TUPLE</A> [action: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>; db_name: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>; table: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>; row: <A HREF="../elks/integer_64_flatshort.html">INTEGER_64</A>]] <B>assign</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_set_update_action">set_update_action</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Action called when during the rollback of a commit.</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access: Error reporting</FONT>
+
+    <A NAME="f_last_exception"><A HREF="../sqlite/sqlite_database_flatshort.html#f_last_exception">last_exception</A>: <B>detachable</B> <A HREF="../sqlite/sqlite_exception_flatshort.html">SQLITE_EXCEPTION</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last occurring error, set from a previous interaction with the database.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note: In multi-threaded modes, be sure to obtain a DB lock when performing an</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">       operation and then retrieving the error</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note: This is not the last raised exception, for that use </FONT><A HREF="../elks/exception_manager_flatshort.html">EXCEPTION_MANAGER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">       This is an exception object generated from the internals of SQLite.</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_interface_usable">is_interface_usable</A>
+            is_accessible: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_accessible">is_accessible</A>
+            is_readable: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_readable">is_readable</A>
+        <B>ensure</B>
+            is_locked_unchanged: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_locked">is_locked</A> = <B>old</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_locked">is_locked</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations: Transactions</FONT>
+
+    <A NAME="f_begin_transaction"><A HREF="../sqlite/sqlite_database_flatshort.html#f_begin_transaction">begin_transaction</A> (a_deferred: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Begin a commit based transaction.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_deferred'<FONT COLOR="red">: True to perform a deferred transaction; False and exclusive transaction.</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_interface_usable">is_interface_usable</A>
+            is_accessible: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_accessible">is_accessible</A>
+            is_writable: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_writable">is_writable</A>
+            not_is_in_transaction: <B>not</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_in_transaction">is_in_transaction</A>
+        <B>ensure</B>
+            is_in_transaction: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_in_transaction">is_in_transaction</A>
+</A>
+    <A NAME="f_commit"><A HREF="../sqlite/sqlite_database_flatshort.html#f_commit">commit</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Commits an in-progress transaction</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_interface_usable">is_interface_usable</A>
+            is_accessible: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_accessible">is_accessible</A>
+            is_writable: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_writable">is_writable</A>
+            is_in_transaction: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_in_transaction">is_in_transaction</A>
+        <B>ensure</B>
+            not_is_in_transaction: <B>not</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_in_transaction">is_in_transaction</A>
+</A>
+    <A NAME="f_rollback"><A HREF="../sqlite/sqlite_database_flatshort.html#f_rollback">rollback</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Rollsback an in-progress transaction</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_interface_usable">is_interface_usable</A>
+            is_accessible: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_accessible">is_accessible</A>
+            is_writable: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_writable">is_writable</A>
+            is_in_transaction: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_in_transaction">is_in_transaction</A>
+        <B>ensure</B>
+            not_is_in_transaction: <B>not</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_in_transaction">is_in_transaction</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurements</FONT>
+
+    <A NAME="f_busy_timeout"><A HREF="../sqlite/sqlite_database_flatshort.html#f_busy_timeout">busy_timeout</A>: <A HREF="../elks/natural_32_flatshort.html">NATURAL_32</A> <B>assign</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_set_busy_timeout">set_busy_timeout</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Timeout, in milliseconds, before an SQLite statment gives up trying to access a busy database</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> connection. 0 represents no time out.</FONT>
+
+    <A NAME="f_changes_count"><A HREF="../sqlite/sqlite_database_flatshort.html#f_changes_count">changes_count</A>: <A HREF="../elks/natural_32_flatshort.html">NATURAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of database rows affects during the last insertion/update/deletion.</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_interface_usable">is_interface_usable</A>
+            is_accessible: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_accessible">is_accessible</A>
+            is_readable: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_readable">is_readable</A>
+</A>
+    <A NAME="f_total_changes_count"><A HREF="../sqlite/sqlite_database_flatshort.html#f_total_changes_count">total_changes_count</A>: <A HREF="../elks/natural_32_flatshort.html">NATURAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of database rows affects since the database was opened.</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_interface_usable">is_interface_usable</A>
+            is_accessible: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_accessible">is_accessible</A>
+            is_readable: <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_readable">is_readable</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output</FONT>
+
+    <A NAME="f_io"><A HREF="../elks/any_flatshort.html#f_io">Io</A>: <A HREF="../elks/std_files_flatshort.html">STD_FILES</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Handle to standard file setup</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            io_not_void: <B>Result</B> /= <B>Void</B>
+</A>
+    <A NAME="f_out"><A HREF="../elks/any_flatshort.html#f_out">out</A>: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            out_not_void: <B>Result</B> /= <B>Void</B>
+</A>
+    <A NAME="f_print"><A HREF="../elks/any_flatshort.html#f_print">print</A> (o: <B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write terse external representation of </FONT>`o'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on standard output.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_tagged_out"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_tagged_out">tagged_out</A>: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            tagged_out_not_void: <B>Result</B> /= <B>Void</B>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Platform</FONT>
+
+    <A NAME="f_operating_environment"><A HREF="../elks/any_flatshort.html#f_operating_environment">Operating_environment</A>: <A HREF="../elks/operating_environment_flatshort.html">OPERATING_ENVIRONMENT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Objects available from the operating system</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            operating_environment_not_void: <B>Result</B> /= <B>Void</B>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report: Comparison</FONT>
+
+    <A NAME="f_is_same_connection"><A HREF="../sqlite/sqlite_database_flatshort.html#f_is_same_connection">is_same_connection</A> (a_other: <A HREF="../sqlite/sqlite_database_flatshort.html">SQLITE_DATABASE</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Determines if another database connection is the same connection as Current.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_other'<FONT COLOR="red">: The other database to compare to Current.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`Result'<FONT COLOR="red">: True if the databases share a common connection; False otherwise.</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report: SQL</FONT>
+
+    <A NAME="f_is_complete_statement"><A HREF="../sqlite/sqlite_database_flatshort.html#f_is_complete_statement">is_complete_statement</A> (a_sql: <A HREF="../elks/readable_string_8_flatshort.html">READABLE_STRING_8</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Determines if an SQLite SQL statement is complete.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note: This does not parse the SQL statement for syntax validity, only checks for completion.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">       The function is useful for command-line tools where input is required.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_sql'<FONT COLOR="red">: An SQL statement.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`Result'<FONT COLOR="red">: True if the statement is complete; False otherwise.</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_interface_usable">is_interface_usable</A>
+            a_sql_attached: <B>attached</B> a_sql
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report: Threading</FONT>
+
+    <A NAME="f_is_locked"><A HREF="../sqlite/sqlite_database_flatshort.html#f_is_locked">is_locked</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if there is an active lock on the database.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note: Use </FONT><A HREF="../sqlite/sqlite_database_flatshort.html#f_is_accessible">is_accessible</A><FONT COLOR="red"> or </FONT><A HREF="../sqlite/sqlite_database_flatshort.html#f_is_locked_exclusivley">is_locked_exclusivley</A><FONT COLOR="red"> when accessing the connection from</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">       another thread to determine if access to database is permissable on the same thread.</FONT>
+        <B>ensure</B>
+            internal_lock_count_positive: <B>Result</B> <B>implies</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_internal_lock_count">internal_lock_count</A> &gt; 0
+</A>
+    <A NAME="f_is_locked_exclusivley"><A HREF="../sqlite/sqlite_database_flatshort.html#f_is_locked_exclusivley">is_locked_exclusivley</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if there is an active lock on the database by another thread.</FONT>
+        <B>ensure</B>
+            is_thread_capable: <B>Result</B> <B>implies</B> {<A HREF="../elks/platform_flatshort.html">PLATFORM</A>}.<A HREF="../elks/platform_flatshort.html#f_is_thread_capable">is_thread_capable</A>
+            is_locked: <B>Result</B> <B>implies</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_locked">is_locked</A>
+            not_is_accessible: <B>Result</B> <B>implies</B> <B>not</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_accessible">is_accessible</A>
+</A>    
+<B>invariant</B>
+    source_attached: <B>attached</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_source">source</A>
+    is_readable: <B>not</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_closed">is_closed</A> <B>implies</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_is_readable">is_readable</A>
+    locked_thread_id_unset: <B>not</B> {<A HREF="../elks/platform_flatshort.html">PLATFORM</A>}.<A HREF="../elks/platform_flatshort.html#f_is_thread_capable">is_thread_capable</A> <B>implies</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_internal_thread_id">internal_thread_id</A> = 0
+    locked_thread_id_is_positive: {<A HREF="../elks/platform_flatshort.html">PLATFORM</A>}.<A HREF="../elks/platform_flatshort.html#f_is_thread_capable">is_thread_capable</A> <B>implies</B> <A HREF="../sqlite/sqlite_database_flatshort.html#f_internal_thread_id">internal_thread_id</A> &gt; 0
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+    reflexive_equality: <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+    reflexive_conformance: <A HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A> (<B>Current</B>)
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2013, Eiffel Software"
+    license: "GPL version 2 (see <a href="http://www.eiffel.com/licensing/gpl.txt">http://www.eiffel.com/licensing/gpl.txt</a>)"
+    licensing_options: "<a href="http://www.eiffel.com/licensing">http://www.eiffel.com/licensing</a>"
+    copying: "[
+        This file is part of Eiffel Software's Eiffel Development Environment.
+        
+        Eiffel Software's Eiffel Development Environment is free
+        software; you can redistribute it and/or modify it under
+        the terms of the GNU General Public License as published
+        by the Free Software Foundation, version 2 of the License
+        (available at the URL listed under "license" above).
+        
+        Eiffel Software's Eiffel Development Environment is
+        distributed in the hope that it will be useful, but
+        WITHOUT ANY WARRANTY; without even the implied warranty
+        of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        See the GNU General Public License for more details.
+        
+        You should have received a copy of the GNU General Public
+        License along with Eiffel Software's Eiffel Development
+        Environment; if not, write to the Free Software Foundation,
+        Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+    ]"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../sqlite/sqlite_database_flatshort.html">SQLITE_DATABASE</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sqlite_database_chart.html">Chart</A></TD><TD><A HREF="sqlite_database_links.html">Relations</A></TD><TD><A HREF="sqlite_database.html">Text</A></TD><TD><A HREF="sqlite_database_flat.html">Flat</A></TD><TD><A HREF="sqlite_database_short.html">Contracts</A></TD><TD>Flat contracts</TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

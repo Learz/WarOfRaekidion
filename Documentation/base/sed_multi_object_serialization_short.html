@@ -1,0 +1,79 @@
+<HTML><HEAD>
+<meta name="description" content="Serialize and deserialize multiple objects into one file."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="library" content="EiffelBase: Library of reusable components for Eiffel."/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>sed_multi_object_serialization Contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sed_multi_object_serialization_chart.html">Chart</A></TD><TD><A HREF="sed_multi_object_serialization_links.html">Relations</A></TD><TD><A HREF="sed_multi_object_serialization.html">Text</A></TD><TD><A HREF="sed_multi_object_serialization_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="sed_multi_object_serialization_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Serialize and deserialize multiple objects into one file."
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2013-05-20 16:15:17 -0700 (Mon, 20 May 2013) $"
+    revision: "$Revision: 92557 $"
+
+<B>class</B> <B>interface</B>
+    <A HREF="../ise/sed_multi_object_serialization_short.html">SED_MULTI_OBJECT_SERIALIZATION</A>
+
+<B>create</B> 
+    <A HREF="../ise/sed_multi_object_serialization_short.html#f_default_create">default_create</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_deserialized_object"><A HREF="../ise/sed_multi_object_serialization_short.html#f_deserialized_object">deserialized_object</A>: <B>detachable</B> <A HREF="../elks/any_short.html">ANY</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last deserialized object</FONT>
+
+    <A NAME="f_last_file_position"><A HREF="../ise/sed_multi_object_serialization_short.html#f_last_file_position">last_file_position</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Position after last serialization</FONT>
+
+    <A NAME="f_error_message"><A HREF="../ise/sed_multi_object_serialization_short.html#f_error_message">error_message</A>: <A HREF="../elks/string_32_short.html">STRING_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Reason for failure</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_successful"><A HREF="../ise/sed_multi_object_serialization_short.html#f_successful">successful</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was last retrieval successful?</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic Operations</FONT>
+
+    <A NAME="f_deserialize"><A HREF="../ise/sed_multi_object_serialization_short.html#f_deserialize">deserialize</A> (path: <A HREF="../elks/readable_string_general_short.html">READABLE_STRING_GENERAL</A>; a_pos: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Deserialize object previously serialized in </FONT>`path'<FONT COLOR="red"> at position </FONT>`a_pos'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            non_void_path: path /= <B>Void</B>
+            valid_path: (<B>create</B> {<A HREF="../elks/raw_file_short.html">RAW_FILE</A>}.<A HREF="../elks/file_short.html#f_make_with_name">make_with_name</A> (path)).<A HREF="../elks/file_short.html#f_exists">exists</A>
+        <B>ensure</B>
+            deserialized_object_set_if_no_error: <A HREF="../ise/sed_multi_object_serialization_short.html#f_successful">successful</A> <B>implies</B> <A HREF="../ise/sed_multi_object_serialization_short.html#f_deserialized_object">deserialized_object</A> /= <B>Void</B>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic Operations</FONT>
+
+    <A NAME="f_serialize"><A HREF="../ise/sed_multi_object_serialization_short.html#f_serialize">serialize</A> (a: <A HREF="../elks/any_short.html">ANY</A>; path: <A HREF="../elks/readable_string_general_short.html">READABLE_STRING_GENERAL</A>; is_appending: <A HREF="../elks/boolean_short.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Serialize object </FONT>`a'<FONT COLOR="red"> at the end of file </FONT>`path'<FONT COLOR="red"> if </FONT>`is_appending'<FONT COLOR="red">, otherwise</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> reset content of </FONT>`path'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../ise/sed_multi_object_serialization_short.html#f_last_file_position">last_file_position</A><FONT COLOR="red"> after storing.</FONT>
+        <B>require</B>
+            non_void_object: a /= <B>Void</B>
+            non_void_path: path /= <B>Void</B>
+</A>    
+<B>note</B>
+    library: "EiffelBase: Library of reusable components for Eiffel."
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../ise/sed_multi_object_serialization_short.html">SED_MULTI_OBJECT_SERIALIZATION</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sed_multi_object_serialization_chart.html">Chart</A></TD><TD><A HREF="sed_multi_object_serialization_links.html">Relations</A></TD><TD><A HREF="sed_multi_object_serialization.html">Text</A></TD><TD><A HREF="sed_multi_object_serialization_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="sed_multi_object_serialization_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

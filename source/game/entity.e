@@ -5,8 +5,8 @@ note
 					allowing more accurate movement along a vector and lifetime handling.
 				]"
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
-	date		: "$Date$"
-	revision	: "$Revision$"
+	date		: "$Date: May 23 2014$"
+	revision	: "$Revision: 1$"
 
 class
 	ENTITY
@@ -98,5 +98,13 @@ feature {NONE} -- Implementation
 
 	lifetime: INTEGER
 		-- The time which the entity has lived
+
+note
+	copyright: "[
+				War of Raekidion
+				Copyright (C) 2014 François Allard <binarmorker@gmail.com>
+             		   		   and Marc-Antoine Renaud <legars123456@gmail.com>
+               ]"
+	license:   "GNU General Public License, <http://www.gnu.org/licenses/>"
 
 end

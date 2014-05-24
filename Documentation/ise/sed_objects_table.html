@@ -1,0 +1,150 @@
+<HTML><HEAD>
+<meta name="description" content="Equivalent of HASH_TABLE [NATURAL_32, ANY], since this type cannot be written as ANY does not inherit from HASHABLE"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="library" content="EiffelBase: Library of reusable components for Eiffel."/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>sed_objects_table Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sed_objects_table_chart.html">Chart</A></TD><TD><A HREF="sed_objects_table_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="sed_objects_table_flat.html">Flat</A></TD><TD><A HREF="sed_objects_table_short.html">Contracts</A></TD><TD><A HREF="sed_objects_table_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Equivalent of HASH_TABLE [NATURAL_32, ANY], since this type cannot be written
+        as ANY does not inherit from HASHABLE
+    ]"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2013-03-27 00:34:50 -0700 (Wed, 27 Mar 2013) $"
+    revision: "$Revision: 92359 $"
+
+<B>class</B> 
+    <A HREF="../ise/sed_objects_table.html">SED_OBJECTS_TABLE</A>
+
+<B>inherit</B>
+    <A HREF="../ise/sed_abstract_objects_table.html">SED_ABSTRACT_OBJECTS_TABLE</A>
+        <B>undefine</B>
+            <A HREF="../elks/hash_table.html#f_copy">copy</A>,
+            <A HREF="../elks/hash_table.html#f_is_equal">is_equal</A>
+        <B>end</B>
+
+    <A HREF="../elks/hash_table.html">HASH_TABLE</A> [<A HREF="../elks/natural_32.html">NATURAL_32</A>, <A HREF="../elks/pointer.html">POINTER</A>]
+        <B>rename</B>
+            <A HREF="../elks/hash_table.html#f_make">make</A> <B>as</B> <A HREF="../elks/hash_table.html#f_make">table_make</A>,
+            <A HREF="../elks/hash_table.html#f_capacity">capacity</A> <B>as</B> <A HREF="../elks/hash_table.html#f_capacity">table_capacity</A>,
+            <A HREF="../elks/hash_table.html#f_count">count</A> <B>as</B> <A HREF="../elks/hash_table.html#f_count">capacity</A>,
+            <A HREF="../elks/hash_table.html#f_wipe_out">wipe_out</A> <B>as</B> <A HREF="../elks/hash_table.html#f_wipe_out">table_wipe_out</A>
+        <B>export</B>
+            {<A HREF="../ise/sed_objects_table.html">SED_OBJECTS_TABLE</A>} <B>all</B>
+        <B>redefine</B>
+            <A HREF="../ise/sed_objects_table.html#f_hash_code_of">hash_code_of</A>
+        <B>end</B>
+
+<B>create</B> 
+    <A HREF="../ise/sed_objects_table.html#f_make">make</A>
+
+
+<B>create</B> {<A HREF="../ise/sed_objects_table.html">SED_OBJECTS_TABLE</A>}
+    <A HREF="../elks/hash_table.html#f_make">table_make</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../ise/sed_objects_table.html#f_make">make</A> (n: <A HREF="../elks/natural_32.html">NATURAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize current instance</FONT>
+        <B>do</B>
+            <A HREF="../elks/hash_table.html#f_make">table_make</A> (n.<A HREF="../elks/natural_32_ref.html#f_to_integer_32">to_integer_32</A>)
+            <A HREF="../ise/sed_abstract_objects_table.html#f_last_index">last_index</A> := 0.<A HREF="../elks/integer_32_ref.html#f_to_natural_32">to_natural_32</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_index"><A HREF="../ise/sed_objects_table.html#f_index">index</A> (an_obj: <A HREF="../elks/any.html">ANY</A>): <A HREF="../elks/natural_32.html">NATURAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Index of </FONT>`an_obj'<FONT COLOR="red"> in Current</FONT>
+        <B>local</B>
+            hash_value, increment, l_pos, l_new_pos, l_item_pos, l_capacity: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            stop: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_keys: <B>like</B> <A HREF="../elks/hash_table.html#f_keys">keys</A>
+            l_indexes: <B>like</B> <A HREF="../elks/hash_table.html#f_indexes_map">indexes_map</A>
+            l_deleted_marks: <B>like</B> <A HREF="../elks/hash_table.html#f_deleted_marks">deleted_marks</A>
+            l_key: <A HREF="../elks/pointer.html">POINTER</A>
+        <B>do</B>
+            <B>from</B>
+                l_key := $an_obj.<A HREF="../elks/pointer_ref.html#f_item">to_pointer</A>
+                l_keys := <A HREF="../elks/hash_table.html#f_keys">keys</A>
+                l_indexes := <A HREF="../elks/hash_table.html#f_indexes_map">indexes_map</A>
+                l_deleted_marks := <A HREF="../elks/hash_table.html#f_deleted_marks">deleted_marks</A>
+                l_capacity := <A HREF="../elks/hash_table.html#f_capacity">table_capacity</A>
+                stop := l_capacity
+                hash_value := <A HREF="../ise/sed_objects_table.html#f_hash_code_of">hash_code_of</A> (l_key)
+                increment := 1 + hash_value \\ (l_capacity - 1)
+                l_item_pos := (hash_value \\ l_capacity) - increment
+            <B>until</B>
+                stop = 0
+            <B>loop</B>
+                l_item_pos := (l_item_pos + increment) \\ l_capacity
+                l_pos := l_indexes [l_item_pos]
+                <B>if</B> l_pos &gt;= 0 <B>and then</B> l_keys.<A HREF="../elks/special.html#f_item">item</A> (l_pos) = l_key <B>then</B>
+                    stop := 1
+                    <B>Result</B> := <A HREF="../elks/hash_table.html#f_content">content</A>.<A HREF="../elks/special.html#f_item">item</A> (l_pos)
+                <B>elseif</B> l_pos = <A HREF="../elks/hash_table.html#f_ht_impossible_position">Ht_impossible_position</A> <B>then</B>
+                    stop := 1
+                    <B>Result</B> := <A HREF="../ise/sed_abstract_objects_table.html#f_last_index">last_index</A> + 1.<A HREF="../elks/integer_32_ref.html#f_to_natural_32">to_natural_32</A>
+                    <A HREF="../ise/sed_abstract_objects_table.html#f_last_index">last_index</A> := <B>Result</B>
+                    l_new_pos := l_keys.<A HREF="../elks/special.html#f_count">count</A>
+                    <B>if</B> l_new_pos &lt; l_keys.<A HREF="../elks/special.html#f_capacity">capacity</A> <B>then</B>
+                        l_indexes.<A HREF="../elks/special.html#f_put">put</A> (l_new_pos, l_item_pos)
+                        <A HREF="../elks/hash_table.html#f_content">content</A>.<A HREF="../elks/special.html#f_force">force</A> (<B>Result</B>, l_new_pos)
+                        l_keys.<A HREF="../elks/special.html#f_force">force</A> ($an_obj.<A HREF="../elks/pointer_ref.html#f_item">to_pointer</A>, l_new_pos)
+                        <A HREF="../elks/hash_table.html#f_count">capacity</A> := <A HREF="../elks/hash_table.html#f_count">capacity</A> + 1
+                    <B>else</B>
+                        <A HREF="../elks/hash_table.html#f_put">put</A> (<B>Result</B>, l_key)
+                    <B>end</B>
+                <B>end</B>
+                stop := stop - 1
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removal</FONT>
+
+    <A NAME="f_wipe_out"><A HREF="../ise/sed_objects_table.html#f_wipe_out">wipe_out</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove all items.</FONT>
+        <B>do</B>
+            <A HREF="../ise/sed_abstract_objects_table.html#f_last_index">last_index</A> := 0.<A HREF="../elks/integer_32_ref.html#f_to_natural_32">to_natural_32</A>
+            <A HREF="../elks/hash_table.html#f_wipe_out">table_wipe_out</A>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_hash_code_of"><A HREF="../ise/sed_objects_table.html#f_hash_code_of">hash_code_of</A> (p: <A HREF="../elks/pointer.html">POINTER</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Efficient implementation of </FONT>{<A HREF="../elks/pointer.html">POINTER</A>}.<A HREF="../elks/pointer.html#f_hash_code">hash_code</A><FONT COLOR="red"> where we assume that POINTER</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> values are aligned to the size of the POINTER, this will reduce the number</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of conflicts.</FONT>
+        <B>external</B>
+            "C inline"
+        <B>alias</B>
+            "return (EIF_INTEGER_32) (0x7FFFFFF &#38; (((rt_uint_ptr) $p) / sizeof(rt_uint_ptr)));"
+        <B>end</B></A>
+    
+<B>invariant</B>
+    not_is_dotnet: <B>not</B> {<A HREF="../elks/platform.html">PLATFORM</A>}.<A HREF="../elks/platform.html#f_is_dotnet">is_dotnet</A>
+
+<B>note</B>
+    library: "EiffelBase: Library of reusable components for Eiffel."
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../ise/sed_objects_table.html">SED_OBJECTS_TABLE</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sed_objects_table_chart.html">Chart</A></TD><TD><A HREF="sed_objects_table_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="sed_objects_table_flat.html">Flat</A></TD><TD><A HREF="sed_objects_table_short.html">Contracts</A></TD><TD><A HREF="sed_objects_table_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

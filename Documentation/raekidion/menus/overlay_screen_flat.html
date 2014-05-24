@@ -1,0 +1,1311 @@
+<HTML><HEAD>
+<meta name="description" content="War of Raekidion - The overlay screen The {OVERLAY_SCREEN} is used to give options to a player while playing the game such as quitting or accessing the {OPTIONS_SCREEN}."/>
+<meta name="author" content="François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>overlay_screen Flat</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="overlay_screen_chart.html">Chart</A></TD><TD><A HREF="overlay_screen_links.html">Relations</A></TD><TD><A HREF="overlay_screen.html">Text</A></TD><TD>Flat</TD><TD><A HREF="overlay_screen_short.html">Contracts</A></TD><TD><A HREF="overlay_screen_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        War of Raekidion - The overlay screen
+        The <A HREF="../../raekidion/menus/overlay_screen_flat.html">OVERLAY_SCREEN</A> is used to give options to a player while
+        playing the game such as quitting or accessing the <A HREF="../../raekidion/menus/options_screen_flat.html">OPTIONS_SCREEN</A>.
+    ]"
+    author: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+    date: "$Date$"
+    revision: "$Revision$"
+
+<B>class</B> 
+    <A HREF="../../raekidion/menus/overlay_screen_flat.html">OVERLAY_SCREEN</A>
+
+<B>create</B> 
+    <A HREF="../../raekidion/menus/overlay_screen_flat.html#f_make">make</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_default_create"><A HREF="../../elks/any_flat.html#f_default_create">default_create</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process instances of classes with no creation clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_make"><A HREF="../../raekidion/menus/overlay_screen_flat.html#f_make">make</A> (a_window: <A HREF="../../raekidion/objects/window_flat.html">WINDOW</A>; a_key_binding: <A HREF="../../raekidion/keys/keys_flat.html">KEYS</A>; a_is_return_key_pressed: <A HREF="../../elks/boolean_flat.html">BOOLEAN</A>; a_title, a_description, a_comment: <A HREF="../../elks/string_8_flat.html">STRING_8</A>; a_resume_disabled, a_debug: <A HREF="../../elks/boolean_flat.html">BOOLEAN</A>; a_difficulty, a_score: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize </FONT>`Current'<FONT COLOR="red"> from </FONT>`a_window'<FONT COLOR="red">, </FONT>`a_key_binding'<FONT COLOR="red">, </FONT>`a_is_return_key_pressed'<FONT COLOR="red">, </FONT>`a_title'<FONT COLOR="red">, </FONT>`a_description'<FONT COLOR="red">, </FONT>`a_comment'<FONT COLOR="red">, </FONT>`a_resume_disabled'<FONT COLOR="red">, </FONT>`a_debug'<FONT COLOR="red"> and </FONT>`a_difficulty'
+        <B>local</B>
+            l_ticks, l_deltatime: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>
+            l_event: <A HREF="../../raekidion/objects/event_handler_flat.html">EVENT_HANDLER</A>
+            l_title, l_description, l_comment: <A HREF="../../raekidion/objects/text_flat.html">TEXT</A>
+            l_screen: <A HREF="../../raekidion/menus/screen_flat.html">SCREEN</A>
+            l_screenshot: <A HREF="../../raekidion/objects/screenshot_flat.html">SCREENSHOT</A>
+        <B>do</B>
+            <A HREF="../../elks/memory_flat.html#f_collection_on">collection_on</A>
+            <A HREF="../../raekidion/menus/screen_flat.html#f_debug_on">debug_on</A> := a_debug
+            <A HREF="../../raekidion/network/highscore_flat.html#f_make">highscore_make</A>
+            <B>create</B> <A HREF="../../raekidion/menus/screen_flat.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list_flat.html#f_make">make</A>
+            <A HREF="../../raekidion/menus/screen_flat.html#f_window">window</A> := a_window
+            <B>create</B> l_event.<A HREF="../../raekidion/objects/event_handler_flat.html#f_make">make</A> (<A HREF="../../raekidion/menus/screen_flat.html#f_window">window</A>)
+            <A HREF="../../raekidion/menus/screen_flat.html#f_key_binding">key_binding</A> := a_key_binding
+            <A HREF="../../raekidion/menus/screen_flat.html#f_must_quit">must_quit</A> := <B>False</B>
+            <A HREF="../../raekidion/menus/overlay_screen_flat.html#f_score">score</A> := a_score
+            <A HREF="../../raekidion/menus/screen_flat.html#f_is_return_key_pressed">is_return_key_pressed</A> := a_is_return_key_pressed
+            l_event.<A HREF="../../raekidion/objects/event_handler_flat.html#f_on_typing">on_typing</A>.<A HREF="../../ise/interactive_list_flat.html#f_extend">extend</A> (<B>agent</B> <A HREF="../../raekidion/menus/overlay_screen_flat.html#f_manage_typing">manage_typing</A>)
+            l_event.<A HREF="../../raekidion/objects/event_handler_flat.html#f_on_key_pressed">on_key_pressed</A>.<A HREF="../../ise/interactive_list_flat.html#f_extend">extend</A> (<B>agent</B> <A HREF="../../raekidion/menus/overlay_screen_flat.html#f_manage_key">manage_key</A>)
+            l_event.<A HREF="../../raekidion/objects/event_handler_flat.html#f_on_mouse_moved">on_mouse_moved</A>.<A HREF="../../ise/interactive_list_flat.html#f_extend">extend</A> (<B>agent</B> <A HREF="../../raekidion/menus/screen_flat.html#f_manage_mouse">manage_mouse</A>)
+            l_event.<A HREF="../../raekidion/objects/event_handler_flat.html#f_on_mouse_pressed">on_mouse_pressed</A>.<A HREF="../../ise/interactive_list_flat.html#f_extend">extend</A> (<B>agent</B> <A HREF="../../raekidion/menus/overlay_screen_flat.html#f_manage_click">manage_click</A>)
+            <B>create</B> l_title.<A HREF="../../raekidion/objects/text_flat.html#f_make_centered">make_centered</A> (a_title, 24, <A HREF="../../raekidion/menus/screen_flat.html#f_window">window</A>, 0.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, 0.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, <A HREF="../../raekidion/menus/screen_flat.html#f_window">window</A>.<A HREF="../../raekidion/objects/window_flat.html#f_width">width</A>.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, 150.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, [255, 255, 255], <B>True</B>)
+            <B>create</B> l_description.<A HREF="../../raekidion/objects/text_flat.html#f_make_centered">make_centered</A> (a_description, 16, <A HREF="../../raekidion/menus/screen_flat.html#f_window">window</A>, 0.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, 25.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, <A HREF="../../raekidion/menus/screen_flat.html#f_window">window</A>.<A HREF="../../raekidion/objects/window_flat.html#f_width">width</A>.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, 150.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, [255, 255, 255], <B>True</B>)
+            <B>create</B> l_comment.<A HREF="../../raekidion/objects/text_flat.html#f_make_centered">make_centered</A> (a_comment, 16, <A HREF="../../raekidion/menus/screen_flat.html#f_window">window</A>, 0.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, 50.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, <A HREF="../../raekidion/menus/screen_flat.html#f_window">window</A>.<A HREF="../../raekidion/objects/window_flat.html#f_width">width</A>.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, 150.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, [192, 192, 192], <B>True</B>)
+            <B>create</B> <A HREF="../../raekidion/menus/screen_flat.html#f_version">version</A>.<A HREF="../../raekidion/objects/text_flat.html#f_make_empty">make_empty</A> (<A HREF="../../raekidion/menus/screen_flat.html#f_window">window</A>, 0.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, 0.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, [0, 0, 0], <B>False</B>)
+            <A HREF="../../raekidion/menus/overlay_screen_flat.html#f_resume_disabled">resume_disabled</A> := a_resume_disabled
+            <B>if</B> <B>not</B> <A HREF="../../raekidion/menus/overlay_screen_flat.html#f_resume_disabled">resume_disabled</A> <B>then</B>
+                <A HREF="../../raekidion/menus/screen_flat.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list_flat.html#f_extend">extend</A> (<B>create</B> {<A HREF="../../raekidion/objects/button_flat.html">BUTTON</A>}.<A HREF="../../raekidion/objects/button_flat.html#f_make">make</A> ("button", <A HREF="../../raekidion/menus/screen_flat.html#f_window">window</A>, 100.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, 150.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, "Resume"))
+                <A HREF="../../raekidion/menus/screen_flat.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list_flat.html#f_extend">extend</A> (<B>create</B> {<A HREF="../../raekidion/objects/button_flat.html">BUTTON</A>}.<A HREF="../../raekidion/objects/button_flat.html#f_make">make</A> ("button", <A HREF="../../raekidion/menus/screen_flat.html#f_window">window</A>, 100.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, 200.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, "Options"))
+                <A HREF="../../raekidion/menus/screen_flat.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list_flat.html#f_extend">extend</A> (<B>create</B> {<A HREF="../../raekidion/objects/button_flat.html">BUTTON</A>}.<A HREF="../../raekidion/objects/button_flat.html#f_make">make</A> ("button", <A HREF="../../raekidion/menus/screen_flat.html#f_window">window</A>, 100.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, 250.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, "End game"))
+                <A HREF="../../raekidion/menus/screen_flat.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list_flat.html#f_extend">extend</A> (<B>create</B> {<A HREF="../../raekidion/objects/button_flat.html">BUTTON</A>}.<A HREF="../../raekidion/objects/button_flat.html#f_make">make</A> ("button", <A HREF="../../raekidion/menus/screen_flat.html#f_window">window</A>, 100.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, 300.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, "Quit"))
+            <B>else</B>
+                <A HREF="../../raekidion/objects/audio_factory_shared_flat.html#f_stop_music">stop_music</A>
+                <A HREF="../../raekidion/objects/audio_factory_shared_flat.html#f_play_music">play_music</A> ("spooky", -1)
+                <B>create</B> <A HREF="../../raekidion/menus/overlay_screen_flat.html#f_highscore">highscore</A>.<A HREF="../../raekidion/objects/text_flat.html#f_make_centered">make_centered</A> ("Highscore", 10, <A HREF="../../raekidion/menus/screen_flat.html#f_window">window</A>, 0.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, 160.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, <A HREF="../../raekidion/menus/screen_flat.html#f_window">window</A>.<A HREF="../../raekidion/objects/window_flat.html#f_width">width</A>.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, 0.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, [255, 255, 255], <B>True</B>)
+                <B>create</B> <A HREF="../../raekidion/menus/overlay_screen_flat.html#f_textbox">textbox</A>.<A HREF="../../raekidion/objects/textbox_flat.html#f_make">make</A> ("small_textbox", <A HREF="../../raekidion/menus/screen_flat.html#f_window">window</A>, 100.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, 175.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>)
+                <A HREF="../../raekidion/menus/screen_flat.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list_flat.html#f_extend">extend</A> (<B>create</B> {<A HREF="../../raekidion/objects/button_flat.html">BUTTON</A>}.<A HREF="../../raekidion/objects/button_flat.html#f_make">make</A> ("small_button", <A HREF="../../raekidion/menus/screen_flat.html#f_window">window</A>, 160.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, 175.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, "Save"))
+                <A HREF="../../raekidion/menus/screen_flat.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list_flat.html#f_extend">extend</A> (<B>create</B> {<A HREF="../../raekidion/objects/button_flat.html">BUTTON</A>}.<A HREF="../../raekidion/objects/button_flat.html#f_make">make</A> ("button", <A HREF="../../raekidion/menus/screen_flat.html#f_window">window</A>, 100.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, 225.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, "End game"))
+                <A HREF="../../raekidion/menus/screen_flat.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list_flat.html#f_extend">extend</A> (<B>create</B> {<A HREF="../../raekidion/objects/button_flat.html">BUTTON</A>}.<A HREF="../../raekidion/objects/button_flat.html#f_make">make</A> ("button", <A HREF="../../raekidion/menus/screen_flat.html#f_window">window</A>, 100.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, 275.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>, "Quit"))
+            <B>end</B>
+            <A HREF="../../raekidion/menus/screen_flat.html#f_selection">selection</A> := <A HREF="../../raekidion/menus/screen_flat.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list_flat.html#f_first">first</A>
+            <A HREF="../../raekidion/menus/screen_flat.html#f_button_index">button_index</A> := 1
+            <B>if</B> <B>attached</B> <A HREF="../../raekidion/menus/screen_flat.html#f_selection">selection</A> <B>as</B> la_selection <B>then</B>
+                la_selection.<A HREF="../../raekidion/objects/sprite_flat.html#f_set_image">set_image</A> (la_selection.<A HREF="../../raekidion/objects/sprite_flat.html#f_default_image">default_image</A> + "_pressed")
+            <B>end</B>
+            <B>create</B> l_screenshot.<A HREF="../../raekidion/objects/screenshot_flat.html#f_make">make</A> (<A HREF="../../raekidion/menus/screen_flat.html#f_window">window</A>)
+            <B>from</B>
+            <B>until</B>
+                <A HREF="../../raekidion/menus/screen_flat.html#f_must_quit">must_quit</A> <B>or</B> <A HREF="../../raekidion/menus/screen_flat.html#f_must_close">must_close</A> <B>or</B> <A HREF="../../raekidion/menus/screen_flat.html#f_must_end">must_end</A>
+            <B>loop</B>
+                l_ticks := {<A HREF="../../raekidion/wrapper/sdl_flat.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl_flat.html#f_sdl_getticks">sdl_getticks</A>.<A HREF="../../elks/natural_32_ref_flat.html#f_to_integer_32">to_integer_32</A>
+                l_event.<A HREF="../../raekidion/objects/event_handler_flat.html#f_manage_event">manage_event</A>
+                <B>if</B> l_event.<A HREF="../../raekidion/objects/event_handler_flat.html#f_is_quit_event">is_quit_event</A> <B>then</B>
+                    <A HREF="../../raekidion/menus/screen_flat.html#f_must_quit">must_quit</A> := <B>True</B>
+                <B>end</B>
+                <A HREF="../../raekidion/menus/screen_flat.html#f_window">window</A>.<A HREF="../../raekidion/objects/window_flat.html#f_clear">clear</A>
+                l_screenshot.<A HREF="../../raekidion/objects/screenshot_flat.html#f_update">update</A>
+                l_title.<A HREF="../../raekidion/objects/text_flat.html#f_update">update</A>
+                l_description.<A HREF="../../raekidion/objects/text_flat.html#f_update">update</A>
+                l_comment.<A HREF="../../raekidion/objects/text_flat.html#f_update">update</A>
+                <B>if</B> <B>attached</B> <A HREF="../../raekidion/menus/overlay_screen_flat.html#f_highscore">highscore</A> <B>as</B> la_highscore <B>then</B>
+                    la_highscore.<A HREF="../../raekidion/objects/text_flat.html#f_update">update</A>
+                <B>end</B>
+                <B>if</B> <B>attached</B> <A HREF="../../raekidion/menus/overlay_screen_flat.html#f_textbox">textbox</A> <B>as</B> la_textbox <B>then</B>
+                    la_textbox.<A HREF="../../raekidion/objects/textbox_flat.html#f_update">update</A>
+                <B>end</B>
+                <A HREF="../../raekidion/menus/screen_flat.html#f_update">update</A>
+                <A HREF="../../raekidion/menus/screen_flat.html#f_window">window</A>.<A HREF="../../raekidion/objects/window_flat.html#f_render">render</A>
+                <B>if</B> <A HREF="../../raekidion/menus/overlay_screen_flat.html#f_options">options</A> <B>then</B>
+                    l_screen := <B>create</B> {<A HREF="../../raekidion/menus/options_screen_flat.html">OPTIONS_SCREEN</A>}.<A HREF="../../raekidion/menus/options_screen_flat.html#f_make">make</A> (<A HREF="../../raekidion/menus/screen_flat.html#f_window">window</A>, <A HREF="../../raekidion/menus/screen_flat.html#f_key_binding">key_binding</A>, a_difficulty, <B>True</B>, <A HREF="../../raekidion/menus/screen_flat.html#f_debug_on">debug_on</A>)
+                    <A HREF="../../raekidion/menus/screen_flat.html#f_must_quit">must_quit</A> := l_screen.<A HREF="../../raekidion/menus/screen_flat.html#f_must_quit">must_quit</A>
+                    <A HREF="../../raekidion/menus/screen_flat.html#f_key_binding">key_binding</A> := l_screen.<A HREF="../../raekidion/menus/screen_flat.html#f_key_binding">key_binding</A>
+                    <A HREF="../../raekidion/menus/screen_flat.html#f_is_return_key_pressed">is_return_key_pressed</A> := l_screen.<A HREF="../../raekidion/menus/screen_flat.html#f_is_return_key_pressed">is_return_key_pressed</A>
+                    <A HREF="../../raekidion/menus/overlay_screen_flat.html#f_options">options</A> := <B>False</B>
+                <B>end</B>
+                l_deltatime := {<A HREF="../../raekidion/wrapper/sdl_flat.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl_flat.html#f_sdl_getticks">sdl_getticks</A>.<A HREF="../../elks/natural_32_ref_flat.html#f_to_integer_32">to_integer_32</A> - l_ticks
+                <B>if</B> l_deltatime &lt; (1000 / 60).<A HREF="../../elks/real_64_ref_flat.html#f_floor">floor</A> <B>then</B>
+                    {<A HREF="../../raekidion/wrapper/sdl_flat.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl_flat.html#f_sdl_delay">sdl_delay</A> ((1000 / 60).<A HREF="../../elks/real_64_ref_flat.html#f_floor">floor</A> - l_deltatime)
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_audio_factory"><A HREF="../../raekidion/objects/audio_factory_shared_flat.html#f_audio_factory">Audio_factory</A>: <A HREF="../../raekidion/objects/audio_factory_flat.html">AUDIO_FACTORY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize the </FONT><A HREF="../../raekidion/objects/audio_factory_flat.html">AUDIO_FACTORY</A><FONT COLOR="red"> only once</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../raekidion/objects/audio_factory_shared_flat.html">AUDIO_FACTORY_SHARED</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>.<A HREF="../../raekidion/objects/audio_factory_flat.html#f_make">make</A>
+        <B>end</B></A>
+
+    <A NAME="f_connexion"><A HREF="../../raekidion/network/database_manager_shared_flat.html#f_connexion">Connexion</A>: <A HREF="../../raekidion/network/database_manager_flat.html">DATABASE_MANAGER</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../raekidion/network/database_manager_shared_flat.html">DATABASE_MANAGER_SHARED</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>.<A HREF="../../raekidion/network/database_manager_flat.html#f_make">make</A>
+        <B>end</B></A>
+
+    <A NAME="f_music"><A HREF="../../raekidion/objects/audio_factory_shared_flat.html#f_music">music</A>: <A HREF="../../elks/pointer_flat.html">POINTER</A></A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../raekidion/objects/audio_factory_shared_flat.html">AUDIO_FACTORY_SHARED</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_play_music"><A HREF="../../raekidion/objects/audio_factory_shared_flat.html#f_play_music">play_music</A> (a_name: <A HREF="../../elks/string_8_flat.html">STRING_8</A>; a_loops: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Play music </FONT>`a_name'<FONT COLOR="red"> with </FONT>`a_loops'<FONT COLOR="red"> (0 for none, -1 for infinite)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../raekidion/objects/audio_factory_shared_flat.html">AUDIO_FACTORY_SHARED</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <A HREF="../../raekidion/objects/audio_factory_shared_flat.html#f_music">music</A> := <A HREF="../../raekidion/objects/audio_factory_shared_flat.html#f_audio_factory">Audio_factory</A>.<A HREF="../../raekidion/objects/audio_factory_flat.html#f_music">music</A> (a_name)
+            <B>if</B> <A HREF="../../raekidion/objects/audio_factory_shared_flat.html#f_music">music</A>.<A HREF="../../elks/pointer_flat.html#f_is_default_pointer">is_default_pointer</A> <B>then</B>
+            <B>else</B>
+                {<A HREF="../../raekidion/wrapper/sdl_mixer_flat.html">SDL_MIXER</A>}.<A HREF="../../raekidion/wrapper/sdl_mixer_flat.html#f_mix_playmusic">mix_playmusic</A> (<A HREF="../../raekidion/objects/audio_factory_shared_flat.html#f_music">music</A>, -1)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_play_sound"><A HREF="../../raekidion/objects/audio_factory_shared_flat.html#f_play_sound">play_sound</A> (a_name: <A HREF="../../elks/string_8_flat.html">STRING_8</A>; a_channel: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Play sound </FONT>`a_name'<FONT COLOR="red"> on </FONT>`a_channel'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../raekidion/objects/audio_factory_shared_flat.html">AUDIO_FACTORY_SHARED</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <A HREF="../../raekidion/objects/audio_factory_shared_flat.html#f_sound">sound</A> := <A HREF="../../raekidion/objects/audio_factory_shared_flat.html#f_audio_factory">Audio_factory</A>.<A HREF="../../raekidion/objects/audio_factory_flat.html#f_sound">sound</A> (a_name)
+            <B>if</B> <A HREF="../../raekidion/objects/audio_factory_shared_flat.html#f_sound">sound</A>.<A HREF="../../elks/pointer_flat.html#f_is_default_pointer">is_default_pointer</A> <B>then</B>
+            <B>else</B>
+                {<A HREF="../../raekidion/wrapper/sdl_mixer_flat.html">SDL_MIXER</A>}.<A HREF="../../raekidion/wrapper/sdl_mixer_flat.html#f_mix_playchannel">mix_playchannel</A> (a_channel, <A HREF="../../raekidion/objects/audio_factory_shared_flat.html#f_sound">sound</A>, 0)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_sound"><A HREF="../../raekidion/objects/audio_factory_shared_flat.html#f_sound">sound</A>: <A HREF="../../elks/pointer_flat.html">POINTER</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Current sound file loaded</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../raekidion/objects/audio_factory_shared_flat.html">AUDIO_FACTORY_SHARED</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_stop_music"><A HREF="../../raekidion/objects/audio_factory_shared_flat.html#f_stop_music">stop_music</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Stop all music</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../raekidion/objects/audio_factory_shared_flat.html">AUDIO_FACTORY_SHARED</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            {<A HREF="../../raekidion/wrapper/sdl_mixer_flat.html">SDL_MIXER</A>}.<A HREF="../../raekidion/wrapper/sdl_mixer_flat.html#f_mix_haltmusic">mix_haltmusic</A>
+        <B>end</B></A>
+
+    <A NAME="f_stop_sound"><A HREF="../../raekidion/objects/audio_factory_shared_flat.html#f_stop_sound">stop_sound</A> (a_channel: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Stop all sounds on </FONT>`a_channel'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../raekidion/objects/audio_factory_shared_flat.html">AUDIO_FACTORY_SHARED</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            {<A HREF="../../raekidion/wrapper/sdl_mixer_flat.html">SDL_MIXER</A>}.<A HREF="../../raekidion/wrapper/sdl_mixer_flat.html#f_mix_haltchannel">mix_haltchannel</A> (a_channel)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_c_memory"><A HREF="../../elks/mem_const_flat.html#f_c_memory">C_memory</A>: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A> = 2</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Code for the C memory managed</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> by the garbage collector</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/mem_const_flat.html">MEM_CONST</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_eiffel_memory"><A HREF="../../elks/mem_const_flat.html#f_eiffel_memory">Eiffel_memory</A>: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A> = 1</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Code for the Eiffel memory managed</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> by the garbage collector</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/mem_const_flat.html">MEM_CONST</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_full_collector"><A HREF="../../elks/mem_const_flat.html#f_full_collector">Full_collector</A>: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A> = 0</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Statistics for full collections</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/mem_const_flat.html">MEM_CONST</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_generating_type"><A HREF="../../elks/any_flat.html#f_generating_type">generating_type</A>: <A HREF="../../elks/type_flat.html">TYPE</A> [<B>detachable</B> <A HREF="../../raekidion/menus/overlay_screen_flat.html">OVERLAY_SCREEN</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Type of current object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := {<B>detachable</B> <A HREF="../../raekidion/menus/overlay_screen_flat.html">OVERLAY_SCREEN</A>}
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            generating_type_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_generator"><A HREF="../../elks/any_flat.html#f_generator">generator</A>: <A HREF="../../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of current object's generating class</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (base class of the type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            generator_not_void: <B>Result</B> /= <B>Void</B>
+            generator_not_empty: <B>not</B> <B>Result</B>.<A HREF="../../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+
+    <A NAME="f_incremental_collector"><A HREF="../../elks/mem_const_flat.html#f_incremental_collector">Incremental_collector</A>: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A> = 1</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Statistics for incremental collections</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/mem_const_flat.html">MEM_CONST</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_total_memory"><A HREF="../../elks/mem_const_flat.html#f_total_memory">Total_memory</A>: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A> = 0</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Code for all the memory managed</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> by the garbage collector</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/mem_const_flat.html">MEM_CONST</A><FONT COLOR="red">)</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_gc_statistics"><A HREF="../../elks/memory_flat.html#f_gc_statistics">gc_statistics</A> (collector_type: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../../elks/gc_info_flat.html">GC_INFO</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Garbage collection information for </FONT>`collector_type'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A>
+            type_ok: collector_type = <A HREF="../../elks/mem_const_flat.html#f_full_collector">Full_collector</A> <B>or</B> collector_type = <A HREF="../../elks/mem_const_flat.html#f_incremental_collector">Incremental_collector</A>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../../elks/gc_info_flat.html#f_make">make</A> (collector_type)
+        <B>end</B></A>
+
+    <A NAME="f_memory_statistics"><A HREF="../../elks/memory_flat.html#f_memory_statistics">memory_statistics</A> (memory_type: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../../elks/mem_info_flat.html">MEM_INFO</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Memory usage information for </FONT>`memory_type'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A>
+            type_ok: memory_type = <A HREF="../../elks/mem_const_flat.html#f_total_memory">Total_memory</A> <B>or</B> memory_type = <A HREF="../../elks/mem_const_flat.html#f_eiffel_memory">Eiffel_memory</A> <B>or</B> memory_type = <A HREF="../../elks/mem_const_flat.html#f_c_memory">C_memory</A>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../../elks/mem_info_flat.html#f_make">make</A> (memory_type)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_deep_equal"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_deep_equal">deep_equal</A> (a: <B>detachable</B> <A HREF="../../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            shallow_implies_deep: <A HREF="../../elks/any_flat.html#f_standard_equal">standard_equal</A> (a, b) <B>implies</B> <B>Result</B>
+            both_or_none_void: (a = <B>Void</B>) <B>implies</B> (<B>Result</B> = (b = <B>Void</B>))
+            same_type: (<B>Result</B> <B>and</B> (a /= <B>Void</B>)) <B>implies</B> (b /= <B>Void</B> <B>and then</B> a.<A HREF="../../elks/any_flat.html#f_same_type">same_type</A> (b))
+            symmetric: <B>Result</B> <B>implies</B> <A HREF="../../elks/any_flat.html#f_deep_equal">deep_equal</A> (b, a)
+        <B>end</B></A>
+
+    <A NAME="f_equal"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_equal">equal</A> (a: <B>detachable</B> <A HREF="../../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to objects considered equal?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../../elks/any_flat.html#f_is_equal">is_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../../elks/any_flat.html#f_is_equal">is_equal</A> (b))
+        <B>end</B></A>
+
+    <A NAME="f_is_deep_equal"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (other: <B>attached</B> <A HREF="../../raekidion/menus/overlay_screen_flat.html">OVERLAY_SCREEN</A>): <A HREF="../../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`Current'<FONT COLOR="red"> and </FONT>`other'<FONT COLOR="red"> attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            shallow_implies_deep: <A HREF="../../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../../elks/any_flat.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (<B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_is_equal"><A HREF="../../elks/any_flat.html#f_is_equal">is_equal</A> (other: <B>attached</B> <A HREF="../../raekidion/menus/overlay_screen_flat.html">OVERLAY_SCREEN</A>): <A HREF="../../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object considered</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to current object?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            symmetric: <B>Result</B> <B>implies</B> other ~ <B>Current</B>
+            consistent: <A HREF="../../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+        <B>end</B></A>
+
+    <A NAME="f_standard_equal"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_standard_equal">standard_equal</A> (a: <B>detachable</B> <A HREF="../../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical objects of the same type?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default object comparison criterion.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (b))
+        <B>end</B></A>
+
+    <A NAME="f_standard_is_equal"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other: <B>attached</B> <A HREF="../../raekidion/menus/overlay_screen_flat.html">OVERLAY_SCREEN</A>): <A HREF="../../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object of the same type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as current object, and field-by-field identical to it?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../../elks/any_flat.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_chunk_size"><A HREF="../../elks/memory_flat.html#f_chunk_size">chunk_size</A>: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Minimal size of a memory chunk. The run-time always</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> allocates a multiple of this size.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If the environment variable EIF_MEMORY_CHUNK</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> is defined, it is set to the closest reasonable</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> value from it.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_get_chunk_size"
+        <B>end</B></A>
+
+    <A NAME="f_coalesce_period"><A HREF="../../elks/memory_flat.html#f_coalesce_period">coalesce_period</A>: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Period of full coalesce (in number of collections)</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If the environment variable EIF_FULL_COALESCE_PERIOD</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> is defined, it is set to the closest reasonable</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> value from it.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If null, no full coalescing is launched.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_coalesce_period"
+        <B>end</B></A>
+
+    <A NAME="f_collecting"><A HREF="../../elks/memory_flat.html#f_collecting">collecting</A>: <A HREF="../../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is garbage collection enabled?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_gc_ison"
+        <B>end</B></A>
+
+    <A NAME="f_collection_period"><A HREF="../../elks/memory_flat.html#f_collection_period">collection_period</A>: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Period of full collection.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If the environment variable EIF_FULL_COLLECTION_PERIOD</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> is defined, it is set to the closest reasonable</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> value from it.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If null, no full collection is launched.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_mem_pget"
+        <B>end</B></A>
+
+    <A NAME="f_conforms_to"><A HREF="../../elks/any_flat.html#f_conforms_to">conforms_to</A> (other: <A HREF="../../elks/any_flat.html">ANY</A>): <A HREF="../../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does type of current object conform to type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of </FONT>`other'<FONT COLOR="red"> (as per Eiffel: The Language, chapter 13)?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>end</B></A>
+
+    <A NAME="f_generation_object_limit"><A HREF="../../elks/memory_flat.html#f_generation_object_limit">generation_object_limit</A>: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Maximum size of object in generational scavenge zone.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If the environment variable EIF_GS_LIMIT</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> is defined, it is set to the closest reasonable</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> value from it.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_generation_object_limit"
+        <B>end</B></A>
+
+    <A NAME="f_largest_coalesced_block"><A HREF="../../elks/memory_flat.html#f_largest_coalesced_block">largest_coalesced_block</A>: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Size of largest coalesced block since last call to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`largest_coalesced'<FONT COLOR="red">; 0 if none.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_mem_largest"
+        <B>end</B></A>
+
+    <A NAME="f_max_mem"><A HREF="../../elks/memory_flat.html#f_max_mem">max_mem</A>: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Maximum amount of bytes the run-time can allocate.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_get_max_mem"
+        <B>end</B></A>
+
+    <A NAME="f_memory_count_map"><A HREF="../../elks/memory_flat.html#f_memory_count_map">memory_count_map</A>: <A HREF="../../elks/hash_table_flat.html">HASH_TABLE</A> [<A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>, <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of instances per dynamic type present in system.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Same as </FONT><A HREF="../../elks/memory_flat.html#f_memory_map">memory_map</A><FONT COLOR="red"> except that no references on the objects themselves</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> is kept.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            i, nb, dtype: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>
+            l_spec: <A HREF="../../elks/special_flat.html">SPECIAL</A> [<A HREF="../../elks/any_flat.html">ANY</A>]
+            l_item: <A HREF="../../elks/any_flat.html">ANY</A>
+        <B>do</B>
+            l_spec := <A HREF="../../elks/memory_flat.html#f_find_all_instances">find_all_instances</A> (<A HREF="../../elks/memory_flat.html#f_special_any_dynamic_type">Special_any_dynamic_type</A>)
+            <B>create</B> <B>Result</B>.<A HREF="../../elks/hash_table_flat.html#f_make">make</A> (100)
+            <B>from</B>
+                i := 0
+                nb := l_spec.<A HREF="../../elks/special_flat.html#f_count">count</A>
+            <B>until</B>
+                i &gt;= nb
+            <B>loop</B>
+                l_item := l_spec.<A HREF="../../elks/special_flat.html#f_item">item</A> (i)
+                <B>if</B> l_item /= <B>Void</B> <B>then</B>
+                    dtype := l_item.<A HREF="../../elks/any_flat.html#f_generating_type">generating_type</A>.<A HREF="../../elks/type_flat.html#f_type_id">type_id</A>
+                    <B>Result</B>.<A HREF="../../elks/hash_table_flat.html#f_search">search</A> (dtype)
+                    <B>if</B> <B>Result</B>.<A HREF="../../elks/hash_table_flat.html#f_found">found</A> <B>then</B>
+                        <B>Result</B>.<A HREF="../../elks/hash_table_flat.html#f_force">force</A> (<B>Result</B>.<A HREF="../../elks/hash_table_flat.html#f_found_item">found_item</A> + 1, dtype)
+                    <B>else</B>
+                        <B>Result</B>.<A HREF="../../elks/hash_table_flat.html#f_put">put</A> (1, dtype)
+                    <B>end</B>
+                <B>end</B>
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_memory_map"><A HREF="../../elks/memory_flat.html#f_memory_map">memory_map</A>: <A HREF="../../elks/hash_table_flat.html">HASH_TABLE</A> [<A HREF="../../elks/arrayed_list_flat.html">ARRAYED_LIST</A> [<A HREF="../../elks/any_flat.html">ANY</A>], <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieves all object in system as a table indexed by dynamic type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> where elements are all instances of a given data type.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            i, nb, dtype: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>
+            l_spec: <A HREF="../../elks/special_flat.html">SPECIAL</A> [<A HREF="../../elks/any_flat.html">ANY</A>]
+            l_item: <A HREF="../../elks/any_flat.html">ANY</A>
+            l_list: <B>detachable</B> <A HREF="../../elks/arrayed_list_flat.html">ARRAYED_LIST</A> [<A HREF="../../elks/any_flat.html">ANY</A>]
+            l_memory_count_map: <A HREF="../../elks/hash_table_flat.html">HASH_TABLE</A> [<A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>, <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>]
+        <B>do</B>
+            l_spec := <A HREF="../../elks/memory_flat.html#f_find_all_instances">find_all_instances</A> (<A HREF="../../elks/memory_flat.html#f_special_any_dynamic_type">Special_any_dynamic_type</A>)
+            <B>create</B> l_memory_count_map.<A HREF="../../elks/hash_table_flat.html#f_make">make</A> (100)
+            <B>from</B>
+                i := 0
+                nb := l_spec.<A HREF="../../elks/special_flat.html#f_count">count</A>
+            <B>until</B>
+                i &gt;= nb
+            <B>loop</B>
+                l_item := l_spec.<A HREF="../../elks/special_flat.html#f_item">item</A> (i)
+                <B>if</B> l_item /= <B>Void</B> <B>then</B>
+                    dtype := l_item.<A HREF="../../elks/any_flat.html#f_generating_type">generating_type</A>.<A HREF="../../elks/type_flat.html#f_type_id">type_id</A>
+                    l_memory_count_map.<A HREF="../../elks/hash_table_flat.html#f_force">force</A> (l_memory_count_map.<A HREF="../../elks/hash_table_flat.html#f_item">item</A> (dtype) + 1, dtype)
+                <B>end</B>
+                i := i + 1
+            <B>end</B>
+            <B>create</B> <B>Result</B>.<A HREF="../../elks/hash_table_flat.html#f_make">make</A> (100)
+            <B>from</B>
+                i := 0
+                nb := l_spec.<A HREF="../../elks/special_flat.html#f_count">count</A>
+            <B>until</B>
+                i &gt;= nb
+            <B>loop</B>
+                l_item := l_spec.<A HREF="../../elks/special_flat.html#f_item">item</A> (i)
+                <B>if</B> l_item /= <B>Void</B> <B>then</B>
+                    dtype := l_item.<A HREF="../../elks/any_flat.html#f_generating_type">generating_type</A>.<A HREF="../../elks/type_flat.html#f_type_id">type_id</A>
+                    <B>Result</B>.<A HREF="../../elks/hash_table_flat.html#f_search">search</A> (dtype)
+                    <B>if</B> <B>Result</B>.<A HREF="../../elks/hash_table_flat.html#f_found">found</A> <B>and then</B> <B>attached</B> <B>Result</B>.<A HREF="../../elks/hash_table_flat.html#f_found_item">found_item</A> <B>as</B> l_found_item <B>then</B>
+                        l_list := l_found_item
+                    <B>else</B>
+                        <B>create</B> l_list.<A HREF="../../elks/arrayed_list_flat.html#f_make">make</A> (l_memory_count_map.<A HREF="../../elks/hash_table_flat.html#f_item">item</A> (dtype))
+                        <B>Result</B>.<A HREF="../../elks/hash_table_flat.html#f_put">put</A> (l_list, dtype)
+                    <B>end</B>
+                    l_list.<A HREF="../../elks/arrayed_list_flat.html#f_extend">extend</A> (l_item)
+                <B>end</B>
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_memory_threshold"><A HREF="../../elks/memory_flat.html#f_memory_threshold">memory_threshold</A>: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Minimum amount of bytes to be allocated before</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> starting an automatic garbage collection.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_mem_tget"
+        <B>end</B></A>
+
+    <A NAME="f_objects_instance_of"><A HREF="../../elks/memory_flat.html#f_objects_instance_of">objects_instance_of</A> (an_object: <A HREF="../../elks/any_flat.html">ANY</A>): <A HREF="../../elks/special_flat.html">SPECIAL</A> [<A HREF="../../elks/any_flat.html">ANY</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Objects that have same dynamic type as </FONT>`an_object'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../../elks/memory_flat.html#f_objects_instance_of_type">objects_instance_of_type</A> (an_object.<A HREF="../../elks/any_flat.html#f_generating_type">generating_type</A>.<A HREF="../../elks/type_flat.html#f_type_id">type_id</A>)
+        <B>end</B></A>
+
+    <A NAME="f_objects_instance_of_type"><A HREF="../../elks/memory_flat.html#f_objects_instance_of_type">objects_instance_of_type</A> (a_type_id: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../../elks/special_flat.html">SPECIAL</A> [<A HREF="../../elks/any_flat.html">ANY</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Objects that have same dynamic type as </FONT>`an_object'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../../elks/memory_flat.html#f_find_instance_of">find_instance_of</A> (a_type_id, <A HREF="../../elks/memory_flat.html#f_special_any_dynamic_type">Special_any_dynamic_type</A>)
+        <B>end</B></A>
+
+    <A NAME="f_referers"><A HREF="../../elks/memory_flat.html#f_referers">referers</A> (an_object: <A HREF="../../elks/any_flat.html">ANY</A>): <A HREF="../../elks/special_flat.html">SPECIAL</A> [<A HREF="../../elks/any_flat.html">ANY</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Objects that refer to </FONT>`an_object'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../../elks/memory_flat.html#f_find_referers">find_referers</A> (an_object, <A HREF="../../elks/memory_flat.html#f_special_any_dynamic_type">Special_any_dynamic_type</A>)
+        <B>end</B></A>
+
+    <A NAME="f_same_type"><A HREF="../../elks/any_flat.html#f_same_type">same_type</A> (other: <A HREF="../../elks/any_flat.html">ANY</A>): <A HREF="../../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is type of current object identical to type of </FONT>`other'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (<A HREF="../../elks/any_flat.html#f_conforms_to">conforms_to</A> (other) <B>and</B> other.<A HREF="../../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>Current</B>))
+        <B>end</B></A>
+
+    <A NAME="f_scavenge_zone_size"><A HREF="../../elks/memory_flat.html#f_scavenge_zone_size">scavenge_zone_size</A>: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Size of generational scavenge zone.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If the environment variable EIF_MEMORY_SCAVENGE</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> is defined, it is set to the closest reasonable</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> value from it.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_scavenge_zone_size"
+        <B>end</B></A>
+
+    <A NAME="f_tenure"><A HREF="../../elks/memory_flat.html#f_tenure">tenure</A>: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Maximum age of object before being considered</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as old (old objects are not scanned during</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> partial collection).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If the environment variable EIF_TENURE_MAX</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> is defined, it is set to the closest reasonable</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> value from it.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_tenure"
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_is_in_final_collect"><A HREF="../../elks/disposable_flat.html#f_is_in_final_collect">is_in_final_collect</A>: <A HREF="../../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is GC currently performing final collection</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> after execution of current program?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Safe to use in </FONT><A HREF="../../elks/memory_flat.html#f_dispose">dispose</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/disposable_flat.html">DISPOSABLE</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C inline use %"eif_memory.h%""
+        <B>alias</B>
+            "return eif_is_in_final_collect;"
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status setting</FONT>
+
+    <A NAME="f_allocate_compact"><A HREF="../../elks/memory_flat.html#f_allocate_compact">allocate_compact</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Enter `</FONT>`memory'<FONT COLOR="red">' mode: will try to compact memory</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> before requesting more from the operating system.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_mem_slow"
+        <B>end</B></A>
+
+    <A NAME="f_allocate_fast"><A HREF="../../elks/memory_flat.html#f_allocate_fast">allocate_fast</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Enter `</FONT>`speed'<FONT COLOR="red">' mode: will optimize speed of memory</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> allocation rather than memory usage.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_mem_speed"
+        <B>end</B></A>
+
+    <A NAME="f_allocate_tiny"><A HREF="../../elks/memory_flat.html#f_allocate_tiny">allocate_tiny</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Enter `</FONT>`tiny'<FONT COLOR="red">' mode: will enter `</FONT>`memory'<FONT COLOR="red">' mode</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> after having freed as much memory as possible.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_mem_tiny"
+        <B>end</B></A>
+
+    <A NAME="f_collection_off"><A HREF="../../elks/memory_flat.html#f_collection_off">collection_off</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Disable garbage collection.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_gc_stop"
+        <B>end</B></A>
+
+    <A NAME="f_collection_on"><A HREF="../../elks/memory_flat.html#f_collection_on">collection_on</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Enable garbage collection.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_gc_run"
+        <B>end</B></A>
+
+    <A NAME="f_disable_time_accounting"><A HREF="../../elks/memory_flat.html#f_disable_time_accounting">disable_time_accounting</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Disable GC time accounting (default).</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <A HREF="../../elks/memory_flat.html#f_gc_monitoring">gc_monitoring</A> (<B>False</B>)
+        <B>end</B></A>
+
+    <A NAME="f_enable_time_accounting"><A HREF="../../elks/memory_flat.html#f_enable_time_accounting">enable_time_accounting</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Enable GC time accouting, accessible in </FONT><A HREF="../../elks/memory_flat.html#f_gc_statistics">gc_statistics</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <A HREF="../../elks/memory_flat.html#f_gc_monitoring">gc_monitoring</A> (<B>True</B>)
+        <B>end</B></A>
+
+    <A NAME="f_execute_without_collection"><A HREF="../../elks/memory_flat.html#f_execute_without_collection">execute_without_collection</A> (a_action: <A HREF="../../elks/procedure_flat.html">PROCEDURE</A> [<A HREF="../../elks/any_flat.html">ANY</A>, <A HREF="../../elks/tuple_flat.html">TUPLE</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execute </FONT>`a_action'<FONT COLOR="red"> with the garbage collector disabled.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If </FONT>`a_action'<FONT COLOR="red"> modifies the status of </FONT><A HREF="../../elks/memory_flat.html#f_collecting">collecting</A><FONT COLOR="red">, we restore</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> it no matter what at the end.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A>
+            a_action_not_void: a_action /= <B>Void</B>
+        <B>local</B>
+            l_is_collecting: <B>like</B> <A HREF="../../elks/memory_flat.html#f_collecting">collecting</A>
+            retried: <A HREF="../../elks/boolean_flat.html">BOOLEAN</A>
+        <B>do</B>
+            <B>if</B> <B>not</B> retried <B>then</B>
+                l_is_collecting := <A HREF="../../elks/memory_flat.html#f_collecting">collecting</A>
+                <B>if</B> l_is_collecting <B>then</B>
+                    <A HREF="../../elks/memory_flat.html#f_collection_off">collection_off</A>
+                    a_action.<A HREF="../../elks/procedure_flat.html#f_call">call</A> (<B>Void</B>)
+                    <A HREF="../../elks/memory_flat.html#f_collection_on">collection_on</A>
+                <B>else</B>
+                    a_action.<A HREF="../../elks/procedure_flat.html#f_call">call</A> (<B>Void</B>)
+                    <A HREF="../../elks/memory_flat.html#f_collection_off">collection_off</A>
+                <B>end</B>
+            <B>else</B>
+                <B>if</B> l_is_collecting <B>then</B>
+                    <A HREF="../../elks/memory_flat.html#f_collection_on">collection_on</A>
+                <B>else</B>
+                    <A HREF="../../elks/memory_flat.html#f_collection_off">collection_off</A>
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A>
+            collection_status_preserved: <A HREF="../../elks/memory_flat.html#f_collecting">collecting</A> = <B>old</B> <A HREF="../../elks/memory_flat.html#f_collecting">collecting</A>
+        <B>rescue</B>
+            retried := <B>True</B>
+            <B>retry</B>
+        <B>end</B></A>
+
+    <A NAME="f_set_coalesce_period"><A HREF="../../elks/memory_flat.html#f_set_coalesce_period">set_coalesce_period</A> (value: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../../elks/memory_flat.html#f_coalesce_period">coalesce_period</A><FONT COLOR="red">. Every </FONT>`value'<FONT COLOR="red"> collection,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> the Garbage Collector will coalesce</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> the whole memory.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A>
+            positive_value: value &gt;= 0
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_set_coalesce_period"
+        <B>end</B></A>
+
+    <A NAME="f_set_collection_period"><A HREF="../../elks/memory_flat.html#f_set_collection_period">set_collection_period</A> (value: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../../elks/memory_flat.html#f_collection_period">collection_period</A><FONT COLOR="red">. Every </FONT>`value'<FONT COLOR="red"> collection,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> the Garbage collector will perform a collection</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on the whole memory (full collection), otherwise</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> a simple partial collection is done.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A>
+            positive_value: value &gt;= 0
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_mem_pset"
+        <B>end</B></A>
+
+    <A NAME="f_set_max_mem"><A HREF="../../elks/memory_flat.html#f_set_max_mem">set_max_mem</A> (value: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set the maximum amount of memory the run-time can allocate.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A>
+            positive_value: value &gt; 0
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_set_max_mem"
+        <B>end</B></A>
+
+    <A NAME="f_set_memory_threshold"><A HREF="../../elks/memory_flat.html#f_set_memory_threshold">set_memory_threshold</A> (value: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set a new </FONT><A HREF="../../elks/memory_flat.html#f_memory_threshold">memory_threshold</A><FONT COLOR="red"> in bytes. Whenever the memory</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> allocated for Eiffel reaches this value, an automatic</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> collection is performed.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A>
+            positive_value: value &gt; 0
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_mem_tset"
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removal</FONT>
+
+    <A NAME="f_collect"><A HREF="../../elks/memory_flat.html#f_collect">collect</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Force a partial collection cycle if garbage</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> collection is enabled; do nothing otherwise.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>end</B></A>
+
+    <A NAME="f_dispose"><A HREF="../../elks/memory_flat.html#f_dispose">dispose</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Action to be executed just before garbage collection</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> reclaims an object.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default version does nothing; redefine in descendants</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to perform specific dispose actions. Those actions</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> should only take care of freeing external resources;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> they should not perform remote calls on other objects</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> since these may also be dead and reclaimed.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_free"><A HREF="../../elks/memory_flat.html#f_free">free</A> (object: <A HREF="../../elks/any_flat.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Free </FONT>`object'<FONT COLOR="red">, by-passing garbage collection.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Erratic behavior will result if the object is still</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> referenced.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in static"
+        <B>end</B></A>
+
+    <A NAME="f_full_coalesce"><A HREF="../../elks/memory_flat.html#f_full_coalesce">full_coalesce</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Coalesce the whole memory: merge adjacent free</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> blocks to reduce fragmentation. Useful, when</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> a lot of memory is allocated with garbage collector off.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_mem_coalesc"
+        <B>end</B></A>
+
+    <A NAME="f_full_collect"><A HREF="../../elks/memory_flat.html#f_full_collect">full_collect</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Force a full collection cycle if garbage</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> collection is enabled; do nothing otherwise.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "plsc"
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_clone"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_clone">clone</A> (other: <B>detachable</B> <A HREF="../../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void; otherwise new object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to </FONT>`other'
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> For non-void </FONT>`other'<FONT COLOR="red">, </FONT><A HREF="../../elks/any_flat.html#f_clone">clone</A><FONT COLOR="red"> calls </FONT><A HREF="../../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to change copying/cloning semantics, redefine </FONT><A HREF="../../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../../elks/any_flat.html#f_twin">twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            equal: <B>Result</B> ~ other
+        <B>end</B></A>
+
+    <A NAME="f_copy"><A HREF="../../elks/any_flat.html#f_copy">copy</A> (other: <B>attached</B> <A HREF="../../raekidion/menus/overlay_screen_flat.html">OVERLAY_SCREEN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update current object using fields of object attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to </FONT>`other'<FONT COLOR="red">, so as to yield equal objects.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../../elks/any_flat.html#f_same_type">same_type</A> (other)
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            is_equal: <B>Current</B> ~ other
+        <B>end</B></A>
+
+    <A NAME="f_deep_clone"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_deep_clone">deep_clone</A> (other: <B>detachable</B> <A HREF="../../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `deep_twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void: otherwise, new object structure</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> recursively duplicated from the one attached to </FONT>`other'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../../elks/any_flat.html#f_deep_twin">deep_twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            deep_equal: <A HREF="../../elks/any_flat.html#f_deep_equal">deep_equal</A> (other, <B>Result</B>)
+        <B>end</B></A>
+
+    <A NAME="f_deep_copy"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_deep_copy">deep_copy</A> (other: <B>attached</B> <A HREF="../../raekidion/menus/overlay_screen_flat.html">OVERLAY_SCREEN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Effect equivalent to that of:</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">		</FONT><A HREF="../../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red"> (</FONT>`other'<FONT COLOR="red"> . </FONT><A HREF="../../elks/any_flat.html#f_deep_twin">deep_twin</A><FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../../elks/any_flat.html#f_copy">copy</A> (other.<A HREF="../../elks/any_flat.html#f_deep_twin">deep_twin</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            deep_equal: <A HREF="../../elks/any_flat.html#f_deep_equal">deep_equal</A> (<B>Current</B>, other)
+        <B>end</B></A>
+
+    <A NAME="f_deep_twin"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_deep_twin">deep_twin</A>: <B>attached</B> <A HREF="../../raekidion/menus/overlay_screen_flat.html">OVERLAY_SCREEN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object structure recursively duplicated from Current.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            deep_twin_not_void: <B>Result</B> /= <B>Void</B>
+            deep_equal: <A HREF="../../elks/any_flat.html#f_deep_equal">deep_equal</A> (<B>Current</B>, <B>Result</B>)
+        <B>end</B></A>
+
+    <A NAME="f_standard_clone"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_standard_clone">standard_clone</A> (other: <B>detachable</B> <A HREF="../../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `standard_twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void; otherwise new object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../../elks/any_flat.html#f_standard_twin">standard_twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            equal: <A HREF="../../elks/any_flat.html#f_standard_equal">standard_equal</A> (<B>Result</B>, other)
+        <B>end</B></A>
+
+    <A NAME="f_standard_copy"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_standard_copy">standard_copy</A> (other: <B>attached</B> <A HREF="../../raekidion/menus/overlay_screen_flat.html">OVERLAY_SCREEN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy every field of </FONT>`other'<FONT COLOR="red"> onto corresponding field</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../../elks/any_flat.html#f_same_type">same_type</A> (other)
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            is_standard_equal: <A HREF="../../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other)
+        <B>end</B></A>
+
+    <A NAME="f_standard_twin"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_standard_twin">standard_twin</A>: <B>attached</B> <A HREF="../../raekidion/menus/overlay_screen_flat.html">OVERLAY_SCREEN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            standard_twin_not_void: <B>Result</B> /= <B>Void</B>
+            equal: <A HREF="../../elks/any_flat.html#f_standard_equal">standard_equal</A> (<B>Result</B>, <B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_twin"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_twin">twin</A>: <B>attached</B> <A HREF="../../raekidion/menus/overlay_screen_flat.html">OVERLAY_SCREEN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object equal to </FONT>`Current'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../../elks/any_flat.html#f_twin">twin</A><FONT COLOR="red"> calls </FONT><A HREF="../../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">; to change copying/twinning semantics, redefine </FONT><A HREF="../../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            twin_not_void: <B>Result</B> /= <B>Void</B>
+            is_equal: <B>Result</B> ~ <B>Current</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_as_attached"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_as_attached">as_attached</A>: <B>attached</B> <A HREF="../../raekidion/menus/overlay_screen_flat.html">OVERLAY_SCREEN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attached version of Current</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Can be used during transitional period to convert</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> non-void-safe classes to void-safe ones.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>Current</B>
+        <B>end</B></A>
+
+    <A NAME="f_default"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_default">default</A>: <B>detachable</B> <A HREF="../../raekidion/menus/overlay_screen_flat.html">OVERLAY_SCREEN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of object's type</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_default_pointer"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_default_pointer">default_pointer</A>: <A HREF="../../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of type </FONT>`POINTER'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Avoid the need to write </FONT>`p'<FONT COLOR="red">.</FONT><A HREF="../../elks/any_flat.html#f_default">default</A><FONT COLOR="red"> for</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> some </FONT>`p'<FONT COLOR="red"> of type </FONT>`POINTER'<FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_default_rescue"><A HREF="../../elks/any_flat.html#f_default_rescue">default_rescue</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process exception for routines with no Rescue clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_do_nothing"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_do_nothing">do_nothing</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execute a null action.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_click_button"><A HREF="../../raekidion/menus/overlay_screen_flat.html#f_click_button">click_button</A> (a_button: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Click actions from </FONT>`a_button'
+        <B>do</B>
+            <B>if</B> <B>not</B> <A HREF="../../raekidion/menus/overlay_screen_flat.html#f_resume_disabled">resume_disabled</A> <B>then</B>
+                <B>if</B> a_button = 1 <B>then</B>
+                    <A HREF="../../raekidion/menus/screen_flat.html#f_must_close">must_close</A> := <B>True</B>
+                <B>elseif</B> a_button = 2 <B>then</B>
+                    <A HREF="../../raekidion/menus/overlay_screen_flat.html#f_options">options</A> := <B>True</B>
+                <B>elseif</B> a_button = 3 <B>then</B>
+                    <A HREF="../../raekidion/menus/screen_flat.html#f_must_end">must_end</A> := <B>True</B>
+                <B>elseif</B> a_button = 4 <B>then</B>
+                    <A HREF="../../raekidion/menus/screen_flat.html#f_must_quit">must_quit</A> := <B>True</B>
+                <B>end</B>
+            <B>else</B>
+                <B>if</B> <B>attached</B> <A HREF="../../raekidion/menus/overlay_screen_flat.html#f_textbox">textbox</A> <B>as</B> la_textbox <B>and then</B> <B>attached</B> <A HREF="../../raekidion/menus/overlay_screen_flat.html#f_highscore">highscore</A> <B>as</B> la_highscore <B>and then</B> la_textbox.<A HREF="../../raekidion/objects/textbox_flat.html#f_char_string">char_string</A>.<A HREF="../../elks/readable_string_8_flat.html#f_count">count</A> = 3 <B>then</B>
+                    <B>if</B> a_button = 1 <B>then</B>
+                        <B>if</B> <B>not</B> <A HREF="../../raekidion/menus/overlay_screen_flat.html#f_highscore_set">highscore_set</A> <B>then</B>
+                            la_textbox.<A HREF="../../raekidion/objects/textbox_flat.html#f_hide">hide</A>
+                            <A HREF="../../raekidion/menus/screen_flat.html#f_buttons">buttons</A>.<A HREF="../../elks/chain_flat.html#f_at">at</A> (1).<A HREF="../../raekidion/objects/button_flat.html#f_hide">hide</A>
+                            la_highscore.<A HREF="../../raekidion/objects/text_flat.html#f_set_text">set_text</A> ("Highscore saved!", 16)
+                            la_highscore.<A HREF="../../raekidion/objects/text_flat.html#f_recenter">recenter</A>
+                            <A HREF="../../raekidion/network/highscore_flat.html#f_set_highscore">set_highscore</A> (la_textbox.<A HREF="../../raekidion/objects/textbox_flat.html#f_char_string">char_string</A>, <A HREF="../../raekidion/menus/overlay_screen_flat.html#f_score">score</A>)
+                            <A HREF="../../raekidion/menus/overlay_screen_flat.html#f_highscore_set">highscore_set</A> := <B>True</B>
+                        <B>end</B>
+                    <B>elseif</B> a_button = 2 <B>then</B>
+                        <A HREF="../../raekidion/menus/screen_flat.html#f_must_end">must_end</A> := <B>True</B>
+                    <B>elseif</B> a_button = 3 <B>then</B>
+                        <A HREF="../../raekidion/menus/screen_flat.html#f_must_quit">must_quit</A> := <B>True</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_find_all_instances"><A HREF="../../elks/memory_flat.html#f_find_all_instances">find_all_instances</A> (result_type: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../../elks/special_flat.html">SPECIAL</A> [<A HREF="../../elks/any_flat.html">ANY</A>]
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C signature (EIF_INTEGER): EIF_REFERENCE use %"eif_traverse.h%""
+        <B>end</B></A>
+
+    <A NAME="f_find_instance_of"><A HREF="../../elks/memory_flat.html#f_find_instance_of">find_instance_of</A> (dtype, result_type: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../../elks/special_flat.html">SPECIAL</A> [<A HREF="../../elks/any_flat.html">ANY</A>]
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C signature (EIF_INTEGER, EIF_INTEGER): EIF_REFERENCE use %"eif_traverse.h%""
+        <B>end</B></A>
+
+    <A NAME="f_find_referers"><A HREF="../../elks/memory_flat.html#f_find_referers">find_referers</A> (target: <A HREF="../../elks/any_flat.html">ANY</A>; result_type: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../../elks/special_flat.html">SPECIAL</A> [<A HREF="../../elks/any_flat.html">ANY</A>]
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in static"
+        <B>end</B></A>
+
+    <A NAME="f_gc_monitoring"><A HREF="../../elks/memory_flat.html#f_gc_monitoring">gc_monitoring</A> (flag: <A HREF="../../elks/boolean_flat.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set up GC monitoring according to </FONT>`flag'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_gc_mon"
+        <B>end</B></A>
+
+    <A NAME="f_highscore"><A HREF="../../raekidion/menus/overlay_screen_flat.html#f_highscore">highscore</A>: <B>detachable</B> <A HREF="../../raekidion/objects/text_flat.html">TEXT</A></A>
+
+    <A NAME="f_manage_click"><A HREF="../../raekidion/menus/overlay_screen_flat.html#f_manage_click">manage_click</A> (a_button: <A HREF="../../elks/natural_32_flat.html">NATURAL_32</A>; a_x, a_y: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>; a_state: <A HREF="../../elks/boolean_flat.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Manage mouse clicks using </FONT>`a_button'<FONT COLOR="red">, </FONT>`a_x'<FONT COLOR="red">, </FONT>`a_y'<FONT COLOR="red"> and </FONT>`a_state'
+        <B>do</B>
+            <B>if</B> <B>attached</B> <A HREF="../../raekidion/menus/overlay_screen_flat.html#f_textbox">textbox</A> <B>as</B> la_textbox <B>and</B> a_state <B>then</B>
+                <B>if</B> (a_x.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A> &gt;= la_textbox.<A HREF="../../raekidion/objects/surface_flat.html#f_x">x</A> <B>and</B> a_x.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A> &lt;= la_textbox.<A HREF="../../raekidion/objects/surface_flat.html#f_x">x</A> + la_textbox.<A HREF="../../raekidion/objects/surface_flat.html#f_width">width</A>.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>) <B>and</B> (a_y.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A> &gt;= la_textbox.<A HREF="../../raekidion/objects/surface_flat.html#f_y">y</A> <B>and</B> a_y.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A> &lt;= la_textbox.<A HREF="../../raekidion/objects/surface_flat.html#f_y">y</A> + la_textbox.<A HREF="../../raekidion/objects/surface_flat.html#f_height">height</A>.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>) <B>then</B>
+                    <A HREF="../../raekidion/menus/overlay_screen_flat.html#f_textbox_focus">textbox_focus</A> := <B>True</B>
+                    la_textbox.<A HREF="../../raekidion/objects/sprite_flat.html#f_set_image">set_image</A> (la_textbox.<A HREF="../../raekidion/objects/sprite_flat.html#f_default_image">default_image</A> + "_pressed")
+                <B>else</B>
+                    <A HREF="../../raekidion/menus/overlay_screen_flat.html#f_textbox_focus">textbox_focus</A> := <B>False</B>
+                    la_textbox.<A HREF="../../raekidion/objects/sprite_flat.html#f_reset_image">reset_image</A>
+                <B>end</B>
+            <B>end</B>
+            <B>Precursor</B> {<A HREF="../../raekidion/menus/screen_flat.html">SCREEN</A>} (a_button, a_x, a_y, a_state)
+        <B>end</B></A>
+
+    <A NAME="f_manage_key"><A HREF="../../raekidion/menus/overlay_screen_flat.html#f_manage_key">manage_key</A> (a_key: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>; a_state: <A HREF="../../elks/boolean_flat.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Manage keyboard keys using </FONT>`a_key'<FONT COLOR="red"> and </FONT>`a_state'
+        <B>do</B>
+            <B>if</B> <B>not</B> <A HREF="../../raekidion/menus/overlay_screen_flat.html#f_textbox_focus">textbox_focus</A> <B>then</B>
+                <B>if</B> a_state <B>then</B>
+                    <B>if</B> a_key = <A HREF="../../raekidion/menus/screen_flat.html#f_key_binding">key_binding</A>.<A HREF="../../raekidion/keys/keys_flat.html#f_return_key">return_key</A> <B>and</B> <B>not</B> <A HREF="../../raekidion/menus/screen_flat.html#f_is_return_key_pressed">is_return_key_pressed</A> <B>then</B>
+                        <A HREF="../../raekidion/menus/screen_flat.html#f_is_return_key_pressed">is_return_key_pressed</A> := <B>True</B>
+                        <A HREF="../../raekidion/menus/screen_flat.html#f_must_close">must_close</A> := <B>True</B>
+                    <B>end</B>
+                <B>else</B>
+                    <B>if</B> a_key = <A HREF="../../raekidion/menus/screen_flat.html#f_key_binding">key_binding</A>.<A HREF="../../raekidion/keys/keys_flat.html#f_return_key">return_key</A> <B>and</B> <A HREF="../../raekidion/menus/screen_flat.html#f_is_return_key_pressed">is_return_key_pressed</A> <B>then</B>
+                        <A HREF="../../raekidion/menus/screen_flat.html#f_is_return_key_pressed">is_return_key_pressed</A> := <B>False</B>
+                    <B>end</B>
+                <B>end</B>
+                <B>Precursor</B> {<A HREF="../../raekidion/menus/screen_flat.html">SCREEN</A>} (a_key, a_state)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_manage_typing"><A HREF="../../raekidion/menus/overlay_screen_flat.html#f_manage_typing">manage_typing</A> (a_key: <A HREF="../../elks/string_8_flat.html">STRING_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Manage keyboard characters if the textbox is focused</FONT>
+        <B>do</B>
+            <B>if</B> <B>attached</B> <A HREF="../../raekidion/menus/overlay_screen_flat.html#f_textbox">textbox</A> <B>as</B> la_textbox <B>and</B> <A HREF="../../raekidion/menus/overlay_screen_flat.html#f_textbox_focus">textbox_focus</A> <B>then</B>
+                <B>if</B> a_key.<A HREF="../../elks/readable_string_8_flat.html#f_count">count</A> = 1 <B>and</B> la_textbox.<A HREF="../../raekidion/objects/textbox_flat.html#f_char_string">char_string</A>.<A HREF="../../elks/readable_string_8_flat.html#f_count">count</A> &lt; 3 <B>then</B>
+                    <B>if</B> (a_key.<A HREF="../../elks/string_8_flat.html#f_at">at</A> (1) &gt;= 'A' <B>and</B> a_key.<A HREF="../../elks/string_8_flat.html#f_at">at</A> (1) &lt;= 'Z') <B>or</B> (a_key.<A HREF="../../elks/string_8_flat.html#f_at">at</A> (1) &gt;= '0' <B>and</B> a_key.<A HREF="../../elks/string_8_flat.html#f_at">at</A> (1) &lt;= '9') <B>then</B>
+                        la_textbox.<A HREF="../../raekidion/objects/textbox_flat.html#f_char_string">char_string</A>.<A HREF="../../elks/string_8_flat.html#f_append_character">append_character</A> (a_key.<A HREF="../../elks/string_8_flat.html#f_at">at</A> (1))
+                    <B>end</B>
+                <B>elseif</B> a_key.<A HREF="../../elks/readable_string_8_flat.html#f_is_equal">is_equal</A> ("Backspace") <B>then</B>
+                    la_textbox.<A HREF="../../raekidion/objects/textbox_flat.html#f_char_string">char_string</A>.<A HREF="../../elks/string_8_flat.html#f_remove_tail">remove_tail</A> (1)
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_score"><A HREF="../../raekidion/menus/overlay_screen_flat.html#f_score">score</A>: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A></A>
+
+    <A NAME="f_special_any_dynamic_type"><A HREF="../../elks/memory_flat.html#f_special_any_dynamic_type">Special_any_dynamic_type</A>: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Dynamic type ID of an instance of </FONT>`SPECIAL [ANY]'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/memory_flat.html">MEMORY</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>Result</B> := ({<A HREF="../../elks/special_flat.html">SPECIAL</A> [<A HREF="../../elks/any_flat.html">ANY</A>]}).<A HREF="../../elks/type_flat.html#f_type_id">type_id</A>
+        <B>end</B></A>
+
+    <A NAME="f_textbox"><A HREF="../../raekidion/menus/overlay_screen_flat.html#f_textbox">textbox</A>: <B>detachable</B> <A HREF="../../raekidion/objects/textbox_flat.html">TEXTBOX</A></A>
+    
+<B>feature</B> {NONE} 
+
+    <A NAME="f_database"><A HREF="../../raekidion/network/highscore_flat.html#f_database">database</A>: <A HREF="../../sqlite/sqlite_database_flat.html">SQLITE_DATABASE</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../raekidion/network/highscore_flat.html">HIGHSCORE</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_fill_highscores"><A HREF="../../raekidion/network/highscore_flat.html#f_fill_highscores">fill_highscores</A> (a_row: <A HREF="../../sqlite/sqlite_result_row_flat.html">SQLITE_RESULT_ROW</A>): <A HREF="../../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The list of highscores</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Fill </FONT><A HREF="../../raekidion/network/highscore_flat.html#f_highscores_list">highscores_list</A><FONT COLOR="red"> with </FONT><A HREF="../../raekidion/network/highscore_flat.html#f_highscores">highscores</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../raekidion/network/highscore_flat.html">HIGHSCORE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <A HREF="../../raekidion/network/highscore_flat.html#f_highscores_list">highscores_list</A>.<A HREF="../../elks/linked_list_flat.html#f_finish">finish</A>
+            <A HREF="../../raekidion/network/highscore_flat.html#f_highscores_list">highscores_list</A>.<A HREF="../../elks/linked_list_flat.html#f_extend">extend</A> ([a_row.<A HREF="../../sqlite/sqlite_result_row_flat.html#f_string_value">string_value</A> (1.<A HREF="../../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A>), a_row.<A HREF="../../sqlite/sqlite_result_row_flat.html#f_integer_value">integer_value</A> (2.<A HREF="../../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A>)])
+        <B>end</B></A>
+
+    <A NAME="f_highscores_list"><A HREF="../../raekidion/network/highscore_flat.html#f_highscores_list">highscores_list</A>: <A HREF="../../elks/linked_list_flat.html">LINKED_LIST</A> [<A HREF="../../elks/tuple_flat.html">TUPLE</A> [<A HREF="../../elks/string_8_flat.html">STRING_8</A>, <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>]]</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../raekidion/network/highscore_flat.html">HIGHSCORE</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_make"><A HREF="../../raekidion/network/highscore_flat.html#f_make">highscore_make</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize </FONT>`Current'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../raekidion/network/highscore_flat.html">HIGHSCORE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <A HREF="../../raekidion/network/highscore_flat.html#f_database">database</A> := <A HREF="../../raekidion/network/database_manager_shared_flat.html#f_connexion">Connexion</A>.<A HREF="../../raekidion/network/database_manager_flat.html#f_database">database</A>
+            <B>create</B> <A HREF="../../raekidion/network/highscore_flat.html#f_highscores_list">highscores_list</A>.<A HREF="../../elks/linked_list_flat.html#f_make">make</A>
+            <B>if</B> <A HREF="../../raekidion/network/highscore_flat.html#f_highscores">highscores</A> (1).<A HREF="../../elks/linked_list_flat.html#f_count">count</A> = 0 <B>then</B>
+                <A HREF="../../raekidion/network/highscore_flat.html#f_fill_default_highscores">fill_default_highscores</A>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> 
+
+    <A NAME="f_debug_on"><A HREF="../../raekidion/menus/screen_flat.html#f_debug_on">debug_on</A>: <A HREF="../../elks/boolean_flat.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> True if a mouse button is down</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../raekidion/menus/screen_flat.html">SCREEN</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_fill_default_highscores"><A HREF="../../raekidion/network/highscore_flat.html#f_fill_default_highscores">fill_default_highscores</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../raekidion/network/highscore_flat.html">HIGHSCORE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <A HREF="../../raekidion/network/highscore_flat.html#f_set_highscore">set_highscore</A> ("AAA", 500000)
+            <A HREF="../../raekidion/network/highscore_flat.html#f_set_highscore">set_highscore</A> ("AAA", 250000)
+            <A HREF="../../raekidion/network/highscore_flat.html#f_set_highscore">set_highscore</A> ("AAA", 100000)
+            <A HREF="../../raekidion/network/highscore_flat.html#f_set_highscore">set_highscore</A> ("AAA", 50000)
+            <A HREF="../../raekidion/network/highscore_flat.html#f_set_highscore">set_highscore</A> ("AAA", 25000)
+            <A HREF="../../raekidion/network/highscore_flat.html#f_set_highscore">set_highscore</A> ("AAA", 10000)
+            <A HREF="../../raekidion/network/highscore_flat.html#f_set_highscore">set_highscore</A> ("AAA", 5000)
+        <B>end</B></A>
+
+    <A NAME="f_highscores"><A HREF="../../raekidion/network/highscore_flat.html#f_highscores">highscores</A> (a_number: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../../elks/linked_list_flat.html">LINKED_LIST</A> [<A HREF="../../elks/tuple_flat.html">TUPLE</A> [<A HREF="../../elks/string_8_flat.html">STRING_8</A>, <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>]]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Return the best </FONT>`a_number'<FONT COLOR="red"> scores from </FONT><A HREF="../../raekidion/network/highscore_flat.html#f_database">database</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../raekidion/network/highscore_flat.html">HIGHSCORE</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            l_query: <A HREF="../../sqlite/sqlite_query_statement_flat.html">SQLITE_QUERY_STATEMENT</A>
+        <B>do</B>
+            <A HREF="../../raekidion/network/highscore_flat.html#f_highscores_list">highscores_list</A>.<A HREF="../../elks/linked_list_flat.html#f_wipe_out">wipe_out</A>
+            <B>create</B> l_query.<A HREF="../../sqlite/sqlite_statement_flat.html#f_make">make</A> ("SELECT name, score FROM scores ORDER BY score DESC LIMIT ?1;", <A HREF="../../raekidion/network/highscore_flat.html#f_database">database</A>)
+            <B>check</B>
+                l_query_is_compiled: l_query.<A HREF="../../sqlite/sqlite_statement_flat.html#f_is_compiled">is_compiled</A>
+            <B>end</B>
+            l_query.<A HREF="../../sqlite/sqlite_query_statement_flat.html#f_execute_with_arguments">execute_with_arguments</A> (<B>agent</B> <A HREF="../../raekidion/network/highscore_flat.html#f_fill_highscores">fill_highscores</A>, [a_number])
+            <B>Result</B> := <A HREF="../../raekidion/network/highscore_flat.html#f_highscores_list">highscores_list</A>
+        <B>end</B></A>
+
+    <A NAME="f_is_return_key_pressed"><A HREF="../../raekidion/menus/screen_flat.html#f_is_return_key_pressed">is_return_key_pressed</A>: <A HREF="../../elks/boolean_flat.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> True if the game must end</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../raekidion/menus/screen_flat.html">SCREEN</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_key_binding"><A HREF="../../raekidion/menus/screen_flat.html#f_key_binding">key_binding</A>: <A HREF="../../raekidion/keys/keys_flat.html">KEYS</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../raekidion/menus/screen_flat.html">SCREEN</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_mouse_button_down"><A HREF="../../raekidion/menus/screen_flat.html#f_mouse_button_down">mouse_button_down</A>: <A HREF="../../elks/boolean_flat.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> True if the return key is pressed</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../raekidion/menus/screen_flat.html">SCREEN</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_must_close"><A HREF="../../raekidion/menus/screen_flat.html#f_must_close">must_close</A>: <A HREF="../../elks/boolean_flat.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> True if the screen must quit</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../raekidion/menus/screen_flat.html">SCREEN</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_must_end"><A HREF="../../raekidion/menus/screen_flat.html#f_must_end">must_end</A>: <A HREF="../../elks/boolean_flat.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> True if the screen must close</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../raekidion/menus/screen_flat.html">SCREEN</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_must_quit"><A HREF="../../raekidion/menus/screen_flat.html#f_must_quit">must_quit</A>: <A HREF="../../elks/boolean_flat.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../raekidion/menus/screen_flat.html">SCREEN</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_set_highscore"><A HREF="../../raekidion/network/highscore_flat.html#f_set_highscore">set_highscore</A> (a_name: <A HREF="../../elks/string_8_flat.html">STRING_8</A>; a_score: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Add a score to </FONT><A HREF="../../raekidion/network/highscore_flat.html#f_database">database</A><FONT COLOR="red"> in the form of </FONT>`a_name'<FONT COLOR="red"> and </FONT>`a_score'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../raekidion/network/highscore_flat.html">HIGHSCORE</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            l_insert: <A HREF="../../sqlite/sqlite_insert_statement_flat.html">SQLITE_INSERT_STATEMENT</A>
+        <B>do</B>
+            <B>create</B> l_insert.<A HREF="../../sqlite/sqlite_statement_flat.html#f_make">make</A> ("INSERT INTO scores (name, score) VALUES (?1, ?2);", <A HREF="../../raekidion/network/highscore_flat.html#f_database">database</A>)
+            <B>check</B>
+                l_insert_is_compiled: l_insert.<A HREF="../../sqlite/sqlite_statement_flat.html#f_is_compiled">is_compiled</A>
+            <B>end</B>
+            <A HREF="../../raekidion/network/highscore_flat.html#f_database">database</A>.<A HREF="../../sqlite/sqlite_database_flat.html#f_begin_transaction">begin_transaction</A> (<B>False</B>)
+            l_insert.<A HREF="../../sqlite/sqlite_modify_statement_flat.html#f_execute_with_arguments">execute_with_arguments</A> ([a_name, a_score])
+            <A HREF="../../raekidion/network/highscore_flat.html#f_database">database</A>.<A HREF="../../sqlite/sqlite_database_flat.html#f_commit">commit</A>
+        <B>end</B></A>
+
+    <A NAME="f_update"><A HREF="../../raekidion/menus/screen_flat.html#f_update">update</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Current key binding</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update content of the screen</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../raekidion/menus/screen_flat.html">SCREEN</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>from</B>
+                <A HREF="../../raekidion/menus/screen_flat.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list_flat.html#f_start">start</A>
+            <B>until</B>
+                <A HREF="../../raekidion/menus/screen_flat.html#f_buttons">buttons</A>.<A HREF="../../elks/linear_flat.html#f_exhausted">exhausted</A>
+            <B>loop</B>
+                <A HREF="../../raekidion/menus/screen_flat.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list_flat.html#f_item">item</A>.<A HREF="../../raekidion/objects/button_flat.html#f_update">update</A>
+                <A HREF="../../raekidion/menus/screen_flat.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list_flat.html#f_forth">forth</A>
+            <B>end</B>
+            <A HREF="../../raekidion/menus/screen_flat.html#f_version">version</A>.<A HREF="../../raekidion/objects/text_flat.html#f_update">update</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output</FONT>
+
+    <A NAME="f_io"><A HREF="../../elks/any_flat.html#f_io">Io</A>: <A HREF="../../elks/std_files_flat.html">STD_FILES</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Handle to standard file setup</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../../elks/std_files_flat.html#f_set_output_default">set_output_default</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            io_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_out"><A HREF="../../elks/any_flat.html#f_out">out</A>: <A HREF="../../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../../elks/any_flat.html#f_tagged_out">tagged_out</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            out_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_print"><A HREF="../../elks/any_flat.html#f_print">print</A> (o: <B>detachable</B> <A HREF="../../elks/any_flat.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write terse external representation of </FONT>`o'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on standard output.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> o /= <B>Void</B> <B>then</B>
+                <A HREF="../../elks/any_flat.html#f_io">Io</A>.<A HREF="../../elks/std_files_flat.html#f_put_string">put_string</A> (o.<A HREF="../../elks/any_flat.html#f_out">out</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_tagged_out"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_tagged_out">tagged_out</A>: <A HREF="../../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            tagged_out_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Platform</FONT>
+
+    <A NAME="f_operating_environment"><A HREF="../../elks/any_flat.html#f_operating_environment">Operating_environment</A>: <A HREF="../../elks/operating_environment_flat.html">OPERATING_ENVIRONMENT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Objects available from the operating system</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            operating_environment_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieval</FONT>
+
+    <A NAME="f_internal_correct_mismatch"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_internal_correct_mismatch">internal_correct_mismatch</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Called from runtime to perform a proper dynamic dispatch on </FONT>`correct_mismatch'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> from MISMATCH_CORRECTOR.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            l_msg: <A HREF="../../elks/string_8_flat.html">STRING_8</A>
+            l_exc: <A HREF="../../elks/exceptions_flat.html">EXCEPTIONS</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<A HREF="../../elks/mismatch_corrector_flat.html">MISMATCH_CORRECTOR</A>} <B>Current</B> <B>as</B> l_corrector <B>then</B>
+                l_corrector.<A HREF="../../elks/mismatch_corrector_flat.html#f_correct_mismatch">correct_mismatch</A>
+            <B>else</B>
+                <B>create</B> l_msg.<A HREF="../../elks/readable_string_8_flat.html#f_make_from_string">make_from_string</A> ("Mismatch: ")
+                <B>create</B> l_exc
+                l_msg.<A HREF="../../elks/string_8_flat.html#f_append">append</A> (<A HREF="../../elks/any_flat.html#f_generating_type">generating_type</A>.<A HREF="../../elks/type_flat.html#f_name">name</A>)
+                l_exc.<A HREF="../../elks/exceptions_flat.html#f_raise_retrieval_exception">raise_retrieval_exception</A> (l_msg)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status</FONT>
+
+    <A NAME="f_highscore_set"><A HREF="../../raekidion/menus/overlay_screen_flat.html#f_highscore_set">highscore_set</A>: <A HREF="../../elks/boolean_flat.html">BOOLEAN</A></A>
+
+    <A NAME="f_options"><A HREF="../../raekidion/menus/overlay_screen_flat.html#f_options">options</A>: <A HREF="../../elks/boolean_flat.html">BOOLEAN</A></A>
+
+    <A NAME="f_resume_disabled"><A HREF="../../raekidion/menus/overlay_screen_flat.html#f_resume_disabled">resume_disabled</A>: <A HREF="../../elks/boolean_flat.html">BOOLEAN</A></A>
+
+    <A NAME="f_textbox_focus"><A HREF="../../raekidion/menus/overlay_screen_flat.html#f_textbox_focus">textbox_focus</A>: <A HREF="../../elks/boolean_flat.html">BOOLEAN</A></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> True if debug functionalities are activated</FONT>
+
+    <A NAME="f_button_index"><A HREF="../../raekidion/menus/screen_flat.html#f_button_index">button_index</A>: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> List of buttons</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../raekidion/menus/screen_flat.html">SCREEN</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_buttons"><A HREF="../../raekidion/menus/screen_flat.html#f_buttons">buttons</A>: <A HREF="../../elks/linked_list_flat.html">LINKED_LIST</A> [<A HREF="../../raekidion/objects/button_flat.html">BUTTON</A>]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Window object to use</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../raekidion/menus/screen_flat.html">SCREEN</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_manage_mouse"><A HREF="../../raekidion/menus/screen_flat.html#f_manage_mouse">manage_mouse</A> (a_x, a_y: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Manage button appearance using the mouse position </FONT>`a_x'<FONT COLOR="red"> and </FONT>`a_y'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../raekidion/menus/screen_flat.html">SCREEN</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>from</B>
+                <A HREF="../../raekidion/menus/screen_flat.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list_flat.html#f_start">start</A>
+            <B>until</B>
+                <A HREF="../../raekidion/menus/screen_flat.html#f_buttons">buttons</A>.<A HREF="../../elks/linear_flat.html#f_exhausted">exhausted</A>
+            <B>loop</B>
+                <B>if</B> (a_x.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A> &gt;= <A HREF="../../raekidion/menus/screen_flat.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list_flat.html#f_item">item</A>.<A HREF="../../raekidion/objects/surface_flat.html#f_x">x</A> <B>and</B> a_x.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A> &lt;= <A HREF="../../raekidion/menus/screen_flat.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list_flat.html#f_item">item</A>.<A HREF="../../raekidion/objects/surface_flat.html#f_x">x</A> + <A HREF="../../raekidion/menus/screen_flat.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list_flat.html#f_item">item</A>.<A HREF="../../raekidion/objects/surface_flat.html#f_width">width</A>.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>) <B>and</B> (a_y.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A> &gt;= <A HREF="../../raekidion/menus/screen_flat.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list_flat.html#f_item">item</A>.<A HREF="../../raekidion/objects/surface_flat.html#f_y">y</A> <B>and</B> a_y.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A> &lt;= <A HREF="../../raekidion/menus/screen_flat.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list_flat.html#f_item">item</A>.<A HREF="../../raekidion/objects/surface_flat.html#f_y">y</A> + <A HREF="../../raekidion/menus/screen_flat.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list_flat.html#f_item">item</A>.<A HREF="../../raekidion/objects/surface_flat.html#f_height">height</A>.<A HREF="../../elks/integer_32_flat.html#f_to_double">to_double</A>) <B>then</B>
+                    <A HREF="../../raekidion/menus/screen_flat.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list_flat.html#f_item">item</A>.<A HREF="../../raekidion/objects/sprite_flat.html#f_set_image">set_image</A> (<A HREF="../../raekidion/menus/screen_flat.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list_flat.html#f_item">item</A>.<A HREF="../../raekidion/objects/sprite_flat.html#f_default_image">default_image</A> + "_pressed")
+                <B>elseif</B> <A HREF="../../raekidion/menus/screen_flat.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list_flat.html#f_item">item</A>.<A HREF="../../raekidion/objects/sprite_flat.html#f_current_image">current_image</A> /= <A HREF="../../raekidion/menus/screen_flat.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list_flat.html#f_item">item</A>.<A HREF="../../raekidion/objects/sprite_flat.html#f_default_image">default_image</A> <B>then</B>
+                    <A HREF="../../raekidion/menus/screen_flat.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list_flat.html#f_item">item</A>.<A HREF="../../raekidion/objects/sprite_flat.html#f_reset_image">reset_image</A>
+                <B>end</B>
+                <A HREF="../../raekidion/menus/screen_flat.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list_flat.html#f_forth">forth</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_selection"><A HREF="../../raekidion/menus/screen_flat.html#f_selection">selection</A>: <B>detachable</B> <A HREF="../../raekidion/objects/button_flat.html">BUTTON</A></A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../raekidion/menus/screen_flat.html">SCREEN</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_version"><A HREF="../../raekidion/menus/screen_flat.html#f_version">version</A>: <A HREF="../../raekidion/objects/text_flat.html">TEXT</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Selected button</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../raekidion/menus/screen_flat.html">SCREEN</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_window"><A HREF="../../raekidion/menus/screen_flat.html#f_window">window</A>: <A HREF="../../raekidion/objects/window_flat.html">WINDOW</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../raekidion/menus/screen_flat.html">SCREEN</A><FONT COLOR="red">)</FONT>
+    
+<B>invariant</B>
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+    reflexive_equality: <A HREF="../../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+    reflexive_conformance: <A HREF="../../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>Current</B>)
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../../raekidion/menus/overlay_screen_flat.html">OVERLAY_SCREEN</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="overlay_screen_chart.html">Chart</A></TD><TD><A HREF="overlay_screen_links.html">Relations</A></TD><TD><A HREF="overlay_screen.html">Text</A></TD><TD>Flat</TD><TD><A HREF="overlay_screen_short.html">Contracts</A></TD><TD><A HREF="overlay_screen_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

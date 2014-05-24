@@ -1,0 +1,896 @@
+<HTML><HEAD>
+<meta name="description" content="Sequences of values, all of the same type or of a conforming one, accessible through integer indices in a contiguous interval."/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>array Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="array_chart.html">Chart</A></TD><TD><A HREF="array_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="array_flat.html">Flat</A></TD><TD><A HREF="array_short.html">Contracts</A></TD><TD><A HREF="array_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Sequences of values, all of the same type or of a conforming one,
+        accessible through integer indices in a contiguous interval.
+    ]"
+    library: "Free implementation of ELKS library"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2013-01-25 14:18:20 -0800 (Fri, 25 Jan 2013) $"
+    revision: "$Revision: 92138 $"
+
+<B>class</B> 
+    <A HREF="../elks/array.html">ARRAY</A> [G]
+
+<B>inherit</B>
+    <A HREF="../elks/resizable.html">RESIZABLE</A> [G]
+        <B>redefine</B>
+            <A HREF="../elks/array.html#f_full">full</A>,
+            <A HREF="../elks/array.html#f_copy">copy</A>,
+            <A HREF="../elks/array.html#f_is_equal">is_equal</A>,
+            <A HREF="../elks/array.html#f_resizable">resizable</A>
+        <B>end</B>
+
+    <A HREF="../elks/indexable.html">INDEXABLE</A> [G, <A HREF="../elks/integer_32.html">INTEGER_32</A>]
+        <B>rename</B>
+            <A HREF="../elks/table.html#f_item">item</A> <B>as</B> <A HREF="../elks/array.html#f_item">item</A> <B>alias</B> "[]"
+        <B>redefine</B>
+            <A HREF="../elks/array.html#f_copy">copy</A>,
+            <A HREF="../elks/array.html#f_is_equal">is_equal</A>
+        <B>end</B>
+
+    <A HREF="../elks/to_special.html">TO_SPECIAL</A> [G]
+        <B>export</B>
+            {<A HREF="../elks/array.html">ARRAY</A>} <A HREF="../elks/to_special.html#f_set_area">set_area</A>
+        <B>redefine</B>
+            <A HREF="../elks/array.html#f_copy">copy</A>,
+            <A HREF="../elks/array.html#f_is_equal">is_equal</A>,
+            <A HREF="../elks/array.html#f_item">item</A>,
+            <A HREF="../elks/array.html#f_put">put</A>,
+            <A HREF="../elks/array.html#f_at">at</A>,
+            <A HREF="../elks/array.html#f_valid_index">valid_index</A>
+        <B>end</B>
+
+<B>create</B> 
+    <A HREF="../elks/array.html#f_make_empty">make_empty</A>,
+    <A HREF="../elks/array.html#f_make">make</A>,
+    <A HREF="../elks/array.html#f_make_filled">make_filled</A>,
+    <A HREF="../elks/array.html#f_make_from_array">make_from_array</A>,
+    <A HREF="../elks/array.html#f_make_from_special">make_from_special</A>,
+    <A HREF="../elks/array.html#f_make_from_cil">make_from_cil</A>
+
+<B>convert</B>
+    <A HREF="../elks/array.html#f_to_cil">to_cil</A>: {<A HREF="../elks/native_array.html">NATIVE_ARRAY</A> [G]},
+    <A HREF="../elks/array.html#f_to_special">to_special</A>: {<A HREF="../elks/special.html">SPECIAL</A> [G]},
+    <A HREF="../elks/array.html#f_make_from_cil">make_from_cil</A> ({<A HREF="../elks/native_array.html">NATIVE_ARRAY</A> [G]})
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make_empty"><A HREF="../elks/array.html#f_make_empty">make_empty</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Allocate empty array starting at </FONT>`1'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/array.html#f_lower">lower</A> := 1
+            <A HREF="../elks/array.html#f_upper">upper</A> := 0
+            <A HREF="../elks/to_special.html#f_make_empty_area">make_empty_area</A> (0)
+        <B>ensure</B>
+            lower_set: <A HREF="../elks/array.html#f_lower">lower</A> = 1
+            upper_set: <A HREF="../elks/array.html#f_upper">upper</A> = 0
+            items_set: <A HREF="../elks/array.html#f_all_default">all_default</A>
+        <B>end</B></A>
+
+    <A NAME="f_make_filled"><A HREF="../elks/array.html#f_make_filled">make_filled</A> (a_default_value: G; min_index, max_index: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Allocate array; set index interval to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`min_index'<FONT COLOR="red"> .. </FONT>`max_index'<FONT COLOR="red">; set all values to default.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Make array empty if </FONT>`min_index'<FONT COLOR="red"> = </FONT>`max_index'<FONT COLOR="red"> + 1).</FONT>
+        <B>require</B>
+            valid_bounds: min_index &lt;= max_index + 1
+        <B>local</B>
+            n: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <A HREF="../elks/array.html#f_lower">lower</A> := min_index
+            <A HREF="../elks/array.html#f_upper">upper</A> := max_index
+            <B>if</B> min_index &lt;= max_index <B>then</B>
+                n := max_index - min_index + 1
+            <B>end</B>
+            <A HREF="../elks/to_special.html#f_make_filled_area">make_filled_area</A> (a_default_value, n)
+        <B>ensure</B>
+            lower_set: <A HREF="../elks/array.html#f_lower">lower</A> = min_index
+            upper_set: <A HREF="../elks/array.html#f_upper">upper</A> = max_index
+            items_set: <A HREF="../elks/array.html#f_filled_with">filled_with</A> (a_default_value)
+        <B>end</B></A>
+
+    <A NAME="f_make"><A HREF="../elks/array.html#f_make">make</A> (min_index, max_index: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+        <B>obsolete</B> " `make' is not void-safe statically. Use `make_empty' or `make_filled' instead. [07-2010]"
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Allocate array; set index interval to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`min_index'<FONT COLOR="red"> .. </FONT>`max_index'<FONT COLOR="red">; set all values to default.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Make array empty if </FONT>`min_index'<FONT COLOR="red"> = </FONT>`max_index'<FONT COLOR="red"> + 1).</FONT>
+        <B>require</B>
+            valid_bounds: min_index &lt;= max_index + 1
+            has_default: min_index &lt;= max_index <B>implies</B> ({G}).<A HREF="../elks/type.html#f_has_default">has_default</A>
+        <B>do</B>
+            <A HREF="../elks/array.html#f_lower">lower</A> := min_index
+            <A HREF="../elks/array.html#f_upper">upper</A> := max_index
+            <B>if</B> min_index &lt;= max_index <B>then</B>
+                <A HREF="../elks/to_special.html#f_make_filled_area">make_filled_area</A> (({G}).<A HREF="../elks/type.html#f_default">default</A>, max_index - min_index + 1)
+            <B>else</B>
+                <A HREF="../elks/to_special.html#f_make_empty_area">make_empty_area</A> (0)
+            <B>end</B>
+        <B>ensure</B>
+            lower_set: <A HREF="../elks/array.html#f_lower">lower</A> = min_index
+            upper_set: <A HREF="../elks/array.html#f_upper">upper</A> = max_index
+            items_set: <A HREF="../elks/array.html#f_all_default">all_default</A>
+        <B>end</B></A>
+
+    <A NAME="f_make_from_array"><A HREF="../elks/array.html#f_make_from_array">make_from_array</A> (a: <A HREF="../elks/array.html">ARRAY</A> [G])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize from the items of </FONT>`a'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Useful in proper descendants of class </FONT>`ARRAY'<FONT COLOR="red">,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to initialize an array-like object from a manifest array.)</FONT>
+        <B>require</B>
+            array_exists: a /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../elks/to_special.html#f_set_area">set_area</A> (a.<A HREF="../elks/to_special.html#f_area">area</A>)
+            <A HREF="../elks/array.html#f_lower">lower</A> := a.<A HREF="../elks/array.html#f_lower">lower</A>
+            <A HREF="../elks/array.html#f_upper">upper</A> := a.<A HREF="../elks/array.html#f_upper">upper</A>
+        <B>ensure</B>
+            shared: <A HREF="../elks/to_special.html#f_area">area</A> = a.<A HREF="../elks/to_special.html#f_area">area</A>
+            lower_set: <A HREF="../elks/array.html#f_lower">lower</A> = a.<A HREF="../elks/array.html#f_lower">lower</A>
+            upper_set: <A HREF="../elks/array.html#f_upper">upper</A> = a.<A HREF="../elks/array.html#f_upper">upper</A>
+        <B>end</B></A>
+
+    <A NAME="f_make_from_special"><A HREF="../elks/array.html#f_make_from_special">make_from_special</A> (a: <A HREF="../elks/special.html">SPECIAL</A> [G])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize Current from items of </FONT>`a'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            special_attached: a /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../elks/to_special.html#f_set_area">set_area</A> (a)
+            <A HREF="../elks/array.html#f_lower">lower</A> := 1
+            <A HREF="../elks/array.html#f_upper">upper</A> := a.<A HREF="../elks/special.html#f_count">count</A>
+        <B>ensure</B>
+            shared: <A HREF="../elks/to_special.html#f_area">area</A> = a
+            lower_set: <A HREF="../elks/array.html#f_lower">lower</A> = 1
+            upper_set: <A HREF="../elks/array.html#f_upper">upper</A> = a.<A HREF="../elks/special.html#f_count">count</A>
+        <B>end</B></A>
+
+    <A NAME="f_make_from_cil"><A HREF="../elks/array.html#f_make_from_cil">make_from_cil</A> (na: <A HREF="../elks/native_array.html">NATIVE_ARRAY</A> [<B>like</B> <A HREF="../elks/array.html#f_item">item</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize array from </FONT>`na'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            is_dotnet: {<A HREF="../elks/platform.html">PLATFORM</A>}.<A HREF="../elks/platform.html#f_is_dotnet">is_dotnet</A>
+            na_not_void: na /= <B>Void</B>
+        <B>do</B>
+            <B>create</B> <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_make_from_native_array">make_from_native_array</A> (na)
+            <A HREF="../elks/array.html#f_lower">lower</A> := 1
+            <A HREF="../elks/array.html#f_upper">upper</A> := <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_count">count</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_item"><A HREF="../elks/array.html#f_item">item</A> <B>alias</B> "[]" (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): G <B>assign</B> <A HREF="../elks/array.html#f_put">put</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Entry at index </FONT>`i'<FONT COLOR="red">, if in index interval</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/array.html">ARRAY</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/array.html#f_at">at</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_item">item</A> (i - <A HREF="../elks/array.html#f_lower">lower</A>)
+        <B>end</B></A>
+
+    <A NAME="f_at"><A HREF="../elks/array.html#f_at">at</A> <B>alias</B> "@" (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): G <B>assign</B> <A HREF="../elks/array.html#f_put">put</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Entry at index </FONT>`i'<FONT COLOR="red">, if in index interval</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/array.html">ARRAY</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/array.html#f_item">item</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_item">item</A> (i - <A HREF="../elks/array.html#f_lower">lower</A>)
+        <B>end</B></A>
+
+    <A NAME="f_entry"><A HREF="../elks/array.html#f_entry">entry</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): G
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Entry at index </FONT>`i'<FONT COLOR="red">, if in index interval</FONT>
+        <B>require</B>
+            valid_key: <A HREF="../elks/array.html#f_valid_index">valid_index</A> (i)
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/array.html#f_item">item</A> (i)
+        <B>end</B></A>
+
+    <A NAME="f_has"><A HREF="../elks/array.html#f_has">has</A> (v: G): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`v'<FONT COLOR="red"> appear in array?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Reference or object equality,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> based on </FONT><A HREF="../elks/container.html#f_object_comparison">object_comparison</A><FONT COLOR="red">.)</FONT>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_area: <B>like</B> <A HREF="../elks/to_special.html#f_area">area</A>
+        <B>do</B>
+            l_area := <A HREF="../elks/to_special.html#f_area">area</A>
+            nb := <A HREF="../elks/array.html#f_upper">upper</A> - <A HREF="../elks/array.html#f_lower">lower</A>
+            <B>if</B> <A HREF="../elks/container.html#f_object_comparison">object_comparison</A> <B>and</B> v /= <B>Void</B> <B>then</B>
+                <B>from</B>
+                <B>until</B>
+                    i &gt; nb <B>or</B> <B>Result</B>
+                <B>loop</B>
+                    <B>Result</B> := l_area.<A HREF="../elks/special.html#f_item">item</A> (i) ~ v
+                    i := i + 1
+                <B>end</B>
+            <B>else</B>
+                <B>from</B>
+                <B>until</B>
+                    i &gt; nb <B>or</B> <B>Result</B>
+                <B>loop</B>
+                    <B>Result</B> := l_area.<A HREF="../elks/special.html#f_item">item</A> (i) = v
+                    i := i + 1
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_lower"><A HREF="../elks/array.html#f_lower">lower</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Minimum index</FONT>
+
+    <A NAME="f_upper"><A HREF="../elks/array.html#f_upper">upper</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Maximum index</FONT>
+
+    <A NAME="f_count"><A HREF="../elks/array.html#f_count">count</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of available indices</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/array.html">ARRAY</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/array.html#f_capacity">capacity</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/array.html#f_upper">upper</A> - <A HREF="../elks/array.html#f_lower">lower</A> + 1
+        <B>ensure then</B>
+            consistent_with_bounds: <B>Result</B> = <A HREF="../elks/array.html#f_upper">upper</A> - <A HREF="../elks/array.html#f_lower">lower</A> + 1
+        <B>end</B></A>
+
+    <A NAME="f_capacity"><A HREF="../elks/array.html#f_capacity">capacity</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of available indices</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/array.html">ARRAY</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/array.html#f_count">count</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/array.html#f_upper">upper</A> - <A HREF="../elks/array.html#f_lower">lower</A> + 1
+        <B>ensure then</B>
+            consistent_with_bounds: <B>Result</B> = <A HREF="../elks/array.html#f_upper">upper</A> - <A HREF="../elks/array.html#f_lower">lower</A> + 1
+        <B>end</B></A>
+
+    <A NAME="f_occurrences"><A HREF="../elks/array.html#f_occurrences">occurrences</A> (v: G): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of times </FONT>`v'<FONT COLOR="red"> appears in structure</FONT>
+        <B>local</B>
+            i: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/container.html#f_object_comparison">object_comparison</A> <B>then</B>
+                <B>from</B>
+                    i := <A HREF="../elks/array.html#f_lower">lower</A>
+                <B>until</B>
+                    i &gt; <A HREF="../elks/array.html#f_upper">upper</A>
+                <B>loop</B>
+                    <B>if</B> <A HREF="../elks/array.html#f_item">item</A> (i) ~ v <B>then</B>
+                        <B>Result</B> := <B>Result</B> + 1
+                    <B>end</B>
+                    i := i + 1
+                <B>end</B>
+            <B>else</B>
+                <B>from</B>
+                    i := <A HREF="../elks/array.html#f_lower">lower</A>
+                <B>until</B>
+                    i &gt; <A HREF="../elks/array.html#f_upper">upper</A>
+                <B>loop</B>
+                    <B>if</B> <A HREF="../elks/array.html#f_item">item</A> (i) = v <B>then</B>
+                        <B>Result</B> := <B>Result</B> + 1
+                    <B>end</B>
+                    i := i + 1
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_index_set"><A HREF="../elks/array.html#f_index_set">index_set</A>: <A HREF="../elks/integer_interval.html">INTEGER_INTERVAL</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Range of acceptable indexes</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/integer_interval.html#f_make">make</A> (<A HREF="../elks/array.html#f_lower">lower</A>, <A HREF="../elks/array.html#f_upper">upper</A>)
+        <B>ensure then</B>
+            same_count: <B>Result</B>.<A HREF="../elks/integer_interval.html#f_count">count</A> = <A HREF="../elks/array.html#f_count">count</A>
+            same_bounds: ((<B>Result</B>.<A HREF="../elks/integer_interval.html#f_lower">lower</A> = <A HREF="../elks/array.html#f_lower">lower</A>) <B>and</B> (<B>Result</B>.<A HREF="../elks/integer_interval.html#f_upper">upper</A> = <A HREF="../elks/array.html#f_upper">upper</A>))
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_is_equal"><A HREF="../elks/array.html#f_is_equal">is_equal</A> (other: <B>like</B> <B>Current</B>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is array made of the same items as </FONT>`other'<FONT COLOR="red">?</FONT>
+        <B>local</B>
+            i: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>if</B> other = <B>Current</B> <B>then</B>
+                <B>Result</B> := <B>True</B>
+            <B>elseif</B> <A HREF="../elks/array.html#f_lower">lower</A> = other.<A HREF="../elks/array.html#f_lower">lower</A> <B>and then</B> <A HREF="../elks/array.html#f_upper">upper</A> = other.<A HREF="../elks/array.html#f_upper">upper</A> <B>and then</B> <A HREF="../elks/container.html#f_object_comparison">object_comparison</A> = other.<A HREF="../elks/container.html#f_object_comparison">object_comparison</A> <B>then</B>
+                <B>if</B> <A HREF="../elks/container.html#f_object_comparison">object_comparison</A> <B>then</B>
+                    <B>from</B>
+                        <B>Result</B> := <B>True</B>
+                        i := <A HREF="../elks/array.html#f_lower">lower</A>
+                    <B>until</B>
+                        <B>not</B> <B>Result</B> <B>or</B> i &gt; <A HREF="../elks/array.html#f_upper">upper</A>
+                    <B>loop</B>
+                        <B>Result</B> := <A HREF="../elks/array.html#f_item">item</A> (i) ~ other.<A HREF="../elks/array.html#f_item">item</A> (i)
+                        i := i + 1
+                    <B>end</B>
+                <B>else</B>
+                    <B>Result</B> := <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_same_items">same_items</A> (other.<A HREF="../elks/to_special.html#f_area">area</A>, 0, 0, <A HREF="../elks/array.html#f_count">count</A>)
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_all_default"><A HREF="../elks/array.html#f_all_default">all_default</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are all items set to default values?</FONT>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/array.html#f_count">count</A> &gt; 0 <B>then</B>
+                <B>Result</B> := ({G}).<A HREF="../elks/type.html#f_has_default">has_default</A> <B>and then</B> <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_filled_with">filled_with</A> (({G}).<A HREF="../elks/type.html#f_default">default</A>, 0, <A HREF="../elks/array.html#f_upper">upper</A> - <A HREF="../elks/array.html#f_lower">lower</A>)
+            <B>else</B>
+                <B>Result</B> := <B>True</B>
+            <B>end</B>
+        <B>ensure</B>
+            definition: <B>Result</B> = (<A HREF="../elks/array.html#f_count">count</A> = 0 <B>or else</B> ((<B>not</B> <B>attached</B> <A HREF="../elks/array.html#f_item">item</A> (<A HREF="../elks/array.html#f_upper">upper</A>) <B>as</B> i <B>or else</B> i = ({G}).<A HREF="../elks/type.html#f_default">default</A>) <B>and</B> <A HREF="../elks/array.html#f_subarray">subarray</A> (<A HREF="../elks/array.html#f_lower">lower</A>, <A HREF="../elks/array.html#f_upper">upper</A> - 1).<A HREF="../elks/array.html#f_all_default">all_default</A>))
+        <B>end</B></A>
+
+    <A NAME="f_filled_with"><A HREF="../elks/array.html#f_filled_with">filled_with</A> (v: G): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are all items set to </FONT>`v'<FONT COLOR="red">?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_filled_with">filled_with</A> (v, 0, <A HREF="../elks/array.html#f_upper">upper</A> - <A HREF="../elks/array.html#f_lower">lower</A>)
+        <B>ensure</B>
+            definition: <B>Result</B> = (<A HREF="../elks/array.html#f_count">count</A> = 0 <B>or else</B> (<A HREF="../elks/array.html#f_item">item</A> (<A HREF="../elks/array.html#f_upper">upper</A>) = v <B>and</B> <A HREF="../elks/array.html#f_subarray">subarray</A> (<A HREF="../elks/array.html#f_lower">lower</A>, <A HREF="../elks/array.html#f_upper">upper</A> - 1).<A HREF="../elks/array.html#f_filled_with">filled_with</A> (v)))
+        <B>end</B></A>
+
+    <A NAME="f_full"><A HREF="../elks/array.html#f_full">full</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is structure filled to capacity? (Answer: yes)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>True</B>
+        <B>end</B></A>
+
+    <A NAME="f_same_items"><A HREF="../elks/array.html#f_same_items">same_items</A> (other: <B>like</B> <B>Current</B>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do </FONT>`other'<FONT COLOR="red"> and Current have same items?</FONT>
+        <B>require</B>
+            other_not_void: other /= <B>Void</B>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/array.html#f_count">count</A> = other.<A HREF="../elks/array.html#f_count">count</A> <B>then</B>
+                <B>Result</B> := <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_same_items">same_items</A> (other.<A HREF="../elks/to_special.html#f_area">area</A>, 0, 0, <A HREF="../elks/array.html#f_count">count</A>)
+            <B>end</B>
+        <B>ensure</B>
+            definition: <B>Result</B> = ((<A HREF="../elks/array.html#f_count">count</A> = other.<A HREF="../elks/array.html#f_count">count</A>) <B>and then</B> (<A HREF="../elks/array.html#f_count">count</A> = 0 <B>or else</B> (<A HREF="../elks/array.html#f_item">item</A> (<A HREF="../elks/array.html#f_upper">upper</A>) = other.<A HREF="../elks/array.html#f_item">item</A> (other.<A HREF="../elks/array.html#f_upper">upper</A>) <B>and</B> <A HREF="../elks/array.html#f_subarray">subarray</A> (<A HREF="../elks/array.html#f_lower">lower</A>, <A HREF="../elks/array.html#f_upper">upper</A> - 1).<A HREF="../elks/array.html#f_same_items">same_items</A> (other.<A HREF="../elks/array.html#f_subarray">subarray</A> (other.<A HREF="../elks/array.html#f_lower">lower</A>, other.<A HREF="../elks/array.html#f_upper">upper</A> - 1)))))
+        <B>end</B></A>
+
+    <A NAME="f_valid_index"><A HREF="../elks/array.html#f_valid_index">valid_index</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`i'<FONT COLOR="red"> within the bounds of the array?</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../elks/array.html#f_lower">lower</A> &lt;= i) <B>and then</B> (i &lt;= <A HREF="../elks/array.html#f_upper">upper</A>)
+        <B>end</B></A>
+
+    <A NAME="f_extendible"><A HREF="../elks/array.html#f_extendible">extendible</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May items be added?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Answer: no, although array may be resized.)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>False</B>
+        <B>end</B></A>
+
+    <A NAME="f_prunable"><A HREF="../elks/array.html#f_prunable">prunable</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May items be removed? (Answer: no.)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>False</B>
+        <B>end</B></A>
+
+    <A NAME="f_resizable"><A HREF="../elks/array.html#f_resizable">resizable</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Can array be resized automatically?</FONT>
+        <B>do</B>
+            <B>Result</B> := ({G}).<A HREF="../elks/type.html#f_has_default">has_default</A>
+        <B>end</B></A>
+
+    <A NAME="f_valid_index_set"><A HREF="../elks/array.html#f_valid_index_set">valid_index_set</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/array.html#f_index_set">index_set</A>.<A HREF="../elks/integer_interval.html#f_count">count</A> = <A HREF="../elks/array.html#f_count">count</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_put"><A HREF="../elks/array.html#f_put">put</A> (v: <B>like</B> <A HREF="../elks/array.html#f_item">item</A>; i: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Replace </FONT>`i'<FONT COLOR="red">-th entry, if in index interval, by </FONT>`v'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_put">put</A> (v, i - <A HREF="../elks/array.html#f_lower">lower</A>)
+        <B>end</B></A>
+
+    <A NAME="f_enter"><A HREF="../elks/array.html#f_enter">enter</A> (v: <B>like</B> <A HREF="../elks/array.html#f_item">item</A>; i: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Replace </FONT>`i'<FONT COLOR="red">-th entry, if in index interval, by </FONT>`v'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            valid_key: <A HREF="../elks/array.html#f_valid_index">valid_index</A> (i)
+        <B>do</B>
+            <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_put">put</A> (v, i - <A HREF="../elks/array.html#f_lower">lower</A>)
+        <B>end</B></A>
+
+    <A NAME="f_force"><A HREF="../elks/array.html#f_force">force</A> (v: <B>like</B> <A HREF="../elks/array.html#f_item">item</A>; i: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Assign item </FONT>`v'<FONT COLOR="red"> to </FONT>`i'<FONT COLOR="red">-th entry.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Resize the array if </FONT>`i'<FONT COLOR="red"> falls out of currently defined bounds; preserve existing items.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> In void-safe mode, if (</FONT><FONT COLOR="red">{</FONT><FONT COLOR="red">G</FONT><FONT COLOR="red">}</FONT><FONT COLOR="red">).has_default does not hold, then you can only insert between</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`lower - 1'<FONT COLOR="red"> or </FONT>`upper + 1'<FONT COLOR="red"> position in the ARRAY.</FONT>
+        <B>require</B>
+            has_default_if_too_low: (i &lt; <A HREF="../elks/array.html#f_lower">lower</A> - 1 <B>and</B> <A HREF="../elks/array.html#f_lower">lower</A> /= {<B>like</B> <A HREF="../elks/array.html#f_lower">lower</A>}.<A HREF="../elks/integer_32_ref.html#f_min_value">min_value</A>) <B>implies</B> ({G}).<A HREF="../elks/type.html#f_has_default">has_default</A>
+            has_default_if_too_high: (i &gt; <A HREF="../elks/array.html#f_upper">upper</A> + 1 <B>and</B> <A HREF="../elks/array.html#f_upper">upper</A> /= {<B>like</B> <A HREF="../elks/array.html#f_upper">upper</A>}.<A HREF="../elks/integer_32_ref.html#f_max_value">max_value</A>) <B>implies</B> ({G}).<A HREF="../elks/type.html#f_has_default">has_default</A>
+        <B>local</B>
+            old_size, new_size: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            new_lower, new_upper: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_count, l_offset: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_increased_by_one: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            new_lower := <A HREF="../elks/array.html#f_lower">lower</A>.<A HREF="../elks/comparable.html#f_min">min</A> (i)
+            new_upper := <A HREF="../elks/array.html#f_upper">upper</A>.<A HREF="../elks/comparable.html#f_max">max</A> (i)
+            new_size := new_upper - new_lower + 1
+            l_increased_by_one := (i = <A HREF="../elks/array.html#f_upper">upper</A> + 1) <B>or</B> (i = <A HREF="../elks/array.html#f_lower">lower</A> - 1)
+            <B>if</B> <A HREF="../elks/array.html#f_empty_area">empty_area</A> <B>then</B>
+                <A HREF="../elks/to_special.html#f_make_empty_area">make_empty_area</A> (new_size.<A HREF="../elks/comparable.html#f_max">max</A> (<A HREF="../elks/resizable.html#f_additional_space">additional_space</A>))
+                <B>if</B> <B>not</B> l_increased_by_one <B>then</B>
+                    <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_fill_with">fill_with</A> (({G}).<A HREF="../elks/type.html#f_default">default</A>, 0, new_size - 2)
+                <B>end</B>
+                <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_extend">extend</A> (v)
+            <B>else</B>
+                old_size := <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_capacity">capacity</A>
+                <B>if</B> new_size &gt; old_size <B>then</B>
+                    <A HREF="../elks/to_special.html#f_set_area">set_area</A> (<A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_aliased_resized_area">aliased_resized_area</A> (new_size.<A HREF="../elks/comparable.html#f_max">max</A> (old_size + <A HREF="../elks/resizable.html#f_additional_space">additional_space</A>)))
+                <B>end</B>
+                <B>if</B> new_lower &lt; <A HREF="../elks/array.html#f_lower">lower</A> <B>then</B>
+                    l_offset := <A HREF="../elks/array.html#f_lower">lower</A> - new_lower
+                    l_count := <A HREF="../elks/array.html#f_capacity">capacity</A>
+                    <B>if</B> <B>not</B> l_increased_by_one <B>and</B> l_offset &gt; l_count <B>then</B>
+                        <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_fill_with">fill_with</A> (({G}).<A HREF="../elks/type.html#f_default">default</A>, l_count, l_offset - 1)
+                    <B>end</B>
+                    <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_move_data">move_data</A> (0, l_offset, l_count)
+                    <B>if</B> <B>not</B> l_increased_by_one <B>then</B>
+                        <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_fill_with">fill_with</A> (({G}).<A HREF="../elks/type.html#f_default">default</A>, 1, l_offset - 1)
+                    <B>end</B>
+                    <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_put">put</A> (v, 0)
+                <B>else</B>
+                    <B>if</B> new_size &gt; <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_count">count</A> <B>then</B>
+                        <B>if</B> <B>not</B> l_increased_by_one <B>then</B>
+                            <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_fill_with">fill_with</A> (({G}).<A HREF="../elks/type.html#f_default">default</A>, <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_count">count</A>, new_size - 2)
+                        <B>end</B>
+                        <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_extend">extend</A> (v)
+                    <B>else</B>
+                        <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_put">put</A> (v, i - <A HREF="../elks/array.html#f_lower">lower</A>)
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+            <A HREF="../elks/array.html#f_lower">lower</A> := new_lower
+            <A HREF="../elks/array.html#f_upper">upper</A> := new_upper
+        <B>ensure</B>
+            inserted: <A HREF="../elks/array.html#f_item">item</A> (i) = v
+            higher_count: <A HREF="../elks/array.html#f_count">count</A> &gt;= <B>old</B> <A HREF="../elks/array.html#f_count">count</A>
+            lower_set: <A HREF="../elks/array.html#f_lower">lower</A> = (<B>old</B> <A HREF="../elks/array.html#f_lower">lower</A>).<A HREF="../elks/comparable.html#f_min">min</A> (i)
+            upper_set: <A HREF="../elks/array.html#f_upper">upper</A> = (<B>old</B> <A HREF="../elks/array.html#f_upper">upper</A>).<A HREF="../elks/comparable.html#f_max">max</A> (i)
+        <B>end</B></A>
+
+    <A NAME="f_fill_with"><A HREF="../elks/array.html#f_fill_with">fill_with</A> (v: G)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set items between </FONT><A HREF="../elks/array.html#f_lower">lower</A><FONT COLOR="red"> and </FONT><A HREF="../elks/array.html#f_upper">upper</A><FONT COLOR="red"> with </FONT>`v'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_fill_with">fill_with</A> (v, 0, <A HREF="../elks/array.html#f_upper">upper</A> - <A HREF="../elks/array.html#f_lower">lower</A>)
+        <B>ensure</B>
+            same_capacity: <A HREF="../elks/array.html#f_capacity">capacity</A> = <B>old</B> <A HREF="../elks/array.html#f_capacity">capacity</A>
+            count_definition: <A HREF="../elks/array.html#f_count">count</A> = <B>old</B> <A HREF="../elks/array.html#f_count">count</A>
+            filled: <A HREF="../elks/array.html#f_filled_with">filled_with</A> (v)
+        <B>end</B></A>
+
+    <A NAME="f_subcopy"><A HREF="../elks/array.html#f_subcopy">subcopy</A> (other: <A HREF="../elks/array.html">ARRAY</A> [<B>like</B> <A HREF="../elks/array.html#f_item">item</A>]; start_pos, end_pos, index_pos: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy items of </FONT>`other'<FONT COLOR="red"> within bounds </FONT>`start_pos'<FONT COLOR="red"> and </FONT>`end_pos'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to current array starting at index </FONT>`index_pos'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            other_not_void: other /= <B>Void</B>
+            valid_start_pos: start_pos &gt;= other.<A HREF="../elks/array.html#f_lower">lower</A>
+            valid_end_pos: end_pos &lt;= other.<A HREF="../elks/array.html#f_upper">upper</A>
+            valid_bounds: start_pos &lt;= end_pos + 1
+            valid_index_pos: index_pos &gt;= <A HREF="../elks/array.html#f_lower">lower</A>
+            enough_space: (<A HREF="../elks/array.html#f_upper">upper</A> - index_pos) &gt;= (end_pos - start_pos)
+        <B>do</B>
+            <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_copy_data">copy_data</A> (other.<A HREF="../elks/to_special.html#f_area">area</A>, start_pos - other.<A HREF="../elks/array.html#f_lower">lower</A>, index_pos - <A HREF="../elks/array.html#f_lower">lower</A>, end_pos - start_pos + 1)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Iteration</FONT>
+
+    <A NAME="f_do_all"><A HREF="../elks/array.html#f_do_all">do_all</A> (action: <A HREF="../elks/procedure.html">PROCEDURE</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A> [G]])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Apply </FONT>`action'<FONT COLOR="red"> to every item, from first to last.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Semantics not guaranteed if </FONT>`action'<FONT COLOR="red"> changes the structure;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> in such a case, apply iterator to clone of structure instead.</FONT>
+        <B>require</B>
+            action_not_void: action /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_do_all_in_bounds">do_all_in_bounds</A> (action, 0, <A HREF="../elks/array.html#f_count">count</A> - 1)
+        <B>end</B></A>
+
+    <A NAME="f_do_if"><A HREF="../elks/array.html#f_do_if">do_if</A> (action: <A HREF="../elks/procedure.html">PROCEDURE</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A> [G]]; test: <A HREF="../elks/function.html">FUNCTION</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A> [G], <A HREF="../elks/boolean.html">BOOLEAN</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Apply </FONT>`action'<FONT COLOR="red"> to every item that satisfies </FONT>`test'<FONT COLOR="red">, from first to last.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Semantics not guaranteed if </FONT>`action'<FONT COLOR="red"> or </FONT>`test'<FONT COLOR="red"> changes the structure;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> in such a case, apply iterator to clone of structure instead.</FONT>
+        <B>require</B>
+            action_not_void: action /= <B>Void</B>
+            test_not_void: test /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_do_if_in_bounds">do_if_in_bounds</A> (action, test, 0, <A HREF="../elks/array.html#f_count">count</A> - 1)
+        <B>end</B></A>
+
+    <A NAME="f_there_exists"><A HREF="../elks/array.html#f_there_exists">there_exists</A> (test: <A HREF="../elks/function.html">FUNCTION</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A> [G], <A HREF="../elks/boolean.html">BOOLEAN</A>]): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`test'<FONT COLOR="red"> true for at least one item?</FONT>
+        <B>require</B>
+            test_not_void: test /= <B>Void</B>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_there_exists_in_bounds">there_exists_in_bounds</A> (test, 0, <A HREF="../elks/array.html#f_count">count</A> - 1)
+        <B>end</B></A>
+
+    <A NAME="f_for_all"><A HREF="../elks/array.html#f_for_all">for_all</A> (test: <A HREF="../elks/function.html">FUNCTION</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A> [G], <A HREF="../elks/boolean.html">BOOLEAN</A>]): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`test'<FONT COLOR="red"> true for all items?</FONT>
+        <B>require</B>
+            test_not_void: test /= <B>Void</B>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_for_all_in_bounds">for_all_in_bounds</A> (test, 0, <A HREF="../elks/array.html#f_count">count</A> - 1)
+        <B>end</B></A>
+
+    <A NAME="f_do_all_with_index"><A HREF="../elks/array.html#f_do_all_with_index">do_all_with_index</A> (action: <A HREF="../elks/procedure.html">PROCEDURE</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A> [G, <A HREF="../elks/integer_32.html">INTEGER_32</A>]])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Apply </FONT>`action'<FONT COLOR="red"> to every item, from first to last.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`action'<FONT COLOR="red"> receives item and its index.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Semantics not guaranteed if </FONT>`action'<FONT COLOR="red"> changes the structure;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> in such a case, apply iterator to clone of structure instead.</FONT>
+        <B>local</B>
+            i, j, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_area: <B>like</B> <A HREF="../elks/to_special.html#f_area">area</A>
+        <B>do</B>
+            <B>from</B>
+                i := 0
+                j := <A HREF="../elks/array.html#f_lower">lower</A>
+                nb := <A HREF="../elks/array.html#f_count">count</A> - 1
+                l_area := <A HREF="../elks/to_special.html#f_area">area</A>
+            <B>until</B>
+                i &gt; nb
+            <B>loop</B>
+                action.<A HREF="../elks/procedure.html#f_call">call</A> ([l_area.<A HREF="../elks/special.html#f_item">item</A> (i), j])
+                j := j + 1
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_do_if_with_index"><A HREF="../elks/array.html#f_do_if_with_index">do_if_with_index</A> (action: <A HREF="../elks/procedure.html">PROCEDURE</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A> [G, <A HREF="../elks/integer_32.html">INTEGER_32</A>]]; test: <A HREF="../elks/function.html">FUNCTION</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A> [G, <A HREF="../elks/integer_32.html">INTEGER_32</A>], <A HREF="../elks/boolean.html">BOOLEAN</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Apply </FONT>`action'<FONT COLOR="red"> to every item that satisfies </FONT>`test'<FONT COLOR="red">, from first to last.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`action'<FONT COLOR="red"> and </FONT>`test'<FONT COLOR="red"> receive the item and its index.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Semantics not guaranteed if </FONT>`action'<FONT COLOR="red"> or </FONT>`test'<FONT COLOR="red"> changes the structure;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> in such a case, apply iterator to clone of structure instead.</FONT>
+        <B>local</B>
+            i, j, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_area: <B>like</B> <A HREF="../elks/to_special.html#f_area">area</A>
+        <B>do</B>
+            <B>from</B>
+                i := 0
+                j := <A HREF="../elks/array.html#f_lower">lower</A>
+                nb := <A HREF="../elks/array.html#f_count">count</A> - 1
+                l_area := <A HREF="../elks/to_special.html#f_area">area</A>
+            <B>until</B>
+                i &gt; nb
+            <B>loop</B>
+                <B>if</B> test.<A HREF="../elks/function.html#f_item">item</A> ([l_area.<A HREF="../elks/special.html#f_item">item</A> (i), j]) <B>then</B>
+                    action.<A HREF="../elks/procedure.html#f_call">call</A> ([l_area.<A HREF="../elks/special.html#f_item">item</A> (i), j])
+                <B>end</B>
+                j := j + 1
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removal</FONT>
+
+    <A NAME="f_wipe_out"><A HREF="../elks/array.html#f_wipe_out">wipe_out</A>
+        <B>obsolete</B> "Not applicable since not `prunable'. Use `discard_items' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make array empty.</FONT>
+        <B>do</B>
+            <A HREF="../elks/array.html#f_discard_items">discard_items</A>
+        <B>end</B></A>
+
+    <A NAME="f_discard_items"><A HREF="../elks/array.html#f_discard_items">discard_items</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Reset all items to default values with reallocation.</FONT>
+        <B>require</B>
+            has_default: ({G}).<A HREF="../elks/type.html#f_has_default">has_default</A>
+        <B>do</B>
+            <B>create</B> <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_make_filled">make_filled</A> (({G}).<A HREF="../elks/type.html#f_default">default</A>, <A HREF="../elks/array.html#f_capacity">capacity</A>)
+        <B>ensure</B>
+            default_items: <A HREF="../elks/array.html#f_all_default">all_default</A>
+        <B>end</B></A>
+
+    <A NAME="f_clear_all"><A HREF="../elks/array.html#f_clear_all">clear_all</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Reset all items to default values.</FONT>
+        <B>require</B>
+            has_default: ({G}).<A HREF="../elks/type.html#f_has_default">has_default</A>
+        <B>do</B>
+            <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_fill_with">fill_with</A> (({G}).<A HREF="../elks/type.html#f_default">default</A>, 0, <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_count">count</A> - 1)
+        <B>ensure</B>
+            stable_lower: <A HREF="../elks/array.html#f_lower">lower</A> = <B>old</B> <A HREF="../elks/array.html#f_lower">lower</A>
+            stable_upper: <A HREF="../elks/array.html#f_upper">upper</A> = <B>old</B> <A HREF="../elks/array.html#f_upper">upper</A>
+            default_items: <A HREF="../elks/array.html#f_all_default">all_default</A>
+        <B>end</B></A>
+
+    <A NAME="f_keep_head"><A HREF="../elks/array.html#f_keep_head">keep_head</A> (n: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove all items except for the first </FONT>`n'<FONT COLOR="red">;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> do nothing if </FONT>`n'<FONT COLOR="red"> &gt;= </FONT><A HREF="../elks/array.html#f_count">count</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            non_negative_argument: n &gt;= 0
+        <B>do</B>
+            <B>if</B> n &lt; <A HREF="../elks/array.html#f_count">count</A> <B>then</B>
+                <A HREF="../elks/array.html#f_upper">upper</A> := <A HREF="../elks/array.html#f_lower">lower</A> + n - 1
+                <A HREF="../elks/to_special.html#f_area">area</A> := <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_aliased_resized_area">aliased_resized_area</A> (n)
+            <B>end</B>
+        <B>ensure</B>
+            new_count: <A HREF="../elks/array.html#f_count">count</A> = n.<A HREF="../elks/comparable.html#f_min">min</A> (<B>old</B> <A HREF="../elks/array.html#f_count">count</A>)
+            same_lower: <A HREF="../elks/array.html#f_lower">lower</A> = <B>old</B> <A HREF="../elks/array.html#f_lower">lower</A>
+        <B>end</B></A>
+
+    <A NAME="f_keep_tail"><A HREF="../elks/array.html#f_keep_tail">keep_tail</A> (n: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove all items except for the last </FONT>`n'<FONT COLOR="red">;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> do nothing if </FONT>`n'<FONT COLOR="red"> &gt;= </FONT><A HREF="../elks/array.html#f_count">count</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            non_negative_argument: n &gt;= 0
+        <B>local</B>
+            nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            nb := <A HREF="../elks/array.html#f_count">count</A>
+            <B>if</B> n &lt; nb <B>then</B>
+                <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_overlapping_move">overlapping_move</A> (nb - n, 0, n)
+                <A HREF="../elks/array.html#f_lower">lower</A> := <A HREF="../elks/array.html#f_upper">upper</A> - n + 1
+                <A HREF="../elks/to_special.html#f_area">area</A> := <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_aliased_resized_area">aliased_resized_area</A> (n)
+            <B>end</B>
+        <B>ensure</B>
+            new_count: <A HREF="../elks/array.html#f_count">count</A> = n.<A HREF="../elks/comparable.html#f_min">min</A> (<B>old</B> <A HREF="../elks/array.html#f_count">count</A>)
+            same_upper: <A HREF="../elks/array.html#f_upper">upper</A> = <B>old</B> <A HREF="../elks/array.html#f_upper">upper</A>
+        <B>end</B></A>
+
+    <A NAME="f_remove_head"><A HREF="../elks/array.html#f_remove_head">remove_head</A> (n: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove first </FONT>`n'<FONT COLOR="red"> items;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> if </FONT>`n'<FONT COLOR="red"> &gt; </FONT><A HREF="../elks/array.html#f_count">count</A><FONT COLOR="red">, remove all.</FONT>
+        <B>require</B>
+            n_non_negative: n &gt;= 0
+        <B>do</B>
+            <B>if</B> n &gt; <A HREF="../elks/array.html#f_count">count</A> <B>then</B>
+                <A HREF="../elks/array.html#f_upper">upper</A> := <A HREF="../elks/array.html#f_lower">lower</A> - 1
+                <A HREF="../elks/to_special.html#f_area">area</A> := <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_aliased_resized_area">aliased_resized_area</A> (0)
+            <B>else</B>
+                <A HREF="../elks/array.html#f_keep_tail">keep_tail</A> (<A HREF="../elks/array.html#f_count">count</A> - n)
+            <B>end</B>
+        <B>ensure</B>
+            new_count: <A HREF="../elks/array.html#f_count">count</A> = (<B>old</B> <A HREF="../elks/array.html#f_count">count</A> - n).<A HREF="../elks/comparable.html#f_max">max</A> (0)
+            same_upper: <A HREF="../elks/array.html#f_upper">upper</A> = <B>old</B> <A HREF="../elks/array.html#f_upper">upper</A>
+        <B>end</B></A>
+
+    <A NAME="f_remove_tail"><A HREF="../elks/array.html#f_remove_tail">remove_tail</A> (n: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove last </FONT>`n'<FONT COLOR="red"> items;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> if </FONT>`n'<FONT COLOR="red"> &gt; </FONT><A HREF="../elks/array.html#f_count">count</A><FONT COLOR="red">, remove all.</FONT>
+        <B>require</B>
+            n_non_negative: n &gt;= 0
+        <B>do</B>
+            <B>if</B> n &gt; <A HREF="../elks/array.html#f_count">count</A> <B>then</B>
+                <A HREF="../elks/array.html#f_upper">upper</A> := <A HREF="../elks/array.html#f_lower">lower</A> - 1
+                <A HREF="../elks/to_special.html#f_area">area</A> := <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_aliased_resized_area">aliased_resized_area</A> (0)
+            <B>else</B>
+                <A HREF="../elks/array.html#f_keep_head">keep_head</A> (<A HREF="../elks/array.html#f_count">count</A> - n)
+            <B>end</B>
+        <B>ensure</B>
+            new_count: <A HREF="../elks/array.html#f_count">count</A> = (<B>old</B> <A HREF="../elks/array.html#f_count">count</A> - n).<A HREF="../elks/comparable.html#f_max">max</A> (0)
+            same_lower: <A HREF="../elks/array.html#f_lower">lower</A> = <B>old</B> <A HREF="../elks/array.html#f_lower">lower</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Resizing</FONT>
+
+    <A NAME="f_grow"><A HREF="../elks/array.html#f_grow">grow</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Change the capacity to at least </FONT>`i'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>if</B> i &gt; <A HREF="../elks/array.html#f_capacity">capacity</A> <B>then</B>
+                <A HREF="../elks/array.html#f_conservative_resize_with_default">conservative_resize_with_default</A> (({G}).<A HREF="../elks/type.html#f_default">default</A>, <A HREF="../elks/array.html#f_lower">lower</A>, <A HREF="../elks/array.html#f_upper">upper</A> + i - <A HREF="../elks/array.html#f_capacity">capacity</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_conservative_resize"><A HREF="../elks/array.html#f_conservative_resize">conservative_resize</A> (min_index, max_index: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+        <B>obsolete</B> " `conservative_resize' is not void-safe statically. Use `conservative_resize_with_default' instead. [07-2010]"
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Rearrange array so that it can accommodate</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> indices down to </FONT>`min_index'<FONT COLOR="red"> and up to </FONT>`max_index'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do not lose any previously entered item.</FONT>
+        <B>require</B>
+            good_indices: min_index &lt;= max_index
+            has_default: ({G}).<A HREF="../elks/type.html#f_has_default">has_default</A>
+        <B>do</B>
+            <A HREF="../elks/array.html#f_conservative_resize_with_default">conservative_resize_with_default</A> (({G}).<A HREF="../elks/type.html#f_default">default</A>, min_index, max_index)
+        <B>ensure</B>
+            no_low_lost: <A HREF="../elks/array.html#f_lower">lower</A> = min_index <B>or else</B> <A HREF="../elks/array.html#f_lower">lower</A> = <B>old</B> <A HREF="../elks/array.html#f_lower">lower</A>
+            no_high_lost: <A HREF="../elks/array.html#f_upper">upper</A> = max_index <B>or else</B> <A HREF="../elks/array.html#f_upper">upper</A> = <B>old</B> <A HREF="../elks/array.html#f_upper">upper</A>
+        <B>end</B></A>
+
+    <A NAME="f_conservative_resize_with_default"><A HREF="../elks/array.html#f_conservative_resize_with_default">conservative_resize_with_default</A> (a_default_value: G; min_index, max_index: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Rearrange array so that it can accommodate</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> indices down to </FONT>`min_index'<FONT COLOR="red"> and up to </FONT>`max_index'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do not lose any previously entered item.</FONT>
+        <B>require</B>
+            good_indices: min_index &lt;= max_index
+        <B>local</B>
+            new_size: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            new_lower, new_upper: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            offset: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/array.html#f_empty_area">empty_area</A> <B>then</B>
+                <A HREF="../elks/to_special.html#f_set_area">set_area</A> (<A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_aliased_resized_area_with_default">aliased_resized_area_with_default</A> (a_default_value, max_index - min_index + 1))
+                <A HREF="../elks/array.html#f_lower">lower</A> := min_index
+                <A HREF="../elks/array.html#f_upper">upper</A> := max_index
+            <B>else</B>
+                new_lower := min_index.<A HREF="../elks/comparable.html#f_min">min</A> (<A HREF="../elks/array.html#f_lower">lower</A>)
+                new_upper := max_index.<A HREF="../elks/comparable.html#f_max">max</A> (<A HREF="../elks/array.html#f_upper">upper</A>)
+                new_size := new_upper - new_lower + 1
+                <B>if</B> new_size &gt; <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_count">count</A> <B>then</B>
+                    <A HREF="../elks/to_special.html#f_set_area">set_area</A> (<A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_aliased_resized_area_with_default">aliased_resized_area_with_default</A> (a_default_value, new_size))
+                <B>end</B>
+                <B>if</B> new_lower &lt; <A HREF="../elks/array.html#f_lower">lower</A> <B>then</B>
+                    offset := <A HREF="../elks/array.html#f_lower">lower</A> - new_lower
+                    <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_move_data">move_data</A> (0, offset, <A HREF="../elks/array.html#f_upper">upper</A> - <A HREF="../elks/array.html#f_lower">lower</A> + 1)
+                    <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_fill_with">fill_with</A> (a_default_value, 0, offset - 1)
+                <B>end</B>
+                <A HREF="../elks/array.html#f_lower">lower</A> := new_lower
+                <A HREF="../elks/array.html#f_upper">upper</A> := new_upper
+            <B>end</B>
+        <B>ensure</B>
+            no_low_lost: <A HREF="../elks/array.html#f_lower">lower</A> = min_index <B>or else</B> <A HREF="../elks/array.html#f_lower">lower</A> = <B>old</B> <A HREF="../elks/array.html#f_lower">lower</A>
+            no_high_lost: <A HREF="../elks/array.html#f_upper">upper</A> = max_index <B>or else</B> <A HREF="../elks/array.html#f_upper">upper</A> = <B>old</B> <A HREF="../elks/array.html#f_upper">upper</A>
+        <B>end</B></A>
+
+    <A NAME="f_resize"><A HREF="../elks/array.html#f_resize">resize</A> (min_index, max_index: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+        <B>obsolete</B> "Use `conservative_resize_with_default' instead as future versions will implement `resize' as specified in ELKS."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Rearrange array so that it can accommodate</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> indices down to </FONT>`min_index'<FONT COLOR="red"> and up to </FONT>`max_index'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do not lose any previously entered item.</FONT>
+        <B>require</B>
+            good_indices: min_index &lt;= max_index
+            has_default: ({G}).<A HREF="../elks/type.html#f_has_default">has_default</A>
+        <B>do</B>
+            <A HREF="../elks/array.html#f_conservative_resize_with_default">conservative_resize_with_default</A> (({G}).<A HREF="../elks/type.html#f_default">default</A>, min_index, max_index)
+        <B>ensure</B>
+            no_low_lost: <A HREF="../elks/array.html#f_lower">lower</A> = min_index <B>or else</B> <A HREF="../elks/array.html#f_lower">lower</A> = <B>old</B> <A HREF="../elks/array.html#f_lower">lower</A>
+            no_high_lost: <A HREF="../elks/array.html#f_upper">upper</A> = max_index <B>or else</B> <A HREF="../elks/array.html#f_upper">upper</A> = <B>old</B> <A HREF="../elks/array.html#f_upper">upper</A>
+        <B>end</B></A>
+
+    <A NAME="f_trim"><A HREF="../elks/array.html#f_trim">trim</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Decrease </FONT><A HREF="../elks/array.html#f_capacity">capacity</A><FONT COLOR="red"> to the minimum value.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Apply to reduce allocated storage.</FONT>
+        <B>local</B>
+            n: <B>like</B> <A HREF="../elks/array.html#f_count">count</A>
+        <B>do</B>
+            n := <A HREF="../elks/array.html#f_count">count</A>
+            <B>if</B> n &lt; <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_capacity">capacity</A> <B>then</B>
+                <A HREF="../elks/to_special.html#f_area">area</A> := <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_aliased_resized_area">aliased_resized_area</A> (n)
+            <B>end</B>
+        <B>ensure then</B>
+            same_items: <A HREF="../elks/array.html#f_same_items">same_items</A> (<B>old</B> <A HREF="../elks/any.html#f_twin">twin</A>)
+        <B>end</B></A>
+
+    <A NAME="f_rebase"><A HREF="../elks/array.html#f_rebase">rebase</A> (a_lower: <B>like</B> <A HREF="../elks/array.html#f_lower">lower</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Without changing the actual content of </FONT>`Current'<FONT COLOR="red"> we set </FONT><A HREF="../elks/array.html#f_lower">lower</A><FONT COLOR="red"> to </FONT>`a_lower'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> and </FONT><A HREF="../elks/array.html#f_upper">upper</A><FONT COLOR="red"> accordingly to </FONT>`a_lower + count - 1'<FONT COLOR="red">.</FONT>
+        <B>local</B>
+            l_old_lower: <B>like</B> <A HREF="../elks/array.html#f_lower">lower</A>
+        <B>do</B>
+            l_old_lower := <A HREF="../elks/array.html#f_lower">lower</A>
+            <A HREF="../elks/array.html#f_lower">lower</A> := a_lower
+            <A HREF="../elks/array.html#f_upper">upper</A> := a_lower + (<A HREF="../elks/array.html#f_upper">upper</A> - l_old_lower)
+        <B>ensure</B>
+            lower_set: <A HREF="../elks/array.html#f_lower">lower</A> = a_lower
+            upper_set: <A HREF="../elks/array.html#f_upper">upper</A> = a_lower + <B>old</B> <A HREF="../elks/array.html#f_count">count</A> - 1
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Conversion</FONT>
+
+    <A NAME="f_to_c"><A HREF="../elks/array.html#f_to_c">to_c</A>: <A HREF="../elks/any.html">ANY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Address of actual sequence of values,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> for passing to external (non-Eiffel) routines.</FONT>
+        <B>require</B>
+            not_is_dotnet: <B>not</B> {<A HREF="../elks/platform.html">PLATFORM</A>}.<A HREF="../elks/platform.html#f_is_dotnet">is_dotnet</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/to_special.html#f_area">area</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_cil"><A HREF="../elks/array.html#f_to_cil">to_cil</A>: <A HREF="../elks/native_array.html">NATIVE_ARRAY</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Address of actual sequence of values,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> for passing to external (non-Eiffel) routines.</FONT>
+        <B>require</B>
+            is_dotnet: {<A HREF="../elks/platform.html">PLATFORM</A>}.<A HREF="../elks/platform.html#f_is_dotnet">is_dotnet</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_native_array">native_array</A>
+        <B>ensure</B>
+            to_cil_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_to_special"><A HREF="../elks/array.html#f_to_special">to_special</A>: <A HREF="../elks/special.html">SPECIAL</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 'area'.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/to_special.html#f_area">area</A>
+        <B>ensure</B>
+            to_special_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_linear_representation"><A HREF="../elks/array.html#f_linear_representation">linear_representation</A>: <A HREF="../elks/linear.html">LINEAR</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Representation as a linear structure</FONT>
+        <B>local</B>
+            temp: <A HREF="../elks/arrayed_list.html">ARRAYED_LIST</A> [G]
+            i: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>create</B> temp.<A HREF="../elks/arrayed_list.html#f_make">make</A> (<A HREF="../elks/array.html#f_capacity">capacity</A>)
+            <B>from</B>
+                i := <A HREF="../elks/array.html#f_lower">lower</A>
+            <B>until</B>
+                i &gt; <A HREF="../elks/array.html#f_upper">upper</A>
+            <B>loop</B>
+                temp.<A HREF="../elks/arrayed_list.html#f_extend">extend</A> (<A HREF="../elks/array.html#f_item">item</A> (i))
+                i := i + 1
+            <B>end</B>
+            <B>Result</B> := temp
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_copy"><A HREF="../elks/array.html#f_copy">copy</A> (other: <B>like</B> <B>Current</B>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Reinitialize by copying all the items of </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (This is also used by </FONT><A HREF="../elks/any.html#f_clone">clone</A><FONT COLOR="red">.)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Current</B> <B>then</B>
+                <A HREF="../elks/any.html#f_standard_copy">standard_copy</A> (other)
+                <A HREF="../elks/to_special.html#f_set_area">set_area</A> (other.<A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/any.html#f_twin">twin</A>)
+            <B>end</B>
+        <B>ensure then</B>
+            equal_areas: <A HREF="../elks/to_special.html#f_area">area</A> ~ other.<A HREF="../elks/to_special.html#f_area">area</A>
+        <B>end</B></A>
+
+    <A NAME="f_subarray"><A HREF="../elks/array.html#f_subarray">subarray</A> (start_pos, end_pos: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/array.html">ARRAY</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Array made of items of current array within</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> bounds </FONT>`start_pos'<FONT COLOR="red"> and </FONT>`end_pos'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            valid_start_pos: <A HREF="../elks/array.html#f_valid_index">valid_index</A> (start_pos)
+            valid_end_pos: end_pos &lt;= <A HREF="../elks/array.html#f_upper">upper</A>
+            valid_bounds: (start_pos &lt;= end_pos) <B>or</B> (start_pos = end_pos + 1)
+        <B>do</B>
+            <B>if</B> start_pos &lt;= end_pos <B>then</B>
+                <B>create</B> <B>Result</B>.<A HREF="../elks/array.html#f_make_filled">make_filled</A> (<A HREF="../elks/array.html#f_item">item</A> (start_pos), start_pos, end_pos)
+                <B>Result</B>.<A HREF="../elks/array.html#f_subcopy">subcopy</A> (<B>Current</B>, start_pos, end_pos, start_pos)
+            <B>else</B>
+                <B>create</B> <B>Result</B>.<A HREF="../elks/array.html#f_make_empty">make_empty</A>
+                <B>Result</B>.<A HREF="../elks/array.html#f_rebase">rebase</A> (start_pos)
+            <B>end</B>
+        <B>ensure</B>
+            lower: <B>Result</B>.<A HREF="../elks/array.html#f_lower">lower</A> = start_pos
+            upper: <B>Result</B>.<A HREF="../elks/array.html#f_upper">upper</A> = end_pos
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Inapplicable</FONT>
+
+    <A NAME="f_prune"><A HREF="../elks/array.html#f_prune">prune</A> (v: G)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove first occurrence of </FONT>`v'<FONT COLOR="red"> if any.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Precondition is False.)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_extend"><A HREF="../elks/array.html#f_extend">extend</A> (v: G)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Add </FONT>`v'<FONT COLOR="red"> to structure.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Precondition is False.)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_empty_area"><A HREF="../elks/array.html#f_empty_area">empty_area</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT><A HREF="../elks/to_special.html#f_area">area</A><FONT COLOR="red"> empty?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/to_special.html#f_area">area</A> = <B>Void</B> <B>or else</B> <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_capacity">capacity</A> = 0
+        <B>end</B></A>
+    
+<B>invariant</B>
+    area_exists: <A HREF="../elks/to_special.html#f_area">area</A> /= <B>Void</B>
+    consistent_size: <A HREF="../elks/array.html#f_capacity">capacity</A> = <A HREF="../elks/array.html#f_upper">upper</A> - <A HREF="../elks/array.html#f_lower">lower</A> + 1
+    non_negative_count: <A HREF="../elks/array.html#f_count">count</A> &gt;= 0
+    index_set_has_same_count: <A HREF="../elks/array.html#f_valid_index_set">valid_index_set</A>
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/array.html">ARRAY</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="array_chart.html">Chart</A></TD><TD><A HREF="array_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="array_flat.html">Flat</A></TD><TD><A HREF="array_short.html">Contracts</A></TD><TD><A HREF="array_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

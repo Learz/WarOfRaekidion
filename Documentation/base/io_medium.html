@@ -1,0 +1,720 @@
+<HTML><HEAD>
+<meta name="description" content="Any medium that can perform input and/or output"/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>io_medium Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="io_medium_chart.html">Chart</A></TD><TD><A HREF="io_medium_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="io_medium_flat.html">Flat</A></TD><TD><A HREF="io_medium_short.html">Contracts</A></TD><TD><A HREF="io_medium_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Any medium that can perform input and/or output"
+    library: "Free implementation of ELKS library"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2012-09-28 09:01:26 -0700 (Fri, 28 Sep 2012) $"
+    revision: "$Revision: 91997 $"
+
+<B>deferred</B> <B>class</B> 
+    <A HREF="../elks/io_medium.html">IO_MEDIUM</A>
+
+<B>inherit</B>
+    <A HREF="../elks/disposable.html">DISPOSABLE</A>
+        <B>export</B>
+            {NONE} <B>all</B>
+        <B>end</B>
+
+    <A HREF="../elks/string_handler.html">STRING_HANDLER</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_name"><A HREF="../elks/io_medium.html#f_name">name</A>: <B>detachable</B> <A HREF="../elks/string_8.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Medium name</FONT>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_retrieved"><A HREF="../elks/io_medium.html#f_retrieved">retrieved</A>: <B>detachable</B> <A HREF="../elks/any.html">ANY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieved object structure</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> To access resulting object under correct type,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> use assignment attempt.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Will raise an exception (code </FONT>`Retrieve_exception'<FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> if content is not a stored Eiffel structure.</FONT>
+        <B>require</B>
+            is_readable: <A HREF="../elks/io_medium.html#f_readable">readable</A>
+            support_storable: <A HREF="../elks/io_medium.html#f_support_storable">support_storable</A>
+        <B>deferred</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_basic_store"><A HREF="../elks/io_medium.html#f_basic_store">basic_store</A> (object: <A HREF="../elks/any.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Produce an external representation of the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> entire object structure reachable from </FONT>`object'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrievable within current system only.</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            extendible: <A HREF="../elks/io_medium.html#f_extendible">extendible</A>
+            support_storable: <A HREF="../elks/io_medium.html#f_support_storable">support_storable</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_general_store"><A HREF="../elks/io_medium.html#f_general_store">general_store</A> (object: <A HREF="../elks/any.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Produce an external representation of the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> entire object structure reachable from </FONT>`object'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrievable from other systems for same platform</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (machine architecture).</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            extendible: <A HREF="../elks/io_medium.html#f_extendible">extendible</A>
+            support_storable: <A HREF="../elks/io_medium.html#f_support_storable">support_storable</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_independent_store"><A HREF="../elks/io_medium.html#f_independent_store">independent_store</A> (object: <A HREF="../elks/any.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Produce an external representation of the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> entire object structure reachable from </FONT>`object'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrievable from other systems for the same or other</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> platform (machine architecture).</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            extendible: <A HREF="../elks/io_medium.html#f_extendible">extendible</A>
+            support_storable: <A HREF="../elks/io_medium.html#f_support_storable">support_storable</A>
+        <B>deferred</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_handle"><A HREF="../elks/io_medium.html#f_handle">handle</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Handle to medium</FONT>
+        <B>require</B>
+            valid_handle: <A HREF="../elks/io_medium.html#f_handle_available">handle_available</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_handle_available"><A HREF="../elks/io_medium.html#f_handle_available">handle_available</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is the handle available after class has been</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> created?</FONT>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_plain_text"><A HREF="../elks/io_medium.html#f_is_plain_text">is_plain_text</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is file reserved for text (character sequences)?</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_last_character"><A HREF="../elks/io_medium.html#f_last_character">last_character</A>: <A HREF="../elks/character_8.html">CHARACTER_8</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last character read by </FONT><A HREF="../elks/io_medium.html#f_read_character">read_character</A>
+
+    <A NAME="f_last_string"><A HREF="../elks/io_medium.html#f_last_string">last_string</A>: <A HREF="../elks/string_8.html">STRING_8</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last string read</FONT>
+
+    <A NAME="f_last_integer"><A HREF="../elks/io_medium.html#f_last_integer">last_integer</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last integer read by </FONT><A HREF="../elks/io_medium.html#f_read_integer">read_integer</A>
+
+    <A NAME="f_last_integer_32"><A HREF="../elks/io_medium.html#f_last_integer_32">last_integer_32</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Synonymy of </FONT><A HREF="../elks/io_medium.html#f_last_integer">last_integer</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/io_medium.html#f_last_integer">last_integer</A>
+        <B>end</B></A>
+
+    <A NAME="f_last_integer_64"><A HREF="../elks/io_medium.html#f_last_integer_64">last_integer_64</A>: <A HREF="../elks/integer_64.html">INTEGER_64</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last 64-bit integer read by </FONT><A HREF="../elks/io_medium.html#f_read_integer_64">read_integer_64</A>
+
+    <A NAME="f_last_integer_16"><A HREF="../elks/io_medium.html#f_last_integer_16">last_integer_16</A>: <A HREF="../elks/integer_16.html">INTEGER_16</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last 16-bit integer read by </FONT><A HREF="../elks/io_medium.html#f_read_integer_16">read_integer_16</A>
+
+    <A NAME="f_last_integer_8"><A HREF="../elks/io_medium.html#f_last_integer_8">last_integer_8</A>: <A HREF="../elks/integer_8.html">INTEGER_8</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last 8-bit integer read by </FONT><A HREF="../elks/io_medium.html#f_read_integer_8">read_integer_8</A>
+
+    <A NAME="f_last_natural_64"><A HREF="../elks/io_medium.html#f_last_natural_64">last_natural_64</A>: <A HREF="../elks/natural_64.html">NATURAL_64</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last 64-bit natural read by </FONT><A HREF="../elks/io_medium.html#f_read_natural_64">read_natural_64</A>
+
+    <A NAME="f_last_natural"><A HREF="../elks/io_medium.html#f_last_natural">last_natural</A>: <A HREF="../elks/natural_32.html">NATURAL_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last 32-bit natural read by </FONT><A HREF="../elks/io_medium.html#f_read_natural">read_natural</A>
+
+    <A NAME="f_last_natural_32"><A HREF="../elks/io_medium.html#f_last_natural_32">last_natural_32</A>: <A HREF="../elks/natural_32.html">NATURAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Synonymy of </FONT><A HREF="../elks/io_medium.html#f_last_natural">last_natural</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/io_medium.html#f_last_natural">last_natural</A>
+        <B>end</B></A>
+
+    <A NAME="f_last_natural_16"><A HREF="../elks/io_medium.html#f_last_natural_16">last_natural_16</A>: <A HREF="../elks/natural_16.html">NATURAL_16</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last 16-bit natural read by </FONT><A HREF="../elks/io_medium.html#f_read_natural_16">read_natural_16</A>
+
+    <A NAME="f_last_natural_8"><A HREF="../elks/io_medium.html#f_last_natural_8">last_natural_8</A>: <A HREF="../elks/natural_8.html">NATURAL_8</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last 8-bit natural read by </FONT><A HREF="../elks/io_medium.html#f_read_natural_8">read_natural_8</A>
+
+    <A NAME="f_last_real"><A HREF="../elks/io_medium.html#f_last_real">last_real</A>: <A HREF="../elks/real_32.html">REAL_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last real read by </FONT><A HREF="../elks/io_medium.html#f_read_real">read_real</A>
+
+    <A NAME="f_last_double"><A HREF="../elks/io_medium.html#f_last_double">last_double</A>: <A HREF="../elks/real_64.html">REAL_64</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last double read by </FONT><A HREF="../elks/io_medium.html#f_read_double">read_double</A>
+
+    <A NAME="f_bytes_read"><A HREF="../elks/io_medium.html#f_bytes_read">bytes_read</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last number of bytes read by </FONT><A HREF="../elks/io_medium.html#f_read_to_managed_pointer">read_to_managed_pointer</A><FONT COLOR="red">.</FONT>
+
+    <A NAME="f_exists"><A HREF="../elks/io_medium.html#f_exists">exists</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does medium exist?</FONT>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_open_read"><A HREF="../elks/io_medium.html#f_is_open_read">is_open_read</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is this medium opened for input</FONT>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_open_write"><A HREF="../elks/io_medium.html#f_is_open_write">is_open_write</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is this medium opened for output</FONT>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_readable"><A HREF="../elks/io_medium.html#f_is_readable">is_readable</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is medium readable?</FONT>
+        <B>require</B>
+            handle_exists: <A HREF="../elks/io_medium.html#f_exists">exists</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_executable"><A HREF="../elks/io_medium.html#f_is_executable">is_executable</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is medium executable?</FONT>
+        <B>require</B>
+            handle_exists: <A HREF="../elks/io_medium.html#f_exists">exists</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_writable"><A HREF="../elks/io_medium.html#f_is_writable">is_writable</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is medium writable?</FONT>
+        <B>require</B>
+            handle_exists: <A HREF="../elks/io_medium.html#f_exists">exists</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_readable"><A HREF="../elks/io_medium.html#f_readable">readable</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there a current item that may be read?</FONT>
+        <B>require</B>
+            handle_exists: <A HREF="../elks/io_medium.html#f_exists">exists</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_extendible"><A HREF="../elks/io_medium.html#f_extendible">extendible</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May new items be added?</FONT>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_closed"><A HREF="../elks/io_medium.html#f_is_closed">is_closed</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is the I/O medium open</FONT>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_support_storable"><A HREF="../elks/io_medium.html#f_support_storable">support_storable</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Can medium be used to store an Eiffel object?</FONT>
+        <B>deferred</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status setting</FONT>
+
+    <A NAME="f_close"><A HREF="../elks/io_medium.html#f_close">close</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Close medium.</FONT>
+        <B>require</B>
+            medium_is_open: <B>not</B> <A HREF="../elks/io_medium.html#f_is_closed">is_closed</A>
+        <B>deferred</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removal</FONT>
+
+    <A NAME="f_dispose"><A HREF="../elks/io_medium.html#f_dispose">dispose</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Ensure this medium is closed when garbage collected.</FONT>
+        <B>do</B>
+            <B>if</B> <B>not</B> <A HREF="../elks/io_medium.html#f_is_closed">is_closed</A> <B>then</B>
+                <A HREF="../elks/io_medium.html#f_close">close</A>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output</FONT>
+
+    <A NAME="f_put_new_line"><A HREF="../elks/io_medium.html#f_put_new_line">put_new_line</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write a new line character to medium</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_new_line">new_line</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            extendible: <A HREF="../elks/io_medium.html#f_extendible">extendible</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_new_line"><A HREF="../elks/io_medium.html#f_new_line">new_line</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write a new line character to medium</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_put_new_line">put_new_line</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            extendible: <A HREF="../elks/io_medium.html#f_extendible">extendible</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_put_string"><A HREF="../elks/io_medium.html#f_put_string">put_string</A> (s: <A HREF="../elks/string_8.html">STRING_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`s'<FONT COLOR="red"> to medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_putstring">putstring</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            extendible: <A HREF="../elks/io_medium.html#f_extendible">extendible</A>
+            non_void: s /= <B>Void</B>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_putstring"><A HREF="../elks/io_medium.html#f_putstring">putstring</A> (s: <A HREF="../elks/string_8.html">STRING_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`s'<FONT COLOR="red"> to medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_put_string">put_string</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            extendible: <A HREF="../elks/io_medium.html#f_extendible">extendible</A>
+            non_void: s /= <B>Void</B>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_put_character"><A HREF="../elks/io_medium.html#f_put_character">put_character</A> (c: <A HREF="../elks/character_8.html">CHARACTER_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`c'<FONT COLOR="red"> to medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_putchar">putchar</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            extendible: <A HREF="../elks/io_medium.html#f_extendible">extendible</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_putchar"><A HREF="../elks/io_medium.html#f_putchar">putchar</A> (c: <A HREF="../elks/character_8.html">CHARACTER_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`c'<FONT COLOR="red"> to medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_put_character">put_character</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            extendible: <A HREF="../elks/io_medium.html#f_extendible">extendible</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_put_real"><A HREF="../elks/io_medium.html#f_put_real">put_real</A> (r: <A HREF="../elks/real_32.html">REAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`r'<FONT COLOR="red"> to medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_putreal">putreal</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            extendible: <A HREF="../elks/io_medium.html#f_extendible">extendible</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_putreal"><A HREF="../elks/io_medium.html#f_putreal">putreal</A> (r: <A HREF="../elks/real_32.html">REAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`r'<FONT COLOR="red"> to medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_put_real">put_real</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            extendible: <A HREF="../elks/io_medium.html#f_extendible">extendible</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_put_integer"><A HREF="../elks/io_medium.html#f_put_integer">put_integer</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> to medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_putint">putint</A><FONT COLOR="red"> and </FONT><A HREF="../elks/io_medium.html#f_put_integer_32">put_integer_32</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            extendible: <A HREF="../elks/io_medium.html#f_extendible">extendible</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_putint"><A HREF="../elks/io_medium.html#f_putint">putint</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> to medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_put_integer">put_integer</A><FONT COLOR="red"> and </FONT><A HREF="../elks/io_medium.html#f_put_integer_32">put_integer_32</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            extendible: <A HREF="../elks/io_medium.html#f_extendible">extendible</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_put_integer_32"><A HREF="../elks/io_medium.html#f_put_integer_32">put_integer_32</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> to medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_put_integer">put_integer</A><FONT COLOR="red"> and </FONT><A HREF="../elks/io_medium.html#f_putint">putint</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            extendible: <A HREF="../elks/io_medium.html#f_extendible">extendible</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_put_integer_8"><A HREF="../elks/io_medium.html#f_put_integer_8">put_integer_8</A> (i: <A HREF="../elks/integer_8.html">INTEGER_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> to medium.</FONT>
+        <B>require</B>
+            extendible: <A HREF="../elks/io_medium.html#f_extendible">extendible</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_put_integer_16"><A HREF="../elks/io_medium.html#f_put_integer_16">put_integer_16</A> (i: <A HREF="../elks/integer_16.html">INTEGER_16</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> to medium.</FONT>
+        <B>require</B>
+            extendible: <A HREF="../elks/io_medium.html#f_extendible">extendible</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_put_integer_64"><A HREF="../elks/io_medium.html#f_put_integer_64">put_integer_64</A> (i: <A HREF="../elks/integer_64.html">INTEGER_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> to medium.</FONT>
+        <B>require</B>
+            extendible: <A HREF="../elks/io_medium.html#f_extendible">extendible</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_put_natural_8"><A HREF="../elks/io_medium.html#f_put_natural_8">put_natural_8</A> (i: <A HREF="../elks/natural_8.html">NATURAL_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> to medium.</FONT>
+        <B>require</B>
+            extendible: <A HREF="../elks/io_medium.html#f_extendible">extendible</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_put_natural_16"><A HREF="../elks/io_medium.html#f_put_natural_16">put_natural_16</A> (i: <A HREF="../elks/natural_16.html">NATURAL_16</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> to medium.</FONT>
+        <B>require</B>
+            extendible: <A HREF="../elks/io_medium.html#f_extendible">extendible</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_put_natural"><A HREF="../elks/io_medium.html#f_put_natural">put_natural</A> (i: <A HREF="../elks/natural_32.html">NATURAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> to medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_put_natural_32">put_natural_32</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            extendible: <A HREF="../elks/io_medium.html#f_extendible">extendible</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_put_natural_32"><A HREF="../elks/io_medium.html#f_put_natural_32">put_natural_32</A> (i: <A HREF="../elks/natural_32.html">NATURAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> to medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_put_natural">put_natural</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            extendible: <A HREF="../elks/io_medium.html#f_extendible">extendible</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_put_natural_64"><A HREF="../elks/io_medium.html#f_put_natural_64">put_natural_64</A> (i: <A HREF="../elks/natural_64.html">NATURAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> to medium.</FONT>
+        <B>require</B>
+            extendible: <A HREF="../elks/io_medium.html#f_extendible">extendible</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_put_boolean"><A HREF="../elks/io_medium.html#f_put_boolean">put_boolean</A> (b: <A HREF="../elks/boolean.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`b'<FONT COLOR="red"> to medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_putbool">putbool</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            extendible: <A HREF="../elks/io_medium.html#f_extendible">extendible</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_putbool"><A HREF="../elks/io_medium.html#f_putbool">putbool</A> (b: <A HREF="../elks/boolean.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`b'<FONT COLOR="red"> to medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_put_boolean">put_boolean</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            extendible: <A HREF="../elks/io_medium.html#f_extendible">extendible</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_put_double"><A HREF="../elks/io_medium.html#f_put_double">put_double</A> (d: <A HREF="../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`d'<FONT COLOR="red"> to medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_putdouble">putdouble</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            extendible: <A HREF="../elks/io_medium.html#f_extendible">extendible</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_putdouble"><A HREF="../elks/io_medium.html#f_putdouble">putdouble</A> (d: <A HREF="../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`d'<FONT COLOR="red"> to medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_put_double">put_double</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            extendible: <A HREF="../elks/io_medium.html#f_extendible">extendible</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_put_managed_pointer"><A HREF="../elks/io_medium.html#f_put_managed_pointer">put_managed_pointer</A> (p: <A HREF="../elks/managed_pointer.html">MANAGED_POINTER</A>; start_pos, nb_bytes: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Put data of length </FONT>`nb_bytes'<FONT COLOR="red"> pointed by </FONT>`start_pos'<FONT COLOR="red"> index in </FONT>`p'<FONT COLOR="red"> at</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> current position.</FONT>
+        <B>require</B>
+            p_not_void: p /= <B>Void</B>
+            p_large_enough: p.<A HREF="../elks/managed_pointer.html#f_count">count</A> &gt;= nb_bytes + start_pos
+            nb_bytes_non_negative: nb_bytes &gt;= 0
+            extendible: <A HREF="../elks/io_medium.html#f_extendible">extendible</A>
+        <B>deferred</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Input</FONT>
+
+    <A NAME="f_read_real"><A HREF="../elks/io_medium.html#f_read_real">read_real</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new real.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_real">last_real</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_readreal">readreal</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            is_readable: <A HREF="../elks/io_medium.html#f_readable">readable</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_readreal"><A HREF="../elks/io_medium.html#f_readreal">readreal</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new real.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_real">last_real</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_read_real">read_real</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            is_readable: <A HREF="../elks/io_medium.html#f_readable">readable</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_double"><A HREF="../elks/io_medium.html#f_read_double">read_double</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new double.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_double">last_double</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_readdouble">readdouble</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            is_readable: <A HREF="../elks/io_medium.html#f_readable">readable</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_readdouble"><A HREF="../elks/io_medium.html#f_readdouble">readdouble</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new double.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_double">last_double</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_read_double">read_double</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            is_readable: <A HREF="../elks/io_medium.html#f_readable">readable</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_character"><A HREF="../elks/io_medium.html#f_read_character">read_character</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new character.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_character">last_character</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_readchar">readchar</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            is_readable: <A HREF="../elks/io_medium.html#f_readable">readable</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_readchar"><A HREF="../elks/io_medium.html#f_readchar">readchar</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new character.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_character">last_character</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_read_character">read_character</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            is_readable: <A HREF="../elks/io_medium.html#f_readable">readable</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_integer"><A HREF="../elks/io_medium.html#f_read_integer">read_integer</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 32-bit integer.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_integer">last_integer</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_readint">readint</A><FONT COLOR="red"> and </FONT><A HREF="../elks/io_medium.html#f_read_integer_32">read_integer_32</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            is_readable: <A HREF="../elks/io_medium.html#f_readable">readable</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_readint"><A HREF="../elks/io_medium.html#f_readint">readint</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 32-bit integer.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_integer">last_integer</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_read_integer">read_integer</A><FONT COLOR="red"> and </FONT><A HREF="../elks/io_medium.html#f_read_integer_32">read_integer_32</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            is_readable: <A HREF="../elks/io_medium.html#f_readable">readable</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_integer_32"><A HREF="../elks/io_medium.html#f_read_integer_32">read_integer_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 32-bit integer.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_integer">last_integer</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_read_integer">read_integer</A><FONT COLOR="red"> and </FONT><A HREF="../elks/io_medium.html#f_readint">readint</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            is_readable: <A HREF="../elks/io_medium.html#f_readable">readable</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_integer_8"><A HREF="../elks/io_medium.html#f_read_integer_8">read_integer_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 8-bit integer.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_integer_8">last_integer_8</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            is_readable: <A HREF="../elks/io_medium.html#f_readable">readable</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_integer_16"><A HREF="../elks/io_medium.html#f_read_integer_16">read_integer_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 16-bit integer.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_integer_16">last_integer_16</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            is_readable: <A HREF="../elks/io_medium.html#f_readable">readable</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_integer_64"><A HREF="../elks/io_medium.html#f_read_integer_64">read_integer_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 64-bit integer.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_integer_64">last_integer_64</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            is_readable: <A HREF="../elks/io_medium.html#f_readable">readable</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_natural_8"><A HREF="../elks/io_medium.html#f_read_natural_8">read_natural_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 8-bit natural.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_natural_8">last_natural_8</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            is_readable: <A HREF="../elks/io_medium.html#f_readable">readable</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_natural_16"><A HREF="../elks/io_medium.html#f_read_natural_16">read_natural_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 16-bit natural.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_natural_16">last_natural_16</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            is_readable: <A HREF="../elks/io_medium.html#f_readable">readable</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_natural"><A HREF="../elks/io_medium.html#f_read_natural">read_natural</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 32-bit natural.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_natural">last_natural</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_read_natural_32">read_natural_32</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            is_readable: <A HREF="../elks/io_medium.html#f_readable">readable</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_natural_32"><A HREF="../elks/io_medium.html#f_read_natural_32">read_natural_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 32-bit natural.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_natural">last_natural</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_read_natural">read_natural</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            is_readable: <A HREF="../elks/io_medium.html#f_readable">readable</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_natural_64"><A HREF="../elks/io_medium.html#f_read_natural_64">read_natural_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 64-bit natural.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_natural_64">last_natural_64</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            is_readable: <A HREF="../elks/io_medium.html#f_readable">readable</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_stream"><A HREF="../elks/io_medium.html#f_read_stream">read_stream</A> (nb_char: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a string of at most </FONT>`nb_char'<FONT COLOR="red"> bound characters</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or until end of medium is encountered.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_string">last_string</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_readstream">readstream</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            is_readable: <A HREF="../elks/io_medium.html#f_readable">readable</A>
+        <B>deferred</B>
+        <B>ensure</B>
+            last_string_not_void: <A HREF="../elks/io_medium.html#f_last_string">last_string</A> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_readstream"><A HREF="../elks/io_medium.html#f_readstream">readstream</A> (nb_char: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a string of at most </FONT>`nb_char'<FONT COLOR="red"> bound characters</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or until end of medium is encountered.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_string">last_string</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_read_stream">read_stream</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            is_readable: <A HREF="../elks/io_medium.html#f_readable">readable</A>
+        <B>deferred</B>
+        <B>ensure</B>
+            last_string_not_void: <A HREF="../elks/io_medium.html#f_last_string">last_string</A> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_stream_thread_aware"><A HREF="../elks/io_medium.html#f_read_stream_thread_aware">read_stream_thread_aware</A> (nb_char: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a string of at most </FONT>`nb_char'<FONT COLOR="red"> bound characters</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or until end of medium is encountered.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_string">last_string</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Functionally identical to </FONT><A HREF="../elks/io_medium.html#f_read_stream">read_stream</A><FONT COLOR="red"> but</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> won't prevent garbage collection from occurring</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> while blocked waiting for data, though data must</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> be copied an extra time.			</FONT>
+        <B>require</B>
+            is_readable: <A HREF="../elks/io_medium.html#f_readable">readable</A>
+        <B>do</B>
+            <A HREF="../elks/io_medium.html#f_read_stream">read_stream</A> (nb_char)
+        <B>ensure</B>
+            last_string_not_void: <A HREF="../elks/io_medium.html#f_last_string">last_string</A> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_line"><A HREF="../elks/io_medium.html#f_read_line">read_line</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read characters until a new line or</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> end of medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_string">last_string</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_readline">readline</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            is_readable: <A HREF="../elks/io_medium.html#f_readable">readable</A>
+        <B>deferred</B>
+        <B>ensure</B>
+            last_string_not_void: <A HREF="../elks/io_medium.html#f_last_string">last_string</A> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_readline"><A HREF="../elks/io_medium.html#f_readline">readline</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read characters until a new line or</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> end of medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_string">last_string</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/io_medium.html#f_read_line">read_line</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            is_readable: <A HREF="../elks/io_medium.html#f_readable">readable</A>
+        <B>deferred</B>
+        <B>ensure</B>
+            last_string_not_void: <A HREF="../elks/io_medium.html#f_last_string">last_string</A> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_line_thread_aware"><A HREF="../elks/io_medium.html#f_read_line_thread_aware">read_line_thread_aware</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read characters until a new line or</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> end of medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_string">last_string</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Functionally identical to </FONT><A HREF="../elks/io_medium.html#f_read_line">read_line</A><FONT COLOR="red"> but</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> won't prevent garbage collection from occurring</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> while blocked waiting for data, though data must</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> be copied an extra time.			</FONT>
+        <B>require</B>
+            is_readable: <A HREF="../elks/io_medium.html#f_readable">readable</A>
+        <B>do</B>
+            <A HREF="../elks/io_medium.html#f_read_line">read_line</A>
+        <B>ensure</B>
+            last_string_not_void: <A HREF="../elks/io_medium.html#f_last_string">last_string</A> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_to_managed_pointer"><A HREF="../elks/io_medium.html#f_read_to_managed_pointer">read_to_managed_pointer</A> (p: <A HREF="../elks/managed_pointer.html">MANAGED_POINTER</A>; start_pos, nb_bytes: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read at most </FONT>`nb_bytes'<FONT COLOR="red"> bound bytes and make result</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> available in </FONT>`p'<FONT COLOR="red"> at position </FONT>`start_pos'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            p_not_void: p /= <B>Void</B>
+            p_large_enough: p.<A HREF="../elks/managed_pointer.html#f_count">count</A> &gt;= nb_bytes + start_pos
+            nb_bytes_non_negative: nb_bytes &gt;= 0
+            is_readable: <A HREF="../elks/io_medium.html#f_readable">readable</A>
+        <B>deferred</B>
+        <B>ensure</B>
+            bytes_read_non_negative: <A HREF="../elks/io_medium.html#f_bytes_read">bytes_read</A> &gt;= 0
+            bytes_read_not_too_big: <A HREF="../elks/io_medium.html#f_bytes_read">bytes_read</A> &lt;= nb_bytes
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Obsolete</FONT>
+
+    <A NAME="f_lastchar"><A HREF="../elks/io_medium.html#f_lastchar">lastchar</A>: <A HREF="../elks/character_8.html">CHARACTER_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last character read by </FONT><A HREF="../elks/io_medium.html#f_read_character">read_character</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/io_medium.html#f_last_character">last_character</A>
+        <B>end</B></A>
+
+    <A NAME="f_laststring"><A HREF="../elks/io_medium.html#f_laststring">laststring</A>: <B>like</B> <A HREF="../elks/io_medium.html#f_last_string">last_string</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last string read</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/io_medium.html#f_last_string">last_string</A>
+        <B>end</B></A>
+
+    <A NAME="f_lastint"><A HREF="../elks/io_medium.html#f_lastint">lastint</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last integer read by </FONT><A HREF="../elks/io_medium.html#f_read_integer">read_integer</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/io_medium.html#f_last_integer">last_integer</A>
+        <B>end</B></A>
+
+    <A NAME="f_lastreal"><A HREF="../elks/io_medium.html#f_lastreal">lastreal</A>: <A HREF="../elks/real_32.html">REAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last real read by </FONT><A HREF="../elks/io_medium.html#f_read_real">read_real</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/io_medium.html#f_last_real">last_real</A>
+        <B>end</B></A>
+
+    <A NAME="f_lastdouble"><A HREF="../elks/io_medium.html#f_lastdouble">lastdouble</A>: <A HREF="../elks/real_64.html">REAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last double read by </FONT><A HREF="../elks/io_medium.html#f_read_double">read_double</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/io_medium.html#f_last_double">last_double</A>
+        <B>end</B></A>
+    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/io_medium.html">IO_MEDIUM</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="io_medium_chart.html">Chart</A></TD><TD><A HREF="io_medium_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="io_medium_flat.html">Flat</A></TD><TD><A HREF="io_medium_short.html">Contracts</A></TD><TD><A HREF="io_medium_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

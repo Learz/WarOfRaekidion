@@ -1,0 +1,195 @@
+<HTML><HEAD>
+<meta name="description" content="TTUtility class to traverse object graphs starting at a root object.   TTWhen traversing a graph the class distinguishes four different types of references: TT TTT(1) Normal references TTT(2) References with copy-semantics, which are usually seen when attaching  TTTTan expanded object to an ANY reference TTT(3) User-defined expanded objects, embedded inside another object.  TTTTSemantically this is a special case of a copy-semantics reference. TTT(4) Language-defined expanded objects (INTEGER, POINTER etc) embedded inside another object.  TTTTSemantically, this is a special case of a copy-semantics reference. TTTT TTThis class will follow all reference types except (4).  TT TTDuring traversal the agent `on_processing_object_action' will be called for each object TTand the agent `on_processing_reference_action' for each reference, if present. This includes TTreferences to objects that have already been processed. TT TTThe algorighm has two output values: `visited_objects' and `visited_types': TTAny standard object without copy-semantics (i.e. reference type (1)) will be stored TTby aliasing inside `visited_object'. For references of type (2) and (3) a copy will be stored. TTThe `visited_types' hash table contains the dynamic type id of all types encountered during  TTtraversal. The key and value in the hashtable are the same. TT TTSetting `is_skip_copy_semantics_reference' to true means that references of (2) and (3) will TTnot be stored in `visited_types'. Note that this is the only effect of this setting - i.e. TTthe traversal algorithm will still follow the references, the agents will be called, and the TT`visited_types' array will be extended anyway.  TTNOTE: TT TTDue to a limitation in the reflection library, references of type (2) and (3) within TUPLE  TTand references of type (3) within SPECIAL cannot be handled without causing a copy. This is  TTproblematic for agents, especially when they want to change the object. Therefore TTthe algorithm will raise an exception when an agent is attached. TTIn read-only situations it may be acceptable to use a copy of an object. Therefore to disable the TTexception behaviour you can set `is_exception_on_copy_suppressed' to True. TT TTNOTE: TT TTTo maintain backwards compatibility the traversal algorithm will silently ignore any kind of  TTexception and just return normally, with `traversed_objects' set to whatever value it had before  TTinvoking `traverse'. In order to get exceptions you need to set `is_exception_propagated' to True."/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="author" content="Stephanie Balzer"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>object_graph_traversable Contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="object_graph_traversable_chart.html">Chart</A></TD><TD><A HREF="object_graph_traversable_links.html">Relations</A></TD><TD><A HREF="object_graph_traversable.html">Text</A></TD><TD><A HREF="object_graph_traversable_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="object_graph_traversable_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        		Utility class to traverse object graphs starting at a root object.
+        
+        
+        		When traversing a graph the class distinguishes four different types of references:
+        		
+        			(1) Normal references
+        			(2) References with copy-semantics, which are usually seen when attaching 
+        				an expanded object to an ANY reference
+        			(3) User-defined expanded objects, embedded inside another object. 
+        				Semantically this is a special case of a copy-semantics reference.
+        			(4) Language-defined expanded objects (INTEGER, POINTER etc) embedded inside another object. 
+        				Semantically, this is a special case of a copy-semantics reference.
+        				
+        		This class will follow all reference types except (4). 
+        		
+        		During traversal the agent <A HREF="../elks/object_graph_traversable_short.html#f_on_processing_object_action">on_processing_object_action</A> will be called for each object
+        		and the agent <A HREF="../elks/object_graph_traversable_short.html#f_on_processing_reference_action">on_processing_reference_action</A> for each reference, if present. This includes
+        		references to objects that have already been processed.
+        		
+        		The algorighm has two output values: <A HREF="../elks/object_graph_traversable_short.html#f_visited_objects">visited_objects</A> and <A HREF="../elks/object_graph_traversable_short.html#f_visited_types">visited_types</A>:
+        		Any standard object without copy-semantics (i.e. reference type (1)) will be stored
+        		by aliasing inside `visited_object'. For references of type (2) and (3) a copy will be stored.
+        		The <A HREF="../elks/object_graph_traversable_short.html#f_visited_types">visited_types</A> hash table contains the dynamic type id of all types encountered during 
+        		traversal. The key and value in the hashtable are the same.
+        		
+        		Setting <A HREF="../elks/object_graph_traversable_short.html#f_is_skip_copy_semantics_reference">is_skip_copy_semantics_reference</A> to true means that references of (2) and (3) will
+        		not be stored in <A HREF="../elks/object_graph_traversable_short.html#f_visited_types">visited_types</A>. Note that this is the only effect of this setting - i.e.
+        		the traversal algorithm will still follow the references, the agents will be called, and the
+        		<A HREF="../elks/object_graph_traversable_short.html#f_visited_types">visited_types</A> array will be extended anyway.
+        
+        		NOTE:
+        		
+        		Due to a limitation in the reflection library, references of type (2) and (3) within TUPLE 
+        		and references of type (3) within SPECIAL cannot be handled without causing a copy. This is 
+        		problematic for agents, especially when they want to change the object. Therefore
+        		the algorithm will raise an exception when an agent is attached.
+        		In read-only situations it may be acceptable to use a copy of an object. Therefore to disable the
+        		exception behaviour you can set <A HREF="../elks/object_graph_traversable_short.html#f_is_exception_on_copy_suppressed">is_exception_on_copy_suppressed</A> to True.
+        		
+        		NOTE:
+        		
+        		To maintain backwards compatibility the traversal algorithm will silently ignore any kind of 
+        		exception and just return normally, with `traversed_objects' set to whatever value it had before 
+        		invoking <A HREF="../elks/object_graph_traversable_short.html#f_traverse">traverse</A>. In order to get exceptions you need to set <A HREF="../elks/object_graph_traversable_short.html#f_is_exception_propagated">is_exception_propagated</A> to True.
+    ]"
+    library: "Free implementation of ELKS library"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    author: "Stephanie Balzer"
+    date: "$Date: 2013-11-19 13:41:44 -0800 (Tue, 19 Nov 2013) $"
+    revision: "$Revision: 93442 $"
+
+<B>deferred</B> <B>class</B> <B>interface</B>
+    <A HREF="../elks/object_graph_traversable_short.html">OBJECT_GRAPH_TRAVERSABLE</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_root_object"><A HREF="../elks/object_graph_traversable_short.html#f_root_object">root_object</A>: <B>detachable</B> <A HREF="../elks/any_short.html">ANY</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Starting point of graph traversing</FONT>
+
+    <A NAME="f_on_processing_object_action"><A HREF="../elks/object_graph_traversable_short.html#f_on_processing_object_action">on_processing_object_action</A>: <B>detachable</B> <A HREF="../elks/procedure_short.html">PROCEDURE</A> [<A HREF="../elks/any_short.html">ANY</A>, <A HREF="../elks/tuple_short.html">TUPLE</A> [<A HREF="../elks/reflected_object_short.html">REFLECTED_OBJECT</A>]]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Action called on every object in the object graph.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note: The argument is reused later for a different object. Do not alias it.</FONT>
+
+    <A NAME="f_on_processing_reference_action"><A HREF="../elks/object_graph_traversable_short.html#f_on_processing_reference_action">on_processing_reference_action</A>: <B>detachable</B> <A HREF="../elks/procedure_short.html">PROCEDURE</A> [<A HREF="../elks/any_short.html">ANY</A>, <A HREF="../elks/tuple_short.html">TUPLE</A> [referer: <A HREF="../elks/reflected_object_short.html">REFLECTED_OBJECT</A>; referee: <A HREF="../elks/reflected_object_short.html">REFLECTED_OBJECT</A>]]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Action called on every reference in the object graph.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note: The arguments are reused later for different objects. Do not alias them.</FONT>
+
+    <A NAME="f_object_action"><A HREF="../elks/object_graph_traversable_short.html#f_object_action">object_action</A>: <B>detachable</B> <A HREF="../elks/procedure_short.html">PROCEDURE</A> [<A HREF="../elks/any_short.html">ANY</A>, <A HREF="../elks/tuple_short.html">TUPLE</A> [<A HREF="../elks/any_short.html">ANY</A>]]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Action called on every object in object graph</FONT>
+
+    <A NAME="f_visited_objects"><A HREF="../elks/object_graph_traversable_short.html#f_visited_objects">visited_objects</A>: <B>detachable</B> <A HREF="../elks/arrayed_list_short.html">ARRAYED_LIST</A> [<A HREF="../elks/any_short.html">ANY</A>]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> List referencing objects of object graph that have been visited in </FONT><A HREF="../elks/object_graph_traversable_short.html#f_traverse">traverse</A><FONT COLOR="red">.</FONT>
+
+    <A NAME="f_visited_types"><A HREF="../elks/object_graph_traversable_short.html#f_visited_types">visited_types</A>: <B>detachable</B> <A HREF="../elks/hash_table_short.html">HASH_TABLE</A> [<A HREF="../elks/integer_32_short.html">INTEGER_32</A>, <A HREF="../elks/integer_32_short.html">INTEGER_32</A>]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> List of all types encountered during traversal</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_has_failed"><A HREF="../elks/object_graph_traversable_short.html#f_has_failed">has_failed</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was the last traversal successful?</FONT>
+
+    <A NAME="f_is_root_object_set"><A HREF="../elks/object_graph_traversable_short.html#f_is_root_object_set">is_root_object_set</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is starting point of graph traversing set?</FONT>
+</A>
+    <A NAME="f_is_object_action_set"><A HREF="../elks/object_graph_traversable_short.html#f_is_object_action_set">is_object_action_set</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is procedure to call on every object set?</FONT>
+</A>
+    <A NAME="f_has_reference_with_copy_semantics"><A HREF="../elks/object_graph_traversable_short.html#f_has_reference_with_copy_semantics">has_reference_with_copy_semantics</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does the traversed graph of objects contain reference with copy semantics?</FONT>
+
+    <A NAME="f_is_skip_transient"><A HREF="../elks/object_graph_traversable_short.html#f_is_skip_transient">is_skip_transient</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do we skip transient attribute during traversal?</FONT>
+
+    <A NAME="f_is_skip_copy_semantics_reference"><A HREF="../elks/object_graph_traversable_short.html#f_is_skip_copy_semantics_reference">is_skip_copy_semantics_reference</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do we skip copy semantics reference from </FONT><A HREF="../elks/object_graph_traversable_short.html#f_visited_objects">visited_objects</A><FONT COLOR="red"> during traversal?</FONT>
+
+    <A NAME="f_is_exception_on_copy_suppressed"><A HREF="../elks/object_graph_traversable_short.html#f_is_exception_on_copy_suppressed">is_exception_on_copy_suppressed</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do we suppress an exception when </FONT><A HREF="../elks/object_graph_traversable_short.html#f_object_action">object_action</A><FONT COLOR="red"> is called on a copied object?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> A copy happens when encountering tuples containing copy-semantics references</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or with SPECIAL</FONT><FONT COLOR="red">[XX]</FONT><FONT COLOR="red">, where XX is a user-defined expanded type.</FONT>
+
+    <A NAME="f_is_exception_propagated"><A HREF="../elks/object_graph_traversable_short.html#f_is_exception_propagated">is_exception_propagated</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does the algorithm propagate any exceptions to the user?</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_set_root_object"><A HREF="../elks/object_graph_traversable_short.html#f_set_root_object">set_root_object</A> (an_object: <B>like</B> <A HREF="../elks/object_graph_traversable_short.html#f_root_object">root_object</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/object_graph_traversable_short.html#f_root_object">root_object</A><FONT COLOR="red"> with 'an_object'.</FONT>
+        <B>require</B>
+            an_object_not_void: an_object /= <B>Void</B>
+        <B>ensure</B>
+            root_object_set: <A HREF="../elks/object_graph_traversable_short.html#f_root_object">root_object</A> = an_object <B>and</B> <A HREF="../elks/object_graph_traversable_short.html#f_is_root_object_set">is_root_object_set</A>
+</A>
+    <A NAME="f_set_on_processing_object_action"><A HREF="../elks/object_graph_traversable_short.html#f_set_on_processing_object_action">set_on_processing_object_action</A> (an_action: <B>like</B> <A HREF="../elks/object_graph_traversable_short.html#f_on_processing_object_action">on_processing_object_action</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/object_graph_traversable_short.html#f_on_processing_object_action">on_processing_object_action</A><FONT COLOR="red"> with </FONT>`an_action'
+        <B>require</B>
+            an_action_not_void: an_action /= <B>Void</B>
+        <B>ensure</B>
+            on_processing_object_action_set: <A HREF="../elks/object_graph_traversable_short.html#f_on_processing_object_action">on_processing_object_action</A> = an_action
+</A>
+    <A NAME="f_set_on_processing_reference_action"><A HREF="../elks/object_graph_traversable_short.html#f_set_on_processing_reference_action">set_on_processing_reference_action</A> (an_action: <B>like</B> <A HREF="../elks/object_graph_traversable_short.html#f_on_processing_reference_action">on_processing_reference_action</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/object_graph_traversable_short.html#f_on_processing_object_action">on_processing_object_action</A><FONT COLOR="red"> with </FONT>`an_action'
+        <B>require</B>
+            an_action_not_void: an_action /= <B>Void</B>
+        <B>ensure</B>
+            on_processing_reference_action_set: <A HREF="../elks/object_graph_traversable_short.html#f_on_processing_reference_action">on_processing_reference_action</A> = an_action
+</A>
+    <A NAME="f_set_is_skip_transient"><A HREF="../elks/object_graph_traversable_short.html#f_set_is_skip_transient">set_is_skip_transient</A> (v: <B>like</B> <A HREF="../elks/object_graph_traversable_short.html#f_is_skip_transient">is_skip_transient</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/object_graph_traversable_short.html#f_is_skip_transient">is_skip_transient</A><FONT COLOR="red"> with </FONT>`v'<FONT COLOR="red">.</FONT>
+        <B>ensure</B>
+            is_skip_transient_set: <A HREF="../elks/object_graph_traversable_short.html#f_is_skip_transient">is_skip_transient</A> = v
+</A>
+    <A NAME="f_set_is_skip_copy_semantics_reference"><A HREF="../elks/object_graph_traversable_short.html#f_set_is_skip_copy_semantics_reference">set_is_skip_copy_semantics_reference</A> (v: <B>like</B> <A HREF="../elks/object_graph_traversable_short.html#f_is_skip_copy_semantics_reference">is_skip_copy_semantics_reference</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/object_graph_traversable_short.html#f_is_skip_copy_semantics_reference">is_skip_copy_semantics_reference</A><FONT COLOR="red"> with </FONT>`v'<FONT COLOR="red">.</FONT>
+        <B>ensure</B>
+            is_skip_copy_semantics_reference_set: <A HREF="../elks/object_graph_traversable_short.html#f_is_skip_copy_semantics_reference">is_skip_copy_semantics_reference</A> = v
+</A>
+    <A NAME="f_set_is_exception_on_copy_suppressed"><A HREF="../elks/object_graph_traversable_short.html#f_set_is_exception_on_copy_suppressed">set_is_exception_on_copy_suppressed</A> (v: <B>like</B> <A HREF="../elks/object_graph_traversable_short.html#f_is_exception_on_copy_suppressed">is_exception_on_copy_suppressed</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/object_graph_traversable_short.html#f_set_is_exception_on_copy_suppressed">set_is_exception_on_copy_suppressed</A><FONT COLOR="red"> with </FONT>`v'<FONT COLOR="red">.</FONT>
+        <B>ensure</B>
+            is_exception_on_copy_suppressed_set: <A HREF="../elks/object_graph_traversable_short.html#f_is_exception_on_copy_suppressed">is_exception_on_copy_suppressed</A> = v
+</A>
+    <A NAME="f_set_is_exception_propagated"><A HREF="../elks/object_graph_traversable_short.html#f_set_is_exception_propagated">set_is_exception_propagated</A> (v: <B>like</B> <A HREF="../elks/object_graph_traversable_short.html#f_is_exception_propagated">is_exception_propagated</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/object_graph_traversable_short.html#f_is_exception_propagated">is_exception_propagated</A><FONT COLOR="red"> with </FONT>`v'<FONT COLOR="red">.</FONT>
+        <B>ensure</B>
+            is_exception_propagated_set: <A HREF="../elks/object_graph_traversable_short.html#f_is_exception_propagated">is_exception_propagated</A> = v
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_traverse"><B>frozen</B> <A HREF="../elks/object_graph_traversable_short.html#f_traverse">traverse</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Traverse object structure starting at 'root_object' and call object_action</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on every object in the graph.</FONT>
+        <B>require</B>
+            root_object_available: <A HREF="../elks/object_graph_traversable_short.html#f_is_root_object_set">is_root_object_set</A>
+</A>
+    <A NAME="f_wipe_out"><A HREF="../elks/object_graph_traversable_short.html#f_wipe_out">wipe_out</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Clear current to default values</FONT>
+        <B>ensure</B>
+            visited_objects_reset: <A HREF="../elks/object_graph_traversable_short.html#f_visited_objects">visited_objects</A> = <B>Void</B>
+            object_action_not_set: <B>not</B> <A HREF="../elks/object_graph_traversable_short.html#f_is_object_action_set">is_object_action_set</A>
+            root_object_not_set: <B>not</B> <A HREF="../elks/object_graph_traversable_short.html#f_is_root_object_set">is_root_object_set</A>
+</A>    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/object_graph_traversable_short.html">OBJECT_GRAPH_TRAVERSABLE</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="object_graph_traversable_chart.html">Chart</A></TD><TD><A HREF="object_graph_traversable_links.html">Relations</A></TD><TD><A HREF="object_graph_traversable.html">Text</A></TD><TD><A HREF="object_graph_traversable_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="object_graph_traversable_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

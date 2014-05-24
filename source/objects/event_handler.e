@@ -1,12 +1,12 @@
 note
 	description : "[
-						War of Raekidion - Events handler
-						A {EVENT_HANDLER} looks for keyboard and mouse events 
-						and sends them to action sequences to use with agents.
-					]"
+					War of Raekidion - Events handler
+					A {EVENT_HANDLER} looks for keyboard and mouse events 
+					and sends them to action sequences to use with agents.
+				]"
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
-	date		: "$Date$"
-	revision	: "$Revision$"
+	date		: "$Date: May 23 2014$"
+	revision	: "$Revision: 1$"
 
 class
 	EVENT_HANDLER
@@ -129,5 +129,13 @@ feature {NONE} -- Implementation
 				on_mouse_pressed.call ([l_button, (l_x / window.scale).floor, (l_y / window.scale).floor, false])
 			end
 		end
+
+note
+	copyright: "[
+				War of Raekidion
+				Copyright (C) 2014 François Allard <binarmorker@gmail.com>
+             		   		   and Marc-Antoine Renaud <legars123456@gmail.com>
+               ]"
+	license:   "GNU General Public License, <http://www.gnu.org/licenses/>"
 
 end

@@ -1,12 +1,12 @@
 note
 	description : "[
-						War of Raekidion - The connection screen
-						The {WAIT_SCREEN} will wait for a connection to be made between the client 
-						and the server, then start the game when the connection is established.
-					]"
+					War of Raekidion - The connection screen
+					The {WAIT_SCREEN} will wait for a connection to be made between the client 
+					and the server, then start the game when the connection is established.
+				]"
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
-	date		: "$Date$"
-	revision	: "$Revision$"
+	date		: "$Date: May 23 2014$"
+	revision	: "$Revision: 1$"
 
 class
 	WAIT_SCREEN
@@ -169,5 +169,13 @@ feature {NONE} -- Implementation
 				must_close := true
 			end
 		end
+
+note
+	copyright: "[
+				War of Raekidion
+				Copyright (C) 2014 François Allard <binarmorker@gmail.com>
+             		   		   and Marc-Antoine Renaud <legars123456@gmail.com>
+               ]"
+	license:   "GNU General Public License, <http://www.gnu.org/licenses/>"
 
 end

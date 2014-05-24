@@ -1,0 +1,244 @@
+<HTML><HEAD>
+<meta name="description" content="Class defining thread attributes."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2010, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>thread_attributes Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="thread_attributes_chart.html">Chart</A></TD><TD><A HREF="thread_attributes_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="thread_attributes_flat.html">Flat</A></TD><TD><A HREF="thread_attributes_short.html">Contracts</A></TD><TD><A HREF="thread_attributes_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Class defining thread attributes."
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2010-01-27 12:14:26 -0800 (Wed, 27 Jan 2010) $"
+    revision: "$Revision: 82180 $"
+
+<B>class</B> 
+    <A HREF="../thread/thread_attributes.html">THREAD_ATTRIBUTES</A>
+
+<B>inherit</B>
+    <A HREF="../elks/any.html">ANY</A>
+
+    <A HREF="../elks/memory_structure.html">MEMORY_STRUCTURE</A>
+        <B>rename</B>
+            <A HREF="../elks/memory_structure.html#f_make">make</A> <B>as</B> <A HREF="../elks/memory_structure.html#f_make">mem_make</A>
+        <B>export</B>
+            {NONE} <B>all</B>
+            {<A HREF="../thread/thread.html">THREAD</A>} <A HREF="../elks/memory_structure.html#f_item">item</A>
+        <B>end</B>
+
+<B>create</B> 
+    <A HREF="../thread/thread_attributes.html#f_make">make</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../thread/thread_attributes.html#f_make">make</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set default values to the thread attributes.</FONT>
+        <B>do</B>
+            <A HREF="../elks/memory_structure.html#f_make">mem_make</A>
+            <A HREF="../thread/thread_attributes.html#f_set_priority">set_priority</A> (<A HREF="../thread/thread_attributes.html#f_default_priority">default_priority</A>)
+        <B>ensure</B>
+            priority_set: <A HREF="../thread/thread_attributes.html#f_priority">priority</A> = <A HREF="../thread/thread_attributes.html#f_default_priority">default_priority</A>
+            stack_size_set: <A HREF="../thread/thread_attributes.html#f_stack_size">stack_size</A> = 0.<A HREF="../elks/integer_32_ref.html#f_to_natural_64">to_natural_64</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attribute change</FONT>
+
+    <A NAME="f_set_priority"><A HREF="../thread/thread_attributes.html#f_set_priority">set_priority</A> (prio: <B>like</B> <A HREF="../thread/thread_attributes.html#f_priority">priority</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set thread priority to </FONT>`prio'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            valid_priority: (prio &gt;= <A HREF="../thread/thread_attributes.html#f_min_priority">min_priority</A>) <B>and</B> (prio &lt;= <A HREF="../thread/thread_attributes.html#f_max_priority">max_priority</A>)
+        <B>do</B>
+            <A HREF="../thread/thread_attributes.html#f_c_set_priority">c_set_priority</A> (<A HREF="../elks/memory_structure.html#f_item">item</A>, prio)
+        <B>ensure</B>
+            priority_set: <A HREF="../thread/thread_attributes.html#f_priority">priority</A> = prio
+        <B>end</B></A>
+
+    <A NAME="f_set_stack_size"><A HREF="../thread/thread_attributes.html#f_set_stack_size">set_stack_size</A> (s: <B>like</B> <A HREF="../thread/thread_attributes.html#f_stack_size">stack_size</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../thread/thread_attributes.html#f_stack_size">stack_size</A><FONT COLOR="red"> to </FONT>`s'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../thread/thread_attributes.html#f_c_set_stack_size">c_set_stack_size</A> (<A HREF="../elks/memory_structure.html#f_item">item</A>, <A HREF="../thread/thread_attributes.html#f_stack_size">stack_size</A>)
+        <B>ensure</B>
+            stack_size_set: <A HREF="../thread/thread_attributes.html#f_stack_size">stack_size</A> = s
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_priority"><A HREF="../thread/thread_attributes.html#f_priority">priority</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Current thread priority</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../thread/thread_attributes.html#f_c_priority">c_priority</A> (<A HREF="../elks/memory_structure.html#f_item">item</A>)
+        <B>end</B></A>
+
+    <A NAME="f_stack_size"><A HREF="../thread/thread_attributes.html#f_stack_size">stack_size</A>: <A HREF="../elks/natural_64.html">NATURAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Size of the call stack reserved for launching the thread. If </FONT>`0'<FONT COLOR="red"> the default size for</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> the current platform.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../thread/thread_attributes.html#f_c_stack_size">c_stack_size</A> (<A HREF="../elks/memory_structure.html#f_item">item</A>)
+        <B>end</B></A>
+
+    <A NAME="f_default_priority"><A HREF="../thread/thread_attributes.html#f_default_priority">default_priority</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Get default thread priority for the current architecture.</FONT>
+        <B>external</B>
+            "C use %"eif_threads.h%""
+        <B>alias</B>
+            "eif_thr_default_priority"
+        <B>end</B></A>
+
+    <A NAME="f_min_priority"><A HREF="../thread/thread_attributes.html#f_min_priority">min_priority</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Get minimum thread priority for the current architecture.</FONT>
+        <B>external</B>
+            "C use %"eif_threads.h%""
+        <B>alias</B>
+            "eif_thr_min_priority"
+        <B>end</B></A>
+
+    <A NAME="f_max_priority"><A HREF="../thread/thread_attributes.html#f_max_priority">max_priority</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Get maximum thread priority for the current architecture.</FONT>
+        <B>external</B>
+            "C use %"eif_threads.h%""
+        <B>alias</B>
+            "eif_thr_max_priority"
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_c_set_priority"><A HREF="../thread/thread_attributes.html#f_c_set_priority">c_set_priority</A> (p: <A HREF="../elks/pointer.html">POINTER</A>; v: <B>like</B> <A HREF="../thread/thread_attributes.html#f_priority">priority</A>)
+        <B>external</B>
+            "C inline use %"eif_eiffel.h%""
+        <B>alias</B>
+            "[
+                #ifdef EIF_THREADS
+                	((EIF_THR_ATTR_TYPE *) $p)-&gt;priority = $v;
+                #endif
+            ]"
+        <B>end</B></A>
+
+    <A NAME="f_c_set_stack_size"><A HREF="../thread/thread_attributes.html#f_c_set_stack_size">c_set_stack_size</A> (p: <A HREF="../elks/pointer.html">POINTER</A>; v: <B>like</B> <A HREF="../thread/thread_attributes.html#f_stack_size">stack_size</A>)
+        <B>external</B>
+            "C inline use %"eif_eiffel.h%""
+        <B>alias</B>
+            "[
+                #ifdef EIF_THREADS
+                	((EIF_THR_ATTR_TYPE *) $p)-&gt;stack_size = $v;
+                #endif
+            ]"
+        <B>end</B></A>
+
+    <A NAME="f_c_priority"><A HREF="../thread/thread_attributes.html#f_c_priority">c_priority</A> (p: <A HREF="../elks/pointer.html">POINTER</A>): <B>like</B> <A HREF="../thread/thread_attributes.html#f_priority">priority</A>
+        <B>external</B>
+            "C inline use %"eif_eiffel.h%""
+        <B>alias</B>
+            "[
+                #ifdef EIF_THREADS
+                	return (EIF_INTEGER) (((EIF_THR_ATTR_TYPE *) $p)-&gt;priority);
+                #else
+                	return 0L;
+                #endif
+            ]"
+        <B>end</B></A>
+
+    <A NAME="f_c_stack_size"><A HREF="../thread/thread_attributes.html#f_c_stack_size">c_stack_size</A> (p: <A HREF="../elks/pointer.html">POINTER</A>): <B>like</B> <A HREF="../thread/thread_attributes.html#f_stack_size">stack_size</A>
+        <B>external</B>
+            "C inline use %"eif_eiffel.h%""
+        <B>alias</B>
+            "[
+                #ifdef EIF_THREADS
+                	return ((EIF_THR_ATTR_TYPE *) $p)-&gt;stack_size;
+                #else
+                	return 0L;
+                #endif
+            ]"
+        <B>end</B></A>
+
+    <A NAME="f_structure_size"><A HREF="../thread/thread_attributes.html#f_structure_size">structure_size</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Size to allocate (in bytes)</FONT>
+        <B>external</B>
+            "C inline use %"eif_eiffel.h%""
+        <B>alias</B>
+            "[
+                #ifdef EIF_THREADS
+                	return sizeof(EIF_THR_ATTR_TYPE);
+                #else
+                	return 1L;
+                #endif
+            ]"
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Obsolete: Not applicable</FONT>
+
+    <A NAME="f_set_policy"><A HREF="../thread/thread_attributes.html#f_set_policy">set_policy</A> (policy: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+        <B>obsolete</B> "Removed because calls where not portable."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set scheduling policy to </FONT>`policy'<FONT COLOR="red">.  Possible values are:</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> default_policy, other, fifo and round_robin.</FONT>
+        <B>require</B>
+            valid_policy: (policy &gt;= <A HREF="../thread/thread_attributes.html#f_default_policy">default_policy</A>) <B>and</B> (policy &lt;= <A HREF="../thread/thread_attributes.html#f_round_robin">round_robin</A>)
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_set_detached"><A HREF="../thread/thread_attributes.html#f_set_detached">set_detached</A> (bool: <A HREF="../elks/boolean.html">BOOLEAN</A>)
+        <B>obsolete</B> "Removed because now threads are always started detached."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set the detached state of the thread attribute to </FONT>`bool'<FONT COLOR="red">. If</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`bool'<FONT COLOR="red"> is True (default), the thread will be created detached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on the C level. You can always </FONT>`join'<FONT COLOR="red"> a thread, even if it was</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> created detached. This only affects the C join().</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_scheduling_policy"><A HREF="../thread/thread_attributes.html#f_scheduling_policy">scheduling_policy</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>obsolete</B> "Removed because calls where not portable."
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_detached"><A HREF="../thread/thread_attributes.html#f_detached">detached</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>obsolete</B> "Removed because calls where not portable."
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_default_policy"><A HREF="../thread/thread_attributes.html#f_default_policy">default_policy</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>obsolete</B> "Removed because calls where not portable."
+        <B>do</B>
+            <B>Result</B> := 0
+        <B>end</B></A>
+
+    <A NAME="f_other"><A HREF="../thread/thread_attributes.html#f_other">other</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>obsolete</B> "Removed because calls where not portable."
+        <B>do</B>
+            <B>Result</B> := 1
+        <B>end</B></A>
+
+    <A NAME="f_fifo"><A HREF="../thread/thread_attributes.html#f_fifo">fifo</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>obsolete</B> "Removed because calls where not portable."
+        <B>do</B>
+            <B>Result</B> := 2
+        <B>end</B></A>
+
+    <A NAME="f_round_robin"><A HREF="../thread/thread_attributes.html#f_round_robin">round_robin</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>obsolete</B> "Removed because calls where not portable."
+        <B>do</B>
+            <B>Result</B> := 3
+        <B>end</B></A>
+    
+<B>invariant</B>
+    priority_bounded: <A HREF="../thread/thread_attributes.html#f_min_priority">min_priority</A> &lt;= <A HREF="../thread/thread_attributes.html#f_priority">priority</A> <B>and</B> <A HREF="../thread/thread_attributes.html#f_priority">priority</A> &lt;= <A HREF="../thread/thread_attributes.html#f_max_priority">max_priority</A>
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2010, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../thread/thread_attributes.html">THREAD_ATTRIBUTES</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="thread_attributes_chart.html">Chart</A></TD><TD><A HREF="thread_attributes_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="thread_attributes_flat.html">Flat</A></TD><TD><A HREF="thread_attributes_short.html">Contracts</A></TD><TD><A HREF="thread_attributes_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

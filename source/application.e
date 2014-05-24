@@ -5,8 +5,8 @@ note
 					top-down shooter game inspired from Touhou.
 				]"
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
-	date		: "$Date$"
-	revision	: "$Revision$"
+	date		: "$Date: May 23 2014$"
+	revision	: "$Revision: 1$"
 
 class
 	APPLICATION
@@ -62,5 +62,13 @@ feature {NONE} -- Initialization
 			{SDL_TTF}.ttf_quit
 			{SDL}.sdl_quit
 		end
+
+note
+	copyright: "[
+				War of Raekidion
+				Copyright (C) 2014 François Allard <binarmorker@gmail.com>
+             		   		   and Marc-Antoine Renaud <legars123456@gmail.com>
+               ]"
+	license:   "GNU General Public License, <http://www.gnu.org/licenses/>"
 
 end

@@ -1,11 +1,11 @@
 note
 	description : "[
-						War of Raekidion - {KEYS} class
-						Interface representing all possible keys used in the game
-					]"
+					War of Raekidion - {KEYS} class
+					Interface representing all possible keys used in the game
+				]"
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
-	date		: "$Date$"
-	revision	: "$Revision$"
+	date		: "$Date: May 23 2014$"
+	revision	: "$Revision: 1$"
 
 
 deferred class
@@ -62,5 +62,13 @@ feature -- Access
 		-- Key to take a screenshot
 		deferred
 		end
+
+note
+	copyright: "[
+				War of Raekidion
+				Copyright (C) 2014 François Allard <binarmorker@gmail.com>
+             		   		   and Marc-Antoine Renaud <legars123456@gmail.com>
+               ]"
+	license:   "GNU General Public License, <http://www.gnu.org/licenses/>"
 
 end

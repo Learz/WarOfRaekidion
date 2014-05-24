@@ -1,0 +1,900 @@
+<HTML><HEAD>
+<meta name="description" content="Exception manager.  The manager handles all common operations of exception mechanism and interaction with the ISE runtime."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="library" content="EiffelBase: Library of reusable components for Eiffel."/>
+<meta name="copyright" content="Copyright (c) 1984-2008, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 356 Storke Road, Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>ise_exception_manager Flat</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="ise_exception_manager_chart.html">Chart</A></TD><TD><A HREF="ise_exception_manager_links.html">Relations</A></TD><TD><A HREF="ise_exception_manager.html">Text</A></TD><TD>Flat</TD><TD><A HREF="ise_exception_manager_short.html">Contracts</A></TD><TD><A HREF="ise_exception_manager_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Exception manager. 
+        The manager handles all common operations of exception mechanism and interaction with the ISE runtime.
+    ]"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2013-05-20 16:15:17 -0700 (Mon, 20 May 2013) $"
+    revision: "$Revision: 92557 $"
+
+<B>class</B> 
+    <A HREF="../ise/ise_exception_manager_flat.html">ISE_EXCEPTION_MANAGER</A>
+
+<B>create</B> 
+    <A HREF="../elks/any_flat.html#f_default_create">default_create</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_default_create"><A HREF="../elks/any_flat.html#f_default_create">default_create</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process instances of classes with no creation clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_generating_type"><A HREF="../elks/any_flat.html#f_generating_type">generating_type</A>: <A HREF="../elks/type_flat.html">TYPE</A> [<B>detachable</B> <A HREF="../ise/ise_exception_manager_flat.html">ISE_EXCEPTION_MANAGER</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Type of current object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := {<B>detachable</B> <A HREF="../ise/ise_exception_manager_flat.html">ISE_EXCEPTION_MANAGER</A>}
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            generating_type_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_generator"><A HREF="../elks/any_flat.html#f_generator">generator</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of current object's generating class</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (base class of the type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            generator_not_void: <B>Result</B> /= <B>Void</B>
+            generator_not_empty: <B>not</B> <B>Result</B>.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+
+    <A NAME="f_last_exception"><A HREF="../ise/ise_exception_manager_flat.html#f_last_exception">last_exception</A>: <B>detachable</B> <A HREF="../elks/exception_flat.html">EXCEPTION</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last exception</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../ise/ise_exception_manager_flat.html#f_last_exception_cell">Last_exception_cell</A>.<A HREF="../elks/cell_flat.html#f_item">item</A>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_exception_data"><A HREF="../ise/ise_exception_manager_flat.html#f_exception_data">exception_data</A>: <B>detachable</B> <A HREF="../elks/tuple_flat.html">TUPLE</A> [code: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>; signal_code: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>; error_code: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>; tag: <A HREF="../elks/string_8_flat.html">STRING_8</A>; recipient: <A HREF="../elks/string_8_flat.html">STRING_8</A>; eclass: <A HREF="../elks/string_8_flat.html">STRING_8</A>; rf_routine: <A HREF="../elks/string_8_flat.html">STRING_8</A>; rf_class: <A HREF="../elks/string_8_flat.html">STRING_8</A>; trace: <A HREF="../elks/string_8_flat.html">STRING_8</A>; line_number: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>; is_invariant_entry: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Exception data</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Used to store temporary exception information,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> which is used to create exception object later.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../ise/ise_exception_manager_flat.html#f_exception_data_cell">Exception_data_cell</A>.<A HREF="../elks/cell_flat.html#f_item">item</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_deep_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (a, b) <B>implies</B> <B>Result</B>
+            both_or_none_void: (a = <B>Void</B>) <B>implies</B> (<B>Result</B> = (b = <B>Void</B>))
+            same_type: (<B>Result</B> <B>and</B> (a /= <B>Void</B>)) <B>implies</B> (b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_same_type">same_type</A> (b))
+            symmetric: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (b, a)
+        <B>end</B></A>
+
+    <A NAME="f_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_equal">equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to objects considered equal?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_equal">is_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_equal">is_equal</A> (b))
+        <B>end</B></A>
+
+    <A NAME="f_is_deep_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (other: <B>attached</B> <A HREF="../ise/ise_exception_manager_flat.html">ISE_EXCEPTION_MANAGER</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`Current'<FONT COLOR="red"> and </FONT>`other'<FONT COLOR="red"> attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (<B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_is_equal"><A HREF="../elks/any_flat.html#f_is_equal">is_equal</A> (other: <B>attached</B> <A HREF="../ise/ise_exception_manager_flat.html">ISE_EXCEPTION_MANAGER</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object considered</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to current object?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            symmetric: <B>Result</B> <B>implies</B> other ~ <B>Current</B>
+            consistent: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+        <B>end</B></A>
+
+    <A NAME="f_standard_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical objects of the same type?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default object comparison criterion.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (b))
+        <B>end</B></A>
+
+    <A NAME="f_standard_is_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other: <B>attached</B> <A HREF="../ise/ise_exception_manager_flat.html">ISE_EXCEPTION_MANAGER</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object of the same type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as current object, and field-by-field identical to it?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_conforms_to"><A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (other: <A HREF="../elks/any_flat.html">ANY</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does type of current object conform to type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of </FONT>`other'<FONT COLOR="red"> (as per Eiffel: The Language, chapter 13)?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>end</B></A>
+
+    <A NAME="f_is_caught"><A HREF="../ise/ise_exception_manager_flat.html#f_is_caught">is_caught</A> (a_exception: <A HREF="../elks/type_flat.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/exception_flat.html">EXCEPTION</A>]): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If set, type of </FONT>`a_exception'<FONT COLOR="red"> is raised.</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>not</B> <A HREF="../ise/ise_exception_manager_flat.html#f_ignored_exceptions">Ignored_exceptions</A>.<A HREF="../elks/hash_table_flat.html#f_has">has</A> (a_exception.<A HREF="../elks/type_flat.html#f_type_id">type_id</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/exception_manager_flat.html">EXCEPTION_MANAGER</A>
+            not_is_ignored: <B>Result</B> = <B>not</B> <A HREF="../ise/ise_exception_manager_flat.html#f_is_ignored">is_ignored</A> (a_exception)
+        <B>end</B></A>
+
+    <A NAME="f_is_ignorable"><A HREF="../ise/ise_exception_manager_flat.html#f_is_ignorable">is_ignorable</A> (a_exception: <A HREF="../elks/type_flat.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/exception_flat.html">EXCEPTION</A>]): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If set, type of </FONT>`a_exception'<FONT COLOR="red"> is ignorable.</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>not</B> <A HREF="../ise/ise_exception_manager_flat.html#f_unignorable_exceptions">Unignorable_exceptions</A>.<A HREF="../elks/hash_table_flat.html#f_has">has</A> (a_exception.<A HREF="../elks/type_flat.html#f_type_id">type_id</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_ignored"><A HREF="../ise/ise_exception_manager_flat.html#f_is_ignored">is_ignored</A> (a_exception: <A HREF="../elks/type_flat.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/exception_flat.html">EXCEPTION</A>]): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If set, type of </FONT>`a_exception'<FONT COLOR="red"> is not raised.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../ise/ise_exception_manager_flat.html#f_ignored_exceptions">Ignored_exceptions</A>.<A HREF="../elks/hash_table_flat.html#f_has">has</A> (a_exception.<A HREF="../elks/type_flat.html#f_type_id">type_id</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/exception_manager_flat.html">EXCEPTION_MANAGER</A>
+            not_is_caught: <B>Result</B> = <B>not</B> <A HREF="../ise/ise_exception_manager_flat.html#f_is_caught">is_caught</A> (a_exception)
+        <B>end</B></A>
+
+    <A NAME="f_is_raisable"><A HREF="../ise/ise_exception_manager_flat.html#f_is_raisable">is_raisable</A> (a_exception: <A HREF="../elks/type_flat.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/exception_flat.html">EXCEPTION</A>]): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If set, type of </FONT>`a_exception'<FONT COLOR="red"> is raisable.</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>not</B> <A HREF="../ise/ise_exception_manager_flat.html#f_unraisable_exceptions">Unraisable_exceptions</A>.<A HREF="../elks/hash_table_flat.html#f_has">has</A> (a_exception.<A HREF="../elks/type_flat.html#f_type_id">type_id</A>)
+        <B>end</B></A>
+
+    <A NAME="f_same_type"><A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other: <A HREF="../elks/any_flat.html">ANY</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is type of current object identical to type of </FONT>`other'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (<A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (other) <B>and</B> other.<A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>Current</B>))
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status setting</FONT>
+
+    <A NAME="f_catch"><A HREF="../ise/ise_exception_manager_flat.html#f_catch">catch</A> (a_exception: <A HREF="../elks/type_flat.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/exception_flat.html">EXCEPTION</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set type of </FONT>`a_exception'<FONT COLOR="red"> </FONT><A HREF="../ise/ise_exception_manager_flat.html#f_is_ignored">is_ignored</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/exception_manager_flat.html">EXCEPTION_MANAGER</A>
+            a_exception_not_void: a_exception /= <B>Void</B>
+        <B>local</B>
+            l_type: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            l_type := a_exception.<A HREF="../elks/type_flat.html#f_type_id">type_id</A>
+            <A HREF="../ise/ise_exception_manager_flat.html#f_ignored_exceptions">Ignored_exceptions</A>.<A HREF="../elks/hash_table_flat.html#f_remove">remove</A> (l_type)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/exception_manager_flat.html">EXCEPTION_MANAGER</A>
+            is_ignored: <B>not</B> <A HREF="../ise/ise_exception_manager_flat.html#f_is_ignored">is_ignored</A> (a_exception)
+        <B>end</B></A>
+
+    <A NAME="f_ignore"><A HREF="../ise/ise_exception_manager_flat.html#f_ignore">ignore</A> (a_exception: <A HREF="../elks/type_flat.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/exception_flat.html">EXCEPTION</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make sure that any exception of type </FONT>`a_exception'<FONT COLOR="red"> will be</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> ignored. This is not the default.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/exception_manager_flat.html">EXCEPTION_MANAGER</A>
+            a_exception_not_void: a_exception /= <B>Void</B>
+            is_ignorable: <A HREF="../ise/ise_exception_manager_flat.html#f_is_ignorable">is_ignorable</A> (a_exception)
+        <B>local</B>
+            l_type: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            l_type := a_exception.<A HREF="../elks/type_flat.html#f_type_id">type_id</A>
+            <A HREF="../ise/ise_exception_manager_flat.html#f_ignored_exceptions">Ignored_exceptions</A>.<A HREF="../elks/hash_table_flat.html#f_force">force</A> (l_type, l_type)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/exception_manager_flat.html">EXCEPTION_MANAGER</A>
+            is_caught: <A HREF="../ise/ise_exception_manager_flat.html#f_is_ignored">is_ignored</A> (a_exception)
+        <B>end</B></A>
+
+    <A NAME="f_set_is_ignored"><A HREF="../ise/ise_exception_manager_flat.html#f_set_is_ignored">set_is_ignored</A> (a_exception: <A HREF="../elks/type_flat.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/exception_flat.html">EXCEPTION</A>]; a_ignored: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set type of </FONT>`a_exception'<FONT COLOR="red"> to be </FONT>`a_ignored'<FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/exception_manager_flat.html">EXCEPTION_MANAGER</A>
+            a_exception_not_void: a_exception /= <B>Void</B>
+            a_ignored_implies_is_ignorable: a_ignored <B>implies</B> <A HREF="../ise/ise_exception_manager_flat.html#f_is_ignorable">is_ignorable</A> (a_exception)
+        <B>do</B>
+            <B>if</B> a_ignored <B>then</B>
+                <A HREF="../ise/ise_exception_manager_flat.html#f_ignore">ignore</A> (a_exception)
+            <B>else</B>
+                <A HREF="../ise/ise_exception_manager_flat.html#f_catch">catch</A> (a_exception)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/exception_manager_flat.html">EXCEPTION_MANAGER</A>
+            is_ignored_set: <A HREF="../ise/ise_exception_manager_flat.html#f_is_ignored">is_ignored</A> (a_exception) = a_ignored
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_set_exception_data"><A HREF="../ise/ise_exception_manager_flat.html#f_set_exception_data">set_exception_data</A> (code: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>; new_obj: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>; signal_code: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>; error_code: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>; tag, recipient, eclass: <A HREF="../elks/string_8_flat.html">STRING_8</A>; rf_routine, rf_class: <A HREF="../elks/string_8_flat.html">STRING_8</A>; trace: <A HREF="../elks/string_8_flat.html">STRING_8</A>; line_number: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>; is_invariant_entry: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set exception data.</FONT>
+        <B>do</B>
+            <A HREF="../ise/ise_exception_manager_flat.html#f_exception_data_cell">Exception_data_cell</A>.<A HREF="../elks/cell_flat.html#f_put">put</A> ([code, signal_code, error_code, tag, recipient, eclass, rf_routine, rf_class, trace, line_number, is_invariant_entry])
+            <B>if</B> new_obj <B>then</B>
+                <B>if</B> <B>attached</B> {<A HREF="../elks/exception_flat.html">EXCEPTION</A>} <A HREF="../ise/ise_exception_manager_flat.html#f_exception_from_data">exception_from_data</A> <B>as</B> e <B>then</B>
+                    <A HREF="../ise/ise_exception_manager_flat.html#f_set_last_exception">set_last_exception</A> (e)
+                <B>end</B>
+            <B>else</B>
+                <B>check</B>
+                    last_exception_attached: <B>attached</B> <A HREF="../ise/ise_exception_manager_flat.html#f_last_exception">last_exception</A> <B>as</B> l_exception
+                <B>then</B>
+                    l_exception.<A HREF="../elks/exception_flat.html#f_set_exception_trace">set_exception_trace</A> (trace)
+                    l_exception.<A HREF="../elks/exception_flat.html#f_set_recipient_name">set_recipient_name</A> (recipient)
+                    l_exception.<A HREF="../elks/exception_flat.html#f_set_type_name">set_type_name</A> (eclass)
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_set_last_exception"><A HREF="../ise/ise_exception_manager_flat.html#f_set_last_exception">set_last_exception</A> (a_last_exception: <B>detachable</B> <A HREF="../elks/exception_flat.html">EXCEPTION</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../ise/ise_exception_manager_flat.html#f_last_exception">last_exception</A><FONT COLOR="red"> with </FONT>`a_last_exception'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../ise/ise_exception_manager_flat.html#f_last_exception_cell">Last_exception_cell</A>.<A HREF="../elks/cell_flat.html#f_put">put</A> (a_last_exception)
+        <B>ensure</B>
+            last_exception_set: <A HREF="../ise/ise_exception_manager_flat.html#f_last_exception_cell">Last_exception_cell</A>.<A HREF="../elks/cell_flat.html#f_item">item</A> = a_last_exception
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_clone">clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void; otherwise new object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to </FONT>`other'
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> For non-void </FONT>`other'<FONT COLOR="red">, </FONT><A HREF="../elks/any_flat.html#f_clone">clone</A><FONT COLOR="red"> calls </FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to change copying/cloning semantics, redefine </FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_twin">twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            equal: <B>Result</B> ~ other
+        <B>end</B></A>
+
+    <A NAME="f_copy"><A HREF="../elks/any_flat.html#f_copy">copy</A> (other: <B>attached</B> <A HREF="../ise/ise_exception_manager_flat.html">ISE_EXCEPTION_MANAGER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update current object using fields of object attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to </FONT>`other'<FONT COLOR="red">, so as to yield equal objects.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            is_equal: <B>Current</B> ~ other
+        <B>end</B></A>
+
+    <A NAME="f_deep_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_clone">deep_clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `deep_twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void: otherwise, new object structure</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> recursively duplicated from the one attached to </FONT>`other'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (other, <B>Result</B>)
+        <B>end</B></A>
+
+    <A NAME="f_deep_copy"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_copy">deep_copy</A> (other: <B>attached</B> <A HREF="../ise/ise_exception_manager_flat.html">ISE_EXCEPTION_MANAGER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Effect equivalent to that of:</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">		</FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red"> (</FONT>`other'<FONT COLOR="red"> . </FONT><A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A><FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../elks/any_flat.html#f_copy">copy</A> (other.<A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (<B>Current</B>, other)
+        <B>end</B></A>
+
+    <A NAME="f_deep_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>: <B>attached</B> <A HREF="../ise/ise_exception_manager_flat.html">ISE_EXCEPTION_MANAGER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object structure recursively duplicated from Current.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_twin_not_void: <B>Result</B> /= <B>Void</B>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (<B>Current</B>, <B>Result</B>)
+        <B>end</B></A>
+
+    <A NAME="f_standard_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_clone">standard_clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `standard_twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void; otherwise new object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_standard_twin">standard_twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            equal: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (<B>Result</B>, other)
+        <B>end</B></A>
+
+    <A NAME="f_standard_copy"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_copy">standard_copy</A> (other: <B>attached</B> <A HREF="../ise/ise_exception_manager_flat.html">ISE_EXCEPTION_MANAGER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy every field of </FONT>`other'<FONT COLOR="red"> onto corresponding field</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            is_standard_equal: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other)
+        <B>end</B></A>
+
+    <A NAME="f_standard_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_twin">standard_twin</A>: <B>attached</B> <A HREF="../ise/ise_exception_manager_flat.html">ISE_EXCEPTION_MANAGER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            standard_twin_not_void: <B>Result</B> /= <B>Void</B>
+            equal: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (<B>Result</B>, <B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_twin">twin</A>: <B>attached</B> <A HREF="../ise/ise_exception_manager_flat.html">ISE_EXCEPTION_MANAGER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object equal to </FONT>`Current'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/any_flat.html#f_twin">twin</A><FONT COLOR="red"> calls </FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">; to change copying/twinning semantics, redefine </FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            twin_not_void: <B>Result</B> /= <B>Void</B>
+            is_equal: <B>Result</B> ~ <B>Current</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_as_attached"><B>frozen</B> <A HREF="../elks/any_flat.html#f_as_attached">as_attached</A>: <B>attached</B> <A HREF="../ise/ise_exception_manager_flat.html">ISE_EXCEPTION_MANAGER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attached version of Current</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Can be used during transitional period to convert</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> non-void-safe classes to void-safe ones.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>Current</B>
+        <B>end</B></A>
+
+    <A NAME="f_default"><B>frozen</B> <A HREF="../elks/any_flat.html#f_default">default</A>: <B>detachable</B> <A HREF="../ise/ise_exception_manager_flat.html">ISE_EXCEPTION_MANAGER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of object's type</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_default_pointer"><B>frozen</B> <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>: <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of type </FONT>`POINTER'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Avoid the need to write </FONT>`p'<FONT COLOR="red">.</FONT><A HREF="../elks/any_flat.html#f_default">default</A><FONT COLOR="red"> for</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> some </FONT>`p'<FONT COLOR="red"> of type </FONT>`POINTER'<FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_default_rescue"><A HREF="../elks/any_flat.html#f_default_rescue">default_rescue</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process exception for routines with no Rescue clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_do_nothing"><B>frozen</B> <A HREF="../elks/any_flat.html#f_do_nothing">do_nothing</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execute a null action.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_developer_raise"><A HREF="../ise/ise_exception_manager_flat.html#f_developer_raise">developer_raise</A> (a_code: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>; a_meaning, a_message: <A HREF="../elks/pointer_flat.html">POINTER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Raise an exception</FONT>
+        <B>external</B>
+            "built_in"
+        <B>end</B></A>
+
+    <A NAME="f_exception_from_data"><A HREF="../ise/ise_exception_manager_flat.html#f_exception_from_data">exception_from_data</A>: <B>detachable</B> <A HREF="../elks/exception_flat.html">EXCEPTION</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create an exception object </FONT><A HREF="../ise/ise_exception_manager_flat.html#f_exception_data">exception_data</A>
+        <B>local</B>
+            t: <B>detachable</B> <A HREF="../elks/exception_flat.html">EXCEPTION</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> <A HREF="../ise/ise_exception_manager_flat.html#f_exception_data">exception_data</A> <B>as</B> l_data <B>and then</B> <B>attached</B> {<A HREF="../elks/exception_flat.html">EXCEPTION</A>} <A HREF="../ise/ise_exception_manager_flat.html#f_exception_from_code">exception_from_code</A> (l_data.code) <B>as</B> e <B>then</B>
+                <B>if</B> <B>attached</B> {<A HREF="../elks/routine_failure_flat.html">ROUTINE_FAILURE</A>} e <B>as</B> l_rf <B>then</B>
+                    t := <A HREF="../ise/ise_exception_manager_flat.html#f_last_exception">last_exception</A>
+                    <B>if</B> t /= <B>Void</B> <B>then</B>
+                        e.<A HREF="../elks/exception_flat.html#f_set_throwing_exception">set_throwing_exception</A> (t)
+                    <B>end</B>
+                    l_rf.<A HREF="../elks/routine_failure_flat.html#f_set_routine_name">set_routine_name</A> (l_data.rf_routine)
+                    l_rf.<A HREF="../elks/routine_failure_flat.html#f_set_class_name">set_class_name</A> (l_data.rf_class)
+                <B>elseif</B> <B>attached</B> {<A HREF="../elks/old_violation_flat.html">OLD_VIOLATION</A>} e <B>as</B> l_ov <B>then</B>
+                    t := <A HREF="../ise/ise_exception_manager_flat.html#f_last_exception">last_exception</A>
+                    <B>if</B> t /= <B>Void</B> <B>then</B>
+                        e.<A HREF="../elks/exception_flat.html#f_set_throwing_exception">set_throwing_exception</A> (t)
+                    <B>end</B>
+                <B>else</B>
+                    <B>if</B> <B>attached</B> {<A HREF="../elks/invariant_violation_flat.html">INVARIANT_VIOLATION</A>} e <B>as</B> l_inva <B>then</B>
+                        l_inva.<A HREF="../elks/invariant_violation_flat.html#f_set_is_entry">set_is_entry</A> (l_data.is_invariant_entry)
+                    <B>elseif</B> <B>attached</B> {<A HREF="../elks/operating_system_signal_failure_flat.html">OPERATING_SYSTEM_SIGNAL_FAILURE</A>} e <B>as</B> l_sig <B>then</B>
+                        l_sig.<A HREF="../elks/operating_system_signal_failure_flat.html#f_set_signal_code">set_signal_code</A> (l_data.signal_code)
+                    <B>elseif</B> <B>attached</B> {<A HREF="../ise/io_failure_flat.html">IO_FAILURE</A>} e <B>as</B> l_io <B>then</B>
+                        l_io.<A HREF="../ise/io_failure_flat.html#f_set_error_code">set_error_code</A> (l_data.error_code)
+                    <B>elseif</B> <B>attached</B> {<A HREF="../elks/operating_system_failure_flat.html">OPERATING_SYSTEM_FAILURE</A>} e <B>as</B> l_sys <B>then</B>
+                        l_sys.<A HREF="../elks/operating_system_failure_flat.html#f_set_error_code">set_error_code</A> (l_data.error_code)
+                    <B>elseif</B> <B>attached</B> {<A HREF="../elks/com_failure_flat.html">COM_FAILURE</A>} e <B>as</B> l_com <B>then</B>
+                        l_com.<A HREF="../elks/com_failure_flat.html#f_set_hresult_code">set_hresult_code</A> (l_data.signal_code)
+                        l_com.<A HREF="../elks/com_failure_flat.html#f_set_exception_information">set_exception_information</A> (l_data.tag)
+                    <B>end</B>
+                    <B>if</B> <A HREF="../ise/ise_exception_manager_flat.html#f_in_rescue">in_rescue</A> <B>then</B>
+                        t := <A HREF="../ise/ise_exception_manager_flat.html#f_last_exception">last_exception</A>
+                    <B>end</B>
+                    <B>if</B> t = <B>Void</B> <B>then</B>
+                        t := e
+                    <B>end</B>
+                    e.<A HREF="../elks/exception_flat.html#f_set_throwing_exception">set_throwing_exception</A> (t)
+                <B>end</B>
+                e.<A HREF="../elks/exception_flat.html#f_set_exception_trace">set_exception_trace</A> (l_data.trace)
+                e.<A HREF="../elks/exception_flat.html#f_set_description">set_description</A> (l_data.tag)
+                e.<A HREF="../elks/exception_flat.html#f_set_recipient_name">set_recipient_name</A> (l_data.recipient)
+                e.<A HREF="../elks/exception_flat.html#f_set_type_name">set_type_name</A> (l_data.eclass)
+                <B>Result</B> := e
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_free_preallocated_trace"><B>frozen</B> <A HREF="../ise/ise_exception_manager_flat.html#f_free_preallocated_trace">free_preallocated_trace</A>
+        <B>local</B>
+            e: <B>detachable</B> <A HREF="../elks/exception_flat.html">EXCEPTION</A>
+        <B>do</B>
+            e := <A HREF="../ise/ise_exception_manager_flat.html#f_no_memory_exception_object_cell">No_memory_exception_object_cell</A>.<A HREF="../elks/cell_flat.html#f_item">item</A>
+            <B>if</B> e /= <B>Void</B> <B>then</B>
+                e.<A HREF="../elks/exception_flat.html#f_set_description">set_description</A> (<B>Void</B>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_in_rescue"><B>frozen</B> <A HREF="../ise/ise_exception_manager_flat.html#f_in_rescue">in_rescue</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Current execution is during rescue?</FONT>
+        <B>external</B>
+            "C use %"eif_except.h%""
+        <B>alias</B>
+            "eif_is_in_rescue"
+        <B>end</B></A>
+
+    <A NAME="f_init_exception_manager"><B>frozen</B> <A HREF="../ise/ise_exception_manager_flat.html#f_init_exception_manager">init_exception_manager</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Call once routines to create objects beforehand,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> in case it goes into critical session (Stack overflow, no memory etc.)</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The creations doesn't fail.</FONT>
+        <B>local</B>
+            arr: <B>like</B> <A HREF="../ise/ise_exception_manager_flat.html#f_ignored_exceptions">Ignored_exceptions</A>
+            l_data: <B>like</B> <A HREF="../ise/ise_exception_manager_flat.html#f_exception_data_cell">Exception_data_cell</A>
+            l_ex: <B>like</B> <A HREF="../ise/ise_exception_manager_flat.html#f_last_exception_cell">Last_exception_cell</A>
+            l_nomem: <B>like</B> <A HREF="../ise/ise_exception_manager_flat.html#f_no_memory_exception_object_cell">No_memory_exception_object_cell</A>
+        <B>do</B>
+            arr := <A HREF="../ise/ise_exception_manager_flat.html#f_ignored_exceptions">Ignored_exceptions</A>
+            arr := <A HREF="../ise/ise_exception_manager_flat.html#f_unignorable_exceptions">Unignorable_exceptions</A>
+            arr := <A HREF="../ise/ise_exception_manager_flat.html#f_unraisable_exceptions">Unraisable_exceptions</A>
+            l_data := <A HREF="../ise/ise_exception_manager_flat.html#f_exception_data_cell">Exception_data_cell</A>
+            l_ex := <A HREF="../ise/ise_exception_manager_flat.html#f_last_exception_cell">Last_exception_cell</A>
+            l_nomem := <A HREF="../ise/ise_exception_manager_flat.html#f_no_memory_exception_object_cell">No_memory_exception_object_cell</A>
+        <B>end</B></A>
+
+    <A NAME="f_is_code_ignored"><A HREF="../ise/ise_exception_manager_flat.html#f_is_code_ignored">is_code_ignored</A> (a_code: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is exception of </FONT>`a_code'<FONT COLOR="red"> ignored?</FONT>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<A HREF="../elks/type_flat.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/exception_flat.html">EXCEPTION</A>]} <A HREF="../ise/ise_exception_manager_flat.html#f_type_of_code">type_of_code</A> (a_code) <B>as</B> l_type <B>then</B>
+                <B>Result</B> := <A HREF="../ise/ise_exception_manager_flat.html#f_is_ignored">is_ignored</A> (l_type)
+            <B>else</B>
+                <B>Result</B> := <B>True</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_once_raise"><A HREF="../ise/ise_exception_manager_flat.html#f_once_raise">once_raise</A> (a_exception: <A HREF="../elks/exception_flat.html">EXCEPTION</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Called by runtime to raise saved exception for once routines.</FONT>
+        <B>require</B>
+            a_exception_not_void: a_exception /= <B>Void</B>
+        <B>local</B>
+            p_meaning, p_message: <A HREF="../elks/pointer_flat.html">POINTER</A>
+        <B>do</B>
+            <B>if</B> <B>not</B> a_exception.<A HREF="../elks/exception_flat.html#f_is_ignored">is_ignored</A> <B>then</B>
+                <B>if</B> <A HREF="../ise/ise_exception_manager_flat.html#f_in_rescue">in_rescue</A> <B>then</B>
+                    a_exception.<A HREF="../elks/exception_flat.html#f_original">original</A>.<A HREF="../elks/exception_flat.html#f_set_throwing_exception">set_throwing_exception</A> (<A HREF="../ise/ise_exception_manager_flat.html#f_last_exception">last_exception</A>)
+                <B>end</B>
+                <A HREF="../ise/ise_exception_manager_flat.html#f_set_last_exception">set_last_exception</A> (a_exception)
+                p_meaning := <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+                <B>if</B> <B>attached</B> {<A HREF="../elks/c_string_flat.html">C_STRING</A>} a_exception.<A HREF="../elks/exception_flat.html#f_c_description">c_description</A> <B>as</B> m <B>then</B>
+                    p_message := m.<A HREF="../elks/c_string_flat.html#f_item">item</A>
+                <B>else</B>
+                    p_message := <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+                <B>end</B>
+                <A HREF="../ise/ise_exception_manager_flat.html#f_developer_raise">developer_raise</A> (a_exception.<A HREF="../elks/exception_flat.html#f_code">code</A>, p_meaning, p_message)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Cells</FONT>
+
+    <A NAME="f_exception_data_cell"><A HREF="../ise/ise_exception_manager_flat.html#f_exception_data_cell">Exception_data_cell</A>: <A HREF="../elks/cell_flat.html">CELL</A> [<B>detachable</B> <A HREF="../elks/tuple_flat.html">TUPLE</A> [code: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>; signal_code: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>; error_code: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>; tag: <A HREF="../elks/string_8_flat.html">STRING_8</A>; recipient: <A HREF="../elks/string_8_flat.html">STRING_8</A>; eclass: <A HREF="../elks/string_8_flat.html">STRING_8</A>; rf_routine: <A HREF="../elks/string_8_flat.html">STRING_8</A>; rf_class: <A HREF="../elks/string_8_flat.html">STRING_8</A>; trace: <A HREF="../elks/string_8_flat.html">STRING_8</A>; line_number: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>; is_invariant_entry: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>]]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Cell to hold current exception data</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/cell_flat.html#f_put">put</A> (<B>Void</B>)
+        <B>end</B></A>
+
+    <A NAME="f_last_exception_cell"><A HREF="../ise/ise_exception_manager_flat.html#f_last_exception_cell">Last_exception_cell</A>: <A HREF="../elks/cell_flat.html">CELL</A> [<B>detachable</B> <A HREF="../elks/exception_flat.html">EXCEPTION</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Cell to hold last exception</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/cell_flat.html#f_put">put</A> (<B>Void</B>)
+        <B>end</B></A>
+
+    <A NAME="f_no_memory_exception_object_cell"><A HREF="../ise/ise_exception_manager_flat.html#f_no_memory_exception_object_cell">No_memory_exception_object_cell</A>: <A HREF="../elks/cell_flat.html">CELL</A> [<A HREF="../ise/no_more_memory_flat.html">NO_MORE_MEMORY</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> No more memory exception object.</FONT>
+        <B>local</B>
+            l_nomem: <A HREF="../ise/no_more_memory_flat.html">NO_MORE_MEMORY</A>
+        <B>once</B>
+            <B>create</B> l_nomem
+            l_nomem.<A HREF="../elks/exception_flat.html#f_set_exception_trace">set_exception_trace</A> (<B>create</B> {<A HREF="../elks/string_8_flat.html">STRING_8</A>}.<A HREF="../elks/readable_string_8_flat.html#f_make">make</A> (4096))
+            <B>create</B> <B>Result</B>.<A HREF="../elks/cell_flat.html#f_put">put</A> (l_nomem)
+        <B>end</B></A>
+    
+<B>feature</B> {<A HREF="../elks/exceptions_flat.html">EXCEPTIONS</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Compatibility support</FONT>
+
+    <A NAME="f_exception_from_code"><A HREF="../ise/ise_exception_manager_flat.html#f_exception_from_code">exception_from_code</A> (a_code: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <B>detachable</B> <A HREF="../elks/exception_flat.html">EXCEPTION</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create exception object from </FONT>`a_code'
+        <B>local</B>
+            l_rt_panic: <A HREF="../ise/eiffel_runtime_panic_flat.html">EIFFEL_RUNTIME_PANIC</A>
+            l_io_failure: <A HREF="../ise/io_failure_flat.html">IO_FAILURE</A>
+            l_no_more_mem: <A HREF="../ise/no_more_memory_flat.html">NO_MORE_MEMORY</A>
+        <B>do</B>
+            <B>inspect</B> a_code
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_void_call_target">void_call_target</A> <B>then</B> 
+                <B>create</B> {<A HREF="../elks/void_target_flat.html">VOID_TARGET</A>} <B>Result</B>
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_no_more_memory">no_more_memory</A> <B>then</B> 
+                l_no_more_mem := <A HREF="../ise/ise_exception_manager_flat.html#f_no_memory_exception_object_cell">No_memory_exception_object_cell</A>.<A HREF="../elks/cell_flat.html#f_item">item</A>
+                l_no_more_mem.<A HREF="../ise/no_more_memory_flat.html#f_set_code">set_code</A> ({<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_no_more_memory">no_more_memory</A>)
+                <B>Result</B> := l_no_more_mem
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_precondition">precondition</A> <B>then</B> 
+                <B>create</B> {<A HREF="../elks/precondition_violation_flat.html">PRECONDITION_VIOLATION</A>} <B>Result</B>
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_postcondition">postcondition</A> <B>then</B> 
+                <B>create</B> {<A HREF="../elks/postcondition_violation_flat.html">POSTCONDITION_VIOLATION</A>} <B>Result</B>
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_floating_point_exception">floating_point_exception</A> <B>then</B> 
+                <B>create</B> {<A HREF="../elks/floating_point_failure_flat.html">FLOATING_POINT_FAILURE</A>} <B>Result</B>
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_class_invariant">class_invariant</A> <B>then</B> 
+                <B>create</B> {<A HREF="../elks/invariant_violation_flat.html">INVARIANT_VIOLATION</A>} <B>Result</B>
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_check_instruction">check_instruction</A> <B>then</B> 
+                <B>create</B> {<A HREF="../elks/check_violation_flat.html">CHECK_VIOLATION</A>} <B>Result</B>
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_routine_failure">routine_failure</A> <B>then</B> 
+                <B>create</B> {<A HREF="../elks/routine_failure_flat.html">ROUTINE_FAILURE</A>} <B>Result</B>
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_incorrect_inspect_value">incorrect_inspect_value</A> <B>then</B> 
+                <B>create</B> {<A HREF="../elks/bad_inspect_value_flat.html">BAD_INSPECT_VALUE</A>} <B>Result</B>
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_loop_variant">loop_variant</A> <B>then</B> 
+                <B>create</B> {<A HREF="../elks/variant_violation_flat.html">VARIANT_VIOLATION</A>} <B>Result</B>
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_loop_invariant">loop_invariant</A> <B>then</B> 
+                <B>create</B> {<A HREF="../elks/loop_invariant_violation_flat.html">LOOP_INVARIANT_VIOLATION</A>} <B>Result</B>
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_signal_exception">signal_exception</A> <B>then</B> 
+                <B>create</B> {<A HREF="../elks/operating_system_signal_failure_flat.html">OPERATING_SYSTEM_SIGNAL_FAILURE</A>} <B>Result</B>
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_eiffel_runtime_panic">eiffel_runtime_panic</A> <B>then</B> 
+                <B>create</B> l_rt_panic
+                l_rt_panic.<A HREF="../ise/eiffel_runtime_panic_flat.html#f_set_code">set_code</A> ({<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_eiffel_runtime_panic">eiffel_runtime_panic</A>)
+                <B>Result</B> := l_rt_panic
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_rescue_exception">rescue_exception</A> <B>then</B> 
+                <B>create</B> {<A HREF="../ise/rescue_failure_flat.html">RESCUE_FAILURE</A>} <B>Result</B>
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_out_of_memory">out_of_memory</A> <B>then</B> 
+                l_no_more_mem := <A HREF="../ise/ise_exception_manager_flat.html#f_no_memory_exception_object_cell">No_memory_exception_object_cell</A>.<A HREF="../elks/cell_flat.html#f_item">item</A>
+                l_no_more_mem.<A HREF="../ise/no_more_memory_flat.html#f_set_code">set_code</A> ({<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_out_of_memory">out_of_memory</A>)
+                <B>Result</B> := l_no_more_mem
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_resumption_failed">resumption_failed</A> <B>then</B> 
+                <B>create</B> {<A HREF="../ise/resumption_failure_flat.html">RESUMPTION_FAILURE</A>} <B>Result</B>
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_create_on_deferred">create_on_deferred</A> <B>then</B> 
+                <B>create</B> {<A HREF="../ise/create_on_deferred_flat.html">CREATE_ON_DEFERRED</A>} <B>Result</B>
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_external_exception">external_exception</A> <B>then</B> 
+                <B>create</B> {<A HREF="../ise/external_failure_flat.html">EXTERNAL_FAILURE</A>} <B>Result</B>
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_void_assigned_to_expanded">void_assigned_to_expanded</A> <B>then</B> 
+                <B>create</B> {<A HREF="../elks/void_assigned_to_expanded_flat.html">VOID_ASSIGNED_TO_EXPANDED</A>} <B>Result</B>
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_exception_in_signal_handler">exception_in_signal_handler</A> <B>then</B> 
+                <B>create</B> {<A HREF="../ise/exception_in_signal_handler_failure_flat.html">EXCEPTION_IN_SIGNAL_HANDLER_FAILURE</A>} <B>Result</B>
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_io_exception">io_exception</A> <B>then</B> 
+                <B>create</B> l_io_failure
+                l_io_failure.<A HREF="../ise/io_failure_flat.html#f_set_code">set_code</A> ({<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_io_exception">io_exception</A>)
+                <B>Result</B> := l_io_failure
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_operating_system_exception">operating_system_exception</A> <B>then</B> 
+                <B>create</B> {<A HREF="../elks/operating_system_failure_flat.html">OPERATING_SYSTEM_FAILURE</A>} <B>Result</B>
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_retrieve_exception">retrieve_exception</A> <B>then</B> 
+                <B>create</B> {<A HREF="../ise/mismatch_failure_flat.html">MISMATCH_FAILURE</A>} <B>Result</B>
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_developer_exception">developer_exception</A> <B>then</B> 
+                <B>create</B> {<A HREF="../elks/developer_exception_flat.html">DEVELOPER_EXCEPTION</A>} <B>Result</B>
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_eiffel_runtime_fatal_error">eiffel_runtime_fatal_error</A> <B>then</B> 
+                <B>create</B> l_rt_panic
+                l_rt_panic.<A HREF="../ise/eiffel_runtime_panic_flat.html#f_set_code">set_code</A> ({<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_eiffel_runtime_fatal_error">eiffel_runtime_fatal_error</A>)
+                <B>Result</B> := l_rt_panic
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_dollar_applied_to_melted_feature">dollar_applied_to_melted_feature</A> <B>then</B> 
+                <B>create</B> {<A HREF="../ise/address_applied_to_melted_feature_flat.html">ADDRESS_APPLIED_TO_MELTED_FEATURE</A>} <B>Result</B>
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_runtime_io_exception">runtime_io_exception</A> <B>then</B> 
+                <B>create</B> l_io_failure
+                l_io_failure.<A HREF="../ise/io_failure_flat.html#f_set_code">set_code</A> ({<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_runtime_io_exception">runtime_io_exception</A>)
+                <B>Result</B> := l_io_failure
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_com_exception">com_exception</A> <B>then</B> 
+                <B>create</B> {<A HREF="../elks/com_failure_flat.html">COM_FAILURE</A>} <B>Result</B>
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_runtime_check_exception">runtime_check_exception</A> <B>then</B> 
+                <B>create</B> {<A HREF="../elks/check_violation_flat.html">CHECK_VIOLATION</A>} <B>Result</B>
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_old_exception">old_exception</A> <B>then</B> 
+                <B>create</B> {<A HREF="../elks/old_violation_flat.html">OLD_VIOLATION</A>} <B>Result</B>
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_serialization_exception">serialization_exception</A> <B>then</B> 
+                <B>create</B> {<A HREF="../ise/serialization_failure_flat.html">SERIALIZATION_FAILURE</A>} <B>Result</B>
+            <B>else</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_type_of_code"><A HREF="../ise/ise_exception_manager_flat.html#f_type_of_code">type_of_code</A> (a_code: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <B>detachable</B> <A HREF="../elks/type_flat.html">TYPE</A> [<A HREF="../elks/exception_flat.html">EXCEPTION</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Exception type of </FONT>`a_code'
+        <B>do</B>
+            <B>inspect</B> a_code
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_void_call_target">void_call_target</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../elks/void_target_flat.html">VOID_TARGET</A>}
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_no_more_memory">no_more_memory</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../ise/no_more_memory_flat.html">NO_MORE_MEMORY</A>}
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_precondition">precondition</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../elks/precondition_violation_flat.html">PRECONDITION_VIOLATION</A>}
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_postcondition">postcondition</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../elks/postcondition_violation_flat.html">POSTCONDITION_VIOLATION</A>}
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_floating_point_exception">floating_point_exception</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../elks/floating_point_failure_flat.html">FLOATING_POINT_FAILURE</A>}
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_class_invariant">class_invariant</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../elks/invariant_violation_flat.html">INVARIANT_VIOLATION</A>}
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_check_instruction">check_instruction</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../elks/check_violation_flat.html">CHECK_VIOLATION</A>}
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_routine_failure">routine_failure</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../elks/routine_failure_flat.html">ROUTINE_FAILURE</A>}
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_incorrect_inspect_value">incorrect_inspect_value</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../elks/bad_inspect_value_flat.html">BAD_INSPECT_VALUE</A>}
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_loop_variant">loop_variant</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../elks/variant_violation_flat.html">VARIANT_VIOLATION</A>}
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_loop_invariant">loop_invariant</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../elks/loop_invariant_violation_flat.html">LOOP_INVARIANT_VIOLATION</A>}
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_signal_exception">signal_exception</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../elks/operating_system_signal_failure_flat.html">OPERATING_SYSTEM_SIGNAL_FAILURE</A>}
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_eiffel_runtime_panic">eiffel_runtime_panic</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../ise/eiffel_runtime_panic_flat.html">EIFFEL_RUNTIME_PANIC</A>}
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_rescue_exception">rescue_exception</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../ise/rescue_failure_flat.html">RESCUE_FAILURE</A>}
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_out_of_memory">out_of_memory</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../ise/no_more_memory_flat.html">NO_MORE_MEMORY</A>}
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_resumption_failed">resumption_failed</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../ise/resumption_failure_flat.html">RESUMPTION_FAILURE</A>}
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_create_on_deferred">create_on_deferred</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../ise/create_on_deferred_flat.html">CREATE_ON_DEFERRED</A>}
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_external_exception">external_exception</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../ise/external_failure_flat.html">EXTERNAL_FAILURE</A>}
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_void_assigned_to_expanded">void_assigned_to_expanded</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../elks/void_assigned_to_expanded_flat.html">VOID_ASSIGNED_TO_EXPANDED</A>}
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_exception_in_signal_handler">exception_in_signal_handler</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../ise/exception_in_signal_handler_failure_flat.html">EXCEPTION_IN_SIGNAL_HANDLER_FAILURE</A>}
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_io_exception">io_exception</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../ise/io_failure_flat.html">IO_FAILURE</A>}
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_operating_system_exception">operating_system_exception</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../elks/operating_system_failure_flat.html">OPERATING_SYSTEM_FAILURE</A>}
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_retrieve_exception">retrieve_exception</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../ise/mismatch_failure_flat.html">MISMATCH_FAILURE</A>}
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_developer_exception">developer_exception</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../elks/developer_exception_flat.html">DEVELOPER_EXCEPTION</A>}
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_eiffel_runtime_fatal_error">eiffel_runtime_fatal_error</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../ise/eiffel_runtime_panic_flat.html">EIFFEL_RUNTIME_PANIC</A>}
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_dollar_applied_to_melted_feature">dollar_applied_to_melted_feature</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../ise/address_applied_to_melted_feature_flat.html">ADDRESS_APPLIED_TO_MELTED_FEATURE</A>}
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_runtime_io_exception">runtime_io_exception</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../ise/io_failure_flat.html">IO_FAILURE</A>}
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_com_exception">com_exception</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../elks/com_failure_flat.html">COM_FAILURE</A>}
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_runtime_check_exception">runtime_check_exception</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../elks/check_violation_flat.html">CHECK_VIOLATION</A>}
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_old_exception">old_exception</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../elks/old_violation_flat.html">OLD_VIOLATION</A>}
+            <B>when</B> {<A HREF="../elks/excep_const_flat.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const_flat.html#f_serialization_exception">serialization_exception</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../ise/serialization_failure_flat.html">SERIALIZATION_FAILURE</A>}
+            <B>else</B>
+                <B>Result</B> := <B>Void</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation, ignoring</FONT>
+
+    <A NAME="f_ignored_exceptions"><A HREF="../ise/ise_exception_manager_flat.html#f_ignored_exceptions">Ignored_exceptions</A>: <A HREF="../elks/hash_table_flat.html">HASH_TABLE</A> [<A HREF="../elks/integer_32_flat.html">INTEGER_32</A>, <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Ignored exceptions</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/hash_table_flat.html#f_make">make</A> (0)
+        <B>end</B></A>
+
+    <A NAME="f_unignorable_exceptions"><A HREF="../ise/ise_exception_manager_flat.html#f_unignorable_exceptions">Unignorable_exceptions</A>: <A HREF="../elks/hash_table_flat.html">HASH_TABLE</A> [<A HREF="../elks/integer_32_flat.html">INTEGER_32</A>, <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Unignorable exceptions</FONT>
+        <B>local</B>
+            l_type: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>once</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/hash_table_flat.html#f_make">make</A> (1)
+            l_type := ({<A HREF="../elks/void_target_flat.html">VOID_TARGET</A>}).<A HREF="../elks/type_flat.html#f_type_id">type_id</A>
+            <B>Result</B>.<A HREF="../elks/hash_table_flat.html#f_force">force</A> (l_type, l_type)
+        <B>end</B></A>
+
+    <A NAME="f_unraisable_exceptions"><A HREF="../ise/ise_exception_manager_flat.html#f_unraisable_exceptions">Unraisable_exceptions</A>: <A HREF="../elks/hash_table_flat.html">HASH_TABLE</A> [<A HREF="../elks/integer_32_flat.html">INTEGER_32</A>, <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Unraisable exceptions</FONT>
+        <B>local</B>
+            l_type: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>once</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/hash_table_flat.html#f_make">make</A> (2)
+            l_type := ({<A HREF="../elks/routine_failure_flat.html">ROUTINE_FAILURE</A>}).<A HREF="../elks/type_flat.html#f_type_id">type_id</A>
+            <B>Result</B>.<A HREF="../elks/hash_table_flat.html#f_force">force</A> (l_type, l_type)
+            l_type := ({<A HREF="../elks/old_violation_flat.html">OLD_VIOLATION</A>}).<A HREF="../elks/type_flat.html#f_type_id">type_id</A>
+            <B>Result</B>.<A HREF="../elks/hash_table_flat.html#f_force">force</A> (l_type, l_type)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output</FONT>
+
+    <A NAME="f_io"><A HREF="../elks/any_flat.html#f_io">Io</A>: <A HREF="../elks/std_files_flat.html">STD_FILES</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Handle to standard file setup</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../elks/std_files_flat.html#f_set_output_default">set_output_default</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            io_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_out"><A HREF="../elks/any_flat.html#f_out">out</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/any_flat.html#f_tagged_out">tagged_out</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            out_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_print"><A HREF="../elks/any_flat.html#f_print">print</A> (o: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write terse external representation of </FONT>`o'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on standard output.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> o /= <B>Void</B> <B>then</B>
+                <A HREF="../elks/any_flat.html#f_io">Io</A>.<A HREF="../elks/std_files_flat.html#f_put_string">put_string</A> (o.<A HREF="../elks/any_flat.html#f_out">out</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_tagged_out"><B>frozen</B> <A HREF="../elks/any_flat.html#f_tagged_out">tagged_out</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            tagged_out_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Platform</FONT>
+
+    <A NAME="f_operating_environment"><A HREF="../elks/any_flat.html#f_operating_environment">Operating_environment</A>: <A HREF="../elks/operating_environment_flat.html">OPERATING_ENVIRONMENT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Objects available from the operating system</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            operating_environment_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Raise</FONT>
+
+    <A NAME="f_raise"><A HREF="../ise/ise_exception_manager_flat.html#f_raise">raise</A> (a_exception: <A HREF="../elks/exception_flat.html">EXCEPTION</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Raise </FONT>`a_exception'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Raising </FONT>`a_exception'<FONT COLOR="red"> by this routine makes </FONT>`a_exception'<FONT COLOR="red"> accessible by </FONT><A HREF="../ise/ise_exception_manager_flat.html#f_last_exception">last_exception</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> in rescue clause. Hence causes removal of original </FONT><A HREF="../ise/ise_exception_manager_flat.html#f_last_exception">last_exception</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/exception_manager_flat.html">EXCEPTION_MANAGER</A>
+            a_exception_not_void: a_exception /= <B>Void</B>
+            a_exception_is_raisable: a_exception.<A HREF="../elks/exception_flat.html#f_is_raisable">is_raisable</A>
+        <B>local</B>
+            p_meaning, p_message: <A HREF="../elks/pointer_flat.html">POINTER</A>
+        <B>do</B>
+            <B>if</B> <B>not</B> a_exception.<A HREF="../elks/exception_flat.html#f_is_ignored">is_ignored</A> <B>then</B>
+                <B>if</B> <A HREF="../ise/ise_exception_manager_flat.html#f_in_rescue">in_rescue</A> <B>then</B>
+                    a_exception.<A HREF="../elks/exception_flat.html#f_set_throwing_exception">set_throwing_exception</A> (<A HREF="../ise/ise_exception_manager_flat.html#f_last_exception">last_exception</A>)
+                <B>end</B>
+                <A HREF="../ise/ise_exception_manager_flat.html#f_set_last_exception">set_last_exception</A> (a_exception)
+                p_meaning := <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+                <B>if</B> <B>attached</B> {<A HREF="../elks/c_string_flat.html">C_STRING</A>} a_exception.<A HREF="../elks/exception_flat.html#f_c_description">c_description</A> <B>as</B> m <B>then</B>
+                    p_message := m.<A HREF="../elks/c_string_flat.html#f_item">item</A>
+                <B>else</B>
+                    p_message := <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+                <B>end</B>
+                <A HREF="../ise/ise_exception_manager_flat.html#f_developer_raise">developer_raise</A> (a_exception.<A HREF="../elks/exception_flat.html#f_code">code</A>, p_meaning, p_message)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieval</FONT>
+
+    <A NAME="f_internal_correct_mismatch"><B>frozen</B> <A HREF="../elks/any_flat.html#f_internal_correct_mismatch">internal_correct_mismatch</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Called from runtime to perform a proper dynamic dispatch on </FONT>`correct_mismatch'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> from MISMATCH_CORRECTOR.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            l_msg: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            l_exc: <A HREF="../elks/exceptions_flat.html">EXCEPTIONS</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<A HREF="../elks/mismatch_corrector_flat.html">MISMATCH_CORRECTOR</A>} <B>Current</B> <B>as</B> l_corrector <B>then</B>
+                l_corrector.<A HREF="../elks/mismatch_corrector_flat.html#f_correct_mismatch">correct_mismatch</A>
+            <B>else</B>
+                <B>create</B> l_msg.<A HREF="../elks/readable_string_8_flat.html#f_make_from_string">make_from_string</A> ("Mismatch: ")
+                <B>create</B> l_exc
+                l_msg.<A HREF="../elks/string_8_flat.html#f_append">append</A> (<A HREF="../elks/any_flat.html#f_generating_type">generating_type</A>.<A HREF="../elks/type_flat.html#f_name">name</A>)
+                l_exc.<A HREF="../elks/exceptions_flat.html#f_raise_retrieval_exception">raise_retrieval_exception</A> (l_msg)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>invariant</B>
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+    reflexive_equality: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+    reflexive_conformance: <A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>Current</B>)
+
+<B>note</B>
+    library: "EiffelBase: Library of reusable components for Eiffel."
+    copyright: "Copyright (c) 1984-2008, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        356 Storke Road, Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../ise/ise_exception_manager_flat.html">ISE_EXCEPTION_MANAGER</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="ise_exception_manager_chart.html">Chart</A></TD><TD><A HREF="ise_exception_manager_links.html">Relations</A></TD><TD><A HREF="ise_exception_manager.html">Text</A></TD><TD>Flat</TD><TD><A HREF="ise_exception_manager_short.html">Contracts</A></TD><TD><A HREF="ise_exception_manager_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

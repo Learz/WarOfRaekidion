@@ -5,8 +5,8 @@ note
 					a {DATABASE_CONNECT} to ensure it is only created once.
 				]"
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
-	date		: "$Date$"
-	revision	: "$Revision$"
+	date		: "$Date: May 23 2014$"
+	revision	: "$Revision: 1$"
 
 class
 	DATABASE_MANAGER
@@ -60,5 +60,13 @@ feature -- Access
 		once
 			create result.put (false)
 		end
+
+note
+	copyright: "[
+				War of Raekidion
+				Copyright (C) 2014 François Allard <binarmorker@gmail.com>
+             		   		   and Marc-Antoine Renaud <legars123456@gmail.com>
+               ]"
+	license:   "GNU General Public License, <http://www.gnu.org/licenses/>"
 
 end

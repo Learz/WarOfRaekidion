@@ -1,11 +1,11 @@
 note
 	description : "[
-						War of Raekidion - A 2D sprite
-						A {SPRITE} is a movable and animable image.
-					]"
+					War of Raekidion - A 2D sprite
+					A {SPRITE} is a movable and animable image.
+				]"
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
-	date		: "$Date$"
-	revision	: "$Revision$"
+	date		: "$Date: May 23 2014$"
+	revision	: "$Revision: 1$"
 
 class
 	SPRITE
@@ -106,5 +106,13 @@ feature {NONE} -- Implementation
 			{SDL}.sdl_destroytexture (texture)
 			targetarea.memory_free
 		end
+
+note
+	copyright: "[
+				War of Raekidion
+				Copyright (C) 2014 François Allard <binarmorker@gmail.com>
+             		   		   and Marc-Antoine Renaud <legars123456@gmail.com>
+               ]"
+	license:   "GNU General Public License, <http://www.gnu.org/licenses/>"
 
 end

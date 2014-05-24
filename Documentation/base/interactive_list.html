@@ -1,0 +1,383 @@
+<HTML><HEAD>
+<meta name="description" content="Sequential, one-way linked lists that call add/remove features when an item is removed or added."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class, event, linked, list"/>
+<meta name="library" content="EiffelBase: Library of reusable components for Eiffel."/>
+<meta name="copyright" content="Copyright (c) 1984-2008, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 356 Storke Road, Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>interactive_list Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="interactive_list_chart.html">Chart</A></TD><TD><A HREF="interactive_list_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="interactive_list_flat.html">Flat</A></TD><TD><A HREF="interactive_list_short.html">Contracts</A></TD><TD><A HREF="interactive_list_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Sequential, one-way linked lists that call add/remove features
+        when an item is removed or added.
+    ]"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    keywords: "event, linked, list"
+    date: "$Date: 2009-06-10 14:11:54 -0700 (Wed, 10 Jun 2009) $"
+    revision: "$Revision: 79183 $"
+
+<B>deferred</B> <B>class</B> 
+    <A HREF="../ise/interactive_list.html">INTERACTIVE_LIST</A> [G]
+
+<B>inherit</B>
+    <A HREF="../elks/arrayed_list.html">ARRAYED_LIST</A> [G]
+        <B>undefine</B>
+            <A HREF="../elks/arrayed_list.html#f_new_filled_list">new_filled_list</A>
+        <B>redefine</B>
+            <A HREF="../ise/interactive_list.html#f_default_create">default_create</A>,
+            <A HREF="../ise/interactive_list.html#f_merge_left">merge_left</A>,
+            <A HREF="../ise/interactive_list.html#f_merge_right">merge_right</A>,
+            <A HREF="../ise/interactive_list.html#f_wipe_out">wipe_out</A>,
+            <A HREF="../ise/interactive_list.html#f_put_front">put_front</A>,
+            <A HREF="../ise/interactive_list.html#f_put_left">put_left</A>,
+            <A HREF="../ise/interactive_list.html#f_put_right">put_right</A>,
+            <A HREF="../ise/interactive_list.html#f_remove_right">remove_right</A>,
+            <A HREF="../ise/interactive_list.html#f_replace">replace</A>,
+            <A HREF="../ise/interactive_list.html#f_remove">remove</A>,
+            <A HREF="../ise/interactive_list.html#f_put_i_th">put_i_th</A>,
+            <A HREF="../ise/interactive_list.html#f_append">append</A>,
+            <A HREF="../ise/interactive_list.html#f_make_from_array">make_from_array</A>,
+            <A HREF="../ise/interactive_list.html#f_prune_all">prune_all</A>,
+            <A HREF="../ise/interactive_list.html#f_extend">extend</A>
+        <B>end</B>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_default_create"><A HREF="../ise/interactive_list.html#f_default_create">default_create</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize linked list.</FONT>
+        <B>do</B>
+            <A HREF="../elks/arrayed_list.html#f_make">make</A> (4)
+        <B>end</B></A>
+
+    <A NAME="f_make_from_array"><A HREF="../ise/interactive_list.html#f_make_from_array">make_from_array</A> (a: <A HREF="../elks/array.html">ARRAY</A> [<B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create list from array </FONT>`a'<FONT COLOR="red">.</FONT>
+        <B>local</B>
+            l_index: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <A HREF="../elks/arrayed_list.html#f_make">make</A> (a.<A HREF="../elks/array.html#f_count">count</A>)
+            <B>from</B>
+                l_index := a.<A HREF="../elks/array.html#f_lower">lower</A>
+            <B>until</B>
+                l_index &gt; a.<A HREF="../elks/array.html#f_upper">upper</A>
+            <B>loop</B>
+                <A HREF="../ise/interactive_list.html#f_extend">extend</A> (a.<A HREF="../elks/array.html#f_item">item</A> (l_index))
+                l_index := l_index + 1
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Miscellaneous</FONT>
+
+    <A NAME="f_on_item_added_at"><A HREF="../ise/interactive_list.html#f_on_item_added_at">on_item_added_at</A> (an_item: <B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>; item_index: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`an_item'<FONT COLOR="red"> has just been added at index </FONT>`item_index'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            item_index_valid: (1 &lt;= item_index) <B>and</B> (item_index &lt;= <A HREF="../elks/arrayed_list.html#f_count">count</A>)
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_on_item_removed_at"><A HREF="../ise/interactive_list.html#f_on_item_removed_at">on_item_removed_at</A> (an_item: <B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>; item_index: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`an_item'<FONT COLOR="red"> has just been removed from index </FONT>`item_index'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            item_index_valid: (1 &lt;= item_index) <B>and</B> (item_index &lt;= <A HREF="../elks/arrayed_list.html#f_count">count</A> + 1)
+        <B>do</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element Change</FONT>
+
+    <A NAME="f_put_front"><A HREF="../ise/interactive_list.html#f_put_front">put_front</A> (v: <B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Add </FONT>`v'<FONT COLOR="red"> to beginning.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do not move cursor.</FONT>
+        <B>do</B>
+            <A HREF="../ise/interactive_list.html#f_in_operation">in_operation</A> := <B>True</B>
+            <B>Precursor</B> {<A HREF="../elks/arrayed_list.html">ARRAYED_LIST</A>} (v)
+            <A HREF="../ise/interactive_list.html#f_in_operation">in_operation</A> := <B>False</B>
+            <A HREF="../ise/interactive_list.html#f_added_item">added_item</A> (v, 1)
+        <B>end</B></A>
+
+    <A NAME="f_extend"><A HREF="../ise/interactive_list.html#f_extend">extend</A> (v: <B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Add </FONT>`v'<FONT COLOR="red"> to end.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do not move cursor.</FONT>
+        <B>do</B>
+            <A HREF="../ise/interactive_list.html#f_in_operation">in_operation</A> := <B>True</B>
+            <B>Precursor</B> {<A HREF="../elks/arrayed_list.html">ARRAYED_LIST</A>} (v)
+            <A HREF="../ise/interactive_list.html#f_in_operation">in_operation</A> := <B>False</B>
+            <A HREF="../ise/interactive_list.html#f_added_item">added_item</A> (v, <A HREF="../elks/arrayed_list.html#f_count">count</A>)
+        <B>end</B></A>
+
+    <A NAME="f_append"><A HREF="../ise/interactive_list.html#f_append">append</A> (s: <A HREF="../elks/sequence.html">SEQUENCE</A> [<B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Append a copy of </FONT>`s'<FONT COLOR="red">.</FONT>
+        <B>local</B>
+            new_count: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            new_count := <A HREF="../elks/arrayed_list.html#f_count">count</A> + s.<A HREF="../elks/finite.html#f_count">count</A>
+            <B>if</B> new_count &gt; <A HREF="../elks/arrayed_list.html#f_capacity">capacity</A> <B>then</B>
+                <A HREF="../elks/arrayed_list.html#f_grow">grow</A> (new_count)
+            <B>end</B>
+            <B>from</B>
+                s.<A HREF="../elks/traversable.html#f_start">start</A>
+            <B>until</B>
+                s.<A HREF="../elks/linear.html#f_after">after</A>
+            <B>loop</B>
+                <A HREF="../ise/interactive_list.html#f_extend">extend</A> (s.<A HREF="../elks/active.html#f_item">item</A>)
+                s.<A HREF="../elks/linear.html#f_forth">forth</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_put_left"><A HREF="../ise/interactive_list.html#f_put_left">put_left</A> (v: <B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Add </FONT>`v'<FONT COLOR="red"> to the left of cursor position.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do not move cursor.</FONT>
+        <B>do</B>
+            <A HREF="../ise/interactive_list.html#f_in_operation">in_operation</A> := <B>True</B>
+            <B>Precursor</B> {<A HREF="../elks/arrayed_list.html">ARRAYED_LIST</A>} (v)
+            <A HREF="../ise/interactive_list.html#f_in_operation">in_operation</A> := <B>False</B>
+            <A HREF="../ise/interactive_list.html#f_added_item">added_item</A> (v, <A HREF="../elks/arrayed_list.html#f_index">index</A> - 1)
+        <B>end</B></A>
+
+    <A NAME="f_put_right"><A HREF="../ise/interactive_list.html#f_put_right">put_right</A> (v: <B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Add </FONT>`v'<FONT COLOR="red"> to the right of cursor position.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do not move cursor.</FONT>
+        <B>do</B>
+            <A HREF="../ise/interactive_list.html#f_in_operation">in_operation</A> := <B>True</B>
+            <B>Precursor</B> {<A HREF="../elks/arrayed_list.html">ARRAYED_LIST</A>} (v)
+            <A HREF="../ise/interactive_list.html#f_in_operation">in_operation</A> := <B>False</B>
+            <A HREF="../ise/interactive_list.html#f_added_item">added_item</A> (v, <A HREF="../elks/arrayed_list.html#f_index">index</A> + 1)
+        <B>end</B></A>
+
+    <A NAME="f_put_i_th"><A HREF="../ise/interactive_list.html#f_put_i_th">put_i_th</A> (v: <B>like</B> <A HREF="../elks/arrayed_list.html#f_i_th">i_th</A>; i: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Replace </FONT>`i'<FONT COLOR="red">-th entry, if in index interval, by </FONT>`v'<FONT COLOR="red">.</FONT>
+        <B>local</B>
+            original_item: <B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>
+        <B>do</B>
+            original_item := <A HREF="../elks/arrayed_list.html#f_i_th">i_th</A> (i)
+            <A HREF="../ise/interactive_list.html#f_in_operation">in_operation</A> := <B>True</B>
+            <B>Precursor</B> {<A HREF="../elks/arrayed_list.html">ARRAYED_LIST</A>} (v, i)
+            <A HREF="../ise/interactive_list.html#f_in_operation">in_operation</A> := <B>False</B>
+            <B>if</B> original_item /= <B>Void</B> <B>then</B>
+                <A HREF="../ise/interactive_list.html#f_removed_item">removed_item</A> (original_item, i)
+            <B>end</B>
+            <A HREF="../ise/interactive_list.html#f_added_item">added_item</A> (v, i)
+        <B>end</B></A>
+
+    <A NAME="f_replace"><A HREF="../ise/interactive_list.html#f_replace">replace</A> (v: <B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Replace current item by </FONT>`v'<FONT COLOR="red">.</FONT>
+        <B>local</B>
+            original_index: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            original_item: <B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>
+        <B>do</B>
+            original_index := <A HREF="../elks/arrayed_list.html#f_index">index</A>
+            original_item := <A HREF="../elks/arrayed_list.html#f_item">item</A>
+            <A HREF="../ise/interactive_list.html#f_in_operation">in_operation</A> := <B>True</B>
+            <B>Precursor</B> {<A HREF="../elks/arrayed_list.html">ARRAYED_LIST</A>} (v)
+            <A HREF="../ise/interactive_list.html#f_in_operation">in_operation</A> := <B>False</B>
+            <A HREF="../ise/interactive_list.html#f_removed_item">removed_item</A> (original_item, original_index)
+            <A HREF="../ise/interactive_list.html#f_added_item">added_item</A> (v, original_index)
+        <B>end</B></A>
+
+    <A NAME="f_remove"><A HREF="../ise/interactive_list.html#f_remove">remove</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove current item.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to right neighbor</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (or </FONT><A HREF="../elks/list.html#f_after">after</A><FONT COLOR="red"> if no right neighbor).</FONT>
+        <B>local</B>
+            original_index: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            original_item: <B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>
+        <B>do</B>
+            original_index := <A HREF="../elks/arrayed_list.html#f_index">index</A>
+            original_item := <A HREF="../elks/arrayed_list.html#f_item">item</A>
+            <A HREF="../ise/interactive_list.html#f_in_operation">in_operation</A> := <B>True</B>
+            <B>Precursor</B> {<A HREF="../elks/arrayed_list.html">ARRAYED_LIST</A>}
+            <A HREF="../ise/interactive_list.html#f_in_operation">in_operation</A> := <B>False</B>
+            <A HREF="../ise/interactive_list.html#f_removed_item">removed_item</A> (original_item, original_index)
+        <B>end</B></A>
+
+    <A NAME="f_remove_right"><A HREF="../ise/interactive_list.html#f_remove_right">remove_right</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove item to the right of cursor position.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do not move cursor.</FONT>
+        <B>local</B>
+            item_removed: <B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>
+        <B>do</B>
+            item_removed := <A HREF="../elks/arrayed_list.html#f_i_th">i_th</A> (<A HREF="../elks/arrayed_list.html#f_index">index</A> + 1)
+            <A HREF="../ise/interactive_list.html#f_in_operation">in_operation</A> := <B>True</B>
+            <B>Precursor</B> {<A HREF="../elks/arrayed_list.html">ARRAYED_LIST</A>}
+            <A HREF="../ise/interactive_list.html#f_in_operation">in_operation</A> := <B>False</B>
+            <A HREF="../ise/interactive_list.html#f_removed_item">removed_item</A> (item_removed, <A HREF="../elks/arrayed_list.html#f_index">index</A> + 1)
+        <B>end</B></A>
+
+    <A NAME="f_merge_left"><A HREF="../ise/interactive_list.html#f_merge_left">merge_left</A> (other: <B>like</B> <B>Current</B>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Merge </FONT>`other'<FONT COLOR="red"> into current structure after cursor</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> position. Do not move cursor. Empty </FONT>`other'
+        <B>local</B>
+            original_index: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            original_other_count: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            original_index := <A HREF="../elks/arrayed_list.html#f_index">index</A>
+            original_other_count := other.<A HREF="../elks/arrayed_list.html#f_count">count</A>
+            <A HREF="../elks/arrayed_list.html#f_index">index</A> := <A HREF="../elks/arrayed_list.html#f_index">index</A> - 1
+            <A HREF="../ise/interactive_list.html#f_merge_right">merge_right</A> (other)
+            <A HREF="../elks/arrayed_list.html#f_index">index</A> := original_index + original_other_count
+        <B>end</B></A>
+
+    <A NAME="f_merge_right"><A HREF="../ise/interactive_list.html#f_merge_right">merge_right</A> (other: <B>like</B> <B>Current</B>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Merge </FONT>`other'<FONT COLOR="red"> into current structure before cursor</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> position. Do not move cursor. Empty </FONT>`other'
+        <B>local</B>
+            original_index: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            new_item_count: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            original_index := <A HREF="../elks/arrayed_list.html#f_index">index</A>
+            new_item_count := other.<A HREF="../elks/arrayed_list.html#f_count">count</A>
+            <A HREF="../ise/interactive_list.html#f_in_operation">in_operation</A> := <B>True</B>
+            <B>Precursor</B> {<A HREF="../elks/arrayed_list.html">ARRAYED_LIST</A>} (other)
+            <A HREF="../ise/interactive_list.html#f_in_operation">in_operation</A> := <B>False</B>
+            <A HREF="../ise/interactive_list.html#f_update_for_added">update_for_added</A> (original_index + 1)
+            <A HREF="../elks/arrayed_list.html#f_go_i_th">go_i_th</A> (original_index)
+        <B>end</B></A>
+
+    <A NAME="f_prune_all"><A HREF="../ise/interactive_list.html#f_prune_all">prune_all</A> (v: <B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove all occurrences of </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Reference or object equality,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> based on </FONT><A HREF="../elks/container.html#f_object_comparison">object_comparison</A><FONT COLOR="red">.)</FONT>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            offset: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            res: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            obj_cmp: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            l_item: <B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>
+            l_area: <B>like</B> <A HREF="../elks/arrayed_list.html#f_area">area</A>
+        <B>do</B>
+            obj_cmp := <A HREF="../elks/container.html#f_object_comparison">object_comparison</A>
+            <B>from</B>
+                l_area := <A HREF="../elks/arrayed_list.html#f_area">area</A>
+                i := 0
+                nb := <A HREF="../elks/arrayed_list.html#f_count">count</A>
+            <B>until</B>
+                i = <A HREF="../elks/arrayed_list.html#f_count">count</A>
+            <B>loop</B>
+                <B>if</B> i &lt; nb - offset <B>then</B>
+                    <B>if</B> offset &gt; 0 <B>then</B>
+                        l_area.<A HREF="../elks/special.html#f_put">put</A> (l_area.<A HREF="../elks/special.html#f_item">item</A> (i + offset), i)
+                    <B>end</B>
+                    l_item := l_area.<A HREF="../elks/special.html#f_item">item</A> (i)
+                    <B>if</B> obj_cmp <B>then</B>
+                        res := v ~ l_item
+                    <B>else</B>
+                        res := v = l_item
+                    <B>end</B>
+                    <B>if</B> res <B>then</B>
+                        <A HREF="../ise/interactive_list.html#f_removed_item">removed_item</A> (l_item, i + <A HREF="../elks/arrayed_list.html#f_lower">Lower</A>)
+                        offset := offset + 1
+                    <B>else</B>
+                        i := i + 1
+                    <B>end</B>
+                <B>else</B>
+                    i := i + 1
+                <B>end</B>
+            <B>end</B>
+            l_area.<A HREF="../elks/special.html#f_remove_tail">remove_tail</A> (offset)
+            <A HREF="../elks/arrayed_list.html#f_index">index</A> := <A HREF="../elks/arrayed_list.html#f_count">count</A> + 1
+        <B>ensure then</B>
+            is_after: <A HREF="../elks/list.html#f_after">after</A>
+        <B>end</B></A>
+
+    <A NAME="f_update_for_added"><A HREF="../ise/interactive_list.html#f_update_for_added">update_for_added</A> (start_index: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Call </FONT><A HREF="../ise/interactive_list.html#f_added_item">added_item</A><FONT COLOR="red"> for all items from index </FONT>`start_index'<FONT COLOR="red"> to </FONT><A HREF="../elks/arrayed_list.html#f_count">count</A>
+        <B>local</B>
+            l_index: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            l_index := <A HREF="../elks/arrayed_list.html#f_index">index</A>
+            <B>from</B>
+                <A HREF="../elks/arrayed_list.html#f_go_i_th">go_i_th</A> (start_index)
+            <B>until</B>
+                <A HREF="../elks/arrayed_list.html#f_index">index</A> &gt; <A HREF="../elks/arrayed_list.html#f_count">count</A>
+            <B>loop</B>
+                <A HREF="../ise/interactive_list.html#f_added_item">added_item</A> (<A HREF="../elks/arrayed_list.html#f_item">item</A>, <A HREF="../elks/arrayed_list.html#f_index">index</A>)
+                <A HREF="../elks/arrayed_list.html#f_forth">forth</A>
+            <B>end</B>
+            <A HREF="../elks/arrayed_list.html#f_go_i_th">go_i_th</A> (l_index)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removal</FONT>
+
+    <A NAME="f_wipe_out"><A HREF="../ise/interactive_list.html#f_wipe_out">wipe_out</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove all items.</FONT>
+        <B>local</B>
+            l: <B>like</B> <A HREF="../elks/arrayed_list.html#f_area">area</A>
+            i, l_count: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            l := <A HREF="../elks/arrayed_list.html#f_area">area</A>.<A HREF="../elks/any.html#f_twin">twin</A>
+            l_count := <A HREF="../elks/arrayed_list.html#f_count">count</A>
+            <B>Precursor</B> {<A HREF="../elks/arrayed_list.html">ARRAYED_LIST</A>}
+            <B>from</B>
+                i := 0
+            <B>until</B>
+                i = l_count
+            <B>loop</B>
+                <A HREF="../ise/interactive_list.html#f_on_item_removed_at">on_item_removed_at</A> (l @ i, 1)
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_add_all"><A HREF="../ise/interactive_list.html#f_add_all">add_all</A> (other: <B>like</B> <B>Current</B>; start_index: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Call </FONT>`on_item_added'<FONT COLOR="red"> for all elements in </FONT>`other'<FONT COLOR="red">.</FONT>
+        <B>local</B>
+            cur: <A HREF="../elks/cursor.html">CURSOR</A>
+            current_index: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            current_index := start_index
+            cur := other.<A HREF="../elks/arrayed_list.html#f_cursor">cursor</A>
+            <B>from</B>
+                other.<A HREF="../elks/arrayed_list.html#f_start">start</A>
+            <B>until</B>
+                other.<A HREF="../elks/list.html#f_after">after</A>
+            <B>loop</B>
+                <A HREF="../ise/interactive_list.html#f_added_item">added_item</A> (other.<A HREF="../elks/arrayed_list.html#f_item">item</A>, current_index)
+                other.<A HREF="../elks/arrayed_list.html#f_forth">forth</A>
+                current_index := current_index + 1
+            <B>end</B>
+            other.<A HREF="../elks/arrayed_list.html#f_go_to">go_to</A> (cur)
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_in_operation"><A HREF="../ise/interactive_list.html#f_in_operation">in_operation</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are we executing an operation from ARRAYED_LIST?</FONT>
+
+    <A NAME="f_added_item"><A HREF="../ise/interactive_list.html#f_added_item">added_item</A> (an_item: <B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>; item_index: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`an_item'<FONT COLOR="red"> is has been added.</FONT>
+        <B>do</B>
+            <B>if</B> <B>not</B> <A HREF="../ise/interactive_list.html#f_in_operation">in_operation</A> <B>then</B>
+                <A HREF="../ise/interactive_list.html#f_on_item_added_at">on_item_added_at</A> (an_item, item_index)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_removed_item"><A HREF="../ise/interactive_list.html#f_removed_item">removed_item</A> (an_item: <B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>; item_index: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`an_item'<FONT COLOR="red"> has been removed.</FONT>
+        <B>do</B>
+            <B>if</B> <B>not</B> <A HREF="../ise/interactive_list.html#f_in_operation">in_operation</A> <B>then</B>
+                <A HREF="../ise/interactive_list.html#f_on_item_removed_at">on_item_removed_at</A> (an_item, item_index)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>note</B>
+    library: "EiffelBase: Library of reusable components for Eiffel."
+    copyright: "Copyright (c) 1984-2008, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        356 Storke Road, Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../ise/interactive_list.html">INTERACTIVE_LIST</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="interactive_list_chart.html">Chart</A></TD><TD><A HREF="interactive_list_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="interactive_list_flat.html">Flat</A></TD><TD><A HREF="interactive_list_short.html">Contracts</A></TD><TD><A HREF="interactive_list_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

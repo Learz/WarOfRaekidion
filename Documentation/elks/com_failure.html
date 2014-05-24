@@ -1,0 +1,302 @@
+<HTML><HEAD>
+<meta name="description" content="Exception for a COM error"/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>com_failure Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="com_failure_chart.html">Chart</A></TD><TD><A HREF="com_failure_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="com_failure_flat.html">Flat</A></TD><TD><A HREF="com_failure_short.html">Contracts</A></TD><TD><A HREF="com_failure_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Exception for a COM error
+    ]"
+    library: "Free implementation of ELKS library"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2012-12-26 18:57:50 -0800 (Wed, 26 Dec 2012) $"
+    revision: "$Revision: 92096 $"
+
+<B>class</B> 
+    <A HREF="../elks/com_failure.html">COM_FAILURE</A>
+
+<B>inherit</B>
+    <A HREF="../elks/operating_system_exception.html">OPERATING_SYSTEM_EXCEPTION</A>
+
+<B>create</B> 
+    <A HREF="../elks/any.html#f_default_create">default_create</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_hresult"><A HREF="../elks/com_failure.html#f_hresult">hresult</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Original HRESULT.</FONT>
+
+    <A NAME="f_hresult_code"><A HREF="../elks/com_failure.html#f_hresult_code">hresult_code</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Error code of COM</FONT>
+
+    <A NAME="f_code"><A HREF="../elks/com_failure.html#f_code">code</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Exception code</FONT>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/excep_const.html">EXCEP_CONST</A>}.<A HREF="../elks/excep_const.html#f_com_exception">com_exception</A>
+        <B>end</B></A>
+
+    <A NAME="f_tag"><A HREF="../elks/com_failure.html#f_tag">Tag</A>: <A HREF="../elks/immutable_string_32.html">IMMUTABLE_STRING_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> A short message describing what current exception is</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/immutable_string_32.html#f_make_from_string_8">make_from_string_8</A> ("COM error.")
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status setting</FONT>
+
+    <A NAME="f_set_hresult_code"><A HREF="../elks/com_failure.html#f_set_hresult_code">set_hresult_code</A> (a_code: <B>like</B> <A HREF="../elks/com_failure.html#f_hresult_code">hresult_code</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/com_failure.html#f_hresult_code">hresult_code</A><FONT COLOR="red"> with </FONT>`a_code'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/com_failure.html#f_hresult_code">hresult_code</A> := a_code
+        <B>end</B></A>
+
+    <A NAME="f_hresult_facility"><A HREF="../elks/com_failure.html#f_hresult_facility">hresult_facility</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Facility code.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/com_failure.html#f_ccom_hresult_facility">ccom_hresult_facility</A> (<A HREF="../elks/com_failure.html#f_hresult">hresult</A>)
+        <B>end</B></A>
+
+    <A NAME="f_hresult_message"><A HREF="../elks/com_failure.html#f_hresult_message">hresult_message</A>: <A HREF="../elks/string_8.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Error message.</FONT>
+        <B>local</B>
+            r: <B>detachable</B> <A HREF="../elks/string_8.html">STRING_8</A>
+        <B>do</B>
+            r := <A HREF="../elks/com_failure.html#f_exception_information">exception_information</A>
+            <B>if</B> r /= <B>Void</B> <B>then</B>
+                r := r.<A HREF="../elks/any.html#f_twin">twin</A>
+                r.<A HREF="../elks/string_8.html#f_remove_head">remove_head</A> (10)
+                r.<A HREF="../elks/string_8.html#f_left_adjust">left_adjust</A>
+                r.<A HREF="../elks/string_8.html#f_right_adjust">right_adjust</A>
+            <B>end</B>
+            <B>if</B> r = <B>Void</B> <B>or else</B> r.<A HREF="../elks/finite.html#f_is_empty">is_empty</A> <B>and then</B> <A HREF="../elks/com_failure.html#f_hresult_code">hresult_code</A> &gt; 0 <B>then</B>
+                r := <A HREF="../elks/com_failure.html#f_error_message">error_message</A> (<A HREF="../elks/com_failure.html#f_hresult_code">hresult_code</A>).<A HREF="../elks/readable_string_32.html#f_out">out</A>
+            <B>end</B>
+            <B>if</B> r = <B>Void</B> <B>then</B>
+                <B>create</B> <B>Result</B>.<A HREF="../elks/readable_string_general.html#f_make_empty">make_empty</A>
+            <B>else</B>
+                <B>Result</B> := r
+            <B>end</B>
+        <B>ensure</B>
+            non_void_message: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element Change</FONT>
+
+    <A NAME="f_trigger"><A HREF="../elks/com_failure.html#f_trigger">trigger</A> (a_code: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Raise exception with code </FONT><A HREF="../elks/com_failure.html#f_code">code</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> See class ECOM_EXCEPTION_CODES in EiffelCom for possible values.</FONT>
+        <B>local</B>
+            l_hresult_string: <A HREF="../elks/string_8.html">STRING_8</A>
+        <B>do</B>
+            <A HREF="../elks/com_failure.html#f_hresult_code">hresult_code</A> := a_code
+            l_hresult_string := <A HREF="../elks/com_failure.html#f_ccom_hresult_to_string">ccom_hresult_to_string</A> (a_code)
+            <A HREF="../elks/exception.html#f_set_description">set_description</A> (l_hresult_string)
+            <A HREF="../elks/com_failure.html#f_set_exception_information">set_exception_information</A> (l_hresult_string)
+            <A HREF="../elks/exception.html#f_raise">raise</A>
+        <B>end</B></A>
+    
+<B>feature</B> {<A HREF="../elks/exception_manager.html">EXCEPTION_MANAGER</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_exception_information"><A HREF="../elks/com_failure.html#f_exception_information">exception_information</A>: <B>detachable</B> <A HREF="../elks/string_8.html">STRING_8</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Stream holding exception information.</FONT>
+
+    <A NAME="f_set_exception_information"><A HREF="../elks/com_failure.html#f_set_exception_information">set_exception_information</A> (a_message: <A HREF="../elks/string_8.html">STRING_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize current with stream of </FONT>`a_message'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_message_not_void: a_message /= <B>Void</B>
+        <B>local</B>
+            c_string: <A HREF="../elks/c_string.html">C_STRING</A>
+        <B>do</B>
+            <A HREF="../elks/com_failure.html#f_exception_information">exception_information</A> := a_message
+            <B>if</B> <A HREF="../elks/com_failure.html#f_hresult_code">hresult_code</A> &gt; 0 <B>then</B>
+                <B>create</B> c_string.<A HREF="../elks/c_string.html#f_make">make</A> (<A HREF="../elks/com_failure.html#f_ccom_hresult_to_string">ccom_hresult_to_string</A> (<A HREF="../elks/com_failure.html#f_hresult_code">hresult_code</A>))
+                <A HREF="../elks/com_failure.html#f_hresult">hresult</A> := <A HREF="../elks/com_failure.html#f_ccom_hresult">ccom_hresult</A> (c_string.<A HREF="../elks/c_string.html#f_item">item</A>)
+            <B>else</B>
+                <B>create</B> c_string.<A HREF="../elks/c_string.html#f_make">make</A> (a_message)
+                <A HREF="../elks/com_failure.html#f_hresult">hresult</A> := <A HREF="../elks/com_failure.html#f_ccom_hresult">ccom_hresult</A> (c_string.<A HREF="../elks/c_string.html#f_item">item</A>)
+                <A HREF="../elks/com_failure.html#f_hresult_code">hresult_code</A> := <A HREF="../elks/com_failure.html#f_ccom_hresult_code">ccom_hresult_code</A> (<A HREF="../elks/com_failure.html#f_hresult">hresult</A>)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_ccom_hresult_to_string"><B>frozen</B> <A HREF="../elks/com_failure.html#f_ccom_hresult_to_string">ccom_hresult_to_string</A> (a_code: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/string_8.html">STRING_8</A>
+        <B>do</B>
+            <B>Result</B> := a_code.<A HREF="../elks/integer_32_ref.html#f_to_hex_string">to_hex_string</A>
+            <B>Result</B> := "0x" + <B>Result</B>
+        <B>end</B></A>
+
+    <A NAME="f_ccom_hresult"><B>frozen</B> <A HREF="../elks/com_failure.html#f_ccom_hresult">ccom_hresult</A> (an_exception_code: <A HREF="../elks/pointer.html">POINTER</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>external</B>
+            "C inline"
+        <B>alias</B>
+            "[
+                		#ifdef EIF_WINDOWS
+                			char *stopstring = NULL;
+                			long result = 0, high_bits = 0, low_bits = 0;
+                			char high_str [7];
+                			char *exception_code = (char *)($an_exception_code);
+                			  
+                			if (NULL != exception_code)
+                			{
+                				strncpy (high_str, exception_code, 6);
+                				high_str [6] = '\0';
+                
+                				high_bits = strtol (high_str, &#38;stopstring, 16);
+                				low_bits = strtol (exception_code + 6, &#38;stopstring, 16);
+                				result = (high_bits &lt;&lt; 16) + low_bits;
+                			}
+                			return (EIF_INTEGER)result;
+                		#else
+                			return 0;
+                		#endif
+            ]"
+        <B>end</B></A>
+
+    <A NAME="f_ccom_hresult_code"><B>frozen</B> <A HREF="../elks/com_failure.html#f_ccom_hresult_code">ccom_hresult_code</A> (an_hresult: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>external</B>
+            "C inline use %"eif_com_exception.h%""
+        <B>alias</B>
+            "[
+                #ifdef EIF_WINDOWS
+                	return HRESULT_CODE($an_hresult);
+                #else
+                	return 0;
+                #endif
+            ]"
+        <B>end</B></A>
+
+    <A NAME="f_ccom_hresult_facility"><B>frozen</B> <A HREF="../elks/com_failure.html#f_ccom_hresult_facility">ccom_hresult_facility</A> (an_hresult: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>external</B>
+            "C inline use %"eif_com_exception.h%""
+        <B>alias</B>
+            "[
+                #ifdef EIF_WINDOWS
+                	return HRESULT_FACILITY($an_hresult);
+                #else
+                	return 0;
+                #endif
+            ]"
+        <B>end</B></A>
+
+    <A NAME="f_cwin_error_text"><B>frozen</B> <A HREF="../elks/com_failure.html#f_cwin_error_text">cwin_error_text</A> (a_code: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/pointer.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Get text from error </FONT>`a_code'<FONT COLOR="red">. It is up to the caller to free</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> the returned buffer using </FONT><A HREF="../elks/com_failure.html#f_cwin_local_free">cwin_local_free</A><FONT COLOR="red">.</FONT>
+        <B>external</B>
+            "C inline use %"eif_com_exception.h%""
+        <B>alias</B>
+            "[
+                #ifdef EIF_WINDOWS
+                	LPVOID result;
+                	FormatMessage( 
+                		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+                		NULL,
+                		$a_code,
+                		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
+                		(LPTSTR) &#38;result,
+                		0,
+                		NULL 
+                		);
+                	return result;
+                #else
+                	return 0;
+                #endif
+            ]"
+        <B>end</B></A>
+
+    <A NAME="f_c_strlen"><B>frozen</B> <A HREF="../elks/com_failure.html#f_c_strlen">c_strlen</A> (ptr: <A HREF="../elks/pointer.html">POINTER</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of characters in </FONT>`ptr'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (export status </FONT><FONT COLOR="red">{</FONT><FONT COLOR="red">NONE</FONT><FONT COLOR="red">}</FONT><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C inline use %"eif_com_exception.h%""
+        <B>alias</B>
+            "[
+                #ifdef EIF_WINDOWS
+                	return (EIF_INTEGER_32) _tcslen ((wchar_t *) $ptr);
+                #else
+                	return 0;
+                #endif
+            ]"
+        <B>end</B></A>
+
+    <A NAME="f_character_size"><B>frozen</B> <A HREF="../elks/com_failure.html#f_character_size">character_size</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bytes occupied by a TCHAR.</FONT>
+        <B>external</B>
+            "C inline use %"eif_com_exception.h%""
+        <B>alias</B>
+            "[
+                #ifdef EIF_WINDOWS
+                	return sizeof(TCHAR);
+                #else
+                	return 0;
+                #endif
+            ]"
+        <B>end</B></A>
+
+    <A NAME="f_cwin_local_free"><B>frozen</B> <A HREF="../elks/com_failure.html#f_cwin_local_free">cwin_local_free</A> (a_ptr: <A HREF="../elks/pointer.html">POINTER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Free </FONT>`a_ptr'<FONT COLOR="red"> using LocalFree.</FONT>
+        <B>external</B>
+            "C inline use %"eif_com_exception.h%""
+        <B>alias</B>
+            "[
+                #ifdef EIF_WINDOWS
+                	LocalFree((HLOCAL) $a_ptr);
+                #endif
+            ]"
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Accesss</FONT>
+
+    <A NAME="f_error_message"><A HREF="../elks/com_failure.html#f_error_message">error_message</A> (a_code: <B>like</B> <A HREF="../elks/com_failure.html#f_hresult_code">hresult_code</A>): <A HREF="../elks/string_32.html">STRING_32</A>
+        <B>require</B>
+            a_code_non_negative: a_code &gt;= 0
+        <B>local</B>
+            l_ptr, l_null: <A HREF="../elks/pointer.html">POINTER</A>
+            l_mptr: <A HREF="../elks/managed_pointer.html">MANAGED_POINTER</A>
+            i, n: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            l_ptr := <A HREF="../elks/com_failure.html#f_cwin_error_text">cwin_error_text</A> (a_code)
+            <B>if</B> l_ptr /= l_null <B>then</B>
+                <B>from</B>
+                    i := 0
+                    n := <A HREF="../elks/com_failure.html#f_c_strlen">c_strlen</A> (l_ptr)
+                    <B>create</B> l_mptr.<A HREF="../elks/managed_pointer.html#f_make_from_pointer">make_from_pointer</A> (l_ptr, n * <A HREF="../elks/com_failure.html#f_character_size">character_size</A>)
+                    <B>create</B> <B>Result</B>.<A HREF="../elks/readable_string_32.html#f_make">make</A> (n)
+                <B>until</B>
+                    i = n
+                <B>loop</B>
+                    <B>Result</B>.<A HREF="../elks/string_general.html#f_append_code">append_code</A> (l_mptr.<A HREF="../elks/managed_pointer.html#f_read_natural_16">read_natural_16</A> (i * <A HREF="../elks/com_failure.html#f_character_size">character_size</A>).<A HREF="../elks/natural_16_ref.html#f_to_natural_32">to_natural_32</A>)
+                    i := i + 1
+                <B>end</B>
+                <A HREF="../elks/com_failure.html#f_cwin_local_free">cwin_local_free</A> (l_ptr)
+            <B>else</B>
+                <B>Result</B> := {<A HREF="../elks/string_32.html">STRING_32</A>}""
+            <B>end</B>
+        <B>ensure</B>
+            error_message_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/com_failure.html">COM_FAILURE</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="com_failure_chart.html">Chart</A></TD><TD><A HREF="com_failure_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="com_failure_flat.html">Flat</A></TD><TD><A HREF="com_failure_short.html">Contracts</A></TD><TD><A HREF="com_failure_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

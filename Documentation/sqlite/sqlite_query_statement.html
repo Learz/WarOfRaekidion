@@ -1,0 +1,204 @@
+<HTML><HEAD>
+<meta name="description" content="An SQLite statement specific for making queries to the database."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software"/>
+<meta name="license" content="GPL version 2 (see http://www.eiffel.com/licensing/gpl.txt)"/>
+<meta name="licensing_options" content="http://www.eiffel.com/licensing"/>
+<meta name="copying" content="This file is part of Eiffel Software's Eiffel Development Environment.  Eiffel Software's Eiffel Development Environment is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 2 of the License (available at the URL listed under license above).  Eiffel Software's Eiffel Development Environment is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.  You should have received a copy of the GNU General Public License along with Eiffel Software's Eiffel Development Environment; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>sqlite_query_statement Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sqlite_query_statement_chart.html">Chart</A></TD><TD><A HREF="sqlite_query_statement_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="sqlite_query_statement_flat.html">Flat</A></TD><TD><A HREF="sqlite_query_statement_short.html">Contracts</A></TD><TD><A HREF="sqlite_query_statement_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        An SQLite statement specific for making queries to the database.
+    ]"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2013-11-07 14:04:31 -0800 (Thu, 07 Nov 2013) $"
+    revision: "$Revision: 93261 $"
+
+<B>class</B> 
+    <A HREF="../sqlite/sqlite_query_statement.html">SQLITE_QUERY_STATEMENT</A>
+
+<B>inherit</B>
+    <A HREF="../sqlite/sqlite_statement.html">SQLITE_STATEMENT</A>
+        <B>redefine</B>
+            <A HREF="../sqlite/sqlite_query_statement.html#f_reset">reset</A>
+        <B>end</B>
+
+<B>create</B> 
+    <A HREF="../sqlite/sqlite_statement.html#f_make">make</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Meansurement</FONT>
+
+    <A NAME="f_column_count"><A HREF="../sqlite/sqlite_query_statement.html#f_column_count">column_count</A>: <A HREF="../elks/natural_32.html">NATURAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The number of columns found in the compiled statement.</FONT>
+        <B>require</B>
+            is_sqlite_available: <A HREF="../sqlite/sqlite_shared_api.html#f_is_sqlite_available">Is_sqlite_available</A>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api.html#f_is_interface_usable">is_interface_usable</A>
+            is_compiled: <A HREF="../sqlite/sqlite_statement.html#f_is_compiled">is_compiled</A>
+            is_connected: <A HREF="../sqlite/sqlite_statement.html#f_is_connected">is_connected</A>
+            is_accessible: <A HREF="../sqlite/sqlite_statement.html#f_is_accessible">is_accessible</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../sqlite/sqlite_statement_externals.html#f_sqlite3_column_count">sqlite3_column_count</A> (<A HREF="../sqlite/sqlite_shared_api.html#f_sqlite_api">Sqlite_api</A>, <A HREF="../sqlite/sqlite_statement.html#f_internal_stmt">internal_stmt</A>).<A HREF="../elks/integer_32.html#f_as_natural_32">as_natural_32</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Query</FONT>
+
+    <A NAME="f_column_name"><A HREF="../sqlite/sqlite_query_statement.html#f_column_name">column_name</A> (a_column: <A HREF="../elks/natural_32.html">NATURAL_32</A>): <A HREF="../elks/immutable_string_8.html">IMMUTABLE_STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieve the name of a column in a statement.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_column'<FONT COLOR="red">: The column index to retrieve a name for.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`Result'<FONT COLOR="red">: A column name, or an</FONT>
+        <B>require</B>
+            is_sqlite_available: <A HREF="../sqlite/sqlite_shared_api.html#f_is_sqlite_available">Is_sqlite_available</A>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api.html#f_is_interface_usable">is_interface_usable</A>
+            is_compiled: <A HREF="../sqlite/sqlite_statement.html#f_is_compiled">is_compiled</A>
+            is_connected: <A HREF="../sqlite/sqlite_statement.html#f_is_connected">is_connected</A>
+            is_accessible: <A HREF="../sqlite/sqlite_statement.html#f_is_accessible">is_accessible</A>
+            a_column_positive: a_column &gt; 0.<A HREF="../elks/integer_32_ref.html#f_to_natural_32">to_natural_32</A>
+            a_column_small_enough: a_column &lt;= <A HREF="../sqlite/sqlite_query_statement.html#f_column_count">column_count</A>
+        <B>local</B>
+            p: <A HREF="../elks/pointer.html">POINTER</A>
+            l_names: <B>like</B> <A HREF="../sqlite/sqlite_query_statement.html#f_internal_column_names">internal_column_names</A>
+            l_column: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> <A HREF="../sqlite/sqlite_query_statement.html#f_internal_column_names">internal_column_names</A> <B>as</B> l_internal_names <B>then</B>
+                l_names := l_internal_names
+            <B>else</B>
+                <B>create</B> l_names.<A HREF="../elks/array.html#f_make_filled">make_filled</A> (<B>Void</B>, 1, <A HREF="../sqlite/sqlite_query_statement.html#f_column_count">column_count</A>.<A HREF="../elks/natural_32.html#f_as_integer_32">as_integer_32</A>)
+                <A HREF="../sqlite/sqlite_query_statement.html#f_internal_column_names">internal_column_names</A> := l_names
+            <B>end</B>
+            l_column := a_column.<A HREF="../elks/natural_32.html#f_as_integer_32">as_integer_32</A>
+            <B>if</B> <B>attached</B> l_names [l_column] <B>as</B> l_result <B>then</B>
+                <B>Result</B> := l_result
+            <B>else</B>
+                p := <A HREF="../sqlite/sqlite_statement_externals.html#f_sqlite3_column_name">sqlite3_column_name</A> (<A HREF="../sqlite/sqlite_shared_api.html#f_sqlite_api">Sqlite_api</A>, <A HREF="../sqlite/sqlite_statement.html#f_internal_stmt">internal_stmt</A>, l_column - 1)
+                <B>if</B> p = <A HREF="../elks/any.html#f_default_pointer">default_pointer</A> <B>then</B>
+                    <B>create</B> <B>Result</B>.<A HREF="../elks/readable_string_general.html#f_make_empty">make_empty</A>
+                <B>else</B>
+                    <B>create</B> <B>Result</B>.<A HREF="../elks/readable_string_8.html#f_make_from_c">make_from_c</A> (p)
+                <B>end</B>
+                l_names [l_column] := <B>Result</B>
+            <B>end</B>
+        <B>ensure</B>
+            result_attached: <B>attached</B> <B>Result</B>
+            internal_column_names_attached: <B>attached</B> <A HREF="../sqlite/sqlite_query_statement.html#f_internal_column_names">internal_column_names</A>
+            internal_column_names_big_enough: (<B>attached</B> <A HREF="../sqlite/sqlite_query_statement.html#f_internal_column_names">internal_column_names</A> <B>as</B> l_names2) <B>implies</B> l_names2.<A HREF="../elks/array.html#f_count">count</A>.<A HREF="../elks/integer_32.html#f_as_natural_32">as_natural_32</A> = <A HREF="../sqlite/sqlite_query_statement.html#f_column_count">column_count</A>
+            internal_column_names_item_set: (<B>attached</B> <A HREF="../sqlite/sqlite_query_statement.html#f_internal_column_names">internal_column_names</A> <B>as</B> l_names2) <B>implies</B> <B>attached</B> l_names2 [a_column.<A HREF="../elks/natural_32.html#f_as_integer_32">as_integer_32</A>]
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_execute"><B>frozen</B> <A HREF="../sqlite/sqlite_query_statement.html#f_execute">execute</A> (a_callback: <A HREF="../elks/function.html">FUNCTION</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A> [row: <A HREF="../sqlite/sqlite_result_row.html">SQLITE_RESULT_ROW</A>], <A HREF="../elks/boolean.html">BOOLEAN</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Executes the SQLite query statement and calls back a routine with a result row.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_callback'<FONT COLOR="red">: A callback function accepting a result row as its argument.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">               Return True from the function to abort further calls when there is more result data.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">               Note: The row does not change between calls and values must be queried</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                     immediately.</FONT>
+        <B>require</B>
+            is_sqlite_available: <A HREF="../sqlite/sqlite_shared_api.html#f_is_sqlite_available">Is_sqlite_available</A>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api.html#f_is_interface_usable">is_interface_usable</A>
+            is_compiled: <A HREF="../sqlite/sqlite_statement.html#f_is_compiled">is_compiled</A>
+            is_connected: <A HREF="../sqlite/sqlite_statement.html#f_is_connected">is_connected</A>
+            not_is_executing: <B>not</B> <A HREF="../sqlite/sqlite_statement.html#f_is_executing">is_executing</A>
+            is_accessible: <A HREF="../sqlite/sqlite_statement.html#f_is_accessible">is_accessible</A>
+            database_is_readable: <A HREF="../sqlite/sqlite_statement.html#f_database">database</A>.<A HREF="../sqlite/sqlite_database.html#f_is_readable">is_readable</A>
+            a_callback_attached: <B>attached</B> a_callback
+        <B>do</B>
+            <A HREF="../sqlite/sqlite_statement.html#f_execute_internal">execute_internal</A> (a_callback, <B>Void</B>)
+        <B>ensure</B>
+            not_is_executing: <B>not</B> <A HREF="../sqlite/sqlite_statement.html#f_is_executing">is_executing</A>
+        <B>end</B></A>
+
+    <A NAME="f_execute_with_arguments"><B>frozen</B> <A HREF="../sqlite/sqlite_query_statement.html#f_execute_with_arguments">execute_with_arguments</A> (a_callback: <A HREF="../elks/function.html">FUNCTION</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A> [row: <A HREF="../sqlite/sqlite_result_row.html">SQLITE_RESULT_ROW</A>], <A HREF="../elks/boolean.html">BOOLEAN</A>]; a_arguments: <A HREF="../elks/iterable.html">ITERABLE</A> [<B>detachable</B> <A HREF="../elks/any.html">ANY</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Executes the SQLite query statement with arguments and calls back a routine with a result row.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_callback'<FONT COLOR="red">: A callback routine accepting a result row as its argument.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">               Return True from the function to abort further calls when there is more result data.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">               Note: The row does not change between calls and values must be queried</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                     immediately.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_arguments'<FONT COLOR="red">: The bound arguments to call the SQLite query statement with.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                Valid arguments are those that descent </FONT><A HREF="../sqlite/sqlite_bind_arg.html">SQLITE_BIND_ARG</A><FONT COLOR="red"> or</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                </FONT><A HREF="../elks/readable_string_8.html">READABLE_STRING_8</A><FONT COLOR="red">, or of type {INTEGER_*}, {NATURAL_*} (with the expection</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                of </FONT><A HREF="../elks/natural_64.html">NATURAL_64</A><FONT COLOR="red">), or </FONT><A HREF="../elks/managed_pointer.html">MANAGED_POINTER</A><FONT COLOR="red"> (for blobs).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                Note: If *not* using </FONT><A HREF="../sqlite/sqlite_bind_arg.html">SQLITE_BIND_ARG</A><FONT COLOR="red">, the SQLite statement should use ?NNN</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                      arguments and not named arguments.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                      see </FONT><FONT COLOR="red">http://sqlite.org/c3ref/bind_blob.html</FONT>
+        <B>require</B>
+            is_sqlite_available: <A HREF="../sqlite/sqlite_shared_api.html#f_is_sqlite_available">Is_sqlite_available</A>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api.html#f_is_interface_usable">is_interface_usable</A>
+            is_compiled: <A HREF="../sqlite/sqlite_statement.html#f_is_compiled">is_compiled</A>
+            is_connected: <A HREF="../sqlite/sqlite_statement.html#f_is_connected">is_connected</A>
+            not_is_executing: <B>not</B> <A HREF="../sqlite/sqlite_statement.html#f_is_executing">is_executing</A>
+            is_accessible: <A HREF="../sqlite/sqlite_statement.html#f_is_accessible">is_accessible</A>
+            database_is_readable: <A HREF="../sqlite/sqlite_statement.html#f_database">database</A>.<A HREF="../sqlite/sqlite_database.html#f_is_readable">is_readable</A>
+            has_arguments: <A HREF="../sqlite/sqlite_statement.html#f_has_arguments">has_arguments</A>
+            a_callback_attached: <B>attached</B> a_callback
+            a_arguments_attached: <B>attached</B> a_arguments
+            a_arguments_count_correct: <A HREF="../sqlite/sqlite_binding_helpers.html#f_iterable_has_count">iterable_has_count</A> (a_arguments, <A HREF="../sqlite/sqlite_statement.html#f_arguments_count">arguments_count</A>.<A HREF="../elks/natural_32.html#f_as_integer_32">as_integer_32</A>)
+            a_arguments_is_valid_arguments: <A HREF="../sqlite/sqlite_binding_helpers.html#f_is_valid_arguments">is_valid_arguments</A> (a_arguments)
+        <B>do</B>
+            <A HREF="../sqlite/sqlite_statement.html#f_execute_internal">execute_internal</A> (a_callback, <A HREF="../sqlite/sqlite_bind_arg_marshaller.html#f_new_binding_argument_array">new_binding_argument_array</A> (a_arguments))
+        <B>ensure</B>
+            not_is_executing: <B>not</B> <A HREF="../sqlite/sqlite_statement.html#f_is_executing">is_executing</A>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_reset"><A HREF="../sqlite/sqlite_query_statement.html#f_reset">reset</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Resets any cached information from the last execution.</FONT>
+        <B>do</B>
+            <A HREF="../sqlite/sqlite_query_statement.html#f_internal_column_names">internal_column_names</A> := <B>Void</B>
+            <B>Precursor</B>
+        <B>ensure then</B>
+            internal_column_names_detached: <B>not</B> <B>attached</B> <A HREF="../sqlite/sqlite_query_statement.html#f_internal_column_names">internal_column_names</A>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_internal_column_names"><A HREF="../sqlite/sqlite_query_statement.html#f_internal_column_names">internal_column_names</A>: <B>detachable</B> <A HREF="../elks/array.html">ARRAY</A> [<B>detachable</B> <A HREF="../elks/immutable_string_8.html">IMMUTABLE_STRING_8</A>]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Cached column names for the query </FONT><A HREF="../sqlite/sqlite_query_statement.html#f_column_name">column_name</A><FONT COLOR="red">.</FONT>
+    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2013, Eiffel Software"
+    license: "GPL version 2 (see <a href="http://www.eiffel.com/licensing/gpl.txt">http://www.eiffel.com/licensing/gpl.txt</a>)"
+    licensing_options: "<a href="http://www.eiffel.com/licensing">http://www.eiffel.com/licensing</a>"
+    copying: "[
+        This file is part of Eiffel Software's Eiffel Development Environment.
+        
+        Eiffel Software's Eiffel Development Environment is free
+        software; you can redistribute it and/or modify it under
+        the terms of the GNU General Public License as published
+        by the Free Software Foundation, version 2 of the License
+        (available at the URL listed under "license" above).
+        
+        Eiffel Software's Eiffel Development Environment is
+        distributed in the hope that it will be useful, but
+        WITHOUT ANY WARRANTY; without even the implied warranty
+        of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        See the GNU General Public License for more details.
+        
+        You should have received a copy of the GNU General Public
+        License along with Eiffel Software's Eiffel Development
+        Environment; if not, write to the Free Software Foundation,
+        Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+    ]"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../sqlite/sqlite_query_statement.html">SQLITE_QUERY_STATEMENT</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sqlite_query_statement_chart.html">Chart</A></TD><TD><A HREF="sqlite_query_statement_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="sqlite_query_statement_flat.html">Flat</A></TD><TD><A HREF="sqlite_query_statement_short.html">Contracts</A></TD><TD><A HREF="sqlite_query_statement_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

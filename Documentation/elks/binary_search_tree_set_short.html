@@ -1,0 +1,147 @@
+<HTML><HEAD>
+<meta name="description" content="Sorted sets implemented as binary search trees"/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="names" content="binary_search_tree_set, set, binary_search_tree"/>
+<meta name="representation" content="recursive, array"/>
+<meta name="access" content="membership, min, max"/>
+<meta name="contents" content="generic"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>binary_search_tree_set Contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="binary_search_tree_set_chart.html">Chart</A></TD><TD><A HREF="binary_search_tree_set_links.html">Relations</A></TD><TD><A HREF="binary_search_tree_set.html">Text</A></TD><TD><A HREF="binary_search_tree_set_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="binary_search_tree_set_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Sorted sets implemented as binary search trees"
+    library: "Free implementation of ELKS library"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    names: binary_search_tree_set, set, binary_search_tree
+    representation: recursive, array
+    access: membership, min, max
+    contents: generic
+    date: "$Date: 2012-07-23 14:02:19 -0700 (Mon, 23 Jul 2012) $"
+    revision: "$Revision: 91989 $"
+
+<B>class</B> <B>interface</B>
+    <A HREF="../elks/binary_search_tree_set_short.html">BINARY_SEARCH_TREE_SET</A> [G -&gt; <A HREF="../elks/comparable_short.html">COMPARABLE</A>]
+
+<B>create</B> 
+    <A HREF="../elks/binary_search_tree_set_short.html#f_make">make</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../elks/binary_search_tree_set_short.html#f_make">make</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create set.</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_count"><A HREF="../elks/binary_search_tree_set_short.html#f_count">count</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of items in tree</FONT>
+</A>
+    <A NAME="f_min"><A HREF="../elks/binary_search_tree_set_short.html#f_min">min</A>: <B>like</B> <A HREF="../elks/binary_search_tree_set_short.html#f_item">item</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Minimum item in tree</FONT>
+</A>
+    <A NAME="f_max"><A HREF="../elks/binary_search_tree_set_short.html#f_max">max</A>: <B>like</B> <A HREF="../elks/binary_search_tree_set_short.html#f_item">item</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Maximum item in tree</FONT>
+</A>
+    <A NAME="f_item"><A HREF="../elks/binary_search_tree_set_short.html#f_item">item</A>: G
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Current item</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_is_empty"><A HREF="../elks/binary_search_tree_set_short.html#f_is_empty">is_empty</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is set empty?</FONT>
+</A>
+    <A NAME="f_extendible"><A HREF="../elks/binary_search_tree_set_short.html#f_extendible">Extendible</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A> = <B>True</B></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Can new items be added? (Answer: yes.)</FONT>
+
+    <A NAME="f_prunable"><A HREF="../elks/binary_search_tree_set_short.html#f_prunable">Prunable</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A> = <B>True</B></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Can items be removed? (Answer: yes.)</FONT>
+
+    <A NAME="f_after"><A HREF="../elks/binary_search_tree_set_short.html#f_after">after</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there no valid cursor position to the right of cursor?</FONT>
+
+    <A NAME="f_before"><A HREF="../elks/binary_search_tree_set_short.html#f_before">before</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there no valid cursor position to the left of cursor?</FONT>
+
+    <A NAME="f_has"><A HREF="../elks/binary_search_tree_set_short.html#f_has">has</A> (v: <B>like</B> <A HREF="../elks/binary_search_tree_set_short.html#f_item">item</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there a node with item </FONT>`v'<FONT COLOR="red"> in tree?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Reference or object equality,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> based on </FONT><A HREF="../elks/container_short.html#f_object_comparison">object_comparison</A><FONT COLOR="red">.)</FONT>
+</A>
+    <A NAME="f_off"><A HREF="../elks/binary_search_tree_set_short.html#f_off">off</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there no current item?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/binary_search_tree_set_short.html#f_off">off</A><FONT COLOR="red"> only if tree </FONT><A HREF="../elks/binary_search_tree_set_short.html#f_is_empty">is_empty</A><FONT COLOR="red"> or if</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> it is </FONT><A HREF="../elks/binary_search_tree_set_short.html#f_before">before</A><FONT COLOR="red"> or </FONT><A HREF="../elks/binary_search_tree_set_short.html#f_after">after</A><FONT COLOR="red">.</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Cursor movement</FONT>
+
+    <A NAME="f_start"><A HREF="../elks/binary_search_tree_set_short.html#f_start">start</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to first node.</FONT>
+</A>
+    <A NAME="f_finish"><A HREF="../elks/binary_search_tree_set_short.html#f_finish">finish</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to last node.</FONT>
+</A>
+    <A NAME="f_forth"><A HREF="../elks/binary_search_tree_set_short.html#f_forth">forth</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to next node.</FONT>
+</A>
+    <A NAME="f_back"><A HREF="../elks/binary_search_tree_set_short.html#f_back">back</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to previous node.</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_put"><A HREF="../elks/binary_search_tree_set_short.html#f_put">put</A> (v: <B>like</B> <A HREF="../elks/binary_search_tree_set_short.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Put </FONT>`v'<FONT COLOR="red"> at proper position in set</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (unless one already exists).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/binary_search_tree_set_short.html">BINARY_SEARCH_TREE_SET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/binary_search_tree_set_short.html#f_extend">extend</A><FONT COLOR="red">.</FONT>
+        <B>require else</B>
+            item_exists: v /= <B>Void</B>
+</A>
+    <A NAME="f_extend"><A HREF="../elks/binary_search_tree_set_short.html#f_extend">extend</A> (v: <B>like</B> <A HREF="../elks/binary_search_tree_set_short.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Put </FONT>`v'<FONT COLOR="red"> at proper position in set</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (unless one already exists).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/binary_search_tree_set_short.html">BINARY_SEARCH_TREE_SET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/binary_search_tree_set_short.html#f_put">put</A><FONT COLOR="red">.</FONT>
+        <B>require else</B>
+            item_exists: v /= <B>Void</B>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removal</FONT>
+
+    <A NAME="f_wipe_out"><A HREF="../elks/binary_search_tree_set_short.html#f_wipe_out">wipe_out</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove all items.</FONT>
+</A>
+    <A NAME="f_prune"><A HREF="../elks/binary_search_tree_set_short.html#f_prune">prune</A> (v: <B>like</B> <A HREF="../elks/binary_search_tree_set_short.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove </FONT>`v'<FONT COLOR="red">.</FONT>
+</A>
+    <A NAME="f_remove"><A HREF="../elks/binary_search_tree_set_short.html#f_remove">remove</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove current item.</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_duplicate"><A HREF="../elks/binary_search_tree_set_short.html#f_duplicate">duplicate</A> (n: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/binary_search_tree_set_short.html">BINARY_SEARCH_TREE_SET</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New structure containing min (</FONT>`n'<FONT COLOR="red">, </FONT><A HREF="../elks/binary_search_tree_set_short.html#f_count">count</A><FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> items from current structure</FONT>
+</A>    
+<B>invariant</B>
+    comparison_mode_equal: <B>attached</B> <A HREF="../elks/binary_search_tree_set_short.html#f_tree">tree</A> <B>as</B> t <B>implies</B> <A HREF="../elks/container_short.html#f_object_comparison">object_comparison</A> = t.<A HREF="../elks/container_short.html#f_object_comparison">object_comparison</A>
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/binary_search_tree_set_short.html">BINARY_SEARCH_TREE_SET</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="binary_search_tree_set_chart.html">Chart</A></TD><TD><A HREF="binary_search_tree_set_links.html">Relations</A></TD><TD><A HREF="binary_search_tree_set.html">Text</A></TD><TD><A HREF="binary_search_tree_set_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="binary_search_tree_set_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

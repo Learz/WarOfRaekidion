@@ -1,0 +1,244 @@
+<HTML><HEAD>
+<meta name="description" content="Prime number properties"/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="names" content="primes"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>primes Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="primes_chart.html">Chart</A></TD><TD><A HREF="primes_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="primes_flat.html">Flat</A></TD><TD><A HREF="primes_short.html">Contracts</A></TD><TD><A HREF="primes_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Prime number properties"
+    library: "Free implementation of ELKS library"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    names: primes
+    date: "$Date: 2012-07-23 14:02:19 -0700 (Mon, 23 Jul 2012) $"
+    revision: "$Revision: 91989 $"
+
+<B>class</B> 
+    <A HREF="../elks/primes.html">PRIMES</A>
+
+<B>inherit</B>
+    <A HREF="../elks/countable_sequence.html">COUNTABLE_SEQUENCE</A> [<A HREF="../elks/integer_32.html">INTEGER_32</A>]
+        <B>rename</B>
+            <A HREF="../elks/linear.html#f_has">has</A> <B>as</B> <A HREF="../elks/primes.html#f_is_prime">is_prime</A>
+        <B>redefine</B>
+            <A HREF="../elks/primes.html#f_is_prime">is_prime</A>
+        <B>end</B>
+
+<B>create</B> 
+    <A HREF="../elks/any.html#f_default_create">default_create</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_smallest_prime"><A HREF="../elks/primes.html#f_smallest_prime">Smallest_prime</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A> = 2</A>
+
+    <A NAME="f_smallest_odd_prime"><A HREF="../elks/primes.html#f_smallest_odd_prime">Smallest_odd_prime</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A> = 3</A>
+
+    <A NAME="f_higher_prime"><A HREF="../elks/primes.html#f_higher_prime">higher_prime</A> (n: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Lowest prime greater than or equal to </FONT>`n'
+        <B>do</B>
+            <B>if</B> n &lt;= <A HREF="../elks/primes.html#f_smallest_prime">Smallest_prime</A> <B>then</B>
+                <B>Result</B> := <A HREF="../elks/primes.html#f_smallest_prime">Smallest_prime</A>
+            <B>else</B>
+                <B>check</B>
+                    n &gt; <A HREF="../elks/primes.html#f_smallest_prime">Smallest_prime</A>
+                <B>end</B>
+                <B>from</B>
+                    <B>if</B> n \\ <A HREF="../elks/primes.html#f_smallest_prime">Smallest_prime</A> = 0 <B>then</B>
+                        <B>Result</B> := n + 1
+                    <B>else</B>
+                        <B>Result</B> := n
+                    <B>end</B>
+                <B>until</B>
+                    <A HREF="../elks/primes.html#f_is_prime">is_prime</A> (<B>Result</B>)
+                <B>loop</B>
+                    <B>Result</B> := <B>Result</B> + <A HREF="../elks/primes.html#f_smallest_prime">Smallest_prime</A>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_lower_prime"><A HREF="../elks/primes.html#f_lower_prime">lower_prime</A> (n: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Greatest prime lower than or equal to </FONT>`n'
+        <B>require</B>
+            argument_big_enough: n &gt;= <A HREF="../elks/primes.html#f_smallest_prime">Smallest_prime</A>
+        <B>do</B>
+            <B>if</B> n = <A HREF="../elks/primes.html#f_smallest_prime">Smallest_prime</A> <B>then</B>
+                <B>Result</B> := <A HREF="../elks/primes.html#f_smallest_prime">Smallest_prime</A>
+            <B>else</B>
+                <B>from</B>
+                    <B>if</B> n \\ <A HREF="../elks/primes.html#f_smallest_prime">Smallest_prime</A> = 0 <B>then</B>
+                        <B>Result</B> := n - 1
+                    <B>else</B>
+                        <B>Result</B> := n
+                    <B>end</B>
+                <B>until</B>
+                    <A HREF="../elks/primes.html#f_is_prime">is_prime</A> (<B>Result</B>)
+                <B>loop</B>
+                    <B>Result</B> := <B>Result</B> - <A HREF="../elks/primes.html#f_smallest_prime">Smallest_prime</A>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_all_lower_primes"><A HREF="../elks/primes.html#f_all_lower_primes">all_lower_primes</A> (n: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/array.html">ARRAY</A> [<A HREF="../elks/boolean.html">BOOLEAN</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Array of </FONT>`n'<FONT COLOR="red"> boolean values, where the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> value at index </FONT>`i'<FONT COLOR="red"> is true if and only if</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`i'<FONT COLOR="red"> is prime.</FONT>
+        <B>local</B>
+            i, j: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                <B>create</B> <B>Result</B>.<A HREF="../elks/array.html#f_make_filled">make_filled</A> (<B>False</B>, 1, n)
+                i := 3
+            <B>until</B>
+                i &gt; n
+            <B>loop</B>
+                <B>Result</B>.<A HREF="../elks/array.html#f_put">put</A> (<B>True</B>, i)
+                i := i + <A HREF="../elks/primes.html#f_smallest_prime">Smallest_prime</A>
+            <B>end</B>
+            <B>if</B> n &gt;= <A HREF="../elks/primes.html#f_smallest_prime">Smallest_prime</A> <B>then</B>
+                <B>Result</B>.<A HREF="../elks/array.html#f_put">put</A> (<B>True</B>, <A HREF="../elks/primes.html#f_smallest_prime">Smallest_prime</A>)
+            <B>end</B>
+            <B>from</B>
+                i := <A HREF="../elks/primes.html#f_smallest_odd_prime">Smallest_odd_prime</A>
+            <B>until</B>
+                i * i &gt; n
+            <B>loop</B>
+                <B>if</B> <B>Result</B>.<A HREF="../elks/array.html#f_item">item</A> (i) <B>then</B>
+                    <B>from</B>
+                        j := i * i
+                    <B>until</B>
+                        j &gt; n
+                    <B>loop</B>
+                        <B>Result</B>.<A HREF="../elks/array.html#f_put">put</A> (<B>False</B>, j)
+                        j := j + <A HREF="../elks/primes.html#f_smallest_prime">Smallest_prime</A> * i
+                    <B>end</B>
+                <B>end</B>
+                i := i + <A HREF="../elks/primes.html#f_smallest_prime">Smallest_prime</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_prime"><A HREF="../elks/primes.html#f_is_prime">is_prime</A> (n: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`n'<FONT COLOR="red"> a prime number?</FONT>
+        <B>local</B>
+            divisor: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>if</B> n &lt;= 1 <B>then</B>
+                <B>Result</B> := <B>False</B>
+            <B>elseif</B> n = <A HREF="../elks/primes.html#f_smallest_prime">Smallest_prime</A> <B>then</B>
+                <B>Result</B> := <B>True</B>
+            <B>elseif</B> n \\ <A HREF="../elks/primes.html#f_smallest_prime">Smallest_prime</A> /= 0 <B>then</B>
+                <B>from</B>
+                    divisor := <A HREF="../elks/primes.html#f_smallest_odd_prime">Smallest_odd_prime</A>
+                <B>until</B>
+                    (n \\ divisor = 0) <B>or else</B> (divisor * divisor &gt;= n)
+                <B>loop</B>
+                    divisor := divisor + <A HREF="../elks/primes.html#f_smallest_prime">Smallest_prime</A>
+                <B>end</B>
+                <B>if</B> divisor * divisor &gt; n <B>then</B>
+                    <B>Result</B> := <B>True</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_i_th"><A HREF="../elks/primes.html#f_i_th">i_th</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The </FONT>`i'<FONT COLOR="red">-th prime number</FONT>
+        <B>local</B>
+            candidates: <A HREF="../elks/array.html">ARRAY</A> [<A HREF="../elks/boolean.html">BOOLEAN</A>]
+            found: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_values: <B>like</B> <A HREF="../elks/primes.html#f_internal_precomputed_primes">Internal_precomputed_primes</A>
+        <B>do</B>
+            l_values := <A HREF="../elks/primes.html#f_internal_precomputed_primes">Internal_precomputed_primes</A>
+            <B>if</B> l_values /= <B>Void</B> <B>and then</B> i &lt;= l_values.<A HREF="../elks/array.html#f_upper">upper</A> <B>then</B>
+                <B>Result</B> := l_values.<A HREF="../elks/array.html#f_item">item</A> (i)
+            <B>else</B>
+                candidates := <A HREF="../elks/primes.html#f_all_lower_primes">all_lower_primes</A> (<A HREF="../elks/primes.html#f_approximated_i_th">approximated_i_th</A> (i))
+                <B>from</B>
+                    <B>Result</B> := 2
+                    found := 1
+                <B>variant</B>
+                    i * i - <B>Result</B>
+                <B>until</B>
+                    found = i
+                <B>loop</B>
+                    <B>Result</B> := <B>Result</B> + 1
+                    <B>if</B> candidates.<A HREF="../elks/array.html#f_item">item</A> (<B>Result</B>) <B>then</B>
+                        found := found + 1
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_precomputed_primes_count"><A HREF="../elks/primes.html#f_precomputed_primes_count">Precomputed_primes_count</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A> = 200</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of precomputed prime numbers.</FONT>
+
+    <A NAME="f_internal_precomputed_primes"><A HREF="../elks/primes.html#f_internal_precomputed_primes">Internal_precomputed_primes</A>: <A HREF="../elks/array.html">ARRAY</A> [<A HREF="../elks/integer_32.html">INTEGER_32</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> First </FONT><A HREF="../elks/primes.html#f_precomputed_primes_count">Precomputed_primes_count</A><FONT COLOR="red"> prime numbers.</FONT>
+        <B>local</B>
+            candidates: <A HREF="../elks/array.html">ARRAY</A> [<A HREF="../elks/boolean.html">BOOLEAN</A>]
+            i, pos: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>once</B>
+            <B>from</B>
+                candidates := <A HREF="../elks/primes.html#f_all_lower_primes">all_lower_primes</A> (<A HREF="../elks/primes.html#f_approximated_i_th">approximated_i_th</A> (<A HREF="../elks/primes.html#f_precomputed_primes_count">Precomputed_primes_count</A>))
+                <B>create</B> <B>Result</B>.<A HREF="../elks/array.html#f_make_filled">make_filled</A> (0, 1, <A HREF="../elks/primes.html#f_precomputed_primes_count">Precomputed_primes_count</A>)
+                pos := 1
+                i := 1
+            <B>until</B>
+                pos &gt; <A HREF="../elks/primes.html#f_precomputed_primes_count">Precomputed_primes_count</A>
+            <B>loop</B>
+                <B>if</B> candidates.<A HREF="../elks/array.html#f_item">item</A> (i) <B>then</B>
+                    <B>Result</B>.<A HREF="../elks/array.html#f_put">put</A> (i, pos)
+                    pos := pos + 1
+                <B>end</B>
+                i := i + 1
+            <B>end</B>
+        <B>ensure</B>
+            internal_precomputed_primes_not_void: <B>Result</B> /= <B>Void</B>
+            lower_valid: <B>Result</B>.<A HREF="../elks/array.html#f_lower">lower</A> = 1
+            upper_valid: <B>Result</B>.<A HREF="../elks/array.html#f_upper">upper</A> = <A HREF="../elks/primes.html#f_precomputed_primes_count">Precomputed_primes_count</A>
+        <B>end</B></A>
+
+    <A NAME="f_approximated_i_th"><A HREF="../elks/primes.html#f_approximated_i_th">approximated_i_th</A> (n: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Approximation of </FONT>`n'<FONT COLOR="red">-th prime number.</FONT>
+        <B>require</B>
+            n_positive: n &gt; 0
+        <B>local</B>
+            l_double_math: <A HREF="../elks/double_math.html">DOUBLE_MATH</A>
+            ln_n, ln_ln_n: <A HREF="../elks/real_64.html">REAL_64</A>
+        <B>do</B>
+            <B>if</B> n &gt;= 13 <B>then</B>
+                <B>create</B> l_double_math
+                ln_n := l_double_math.<A HREF="../elks/double_math.html#f_log">log</A> (n.<A HREF="../elks/integer_32.html#f_to_double">to_double</A>)
+                ln_ln_n := l_double_math.<A HREF="../elks/double_math.html#f_log">log</A> (ln_n)
+                <B>Result</B> := (n.<A HREF="../elks/integer_32.html#f_to_double">to_double</A> * (ln_n + ln_ln_n - 1.<A HREF="../elks/integer_32.html#f_to_double">to_double</A> + 1.8 * ln_ln_n / ln_n)).<A HREF="../elks/real_64.html#f_truncated_to_integer">truncated_to_integer</A>
+            <B>else</B>
+                <B>Result</B> := n * n
+            <B>end</B>
+        <B>ensure</B>
+            approximation_valid: <A HREF="../elks/primes.html#f_i_th">i_th</A> (n) &lt;= <B>Result</B>
+        <B>end</B></A>
+    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/primes.html">PRIMES</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="primes_chart.html">Chart</A></TD><TD><A HREF="primes_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="primes_flat.html">Flat</A></TD><TD><A HREF="primes_short.html">Contracts</A></TD><TD><A HREF="primes_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

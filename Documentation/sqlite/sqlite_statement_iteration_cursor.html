@@ -1,0 +1,292 @@
+<HTML><HEAD>
+<meta name="description" content="Cursor to iterate over SQLITE_STATEMENT execution result"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software"/>
+<meta name="license" content="GPL version 2 (see http://www.eiffel.com/licensing/gpl.txt)"/>
+<meta name="licensing_options" content="http://www.eiffel.com/licensing"/>
+<meta name="copying" content="This file is part of Eiffel Software's Eiffel Development Environment.  Eiffel Software's Eiffel Development Environment is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 2 of the License (available at the URL listed under license above).  Eiffel Software's Eiffel Development Environment is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.  You should have received a copy of the GNU General Public License along with Eiffel Software's Eiffel Development Environment; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>sqlite_statement_iteration_cursor Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sqlite_statement_iteration_cursor_chart.html">Chart</A></TD><TD><A HREF="sqlite_statement_iteration_cursor_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="sqlite_statement_iteration_cursor_flat.html">Flat</A></TD><TD><A HREF="sqlite_statement_iteration_cursor_short.html">Contracts</A></TD><TD><A HREF="sqlite_statement_iteration_cursor_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Cursor to iterate over SQLITE_STATEMENT execution result
+    ]"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2013-11-07 12:09:47 -0800 (Thu, 07 Nov 2013) $"
+    revision: "$Revision: 93250 $"
+
+<B>class</B> 
+    <A HREF="../sqlite/sqlite_statement_iteration_cursor.html">SQLITE_STATEMENT_ITERATION_CURSOR</A>
+
+<B>inherit</B>
+    <A HREF="../elks/iteration_cursor.html">ITERATION_CURSOR</A> [<A HREF="../sqlite/sqlite_result_row.html">SQLITE_RESULT_ROW</A>]
+
+    <A HREF="../elks/iterable.html">ITERABLE</A> [<A HREF="../sqlite/sqlite_result_row.html">SQLITE_RESULT_ROW</A>]
+
+    <A HREF="../sqlite/sqlite_shared_api.html">SQLITE_SHARED_API</A>
+        <B>export</B>
+            {NONE} <B>all</B>
+        <B>end</B>
+
+    <A HREF="../sqlite/sqlite_internals.html">SQLITE_INTERNALS</A>
+        <B>export</B>
+            {NONE} <B>all</B>
+        <B>end</B>
+
+    <A HREF="../sqlite/sqlite_database_externals.html">SQLITE_DATABASE_EXTERNALS</A>
+        <B>export</B>
+            {NONE} <B>all</B>
+        <B>end</B>
+
+    <A HREF="../sqlite/sqlite_statement_externals.html">SQLITE_STATEMENT_EXTERNALS</A>
+        <B>export</B>
+            {NONE} <B>all</B>
+        <B>end</B>
+
+    <A HREF="../sqlite/sqlite_bind_arg_marshaller.html">SQLITE_BIND_ARG_MARSHALLER</A>
+        <B>export</B>
+            {NONE} <B>all</B>
+        <B>end</B>
+
+<B>create</B> 
+    <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_make">make</A>,
+    <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_make_with_bindings">make_with_bindings</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initalization</FONT>
+
+    <A NAME="f_make"><A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_make">make</A> (a_statement: <A HREF="../sqlite/sqlite_statement.html">SQLITE_STATEMENT</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize the cursor for </FONT>`a_statement'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_statement_attached: <B>attached</B> a_statement
+            a_statement_is_accessible: a_statement.<A HREF="../sqlite/sqlite_statement.html#f_is_accessible">is_accessible</A>
+            a_statement_is_connected: a_statement.<A HREF="../sqlite/sqlite_statement.html#f_is_connected">is_connected</A>
+        <B>do</B>
+            <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_statement">statement</A> := a_statement
+            <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_last_result">last_result</A> := {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_ok">ok</A>
+            <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_start">start</A>
+        <B>ensure</B>
+            statement_statement: <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_statement">statement</A> = a_statement
+            last_result_is_valid: <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_last_result">last_result</A> = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_ok">ok</A> <B>or</B> <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_last_result">last_result</A> = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_row">row</A> <B>or</B> <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_last_result">last_result</A> = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_done">done</A>
+        <B>end</B></A>
+
+    <A NAME="f_make_with_bindings"><A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_make_with_bindings">make_with_bindings</A> (a_statement: <A HREF="../sqlite/sqlite_statement.html">SQLITE_STATEMENT</A>; a_bindings: <A HREF="../elks/array.html">ARRAY</A> [<A HREF="../sqlite/sqlite_bind_arg.html">SQLITE_BIND_ARG</A> [<A HREF="../elks/any.html">ANY</A>]])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize the cursor for </FONT>`a_statement'<FONT COLOR="red"> using </FONT>`a_binding'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_statement_attached: <B>attached</B> a_statement
+            a_statement_is_accessible: a_statement.<A HREF="../sqlite/sqlite_statement.html#f_is_accessible">is_accessible</A>
+            a_statement_is_connected: a_statement.<A HREF="../sqlite/sqlite_statement.html#f_is_connected">is_connected</A>
+            a_bindings_attached: <B>attached</B> a_bindings
+            not_a_bindings_is_empty: <B>not</B> a_bindings.<A HREF="../elks/finite.html#f_is_empty">is_empty</A>
+        <B>do</B>
+            <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_bindings">bindings</A> := a_bindings
+            <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_make">make</A> (a_statement)
+        <B>ensure</B>
+            statement_statement: <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_statement">statement</A> = a_statement
+            bindings_set: <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_bindings">bindings</A> = a_bindings
+            last_result_is_valid: <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_last_result">last_result</A> = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_ok">ok</A> <B>or</B> <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_last_result">last_result</A> = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_row">row</A> <B>or</B> <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_last_result">last_result</A> = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_done">done</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_statement"><A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_statement">statement</A>: <A HREF="../sqlite/sqlite_statement.html">SQLITE_STATEMENT</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> SQLite statement being iterated over.</FONT>
+
+    <A NAME="f_bindings"><A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_bindings">bindings</A>: <B>detachable</B> <A HREF="../elks/array.html">ARRAY</A> [<A HREF="../sqlite/sqlite_bind_arg.html">SQLITE_BIND_ARG</A> [<A HREF="../elks/any.html">ANY</A>]]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Binding arguments to execute the statement with.</FONT>
+
+    <A NAME="f_item"><A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_item">item</A>: <A HREF="../sqlite/sqlite_result_row.html">SQLITE_RESULT_ROW</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Item at current cursor position.</FONT>
+        <B>local</B>
+            l_result: <B>like</B> <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_internal_item">internal_item</A>
+        <B>do</B>
+            l_result := <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_internal_item">internal_item</A>
+            <B>check</B>
+                l_result_attached: <B>attached</B> l_result
+            <B>end</B>
+            <B>Result</B> := l_result
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_new_cursor"><A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_new_cursor">new_cursor</A>: <A HREF="../elks/iteration_cursor.html">ITERATION_CURSOR</A> [<A HREF="../sqlite/sqlite_result_row.html">SQLITE_RESULT_ROW</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Fresh cursor associated with current structure</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>Current</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_last_result"><A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_last_result">last_result</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last result code set by </FONT><A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_start">start</A><FONT COLOR="red">/</FONT><A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_forth">forth</A><FONT COLOR="red">.</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_after"><A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_after">after</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are there no more items to iterate over?</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>not</B> <A HREF="../sqlite/sqlite_helpers.html#f_sqlite_success">sqlite_success</A> (<A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_last_result">last_result</A>) <B>or else</B> <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_last_result">last_result</A> = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_done">done</A>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_has_started"><A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_has_started">has_started</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if the cursor has been started yet.</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Cursor movement</FONT>
+
+    <A NAME="f_start"><A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_start">start</A>
+        <B>local</B>
+            l_api: <B>like</B> <A HREF="../sqlite/sqlite_shared_api.html#f_sqlite_api">Sqlite_api</A>
+            l_stmt: <A HREF="../elks/pointer.html">POINTER</A>
+            l_result: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            i_upper, i: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_arg_variable: <A HREF="../elks/immutable_string_8.html">IMMUTABLE_STRING_8</A>
+            l_arg_id: <A HREF="../elks/c_string.html">C_STRING</A>
+            l_arg_index: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_internal_item">internal_item</A> := <B>Void</B>
+            l_api := <A HREF="../sqlite/sqlite_shared_api.html#f_sqlite_api">Sqlite_api</A>
+            l_stmt := <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_statement">statement</A>.<A HREF="../sqlite/sqlite_statement.html#f_internal_stmt">internal_stmt</A>
+            l_result := <A HREF="../sqlite/sqlite_statement_externals.html#f_sqlite3_reset">sqlite3_reset</A> (l_api, l_stmt)
+            <B>check</B>
+                success: <A HREF="../sqlite/sqlite_helpers.html#f_sqlite_success">sqlite_success</A> (l_result)
+            <B>end</B>
+            <B>if</B> <B>attached</B> <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_bindings">bindings</A> <B>as</B> l_bindings <B>then</B>
+                l_result := <A HREF="../sqlite/sqlite_statement_externals.html#f_sqlite3_clear_bindings">sqlite3_clear_bindings</A> (l_api, l_stmt)
+                <B>check</B>
+                    success: <A HREF="../sqlite/sqlite_helpers.html#f_sqlite_success">sqlite_success</A> (l_result)
+                <B>end</B>
+                <B>from</B>
+                    i := l_bindings.<A HREF="../elks/array.html#f_lower">lower</A>
+                    i_upper := l_bindings.<A HREF="../elks/array.html#f_upper">upper</A>
+                <B>until</B>
+                    i &gt; i_upper
+                <B>loop</B>
+                    <B>if</B> <B>attached</B> l_bindings [i] <B>as</B> l_arg <B>then</B>
+                        l_arg_variable := l_arg.<A HREF="../sqlite/sqlite_bind_arg.html#f_variable">variable</A>
+                        <B>create</B> l_arg_id.<A HREF="../elks/c_string.html#f_make">make</A> (l_arg_variable)
+                        l_arg_index := <A HREF="../sqlite/sqlite_statement_externals.html#f_sqlite3_bind_parameter_index">sqlite3_bind_parameter_index</A> (l_api, l_stmt, l_arg_id.<A HREF="../elks/c_string.html#f_item">item</A>)
+                        <B>if</B> l_arg_index = 0 <B>and then</B> l_arg_variable [1] = '?' <B>then</B>
+                            l_arg_variable := l_arg_variable.<A HREF="../elks/immutable_string_8.html#f_substring">substring</A> (2, l_arg_variable.<A HREF="../elks/readable_string_8.html#f_count">count</A>)
+                            <B>if</B> l_arg_variable.<A HREF="../elks/readable_string_general.html#f_is_integer_32">is_integer_32</A> <B>then</B>
+                                l_arg_index := l_arg_variable.<A HREF="../elks/readable_string_general.html#f_to_integer_32">to_integer_32</A>
+                            <B>else</B>
+                                <B>check</B>
+                                    should_never_happen: <B>False</B>
+                                <B>end</B>
+                            <B>end</B>
+                        <B>end</B>
+                        <B>if</B> l_arg_index &gt; 0 <B>then</B>
+                            l_arg.<A HREF="../sqlite/sqlite_bind_arg.html#f_bind_to_statement">bind_to_statement</A> (<A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_statement">statement</A>, l_arg_index)
+                        <B>end</B>
+                    <B>end</B>
+                    i := i + 1
+                <B>end</B>
+            <B>end</B>
+            <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_last_result">last_result</A> := l_result
+            <A HREF="../sqlite/sqlite_helpers.html#f_sqlite_raise_on_failure">sqlite_raise_on_failure</A> (l_result)
+            <B>if</B> <B>not</B> <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_after">after</A> <B>then</B>
+                <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_statement">statement</A>.<A HREF="../sqlite/sqlite_statement.html#f_on_before_execute">on_before_execute</A>
+                <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_forth">forth</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_forth"><A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_forth">forth</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move to next position.</FONT>
+        <B>local</B>
+            l_api: <B>like</B> <A HREF="../sqlite/sqlite_shared_api.html#f_sqlite_api">Sqlite_api</A>
+            l_stmt: <A HREF="../elks/pointer.html">POINTER</A>
+            l_db: <B>detachable</B> <A HREF="../sqlite/sqlite_database.html">SQLITE_DATABASE</A>
+            l_exception: <B>detachable</B> <A HREF="../sqlite/sqlite_exception.html">SQLITE_EXCEPTION</A>
+            l_result: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_done: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            l_locked: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            l_api := <A HREF="../sqlite/sqlite_shared_api.html#f_sqlite_api">Sqlite_api</A>
+            l_stmt := <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_statement">statement</A>.<A HREF="../sqlite/sqlite_statement.html#f_internal_stmt">internal_stmt</A>
+            l_db := <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_statement">statement</A>.<A HREF="../sqlite/sqlite_statement.html#f_database">database</A>
+            l_db.<A HREF="../sqlite/sqlite_database.html#f_lock">lock</A>
+            l_locked := <B>True</B>
+            l_result := <A HREF="../sqlite/sqlite_statement_externals.html#f_sqlite3_step">sqlite3_step</A> (l_api, l_stmt)
+            l_done := l_result = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_done">done</A>
+            <B>if</B> <A HREF="../sqlite/sqlite_helpers.html#f_sqlite_success">sqlite_success</A> (l_result) <B>then</B>
+                <B>create</B> <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_internal_item">internal_item</A>.<A HREF="../sqlite/sqlite_result_row.html#f_make">make</A> (<A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_statement">statement</A>)
+            <B>else</B>
+                <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_internal_item">internal_item</A> := <B>Void</B>
+                l_exception := l_db.<A HREF="../sqlite/sqlite_database.html#f_last_exception">last_exception</A>
+            <B>end</B>
+            l_locked := <B>False</B>
+            l_db.<A HREF="../sqlite/sqlite_database.html#f_unlock">unlock</A>
+            <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_last_result">last_result</A> := l_result
+            <B>if</B> <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_after">after</A> <B>then</B>
+                <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_statement">statement</A>.<A HREF="../sqlite/sqlite_statement.html#f_on_after_executed">on_after_executed</A>
+            <B>end</B>
+            <B>if</B> <B>attached</B> l_exception <B>then</B>
+                l_exception.<A HREF="../elks/exception.html#f_raise">raise</A>
+            <B>else</B>
+                <A HREF="../sqlite/sqlite_helpers.html#f_sqlite_raise_on_failure">sqlite_raise_on_failure</A> (l_result)
+            <B>end</B>
+        <B>rescue</B>
+            <B>if</B> l_locked <B>and</B> <B>attached</B> l_db <B>then</B>
+                l_locked := <B>False</B>
+                l_db.<A HREF="../sqlite/sqlite_database.html#f_unlock">unlock</A>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation: Internal cache</FONT>
+
+    <A NAME="f_internal_item"><A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_internal_item">internal_item</A>: <B>detachable</B> <B>like</B> <A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_item">item</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Cached version of </FONT><A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_item">item</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note: Do not use directly!</FONT>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation: void-safety helper</FONT>
+
+    <A NAME="f_dummy_target"><A HREF="../sqlite/sqlite_statement_iteration_cursor.html#f_dummy_target">Dummy_target</A>: <A HREF="../elks/iterable.html">ITERABLE</A> [<A HREF="../sqlite/sqlite_result_row.html">SQLITE_RESULT_ROW</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Dummy object used to initialize </FONT>`target'<FONT COLOR="red"> with attached value</FONT>
+        <B>once</B>
+            <B>create</B> {<A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../sqlite/sqlite_result_row.html">SQLITE_RESULT_ROW</A>]} <B>Result</B>.<A HREF="../elks/special.html#f_make_empty">make_empty</A> (0)
+        <B>end</B></A>
+    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2013, Eiffel Software"
+    license: "GPL version 2 (see <a href="http://www.eiffel.com/licensing/gpl.txt">http://www.eiffel.com/licensing/gpl.txt</a>)"
+    licensing_options: "<a href="http://www.eiffel.com/licensing">http://www.eiffel.com/licensing</a>"
+    copying: "[
+        This file is part of Eiffel Software's Eiffel Development Environment.
+        
+        Eiffel Software's Eiffel Development Environment is free
+        software; you can redistribute it and/or modify it under
+        the terms of the GNU General Public License as published
+        by the Free Software Foundation, version 2 of the License
+        (available at the URL listed under "license" above).
+        
+        Eiffel Software's Eiffel Development Environment is
+        distributed in the hope that it will be useful, but
+        WITHOUT ANY WARRANTY; without even the implied warranty
+        of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        See the GNU General Public License for more details.
+        
+        You should have received a copy of the GNU General Public
+        License along with Eiffel Software's Eiffel Development
+        Environment; if not, write to the Free Software Foundation,
+        Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+    ]"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../sqlite/sqlite_statement_iteration_cursor.html">SQLITE_STATEMENT_ITERATION_CURSOR</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sqlite_statement_iteration_cursor_chart.html">Chart</A></TD><TD><A HREF="sqlite_statement_iteration_cursor_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="sqlite_statement_iteration_cursor_flat.html">Flat</A></TD><TD><A HREF="sqlite_statement_iteration_cursor_short.html">Contracts</A></TD><TD><A HREF="sqlite_statement_iteration_cursor_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

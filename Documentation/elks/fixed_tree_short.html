@@ -1,0 +1,241 @@
+<HTML><HEAD>
+<meta name="description" content="Trees where each node has a fixed number of children (The number of children is arbitrary but cannot be changed once the node has been created"/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="names" content="fixed_tree, tree, fixed_list"/>
+<meta name="representation" content="recursive, array"/>
+<meta name="access" content="cursor, membership"/>
+<meta name="contents" content="generic"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>fixed_tree Contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="fixed_tree_chart.html">Chart</A></TD><TD><A HREF="fixed_tree_links.html">Relations</A></TD><TD><A HREF="fixed_tree.html">Text</A></TD><TD><A HREF="fixed_tree_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="fixed_tree_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Trees where each node has a fixed number of children
+        (The number of children is arbitrary but cannot be
+        changed once the node has been created
+    ]"
+    library: "Free implementation of ELKS library"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    names: fixed_tree, tree, fixed_list
+    representation: recursive, array
+    access: cursor, membership
+    contents: generic
+    date: "$Date: 2012-07-23 14:02:19 -0700 (Mon, 23 Jul 2012) $"
+    revision: "$Revision: 91989 $"
+
+<B>class</B> <B>interface</B>
+    <A HREF="../elks/fixed_tree_short.html">FIXED_TREE</A> [G]
+
+<B>create</B> 
+    <A HREF="../elks/fixed_tree_short.html#f_make">make</A>,
+    <A HREF="../elks/fixed_tree_short.html#f_make_filled">make_filled</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../elks/fixed_tree_short.html#f_make">make</A> (n: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; v: G)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create node with </FONT>`n'<FONT COLOR="red"> void children and item </FONT>`v'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            valid_number_of_children: n &gt;= 0
+        <B>ensure</B>
+            node_item: <A HREF="../elks/cell_short.html#f_item">item</A> = v
+            node_arity: <A HREF="../elks/fixed_tree_short.html#f_arity">arity</A> = 0
+</A>
+    <A NAME="f_make_filled"><A HREF="../elks/fixed_tree_short.html#f_make_filled">make_filled</A> (n: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; v: G)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create node with </FONT>`n'<FONT COLOR="red"> empty children and item </FONT>`v'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            valid_number_of_children: n &gt;= 0
+            has_default: ({G}).<A HREF="../elks/type_short.html#f_has_default">has_default</A>
+        <B>ensure</B>
+            node_item: <A HREF="../elks/cell_short.html#f_item">item</A> = v
+            node_arity: <A HREF="../elks/fixed_tree_short.html#f_arity">arity</A> = n
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_parent"><A HREF="../elks/fixed_tree_short.html#f_parent">parent</A>: <B>detachable</B> <B>like</B> <B>Current</B></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Parent of current node</FONT>
+
+    <A NAME="f_child_item"><A HREF="../elks/fixed_tree_short.html#f_child_item">child_item</A>: <B>like</B> <A HREF="../elks/cell_short.html#f_item">item</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Item of active child</FONT>
+</A>
+    <A NAME="f_left_sibling"><A HREF="../elks/fixed_tree_short.html#f_left_sibling">left_sibling</A>: <B>like</B> <A HREF="../elks/fixed_tree_short.html#f_parent">parent</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Left neighbor, if any</FONT>
+</A>
+    <A NAME="f_right_sibling"><A HREF="../elks/fixed_tree_short.html#f_right_sibling">right_sibling</A>: <B>like</B> <A HREF="../elks/fixed_tree_short.html#f_parent">parent</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Right neighbor, if any</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_child_contractable"><A HREF="../elks/fixed_tree_short.html#f_child_contractable">child_contractable</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May items be removed?</FONT>
+        <B>ensure</B>
+            <B>Result</B> = <B>not</B> <A HREF="../elks/fixed_tree_short.html#f_child_off">child_off</A>
+</A>
+    <A NAME="f_full"><A HREF="../elks/fixed_tree_short.html#f_full">Full</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A> = <B>True</B></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is tree full?</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_child_put"><A HREF="../elks/fixed_tree_short.html#f_child_put">child_put</A> (v: <B>like</B> <A HREF="../elks/cell_short.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Replace current child item with </FONT>`v'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/fixed_tree_short.html">FIXED_TREE</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/fixed_tree_short.html#f_child_replace">child_replace</A><FONT COLOR="red">.</FONT>
+</A>
+    <A NAME="f_child_replace"><A HREF="../elks/fixed_tree_short.html#f_child_replace">child_replace</A> (v: <B>like</B> <A HREF="../elks/cell_short.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Replace current child item with </FONT>`v'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/fixed_tree_short.html">FIXED_TREE</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/fixed_tree_short.html#f_child_put">child_put</A><FONT COLOR="red">.</FONT>
+</A>
+    <A NAME="f_put_left"><A HREF="../elks/fixed_tree_short.html#f_put_left">put_left</A> (v: <B>like</B> <A HREF="../elks/cell_short.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Add </FONT>`v'<FONT COLOR="red"> to the left of current node.</FONT>
+        <B>require</B>
+            is_not_root: <B>not</B> <A HREF="../elks/tree_short.html#f_is_root">is_root</A>
+            has_left_sibling: <A HREF="../elks/fixed_tree_short.html#f_left_sibling">left_sibling</A> /= <B>Void</B>
+        <B>ensure</B>
+            item_put: <B>attached</B> <A HREF="../elks/fixed_tree_short.html#f_left_sibling">left_sibling</A> <B>as</B> l <B>and then</B> l.<A HREF="../elks/cell_short.html#f_item">item</A> = v
+</A>
+    <A NAME="f_put_right"><A HREF="../elks/fixed_tree_short.html#f_put_right">put_right</A> (v: <B>like</B> <A HREF="../elks/cell_short.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Add </FONT>`v'<FONT COLOR="red"> to the right of current node.</FONT>
+        <B>require</B>
+            is_not_root: <B>not</B> <A HREF="../elks/tree_short.html#f_is_root">is_root</A>
+            has_right_sibling: <A HREF="../elks/fixed_tree_short.html#f_right_sibling">right_sibling</A> /= <B>Void</B>
+        <B>ensure</B>
+            item_put: <B>attached</B> <A HREF="../elks/fixed_tree_short.html#f_right_sibling">right_sibling</A> <B>as</B> r <B>and then</B> r.<A HREF="../elks/cell_short.html#f_item">item</A> = v
+</A>
+    <A NAME="f_put_child"><A HREF="../elks/fixed_tree_short.html#f_put_child">put_child</A> (n: <B>like</B> <A HREF="../elks/fixed_tree_short.html#f_new_node">new_node</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make </FONT>`n'<FONT COLOR="red"> the node's child.</FONT>
+        <B>require else</B>
+            not_full: <A HREF="../elks/fixed_tree_short.html#f_arity">arity</A> &lt; <A HREF="../elks/fixed_tree_short.html#f_capacity">capacity</A>
+        <B>ensure then</B>
+            child_replaced: n.<A HREF="../elks/fixed_tree_short.html#f_parent">parent</A> = <B>Current</B>
+</A>
+    <A NAME="f_replace_child"><A HREF="../elks/fixed_tree_short.html#f_replace_child">replace_child</A> (n: <B>like</B> <A HREF="../elks/fixed_tree_short.html#f_new_node">new_node</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make </FONT>`n'<FONT COLOR="red"> the node's child.</FONT>
+        <B>ensure then</B>
+            child_replaced: n.<A HREF="../elks/fixed_tree_short.html#f_parent">parent</A> = <B>Current</B>
+</A>
+    <A NAME="f_put_left_sibling"><A HREF="../elks/fixed_tree_short.html#f_put_left_sibling">put_left_sibling</A> (other: <B>like</B> <A HREF="../elks/fixed_tree_short.html#f_new_node">new_node</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make </FONT>`other'<FONT COLOR="red"> the left sibling of current node.</FONT>
+        <B>require</B>
+            is_not_root: <B>not</B> <A HREF="../elks/tree_short.html#f_is_root">is_root</A>
+            has_left_sibling: <A HREF="../elks/fixed_tree_short.html#f_left_sibling">left_sibling</A> /= <B>Void</B>
+        <B>ensure</B>
+            left_sibling_replaced: <A HREF="../elks/fixed_tree_short.html#f_left_sibling">left_sibling</A> = other
+</A>
+    <A NAME="f_put_right_sibling"><A HREF="../elks/fixed_tree_short.html#f_put_right_sibling">put_right_sibling</A> (other: <B>like</B> <A HREF="../elks/fixed_tree_short.html#f_new_node">new_node</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make </FONT>`other'<FONT COLOR="red"> the right sibling of current node.</FONT>
+        <B>require</B>
+            is_not_root: <B>not</B> <A HREF="../elks/tree_short.html#f_is_root">is_root</A>
+            has_right_sibling: <A HREF="../elks/fixed_tree_short.html#f_right_sibling">right_sibling</A> /= <B>Void</B>
+        <B>ensure</B>
+            right_sibling_replaced: <A HREF="../elks/fixed_tree_short.html#f_right_sibling">right_sibling</A> = other
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removal</FONT>
+
+    <A NAME="f_remove_child"><A HREF="../elks/fixed_tree_short.html#f_remove_child">remove_child</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove active child.</FONT>
+        <B>ensure then</B>
+            child_removed: <A HREF="../elks/fixed_tree_short.html#f_child">child</A> = <B>Void</B>
+</A>
+    <A NAME="f_forget_left"><A HREF="../elks/fixed_tree_short.html#f_forget_left">forget_left</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Forget all left siblings.</FONT>
+</A>
+    <A NAME="f_forget_right"><A HREF="../elks/fixed_tree_short.html#f_forget_right">forget_right</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Forget all right siblings.</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_duplicate"><A HREF="../elks/fixed_tree_short.html#f_duplicate">duplicate</A> (n: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy of sub-tree beginning at cursor position and</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> having min (</FONT>`n'<FONT COLOR="red">, </FONT><A HREF="../elks/fixed_tree_short.html#f_arity">arity</A><FONT COLOR="red"> - </FONT><A HREF="../elks/fixed_tree_short.html#f_child_index">child_index</A><FONT COLOR="red"> + 1)</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> children.</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Redefinition</FONT>
+
+    <A NAME="f_child_capacity"><A HREF="../elks/fixed_tree_short.html#f_child_capacity">child_capacity</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Maximal number of children</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_child"><A HREF="../elks/fixed_tree_short.html#f_child">child</A>: <B>like</B> <A HREF="../elks/fixed_tree_short.html#f_parent">parent</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Current child node</FONT>
+</A>
+    <A NAME="f_array_item"><A HREF="../elks/fixed_tree_short.html#f_array_item">array_item</A> (n: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <B>detachable</B> <B>like</B> <B>Current</B>
+</A>
+    <A NAME="f_last_child"><A HREF="../elks/fixed_tree_short.html#f_last_child">last_child</A>: <B>like</B> <A HREF="../elks/fixed_tree_short.html#f_first_child">first_child</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Right most child</FONT>
+</A>
+    <A NAME="f_first_child"><A HREF="../elks/fixed_tree_short.html#f_first_child">first_child</A>: <B>like</B> <A HREF="../elks/fixed_tree_short.html#f_parent">parent</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Leftmost child</FONT>
+</A>
+    <A NAME="f_search_child"><A HREF="../elks/fixed_tree_short.html#f_search_child">search_child</A> (v: <B>like</B> <B>Current</B>)
+</A>
+    <A NAME="f_arity"><A HREF="../elks/fixed_tree_short.html#f_arity">arity</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of children</FONT>
+
+    <A NAME="f_child_start"><A HREF="../elks/fixed_tree_short.html#f_child_start">child_start</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to first child.</FONT>
+</A>
+    <A NAME="f_child_finish"><A HREF="../elks/fixed_tree_short.html#f_child_finish">child_finish</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to last child.</FONT>
+</A>
+    <A NAME="f_child_forth"><A HREF="../elks/fixed_tree_short.html#f_child_forth">child_forth</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to next child.</FONT>
+</A>
+    <A NAME="f_child_back"><A HREF="../elks/fixed_tree_short.html#f_child_back">child_back</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to previous child.</FONT>
+</A>
+    <A NAME="f_child_go_i_th"><A HREF="../elks/fixed_tree_short.html#f_child_go_i_th">child_go_i_th</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to </FONT>`i'<FONT COLOR="red">-th child.</FONT>
+</A>
+    <A NAME="f_child_index"><A HREF="../elks/fixed_tree_short.html#f_child_index">child_index</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Index of current child</FONT>
+</A>
+    <A NAME="f_child_off"><A HREF="../elks/fixed_tree_short.html#f_child_off">child_off</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there no current child?</FONT>
+</A>
+    <A NAME="f_child_after"><A HREF="../elks/fixed_tree_short.html#f_child_after">child_after</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there no valid child position to the right of cursor?</FONT>
+</A>
+    <A NAME="f_child_before"><A HREF="../elks/fixed_tree_short.html#f_child_before">child_before</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there no valid child position to the left of cursor?</FONT>
+</A>
+    <A NAME="f_child_cursor"><A HREF="../elks/fixed_tree_short.html#f_child_cursor">child_cursor</A>: <A HREF="../elks/cursor_short.html">CURSOR</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Current cursor position</FONT>
+</A>
+    <A NAME="f_child_go_to"><A HREF="../elks/fixed_tree_short.html#f_child_go_to">child_go_to</A> (p: <A HREF="../elks/cursor_short.html">CURSOR</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to position </FONT>`p'<FONT COLOR="red">.</FONT>
+</A>
+    <A NAME="f_index_of"><A HREF="../elks/fixed_tree_short.html#f_index_of">index_of</A> (v: <B>like</B> <B>Current</B>; i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+</A>
+    <A NAME="f_prune"><A HREF="../elks/fixed_tree_short.html#f_prune">prune</A> (n: <B>like</B> <A HREF="../elks/fixed_tree_short.html#f_new_node">new_node</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove </FONT>`n'<FONT COLOR="red"> from the children.</FONT>
+</A>
+    <A NAME="f_wipe_out"><A HREF="../elks/fixed_tree_short.html#f_wipe_out">wipe_out</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove all children.</FONT>
+</A>
+    <A NAME="f_put_i_th"><A HREF="../elks/fixed_tree_short.html#f_put_i_th">put_i_th</A> (v: <B>like</B> <B>Current</B>; n: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+</A>
+    <A NAME="f_capacity"><A HREF="../elks/fixed_tree_short.html#f_capacity">capacity</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+</A>    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/fixed_tree_short.html">FIXED_TREE</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="fixed_tree_chart.html">Chart</A></TD><TD><A HREF="fixed_tree_links.html">Relations</A></TD><TD><A HREF="fixed_tree.html">Text</A></TD><TD><A HREF="fixed_tree_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="fixed_tree_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

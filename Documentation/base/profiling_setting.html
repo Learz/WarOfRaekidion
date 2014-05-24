@@ -1,0 +1,123 @@
+<HTML><HEAD>
+<meta name="description" content="Objects that manage the Eiffel profiler. You can start and stop the Eiffel profiler whenever you want to. It only works if `profile (yes)' is enabled in your project configuration file. Also disabling the profiler should be done at the same place where you enabled it otherwise you might corrupt the profiling data. To use this functionality effectively, make sure that the first instruction in your program calls `stop_profiling', and that the last executed instruction calls `start_profiling', otherwise no profile information will be generated."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="library" content="EiffelBase: Library of reusable components for Eiffel."/>
+<meta name="copyright" content="Copyright (c) 1984-2006, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 356 Storke Road, Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>profiling_setting Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="profiling_setting_chart.html">Chart</A></TD><TD><A HREF="profiling_setting_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="profiling_setting_flat.html">Flat</A></TD><TD><A HREF="profiling_setting_short.html">Contracts</A></TD><TD><A HREF="profiling_setting_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Objects that manage the Eiffel profiler. You can start and
+        stop the Eiffel profiler whenever you want to. It only works
+        if `profile (yes)' is enabled in your project configuration file.
+        Also disabling the profiler should be done at the same place
+        where you enabled it otherwise you might corrupt the profiling data.
+        To use this functionality effectively, make sure that the first instruction
+        in your program calls <A HREF="../ise/profiling_setting.html#f_stop_profiling">stop_profiling</A>, and that the last executed instruction
+        calls <A HREF="../ise/profiling_setting.html#f_start_profiling">start_profiling</A>, otherwise no profile information will be generated.
+    ]"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2009-08-20 10:43:16 -0700 (Thu, 20 Aug 2009) $"
+    revision: "$Revision: 80361 $"
+
+<B>class</B> 
+    <A HREF="../ise/profiling_setting.html">PROFILING_SETTING</A>
+
+<B>create</B> 
+    <A HREF="../ise/profiling_setting.html#f_make">make</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../ise/profiling_setting.html#f_make">make</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Compute value of </FONT><A HREF="../ise/profiling_setting.html#f_is_profiler_enabled">Is_profiler_enabled</A><FONT COLOR="red"> for all instances of</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Current class.</FONT>
+        <B>local</B>
+            tmp: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            tmp := <A HREF="../ise/profiling_setting.html#f_is_profiler_enabled">Is_profiler_enabled</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_is_profiling"><A HREF="../ise/profiling_setting.html#f_is_profiling">is_profiling</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is profiler currently enabled?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../ise/profiling_setting.html#f_c_prof_enabled">c_prof_enabled</A> &gt; 0
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status setting</FONT>
+
+    <A NAME="f_start_profiling"><A HREF="../ise/profiling_setting.html#f_start_profiling">start_profiling</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Start profiling.</FONT>
+        <B>do</B>
+            <B>if</B> <A HREF="../ise/profiling_setting.html#f_is_profiler_enabled">Is_profiler_enabled</A> <B>then</B>
+                <A HREF="../ise/profiling_setting.html#f_set_prof_enabled">set_prof_enabled</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_stop_profiling"><A HREF="../ise/profiling_setting.html#f_stop_profiling">stop_profiling</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Stop profiling</FONT>
+        <B>do</B>
+            <B>if</B> <A HREF="../ise/profiling_setting.html#f_is_profiler_enabled">Is_profiler_enabled</A> <B>then</B>
+                <A HREF="../ise/profiling_setting.html#f_set_prof_disabled">set_prof_disabled</A>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Validity</FONT>
+
+    <A NAME="f_is_profiler_enabled"><A HREF="../ise/profiling_setting.html#f_is_profiler_enabled">Is_profiler_enabled</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is profiler enabled upon launch time?</FONT>
+        <B>once</B>
+            <B>Result</B> := <A HREF="../ise/profiling_setting.html#f_is_profiling">is_profiling</A>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_c_prof_enabled"><A HREF="../ise/profiling_setting.html#f_c_prof_enabled">c_prof_enabled</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> C variables which gives the status on the profiler.</FONT>
+        <B>external</B>
+            "C macro use %"eif_project.h%""
+        <B>alias</B>
+            "egc_prof_enabled"
+        <B>end</B></A>
+
+    <A NAME="f_set_prof_enabled"><A HREF="../ise/profiling_setting.html#f_set_prof_enabled">set_prof_enabled</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Enable profiler.</FONT>
+        <B>external</B>
+            "C macro use %"eif_eiffel.h%""
+        <B>alias</B>
+            "egc_prof_enabled = 3"
+        <B>end</B></A>
+
+    <A NAME="f_set_prof_disabled"><A HREF="../ise/profiling_setting.html#f_set_prof_disabled">set_prof_disabled</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Disable profiler.</FONT>
+        <B>external</B>
+            "C macro use %"eif_eiffel.h%""
+        <B>alias</B>
+            "egc_prof_enabled = 0"
+        <B>end</B></A>
+    
+<B>note</B>
+    library: "EiffelBase: Library of reusable components for Eiffel."
+    copyright: "Copyright (c) 1984-2006, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        356 Storke Road, Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../ise/profiling_setting.html">PROFILING_SETTING</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="profiling_setting_chart.html">Chart</A></TD><TD><A HREF="profiling_setting_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="profiling_setting_flat.html">Flat</A></TD><TD><A HREF="profiling_setting_short.html">Contracts</A></TD><TD><A HREF="profiling_setting_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

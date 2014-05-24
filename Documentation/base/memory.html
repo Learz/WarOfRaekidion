@@ -1,0 +1,491 @@
+<HTML><HEAD>
+<meta name="description" content="Facilities for tuning up the garbage collection mechanism. This class may be used as ancestor by classes needing its facilities."/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>memory Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="memory_chart.html">Chart</A></TD><TD><A HREF="memory_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="memory_flat.html">Flat</A></TD><TD><A HREF="memory_short.html">Contracts</A></TD><TD><A HREF="memory_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Facilities for tuning up the garbage collection mechanism.
+        This class may be used as ancestor by classes needing its facilities.
+    ]"
+    library: "Free implementation of ELKS library"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2013-03-04 15:01:25 -0800 (Mon, 04 Mar 2013) $"
+    revision: "$Revision: 92178 $"
+
+<B>class</B> 
+    <A HREF="../elks/memory.html">MEMORY</A>
+
+<B>inherit</B>
+    <A HREF="../elks/disposable.html">DISPOSABLE</A>
+
+    <A HREF="../elks/mem_const.html">MEM_CONST</A>
+
+<B>create</B> 
+    <A HREF="../elks/any.html#f_default_create">default_create</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_memory_statistics"><A HREF="../elks/memory.html#f_memory_statistics">memory_statistics</A> (memory_type: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/mem_info.html">MEM_INFO</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Memory usage information for </FONT>`memory_type'
+        <B>require</B>
+            type_ok: memory_type = <A HREF="../elks/mem_const.html#f_total_memory">Total_memory</A> <B>or</B> memory_type = <A HREF="../elks/mem_const.html#f_eiffel_memory">Eiffel_memory</A> <B>or</B> memory_type = <A HREF="../elks/mem_const.html#f_c_memory">C_memory</A>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/mem_info.html#f_make">make</A> (memory_type)
+        <B>end</B></A>
+
+    <A NAME="f_gc_statistics"><A HREF="../elks/memory.html#f_gc_statistics">gc_statistics</A> (collector_type: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/gc_info.html">GC_INFO</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Garbage collection information for </FONT>`collector_type'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            type_ok: collector_type = <A HREF="../elks/mem_const.html#f_full_collector">Full_collector</A> <B>or</B> collector_type = <A HREF="../elks/mem_const.html#f_incremental_collector">Incremental_collector</A>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/gc_info.html#f_make">make</A> (collector_type)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_memory_threshold"><A HREF="../elks/memory.html#f_memory_threshold">memory_threshold</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Minimum amount of bytes to be allocated before</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> starting an automatic garbage collection.</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_mem_tget"
+        <B>end</B></A>
+
+    <A NAME="f_collection_period"><A HREF="../elks/memory.html#f_collection_period">collection_period</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Period of full collection.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If the environment variable EIF_FULL_COLLECTION_PERIOD</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> is defined, it is set to the closest reasonable</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> value from it.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If null, no full collection is launched.</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_mem_pget"
+        <B>end</B></A>
+
+    <A NAME="f_coalesce_period"><A HREF="../elks/memory.html#f_coalesce_period">coalesce_period</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Period of full coalesce (in number of collections)</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If the environment variable EIF_FULL_COALESCE_PERIOD</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> is defined, it is set to the closest reasonable</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> value from it.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If null, no full coalescing is launched.</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_coalesce_period"
+        <B>end</B></A>
+
+    <A NAME="f_collecting"><A HREF="../elks/memory.html#f_collecting">collecting</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is garbage collection enabled?</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_gc_ison"
+        <B>end</B></A>
+
+    <A NAME="f_largest_coalesced_block"><A HREF="../elks/memory.html#f_largest_coalesced_block">largest_coalesced_block</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Size of largest coalesced block since last call to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`largest_coalesced'<FONT COLOR="red">; 0 if none.</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_mem_largest"
+        <B>end</B></A>
+
+    <A NAME="f_max_mem"><A HREF="../elks/memory.html#f_max_mem">max_mem</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Maximum amount of bytes the run-time can allocate.</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_get_max_mem"
+        <B>end</B></A>
+
+    <A NAME="f_chunk_size"><A HREF="../elks/memory.html#f_chunk_size">chunk_size</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Minimal size of a memory chunk. The run-time always</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> allocates a multiple of this size.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If the environment variable EIF_MEMORY_CHUNK</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> is defined, it is set to the closest reasonable</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> value from it.</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_get_chunk_size"
+        <B>end</B></A>
+
+    <A NAME="f_tenure"><A HREF="../elks/memory.html#f_tenure">tenure</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Maximum age of object before being considered</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as old (old objects are not scanned during</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> partial collection).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If the environment variable EIF_TENURE_MAX</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> is defined, it is set to the closest reasonable</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> value from it.</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_tenure"
+        <B>end</B></A>
+
+    <A NAME="f_generation_object_limit"><A HREF="../elks/memory.html#f_generation_object_limit">generation_object_limit</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Maximum size of object in generational scavenge zone.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If the environment variable EIF_GS_LIMIT</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> is defined, it is set to the closest reasonable</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> value from it.</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_generation_object_limit"
+        <B>end</B></A>
+
+    <A NAME="f_scavenge_zone_size"><A HREF="../elks/memory.html#f_scavenge_zone_size">scavenge_zone_size</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Size of generational scavenge zone.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If the environment variable EIF_MEMORY_SCAVENGE</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> is defined, it is set to the closest reasonable</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> value from it.</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_scavenge_zone_size"
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_referers"><A HREF="../elks/memory.html#f_referers">referers</A> (an_object: <A HREF="../elks/any.html">ANY</A>): <A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/any.html">ANY</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Objects that refer to </FONT>`an_object'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/memory.html#f_find_referers">find_referers</A> (an_object, <A HREF="../elks/memory.html#f_special_any_dynamic_type">Special_any_dynamic_type</A>)
+        <B>end</B></A>
+
+    <A NAME="f_objects_instance_of"><A HREF="../elks/memory.html#f_objects_instance_of">objects_instance_of</A> (an_object: <A HREF="../elks/any.html">ANY</A>): <A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/any.html">ANY</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Objects that have same dynamic type as </FONT>`an_object'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/memory.html#f_objects_instance_of_type">objects_instance_of_type</A> (an_object.<A HREF="../elks/any.html#f_generating_type">generating_type</A>.<A HREF="../elks/type.html#f_type_id">type_id</A>)
+        <B>end</B></A>
+
+    <A NAME="f_objects_instance_of_type"><A HREF="../elks/memory.html#f_objects_instance_of_type">objects_instance_of_type</A> (a_type_id: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/any.html">ANY</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Objects that have same dynamic type as </FONT>`an_object'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/memory.html#f_find_instance_of">find_instance_of</A> (a_type_id, <A HREF="../elks/memory.html#f_special_any_dynamic_type">Special_any_dynamic_type</A>)
+        <B>end</B></A>
+
+    <A NAME="f_memory_map"><A HREF="../elks/memory.html#f_memory_map">memory_map</A>: <A HREF="../elks/hash_table.html">HASH_TABLE</A> [<A HREF="../elks/arrayed_list.html">ARRAYED_LIST</A> [<A HREF="../elks/any.html">ANY</A>], <A HREF="../elks/integer_32.html">INTEGER_32</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieves all object in system as a table indexed by dynamic type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> where elements are all instances of a given data type.</FONT>
+        <B>local</B>
+            i, nb, dtype: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_spec: <A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/any.html">ANY</A>]
+            l_item: <A HREF="../elks/any.html">ANY</A>
+            l_list: <B>detachable</B> <A HREF="../elks/arrayed_list.html">ARRAYED_LIST</A> [<A HREF="../elks/any.html">ANY</A>]
+            l_memory_count_map: <A HREF="../elks/hash_table.html">HASH_TABLE</A> [<A HREF="../elks/integer_32.html">INTEGER_32</A>, <A HREF="../elks/integer_32.html">INTEGER_32</A>]
+        <B>do</B>
+            l_spec := <A HREF="../elks/memory.html#f_find_all_instances">find_all_instances</A> (<A HREF="../elks/memory.html#f_special_any_dynamic_type">Special_any_dynamic_type</A>)
+            <B>create</B> l_memory_count_map.<A HREF="../elks/hash_table.html#f_make">make</A> (100)
+            <B>from</B>
+                i := 0
+                nb := l_spec.<A HREF="../elks/special.html#f_count">count</A>
+            <B>until</B>
+                i &gt;= nb
+            <B>loop</B>
+                l_item := l_spec.<A HREF="../elks/special.html#f_item">item</A> (i)
+                <B>if</B> l_item /= <B>Void</B> <B>then</B>
+                    dtype := l_item.<A HREF="../elks/any.html#f_generating_type">generating_type</A>.<A HREF="../elks/type.html#f_type_id">type_id</A>
+                    l_memory_count_map.<A HREF="../elks/hash_table.html#f_force">force</A> (l_memory_count_map.<A HREF="../elks/hash_table.html#f_item">item</A> (dtype) + 1, dtype)
+                <B>end</B>
+                i := i + 1
+            <B>end</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/hash_table.html#f_make">make</A> (100)
+            <B>from</B>
+                i := 0
+                nb := l_spec.<A HREF="../elks/special.html#f_count">count</A>
+            <B>until</B>
+                i &gt;= nb
+            <B>loop</B>
+                l_item := l_spec.<A HREF="../elks/special.html#f_item">item</A> (i)
+                <B>if</B> l_item /= <B>Void</B> <B>then</B>
+                    dtype := l_item.<A HREF="../elks/any.html#f_generating_type">generating_type</A>.<A HREF="../elks/type.html#f_type_id">type_id</A>
+                    <B>Result</B>.<A HREF="../elks/hash_table.html#f_search">search</A> (dtype)
+                    <B>if</B> <B>Result</B>.<A HREF="../elks/hash_table.html#f_found">found</A> <B>and then</B> <B>attached</B> <B>Result</B>.<A HREF="../elks/hash_table.html#f_found_item">found_item</A> <B>as</B> l_found_item <B>then</B>
+                        l_list := l_found_item
+                    <B>else</B>
+                        <B>create</B> l_list.<A HREF="../elks/arrayed_list.html#f_make">make</A> (l_memory_count_map.<A HREF="../elks/hash_table.html#f_item">item</A> (dtype))
+                        <B>Result</B>.<A HREF="../elks/hash_table.html#f_put">put</A> (l_list, dtype)
+                    <B>end</B>
+                    l_list.<A HREF="../elks/arrayed_list.html#f_extend">extend</A> (l_item)
+                <B>end</B>
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_memory_count_map"><A HREF="../elks/memory.html#f_memory_count_map">memory_count_map</A>: <A HREF="../elks/hash_table.html">HASH_TABLE</A> [<A HREF="../elks/integer_32.html">INTEGER_32</A>, <A HREF="../elks/integer_32.html">INTEGER_32</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of instances per dynamic type present in system.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Same as </FONT><A HREF="../elks/memory.html#f_memory_map">memory_map</A><FONT COLOR="red"> except that no references on the objects themselves</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> is kept.</FONT>
+        <B>local</B>
+            i, nb, dtype: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_spec: <A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/any.html">ANY</A>]
+            l_item: <A HREF="../elks/any.html">ANY</A>
+        <B>do</B>
+            l_spec := <A HREF="../elks/memory.html#f_find_all_instances">find_all_instances</A> (<A HREF="../elks/memory.html#f_special_any_dynamic_type">Special_any_dynamic_type</A>)
+            <B>create</B> <B>Result</B>.<A HREF="../elks/hash_table.html#f_make">make</A> (100)
+            <B>from</B>
+                i := 0
+                nb := l_spec.<A HREF="../elks/special.html#f_count">count</A>
+            <B>until</B>
+                i &gt;= nb
+            <B>loop</B>
+                l_item := l_spec.<A HREF="../elks/special.html#f_item">item</A> (i)
+                <B>if</B> l_item /= <B>Void</B> <B>then</B>
+                    dtype := l_item.<A HREF="../elks/any.html#f_generating_type">generating_type</A>.<A HREF="../elks/type.html#f_type_id">type_id</A>
+                    <B>Result</B>.<A HREF="../elks/hash_table.html#f_search">search</A> (dtype)
+                    <B>if</B> <B>Result</B>.<A HREF="../elks/hash_table.html#f_found">found</A> <B>then</B>
+                        <B>Result</B>.<A HREF="../elks/hash_table.html#f_force">force</A> (<B>Result</B>.<A HREF="../elks/hash_table.html#f_found_item">found_item</A> + 1, dtype)
+                    <B>else</B>
+                        <B>Result</B>.<A HREF="../elks/hash_table.html#f_put">put</A> (1, dtype)
+                    <B>end</B>
+                <B>end</B>
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status setting</FONT>
+
+    <A NAME="f_execute_without_collection"><A HREF="../elks/memory.html#f_execute_without_collection">execute_without_collection</A> (a_action: <A HREF="../elks/procedure.html">PROCEDURE</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execute </FONT>`a_action'<FONT COLOR="red"> with the garbage collector disabled.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If </FONT>`a_action'<FONT COLOR="red"> modifies the status of </FONT><A HREF="../elks/memory.html#f_collecting">collecting</A><FONT COLOR="red">, we restore</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> it no matter what at the end.</FONT>
+        <B>require</B>
+            a_action_not_void: a_action /= <B>Void</B>
+        <B>local</B>
+            l_is_collecting: <B>like</B> <A HREF="../elks/memory.html#f_collecting">collecting</A>
+            retried: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            <B>if</B> <B>not</B> retried <B>then</B>
+                l_is_collecting := <A HREF="../elks/memory.html#f_collecting">collecting</A>
+                <B>if</B> l_is_collecting <B>then</B>
+                    <A HREF="../elks/memory.html#f_collection_off">collection_off</A>
+                    a_action.<A HREF="../elks/procedure.html#f_call">call</A> (<B>Void</B>)
+                    <A HREF="../elks/memory.html#f_collection_on">collection_on</A>
+                <B>else</B>
+                    a_action.<A HREF="../elks/procedure.html#f_call">call</A> (<B>Void</B>)
+                    <A HREF="../elks/memory.html#f_collection_off">collection_off</A>
+                <B>end</B>
+            <B>else</B>
+                <B>if</B> l_is_collecting <B>then</B>
+                    <A HREF="../elks/memory.html#f_collection_on">collection_on</A>
+                <B>else</B>
+                    <A HREF="../elks/memory.html#f_collection_off">collection_off</A>
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B>
+            collection_status_preserved: <A HREF="../elks/memory.html#f_collecting">collecting</A> = <B>old</B> <A HREF="../elks/memory.html#f_collecting">collecting</A>
+        <B>rescue</B>
+            retried := <B>True</B>
+            <B>retry</B>
+        <B>end</B></A>
+
+    <A NAME="f_collection_off"><A HREF="../elks/memory.html#f_collection_off">collection_off</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Disable garbage collection.</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_gc_stop"
+        <B>end</B></A>
+
+    <A NAME="f_collection_on"><A HREF="../elks/memory.html#f_collection_on">collection_on</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Enable garbage collection.</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_gc_run"
+        <B>end</B></A>
+
+    <A NAME="f_allocate_fast"><A HREF="../elks/memory.html#f_allocate_fast">allocate_fast</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Enter `</FONT>`speed'<FONT COLOR="red">' mode: will optimize speed of memory</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> allocation rather than memory usage.</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_mem_speed"
+        <B>end</B></A>
+
+    <A NAME="f_allocate_compact"><A HREF="../elks/memory.html#f_allocate_compact">allocate_compact</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Enter `</FONT>`memory'<FONT COLOR="red">' mode: will try to compact memory</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> before requesting more from the operating system.</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_mem_slow"
+        <B>end</B></A>
+
+    <A NAME="f_allocate_tiny"><A HREF="../elks/memory.html#f_allocate_tiny">allocate_tiny</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Enter `</FONT>`tiny'<FONT COLOR="red">' mode: will enter `</FONT>`memory'<FONT COLOR="red">' mode</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> after having freed as much memory as possible.</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_mem_tiny"
+        <B>end</B></A>
+
+    <A NAME="f_enable_time_accounting"><A HREF="../elks/memory.html#f_enable_time_accounting">enable_time_accounting</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Enable GC time accouting, accessible in </FONT><A HREF="../elks/memory.html#f_gc_statistics">gc_statistics</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/memory.html#f_gc_monitoring">gc_monitoring</A> (<B>True</B>)
+        <B>end</B></A>
+
+    <A NAME="f_disable_time_accounting"><A HREF="../elks/memory.html#f_disable_time_accounting">disable_time_accounting</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Disable GC time accounting (default).</FONT>
+        <B>do</B>
+            <A HREF="../elks/memory.html#f_gc_monitoring">gc_monitoring</A> (<B>False</B>)
+        <B>end</B></A>
+
+    <A NAME="f_set_memory_threshold"><A HREF="../elks/memory.html#f_set_memory_threshold">set_memory_threshold</A> (value: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set a new </FONT><A HREF="../elks/memory.html#f_memory_threshold">memory_threshold</A><FONT COLOR="red"> in bytes. Whenever the memory</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> allocated for Eiffel reaches this value, an automatic</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> collection is performed.</FONT>
+        <B>require</B>
+            positive_value: value &gt; 0
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_mem_tset"
+        <B>end</B></A>
+
+    <A NAME="f_set_collection_period"><A HREF="../elks/memory.html#f_set_collection_period">set_collection_period</A> (value: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/memory.html#f_collection_period">collection_period</A><FONT COLOR="red">. Every </FONT>`value'<FONT COLOR="red"> collection,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> the Garbage collector will perform a collection</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on the whole memory (full collection), otherwise</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> a simple partial collection is done.</FONT>
+        <B>require</B>
+            positive_value: value &gt;= 0
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_mem_pset"
+        <B>end</B></A>
+
+    <A NAME="f_set_coalesce_period"><A HREF="../elks/memory.html#f_set_coalesce_period">set_coalesce_period</A> (value: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/memory.html#f_coalesce_period">coalesce_period</A><FONT COLOR="red">. Every </FONT>`value'<FONT COLOR="red"> collection,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> the Garbage Collector will coalesce</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> the whole memory.</FONT>
+        <B>require</B>
+            positive_value: value &gt;= 0
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_set_coalesce_period"
+        <B>end</B></A>
+
+    <A NAME="f_set_max_mem"><A HREF="../elks/memory.html#f_set_max_mem">set_max_mem</A> (value: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set the maximum amount of memory the run-time can allocate.</FONT>
+        <B>require</B>
+            positive_value: value &gt; 0
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_set_max_mem"
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removal</FONT>
+
+    <A NAME="f_dispose"><A HREF="../elks/memory.html#f_dispose">dispose</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Action to be executed just before garbage collection</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> reclaims an object.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default version does nothing; redefine in descendants</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to perform specific dispose actions. Those actions</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> should only take care of freeing external resources;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> they should not perform remote calls on other objects</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> since these may also be dead and reclaimed.</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_free"><A HREF="../elks/memory.html#f_free">free</A> (object: <A HREF="../elks/any.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Free </FONT>`object'<FONT COLOR="red">, by-passing garbage collection.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Erratic behavior will result if the object is still</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> referenced.</FONT>
+        <B>external</B>
+            "built_in static"
+        <B>end</B></A>
+
+    <A NAME="f_full_coalesce"><A HREF="../elks/memory.html#f_full_coalesce">full_coalesce</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Coalesce the whole memory: merge adjacent free</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> blocks to reduce fragmentation. Useful, when</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> a lot of memory is allocated with garbage collector off.</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_mem_coalesc"
+        <B>end</B></A>
+
+    <A NAME="f_collect"><A HREF="../elks/memory.html#f_collect">collect</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Force a partial collection cycle if garbage</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> collection is enabled; do nothing otherwise.</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>end</B></A>
+
+    <A NAME="f_full_collect"><A HREF="../elks/memory.html#f_full_collect">full_collect</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Force a full collection cycle if garbage</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> collection is enabled; do nothing otherwise.</FONT>
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "plsc"
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_gc_monitoring"><A HREF="../elks/memory.html#f_gc_monitoring">gc_monitoring</A> (flag: <A HREF="../elks/boolean.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set up GC monitoring according to </FONT>`flag'
+        <B>external</B>
+            "C use %"eif_memory.h%""
+        <B>alias</B>
+            "eif_gc_mon"
+        <B>end</B></A>
+
+    <A NAME="f_find_referers"><A HREF="../elks/memory.html#f_find_referers">find_referers</A> (target: <A HREF="../elks/any.html">ANY</A>; result_type: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/any.html">ANY</A>]
+        <B>external</B>
+            "built_in static"
+        <B>end</B></A>
+
+    <A NAME="f_find_instance_of"><A HREF="../elks/memory.html#f_find_instance_of">find_instance_of</A> (dtype, result_type: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/any.html">ANY</A>]
+        <B>external</B>
+            "C signature (EIF_INTEGER, EIF_INTEGER): EIF_REFERENCE use %"eif_traverse.h%""
+        <B>end</B></A>
+
+    <A NAME="f_find_all_instances"><A HREF="../elks/memory.html#f_find_all_instances">find_all_instances</A> (result_type: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/any.html">ANY</A>]
+        <B>external</B>
+            "C signature (EIF_INTEGER): EIF_REFERENCE use %"eif_traverse.h%""
+        <B>end</B></A>
+
+    <A NAME="f_special_any_dynamic_type"><A HREF="../elks/memory.html#f_special_any_dynamic_type">Special_any_dynamic_type</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Dynamic type ID of an instance of </FONT>`SPECIAL [ANY]'
+        <B>once</B>
+            <B>Result</B> := ({<A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/any.html">ANY</A>]}).<A HREF="../elks/type.html#f_type_id">type_id</A>
+        <B>end</B></A>
+    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/memory.html">MEMORY</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="memory_chart.html">Chart</A></TD><TD><A HREF="memory_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="memory_flat.html">Flat</A></TD><TD><A HREF="memory_short.html">Contracts</A></TD><TD><A HREF="memory_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

@@ -1,0 +1,169 @@
+<HTML><HEAD>
+<meta name="description" content="Common ancestors to all STRING classes."/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>string_general Contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="string_general_chart.html">Chart</A></TD><TD><A HREF="string_general_links.html">Relations</A></TD><TD><A HREF="string_general.html">Text</A></TD><TD><A HREF="string_general_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="string_general_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Common ancestors to all STRING classes."
+    library: "Free implementation of ELKS library"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2013-01-30 12:23:58 -0800 (Wed, 30 Jan 2013) $"
+    revision: "$Revision: 92155 $"
+
+<B>deferred</B> <B>class</B> <B>interface</B>
+    <A HREF="../elks/string_general_short.html">STRING_GENERAL</A>
+
+<B>convert</B>
+    <A HREF="../elks/readable_string_general_short.html#f_as_string_32">as_string_32</A>: {<A HREF="../elks/readable_string_32_short.html">READABLE_STRING_32</A>,
+        <A HREF="../elks/string_32_short.html">STRING_32</A>},
+    <A HREF="../elks/readable_string_general_short.html#f_to_cil">to_cil</A>: {<A HREF="../elks/system_string_short.html">SYSTEM_STRING</A>}
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Settings</FONT>
+
+    <A NAME="f_put_code"><A HREF="../elks/string_general_short.html#f_put_code">put_code</A> (v: <B>like</B> <A HREF="../elks/readable_string_general_short.html#f_code">code</A>; i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Put code </FONT>`v'<FONT COLOR="red"> at position </FONT>`i'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            valid_code: <A HREF="../elks/readable_string_general_short.html#f_valid_code">valid_code</A> (v)
+            valid_index: <A HREF="../elks/readable_string_general_short.html#f_valid_index">valid_index</A> (i)
+        <B>ensure</B>
+            inserted: <A HREF="../elks/readable_string_general_short.html#f_code">code</A> (i) = v
+            stable_count: <A HREF="../elks/readable_string_general_short.html#f_count">count</A> = <B>old</B> <A HREF="../elks/readable_string_general_short.html#f_count">count</A>
+            stable_before_i: <A HREF="../elks/readable_string_general_short.html#f_elks_checking">Elks_checking</A> <B>implies</B> <A HREF="../elks/readable_string_general_short.html#f_substring">substring</A> (1, i - 1) ~ (<B>old</B> <A HREF="../elks/readable_string_general_short.html#f_substring">substring</A> (1, i - 1))
+            stable_after_i: <A HREF="../elks/readable_string_general_short.html#f_elks_checking">Elks_checking</A> <B>implies</B> <A HREF="../elks/readable_string_general_short.html#f_substring">substring</A> (i + 1, <A HREF="../elks/readable_string_general_short.html#f_count">count</A>) ~ (<B>old</B> <A HREF="../elks/readable_string_general_short.html#f_substring">substring</A> (i + 1, <A HREF="../elks/readable_string_general_short.html#f_count">count</A>))
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_append_code"><A HREF="../elks/string_general_short.html#f_append_code">append_code</A> (c: <B>like</B> <A HREF="../elks/readable_string_general_short.html#f_code">code</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Append </FONT>`c'<FONT COLOR="red"> at end.</FONT>
+        <B>require</B>
+            valid_code: <A HREF="../elks/readable_string_general_short.html#f_valid_code">valid_code</A> (c)
+        <B>ensure then</B>
+            item_inserted: <A HREF="../elks/readable_string_general_short.html#f_code">code</A> (<A HREF="../elks/readable_string_general_short.html#f_count">count</A>) = c
+            new_count: <A HREF="../elks/readable_string_general_short.html#f_count">count</A> = <B>old</B> <A HREF="../elks/readable_string_general_short.html#f_count">count</A> + 1
+            stable_before: <A HREF="../elks/readable_string_general_short.html#f_elks_checking">Elks_checking</A> <B>implies</B> <A HREF="../elks/readable_string_general_short.html#f_substring">substring</A> (1, <A HREF="../elks/readable_string_general_short.html#f_count">count</A> - 1) ~ (<B>old</B> <A HREF="../elks/any_short.html#f_twin">twin</A>)
+</A>
+    <A NAME="f_append"><A HREF="../elks/string_general_short.html#f_append">append</A> (s: <A HREF="../elks/readable_string_general_short.html">READABLE_STRING_GENERAL</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Append characters of </FONT>`s'<FONT COLOR="red"> at end.</FONT>
+        <B>require</B>
+            argument_not_void: s /= <B>Void</B>
+            compatible_strings: <A HREF="../elks/readable_string_general_short.html#f_is_string_8">is_string_8</A> <B>implies</B> s.<A HREF="../elks/readable_string_general_short.html#f_is_valid_as_string_8">is_valid_as_string_8</A>
+        <B>ensure</B>
+            new_count: <A HREF="../elks/readable_string_general_short.html#f_count">count</A> = <B>old</B> <A HREF="../elks/readable_string_general_short.html#f_count">count</A> + <B>old</B> s.<A HREF="../elks/readable_string_general_short.html#f_count">count</A>
+            appended: <A HREF="../elks/readable_string_general_short.html#f_elks_checking">Elks_checking</A> <B>implies</B> <A HREF="../elks/readable_string_general_short.html#f_same_string">same_string</A> (<B>old</B> (<A HREF="../elks/readable_string_general_short.html#f_to_string_32">to_string_32</A> + s))
+</A>
+    <A NAME="f_append_substring"><A HREF="../elks/string_general_short.html#f_append_substring">append_substring</A> (s: <A HREF="../elks/readable_string_general_short.html">READABLE_STRING_GENERAL</A>; start_index, end_index: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Append characters of </FONT>`s.substring (start_index, end_index)'<FONT COLOR="red"> at end.</FONT>
+        <B>require</B>
+            argument_not_void: s /= <B>Void</B>
+            compatible_strings: <A HREF="../elks/readable_string_general_short.html#f_is_string_8">is_string_8</A> <B>implies</B> s.<A HREF="../elks/readable_string_general_short.html#f_is_valid_as_string_8">is_valid_as_string_8</A>
+            start_index_valid: start_index &gt;= 1
+            end_index_valid: end_index &lt;= s.<A HREF="../elks/readable_string_general_short.html#f_count">count</A>
+            valid_bounds: start_index &lt;= end_index + 1
+        <B>ensure</B>
+            new_count: <A HREF="../elks/readable_string_general_short.html#f_count">count</A> = <B>old</B> <A HREF="../elks/readable_string_general_short.html#f_count">count</A> + end_index - start_index + 1
+            appended: <A HREF="../elks/readable_string_general_short.html#f_elks_checking">Elks_checking</A> <B>implies</B> <A HREF="../elks/readable_string_general_short.html#f_same_string">same_string</A> (<B>old</B> (<A HREF="../elks/readable_string_general_short.html#f_to_string_32">to_string_32</A> + s.<A HREF="../elks/readable_string_general_short.html#f_substring">substring</A> (start_index, end_index)))
+</A>
+    <A NAME="f_prepend"><A HREF="../elks/string_general_short.html#f_prepend">prepend</A> (s: <A HREF="../elks/readable_string_general_short.html">READABLE_STRING_GENERAL</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Prepend characters of </FONT>`s'<FONT COLOR="red"> at front.</FONT>
+        <B>require</B>
+            argument_not_void: s /= <B>Void</B>
+            compatible_strings: <A HREF="../elks/readable_string_general_short.html#f_is_string_8">is_string_8</A> <B>implies</B> s.<A HREF="../elks/readable_string_general_short.html#f_is_valid_as_string_8">is_valid_as_string_8</A>
+        <B>ensure</B>
+            new_count: <A HREF="../elks/readable_string_general_short.html#f_count">count</A> = <B>old</B> (<A HREF="../elks/readable_string_general_short.html#f_count">count</A> + s.<A HREF="../elks/readable_string_general_short.html#f_count">count</A>)
+            inserted: <A HREF="../elks/readable_string_general_short.html#f_elks_checking">Elks_checking</A> <B>implies</B> <A HREF="../elks/readable_string_general_short.html#f_same_string">same_string</A> (<B>old</B> (s.<A HREF="../elks/readable_string_general_short.html#f_to_string_32">to_string_32</A> + <B>Current</B>))
+</A>
+    <A NAME="f_prepend_substring"><A HREF="../elks/string_general_short.html#f_prepend_substring">prepend_substring</A> (s: <A HREF="../elks/readable_string_general_short.html">READABLE_STRING_GENERAL</A>; start_index, end_index: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Prepend characters of </FONT>`s.substring (start_index, end_index)'<FONT COLOR="red"> at front.</FONT>
+        <B>require</B>
+            argument_not_void: s /= <B>Void</B>
+            compatible_strings: <A HREF="../elks/readable_string_general_short.html#f_is_string_8">is_string_8</A> <B>implies</B> s.<A HREF="../elks/readable_string_general_short.html#f_is_valid_as_string_8">is_valid_as_string_8</A>
+            start_index_valid: start_index &gt;= 1
+            end_index_valid: end_index &lt;= s.<A HREF="../elks/readable_string_general_short.html#f_count">count</A>
+            valid_bounds: start_index &lt;= end_index + 1
+        <B>ensure</B>
+            new_count: <A HREF="../elks/readable_string_general_short.html#f_count">count</A> = <B>old</B> <A HREF="../elks/readable_string_general_short.html#f_count">count</A> + end_index - start_index + 1
+            inserted: <A HREF="../elks/readable_string_general_short.html#f_elks_checking">Elks_checking</A> <B>implies</B> <A HREF="../elks/readable_string_general_short.html#f_same_string">same_string</A> (<B>old</B> (s.<A HREF="../elks/readable_string_general_short.html#f_substring">substring</A> (start_index, end_index).<A HREF="../elks/readable_string_general_short.html#f_to_string_32">to_string_32</A> + <B>Current</B>))
+</A>
+    <A NAME="f_keep_head"><A HREF="../elks/string_general_short.html#f_keep_head">keep_head</A> (n: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove all characters except for the first </FONT>`n'<FONT COLOR="red">;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> do nothing if </FONT>`n'<FONT COLOR="red"> &gt;= </FONT><A HREF="../elks/readable_string_general_short.html#f_count">count</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            non_negative_argument: n &gt;= 0
+        <B>ensure</B>
+            new_count: <A HREF="../elks/readable_string_general_short.html#f_count">count</A> = n.<A HREF="../elks/comparable_short.html#f_min">min</A> (<B>old</B> <A HREF="../elks/readable_string_general_short.html#f_count">count</A>)
+            kept: <A HREF="../elks/readable_string_general_short.html#f_elks_checking">Elks_checking</A> <B>implies</B> <B>Current</B> ~ (<B>old</B> <A HREF="../elks/readable_string_general_short.html#f_substring">substring</A> (1, n.<A HREF="../elks/comparable_short.html#f_min">min</A> (<A HREF="../elks/readable_string_general_short.html#f_count">count</A>)))
+</A>
+    <A NAME="f_keep_tail"><A HREF="../elks/string_general_short.html#f_keep_tail">keep_tail</A> (n: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove all characters except for the last </FONT>`n'<FONT COLOR="red">;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> do nothing if </FONT>`n'<FONT COLOR="red"> &gt;= </FONT><A HREF="../elks/readable_string_general_short.html#f_count">count</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            non_negative_argument: n &gt;= 0
+        <B>ensure</B>
+            new_count: <A HREF="../elks/readable_string_general_short.html#f_count">count</A> = n.<A HREF="../elks/comparable_short.html#f_min">min</A> (<B>old</B> <A HREF="../elks/readable_string_general_short.html#f_count">count</A>)
+            kept: <A HREF="../elks/readable_string_general_short.html#f_elks_checking">Elks_checking</A> <B>implies</B> <B>Current</B> ~ (<B>old</B> <A HREF="../elks/readable_string_general_short.html#f_substring">substring</A> (<A HREF="../elks/readable_string_general_short.html#f_count">count</A> - n.<A HREF="../elks/comparable_short.html#f_min">min</A> (<A HREF="../elks/readable_string_general_short.html#f_count">count</A>) + 1, <A HREF="../elks/readable_string_general_short.html#f_count">count</A>))
+</A>
+    <A NAME="f_left_adjust"><A HREF="../elks/string_general_short.html#f_left_adjust">left_adjust</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove leading whitespace.</FONT>
+        <B>ensure</B>
+            valid_count: <A HREF="../elks/readable_string_general_short.html#f_count">count</A> &lt;= <B>old</B> <A HREF="../elks/readable_string_general_short.html#f_count">count</A>
+            new_count: <B>not</B> <A HREF="../elks/readable_string_general_short.html#f_is_empty">is_empty</A> <B>implies</B> <B>not</B> <A HREF="../elks/readable_string_general_short.html#f_item">item</A> (1).<A HREF="../elks/character_32_ref_short.html#f_is_space">is_space</A>
+            kept: <A HREF="../elks/readable_string_general_short.html#f_elks_checking">Elks_checking</A> <B>implies</B> <B>Current</B> ~ ((<B>old</B> <A HREF="../elks/any_short.html#f_twin">twin</A>).<A HREF="../elks/readable_string_general_short.html#f_substring">substring</A> (<B>old</B> <A HREF="../elks/readable_string_general_short.html#f_count">count</A> - <A HREF="../elks/readable_string_general_short.html#f_count">count</A> + 1, <B>old</B> <A HREF="../elks/readable_string_general_short.html#f_count">count</A>))
+</A>
+    <A NAME="f_right_adjust"><A HREF="../elks/string_general_short.html#f_right_adjust">right_adjust</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove trailing whitespace.</FONT>
+        <B>ensure</B>
+            valid_count: <A HREF="../elks/readable_string_general_short.html#f_count">count</A> &lt;= <B>old</B> <A HREF="../elks/readable_string_general_short.html#f_count">count</A>
+            new_count: <B>not</B> <A HREF="../elks/readable_string_general_short.html#f_is_empty">is_empty</A> <B>implies</B> <B>not</B> <A HREF="../elks/readable_string_general_short.html#f_item">item</A> (<A HREF="../elks/readable_string_general_short.html#f_count">count</A>).<A HREF="../elks/character_32_ref_short.html#f_is_space">is_space</A>
+            kept: <A HREF="../elks/readable_string_general_short.html#f_elks_checking">Elks_checking</A> <B>implies</B> <B>Current</B> ~ ((<B>old</B> <A HREF="../elks/any_short.html#f_twin">twin</A>).<A HREF="../elks/readable_string_general_short.html#f_substring">substring</A> (1, <A HREF="../elks/readable_string_general_short.html#f_count">count</A>))
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removal</FONT>
+
+    <A NAME="f_remove"><A HREF="../elks/string_general_short.html#f_remove">remove</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove </FONT>`i'<FONT COLOR="red">-th character.</FONT>
+        <B>require</B>
+            valid_index: <A HREF="../elks/readable_string_general_short.html#f_valid_index">valid_index</A> (i)
+        <B>ensure</B>
+            new_count: <A HREF="../elks/readable_string_general_short.html#f_count">count</A> = <B>old</B> <A HREF="../elks/readable_string_general_short.html#f_count">count</A> - 1
+            removed: <A HREF="../elks/readable_string_general_short.html#f_elks_checking">Elks_checking</A> <B>implies</B> <A HREF="../elks/readable_string_general_short.html#f_to_string_32">to_string_32</A> ~ (<B>old</B> <A HREF="../elks/readable_string_general_short.html#f_substring">substring</A> (1, i - 1).<A HREF="../elks/readable_string_general_short.html#f_to_string_32">to_string_32</A> + <B>old</B> <A HREF="../elks/readable_string_general_short.html#f_substring">substring</A> (i + 1, <A HREF="../elks/readable_string_general_short.html#f_count">count</A>).<A HREF="../elks/readable_string_general_short.html#f_to_string_32">to_string_32</A>)
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Resizing</FONT>
+
+    <A NAME="f_resize"><A HREF="../elks/string_general_short.html#f_resize">resize</A> (newsize: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Rearrange string so that it can accommodate</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> at least </FONT>`newsize'<FONT COLOR="red"> characters.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do not lose any previously entered character.</FONT>
+        <B>require</B>
+            new_size_large_enough: newsize &gt;= <A HREF="../elks/readable_string_general_short.html#f_count">count</A>
+        <B>ensure</B>
+            same_count: <A HREF="../elks/readable_string_general_short.html#f_count">count</A> = <B>old</B> <A HREF="../elks/readable_string_general_short.html#f_count">count</A>
+            capacity_large_enough: <A HREF="../elks/readable_string_general_short.html#f_capacity">capacity</A> &gt;= newsize
+            same_content: <A HREF="../elks/readable_string_general_short.html#f_elks_checking">Elks_checking</A> <B>implies</B> <A HREF="../elks/readable_string_general_short.html#f_same_string">same_string</A> (<B>old</B> <A HREF="../elks/any_short.html#f_twin">twin</A>)
+</A>    
+<B>invariant</B>
+    mutable: <B>not</B> <A HREF="../elks/readable_string_general_short.html#f_is_immutable">is_immutable</A>
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/string_general_short.html">STRING_GENERAL</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="string_general_chart.html">Chart</A></TD><TD><A HREF="string_general_links.html">Relations</A></TD><TD><A HREF="string_general.html">Text</A></TD><TD><A HREF="string_general_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="string_general_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

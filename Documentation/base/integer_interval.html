@@ -1,0 +1,514 @@
+<HTML><HEAD>
+<meta name="description" content="Contiguous integer intervals"/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>integer_interval Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="integer_interval_chart.html">Chart</A></TD><TD><A HREF="integer_interval_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="integer_interval_flat.html">Flat</A></TD><TD><A HREF="integer_interval_short.html">Contracts</A></TD><TD><A HREF="integer_interval_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Contiguous integer intervals"
+    library: "Free implementation of ELKS library"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2013-06-13 23:54:19 -0700 (Thu, 13 Jun 2013) $"
+    revision: "$Revision: 92694 $"
+
+<B>class</B> 
+    <A HREF="../elks/integer_interval.html">INTEGER_INTERVAL</A>
+
+<B>inherit</B>
+    <A HREF="../elks/resizable.html">RESIZABLE</A> [<A HREF="../elks/integer_32.html">INTEGER_32</A>]
+        <B>undefine</B>
+            <A HREF="../elks/set.html#f_changeable_comparison_criterion">changeable_comparison_criterion</A>
+        <B>redefine</B>
+            <A HREF="../elks/integer_interval.html#f_copy">copy</A>,
+            <A HREF="../elks/integer_interval.html#f_is_equal">is_equal</A>
+        <B>end</B>
+
+    <A HREF="../elks/indexable.html">INDEXABLE</A> [<A HREF="../elks/integer_32.html">INTEGER_32</A>, <A HREF="../elks/integer_32.html">INTEGER_32</A>]
+        <B>rename</B>
+            <A HREF="../elks/table.html#f_item">item</A> <B>as</B> <A HREF="../elks/integer_interval.html#f_item">item</A> <B>alias</B> "[]",
+            <A HREF="../elks/table.html#f_put">put</A> <B>as</B> <A HREF="../elks/integer_interval.html#f_indexable_put">indexable_put</A>
+        <B>undefine</B>
+            <A HREF="../elks/set.html#f_changeable_comparison_criterion">changeable_comparison_criterion</A>
+        <B>redefine</B>
+            <A HREF="../elks/integer_interval.html#f_copy">copy</A>,
+            <A HREF="../elks/integer_interval.html#f_is_equal">is_equal</A>
+        <B>select</B>
+            <A HREF="../elks/table.html#f_bag_put">bag_put</A>
+        <B>end</B>
+
+    <A HREF="../elks/set.html">SET</A> [<A HREF="../elks/integer_32.html">INTEGER_32</A>]
+        <B>redefine</B>
+            <A HREF="../elks/integer_interval.html#f_copy">copy</A>,
+            <A HREF="../elks/integer_interval.html#f_is_equal">is_equal</A>
+        <B>end</B>
+
+<B>create</B> 
+    <A HREF="../elks/integer_interval.html#f_make">make</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../elks/integer_interval.html#f_make">make</A> (min_index, max_index: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set up interval to have bounds </FONT>`min_index'<FONT COLOR="red"> and</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`max_index'<FONT COLOR="red"> (empty if </FONT>`min_index'<FONT COLOR="red"> &gt; </FONT>`max_index'<FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <A HREF="../elks/integer_interval.html#f_lower_defined">lower_defined</A> := <B>True</B>
+            <A HREF="../elks/integer_interval.html#f_upper_defined">upper_defined</A> := <B>True</B>
+            <B>if</B> min_index &lt;= max_index <B>then</B>
+                <A HREF="../elks/integer_interval.html#f_lower_internal">lower_internal</A> := min_index
+                <A HREF="../elks/integer_interval.html#f_upper_internal">upper_internal</A> := max_index
+            <B>else</B>
+                <A HREF="../elks/integer_interval.html#f_lower_internal">lower_internal</A> := 1
+                <A HREF="../elks/integer_interval.html#f_upper_internal">upper_internal</A> := 0
+            <B>end</B>
+        <B>ensure</B>
+            lower_defined: <A HREF="../elks/integer_interval.html#f_lower_defined">lower_defined</A>
+            upper_defined: <A HREF="../elks/integer_interval.html#f_upper_defined">upper_defined</A>
+            set_if_non_empty: (min_index &lt;= max_index) <B>implies</B> ((<A HREF="../elks/integer_interval.html#f_lower">lower</A> = min_index) <B>and</B> (<A HREF="../elks/integer_interval.html#f_upper">upper</A> = max_index))
+            empty_if_not_in_order: (min_index &gt; max_index) <B>implies</B> <A HREF="../elks/finite.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_adapt"><A HREF="../elks/integer_interval.html#f_adapt">adapt</A> (other: <A HREF="../elks/integer_interval.html">INTEGER_INTERVAL</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Reset to be the same interval as </FONT>`other'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            other_not_void: other /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../elks/integer_interval.html#f_lower_internal">lower_internal</A> := other.<A HREF="../elks/integer_interval.html#f_lower_internal">lower_internal</A>
+            <A HREF="../elks/integer_interval.html#f_upper_internal">upper_internal</A> := other.<A HREF="../elks/integer_interval.html#f_upper_internal">upper_internal</A>
+            <A HREF="../elks/integer_interval.html#f_lower_defined">lower_defined</A> := other.<A HREF="../elks/integer_interval.html#f_lower_defined">lower_defined</A>
+            <A HREF="../elks/integer_interval.html#f_upper_defined">upper_defined</A> := other.<A HREF="../elks/integer_interval.html#f_upper_defined">upper_defined</A>
+        <B>ensure</B>
+            same_lower: <A HREF="../elks/integer_interval.html#f_lower">lower</A> = other.<A HREF="../elks/integer_interval.html#f_lower">lower</A>
+            same_upper: <A HREF="../elks/integer_interval.html#f_upper">upper</A> = other.<A HREF="../elks/integer_interval.html#f_upper">upper</A>
+            same_lower_defined: <A HREF="../elks/integer_interval.html#f_lower_defined">lower_defined</A> = other.<A HREF="../elks/integer_interval.html#f_lower_defined">lower_defined</A>
+            same_upper_defined: <A HREF="../elks/integer_interval.html#f_upper_defined">upper_defined</A> = other.<A HREF="../elks/integer_interval.html#f_upper_defined">upper_defined</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_lower_defined"><A HREF="../elks/integer_interval.html#f_lower_defined">lower_defined</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there a lower bound?</FONT>
+
+    <A NAME="f_lower"><A HREF="../elks/integer_interval.html#f_lower">lower</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Smallest value in interval</FONT>
+        <B>require</B>
+            lower_defined: <A HREF="../elks/integer_interval.html#f_lower_defined">lower_defined</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_interval.html#f_lower_internal">lower_internal</A>
+        <B>end</B></A>
+
+    <A NAME="f_upper_defined"><A HREF="../elks/integer_interval.html#f_upper_defined">upper_defined</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there an upper bound?</FONT>
+
+    <A NAME="f_upper"><A HREF="../elks/integer_interval.html#f_upper">upper</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Largest value in interval</FONT>
+        <B>require</B>
+            upper_defined: <A HREF="../elks/integer_interval.html#f_upper_defined">upper_defined</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_interval.html#f_upper_internal">upper_internal</A>
+        <B>end</B></A>
+
+    <A NAME="f_item"><A HREF="../elks/integer_interval.html#f_item">item</A> <B>alias</B> "[]" (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Entry at index </FONT>`i'<FONT COLOR="red">, if in index interval</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/integer_interval.html">INTEGER_INTERVAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/integer_interval.html#f_at">at</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := i
+        <B>end</B></A>
+
+    <A NAME="f_at"><A HREF="../elks/integer_interval.html#f_at">at</A> <B>alias</B> "@" (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Entry at index </FONT>`i'<FONT COLOR="red">, if in index interval</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/integer_interval.html">INTEGER_INTERVAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/integer_interval.html#f_item">item</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := i
+        <B>end</B></A>
+
+    <A NAME="f_has"><A HREF="../elks/integer_interval.html#f_has">has</A> (v: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`v'<FONT COLOR="red"> appear in interval?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/integer_interval.html">INTEGER_INTERVAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/integer_interval.html#f_valid_index">valid_index</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../elks/integer_interval.html#f_upper_defined">upper_defined</A> <B>implies</B> v &lt;= <A HREF="../elks/integer_interval.html#f_upper">upper</A>) <B>and</B> (<A HREF="../elks/integer_interval.html#f_lower_defined">lower_defined</A> <B>implies</B> v &gt;= <A HREF="../elks/integer_interval.html#f_lower">lower</A>)
+        <B>ensure then</B>
+            iff_within_bounds: <B>Result</B> = ((<A HREF="../elks/integer_interval.html#f_upper_defined">upper_defined</A> <B>implies</B> v &lt;= <A HREF="../elks/integer_interval.html#f_upper">upper</A>) <B>and</B> (<A HREF="../elks/integer_interval.html#f_lower_defined">lower_defined</A> <B>implies</B> v &gt;= <A HREF="../elks/integer_interval.html#f_lower">lower</A>))
+        <B>end</B></A>
+
+    <A NAME="f_valid_index"><A HREF="../elks/integer_interval.html#f_valid_index">valid_index</A> (v: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`v'<FONT COLOR="red"> appear in interval?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/integer_interval.html">INTEGER_INTERVAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/integer_interval.html#f_has">has</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../elks/integer_interval.html#f_upper_defined">upper_defined</A> <B>implies</B> v &lt;= <A HREF="../elks/integer_interval.html#f_upper">upper</A>) <B>and</B> (<A HREF="../elks/integer_interval.html#f_lower_defined">lower_defined</A> <B>implies</B> v &gt;= <A HREF="../elks/integer_interval.html#f_lower">lower</A>)
+        <B>ensure then</B>
+            iff_within_bounds: <B>Result</B> = ((<A HREF="../elks/integer_interval.html#f_upper_defined">upper_defined</A> <B>implies</B> v &lt;= <A HREF="../elks/integer_interval.html#f_upper">upper</A>) <B>and</B> (<A HREF="../elks/integer_interval.html#f_lower_defined">lower_defined</A> <B>implies</B> v &gt;= <A HREF="../elks/integer_interval.html#f_lower">lower</A>))
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_occurrences"><A HREF="../elks/integer_interval.html#f_occurrences">occurrences</A> (v: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of times </FONT>`v'<FONT COLOR="red"> appears in structure</FONT>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/integer_interval.html#f_has">has</A> (v) <B>then</B>
+                <B>Result</B> := 1
+            <B>end</B>
+        <B>ensure then</B>
+            one_iff_in_bounds: <B>Result</B> = 1 <B>implies</B> <A HREF="../elks/integer_interval.html#f_has">has</A> (v)
+            zero_otherwise: <B>Result</B> /= 1 <B>implies</B> <B>Result</B> = 0
+        <B>end</B></A>
+
+    <A NAME="f_capacity"><A HREF="../elks/integer_interval.html#f_capacity">capacity</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Maximum number of items in interval</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (here the same thing as </FONT><A HREF="../elks/integer_interval.html#f_count">count</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>check</B>
+                terminal: <A HREF="../elks/integer_interval.html#f_upper_defined">upper_defined</A> <B>and</B> <A HREF="../elks/integer_interval.html#f_lower_defined">lower_defined</A>
+            <B>end</B>
+            <B>Result</B> := <A HREF="../elks/integer_interval.html#f_count">count</A>
+        <B>end</B></A>
+
+    <A NAME="f_count"><A HREF="../elks/integer_interval.html#f_count">count</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of items in interval</FONT>
+        <B>do</B>
+            <B>check</B>
+                finite: <A HREF="../elks/integer_interval.html#f_upper_defined">upper_defined</A> <B>and</B> <A HREF="../elks/integer_interval.html#f_lower_defined">lower_defined</A>
+            <B>end</B>
+            <B>if</B> <A HREF="../elks/integer_interval.html#f_upper_defined">upper_defined</A> <B>and</B> <A HREF="../elks/integer_interval.html#f_lower_defined">lower_defined</A> <B>then</B>
+                <B>Result</B> := <A HREF="../elks/integer_interval.html#f_upper">upper</A> - <A HREF="../elks/integer_interval.html#f_lower">lower</A> + 1
+            <B>end</B>
+        <B>ensure then</B>
+            definition: <B>Result</B> = <A HREF="../elks/integer_interval.html#f_upper">upper</A> - <A HREF="../elks/integer_interval.html#f_lower">lower</A> + 1
+        <B>end</B></A>
+
+    <A NAME="f_index_set"><A HREF="../elks/integer_interval.html#f_index_set">index_set</A>: <A HREF="../elks/integer_interval.html">INTEGER_INTERVAL</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Range of acceptable indexes</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (here: the interval itself)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>Current</B>
+        <B>ensure then</B>
+            index_set_is_range: <B>Result</B> ~ <B>Current</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_is_equal"><A HREF="../elks/integer_interval.html#f_is_equal">is_equal</A> (other: <B>like</B> <B>Current</B>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is array made of the same items as </FONT>`other'<FONT COLOR="red">?</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../elks/integer_interval.html#f_lower_defined">lower_defined</A> <B>implies</B> (other.<A HREF="../elks/integer_interval.html#f_lower_defined">lower_defined</A> <B>and</B> <A HREF="../elks/integer_interval.html#f_lower">lower</A> = other.<A HREF="../elks/integer_interval.html#f_lower">lower</A>)) <B>and</B> (<A HREF="../elks/integer_interval.html#f_upper_defined">upper_defined</A> <B>implies</B> (other.<A HREF="../elks/integer_interval.html#f_upper_defined">upper_defined</A> <B>and</B> <A HREF="../elks/integer_interval.html#f_upper">upper</A> = other.<A HREF="../elks/integer_interval.html#f_upper">upper</A>))
+        <B>ensure then</B>
+            iff_same_bounds: <B>Result</B> = ((<A HREF="../elks/integer_interval.html#f_lower_defined">lower_defined</A> <B>implies</B> (other.<A HREF="../elks/integer_interval.html#f_lower_defined">lower_defined</A> <B>and</B> <A HREF="../elks/integer_interval.html#f_lower">lower</A> = other.<A HREF="../elks/integer_interval.html#f_lower">lower</A>)) <B>and</B> (<A HREF="../elks/integer_interval.html#f_upper_defined">upper_defined</A> <B>implies</B> (other.<A HREF="../elks/integer_interval.html#f_upper_defined">upper_defined</A> <B>and</B> <A HREF="../elks/integer_interval.html#f_upper">upper</A> = other.<A HREF="../elks/integer_interval.html#f_upper">upper</A>)))
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_all_cleared"><A HREF="../elks/integer_interval.html#f_all_cleared">all_cleared</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are all items set to default values?</FONT>
+        <B>do</B>
+            <B>Result</B> := ((<A HREF="../elks/integer_interval.html#f_lower">lower</A> = 0) <B>and</B> (<A HREF="../elks/integer_interval.html#f_upper">upper</A> = 0))
+        <B>ensure then</B>
+            iff_at_zero: <B>Result</B> = ((<A HREF="../elks/integer_interval.html#f_lower">lower</A> = 0) <B>and</B> (<A HREF="../elks/integer_interval.html#f_upper">upper</A> = 0))
+        <B>end</B></A>
+
+    <A NAME="f_extendible"><A HREF="../elks/integer_interval.html#f_extendible">extendible</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May new items be added?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Answer: yes</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>True</B>
+        <B>end</B></A>
+
+    <A NAME="f_prunable"><A HREF="../elks/integer_interval.html#f_prunable">prunable</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May individual items be removed?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Answer: no</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>False</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_extend"><A HREF="../elks/integer_interval.html#f_extend">extend</A> (v: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make sure that interval goes all the way</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to </FONT>`v'<FONT COLOR="red"> (up or down).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/integer_interval.html">INTEGER_INTERVAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/integer_interval.html#f_put">put</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>if</B> v &lt; <A HREF="../elks/integer_interval.html#f_lower">lower</A> <B>then</B>
+                <A HREF="../elks/integer_interval.html#f_lower_internal">lower_internal</A> := v
+            <B>elseif</B> v &gt; <A HREF="../elks/integer_interval.html#f_upper">upper</A> <B>then</B>
+                <A HREF="../elks/integer_interval.html#f_upper_internal">upper_internal</A> := v
+            <B>end</B>
+        <B>ensure then</B>
+            extended_down: <A HREF="../elks/integer_interval.html#f_lower">lower</A> = (<B>old</B> <A HREF="../elks/integer_interval.html#f_lower">lower</A>).<A HREF="../elks/comparable.html#f_min">min</A> (v)
+            extended_up: <A HREF="../elks/integer_interval.html#f_upper">upper</A> = (<B>old</B> <A HREF="../elks/integer_interval.html#f_upper">upper</A>).<A HREF="../elks/comparable.html#f_max">max</A> (v)
+        <B>end</B></A>
+
+    <A NAME="f_put"><A HREF="../elks/integer_interval.html#f_put">put</A> (v: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make sure that interval goes all the way</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to </FONT>`v'<FONT COLOR="red"> (up or down).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/integer_interval.html">INTEGER_INTERVAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/integer_interval.html#f_extend">extend</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>if</B> v &lt; <A HREF="../elks/integer_interval.html#f_lower">lower</A> <B>then</B>
+                <A HREF="../elks/integer_interval.html#f_lower_internal">lower_internal</A> := v
+            <B>elseif</B> v &gt; <A HREF="../elks/integer_interval.html#f_upper">upper</A> <B>then</B>
+                <A HREF="../elks/integer_interval.html#f_upper_internal">upper_internal</A> := v
+            <B>end</B>
+        <B>ensure then</B>
+            extended_down: <A HREF="../elks/integer_interval.html#f_lower">lower</A> = (<B>old</B> <A HREF="../elks/integer_interval.html#f_lower">lower</A>).<A HREF="../elks/comparable.html#f_min">min</A> (v)
+            extended_up: <A HREF="../elks/integer_interval.html#f_upper">upper</A> = (<B>old</B> <A HREF="../elks/integer_interval.html#f_upper">upper</A>).<A HREF="../elks/comparable.html#f_max">max</A> (v)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Resizing</FONT>
+
+    <A NAME="f_resize"><A HREF="../elks/integer_interval.html#f_resize">resize</A> (min_index, max_index: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Rearrange interval to go from at most</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`min_index'<FONT COLOR="red"> to at least </FONT>`max_index'<FONT COLOR="red">,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> encompassing previous bounds.</FONT>
+        <B>do</B>
+            <A HREF="../elks/integer_interval.html#f_lower_internal">lower_internal</A> := min_index.<A HREF="../elks/comparable.html#f_min">min</A> (<A HREF="../elks/integer_interval.html#f_lower">lower</A>)
+            <A HREF="../elks/integer_interval.html#f_upper_internal">upper_internal</A> := max_index.<A HREF="../elks/comparable.html#f_max">max</A> (<A HREF="../elks/integer_interval.html#f_upper">upper</A>)
+        <B>end</B></A>
+
+    <A NAME="f_resize_exactly"><A HREF="../elks/integer_interval.html#f_resize_exactly">resize_exactly</A> (min_index, max_index: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Rearrange interval to go from</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`min_index'<FONT COLOR="red"> to </FONT>`max_index'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/integer_interval.html#f_lower_internal">lower_internal</A> := min_index
+            <A HREF="../elks/integer_interval.html#f_upper_internal">upper_internal</A> := max_index
+        <B>end</B></A>
+
+    <A NAME="f_grow"><A HREF="../elks/integer_interval.html#f_grow">grow</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Ensure that capacity is at least </FONT>`i'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/integer_interval.html#f_capacity">capacity</A> &lt; i <B>then</B>
+                <A HREF="../elks/integer_interval.html#f_resize">resize</A> (<A HREF="../elks/integer_interval.html#f_lower">lower</A>, <A HREF="../elks/integer_interval.html#f_lower">lower</A> + i - 1)
+            <B>end</B>
+        <B>ensure then</B>
+            no_loss_from_bottom: <A HREF="../elks/integer_interval.html#f_lower">lower</A> &lt;= <B>old</B> <A HREF="../elks/integer_interval.html#f_lower">lower</A>
+            no_loss_from_top: <A HREF="../elks/integer_interval.html#f_upper">upper</A> &gt;= <B>old</B> <A HREF="../elks/integer_interval.html#f_upper">upper</A>
+        <B>end</B></A>
+
+    <A NAME="f_trim"><A HREF="../elks/integer_interval.html#f_trim">trim</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Decrease </FONT><A HREF="../elks/integer_interval.html#f_capacity">capacity</A><FONT COLOR="red"> to the minimum value.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Apply to reduce allocated storage.</FONT>
+        <B>do</B>
+            <B>check</B>
+                minimal_capacity: <A HREF="../elks/integer_interval.html#f_capacity">capacity</A> = <A HREF="../elks/integer_interval.html#f_count">count</A>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removal</FONT>
+
+    <A NAME="f_wipe_out"><A HREF="../elks/integer_interval.html#f_wipe_out">wipe_out</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove all items.</FONT>
+        <B>do</B>
+            <A HREF="../elks/integer_interval.html#f_lower_defined">lower_defined</A> := <B>True</B>
+            <A HREF="../elks/integer_interval.html#f_upper_defined">upper_defined</A> := <B>True</B>
+            <A HREF="../elks/integer_interval.html#f_lower_internal">lower_internal</A> := 1
+            <A HREF="../elks/integer_interval.html#f_upper_internal">upper_internal</A> := 0
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Conversion</FONT>
+
+    <A NAME="f_as_array"><A HREF="../elks/integer_interval.html#f_as_array">as_array</A>: <A HREF="../elks/array.html">ARRAY</A> [<A HREF="../elks/integer_32.html">INTEGER_32</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Plain array containing interval's items</FONT>
+        <B>require</B>
+            finite: <A HREF="../elks/integer_interval.html#f_upper_defined">upper_defined</A> <B>and</B> <A HREF="../elks/integer_interval.html#f_lower_defined">lower_defined</A>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                i := <A HREF="../elks/integer_interval.html#f_lower">lower</A>
+                nb := <A HREF="../elks/integer_interval.html#f_upper">upper</A>
+                <B>create</B> <B>Result</B>.<A HREF="../elks/array.html#f_make_filled">make_filled</A> (0, i, nb)
+            <B>until</B>
+                i &gt; nb
+            <B>loop</B>
+                <B>Result</B>.<A HREF="../elks/array.html#f_put">put</A> (i, i)
+                i := i + 1
+            <B>end</B>
+        <B>ensure</B>
+            same_lower: <B>Result</B>.<A HREF="../elks/array.html#f_lower">lower</A> = <A HREF="../elks/integer_interval.html#f_lower">lower</A>
+            same_upper: <B>Result</B>.<A HREF="../elks/array.html#f_upper">upper</A> = <A HREF="../elks/integer_interval.html#f_upper">upper</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_c"><A HREF="../elks/integer_interval.html#f_to_c">to_c</A>: <A HREF="../elks/any.html">ANY</A>
+        <B>obsolete</B> "No replacement"
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Address of actual sequence of values,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> for passing to external (non-Eiffel) routines.</FONT>
+        <B>do</B>
+            <B>check</B>
+                <B>False</B>
+            <B>end</B>
+            <B>Result</B> := <B>Current</B>
+        <B>end</B></A>
+
+    <A NAME="f_linear_representation"><A HREF="../elks/integer_interval.html#f_linear_representation">linear_representation</A>: <A HREF="../elks/linear.html">LINEAR</A> [<A HREF="../elks/integer_32.html">INTEGER_32</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Representation as a linear structure</FONT>
+        <B>do</B>
+            <B>check</B>
+                terminal: <A HREF="../elks/integer_interval.html#f_upper_defined">upper_defined</A> <B>and</B> <A HREF="../elks/integer_interval.html#f_lower_defined">lower_defined</A>
+            <B>end</B>
+            <B>Result</B> := <A HREF="../elks/integer_interval.html#f_as_array">as_array</A>.<A HREF="../elks/array.html#f_linear_representation">linear_representation</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_copy"><A HREF="../elks/integer_interval.html#f_copy">copy</A> (other: <B>like</B> <B>Current</B>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Reset to be the same interval as </FONT>`other'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Current</B> <B>then</B>
+                <A HREF="../elks/any.html#f_standard_copy">standard_copy</A> (other)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_subinterval"><A HREF="../elks/integer_interval.html#f_subinterval">subinterval</A> (start_pos, end_pos: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Interval made of items of current array within</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> bounds </FONT>`start_pos'<FONT COLOR="red"> and </FONT>`end_pos'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/integer_interval.html#f_make">make</A> (start_pos, end_pos)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Iteration</FONT>
+
+    <A NAME="f_do_all"><A HREF="../elks/integer_interval.html#f_do_all">do_all</A> (action: <A HREF="../elks/procedure.html">PROCEDURE</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A> [<A HREF="../elks/integer_32.html">INTEGER_32</A>]])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Apply </FONT>`action'<FONT COLOR="red"> to every item of current interval.</FONT>
+        <B>require</B>
+            action_exists: action /= <B>Void</B>
+            finite: <A HREF="../elks/integer_interval.html#f_upper_defined">upper_defined</A> <B>and</B> <A HREF="../elks/integer_interval.html#f_lower_defined">lower_defined</A>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                i := <A HREF="../elks/integer_interval.html#f_lower">lower</A>
+                nb := <A HREF="../elks/integer_interval.html#f_upper">upper</A>
+            <B>until</B>
+                i &gt; nb
+            <B>loop</B>
+                action.<A HREF="../elks/procedure.html#f_call">call</A> ([i])
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_for_all"><A HREF="../elks/integer_interval.html#f_for_all">for_all</A> (condition: <A HREF="../elks/function.html">FUNCTION</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A> [<A HREF="../elks/integer_32.html">INTEGER_32</A>], <A HREF="../elks/boolean.html">BOOLEAN</A>]): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do all interval's values satisfy </FONT>`condition'<FONT COLOR="red">?</FONT>
+        <B>require</B>
+            finite: <A HREF="../elks/integer_interval.html#f_upper_defined">upper_defined</A> <B>and</B> <A HREF="../elks/integer_interval.html#f_lower_defined">lower_defined</A>
+            condition_not_void: condition /= <B>Void</B>
+        <B>local</B>
+            i: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                <B>Result</B> := <B>True</B>
+                i := <A HREF="../elks/integer_interval.html#f_lower">lower</A>
+            <B>until</B>
+                (i &gt; <A HREF="../elks/integer_interval.html#f_upper">upper</A>) <B>or else</B> (<B>not</B> condition.<A HREF="../elks/function.html#f_item">item</A> ([i]))
+            <B>loop</B>
+                i := i + 1
+            <B>end</B>
+            <B>Result</B> := (i &gt; <A HREF="../elks/integer_interval.html#f_upper">upper</A>)
+        <B>ensure</B>
+            consistent_with_count: <B>Result</B> = (<A HREF="../elks/integer_interval.html#f_hold_count">hold_count</A> (condition) = <A HREF="../elks/integer_interval.html#f_count">count</A>)
+        <B>end</B></A>
+
+    <A NAME="f_exists"><A HREF="../elks/integer_interval.html#f_exists">exists</A> (condition: <A HREF="../elks/function.html">FUNCTION</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A> [<A HREF="../elks/integer_32.html">INTEGER_32</A>], <A HREF="../elks/boolean.html">BOOLEAN</A>]): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does at least one of  interval's values</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> satisfy </FONT>`condition'<FONT COLOR="red">?</FONT>
+        <B>require</B>
+            finite: <A HREF="../elks/integer_interval.html#f_upper_defined">upper_defined</A> <B>and</B> <A HREF="../elks/integer_interval.html#f_lower_defined">lower_defined</A>
+            condition_not_void: condition /= <B>Void</B>
+        <B>local</B>
+            i: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                i := <A HREF="../elks/integer_interval.html#f_lower">lower</A>
+            <B>until</B>
+                i &gt; <A HREF="../elks/integer_interval.html#f_upper">upper</A> <B>or else</B> condition.<A HREF="../elks/function.html#f_item">item</A> ([i])
+            <B>loop</B>
+                i := i + 1
+            <B>end</B>
+            <B>Result</B> := (i &lt;= <A HREF="../elks/integer_interval.html#f_upper">upper</A>)
+        <B>ensure</B>
+            consistent_with_count: <B>Result</B> = (<A HREF="../elks/integer_interval.html#f_hold_count">hold_count</A> (condition) &gt; 0)
+        <B>end</B></A>
+
+    <A NAME="f_exists1"><A HREF="../elks/integer_interval.html#f_exists1">exists1</A> (condition: <A HREF="../elks/function.html">FUNCTION</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A> [<A HREF="../elks/integer_32.html">INTEGER_32</A>], <A HREF="../elks/boolean.html">BOOLEAN</A>]): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does exactly one of  interval's values</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> satisfy </FONT>`condition'<FONT COLOR="red">?</FONT>
+        <B>require</B>
+            finite: <A HREF="../elks/integer_interval.html#f_upper_defined">upper_defined</A> <B>and</B> <A HREF="../elks/integer_interval.html#f_lower_defined">lower_defined</A>
+            condition_not_void: condition /= <B>Void</B>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../elks/integer_interval.html#f_hold_count">hold_count</A> (condition) = 1)
+        <B>ensure</B>
+            consistent_with_count: <B>Result</B> = (<A HREF="../elks/integer_interval.html#f_hold_count">hold_count</A> (condition) = 1)
+        <B>end</B></A>
+
+    <A NAME="f_hold_count"><A HREF="../elks/integer_interval.html#f_hold_count">hold_count</A> (condition: <A HREF="../elks/function.html">FUNCTION</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A> [<A HREF="../elks/integer_32.html">INTEGER_32</A>], <A HREF="../elks/boolean.html">BOOLEAN</A>]): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of  interval's values that</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> satisfy </FONT>`condition'
+        <B>require</B>
+            finite: <A HREF="../elks/integer_interval.html#f_upper_defined">upper_defined</A> <B>and</B> <A HREF="../elks/integer_interval.html#f_lower_defined">lower_defined</A>
+            condition_not_void: condition /= <B>Void</B>
+        <B>local</B>
+            i: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                i := <A HREF="../elks/integer_interval.html#f_lower">lower</A>
+            <B>until</B>
+                i &gt; <A HREF="../elks/integer_interval.html#f_upper">upper</A>
+            <B>loop</B>
+                <B>if</B> condition.<A HREF="../elks/function.html#f_item">item</A> ([i]) <B>then</B>
+                    <B>Result</B> := <B>Result</B> + 1
+                <B>end</B>
+                i := i + 1
+            <B>end</B>
+        <B>ensure</B>
+            non_negative: <B>Result</B> &gt;= 0
+        <B>end</B></A>
+    
+<B>feature</B> {<A HREF="../elks/integer_interval.html">INTEGER_INTERVAL</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_upper_internal"><A HREF="../elks/integer_interval.html#f_upper_internal">upper_internal</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> See `upper`.</FONT>
+
+    <A NAME="f_lower_internal"><A HREF="../elks/integer_interval.html#f_lower_internal">lower_internal</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> See `lower`.</FONT>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Inapplicable</FONT>
+
+    <A NAME="f_prune"><A HREF="../elks/integer_interval.html#f_prune">prune</A> (v: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove one occurrence of </FONT>`v'<FONT COLOR="red"> if any.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Not applicable here.</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_indexable_put"><A HREF="../elks/integer_interval.html#f_indexable_put">indexable_put</A> (v: <A HREF="../elks/integer_32.html">INTEGER_32</A>; k: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Associate value </FONT>`v'<FONT COLOR="red"> with key </FONT>`k'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Not applicable here.</FONT>
+        <B>do</B>
+        <B>end</B></A>
+    
+<B>invariant</B>
+    count_definition: <A HREF="../elks/integer_interval.html#f_upper_defined">upper_defined</A> <B>and</B> <A HREF="../elks/integer_interval.html#f_lower_defined">lower_defined</A> <B>implies</B> <A HREF="../elks/integer_interval.html#f_count">count</A> = <A HREF="../elks/integer_interval.html#f_upper">upper</A> - <A HREF="../elks/integer_interval.html#f_lower">lower</A> + 1
+    index_set_is_range: <A HREF="../elks/integer_interval.html#f_index_set">index_set</A> ~ <B>Current</B>
+    not_infinite: <A HREF="../elks/integer_interval.html#f_upper_defined">upper_defined</A> <B>and</B> <A HREF="../elks/integer_interval.html#f_lower_defined">lower_defined</A>
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/integer_interval.html">INTEGER_INTERVAL</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="integer_interval_chart.html">Chart</A></TD><TD><A HREF="integer_interval_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="integer_interval_flat.html">Flat</A></TD><TD><A HREF="integer_interval_short.html">Contracts</A></TD><TD><A HREF="integer_interval_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

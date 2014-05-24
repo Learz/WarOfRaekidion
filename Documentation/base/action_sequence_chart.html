@@ -1,0 +1,160 @@
+<HTML><HEAD>
+<meta name="description" content="A sequence of actions to be performed on `call'"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="instructions" content="Use features inherited from LIST to add/remove actions. An action is a procedure of ANY class that takes EVENT_DATA. When `call' is called the actions in the list will be executed in order stating at `first'. An action may call `abort' which will cause `call' to stop executing actions in the sequence. (Until the next call to `call'). Descendants may redefine `initialize' to arrange for `call' to be called by an event source. Use `block', `pause', `flush' and `resume' to change the behavior of `call'. eg.  birthday_data: TUPLE [INTEGER, STRING] -- (age, name)  birthday_actions: ACTION_SEQUENCE [like birthday_data]  create birthday_actions.make (birthday, <<age,name>>)  send_card (age: INTEGER, name, from: STRING) is ...  buy_gift (age: INTEGER, name, gift, from: STRING) is ...  birthday_actions.extend (agent send_card (?, ?, Sam)  birthday_actions.extend (agent buy_gift (?, ?, Wine, Sam)  birthday_actions.call ([35, Julia])  causes call to: send_card (35, Julia, Sam)                  buy_gift (35, Julia, Wine, Sam)"/>
+<meta name="keywords" content="Eiffel class, event, action"/>
+<meta name="library" content="EiffelBase: Library of reusable components for Eiffel."/>
+<meta name="copyright" content="Copyright (c) 1984-2009, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 356 Storke Road, Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>action_sequence Chart</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD>Chart</TD><TD><A HREF="action_sequence_links.html">Relations</A></TD><TD><A HREF="action_sequence.html">Text</A></TD><TD><A HREF="action_sequence_flat.html">Flat</A></TD><TD><A HREF="action_sequence_short.html">Contracts</A></TD><TD><A HREF="action_sequence_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>class</B>
+    <A HREF="../ise/action_sequence_chart.html">ACTION_SEQUENCE</A> [EVENT_DATA -&gt; <B>detachable</B> <A HREF="../elks/tuple_chart.html">TUPLE</A> <B>create</B> <A HREF="../elks/any.html#f_default_create">default_create</A> <B>end</B>]
+
+<B>General</B>
+    cluster: <A HREF="../ise/index.html">ise</A>
+    description: "A sequence of actions to be performed on `call'"
+    keywords: "event, action"
+    create: <A HREF="../ise/action_sequence.html#f_default_create">default_create</A>, <A HREF="../ise/action_sequence.html#f_make">make</A>, <A HREF="../elks/arrayed_list.html#f_make">arrayed_list_make</A>, <A HREF="../elks/arrayed_list.html#f_make_filled">make_filled</A>
+
+<B>Ancestors</B>
+    <A HREF="../ise/interactive_list_chart.html">INTERACTIVE_LIST</A>* [G]
+
+<B>Action sequences</B>
+    <A HREF="../elks/arrayed_list.html#f_duplicate">duplicate</A> (n: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A>): [<B>attached</B> <B>like</B> <B>Current</B>] <B>attached</B> <A HREF="../ise/action_sequence_chart.html">ACTION_SEQUENCE</A> [EVENT_DATA]<FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+
+<B>Queries</B>
+    <A HREF="../elks/resizable.html#f_additional_space">additional_space</A>: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A><FONT COLOR="red"> -- (from RESIZABLE)</FONT>
+    <A HREF="../elks/list.html#f_after">after</A>: <A HREF="../elks/boolean_chart.html">BOOLEAN</A><FONT COLOR="red"> -- (from LIST)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_all_default">all_default</A>: <A HREF="../elks/boolean_chart.html">BOOLEAN</A><FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_area">area</A>: <A HREF="../elks/special_chart.html">SPECIAL</A> [<A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA]]<FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/to_special.html#f_area">area_v2</A>: <A HREF="../elks/special_chart.html">SPECIAL</A> [<A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA]]<FONT COLOR="red"> -- (from TO_SPECIAL)</FONT>
+    <A HREF="../elks/to_special.html#f_at">array_at</A> (i: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A>): <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA]<FONT COLOR="red"> -- (from TO_SPECIAL)</FONT>
+    <A HREF="../elks/to_special.html#f_item">array_item</A> (i: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A>): <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA]<FONT COLOR="red"> -- (from TO_SPECIAL)</FONT>
+    <A HREF="../elks/to_special.html#f_valid_index">array_valid_index</A> (i: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A>): <A HREF="../elks/boolean_chart.html">BOOLEAN</A><FONT COLOR="red"> -- (from TO_SPECIAL)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_at">at</A> <B>alias</B> "@" (i: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A>): [<B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>] <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA]<FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/list.html#f_before">before</A>: <A HREF="../elks/boolean_chart.html">BOOLEAN</A><FONT COLOR="red"> -- (from LIST)</FONT>
+    <A HREF="../ise/action_sequence.html#f_blocked_state">Blocked_state</A>: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A>
+    <A HREF="../ise/action_sequence.html#f_call_is_underway">call_is_underway</A>: <A HREF="../elks/boolean_chart.html">BOOLEAN</A>
+    <A HREF="../elks/arrayed_list.html#f_capacity">capacity</A>: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A><FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/container.html#f_changeable_comparison_criterion">changeable_comparison_criterion</A>: <A HREF="../elks/boolean_chart.html">BOOLEAN</A><FONT COLOR="red"> -- (from CONTAINER)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_count">count</A>: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A><FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_cursor">cursor</A>: <A HREF="../elks/arrayed_list_cursor_chart.html">ARRAYED_LIST_CURSOR</A><FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../ise/action_sequence.html#f_empty_actions">empty_actions</A>: <A HREF="../elks/arrayed_list_chart.html">ARRAYED_LIST</A> [<A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, <A HREF="../elks/tuple_chart.html">TUPLE</A>]]
+    <A HREF="../elks/linear.html#f_exhausted">exhausted</A>: <A HREF="../elks/boolean_chart.html">BOOLEAN</A><FONT COLOR="red"> -- (from LINEAR)</FONT>
+    <A HREF="../elks/dynamic_chain.html#f_extendible">extendible</A>: <A HREF="../elks/boolean_chart.html">BOOLEAN</A><FONT COLOR="red"> -- (from DYNAMIC_CHAIN)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_first">first</A>: [<B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>] <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA]<FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_for_all">for_all</A> (test: <A HREF="../elks/function_chart.html">FUNCTION</A> [<A HREF="../elks/any_chart.html">ANY</A>, <A HREF="../elks/tuple_chart.html">TUPLE</A> [<A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA]], <A HREF="../elks/boolean_chart.html">BOOLEAN</A>]): <A HREF="../elks/boolean_chart.html">BOOLEAN</A><FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/bounded.html#f_full">full</A>: <A HREF="../elks/boolean_chart.html">BOOLEAN</A><FONT COLOR="red"> -- (from BOUNDED)</FONT>
+    <A HREF="../elks/resizable.html#f_growth_percentage">Growth_percentage</A>: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A><FONT COLOR="red"> -- (from RESIZABLE)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_has">has</A> (v: [<B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>] <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA]): <A HREF="../elks/boolean_chart.html">BOOLEAN</A><FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../ise/action_sequence.html#f_has_kamikaze_action">has_kamikaze_action</A> (an_action: [<B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>] <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA]): <A HREF="../elks/boolean_chart.html">BOOLEAN</A>
+    <A HREF="../elks/arrayed_list.html#f_i_th">i_th</A> <B>alias</B> "[]" (i: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A>): [<B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>] <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA]<FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_index">index</A>: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A><FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/chain.html#f_index_of">index_of</A> (v: [<B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>] <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA]; i: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A>): <A HREF="../elks/integer_32_chart.html">INTEGER_32</A><FONT COLOR="red"> -- (from CHAIN)</FONT>
+    <A HREF="../elks/chain.html#f_index_set">index_set</A>: <A HREF="../elks/integer_interval_chart.html">INTEGER_INTERVAL</A><FONT COLOR="red"> -- (from CHAIN)</FONT>
+    <A HREF="../elks/finite.html#f_is_empty">is_empty</A>: <A HREF="../elks/boolean_chart.html">BOOLEAN</A><FONT COLOR="red"> -- (from FINITE)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_is_equal">is_equal</A> (other: [<B>attached</B> <B>like</B> <B>Current</B>] <B>attached</B> <A HREF="../ise/action_sequence_chart.html">ACTION_SEQUENCE</A> [EVENT_DATA]): <A HREF="../elks/boolean_chart.html">BOOLEAN</A><FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_is_inserted">is_inserted</A> (v: <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA]): <A HREF="../elks/boolean_chart.html">BOOLEAN</A><FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/chain.html#f_isfirst">isfirst</A>: <A HREF="../elks/boolean_chart.html">BOOLEAN</A><FONT COLOR="red"> -- (from CHAIN)</FONT>
+    <A HREF="../elks/chain.html#f_islast">islast</A>: <A HREF="../elks/boolean_chart.html">BOOLEAN</A><FONT COLOR="red"> -- (from CHAIN)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_item">item</A>: <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA]<FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/linear.html#f_item_for_iteration">item_for_iteration</A>: <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA]<FONT COLOR="red"> -- (from LINEAR)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_last">last</A>: [<B>like</B> <A HREF="../elks/arrayed_list.html#f_first">first</A>] <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA]<FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/linear.html#f_linear_representation">linear_representation</A>: <A HREF="../elks/linear_chart.html">LINEAR</A> [<A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA]]<FONT COLOR="red"> -- (from LINEAR)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_lower">Lower</A>: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A><FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/resizable.html#f_minimal_increase">Minimal_increase</A>: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A><FONT COLOR="red"> -- (from RESIZABLE)</FONT>
+    <A HREF="../elks/mismatch_corrector.html#f_mismatch_information">Mismatch_information</A>: <A HREF="../elks/mismatch_information_chart.html">MISMATCH_INFORMATION</A><FONT COLOR="red"> -- (from MISMATCH_CORRECTOR)</FONT>
+    <A HREF="../ise/action_sequence.html#f_name">name</A>: <B>detachable</B> <A HREF="../elks/string_8_chart.html">STRING_8</A>
+    <A HREF="../elks/readable_indexable.html#f_new_cursor">new_cursor</A>: <A HREF="../elks/indexable_iteration_cursor_chart.html">INDEXABLE_ITERATION_CURSOR</A> [<A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA]]<FONT COLOR="red"> -- (from READABLE_INDEXABLE)</FONT>
+    <A HREF="../ise/action_sequence.html#f_normal_state">Normal_state</A>: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A>
+    <A HREF="../ise/action_sequence.html#f_not_empty_actions">not_empty_actions</A>: <A HREF="../elks/arrayed_list_chart.html">ARRAYED_LIST</A> [<A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, <A HREF="../elks/tuple_chart.html">TUPLE</A>]]
+    <A HREF="../elks/container.html#f_object_comparison">object_comparison</A>: <A HREF="../elks/boolean_chart.html">BOOLEAN</A><FONT COLOR="red"> -- (from CONTAINER)</FONT>
+    <A HREF="../elks/chain.html#f_occurrences">occurrences</A> (v: [<B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>] <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA]): <A HREF="../elks/integer_32_chart.html">INTEGER_32</A><FONT COLOR="red"> -- (from CHAIN)</FONT>
+    <A HREF="../elks/chain.html#f_off">off</A>: <A HREF="../elks/boolean_chart.html">BOOLEAN</A><FONT COLOR="red"> -- (from CHAIN)</FONT>
+    <A HREF="../ise/action_sequence.html#f_paused_state">Paused_state</A>: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A>
+    <A HREF="../elks/arrayed_list.html#f_prunable">prunable</A>: <A HREF="../elks/boolean_chart.html">BOOLEAN</A><FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/sequence.html#f_readable">readable</A>: <A HREF="../elks/boolean_chart.html">BOOLEAN</A><FONT COLOR="red"> -- (from SEQUENCE)</FONT>
+    <A HREF="../elks/active.html#f_replaceable">replaceable</A>: <A HREF="../elks/boolean_chart.html">BOOLEAN</A><FONT COLOR="red"> -- (from ACTIVE)</FONT>
+    <A HREF="../elks/resizable.html#f_resizable">resizable</A>: <A HREF="../elks/boolean_chart.html">BOOLEAN</A><FONT COLOR="red"> -- (from RESIZABLE)</FONT>
+    <A HREF="../ise/action_sequence.html#f_state">state</A>: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A>
+    <A HREF="../elks/arrayed_list.html#f_there_exists">there_exists</A> (test: <A HREF="../elks/function_chart.html">FUNCTION</A> [<A HREF="../elks/any_chart.html">ANY</A>, <A HREF="../elks/tuple_chart.html">TUPLE</A> [<A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA]], <A HREF="../elks/boolean_chart.html">BOOLEAN</A>]): <A HREF="../elks/boolean_chart.html">BOOLEAN</A><FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_to_array">to_array</A>: <A HREF="../elks/array_chart.html">ARRAY</A> [<A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA]]<FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_upper">upper</A>: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A><FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_valid_cursor">valid_cursor</A> (p: <A HREF="../elks/cursor_chart.html">CURSOR</A>): <A HREF="../elks/boolean_chart.html">BOOLEAN</A><FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/chain.html#f_valid_cursor_index">valid_cursor_index</A> (i: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A>): <A HREF="../elks/boolean_chart.html">BOOLEAN</A><FONT COLOR="red"> -- (from CHAIN)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_valid_index">valid_index</A> (i: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A>): <A HREF="../elks/boolean_chart.html">BOOLEAN</A><FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/sequence.html#f_writable">writable</A>: <A HREF="../elks/boolean_chart.html">BOOLEAN</A><FONT COLOR="red"> -- (from SEQUENCE)</FONT>
+
+<B>Commands</B>
+    <A HREF="../ise/action_sequence.html#f_abort">abort</A>
+    <A HREF="../ise/interactive_list.html#f_append">append</A> (s: <A HREF="../elks/sequence_chart.html">SEQUENCE</A> [[<B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>] <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA]])<FONT COLOR="red"> -- (from INTERACTIVE_LIST)</FONT>
+    <A HREF="../elks/to_special.html#f_put">array_put</A> (v: <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA]; i: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A>)<FONT COLOR="red"> -- (from TO_SPECIAL)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_make">arrayed_list_make</A> (n: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A>)<FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/resizable.html#f_automatic_grow">automatic_grow</A><FONT COLOR="red"> -- (from RESIZABLE)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_back">back</A><FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../ise/action_sequence.html#f_block">block</A>
+    <A HREF="../ise/action_sequence.html#f_call">call</A> (event_data: <B>detachable</B> EVENT_DATA)
+    <A HREF="../elks/container.html#f_compare_objects">compare_objects</A><FONT COLOR="red"> -- (from CONTAINER)</FONT>
+    <A HREF="../elks/container.html#f_compare_references">compare_references</A><FONT COLOR="red"> -- (from CONTAINER)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_copy">copy</A> (other: [<B>attached</B> <B>like</B> <B>Current</B>] <B>attached</B> <A HREF="../ise/action_sequence_chart.html">ACTION_SEQUENCE</A> [EVENT_DATA])<FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_correct_mismatch">correct_mismatch</A><FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_do_all">do_all</A> (action: <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, <A HREF="../elks/tuple_chart.html">TUPLE</A> [<A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA]]])<FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_do_all_with_index">do_all_with_index</A> (action: <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, <A HREF="../elks/tuple_chart.html">TUPLE</A> [<A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA], <A HREF="../elks/integer_32_chart.html">INTEGER_32</A>]])<FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_do_if">do_if</A> (action: <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, <A HREF="../elks/tuple_chart.html">TUPLE</A> [<A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA]]]; test: <A HREF="../elks/function_chart.html">FUNCTION</A> [<A HREF="../elks/any_chart.html">ANY</A>, <A HREF="../elks/tuple_chart.html">TUPLE</A> [<A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA]], <A HREF="../elks/boolean_chart.html">BOOLEAN</A>])<FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_do_if_with_index">do_if_with_index</A> (action: <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, <A HREF="../elks/tuple_chart.html">TUPLE</A> [<A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA], <A HREF="../elks/integer_32_chart.html">INTEGER_32</A>]]; test: <A HREF="../elks/function_chart.html">FUNCTION</A> [<A HREF="../elks/any_chart.html">ANY</A>, <A HREF="../elks/tuple_chart.html">TUPLE</A> [<A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA], <A HREF="../elks/integer_32_chart.html">INTEGER_32</A>], <A HREF="../elks/boolean_chart.html">BOOLEAN</A>])<FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../ise/interactive_list.html#f_extend">extend</A> (v: [<B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>] <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA])<FONT COLOR="red"> -- (from INTERACTIVE_LIST)</FONT>
+    <A HREF="../ise/action_sequence.html#f_extend_kamikaze">extend_kamikaze</A> (an_item: [<B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>] <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA])
+    <A HREF="../elks/chain.html#f_fill">fill</A> (other: <A HREF="../elks/container_chart.html">CONTAINER</A> [<A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA]])<FONT COLOR="red"> -- (from CHAIN)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_finish">finish</A><FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../ise/action_sequence.html#f_flush">flush</A>
+    <A HREF="../elks/arrayed_list.html#f_force">force</A> (v: [<B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>] <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA])<FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_forth">forth</A><FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_go_i_th">go_i_th</A> (i: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A>)<FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_go_to">go_to</A> (p: <A HREF="../elks/cursor_chart.html">CURSOR</A>)<FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_grow">grow</A> (i: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A>)<FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_make_filled">make_filled</A> (n: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A>)<FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../ise/interactive_list.html#f_merge_left">merge_left</A> (other: [<B>attached</B> <B>like</B> <B>Current</B>] <B>attached</B> <A HREF="../ise/action_sequence_chart.html">ACTION_SEQUENCE</A> [EVENT_DATA])<FONT COLOR="red"> -- (from INTERACTIVE_LIST)</FONT>
+    <A HREF="../ise/interactive_list.html#f_merge_right">merge_right</A> (other: [<B>attached</B> <B>like</B> <B>Current</B>] <B>attached</B> <A HREF="../ise/action_sequence_chart.html">ACTION_SEQUENCE</A> [EVENT_DATA])<FONT COLOR="red"> -- (from INTERACTIVE_LIST)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_move">move</A> (i: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A>)<FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../ise/action_sequence.html#f_on_item_added_at">on_item_added_at</A> (an_item: [<B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>] <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA]; item_index: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A>)
+    <A HREF="../ise/action_sequence.html#f_on_item_removed_at">on_item_removed_at</A> (an_item: [<B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>] <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA]; item_index: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A>)
+    <A HREF="../ise/action_sequence.html#f_pause">pause</A>
+    <A HREF="../ise/action_sequence.html#f_prune">prune</A> (v: [<B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>] <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA])
+    <A HREF="../ise/interactive_list.html#f_prune_all">prune_all</A> (v: [<B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>] <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA])<FONT COLOR="red"> -- (from INTERACTIVE_LIST)</FONT>
+    <A HREF="../ise/action_sequence.html#f_prune_when_called">prune_when_called</A> (an_action: [<B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>] <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA])
+    <A HREF="../elks/chain.html#f_put">put</A> (v: [<B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>] <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA])<FONT COLOR="red"> -- (from CHAIN)</FONT>
+    <A HREF="../ise/interactive_list.html#f_put_front">put_front</A> (v: [<B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>] <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA])<FONT COLOR="red"> -- (from INTERACTIVE_LIST)</FONT>
+    <A HREF="../ise/interactive_list.html#f_put_i_th">put_i_th</A> (v: [<B>like</B> <A HREF="../elks/arrayed_list.html#f_i_th">i_th</A>] <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA]; i: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A>)<FONT COLOR="red"> -- (from INTERACTIVE_LIST)</FONT>
+    <A HREF="../ise/interactive_list.html#f_put_left">put_left</A> (v: [<B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>] <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA])<FONT COLOR="red"> -- (from INTERACTIVE_LIST)</FONT>
+    <A HREF="../ise/interactive_list.html#f_put_right">put_right</A> (v: [<B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>] <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA])<FONT COLOR="red"> -- (from INTERACTIVE_LIST)</FONT>
+    <A HREF="../ise/interactive_list.html#f_remove">remove</A><FONT COLOR="red"> -- (from INTERACTIVE_LIST)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_remove_left">remove_left</A><FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../ise/interactive_list.html#f_remove_right">remove_right</A><FONT COLOR="red"> -- (from INTERACTIVE_LIST)</FONT>
+    <A HREF="../ise/interactive_list.html#f_replace">replace</A> (v: [<B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>] <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA])<FONT COLOR="red"> -- (from INTERACTIVE_LIST)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_resize">resize</A> (new_capacity: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A>)<FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../ise/action_sequence.html#f_resume">resume</A>
+    <A HREF="../elks/arrayed_list.html#f_search">search</A> (v: [<B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>] <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA])<FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/sequence.html#f_put">sequence_put</A> (v: [<B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>] <A HREF="../elks/procedure_chart.html">PROCEDURE</A> [<A HREF="../elks/any_chart.html">ANY</A>, EVENT_DATA])<FONT COLOR="red"> -- (from SEQUENCE)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_start">start</A><FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_swap">swap</A> (i: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A>)<FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../elks/arrayed_list.html#f_trim">trim</A><FONT COLOR="red"> -- (from ARRAYED_LIST)</FONT>
+    <A HREF="../ise/interactive_list.html#f_update_for_added">update_for_added</A> (start_index: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A>)<FONT COLOR="red"> -- (from INTERACTIVE_LIST)</FONT>
+    <A HREF="../ise/interactive_list.html#f_wipe_out">wipe_out</A><FONT COLOR="red"> -- (from INTERACTIVE_LIST)</FONT>
+
+<B>Constraints</B>
+    is aborted stack not void
+    call buffer not void
+    valid state
+    call buffer consistent
+    not empty actions not void
+    empty actions not void
+
+<TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD>Chart</TD><TD><A HREF="action_sequence_links.html">Relations</A></TD><TD><A HREF="action_sequence.html">Text</A></TD><TD><A HREF="action_sequence_flat.html">Flat</A></TD><TD><A HREF="action_sequence_short.html">Contracts</A></TD><TD><A HREF="action_sequence_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>

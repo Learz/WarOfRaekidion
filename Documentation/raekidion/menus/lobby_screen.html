@@ -1,0 +1,185 @@
+<HTML><HEAD>
+<meta name="description" content="War of Raekidion - The lobby screen The {LOBBY_SCREEN} serves as a menu to choose whether the player hosts  or connect to someone by putting the IP adress in the textbox."/>
+<meta name="author" content="François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>lobby_screen Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="lobby_screen_chart.html">Chart</A></TD><TD><A HREF="lobby_screen_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="lobby_screen_flat.html">Flat</A></TD><TD><A HREF="lobby_screen_short.html">Contracts</A></TD><TD><A HREF="lobby_screen_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        War of Raekidion - The lobby screen
+        The <A HREF="../../raekidion/menus/lobby_screen.html">LOBBY_SCREEN</A> serves as a menu to choose whether the player hosts 
+        or connect to someone by putting the IP adress in the textbox.
+    ]"
+    author: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+    date: "$Date$"
+    revision: "$Revision$"
+
+<B>class</B> 
+    <A HREF="../../raekidion/menus/lobby_screen.html">LOBBY_SCREEN</A>
+
+<B>inherit</B>
+    <A HREF="../../raekidion/menus/screen.html">SCREEN</A>
+        <B>redefine</B>
+            <A HREF="../../raekidion/menus/lobby_screen.html#f_manage_key">manage_key</A>,
+            <A HREF="../../raekidion/menus/lobby_screen.html#f_manage_click">manage_click</A>,
+            <A HREF="../../raekidion/menus/lobby_screen.html#f_click_button">click_button</A>
+        <B>end</B>
+
+<B>create</B> 
+    <A HREF="../../raekidion/menus/lobby_screen.html#f_make">make</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../../raekidion/menus/lobby_screen.html#f_make">make</A> (a_window: <A HREF="../../raekidion/objects/window.html">WINDOW</A>; a_key_binding: <A HREF="../../raekidion/keys/keys.html">KEYS</A>; a_difficulty: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_debug: <A HREF="../../elks/boolean.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize </FONT>`Current'<FONT COLOR="red"> from </FONT>`a_window'<FONT COLOR="red">, </FONT>`a_key_binding'<FONT COLOR="red"> and </FONT>`a_difficulty'
+        <B>local</B>
+            l_address: <A HREF="../../elks/string_8.html">STRING_8</A>
+            l_ticks, l_deltatime: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+            l_event: <A HREF="../../raekidion/objects/event_handler.html">EVENT_HANDLER</A>
+            l_title: <A HREF="../../raekidion/objects/text.html">TEXT</A>
+            l_background: <A HREF="../../raekidion/objects/background.html">BACKGROUND</A>
+            l_screen: <B>detachable</B> <A HREF="../../raekidion/menus/wait_screen.html">WAIT_SCREEN</A>
+        <B>do</B>
+            <A HREF="../../elks/memory.html#f_collection_on">collection_on</A>
+            <A HREF="../../raekidion/menus/screen.html#f_debug_on">debug_on</A> := a_debug
+            <A HREF="../../raekidion/menus/screen.html#f_window">window</A> := a_window
+            <B>create</B> l_event.<A HREF="../../raekidion/objects/event_handler.html#f_make">make</A> (<A HREF="../../raekidion/menus/screen.html#f_window">window</A>)
+            <A HREF="../../raekidion/menus/screen.html#f_must_quit">must_quit</A> := <B>False</B>
+            l_event.<A HREF="../../raekidion/objects/event_handler.html#f_on_typing">on_typing</A>.<A HREF="../../ise/interactive_list.html#f_extend">extend</A> (<B>agent</B> <A HREF="../../raekidion/menus/lobby_screen.html#f_manage_typing">manage_typing</A>)
+            l_event.<A HREF="../../raekidion/objects/event_handler.html#f_on_key_pressed">on_key_pressed</A>.<A HREF="../../ise/interactive_list.html#f_extend">extend</A> (<B>agent</B> <A HREF="../../raekidion/menus/lobby_screen.html#f_manage_key">manage_key</A>)
+            l_event.<A HREF="../../raekidion/objects/event_handler.html#f_on_mouse_moved">on_mouse_moved</A>.<A HREF="../../ise/interactive_list.html#f_extend">extend</A> (<B>agent</B> <A HREF="../../raekidion/menus/screen.html#f_manage_mouse">manage_mouse</A>)
+            l_event.<A HREF="../../raekidion/objects/event_handler.html#f_on_mouse_pressed">on_mouse_pressed</A>.<A HREF="../../ise/interactive_list.html#f_extend">extend</A> (<B>agent</B> <A HREF="../../raekidion/menus/lobby_screen.html#f_manage_click">manage_click</A>)
+            <A HREF="../../raekidion/menus/screen.html#f_key_binding">key_binding</A> := a_key_binding
+            <B>create</B> <A HREF="../../raekidion/menus/screen.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list.html#f_make">make</A>
+            l_title := <B>create</B> {<A HREF="../../raekidion/objects/text.html">TEXT</A>}.<A HREF="../../raekidion/objects/text.html#f_make_centered">make_centered</A> ("Multiplayer", 24, <A HREF="../../raekidion/menus/screen.html#f_window">window</A>, 0.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, 0.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, <A HREF="../../raekidion/menus/screen.html#f_window">window</A>.<A HREF="../../raekidion/objects/window.html#f_width">width</A>.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, 150.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, [255, 255, 255], <B>True</B>)
+            <B>create</B> <A HREF="../../raekidion/menus/screen.html#f_version">version</A>.<A HREF="../../raekidion/objects/text.html#f_make">make</A> (<A HREF="../../raekidion/menus/screen.html#f_window">window</A>.<A HREF="../../raekidion/objects/window.html#f_version">version</A>, 10, <A HREF="../../raekidion/menus/screen.html#f_window">window</A>, 3.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, 397.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, [64, 64, 96], <B>False</B>)
+            <A HREF="../../raekidion/menus/screen.html#f_version">version</A>.<A HREF="../../raekidion/objects/surface.html#f_set_y">set_y</A> (<A HREF="../../raekidion/menus/screen.html#f_version">version</A>.<A HREF="../../raekidion/objects/surface.html#f_y">y</A> - <A HREF="../../raekidion/menus/screen.html#f_version">version</A>.<A HREF="../../raekidion/objects/surface.html#f_height">height</A>.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>)
+            <B>create</B> l_background.<A HREF="../../raekidion/objects/background.html#f_make">make</A> ("title_background", <A HREF="../../raekidion/menus/screen.html#f_window">window</A>, 0.<A HREF="../../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A>, 0.<A HREF="../../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A>, 0.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>)
+            <A HREF="../../raekidion/menus/screen.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list.html#f_extend">extend</A> (<B>create</B> {<A HREF="../../raekidion/objects/button.html">BUTTON</A>}.<A HREF="../../raekidion/objects/button.html#f_make">make</A> ("button", <A HREF="../../raekidion/menus/screen.html#f_window">window</A>, 100.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, 150.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, "Join"))
+            <B>create</B> <A HREF="../../raekidion/menus/lobby_screen.html#f_textbox">textbox</A>.<A HREF="../../raekidion/objects/textbox.html#f_make">make</A> ("textbox", <A HREF="../../raekidion/menus/screen.html#f_window">window</A>, 75.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, 200.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>)
+            <A HREF="../../raekidion/menus/screen.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list.html#f_extend">extend</A> (<B>create</B> {<A HREF="../../raekidion/objects/button.html">BUTTON</A>}.<A HREF="../../raekidion/objects/button.html#f_make">make</A> ("button", <A HREF="../../raekidion/menus/screen.html#f_window">window</A>, 100.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, 250.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, "Host"))
+            <A HREF="../../raekidion/menus/screen.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list.html#f_extend">extend</A> (<B>create</B> {<A HREF="../../raekidion/objects/button.html">BUTTON</A>}.<A HREF="../../raekidion/objects/button.html#f_make">make</A> ("button", <A HREF="../../raekidion/menus/screen.html#f_window">window</A>, 100.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, 300.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, "Back"))
+            <A HREF="../../raekidion/menus/screen.html#f_selection">selection</A> := <A HREF="../../raekidion/menus/screen.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list.html#f_first">first</A>
+            <A HREF="../../raekidion/menus/screen.html#f_button_index">button_index</A> := 1
+            <B>if</B> <B>attached</B> <A HREF="../../raekidion/menus/screen.html#f_selection">selection</A> <B>as</B> la_selection <B>then</B>
+                la_selection.<A HREF="../../raekidion/objects/sprite.html#f_set_image">set_image</A> (la_selection.<A HREF="../../raekidion/objects/sprite.html#f_default_image">default_image</A> + "_pressed")
+            <B>end</B>
+            <B>from</B>
+            <B>until</B>
+                <A HREF="../../raekidion/menus/screen.html#f_must_quit">must_quit</A> <B>or</B> <A HREF="../../raekidion/menus/screen.html#f_must_close">must_close</A> <B>or</B> <A HREF="../../raekidion/menus/screen.html#f_must_end">must_end</A>
+            <B>loop</B>
+                l_ticks := {<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_sdl_getticks">sdl_getticks</A>.<A HREF="../../elks/natural_32_ref.html#f_to_integer_32">to_integer_32</A>
+                l_event.<A HREF="../../raekidion/objects/event_handler.html#f_manage_event">manage_event</A>
+                <B>if</B> l_event.<A HREF="../../raekidion/objects/event_handler.html#f_is_quit_event">is_quit_event</A> <B>then</B>
+                    <A HREF="../../raekidion/menus/screen.html#f_must_quit">must_quit</A> := <B>True</B>
+                <B>end</B>
+                <A HREF="../../raekidion/menus/screen.html#f_window">window</A>.<A HREF="../../raekidion/objects/window.html#f_clear">clear</A>
+                l_background.<A HREF="../../raekidion/objects/background.html#f_update">update</A>
+                l_title.<A HREF="../../raekidion/objects/text.html#f_update">update</A>
+                <A HREF="../../raekidion/menus/screen.html#f_update">update</A>
+                <A HREF="../../raekidion/menus/lobby_screen.html#f_textbox">textbox</A>.<A HREF="../../raekidion/objects/textbox.html#f_update">update</A>
+                <A HREF="../../raekidion/menus/screen.html#f_window">window</A>.<A HREF="../../raekidion/objects/window.html#f_render">render</A>
+                <B>if</B> <A HREF="../../raekidion/menus/lobby_screen.html#f_start_game">start_game</A> <B>then</B>
+                    <B>if</B> <A HREF="../../raekidion/menus/lobby_screen.html#f_is_server">is_server</A> <B>then</B>
+                        l_screen := <B>create</B> {<A HREF="../../raekidion/menus/wait_screen.html">WAIT_SCREEN</A>}.<A HREF="../../raekidion/menus/wait_screen.html#f_make">make</A> (<A HREF="../../raekidion/menus/screen.html#f_window">window</A>, <A HREF="../../raekidion/menus/screen.html#f_key_binding">key_binding</A>, <A HREF="../../raekidion/menus/lobby_screen.html#f_is_server">is_server</A>, <A HREF="../../raekidion/menus/screen.html#f_debug_on">debug_on</A>, a_difficulty, "")
+                    <B>else</B>
+                        l_address := <A HREF="../../raekidion/menus/lobby_screen.html#f_textbox">textbox</A>.<A HREF="../../raekidion/objects/textbox.html#f_char_string">char_string</A>
+                        l_screen := <B>create</B> {<A HREF="../../raekidion/menus/wait_screen.html">WAIT_SCREEN</A>}.<A HREF="../../raekidion/menus/wait_screen.html#f_make">make</A> (<A HREF="../../raekidion/menus/screen.html#f_window">window</A>, <A HREF="../../raekidion/menus/screen.html#f_key_binding">key_binding</A>, <A HREF="../../raekidion/menus/lobby_screen.html#f_is_server">is_server</A>, <A HREF="../../raekidion/menus/screen.html#f_debug_on">debug_on</A>, a_difficulty, l_address)
+                    <B>end</B>
+                    <A HREF="../../raekidion/menus/lobby_screen.html#f_start_game">start_game</A> := <B>False</B>
+                    <A HREF="../../raekidion/menus/screen.html#f_key_binding">key_binding</A> := l_screen.<A HREF="../../raekidion/menus/screen.html#f_key_binding">key_binding</A>
+                    <B>if</B> <B>attached</B> l_screen <B>as</B> la_screen <B>then</B>
+                        <A HREF="../../raekidion/menus/screen.html#f_must_quit">must_quit</A> := l_screen.<A HREF="../../raekidion/menus/screen.html#f_must_quit">must_quit</A>
+                        <A HREF="../../raekidion/menus/screen.html#f_must_end">must_end</A> := l_screen.<A HREF="../../raekidion/menus/screen.html#f_must_end">must_end</A>
+                    <B>end</B>
+                <B>end</B>
+                l_deltatime := {<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_sdl_getticks">sdl_getticks</A>.<A HREF="../../elks/natural_32_ref.html#f_to_integer_32">to_integer_32</A> - l_ticks
+                <B>if</B> l_deltatime &lt; (1000 / 60).<A HREF="../../elks/real_64_ref.html#f_floor">floor</A> <B>then</B>
+                    {<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_sdl_delay">sdl_delay</A> ((1000 / 60).<A HREF="../../elks/real_64_ref.html#f_floor">floor</A> - l_deltatime)
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status</FONT>
+
+    <A NAME="f_start_game"><A HREF="../../raekidion/menus/lobby_screen.html#f_start_game">start_game</A>: <A HREF="../../elks/boolean.html">BOOLEAN</A></A>
+
+    <A NAME="f_is_server"><A HREF="../../raekidion/menus/lobby_screen.html#f_is_server">is_server</A>: <A HREF="../../elks/boolean.html">BOOLEAN</A></A>
+
+    <A NAME="f_textbox_focus"><A HREF="../../raekidion/menus/lobby_screen.html#f_textbox_focus">textbox_focus</A>: <A HREF="../../elks/boolean.html">BOOLEAN</A></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_textbox"><A HREF="../../raekidion/menus/lobby_screen.html#f_textbox">textbox</A>: <A HREF="../../raekidion/objects/textbox.html">TEXTBOX</A></A>
+
+    <A NAME="f_manage_typing"><A HREF="../../raekidion/menus/lobby_screen.html#f_manage_typing">manage_typing</A> (a_key: <A HREF="../../elks/string_8.html">STRING_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Manage keyboard characters if the textbox is focused</FONT>
+        <B>do</B>
+            <B>if</B> <A HREF="../../raekidion/menus/lobby_screen.html#f_textbox_focus">textbox_focus</A> <B>then</B>
+                <B>if</B> a_key.<A HREF="../../elks/readable_string_8.html#f_count">count</A> = 1 <B>then</B>
+                    <B>if</B> (a_key.<A HREF="../../elks/string_8.html#f_at">at</A> (1) &gt;= 'A' <B>and</B> a_key.<A HREF="../../elks/string_8.html#f_at">at</A> (1) &lt;= 'Z') <B>or</B> (a_key.<A HREF="../../elks/string_8.html#f_at">at</A> (1) &gt;= '0' <B>and</B> a_key.<A HREF="../../elks/string_8.html#f_at">at</A> (1) &lt;= '9') <B>or</B> a_key.<A HREF="../../elks/string_8.html#f_at">at</A> (1) = '.' <B>then</B>
+                        <A HREF="../../raekidion/menus/lobby_screen.html#f_textbox">textbox</A>.<A HREF="../../raekidion/objects/textbox.html#f_char_string">char_string</A>.<A HREF="../../elks/string_8.html#f_append_character">append_character</A> (a_key.<A HREF="../../elks/string_8.html#f_at">at</A> (1))
+                    <B>end</B>
+                <B>elseif</B> a_key.<A HREF="../../elks/readable_string_8.html#f_is_equal">is_equal</A> ("Backspace") <B>then</B>
+                    <A HREF="../../raekidion/menus/lobby_screen.html#f_textbox">textbox</A>.<A HREF="../../raekidion/objects/textbox.html#f_char_string">char_string</A>.<A HREF="../../elks/string_8.html#f_remove_tail">remove_tail</A> (1)
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_manage_key"><A HREF="../../raekidion/menus/lobby_screen.html#f_manage_key">manage_key</A> (a_key: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_state: <A HREF="../../elks/boolean.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Manage keyboard keys using </FONT>`a_key'<FONT COLOR="red"> and </FONT>`a_state'
+        <B>do</B>
+            <B>if</B> <B>not</B> <A HREF="../../raekidion/menus/lobby_screen.html#f_textbox_focus">textbox_focus</A> <B>then</B>
+                <B>if</B> a_state <B>then</B>
+                    <B>if</B> a_key = <A HREF="../../raekidion/menus/screen.html#f_key_binding">key_binding</A>.<A HREF="../../raekidion/keys/keys.html#f_return_key">return_key</A> <B>and</B> <B>not</B> <A HREF="../../raekidion/menus/screen.html#f_is_return_key_pressed">is_return_key_pressed</A> <B>then</B>
+                        <A HREF="../../raekidion/menus/screen.html#f_is_return_key_pressed">is_return_key_pressed</A> := <B>True</B>
+                        <A HREF="../../raekidion/menus/screen.html#f_must_close">must_close</A> := <B>True</B>
+                    <B>end</B>
+                <B>else</B>
+                    <B>if</B> a_key = <A HREF="../../raekidion/menus/screen.html#f_key_binding">key_binding</A>.<A HREF="../../raekidion/keys/keys.html#f_return_key">return_key</A> <B>and</B> <A HREF="../../raekidion/menus/screen.html#f_is_return_key_pressed">is_return_key_pressed</A> <B>then</B>
+                        <A HREF="../../raekidion/menus/screen.html#f_is_return_key_pressed">is_return_key_pressed</A> := <B>False</B>
+                    <B>end</B>
+                <B>end</B>
+                <B>Precursor</B> {<A HREF="../../raekidion/menus/screen.html">SCREEN</A>} (a_key, a_state)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_manage_click"><A HREF="../../raekidion/menus/lobby_screen.html#f_manage_click">manage_click</A> (a_button: <A HREF="../../elks/natural_32.html">NATURAL_32</A>; a_x, a_y: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_state: <A HREF="../../elks/boolean.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Manage mouse clicks using </FONT>`a_button'<FONT COLOR="red">, </FONT>`a_x'<FONT COLOR="red">, </FONT>`a_y'<FONT COLOR="red"> and </FONT>`a_state'
+        <B>do</B>
+            <B>if</B> a_state <B>then</B>
+                <B>if</B> (a_x.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> &gt;= <A HREF="../../raekidion/menus/lobby_screen.html#f_textbox">textbox</A>.<A HREF="../../raekidion/objects/surface.html#f_x">x</A> <B>and</B> a_x.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> &lt;= <A HREF="../../raekidion/menus/lobby_screen.html#f_textbox">textbox</A>.<A HREF="../../raekidion/objects/surface.html#f_x">x</A> + <A HREF="../../raekidion/menus/lobby_screen.html#f_textbox">textbox</A>.<A HREF="../../raekidion/objects/surface.html#f_width">width</A>.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>) <B>and</B> (a_y.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> &gt;= <A HREF="../../raekidion/menus/lobby_screen.html#f_textbox">textbox</A>.<A HREF="../../raekidion/objects/surface.html#f_y">y</A> <B>and</B> a_y.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> &lt;= <A HREF="../../raekidion/menus/lobby_screen.html#f_textbox">textbox</A>.<A HREF="../../raekidion/objects/surface.html#f_y">y</A> + <A HREF="../../raekidion/menus/lobby_screen.html#f_textbox">textbox</A>.<A HREF="../../raekidion/objects/surface.html#f_height">height</A>.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>) <B>then</B>
+                    <A HREF="../../raekidion/menus/lobby_screen.html#f_textbox_focus">textbox_focus</A> := <B>True</B>
+                    <A HREF="../../raekidion/menus/lobby_screen.html#f_textbox">textbox</A>.<A HREF="../../raekidion/objects/sprite.html#f_set_image">set_image</A> (<A HREF="../../raekidion/menus/lobby_screen.html#f_textbox">textbox</A>.<A HREF="../../raekidion/objects/sprite.html#f_default_image">default_image</A> + "_pressed")
+                <B>else</B>
+                    <A HREF="../../raekidion/menus/lobby_screen.html#f_textbox_focus">textbox_focus</A> := <B>False</B>
+                    <A HREF="../../raekidion/menus/lobby_screen.html#f_textbox">textbox</A>.<A HREF="../../raekidion/objects/sprite.html#f_reset_image">reset_image</A>
+                <B>end</B>
+            <B>end</B>
+            <B>Precursor</B> {<A HREF="../../raekidion/menus/screen.html">SCREEN</A>} (a_button, a_x, a_y, a_state)
+        <B>end</B></A>
+
+    <A NAME="f_click_button"><A HREF="../../raekidion/menus/lobby_screen.html#f_click_button">click_button</A> (a_button: <A HREF="../../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Click actions from </FONT>`a_button'
+        <B>do</B>
+            <B>if</B> a_button = 1 <B>then</B>
+                <B>if</B> <A HREF="../../raekidion/menus/lobby_screen.html#f_textbox">textbox</A>.<A HREF="../../raekidion/objects/textbox.html#f_char_string">char_string</A>.<A HREF="../../elks/readable_string_8.html#f_count">count</A> &gt; 0 <B>then</B>
+                    <A HREF="../../raekidion/menus/lobby_screen.html#f_is_server">is_server</A> := <B>False</B>
+                    <A HREF="../../raekidion/menus/lobby_screen.html#f_start_game">start_game</A> := <B>True</B>
+                <B>end</B>
+            <B>elseif</B> a_button = 2 <B>then</B>
+                <A HREF="../../raekidion/menus/lobby_screen.html#f_is_server">is_server</A> := <B>True</B>
+                <A HREF="../../raekidion/menus/lobby_screen.html#f_start_game">start_game</A> := <B>True</B>
+            <B>elseif</B> a_button = 3 <B>then</B>
+                <A HREF="../../raekidion/menus/screen.html#f_must_close">must_close</A> := <B>True</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../../raekidion/menus/lobby_screen.html">LOBBY_SCREEN</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="lobby_screen_chart.html">Chart</A></TD><TD><A HREF="lobby_screen_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="lobby_screen_flat.html">Flat</A></TD><TD><A HREF="lobby_screen_short.html">Contracts</A></TD><TD><A HREF="lobby_screen_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

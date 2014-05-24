@@ -1,0 +1,530 @@
+<HTML><HEAD>
+<meta name="description" content="Unbounded queues, implemented by resizable arrays"/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="names" content="dispenser, array"/>
+<meta name="representation" content="array"/>
+<meta name="access" content="fixed, fifo, membership"/>
+<meta name="size" content="fixed"/>
+<meta name="contents" content="generic"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>arrayed_queue Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="arrayed_queue_chart.html">Chart</A></TD><TD><A HREF="arrayed_queue_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="arrayed_queue_flat.html">Flat</A></TD><TD><A HREF="arrayed_queue_short.html">Contracts</A></TD><TD><A HREF="arrayed_queue_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Unbounded queues, implemented by resizable arrays"
+    library: "Free implementation of ELKS library"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    names: dispenser, array
+    representation: array
+    access: fixed, fifo, membership
+    size: fixed
+    contents: generic
+    date: "$Date: 2012-07-23 14:02:19 -0700 (Mon, 23 Jul 2012) $"
+    revision: "$Revision: 91989 $"
+
+<B>class</B> 
+    <A HREF="../elks/arrayed_queue.html">ARRAYED_QUEUE</A> [G]
+
+<B>inherit</B>
+    <A HREF="../elks/queue.html">QUEUE</A> [G]
+        <B>redefine</B>
+            <A HREF="../elks/arrayed_queue.html#f_linear_representation">linear_representation</A>,
+            <A HREF="../elks/arrayed_queue.html#f_has">has</A>,
+            <A HREF="../elks/arrayed_queue.html#f_is_empty">is_empty</A>,
+            <A HREF="../elks/arrayed_queue.html#f_is_equal">is_equal</A>,
+            <A HREF="../elks/arrayed_queue.html#f_copy">copy</A>,
+            <A HREF="../elks/arrayed_queue.html#f_prune_all">prune_all</A>
+        <B>end</B>
+
+    <A HREF="../elks/resizable.html">RESIZABLE</A> [G]
+        <B>redefine</B>
+            <A HREF="../elks/arrayed_queue.html#f_is_equal">is_equal</A>,
+            <A HREF="../elks/arrayed_queue.html#f_copy">copy</A>,
+            <A HREF="../elks/arrayed_queue.html#f_is_empty">is_empty</A>
+        <B>end</B>
+
+    <A HREF="../elks/mismatch_corrector.html">MISMATCH_CORRECTOR</A>
+        <B>export</B>
+            {NONE} <B>all</B>
+        <B>redefine</B>
+            <A HREF="../elks/arrayed_queue.html#f_is_equal">is_equal</A>,
+            <A HREF="../elks/arrayed_queue.html#f_copy">copy</A>,
+            <A HREF="../elks/arrayed_queue.html#f_correct_mismatch">correct_mismatch</A>
+        <B>end</B>
+
+<B>create</B> 
+    <A HREF="../elks/arrayed_queue.html#f_make">make</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../elks/arrayed_queue.html#f_make">make</A> (n: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create queue for at most </FONT>`n'<FONT COLOR="red"> items.</FONT>
+        <B>require</B>
+            non_negative_argument: n &gt;= 0
+        <B>do</B>
+            <B>create</B> <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_make_empty">make_empty</A> (n)
+            <A HREF="../elks/arrayed_queue.html#f_out_index">out_index</A> := 1
+            <A HREF="../elks/arrayed_queue.html#f_count">count</A> := 0
+        <B>ensure</B>
+            capacity_expected: <A HREF="../elks/arrayed_queue.html#f_capacity">capacity</A> = n
+            is_empty: <A HREF="../elks/arrayed_queue.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_item"><A HREF="../elks/arrayed_queue.html#f_item">item</A>: G
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Oldest item.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_item">item</A> (<A HREF="../elks/arrayed_queue.html#f_out_index">out_index</A> - <A HREF="../elks/arrayed_queue.html#f_lower">Lower</A>)
+        <B>end</B></A>
+
+    <A NAME="f_has"><A HREF="../elks/arrayed_queue.html#f_has">has</A> (v: <B>like</B> <A HREF="../elks/arrayed_queue.html#f_item">item</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does queue include </FONT>`v'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Reference or object equality,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> based on </FONT><A HREF="../elks/container.html#f_object_comparison">object_comparison</A><FONT COLOR="red">.)</FONT>
+        <B>local</B>
+            i, j, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            i := <A HREF="../elks/arrayed_queue.html#f_out_index">out_index</A> - <A HREF="../elks/arrayed_queue.html#f_lower">Lower</A>
+            j := <A HREF="../elks/arrayed_queue.html#f_count">count</A>
+            nb := <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_capacity">capacity</A>
+            <B>if</B> <A HREF="../elks/container.html#f_object_comparison">object_comparison</A> <B>then</B>
+                <B>from</B>
+                <B>until</B>
+                    j = 0 <B>or</B> v ~ <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_item">item</A> (i)
+                <B>loop</B>
+                    i := i + 1
+                    <B>if</B> i = nb <B>then</B>
+                        i := 0
+                    <B>end</B>
+                    j := j - 1
+                <B>end</B>
+            <B>else</B>
+                <B>from</B>
+                <B>until</B>
+                    j = 0 <B>or</B> v = <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_item">item</A> (i)
+                <B>loop</B>
+                    i := i + 1
+                    <B>if</B> i = nb <B>then</B>
+                        i := 0
+                    <B>end</B>
+                    j := j - 1
+                <B>end</B>
+            <B>end</B>
+            <B>Result</B> := j &gt; 0
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_is_equal"><A HREF="../elks/arrayed_queue.html#f_is_equal">is_equal</A> (other: <B>like</B> <B>Current</B>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object considered</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to current object?</FONT>
+        <B>local</B>
+            i, j: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            nb, other_nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            c: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            c := <A HREF="../elks/arrayed_queue.html#f_count">count</A>
+            <B>if</B> c = other.<A HREF="../elks/arrayed_queue.html#f_count">count</A> <B>and</B> <A HREF="../elks/container.html#f_object_comparison">object_comparison</A> = other.<A HREF="../elks/container.html#f_object_comparison">object_comparison</A> <B>then</B>
+                i := <A HREF="../elks/arrayed_queue.html#f_out_index">out_index</A> - <A HREF="../elks/arrayed_queue.html#f_lower">Lower</A>
+                j := other.<A HREF="../elks/arrayed_queue.html#f_out_index">out_index</A> - <A HREF="../elks/arrayed_queue.html#f_lower">Lower</A>
+                nb := <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_capacity">capacity</A>
+                other_nb := other.<A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_capacity">capacity</A>
+                <B>Result</B> := <B>True</B>
+                <B>if</B> <A HREF="../elks/container.html#f_object_comparison">object_comparison</A> <B>then</B>
+                    <B>from</B>
+                    <B>until</B>
+                        c = 0 <B>or</B> <B>not</B> <B>Result</B>
+                    <B>loop</B>
+                        <B>Result</B> := <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_item">item</A> (i) ~ other.<A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_item">item</A> (j)
+                        j := j + 1
+                        <B>if</B> j &gt; other_nb <B>then</B>
+                            j := 0
+                        <B>end</B>
+                        i := i + 1
+                        <B>if</B> i = nb <B>then</B>
+                            i := 0
+                        <B>end</B>
+                        c := c - 1
+                    <B>end</B>
+                <B>else</B>
+                    <B>from</B>
+                    <B>until</B>
+                        c = 0 <B>or</B> <B>not</B> <B>Result</B>
+                    <B>loop</B>
+                        <B>Result</B> := <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_item">item</A> (i) = other.<A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_item">item</A> (j)
+                        j := j + 1
+                        <B>if</B> j &gt; other_nb <B>then</B>
+                            j := 0
+                        <B>end</B>
+                        i := i + 1
+                        <B>if</B> i = nb <B>then</B>
+                            i := 0
+                        <B>end</B>
+                        c := c - 1
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_count"><A HREF="../elks/arrayed_queue.html#f_count">count</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of items</FONT>
+
+    <A NAME="f_capacity"><A HREF="../elks/arrayed_queue.html#f_capacity">capacity</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of items that may be stored</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_capacity">capacity</A>
+        <B>end</B></A>
+
+    <A NAME="f_occurrences"><A HREF="../elks/arrayed_queue.html#f_occurrences">occurrences</A> (v: G): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of times </FONT>`v'<FONT COLOR="red"> appears in structure</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Reference or object equality,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> based on </FONT><A HREF="../elks/container.html#f_object_comparison">object_comparison</A><FONT COLOR="red">.)</FONT>
+        <B>local</B>
+            i, j, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            i := <A HREF="../elks/arrayed_queue.html#f_out_index">out_index</A> - <A HREF="../elks/arrayed_queue.html#f_lower">Lower</A>
+            j := <A HREF="../elks/arrayed_queue.html#f_count">count</A>
+            nb := <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_capacity">capacity</A>
+            <B>if</B> <A HREF="../elks/container.html#f_object_comparison">object_comparison</A> <B>then</B>
+                <B>from</B>
+                <B>until</B>
+                    j = 0
+                <B>loop</B>
+                    <B>if</B> <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_item">item</A> (i) ~ v <B>then</B>
+                        <B>Result</B> := <B>Result</B> + 1
+                    <B>end</B>
+                    i := i + 1
+                    <B>if</B> i = nb <B>then</B>
+                        i := 0
+                    <B>end</B>
+                    j := j - 1
+                <B>end</B>
+            <B>else</B>
+                <B>from</B>
+                <B>until</B>
+                    j = 0
+                <B>loop</B>
+                    <B>if</B> <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_item">item</A> (i) = v <B>then</B>
+                        <B>Result</B> := <B>Result</B> + 1
+                    <B>end</B>
+                    i := i + 1
+                    <B>if</B> i = nb <B>then</B>
+                        i := 0
+                    <B>end</B>
+                    j := j - 1
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_index_set"><A HREF="../elks/arrayed_queue.html#f_index_set">index_set</A>: <A HREF="../elks/integer_interval.html">INTEGER_INTERVAL</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Range of acceptable indexes</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/integer_interval.html#f_make">make</A> (1, <A HREF="../elks/arrayed_queue.html#f_count">count</A>)
+        <B>ensure then</B>
+            count_definition: <B>Result</B>.<A HREF="../elks/integer_interval.html#f_count">count</A> = <A HREF="../elks/arrayed_queue.html#f_count">count</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_is_empty"><A HREF="../elks/arrayed_queue.html#f_is_empty">is_empty</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is the structure empty?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/arrayed_queue.html">ARRAYED_QUEUE</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/arrayed_queue.html#f_off">off</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/arrayed_queue.html#f_count">count</A> = 0
+        <B>end</B></A>
+
+    <A NAME="f_off"><A HREF="../elks/arrayed_queue.html#f_off">off</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is the structure empty?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/arrayed_queue.html">ARRAYED_QUEUE</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/arrayed_queue.html#f_is_empty">is_empty</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/arrayed_queue.html#f_count">count</A> = 0
+        <B>end</B></A>
+
+    <A NAME="f_extendible"><A HREF="../elks/arrayed_queue.html#f_extendible">extendible</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May items be added? (Answer: yes.)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>True</B>
+        <B>end</B></A>
+
+    <A NAME="f_prunable"><A HREF="../elks/arrayed_queue.html#f_prunable">prunable</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May items be removed? (Answer: no.)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>False</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_extend"><A HREF="../elks/arrayed_queue.html#f_extend">extend</A> (v: G)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Add </FONT>`v'<FONT COLOR="red"> as newest item.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/arrayed_queue.html">ARRAYED_QUEUE</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/arrayed_queue.html#f_put">put</A><FONT COLOR="red"> and </FONT><A HREF="../elks/arrayed_queue.html#f_force">force</A><FONT COLOR="red">.</FONT>
+        <B>local</B>
+            l_capacity: <B>like</B> <A HREF="../elks/arrayed_queue.html#f_capacity">capacity</A>
+            l_count: <B>like</B> <A HREF="../elks/arrayed_queue.html#f_count">count</A>
+        <B>do</B>
+            l_capacity := <A HREF="../elks/arrayed_queue.html#f_capacity">capacity</A>
+            l_count := <A HREF="../elks/arrayed_queue.html#f_count">count</A>
+            <B>if</B> l_count &gt;= l_capacity <B>then</B>
+                <A HREF="../elks/arrayed_queue.html#f_grow">grow</A> (l_capacity + <A HREF="../elks/resizable.html#f_additional_space">additional_space</A>)
+                l_capacity := <A HREF="../elks/arrayed_queue.html#f_capacity">capacity</A>
+            <B>end</B>
+            <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_force">force</A> (v, <A HREF="../elks/arrayed_queue.html#f_in_index">in_index</A> - <A HREF="../elks/arrayed_queue.html#f_lower">Lower</A>)
+            <A HREF="../elks/arrayed_queue.html#f_count">count</A> := l_count + 1
+        <B>end</B></A>
+
+    <A NAME="f_put"><A HREF="../elks/arrayed_queue.html#f_put">put</A> (v: G)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Add </FONT>`v'<FONT COLOR="red"> as newest item.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/arrayed_queue.html">ARRAYED_QUEUE</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/arrayed_queue.html#f_extend">extend</A><FONT COLOR="red"> and </FONT><A HREF="../elks/arrayed_queue.html#f_force">force</A><FONT COLOR="red">.</FONT>
+        <B>local</B>
+            l_capacity: <B>like</B> <A HREF="../elks/arrayed_queue.html#f_capacity">capacity</A>
+            l_count: <B>like</B> <A HREF="../elks/arrayed_queue.html#f_count">count</A>
+        <B>do</B>
+            l_capacity := <A HREF="../elks/arrayed_queue.html#f_capacity">capacity</A>
+            l_count := <A HREF="../elks/arrayed_queue.html#f_count">count</A>
+            <B>if</B> l_count &gt;= l_capacity <B>then</B>
+                <A HREF="../elks/arrayed_queue.html#f_grow">grow</A> (l_capacity + <A HREF="../elks/resizable.html#f_additional_space">additional_space</A>)
+                l_capacity := <A HREF="../elks/arrayed_queue.html#f_capacity">capacity</A>
+            <B>end</B>
+            <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_force">force</A> (v, <A HREF="../elks/arrayed_queue.html#f_in_index">in_index</A> - <A HREF="../elks/arrayed_queue.html#f_lower">Lower</A>)
+            <A HREF="../elks/arrayed_queue.html#f_count">count</A> := l_count + 1
+        <B>end</B></A>
+
+    <A NAME="f_force"><A HREF="../elks/arrayed_queue.html#f_force">force</A> (v: G)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Add </FONT>`v'<FONT COLOR="red"> as newest item.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/arrayed_queue.html">ARRAYED_QUEUE</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/arrayed_queue.html#f_extend">extend</A><FONT COLOR="red"> and </FONT><A HREF="../elks/arrayed_queue.html#f_put">put</A><FONT COLOR="red">.</FONT>
+        <B>local</B>
+            l_capacity: <B>like</B> <A HREF="../elks/arrayed_queue.html#f_capacity">capacity</A>
+            l_count: <B>like</B> <A HREF="../elks/arrayed_queue.html#f_count">count</A>
+        <B>do</B>
+            l_capacity := <A HREF="../elks/arrayed_queue.html#f_capacity">capacity</A>
+            l_count := <A HREF="../elks/arrayed_queue.html#f_count">count</A>
+            <B>if</B> l_count &gt;= l_capacity <B>then</B>
+                <A HREF="../elks/arrayed_queue.html#f_grow">grow</A> (l_capacity + <A HREF="../elks/resizable.html#f_additional_space">additional_space</A>)
+                l_capacity := <A HREF="../elks/arrayed_queue.html#f_capacity">capacity</A>
+            <B>end</B>
+            <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_force">force</A> (v, <A HREF="../elks/arrayed_queue.html#f_in_index">in_index</A> - <A HREF="../elks/arrayed_queue.html#f_lower">Lower</A>)
+            <A HREF="../elks/arrayed_queue.html#f_count">count</A> := l_count + 1
+        <B>end</B></A>
+
+    <A NAME="f_replace"><A HREF="../elks/arrayed_queue.html#f_replace">replace</A> (v: <B>like</B> <A HREF="../elks/arrayed_queue.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Replace oldest item by </FONT>`v'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_put">put</A> (v, <A HREF="../elks/arrayed_queue.html#f_out_index">out_index</A> - <A HREF="../elks/arrayed_queue.html#f_lower">Lower</A>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_copy"><A HREF="../elks/arrayed_queue.html#f_copy">copy</A> (other: <B>like</B> <B>Current</B>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update current object using fields of object attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to </FONT>`other'<FONT COLOR="red">, so as to yield equal objects.</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Current</B> <B>then</B>
+                <A HREF="../elks/any.html#f_standard_copy">standard_copy</A> (other)
+                <A HREF="../elks/arrayed_queue.html#f_area">area</A> := <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/any.html#f_twin">twin</A>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removal</FONT>
+
+    <A NAME="f_remove"><A HREF="../elks/arrayed_queue.html#f_remove">remove</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove oldest item.</FONT>
+        <B>require else</B>
+            writable: <A HREF="../elks/dispenser.html#f_writable">writable</A>
+        <B>local</B>
+            l_removed_index: <B>like</B> <A HREF="../elks/arrayed_queue.html#f_out_index">out_index</A>
+        <B>do</B>
+            l_removed_index := <A HREF="../elks/arrayed_queue.html#f_out_index">out_index</A>
+            <A HREF="../elks/arrayed_queue.html#f_out_index">out_index</A> := l_removed_index \\ <A HREF="../elks/arrayed_queue.html#f_capacity">capacity</A> + 1
+            <A HREF="../elks/arrayed_queue.html#f_count">count</A> := <A HREF="../elks/arrayed_queue.html#f_count">count</A> - 1
+            <B>if</B> <A HREF="../elks/arrayed_queue.html#f_count">count</A> = 0 <B>then</B>
+                <A HREF="../elks/arrayed_queue.html#f_wipe_out">wipe_out</A>
+            <B>else</B>
+                <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_put">put</A> (<A HREF="../elks/arrayed_queue.html#f_newest_item">newest_item</A>, l_removed_index - <A HREF="../elks/arrayed_queue.html#f_lower">Lower</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_prune"><A HREF="../elks/arrayed_queue.html#f_prune">prune</A> (v: G)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove one occurrence of </FONT>`v'<FONT COLOR="red"> if any.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Reference or object equality,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> based on </FONT><A HREF="../elks/container.html#f_object_comparison">object_comparison</A><FONT COLOR="red">.)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_prune_all"><A HREF="../elks/arrayed_queue.html#f_prune_all">prune_all</A> (v: G)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove all occurrences of </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Reference or object equality,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> based on </FONT><A HREF="../elks/container.html#f_object_comparison">object_comparison</A><FONT COLOR="red">.)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_wipe_out"><A HREF="../elks/arrayed_queue.html#f_wipe_out">wipe_out</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove all items.</FONT>
+        <B>require else</B>
+            prunable: <B>True</B>
+        <B>do</B>
+            <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_wipe_out">wipe_out</A>
+            <A HREF="../elks/arrayed_queue.html#f_out_index">out_index</A> := 1
+            <A HREF="../elks/arrayed_queue.html#f_count">count</A> := 0
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Resizing</FONT>
+
+    <A NAME="f_trim"><A HREF="../elks/arrayed_queue.html#f_trim">trim</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Decrease </FONT><A HREF="../elks/arrayed_queue.html#f_capacity">capacity</A><FONT COLOR="red"> to the minimum value.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Apply to reduce allocated storage.</FONT>
+        <B>local</B>
+            i: <B>like</B> <A HREF="../elks/arrayed_queue.html#f_lower">Lower</A>
+            j: <B>like</B> <A HREF="../elks/arrayed_queue.html#f_lower">Lower</A>
+            n: <B>like</B> <A HREF="../elks/arrayed_queue.html#f_count">count</A>
+            m: <B>like</B> <A HREF="../elks/arrayed_queue.html#f_capacity">capacity</A>
+        <B>do</B>
+            n := <A HREF="../elks/arrayed_queue.html#f_count">count</A>
+            m := <A HREF="../elks/arrayed_queue.html#f_capacity">capacity</A>
+            <B>if</B> n &lt; m <B>then</B>
+                i := <A HREF="../elks/arrayed_queue.html#f_out_index">out_index</A> - <A HREF="../elks/arrayed_queue.html#f_lower">Lower</A>
+                j := <A HREF="../elks/arrayed_queue.html#f_in_index">in_index</A> - <A HREF="../elks/arrayed_queue.html#f_lower">Lower</A>
+                <B>if</B> i &lt; j <B>then</B>
+                    <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_move_data">move_data</A> (i, 0, n)
+                    <A HREF="../elks/arrayed_queue.html#f_out_index">out_index</A> := <A HREF="../elks/arrayed_queue.html#f_lower">Lower</A>
+                <B>elseif</B> n &gt; 0 <B>then</B>
+                    <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_move_data">move_data</A> (i, j, m - i)
+                    <A HREF="../elks/arrayed_queue.html#f_out_index">out_index</A> := j + <A HREF="../elks/arrayed_queue.html#f_lower">Lower</A>
+                <B>end</B>
+                <A HREF="../elks/arrayed_queue.html#f_area">area</A> := <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_aliased_resized_area">aliased_resized_area</A> (n)
+            <B>end</B>
+        <B>ensure then</B>
+            same_items: <A HREF="../elks/arrayed_queue.html#f_linear_representation">linear_representation</A>.<A HREF="../elks/arrayed_list.html#f_is_equal">is_equal</A> (<B>old</B> <A HREF="../elks/arrayed_queue.html#f_linear_representation">linear_representation</A>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Conversion</FONT>
+
+    <A NAME="f_linear_representation"><A HREF="../elks/arrayed_queue.html#f_linear_representation">linear_representation</A>: <A HREF="../elks/arrayed_list.html">ARRAYED_LIST</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Representation as a linear structure</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (in the original insertion order)</FONT>
+        <B>local</B>
+            i, j, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                i := <A HREF="../elks/arrayed_queue.html#f_out_index">out_index</A> - <A HREF="../elks/arrayed_queue.html#f_lower">Lower</A>
+                j := <A HREF="../elks/arrayed_queue.html#f_count">count</A>
+                nb := <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_capacity">capacity</A>
+                <B>create</B> <B>Result</B>.<A HREF="../elks/arrayed_list.html#f_make">make</A> (j)
+            <B>until</B>
+                j = 0
+            <B>loop</B>
+                <B>Result</B>.<A HREF="../elks/arrayed_list.html#f_extend">extend</A> (<A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_item">item</A> (i))
+                i := i + 1
+                <B>if</B> i = nb <B>then</B>
+                    i := 0
+                <B>end</B>
+                j := j - 1
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieval</FONT>
+
+    <A NAME="f_correct_mismatch"><A HREF="../elks/arrayed_queue.html#f_correct_mismatch">correct_mismatch</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attempt to correct object mismatch using </FONT><A HREF="../elks/mismatch_corrector.html#f_mismatch_information">Mismatch_information</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>if</B> <B>not</B> <A HREF="../elks/mismatch_corrector.html#f_mismatch_information">Mismatch_information</A>.<A HREF="../elks/hash_table.html#f_has">has</A> ("count") <B>and then</B> <B>attached</B> {<A HREF="../elks/special.html">SPECIAL</A> [G]} <A HREF="../elks/mismatch_corrector.html#f_mismatch_information">Mismatch_information</A>.<A HREF="../elks/hash_table.html#f_item">item</A> ("area") <B>as</B> a <B>and then</B> <B>attached</B> {<A HREF="../elks/integer_32.html">INTEGER_32</A>} <A HREF="../elks/mismatch_corrector.html#f_mismatch_information">Mismatch_information</A>.<A HREF="../elks/hash_table.html#f_item">item</A> ("in_index") <B>as</B> i <B>and then</B> <B>attached</B> {<A HREF="../elks/integer_32.html">INTEGER_32</A>} <A HREF="../elks/mismatch_corrector.html#f_mismatch_information">Mismatch_information</A>.<A HREF="../elks/hash_table.html#f_item">item</A> ("out_index") <B>as</B> o <B>and then</B> <B>attached</B> {<A HREF="../elks/boolean.html">BOOLEAN</A>} <A HREF="../elks/mismatch_corrector.html#f_mismatch_information">Mismatch_information</A>.<A HREF="../elks/hash_table.html#f_item">item</A> ("object_comparison") <B>as</B> c <B>then</B>
+                <A HREF="../elks/arrayed_queue.html#f_area">area</A> := a
+                <A HREF="../elks/arrayed_queue.html#f_out_index">out_index</A> := o
+                <B>if</B> a.<A HREF="../elks/special.html#f_capacity">capacity</A> = 0 <B>then</B>
+                    <A HREF="../elks/arrayed_queue.html#f_count">count</A> := 0
+                <B>else</B>
+                    <A HREF="../elks/arrayed_queue.html#f_count">count</A> := (i - o + a.<A HREF="../elks/special.html#f_capacity">capacity</A>) \\ a.<A HREF="../elks/special.html#f_capacity">capacity</A>
+                <B>end</B>
+                <A HREF="../elks/container.html#f_object_comparison">object_comparison</A> := c
+            <B>else</B>
+                <B>Precursor</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {<A HREF="../elks/arrayed_queue.html">ARRAYED_QUEUE</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_area"><A HREF="../elks/arrayed_queue.html#f_area">area</A>: <A HREF="../elks/special.html">SPECIAL</A> [G]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Storage for queue</FONT>
+
+    <A NAME="f_out_index"><A HREF="../elks/arrayed_queue.html#f_out_index">out_index</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Position of oldest item</FONT>
+
+    <A NAME="f_in_index"><A HREF="../elks/arrayed_queue.html#f_in_index">in_index</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Position for next insertion</FONT>
+        <B>local</B>
+            c: <B>like</B> <A HREF="../elks/arrayed_queue.html#f_capacity">capacity</A>
+        <B>do</B>
+            c := <A HREF="../elks/arrayed_queue.html#f_capacity">capacity</A>
+            <B>if</B> c &gt; 0 <B>then</B>
+                <B>Result</B> := (<A HREF="../elks/arrayed_queue.html#f_out_index">out_index</A> - <A HREF="../elks/arrayed_queue.html#f_lower">Lower</A> + <A HREF="../elks/arrayed_queue.html#f_count">count</A>) \\ c + <A HREF="../elks/arrayed_queue.html#f_lower">Lower</A>
+            <B>else</B>
+                <B>Result</B> := <A HREF="../elks/arrayed_queue.html#f_out_index">out_index</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_grow"><A HREF="../elks/arrayed_queue.html#f_grow">grow</A> (n: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Ensure that capacity is at least </FONT>`i'<FONT COLOR="red">.</FONT>
+        <B>local</B>
+            old_count, new_capacity: <B>like</B> <A HREF="../elks/arrayed_queue.html#f_capacity">capacity</A>
+            nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            new_capacity := <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_capacity">capacity</A>.<A HREF="../elks/comparable.html#f_max">max</A> (n)
+            <B>if</B> <A HREF="../elks/arrayed_queue.html#f_count">count</A> = 0 <B>or else</B> <A HREF="../elks/arrayed_queue.html#f_in_index">in_index</A> &gt; <A HREF="../elks/arrayed_queue.html#f_out_index">out_index</A> <B>then</B>
+                <A HREF="../elks/arrayed_queue.html#f_area">area</A> := <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_aliased_resized_area">aliased_resized_area</A> (new_capacity)
+            <B>else</B>
+                old_count := <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_count">count</A>
+                <A HREF="../elks/arrayed_queue.html#f_area">area</A> := <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_aliased_resized_area_with_default">aliased_resized_area_with_default</A> (<A HREF="../elks/arrayed_queue.html#f_newest_item">newest_item</A>, new_capacity)
+                nb := old_count - <A HREF="../elks/arrayed_queue.html#f_out_index">out_index</A> + 1
+                <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_move_data">move_data</A> (<A HREF="../elks/arrayed_queue.html#f_out_index">out_index</A> - <A HREF="../elks/arrayed_queue.html#f_lower">Lower</A>, new_capacity - nb, nb)
+                <A HREF="../elks/arrayed_queue.html#f_out_index">out_index</A> := new_capacity - nb + 1
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_lower"><A HREF="../elks/arrayed_queue.html#f_lower">Lower</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A> = 1</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Lower bound for accessing list items via indexes</FONT>
+
+    <A NAME="f_upper"><A HREF="../elks/arrayed_queue.html#f_upper">upper</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Upper bound for accessing list items via indexes</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_count">count</A>
+        <B>end</B></A>
+
+    <A NAME="f_newest_item"><A HREF="../elks/arrayed_queue.html#f_newest_item">newest_item</A>: G
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Most recently added item.</FONT>
+        <B>local</B>
+            l_pos: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            l_pos := <A HREF="../elks/arrayed_queue.html#f_in_index">in_index</A> - 1
+            <B>if</B> l_pos = 0 <B>then</B>
+                <B>Result</B> := <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_item">item</A> (<A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_upper">upper</A>)
+            <B>else</B>
+                <B>Result</B> := <A HREF="../elks/arrayed_queue.html#f_area">area</A>.<A HREF="../elks/special.html#f_item">item</A> (l_pos - <A HREF="../elks/arrayed_queue.html#f_lower">Lower</A>)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/arrayed_queue.html">ARRAYED_QUEUE</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="arrayed_queue_chart.html">Chart</A></TD><TD><A HREF="arrayed_queue_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="arrayed_queue_flat.html">Flat</A></TD><TD><A HREF="arrayed_queue_short.html">Contracts</A></TD><TD><A HREF="arrayed_queue_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

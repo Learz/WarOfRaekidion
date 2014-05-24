@@ -1,0 +1,306 @@
+<HTML><HEAD>
+<meta name="description" content="Formatter for integral numbers"/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="names" content="format_integer"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>format_integer Contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="format_integer_chart.html">Chart</A></TD><TD><A HREF="format_integer_links.html">Relations</A></TD><TD><A HREF="format_integer.html">Text</A></TD><TD><A HREF="format_integer_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="format_integer_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Formatter for integral numbers"
+    library: "Free implementation of ELKS library"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    names: format_integer
+    date: "$Date: 2013-03-20 16:43:02 -0700 (Wed, 20 Mar 2013) $"
+    revision: "$Revision: 92323 $"
+
+<B>class</B> <B>interface</B>
+    <A HREF="../elks/format_integer_short.html">FORMAT_INTEGER</A>
+
+<B>create</B> 
+    <A HREF="../elks/format_integer_short.html#f_make">make</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../elks/format_integer_short.html#f_make">make</A> (w: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+        <B>require</B>
+            reasonable_field: w &gt;= 1
+        <B>ensure</B>
+            blank_fill: <A HREF="../elks/format_integer_short.html#f_fill_character">fill_character</A> = ' '
+            show_sign_negative: <A HREF="../elks/format_integer_short.html#f_show_sign_negative">show_sign_negative</A>
+            no_separator: <A HREF="../elks/format_integer_short.html#f_no_separator">no_separator</A>
+            width_set: <A HREF="../elks/format_integer_short.html#f_width">width</A> = w
+            right_justified: <A HREF="../elks/format_integer_short.html#f_right_justified">right_justified</A>
+            leading_sign: <A HREF="../elks/format_integer_short.html#f_leading_sign">leading_sign</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_fill_character"><A HREF="../elks/format_integer_short.html#f_fill_character">fill_character</A>: <A HREF="../elks/character_8_short.html">CHARACTER_8</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Padding character.</FONT>
+
+    <A NAME="f_width"><A HREF="../elks/format_integer_short.html#f_width">width</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Width of the field.</FONT>
+
+    <A NAME="f_separator"><A HREF="../elks/format_integer_short.html#f_separator">separator</A>: <A HREF="../elks/character_8_short.html">CHARACTER_8</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Separator between 1000's of numbers.</FONT>
+
+    <A NAME="f_justification"><A HREF="../elks/format_integer_short.html#f_justification">justification</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Where in the field the format goes.</FONT>
+
+    <A NAME="f_trailing_sign"><A HREF="../elks/format_integer_short.html#f_trailing_sign">trailing_sign</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is the sign at the end?</FONT>
+
+    <A NAME="f_sign_format"><A HREF="../elks/format_integer_short.html#f_sign_format">sign_format</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> How the sign is formatted.</FONT>
+
+    <A NAME="f_sign_string"><A HREF="../elks/format_integer_short.html#f_sign_string">sign_string</A>: <A HREF="../elks/string_8_short.html">STRING_8</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Formatting details for the sign.</FONT>
+
+    <A NAME="f_bracketted_negative"><A HREF="../elks/format_integer_short.html#f_bracketted_negative">bracketted_negative</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Enclose negative numbers in brackets?</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_centered"><A HREF="../elks/format_integer_short.html#f_centered">centered</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are numbers to be formatted centered?</FONT>
+        <B>ensure</B>
+            <B>Result</B> = (<A HREF="../elks/format_integer_short.html#f_justification">justification</A> = <A HREF="../elks/format_integer_short.html#f_center_justification">Center_justification</A>)
+</A>
+    <A NAME="f_left_justified"><A HREF="../elks/format_integer_short.html#f_left_justified">left_justified</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are numbers to be formatted with spaces on the right?</FONT>
+        <B>ensure</B>
+            <B>Result</B> = (<A HREF="../elks/format_integer_short.html#f_justification">justification</A> = <A HREF="../elks/format_integer_short.html#f_left_justification">Left_justification</A>)
+</A>
+    <A NAME="f_right_justified"><A HREF="../elks/format_integer_short.html#f_right_justified">right_justified</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are numbers to be formatted with spaces on the left?</FONT>
+        <B>ensure</B>
+            <B>Result</B> = (<A HREF="../elks/format_integer_short.html#f_justification">justification</A> = <A HREF="../elks/format_integer_short.html#f_right_justification">Right_justification</A>)
+</A>
+    <A NAME="f_not_justified"><A HREF="../elks/format_integer_short.html#f_not_justified">not_justified</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are numbers to be formatted in smallest string possible</FONT>
+        <B>ensure</B>
+            <B>Result</B> = (<A HREF="../elks/format_integer_short.html#f_justification">justification</A> = <A HREF="../elks/format_integer_short.html#f_no_justification">No_justification</A>)
+</A>
+    <A NAME="f_show_sign_negative"><A HREF="../elks/format_integer_short.html#f_show_sign_negative">show_sign_negative</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are numbers to show sign only when negative?</FONT>
+        <B>ensure</B>
+            <B>Result</B> = (<A HREF="../elks/format_integer_short.html#f_sign_format">sign_format</A> = <A HREF="../elks/format_integer_short.html#f_sign_negative_value">Sign_negative_value</A>)
+</A>
+    <A NAME="f_show_sign_positive"><A HREF="../elks/format_integer_short.html#f_show_sign_positive">show_sign_positive</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are numbers to show sign only when positive?</FONT>
+        <B>ensure</B>
+            <B>Result</B> = (<A HREF="../elks/format_integer_short.html#f_sign_format">sign_format</A> = <A HREF="../elks/format_integer_short.html#f_sign_positive_value">Sign_positive_value</A>)
+</A>
+    <A NAME="f_show_sign"><A HREF="../elks/format_integer_short.html#f_show_sign">show_sign</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are numbers to show sign whether positive or negative?</FONT>
+        <B>ensure</B>
+            <B>Result</B> = (<A HREF="../elks/format_integer_short.html#f_sign_format">sign_format</A> = <A HREF="../elks/format_integer_short.html#f_show_sign_value">Show_sign_value</A>)
+</A>
+    <A NAME="f_ignore_sign"><A HREF="../elks/format_integer_short.html#f_ignore_sign">ignore_sign</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Ignore the sign of a number?</FONT>
+        <B>ensure</B>
+            <B>Result</B> = (<A HREF="../elks/format_integer_short.html#f_sign_format">sign_format</A> = <A HREF="../elks/format_integer_short.html#f_ignore_sign_value">Ignore_sign_value</A>)
+</A>
+    <A NAME="f_no_separator"><A HREF="../elks/format_integer_short.html#f_no_separator">no_separator</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there a separator?</FONT>
+        <B>ensure</B>
+            <B>Result</B> = (<A HREF="../elks/format_integer_short.html#f_separator">separator</A> = '%U')
+</A>
+    <A NAME="f_leading_sign"><A HREF="../elks/format_integer_short.html#f_leading_sign">leading_sign</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is the sign leading?</FONT>
+        <B>ensure</B>
+            <B>Result</B> = <B>not</B> <A HREF="../elks/format_integer_short.html#f_trailing_sign">trailing_sign</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status setting</FONT>
+
+    <A NAME="f_blank_fill"><A HREF="../elks/format_integer_short.html#f_blank_fill">blank_fill</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Fill numbers with blanks.</FONT>
+        <B>ensure</B>
+            <A HREF="../elks/format_integer_short.html#f_fill_character">fill_character</A> = ' '
+</A>
+    <A NAME="f_zero_fill"><A HREF="../elks/format_integer_short.html#f_zero_fill">zero_fill</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Fill numbers with zeros.</FONT>
+        <B>ensure</B>
+            <A HREF="../elks/format_integer_short.html#f_fill_character">fill_character</A> = '0'
+</A>
+    <A NAME="f_dollar_fill"><A HREF="../elks/format_integer_short.html#f_dollar_fill">dollar_fill</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Fill numbers with dollars.</FONT>
+        <B>ensure</B>
+            <A HREF="../elks/format_integer_short.html#f_fill_character">fill_character</A> = '$'
+</A>
+    <A NAME="f_asterisk_fill"><A HREF="../elks/format_integer_short.html#f_asterisk_fill">asterisk_fill</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Fill numbers with asterisks.</FONT>
+        <B>ensure</B>
+            <A HREF="../elks/format_integer_short.html#f_fill_character">fill_character</A> = '*'
+</A>
+    <A NAME="f_set_fill"><A HREF="../elks/format_integer_short.html#f_set_fill">set_fill</A> (c: <A HREF="../elks/character_8_short.html">CHARACTER_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Fill numbers with </FONT>`c'
+        <B>ensure</B>
+            <A HREF="../elks/format_integer_short.html#f_fill_character">fill_character</A> = c
+</A>
+    <A NAME="f_set_width"><A HREF="../elks/format_integer_short.html#f_set_width">set_width</A> (w: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set width to </FONT>`w'
+        <B>require</B>
+            wide_enough: w &gt;= 1
+        <B>ensure</B>
+            <A HREF="../elks/format_integer_short.html#f_width">width</A> = w
+</A>
+    <A NAME="f_underscore_separate"><A HREF="../elks/format_integer_short.html#f_underscore_separate">underscore_separate</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set separator to underscore.</FONT>
+        <B>ensure</B>
+            <A HREF="../elks/format_integer_short.html#f_separator">separator</A> = '_'
+</A>
+    <A NAME="f_comma_separate"><A HREF="../elks/format_integer_short.html#f_comma_separate">comma_separate</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set separator to comma.</FONT>
+        <B>ensure</B>
+            <A HREF="../elks/format_integer_short.html#f_separator">separator</A> = ','
+</A>
+    <A NAME="f_dot_separate"><A HREF="../elks/format_integer_short.html#f_dot_separate">dot_separate</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set separator to period.</FONT>
+        <B>ensure</B>
+            <A HREF="../elks/format_integer_short.html#f_separator">separator</A> = '.'
+</A>
+    <A NAME="f_remove_separator"><A HREF="../elks/format_integer_short.html#f_remove_separator">remove_separator</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove the separator.</FONT>
+        <B>ensure</B>
+            <A HREF="../elks/format_integer_short.html#f_separator">separator</A> = '%U'
+</A>
+    <A NAME="f_set_separator"><A HREF="../elks/format_integer_short.html#f_set_separator">set_separator</A> (c: <A HREF="../elks/character_8_short.html">CHARACTER_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set the separator to </FONT>`c'
+        <B>ensure</B>
+            <A HREF="../elks/format_integer_short.html#f_separator">separator</A> = c
+</A>
+    <A NAME="f_left_justify"><A HREF="../elks/format_integer_short.html#f_left_justify">left_justify</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">Put padding on right</FONT>
+        <B>ensure</B>
+            <A HREF="../elks/format_integer_short.html#f_left_justified">left_justified</A>
+</A>
+    <A NAME="f_center_justify"><A HREF="../elks/format_integer_short.html#f_center_justify">center_justify</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Put padding on right and left</FONT>
+        <B>ensure</B>
+            <A HREF="../elks/format_integer_short.html#f_centered">centered</A>
+</A>
+    <A NAME="f_right_justify"><A HREF="../elks/format_integer_short.html#f_right_justify">right_justify</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Put padding on left</FONT>
+        <B>ensure</B>
+            <A HREF="../elks/format_integer_short.html#f_right_justified">right_justified</A>
+</A>
+    <A NAME="f_no_justify"><A HREF="../elks/format_integer_short.html#f_no_justify">no_justify</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always return the smallest string possible</FONT>
+        <B>ensure</B>
+            <A HREF="../elks/format_integer_short.html#f_not_justified">not_justified</A>
+</A>
+    <A NAME="f_sign_leading"><A HREF="../elks/format_integer_short.html#f_sign_leading">sign_leading</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set the sign to lead</FONT>
+        <B>ensure</B>
+            <A HREF="../elks/format_integer_short.html#f_leading_sign">leading_sign</A>
+</A>
+    <A NAME="f_sign_trailing"><A HREF="../elks/format_integer_short.html#f_sign_trailing">sign_trailing</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set the sign to trail</FONT>
+        <B>ensure</B>
+            <A HREF="../elks/format_integer_short.html#f_trailing_sign">trailing_sign</A>
+</A>
+    <A NAME="f_sign_positive_only"><A HREF="../elks/format_integer_short.html#f_sign_positive_only">sign_positive_only</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Show sign for positive numbers only.</FONT>
+        <B>ensure</B>
+            <A HREF="../elks/format_integer_short.html#f_show_sign_positive">show_sign_positive</A>
+</A>
+    <A NAME="f_sign_negative_only"><A HREF="../elks/format_integer_short.html#f_sign_negative_only">sign_negative_only</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Show sign for negative numbers only.</FONT>
+        <B>ensure</B>
+            <A HREF="../elks/format_integer_short.html#f_show_sign_negative">show_sign_negative</A>
+</A>
+    <A NAME="f_sign_show"><A HREF="../elks/format_integer_short.html#f_sign_show">sign_show</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Show sign for all numbers.</FONT>
+        <B>ensure</B>
+            <A HREF="../elks/format_integer_short.html#f_show_sign">show_sign</A>
+</A>
+    <A NAME="f_sign_ignore"><A HREF="../elks/format_integer_short.html#f_sign_ignore">sign_ignore</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do not show sign.</FONT>
+        <B>ensure</B>
+            <A HREF="../elks/format_integer_short.html#f_ignore_sign">ignore_sign</A>
+</A>
+    <A NAME="f_sign_normal"><A HREF="../elks/format_integer_short.html#f_sign_normal">sign_normal</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set sign for - and +.</FONT>
+        <B>ensure</B>
+            <A HREF="../elks/format_integer_short.html#f_sign_string">sign_string</A> ~ "- +"
+</A>
+    <A NAME="f_sign_cr_dr"><A HREF="../elks/format_integer_short.html#f_sign_cr_dr">sign_cr_dr</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set sign for CR/DR</FONT>
+        <B>ensure</B>
+            <A HREF="../elks/format_integer_short.html#f_sign_string">sign_string</A> ~ "CR  DR"
+</A>
+    <A NAME="f_sign_dr_cr"><A HREF="../elks/format_integer_short.html#f_sign_dr_cr">sign_dr_cr</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set sign for DR/CR</FONT>
+        <B>ensure</B>
+            <A HREF="../elks/format_integer_short.html#f_sign_string">sign_string</A> ~ "DR  CR"
+</A>
+    <A NAME="f_sign_floating_dollar"><A HREF="../elks/format_integer_short.html#f_sign_floating_dollar">sign_floating_dollar</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set sign for floating dollar.</FONT>
+        <B>ensure</B>
+            <A HREF="../elks/format_integer_short.html#f_sign_string">sign_string</A> ~ "$$$"
+</A>
+    <A NAME="f_sign_floating_dollar_signed"><A HREF="../elks/format_integer_short.html#f_sign_floating_dollar_signed">sign_floating_dollar_signed</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set sign for floating dollar include sign.</FONT>
+        <B>ensure</B>
+            <A HREF="../elks/format_integer_short.html#f_sign_string">sign_string</A> ~ "-$ $+$"
+</A>
+    <A NAME="f_set_sign"><A HREF="../elks/format_integer_short.html#f_set_sign">set_sign</A> (s: <A HREF="../elks/string_8_short.html">STRING_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set sign values for positive, zero, negative</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> All values must be the same length.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Stored as negative, zero, positive.</FONT>
+        <B>require</B>
+            s /= <B>Void</B>
+            s.<A HREF="../elks/readable_string_8_short.html#f_count">count</A> &gt;= 3
+            s.<A HREF="../elks/readable_string_8_short.html#f_count">count</A> \\ 3 = 0
+        <B>ensure</B>
+            sign_set: <A HREF="../elks/format_integer_short.html#f_sign_string">sign_string</A> ~ s
+</A>
+    <A NAME="f_bracket_negative"><A HREF="../elks/format_integer_short.html#f_bracket_negative">bracket_negative</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Bracket negative numbers.</FONT>
+        <B>ensure</B>
+            <A HREF="../elks/format_integer_short.html#f_bracketted_negative">bracketted_negative</A>
+</A>
+    <A NAME="f_unbracket_negative"><A HREF="../elks/format_integer_short.html#f_unbracket_negative">unbracket_negative</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do not bracket negative numbers.</FONT>
+        <B>ensure</B>
+            <B>not</B> <A HREF="../elks/format_integer_short.html#f_bracketted_negative">bracketted_negative</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Conversion</FONT>
+
+    <A NAME="f_formatted"><A HREF="../elks/format_integer_short.html#f_formatted">formatted</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/string_8_short.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Format the integer.</FONT>
+        <B>ensure</B>
+            exists: <B>Result</B> /= <B>Void</B>
+            correct_length: <A HREF="../elks/format_integer_short.html#f_not_justified">not_justified</A> <B>or</B> <B>Result</B>.<A HREF="../elks/readable_string_8_short.html#f_count">count</A> &gt;= <A HREF="../elks/format_integer_short.html#f_width">width</A>
+</A>    
+<B>invariant</B>
+    sign_string_attached: <A HREF="../elks/format_integer_short.html#f_sign_string">sign_string</A> /= <B>Void</B>
+    sign_string_count: <A HREF="../elks/format_integer_short.html#f_sign_string">sign_string</A>.<A HREF="../elks/readable_string_8_short.html#f_count">count</A> &gt;= 3
+    sign_string_equal_parts: <A HREF="../elks/format_integer_short.html#f_sign_string">sign_string</A>.<A HREF="../elks/readable_string_8_short.html#f_count">count</A> \\ 3 = 0
+    wide_enough: <A HREF="../elks/format_integer_short.html#f_width">width</A> &gt;= 1
+    <A HREF="../elks/format_integer_short.html#f_no_justification">No_justification</A> &lt;= <A HREF="../elks/format_integer_short.html#f_justification">justification</A> <B>and</B> <A HREF="../elks/format_integer_short.html#f_justification">justification</A> &lt;= <A HREF="../elks/format_integer_short.html#f_right_justification">Right_justification</A>
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/format_integer_short.html">FORMAT_INTEGER</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="format_integer_chart.html">Chart</A></TD><TD><A HREF="format_integer_links.html">Relations</A></TD><TD><A HREF="format_integer.html">Text</A></TD><TD><A HREF="format_integer_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="format_integer_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

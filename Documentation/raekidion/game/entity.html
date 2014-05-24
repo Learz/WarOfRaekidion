@@ -1,0 +1,109 @@
+<HTML><HEAD>
+<meta name="description" content="War of Raekidion - An entity An {ENTITY} is a sprite with advanced management properties allowing more accurate movement along a vector and lifetime handling."/>
+<meta name="author" content="François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>entity Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="entity_chart.html">Chart</A></TD><TD><A HREF="entity_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="entity_flat.html">Flat</A></TD><TD><A HREF="entity_short.html">Contracts</A></TD><TD><A HREF="entity_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        War of Raekidion - An entity
+        An <A HREF="../../raekidion/game/entity.html">ENTITY</A> is a sprite with advanced management properties
+        allowing more accurate movement along a vector and lifetime handling.
+    ]"
+    author: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+    date: "$Date$"
+    revision: "$Revision$"
+
+<B>class</B> 
+    <A HREF="../../raekidion/game/entity.html">ENTITY</A>
+
+<B>inherit</B>
+    <A HREF="../../raekidion/game/collision.html">COLLISION</A>
+
+    <A HREF="../../raekidion/objects/sprite.html">SPRITE</A>
+        <B>rename</B>
+            <A HREF="../../raekidion/objects/sprite.html#f_make">make</A> <B>as</B> <A HREF="../../raekidion/objects/sprite.html#f_make">sprite_make</A>,
+            <A HREF="../../raekidion/objects/surface.html#f_x">x</A> <B>as</B> <A HREF="../../raekidion/objects/surface.html#f_x">sprite_x</A>,
+            <A HREF="../../raekidion/objects/surface.html#f_y">y</A> <B>as</B> <A HREF="../../raekidion/objects/surface.html#f_y">sprite_y</A>
+        <B>redefine</B>
+            <A HREF="../../raekidion/game/entity.html#f_update">update</A>,
+            <A HREF="../../raekidion/game/entity.html#f_set_x">set_x</A>,
+            <A HREF="../../raekidion/game/entity.html#f_set_y">set_y</A>
+        <B>end</B>
+
+<B>create</B> 
+    <A HREF="../../raekidion/game/entity.html#f_make">make</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../../raekidion/game/entity.html#f_make">make</A> (a_name: <A HREF="../../elks/string_8.html">STRING_8</A>; a_window: <A HREF="../../raekidion/objects/window.html">WINDOW</A>; a_x, a_y, a_health: <A HREF="../../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize </FONT>`Current'<FONT COLOR="red"> from </FONT>`a_name'<FONT COLOR="red">, </FONT>`a_window'<FONT COLOR="red">, </FONT>`a_x'<FONT COLOR="red">, </FONT>`a_y'<FONT COLOR="red"> and </FONT>`a_health'
+        <B>do</B>
+            <A HREF="../../raekidion/game/entity.html#f_lifetime">lifetime</A> := 0
+            <A HREF="../../raekidion/game/entity.html#f_health">health</A> := a_health
+            <B>create</B> <A HREF="../../raekidion/game/entity.html#f_trajectory">trajectory</A>.<A HREF="../../raekidion/objects/vector.html#f_make_empty">make_empty</A>
+            <A HREF="../../raekidion/objects/sprite.html#f_make">sprite_make</A> (a_name, a_window, a_x, a_y)
+            <A HREF="../../raekidion/game/entity.html#f_set_x">set_x</A> (a_x)
+            <A HREF="../../raekidion/game/entity.html#f_set_y">set_y</A> (a_y)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_x"><A HREF="../../raekidion/game/entity.html#f_x">x</A>: <A HREF="../../elks/real_64.html">REAL_64</A></A>
+
+    <A NAME="f_y"><A HREF="../../raekidion/game/entity.html#f_y">y</A>: <A HREF="../../elks/real_64.html">REAL_64</A></A>
+
+    <A NAME="f_health"><A HREF="../../raekidion/game/entity.html#f_health">health</A>: <A HREF="../../elks/real_64.html">REAL_64</A></A>
+
+    <A NAME="f_offset"><A HREF="../../raekidion/game/entity.html#f_offset">offset</A>: <A HREF="../../elks/integer_32.html">INTEGER_32</A></A>
+
+    <A NAME="f_trajectory"><A HREF="../../raekidion/game/entity.html#f_trajectory">trajectory</A>: <A HREF="../../raekidion/objects/vector.html">VECTOR</A></A>
+
+    <A NAME="f_update"><A HREF="../../raekidion/game/entity.html#f_update">update</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update </FONT>`Current'<FONT COLOR="red"> on screen</FONT>
+        <B>do</B>
+            <B>if</B> <A HREF="../../raekidion/game/entity.html#f_health">health</A> &lt;= 0.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> <B>then</B>
+                <A HREF="../../raekidion/objects/surface.html#f_destroy">destroy</A>
+            <B>end</B>
+            <A HREF="../../raekidion/game/entity.html#f_lifetime">lifetime</A> := <A HREF="../../raekidion/game/entity.html#f_lifetime">lifetime</A> + 1
+            <A HREF="../../raekidion/game/entity.html#f_set_x">set_x</A> (<A HREF="../../raekidion/game/entity.html#f_x">x</A> + (<A HREF="../../raekidion/game/entity.html#f_trajectory">trajectory</A>.<A HREF="../../raekidion/objects/vector.html#f_x">x</A>))
+            <A HREF="../../raekidion/game/entity.html#f_set_y">set_y</A> (<A HREF="../../raekidion/game/entity.html#f_y">y</A> - (<A HREF="../../raekidion/game/entity.html#f_trajectory">trajectory</A>.<A HREF="../../raekidion/objects/vector.html#f_y">y</A>))
+            <B>Precursor</B> {<A HREF="../../raekidion/objects/sprite.html">SPRITE</A>}
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_set_x"><A HREF="../../raekidion/game/entity.html#f_set_x">set_x</A> (a_x: <A HREF="../../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Assign </FONT><A HREF="../../raekidion/game/entity.html#f_x">x</A><FONT COLOR="red"> to </FONT>`a_x'
+        <B>do</B>
+            <A HREF="../../raekidion/game/entity.html#f_x">x</A> := a_x
+            <A HREF="../../raekidion/objects/surface.html#f_x">sprite_x</A> := a_x - <A HREF="../../raekidion/objects/surface.html#f_width">width</A> / 2
+            <B>Precursor</B> {<A HREF="../../raekidion/objects/sprite.html">SPRITE</A>} (<A HREF="../../raekidion/objects/surface.html#f_x">sprite_x</A>)
+        <B>end</B></A>
+
+    <A NAME="f_set_y"><A HREF="../../raekidion/game/entity.html#f_set_y">set_y</A> (a_y: <A HREF="../../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Assign </FONT><A HREF="../../raekidion/game/entity.html#f_y">y</A><FONT COLOR="red"> to </FONT>`a_y'
+        <B>do</B>
+            <A HREF="../../raekidion/game/entity.html#f_y">y</A> := a_y
+            <A HREF="../../raekidion/objects/surface.html#f_y">sprite_y</A> := a_y - <A HREF="../../raekidion/objects/surface.html#f_height">height</A> / 2
+            <B>Precursor</B> {<A HREF="../../raekidion/objects/sprite.html">SPRITE</A>} (<A HREF="../../raekidion/objects/surface.html#f_y">sprite_y</A>)
+        <B>end</B></A>
+
+    <A NAME="f_set_health"><A HREF="../../raekidion/game/entity.html#f_set_health">set_health</A> (a_health: <A HREF="../../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Assign </FONT><A HREF="../../raekidion/game/entity.html#f_health">health</A><FONT COLOR="red"> to </FONT>`a_health'
+        <B>do</B>
+            <A HREF="../../raekidion/game/entity.html#f_health">health</A> := a_health
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_lifetime"><A HREF="../../raekidion/game/entity.html#f_lifetime">lifetime</A>: <A HREF="../../elks/integer_32.html">INTEGER_32</A></A>
+    
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../../raekidion/game/entity.html">ENTITY</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="entity_chart.html">Chart</A></TD><TD><A HREF="entity_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="entity_flat.html">Flat</A></TD><TD><A HREF="entity_short.html">Contracts</A></TD><TD><A HREF="entity_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

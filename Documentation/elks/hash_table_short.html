@@ -1,0 +1,424 @@
+<HTML><HEAD>
+<meta name="description" content="Hash tables, used to store items identified by hashable keys"/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="instructions" content="See instructions at the end of the class."/>
+<meta name="warning" content="Modifying an object used as a key by an item present in a table will cause incorrect behavior. If you will be modifying key objects, pass a clone, not the object itself, as key argument to `put' and `replace_key'."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>hash_table Contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="hash_table_chart.html">Chart</A></TD><TD><A HREF="hash_table_links.html">Relations</A></TD><TD><A HREF="hash_table.html">Text</A></TD><TD><A HREF="hash_table_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="hash_table_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Hash tables, used to store items identified by hashable keys"
+    library: "Free implementation of ELKS library"
+    legal: "See notice at end of class."
+    instructions: "See instructions at the end of the class."
+    warning: "[
+        Modifying an object used as a key by an item present in a table will
+        cause incorrect behavior. If you will be modifying key objects,
+        pass a clone, not the object itself, as key argument to
+        <A HREF="../elks/hash_table_short.html#f_put">put</A> and <A HREF="../elks/hash_table_short.html#f_replace_key">replace_key</A>.
+    ]"
+    status: "See notice at end of class."
+    date: "$Date: 2013-09-27 15:22:07 -0700 (Fri, 27 Sep 2013) $"
+    revision: "$Revision: 93023 $"
+
+<B>class</B> <B>interface</B>
+    <A HREF="../elks/hash_table_short.html">HASH_TABLE</A> [G, K -&gt; <B>detachable</B> <A HREF="../elks/hashable_short.html">HASHABLE</A>]
+
+<B>create</B> 
+    <A HREF="../elks/hash_table_short.html#f_make">make</A>,
+    <A HREF="../elks/hash_table_short.html#f_make_equal">make_equal</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../elks/hash_table_short.html#f_make">make</A> (n: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Allocate hash table for at least </FONT>`n'<FONT COLOR="red"> items.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The table will be resized automatically</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> if more than </FONT>`n'<FONT COLOR="red"> items are inserted.</FONT>
+        <B>require</B>
+            n_non_negative: n &gt;= 0
+        <B>ensure</B>
+            breathing_space: n &lt; <A HREF="../elks/hash_table_short.html#f_capacity">capacity</A>
+            more_than_minimum: <A HREF="../elks/hash_table_short.html#f_capacity">capacity</A> &gt; <A HREF="../elks/hash_table_short.html#f_minimum_capacity">Minimum_capacity</A>
+            no_status: <B>not</B> <A HREF="../elks/hash_table_short.html#f_special_status">special_status</A>
+</A>
+    <A NAME="f_make_equal"><A HREF="../elks/hash_table_short.html#f_make_equal">make_equal</A> (n: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Allocate hash table for at least </FONT>`n'<FONT COLOR="red"> items.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The table will be resized automatically</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> if more than </FONT>`n'<FONT COLOR="red"> items are inserted.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Use </FONT>`~'<FONT COLOR="red"> to compare items.</FONT>
+        <B>require</B>
+            n_non_negative: n &gt;= 0
+        <B>ensure</B>
+            breathing_space: n &lt; <A HREF="../elks/hash_table_short.html#f_capacity">capacity</A>
+            more_than_minimum: <A HREF="../elks/hash_table_short.html#f_capacity">capacity</A> &gt; <A HREF="../elks/hash_table_short.html#f_minimum_capacity">Minimum_capacity</A>
+            no_status: <B>not</B> <A HREF="../elks/hash_table_short.html#f_special_status">special_status</A>
+            compare_objects: <A HREF="../elks/container_short.html#f_object_comparison">object_comparison</A>
+</A>
+    <A NAME="f_accommodate"><A HREF="../elks/hash_table_short.html#f_accommodate">accommodate</A> (n: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Reallocate table with enough space for </FONT>`n'<FONT COLOR="red"> items;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> keep all current items.</FONT>
+        <B>require</B>
+            n &gt;= 0
+        <B>ensure</B>
+            count_not_changed: <A HREF="../elks/hash_table_short.html#f_count">count</A> = <B>old</B> <A HREF="../elks/hash_table_short.html#f_count">count</A>
+            breathing_space: <A HREF="../elks/hash_table_short.html#f_count">count</A> &lt; <A HREF="../elks/hash_table_short.html#f_capacity">capacity</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_found_item"><A HREF="../elks/hash_table_short.html#f_found_item">found_item</A>: <B>detachable</B> G</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Item, if any, yielded by last search operation</FONT>
+
+    <A NAME="f_item"><A HREF="../elks/hash_table_short.html#f_item">item</A> <B>alias</B> "[]" (key: K): <B>detachable</B> G <B>assign</B> <A HREF="../elks/hash_table_short.html#f_force">force</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Item associated with </FONT>`key'<FONT COLOR="red">, if present</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> otherwise default value of type </FONT>`G'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/hash_table_short.html">HASH_TABLE</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/hash_table_short.html#f_at">at</A><FONT COLOR="red">.</FONT>
+        <B>note</B>
+            option: stable
+        <B>ensure then</B>
+            default_value_if_not_present: (<B>not</B> (<A HREF="../elks/hash_table_short.html#f_has">has</A> (key))) <B>implies</B> (<B>Result</B> = <A HREF="../elks/hash_table_short.html#f_computed_default_value">computed_default_value</A>)
+</A>
+    <A NAME="f_at"><A HREF="../elks/hash_table_short.html#f_at">at</A> <B>alias</B> "@" (key: K): <B>detachable</B> G <B>assign</B> <A HREF="../elks/hash_table_short.html#f_force">force</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Item associated with </FONT>`key'<FONT COLOR="red">, if present</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> otherwise default value of type </FONT>`G'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/hash_table_short.html">HASH_TABLE</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/hash_table_short.html#f_item">item</A><FONT COLOR="red">.</FONT>
+        <B>note</B>
+            option: stable
+        <B>ensure then</B>
+            default_value_if_not_present: (<B>not</B> (<A HREF="../elks/hash_table_short.html#f_has">has</A> (key))) <B>implies</B> (<B>Result</B> = <A HREF="../elks/hash_table_short.html#f_computed_default_value">computed_default_value</A>)
+</A>
+    <A NAME="f_has"><A HREF="../elks/hash_table_short.html#f_has">has</A> (key: K): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there an item in the table with key </FONT>`key'<FONT COLOR="red">?</FONT>
+        <B>ensure then</B>
+            default_case: (key = <A HREF="../elks/hash_table_short.html#f_computed_default_key">computed_default_key</A>) <B>implies</B> (<B>Result</B> = <A HREF="../elks/hash_table_short.html#f_has_default">has_default</A>)
+</A>
+    <A NAME="f_has_key"><A HREF="../elks/hash_table_short.html#f_has_key">has_key</A> (key: K): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there an item in the table with key </FONT>`key'<FONT COLOR="red">? Set </FONT><A HREF="../elks/hash_table_short.html#f_found_item">found_item</A><FONT COLOR="red"> to the found item.</FONT>
+        <B>ensure then</B>
+            default_case: (key = <A HREF="../elks/hash_table_short.html#f_computed_default_key">computed_default_key</A>) <B>implies</B> (<B>Result</B> = <A HREF="../elks/hash_table_short.html#f_has_default">has_default</A>)
+            found: <B>Result</B> = <A HREF="../elks/hash_table_short.html#f_found">found</A>
+            item_if_found: <A HREF="../elks/hash_table_short.html#f_found">found</A> <B>implies</B> (<A HREF="../elks/hash_table_short.html#f_found_item">found_item</A> = <A HREF="../elks/hash_table_short.html#f_item">item</A> (key))
+</A>
+    <A NAME="f_has_item"><A HREF="../elks/hash_table_short.html#f_has_item">has_item</A> (v: <B>detachable</B> G): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does structure include </FONT>`v'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Reference or object equality,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> based on </FONT><A HREF="../elks/container_short.html#f_object_comparison">object_comparison</A><FONT COLOR="red">.)</FONT>
+</A>
+    <A NAME="f_current_keys"><A HREF="../elks/hash_table_short.html#f_current_keys">current_keys</A>: <A HREF="../elks/array_short.html">ARRAY</A> [K]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New array containing actually used keys, from 1 to </FONT><A HREF="../elks/hash_table_short.html#f_count">count</A>
+        <B>ensure</B>
+            good_count: <B>Result</B>.<A HREF="../elks/array_short.html#f_count">count</A> = <A HREF="../elks/hash_table_short.html#f_count">count</A>
+</A>
+    <A NAME="f_item_for_iteration"><A HREF="../elks/hash_table_short.html#f_item_for_iteration">item_for_iteration</A>: G
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element at current iteration position</FONT>
+        <B>require</B>
+            not_off: <B>not</B> <A HREF="../elks/hash_table_short.html#f_off">off</A>
+</A>
+    <A NAME="f_key_for_iteration"><A HREF="../elks/hash_table_short.html#f_key_for_iteration">key_for_iteration</A>: K
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Key at current iteration position</FONT>
+        <B>require</B>
+            not_off: <B>not</B> <A HREF="../elks/hash_table_short.html#f_off">off</A>
+</A>
+    <A NAME="f_cursor"><A HREF="../elks/hash_table_short.html#f_cursor">cursor</A>: <A HREF="../elks/cursor_short.html">CURSOR</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Current cursor position</FONT>
+        <B>ensure</B>
+            cursor_not_void: <B>Result</B> /= <B>Void</B>
+</A>
+    <A NAME="f_new_cursor"><A HREF="../elks/hash_table_short.html#f_new_cursor">new_cursor</A>: <A HREF="../elks/hash_table_iteration_cursor_short.html">HASH_TABLE_ITERATION_CURSOR</A> [G, K]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Fresh cursor associated with current structure</FONT>
+</A>
+    <A NAME="f_iteration_item"><A HREF="../elks/hash_table_short.html#f_iteration_item">iteration_item</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): G
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Entry at position </FONT>`i'
+</A>
+    <A NAME="f_hash_code_of"><A HREF="../elks/hash_table_short.html#f_hash_code_of">hash_code_of</A> (a_key: <B>attached</B> K): <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Hash_code value associated to </FONT>`a_key'<FONT COLOR="red">.</FONT>
+        <B>ensure</B>
+            non_negative: <B>Result</B> &gt;= 0
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_count"><A HREF="../elks/hash_table_short.html#f_count">count</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of items in table</FONT>
+
+    <A NAME="f_capacity"><A HREF="../elks/hash_table_short.html#f_capacity">capacity</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of items that may be stored.</FONT>
+
+    <A NAME="f_occurrences"><A HREF="../elks/hash_table_short.html#f_occurrences">occurrences</A> (v: <B>detachable</B> G): <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of table items equal to </FONT>`v'<FONT COLOR="red">.</FONT>
+</A>
+    <A NAME="f_iteration_index_set"><A HREF="../elks/hash_table_short.html#f_iteration_index_set">iteration_index_set</A>: <A HREF="../elks/integer_interval_short.html">INTEGER_INTERVAL</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Range of acceptable indexes</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_is_equal"><A HREF="../elks/hash_table_short.html#f_is_equal">is_equal</A> (other: <B>like</B> <B>Current</B>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does table contain the same information as </FONT>`other'<FONT COLOR="red">?</FONT>
+</A>
+    <A NAME="f_same_keys"><A HREF="../elks/hash_table_short.html#f_same_keys">same_keys</A> (a_search_key, a_key: K): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`a_search_key'<FONT COLOR="red"> equal to </FONT>`a_key'<FONT COLOR="red">?</FONT>
+        <B>require</B>
+            valid_search_key: <A HREF="../elks/hash_table_short.html#f_valid_key">valid_key</A> (a_search_key)
+            valid_key: <A HREF="../elks/hash_table_short.html#f_valid_key">valid_key</A> (a_key)
+</A>
+    <A NAME="f_disjoint"><A HREF="../elks/hash_table_short.html#f_disjoint">disjoint</A> (other: <A HREF="../elks/hash_table_short.html">HASH_TABLE</A> [G, K]): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`Current'<FONT COLOR="red"> and </FONT>`other'<FONT COLOR="red"> disjoint on their keys?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Use </FONT><A HREF="../elks/hash_table_short.html#f_same_keys">same_keys</A><FONT COLOR="red"> for comparison.</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_full"><A HREF="../elks/hash_table_short.html#f_full">Full</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A> = <B>False</B></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is structure filled to capacity?</FONT>
+
+    <A NAME="f_extendible"><A HREF="../elks/hash_table_short.html#f_extendible">Extendible</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A> = <B>False</B></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May new items be added?</FONT>
+
+    <A NAME="f_prunable"><A HREF="../elks/hash_table_short.html#f_prunable">prunable</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May items be removed?</FONT>
+</A>
+    <A NAME="f_conflict"><A HREF="../elks/hash_table_short.html#f_conflict">conflict</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Did last operation cause a conflict?</FONT>
+</A>
+    <A NAME="f_inserted"><A HREF="../elks/hash_table_short.html#f_inserted">inserted</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Did last operation insert an item?</FONT>
+</A>
+    <A NAME="f_replaced"><A HREF="../elks/hash_table_short.html#f_replaced">replaced</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Did last operation replace an item?</FONT>
+</A>
+    <A NAME="f_removed"><A HREF="../elks/hash_table_short.html#f_removed">removed</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Did last operation remove an item?</FONT>
+</A>
+    <A NAME="f_found"><A HREF="../elks/hash_table_short.html#f_found">found</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Did last operation find the item sought?</FONT>
+</A>
+    <A NAME="f_not_found"><A HREF="../elks/hash_table_short.html#f_not_found">not_found</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Did last operation fail to find the item sought?</FONT>
+</A>
+    <A NAME="f_after"><A HREF="../elks/hash_table_short.html#f_after">after</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is cursor past last item?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/hash_table_short.html">HASH_TABLE</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/hash_table_short.html#f_off">off</A><FONT COLOR="red">.</FONT>
+</A>
+    <A NAME="f_off"><A HREF="../elks/hash_table_short.html#f_off">off</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is cursor past last item?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/hash_table_short.html">HASH_TABLE</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/hash_table_short.html#f_after">after</A><FONT COLOR="red">.</FONT>
+</A>
+    <A NAME="f_valid_cursor"><A HREF="../elks/hash_table_short.html#f_valid_cursor">valid_cursor</A> (c: <A HREF="../elks/cursor_short.html">CURSOR</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Can cursor be moved to position </FONT>`c'<FONT COLOR="red">?</FONT>
+        <B>require</B>
+            c_not_void: c /= <B>Void</B>
+</A>
+    <A NAME="f_valid_key"><A HREF="../elks/hash_table_short.html#f_valid_key">valid_key</A> (k: K): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`k'<FONT COLOR="red"> a valid key?</FONT>
+</A>
+    <A NAME="f_valid_iteration_index"><A HREF="../elks/hash_table_short.html#f_valid_iteration_index">valid_iteration_index</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`i'<FONT COLOR="red"> a valid index?</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Cursor movement</FONT>
+
+    <A NAME="f_start"><A HREF="../elks/hash_table_short.html#f_start">start</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Bring cursor to first position.</FONT>
+</A>
+    <A NAME="f_forth"><A HREF="../elks/hash_table_short.html#f_forth">forth</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Advance cursor to next occupied position,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or </FONT><A HREF="../elks/hash_table_short.html#f_off">off</A><FONT COLOR="red"> if no such position remains.</FONT>
+        <B>require</B>
+            not_off: <B>not</B> <A HREF="../elks/hash_table_short.html#f_off">off</A>
+</A>
+    <A NAME="f_go_to"><A HREF="../elks/hash_table_short.html#f_go_to">go_to</A> (c: <A HREF="../elks/cursor_short.html">CURSOR</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move to position </FONT>`c'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            c_not_void: c /= <B>Void</B>
+            valid_cursor: <A HREF="../elks/hash_table_short.html#f_valid_cursor">valid_cursor</A> (c)
+</A>
+    <A NAME="f_search"><A HREF="../elks/hash_table_short.html#f_search">search</A> (key: K)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Search for item of key </FONT>`key'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If found, set </FONT><A HREF="../elks/hash_table_short.html#f_found">found</A><FONT COLOR="red"> to true, and set</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/hash_table_short.html#f_found_item">found_item</A><FONT COLOR="red"> to item associated with </FONT>`key'<FONT COLOR="red">.</FONT>
+        <B>ensure</B>
+            found_or_not_found: <A HREF="../elks/hash_table_short.html#f_found">found</A> <B>or</B> <A HREF="../elks/hash_table_short.html#f_not_found">not_found</A>
+            item_if_found: <A HREF="../elks/hash_table_short.html#f_found">found</A> <B>implies</B> (<A HREF="../elks/hash_table_short.html#f_found_item">found_item</A> = <A HREF="../elks/hash_table_short.html#f_item">item</A> (key))
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_put"><A HREF="../elks/hash_table_short.html#f_put">put</A> (new: G; key: K)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Insert </FONT>`new'<FONT COLOR="red"> with </FONT>`key'<FONT COLOR="red"> if there is no other item</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> associated with the same key.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/hash_table_short.html#f_inserted">inserted</A><FONT COLOR="red"> if and only if an insertion has</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> been made (i.e. </FONT>`key'<FONT COLOR="red"> was not present).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If so, set </FONT><A HREF="../elks/hash_table_short.html#f_position">position</A><FONT COLOR="red"> to the insertion position.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If not, set </FONT><A HREF="../elks/hash_table_short.html#f_conflict">conflict</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> In either case, set </FONT><A HREF="../elks/hash_table_short.html#f_found_item">found_item</A><FONT COLOR="red"> to the item</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> now associated with </FONT>`key'<FONT COLOR="red"> (previous item if</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> there was one, </FONT>`new'<FONT COLOR="red"> otherwise).</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> To choose between various insert/replace procedures,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> see </FONT>`instructions'<FONT COLOR="red"> in the Indexing clause.</FONT>
+        <B>ensure then</B>
+            conflict_or_inserted: <A HREF="../elks/hash_table_short.html#f_conflict">conflict</A> <B>or</B> <A HREF="../elks/hash_table_short.html#f_inserted">inserted</A>
+            insertion_done: <A HREF="../elks/hash_table_short.html#f_inserted">inserted</A> <B>implies</B> <A HREF="../elks/hash_table_short.html#f_item">item</A> (key) = new
+            now_present: <A HREF="../elks/hash_table_short.html#f_inserted">inserted</A> <B>implies</B> <A HREF="../elks/hash_table_short.html#f_has">has</A> (key)
+            one_more_if_inserted: <A HREF="../elks/hash_table_short.html#f_inserted">inserted</A> <B>implies</B> (<A HREF="../elks/hash_table_short.html#f_count">count</A> = <B>old</B> <A HREF="../elks/hash_table_short.html#f_count">count</A> + 1)
+            unchanged_if_conflict: <A HREF="../elks/hash_table_short.html#f_conflict">conflict</A> <B>implies</B> (<A HREF="../elks/hash_table_short.html#f_count">count</A> = <B>old</B> <A HREF="../elks/hash_table_short.html#f_count">count</A>)
+            same_item_if_conflict: <A HREF="../elks/hash_table_short.html#f_conflict">conflict</A> <B>implies</B> (<A HREF="../elks/hash_table_short.html#f_item">item</A> (key) = <B>old</B> (<A HREF="../elks/hash_table_short.html#f_item">item</A> (key)))
+            found_item_associated_with_key: <A HREF="../elks/hash_table_short.html#f_found_item">found_item</A> = <A HREF="../elks/hash_table_short.html#f_item">item</A> (key)
+            new_item_if_inserted: <A HREF="../elks/hash_table_short.html#f_inserted">inserted</A> <B>implies</B> (<A HREF="../elks/hash_table_short.html#f_found_item">found_item</A> = new)
+            old_item_if_conflict: <A HREF="../elks/hash_table_short.html#f_conflict">conflict</A> <B>implies</B> (<A HREF="../elks/hash_table_short.html#f_found_item">found_item</A> = <B>old</B> (<A HREF="../elks/hash_table_short.html#f_item">item</A> (key)))
+            default_property: <A HREF="../elks/hash_table_short.html#f_has_default">has_default</A> = ((<A HREF="../elks/hash_table_short.html#f_inserted">inserted</A> <B>and</B> (key = <A HREF="../elks/hash_table_short.html#f_computed_default_key">computed_default_key</A>)) <B>or</B> ((<A HREF="../elks/hash_table_short.html#f_conflict">conflict</A> <B>or</B> (key /= <A HREF="../elks/hash_table_short.html#f_computed_default_key">computed_default_key</A>)) <B>and</B> (<B>old</B> <A HREF="../elks/hash_table_short.html#f_has_default">has_default</A>)))
+</A>
+    <A NAME="f_force"><A HREF="../elks/hash_table_short.html#f_force">force</A> (new: G; key: K)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update table so that </FONT>`new'<FONT COLOR="red"> will be the item associated</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> with </FONT>`key'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If there was an item for that key, set </FONT><A HREF="../elks/hash_table_short.html#f_found">found</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> and set </FONT><A HREF="../elks/hash_table_short.html#f_found_item">found_item</A><FONT COLOR="red"> to that item.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If there was none, set </FONT><A HREF="../elks/hash_table_short.html#f_not_found">not_found</A><FONT COLOR="red"> and set</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/hash_table_short.html#f_found_item">found_item</A><FONT COLOR="red"> to the default value.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> To choose between various insert/replace procedures,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> see </FONT>`instructions'<FONT COLOR="red"> in the Indexing clause.</FONT>
+        <B>ensure then</B>
+            insertion_done: <A HREF="../elks/hash_table_short.html#f_item">item</A> (key) = new
+            now_present: <A HREF="../elks/hash_table_short.html#f_has">has</A> (key)
+            found_or_not_found: <A HREF="../elks/hash_table_short.html#f_found">found</A> <B>or</B> <A HREF="../elks/hash_table_short.html#f_not_found">not_found</A>
+            not_found_if_was_not_present: <A HREF="../elks/hash_table_short.html#f_not_found">not_found</A> = <B>not</B> (<B>old</B> <A HREF="../elks/hash_table_short.html#f_has">has</A> (key))
+            same_count_or_one_more: (<A HREF="../elks/hash_table_short.html#f_count">count</A> = <B>old</B> <A HREF="../elks/hash_table_short.html#f_count">count</A>) <B>or</B> (<A HREF="../elks/hash_table_short.html#f_count">count</A> = <B>old</B> <A HREF="../elks/hash_table_short.html#f_count">count</A> + 1)
+            found_item_is_old_item: <A HREF="../elks/hash_table_short.html#f_found">found</A> <B>implies</B> (<A HREF="../elks/hash_table_short.html#f_found_item">found_item</A> = <B>old</B> (<A HREF="../elks/hash_table_short.html#f_item">item</A> (key)))
+            default_value_if_not_found: <A HREF="../elks/hash_table_short.html#f_not_found">not_found</A> <B>implies</B> (<A HREF="../elks/hash_table_short.html#f_found_item">found_item</A> = <A HREF="../elks/hash_table_short.html#f_computed_default_value">computed_default_value</A>)
+            default_property: <A HREF="../elks/hash_table_short.html#f_has_default">has_default</A> = ((key = <A HREF="../elks/hash_table_short.html#f_computed_default_key">computed_default_key</A>) <B>or</B> ((key /= <A HREF="../elks/hash_table_short.html#f_computed_default_key">computed_default_key</A>) <B>and</B> (<B>old</B> <A HREF="../elks/hash_table_short.html#f_has_default">has_default</A>)))
+</A>
+    <A NAME="f_extend"><A HREF="../elks/hash_table_short.html#f_extend">extend</A> (new: G; key: K)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Assuming there is no item of key </FONT>`key'<FONT COLOR="red">,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> insert </FONT>`new'<FONT COLOR="red"> with </FONT>`key'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/hash_table_short.html#f_inserted">inserted</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> To choose between various insert/replace procedures,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> see </FONT>`instructions'<FONT COLOR="red"> in the Indexing clause.</FONT>
+        <B>require</B>
+            not_present: <B>not</B> <A HREF="../elks/hash_table_short.html#f_has">has</A> (key)
+        <B>ensure</B>
+            inserted: <A HREF="../elks/hash_table_short.html#f_inserted">inserted</A>
+            insertion_done: <A HREF="../elks/hash_table_short.html#f_item">item</A> (key) = new
+            one_more: <A HREF="../elks/hash_table_short.html#f_count">count</A> = <B>old</B> <A HREF="../elks/hash_table_short.html#f_count">count</A> + 1
+            default_property: <A HREF="../elks/hash_table_short.html#f_has_default">has_default</A> = ((key = <A HREF="../elks/hash_table_short.html#f_computed_default_key">computed_default_key</A>) <B>or</B> (<B>old</B> <A HREF="../elks/hash_table_short.html#f_has_default">has_default</A>))
+</A>
+    <A NAME="f_replace"><A HREF="../elks/hash_table_short.html#f_replace">replace</A> (new: G; key: K)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Replace item at </FONT>`key'<FONT COLOR="red">, if present,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> with </FONT>`new'<FONT COLOR="red">; do not change associated key.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/hash_table_short.html#f_replaced">replaced</A><FONT COLOR="red"> if and only if a replacement has been made</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (i.e. </FONT>`key'<FONT COLOR="red"> was present); otherwise set </FONT><A HREF="../elks/hash_table_short.html#f_not_found">not_found</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/hash_table_short.html#f_found_item">found_item</A><FONT COLOR="red"> to the item previously associated</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> with </FONT>`key'<FONT COLOR="red"> (default value if there was none).</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> To choose between various insert/replace procedures,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> see </FONT>`instructions'<FONT COLOR="red"> in the Indexing clause.</FONT>
+        <B>ensure</B>
+            replaced_or_not_found: <A HREF="../elks/hash_table_short.html#f_replaced">replaced</A> <B>or</B> <A HREF="../elks/hash_table_short.html#f_not_found">not_found</A>
+            insertion_done: <A HREF="../elks/hash_table_short.html#f_replaced">replaced</A> <B>implies</B> <A HREF="../elks/hash_table_short.html#f_item">item</A> (key) = new
+            no_change_if_not_found: <A HREF="../elks/hash_table_short.html#f_not_found">not_found</A> <B>implies</B> <A HREF="../elks/hash_table_short.html#f_item">item</A> (key) = <B>old</B> (<A HREF="../elks/hash_table_short.html#f_item">item</A> (key))
+            found_item_is_old_item: <A HREF="../elks/hash_table_short.html#f_found_item">found_item</A> = <B>old</B> (<A HREF="../elks/hash_table_short.html#f_item">item</A> (key))
+</A>
+    <A NAME="f_replace_key"><A HREF="../elks/hash_table_short.html#f_replace_key">replace_key</A> (new_key: K; old_key: K)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If there is an item of key </FONT>`old_key'<FONT COLOR="red"> and no item of key</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`new_key'<FONT COLOR="red">, replace the former's key by </FONT>`new_key'<FONT COLOR="red">,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> set </FONT><A HREF="../elks/hash_table_short.html#f_replaced">replaced</A><FONT COLOR="red">, and set </FONT><A HREF="../elks/hash_table_short.html#f_found_item">found_item</A><FONT COLOR="red"> to the item</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> previously associated with </FONT>`old_key'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Otherwise set </FONT><A HREF="../elks/hash_table_short.html#f_not_found">not_found</A><FONT COLOR="red"> or </FONT><A HREF="../elks/hash_table_short.html#f_conflict">conflict</A><FONT COLOR="red"> respectively.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If </FONT><A HREF="../elks/hash_table_short.html#f_conflict">conflict</A><FONT COLOR="red">, set </FONT><A HREF="../elks/hash_table_short.html#f_found_item">found_item</A><FONT COLOR="red"> to the item previously</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> associated with </FONT>`new_key'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> To choose between various insert/replace procedures,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> see </FONT>`instructions'<FONT COLOR="red"> in the Indexing clause.</FONT>
+        <B>ensure</B>
+            same_count: <A HREF="../elks/hash_table_short.html#f_count">count</A> = <B>old</B> <A HREF="../elks/hash_table_short.html#f_count">count</A>
+            replaced_or_conflict_or_not_found: <A HREF="../elks/hash_table_short.html#f_replaced">replaced</A> <B>or</B> <A HREF="../elks/hash_table_short.html#f_conflict">conflict</A> <B>or</B> <A HREF="../elks/hash_table_short.html#f_not_found">not_found</A>
+            old_absent: (<A HREF="../elks/hash_table_short.html#f_replaced">replaced</A> <B>and</B> <B>not</B> <A HREF="../elks/hash_table_short.html#f_same_keys">same_keys</A> (new_key, old_key)) <B>implies</B> (<B>not</B> <A HREF="../elks/hash_table_short.html#f_has">has</A> (old_key))
+            new_present: (<A HREF="../elks/hash_table_short.html#f_replaced">replaced</A> <B>or</B> <A HREF="../elks/hash_table_short.html#f_conflict">conflict</A>) = <A HREF="../elks/hash_table_short.html#f_has">has</A> (new_key)
+            new_item: <A HREF="../elks/hash_table_short.html#f_replaced">replaced</A> <B>implies</B> (<A HREF="../elks/hash_table_short.html#f_item">item</A> (new_key) = <B>old</B> (<A HREF="../elks/hash_table_short.html#f_item">item</A> (old_key)))
+            not_found_implies_no_old_key: <A HREF="../elks/hash_table_short.html#f_not_found">not_found</A> <B>implies</B> <B>old</B> (<B>not</B> <A HREF="../elks/hash_table_short.html#f_has">has</A> (old_key))
+            conflict_iff_already_present: <A HREF="../elks/hash_table_short.html#f_conflict">conflict</A> = <B>old</B> (<A HREF="../elks/hash_table_short.html#f_has">has</A> (new_key))
+            not_inserted_if_conflict: <A HREF="../elks/hash_table_short.html#f_conflict">conflict</A> <B>implies</B> (<A HREF="../elks/hash_table_short.html#f_item">item</A> (new_key) = <B>old</B> (<A HREF="../elks/hash_table_short.html#f_item">item</A> (new_key)))
+</A>
+    <A NAME="f_merge"><A HREF="../elks/hash_table_short.html#f_merge">merge</A> (other: <A HREF="../elks/hash_table_short.html">HASH_TABLE</A> [G, K])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Merge </FONT>`other'<FONT COLOR="red"> into Current. If </FONT>`other'<FONT COLOR="red"> has some elements</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> with same key as in </FONT>`Current'<FONT COLOR="red">, replace them by one from</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`other'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B>
+            inserted: other.<A HREF="../elks/hash_table_short.html#f_current_keys">current_keys</A>.<A HREF="../elks/array_short.html#f_linear_representation">linear_representation</A>.<A HREF="../elks/linear_short.html#f_for_all">for_all</A> (<B>agent</B> <A HREF="../elks/hash_table_short.html#f_has">has</A>)
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removal</FONT>
+
+    <A NAME="f_remove"><A HREF="../elks/hash_table_short.html#f_remove">remove</A> (key: K)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove item associated with </FONT>`key'<FONT COLOR="red">, if present.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/hash_table_short.html#f_removed">removed</A><FONT COLOR="red"> if and only if an item has been</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> removed (i.e. </FONT>`key'<FONT COLOR="red"> was present);</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> if so, set </FONT><A HREF="../elks/hash_table_short.html#f_position">position</A><FONT COLOR="red"> to index of removed element.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If not, set </FONT><A HREF="../elks/hash_table_short.html#f_not_found">not_found</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Reset </FONT><A HREF="../elks/hash_table_short.html#f_found_item">found_item</A><FONT COLOR="red"> to its default value if </FONT><A HREF="../elks/hash_table_short.html#f_removed">removed</A><FONT COLOR="red">.</FONT>
+        <B>ensure</B>
+            removed_or_not_found: <A HREF="../elks/hash_table_short.html#f_removed">removed</A> <B>or</B> <A HREF="../elks/hash_table_short.html#f_not_found">not_found</A>
+            not_present: <B>not</B> <A HREF="../elks/hash_table_short.html#f_has">has</A> (key)
+            one_less: <A HREF="../elks/hash_table_short.html#f_found">found</A> <B>implies</B> (<A HREF="../elks/hash_table_short.html#f_count">count</A> = <B>old</B> <A HREF="../elks/hash_table_short.html#f_count">count</A> - 1)
+            default_case: (key = <A HREF="../elks/hash_table_short.html#f_computed_default_key">computed_default_key</A>) <B>implies</B> (<B>not</B> <A HREF="../elks/hash_table_short.html#f_has_default">has_default</A>)
+            non_default_case: (key /= <A HREF="../elks/hash_table_short.html#f_computed_default_key">computed_default_key</A>) <B>implies</B> (<A HREF="../elks/hash_table_short.html#f_has_default">has_default</A> = <B>old</B> <A HREF="../elks/hash_table_short.html#f_has_default">has_default</A>)
+</A>
+    <A NAME="f_prune"><A HREF="../elks/hash_table_short.html#f_prune">prune</A> (v: <B>detachable</B> G)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove first occurrence of </FONT>`v'<FONT COLOR="red">, if any,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> after cursor position.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to right neighbor.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (or after if no right neighbor or </FONT>`v'<FONT COLOR="red"> does not occur)</FONT>
+</A>
+    <A NAME="f_wipe_out"><A HREF="../elks/hash_table_short.html#f_wipe_out">wipe_out</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Reset all items to default values; reset status.</FONT>
+        <B>ensure then</B>
+            position_equal_to_zero: <A HREF="../elks/hash_table_short.html#f_item_position">item_position</A> = 0
+            count_equal_to_zero: <A HREF="../elks/hash_table_short.html#f_count">count</A> = 0
+            has_default_set: <B>not</B> <A HREF="../elks/hash_table_short.html#f_has_default">has_default</A>
+            no_status: <B>not</B> <A HREF="../elks/hash_table_short.html#f_special_status">special_status</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Conversion</FONT>
+
+    <A NAME="f_linear_representation"><A HREF="../elks/hash_table_short.html#f_linear_representation">linear_representation</A>: <A HREF="../elks/arrayed_list_short.html">ARRAYED_LIST</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Representation as a linear structure</FONT>
+        <B>ensure then</B>
+            result_exists: <B>Result</B> /= <B>Void</B>
+            good_count: <B>Result</B>.<A HREF="../elks/arrayed_list_short.html#f_count">count</A> = <A HREF="../elks/hash_table_short.html#f_count">count</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_copy"><A HREF="../elks/hash_table_short.html#f_copy">copy</A> (other: <B>like</B> <B>Current</B>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Re-initialize from </FONT>`other'<FONT COLOR="red">.</FONT>
+</A>    
+<B>invariant</B>
+    keys_not_void: <A HREF="../elks/hash_table_short.html#f_keys">keys</A> /= <B>Void</B>
+    content_not_void: <A HREF="../elks/hash_table_short.html#f_content">content</A> /= <B>Void</B>
+    keys_enough_capacity: <A HREF="../elks/hash_table_short.html#f_keys">keys</A>.<A HREF="../elks/special_short.html#f_count">count</A> &lt;= <A HREF="../elks/hash_table_short.html#f_capacity">capacity</A> + 1
+    content_enough_capacity: <A HREF="../elks/hash_table_short.html#f_content">content</A>.<A HREF="../elks/special_short.html#f_count">count</A> &lt;= <A HREF="../elks/hash_table_short.html#f_capacity">capacity</A> + 1
+    valid_iteration_position: <A HREF="../elks/hash_table_short.html#f_off">off</A> <B>or</B> <A HREF="../elks/hash_table_short.html#f_truly_occupied">truly_occupied</A> (<A HREF="../elks/hash_table_short.html#f_iteration_position">iteration_position</A>)
+    control_non_negative: <A HREF="../elks/hash_table_short.html#f_control">control</A> &gt;= 0
+    special_status: <A HREF="../elks/hash_table_short.html#f_special_status">special_status</A> = (<A HREF="../elks/hash_table_short.html#f_conflict">conflict</A> <B>or</B> <A HREF="../elks/hash_table_short.html#f_inserted">inserted</A> <B>or</B> <A HREF="../elks/hash_table_short.html#f_replaced">replaced</A> <B>or</B> <A HREF="../elks/hash_table_short.html#f_removed">removed</A> <B>or</B> <A HREF="../elks/hash_table_short.html#f_found">found</A> <B>or</B> <A HREF="../elks/hash_table_short.html#f_not_found">not_found</A>)
+    count_big_enough: 0 &lt;= <A HREF="../elks/hash_table_short.html#f_count">count</A>
+    count_small_enough: <A HREF="../elks/hash_table_short.html#f_count">count</A> &lt;= <A HREF="../elks/hash_table_short.html#f_capacity">capacity</A>
+    slot_count_big_enough: 0 &lt;= <A HREF="../elks/hash_table_short.html#f_count">count</A>
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/hash_table_short.html">HASH_TABLE</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="hash_table_chart.html">Chart</A></TD><TD><A HREF="hash_table_links.html">Relations</A></TD><TD><A HREF="hash_table.html">Text</A></TD><TD><A HREF="hash_table_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="hash_table_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

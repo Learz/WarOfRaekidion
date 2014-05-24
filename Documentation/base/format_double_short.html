@@ -1,0 +1,154 @@
+<HTML><HEAD>
+<meta name="description" content="Formatter for non-integral numbers"/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="names" content="format_double"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>format_double Contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="format_double_chart.html">Chart</A></TD><TD><A HREF="format_double_links.html">Relations</A></TD><TD><A HREF="format_double.html">Text</A></TD><TD><A HREF="format_double_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="format_double_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Formatter for non-integral numbers"
+    library: "Free implementation of ELKS library"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    names: format_double
+    date: "$Date: 2012-07-23 14:02:19 -0700 (Mon, 23 Jul 2012) $"
+    revision: "$Revision: 91989 $"
+
+<B>class</B> <B>interface</B>
+    <A HREF="../elks/format_double_short.html">FORMAT_DOUBLE</A>
+
+<B>create</B> 
+    <A HREF="../elks/format_double_short.html#f_make">make</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../elks/format_double_short.html#f_make">make</A> (w, d: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+        <B>require</B>
+            reasonable_field: w &gt;= 1
+            reasonable_decimals: d &lt;= w
+        <B>ensure</B>
+            blank_fill: <A HREF="../elks/format_integer_short.html#f_fill_character">fill_character</A> = ' '
+            show_sign_negative: <A HREF="../elks/format_integer_short.html#f_show_sign_negative">show_sign_negative</A>
+            no_separator: <A HREF="../elks/format_integer_short.html#f_no_separator">no_separator</A>
+            width_set: <A HREF="../elks/format_integer_short.html#f_width">width</A> = w
+            right_justified: <A HREF="../elks/format_integer_short.html#f_right_justified">right_justified</A>
+            leading_sign: <A HREF="../elks/format_integer_short.html#f_leading_sign">leading_sign</A>
+            decimals_set: <A HREF="../elks/format_double_short.html#f_decimals">decimals</A> = d
+            decimal_point: <A HREF="../elks/format_double_short.html#f_decimal">decimal</A> = '.'
+            trailing_zeros_shown: <A HREF="../elks/format_double_short.html#f_trailing_zeros_shown">trailing_zeros_shown</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_after_decimal_separate"><A HREF="../elks/format_double_short.html#f_after_decimal_separate">after_decimal_separate</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Use separators after the decimal?</FONT>
+
+    <A NAME="f_decimals"><A HREF="../elks/format_double_short.html#f_decimals">decimals</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of digits after the decimal point.</FONT>
+
+    <A NAME="f_zero_not_shown"><A HREF="../elks/format_double_short.html#f_zero_not_shown">zero_not_shown</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Show 0.5 as .5 or 0.5?</FONT>
+
+    <A NAME="f_trailing_zeros_shown"><A HREF="../elks/format_double_short.html#f_trailing_zeros_shown">trailing_zeros_shown</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Show 0.5000 as 0.5 or 0.5000?</FONT>
+
+    <A NAME="f_decimal"><A HREF="../elks/format_double_short.html#f_decimal">decimal</A>: <A HREF="../elks/character_8_short.html">CHARACTER_8</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> What is used for the decimal</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status setting</FONT>
+
+    <A NAME="f_point_decimal"><A HREF="../elks/format_double_short.html#f_point_decimal">point_decimal</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Use . as the decimal point.</FONT>
+        <B>ensure</B>
+            <A HREF="../elks/format_double_short.html#f_decimal">decimal</A> = '.'
+</A>
+    <A NAME="f_comma_decimal"><A HREF="../elks/format_double_short.html#f_comma_decimal">comma_decimal</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Use , as the decimal point.</FONT>
+        <B>ensure</B>
+            <A HREF="../elks/format_double_short.html#f_decimal">decimal</A> = ','
+</A>
+    <A NAME="f_set_decimals"><A HREF="../elks/format_double_short.html#f_set_decimals">set_decimals</A> (d: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`d'<FONT COLOR="red"> decimals to be displayed.</FONT>
+        <B>require</B>
+            d &lt;= <A HREF="../elks/format_integer_short.html#f_width">width</A>
+        <B>ensure</B>
+            <A HREF="../elks/format_double_short.html#f_decimals">decimals</A> = d
+</A>
+    <A NAME="f_separate_after_decimal"><A HREF="../elks/format_double_short.html#f_separate_after_decimal">separate_after_decimal</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Use separators after the decimal.</FONT>
+        <B>ensure</B>
+            <A HREF="../elks/format_double_short.html#f_after_decimal_separate">after_decimal_separate</A>
+</A>
+    <A NAME="f_no_separate_after_decimal"><A HREF="../elks/format_double_short.html#f_no_separate_after_decimal">no_separate_after_decimal</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do not use separators after the decimal.</FONT>
+        <B>ensure</B>
+            <B>not</B> <A HREF="../elks/format_double_short.html#f_after_decimal_separate">after_decimal_separate</A>
+</A>
+    <A NAME="f_underscore_separate"><A HREF="../elks/format_double_short.html#f_underscore_separate">underscore_separate</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set the separator to be underscore.</FONT>
+        <B>ensure then</B>
+            <A HREF="../elks/format_double_short.html#f_after_decimal_separate">after_decimal_separate</A>
+</A>
+    <A NAME="f_comma_separate"><A HREF="../elks/format_double_short.html#f_comma_separate">comma_separate</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set the separator to be comma.</FONT>
+        <B>ensure then</B>
+            <A HREF="../elks/format_double_short.html#f_after_decimal_separate">after_decimal_separate</A>
+</A>
+    <A NAME="f_remove_separator"><A HREF="../elks/format_double_short.html#f_remove_separator">remove_separator</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove the separator.</FONT>
+        <B>ensure then</B>
+            <B>not</B> <A HREF="../elks/format_double_short.html#f_after_decimal_separate">after_decimal_separate</A>
+</A>
+    <A NAME="f_show_zero"><A HREF="../elks/format_double_short.html#f_show_zero">show_zero</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Show 0.5 as 0.5 .</FONT>
+        <B>ensure</B>
+            <B>not</B> <A HREF="../elks/format_double_short.html#f_zero_not_shown">zero_not_shown</A>
+</A>
+    <A NAME="f_show_trailing_zeros"><A HREF="../elks/format_double_short.html#f_show_trailing_zeros">show_trailing_zeros</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Show 0.5000 as 0.5000.</FONT>
+        <B>ensure</B>
+            trailing_zeros_shown_set: <A HREF="../elks/format_double_short.html#f_trailing_zeros_shown">trailing_zeros_shown</A>
+</A>
+    <A NAME="f_hide_zero"><A HREF="../elks/format_double_short.html#f_hide_zero">hide_zero</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Show 0.5 as .5 .</FONT>
+        <B>ensure</B>
+            <A HREF="../elks/format_double_short.html#f_zero_not_shown">zero_not_shown</A>
+</A>
+    <A NAME="f_hide_trailing_zeros"><A HREF="../elks/format_double_short.html#f_hide_trailing_zeros">hide_trailing_zeros</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Show 0.5000 as 0.5, and 0.0000 as 0.0.</FONT>
+        <B>ensure</B>
+            trailing_zeros_shown_set: <B>not</B> <A HREF="../elks/format_double_short.html#f_trailing_zeros_shown">trailing_zeros_shown</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Conversion</FONT>
+
+    <A NAME="f_formatted"><A HREF="../elks/format_double_short.html#f_formatted">formatted</A> (d: <A HREF="../elks/real_64_short.html">REAL_64</A>): <A HREF="../elks/string_8_short.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Format </FONT>`d'<FONT COLOR="red">.</FONT>
+        <B>ensure</B>
+            exists: <B>Result</B> /= <B>Void</B>
+            correct_length: <A HREF="../elks/format_integer_short.html#f_not_justified">not_justified</A> <B>or</B> <B>Result</B>.<A HREF="../elks/readable_string_8_short.html#f_count">count</A> &gt;= <A HREF="../elks/format_integer_short.html#f_width">width</A>
+</A>    
+<B>invariant</B>
+    separate_all: <A HREF="../elks/format_integer_short.html#f_no_separator">no_separator</A> <B>implies</B> <B>not</B> <A HREF="../elks/format_double_short.html#f_after_decimal_separate">after_decimal_separate</A>
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/format_double_short.html">FORMAT_DOUBLE</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="format_double_chart.html">Chart</A></TD><TD><A HREF="format_double_links.html">Relations</A></TD><TD><A HREF="format_double.html">Text</A></TD><TD><A HREF="format_double_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="format_double_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

@@ -1,0 +1,73 @@
+<HTML><HEAD>
+<meta name="description" content="War of Raekidion - {APPLICATION} main class War of Raekidion is a bullet hell type online multiplayer top-down shooter game inspired from Touhou."/>
+<meta name="author" content="François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>application Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="application_chart.html">Chart</A></TD><TD><A HREF="application_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="application_flat.html">Flat</A></TD><TD><A HREF="application_short.html">Contracts</A></TD><TD><A HREF="application_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        War of Raekidion - <A HREF="../raekidion/application.html">APPLICATION</A> main class
+        War of Raekidion is a bullet hell type online multiplayer
+        top-down shooter game inspired from Touhou.
+    ]"
+    author: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+    date: "$Date$"
+    revision: "$Revision$"
+
+<B>class</B> 
+    <A HREF="../raekidion/application.html">APPLICATION</A>
+
+<B>inherit</B>
+    <A HREF="../elks/arguments.html">ARGUMENTS</A>
+
+<B>create</B> 
+    <A HREF="../raekidion/application.html#f_make">make</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_version"><A HREF="../raekidion/application.html#f_version">Version</A>: <A HREF="../elks/string_8.html">STRING_8</A> = "0.7.4"</A>
+
+    <A NAME="f_window_width"><A HREF="../raekidion/application.html#f_window_width">Window_width</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A> = 300</A>
+
+    <A NAME="f_window_height"><A HREF="../raekidion/application.html#f_window_height">Window_height</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A> = 400</A>
+
+    <A NAME="f_pixel_ratio"><A HREF="../raekidion/application.html#f_pixel_ratio">Pixel_ratio</A>: <A HREF="../elks/real_64.html">REAL_64</A> = 1.5</A>
+
+    <A NAME="f_debug_mode"><A HREF="../raekidion/application.html#f_debug_mode">debug_mode</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../raekidion/application.html#f_make">make</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize </FONT>`Current'
+        <B>local</B>
+            l_window: <A HREF="../raekidion/objects/window.html">WINDOW</A>
+            l_title_screen: <A HREF="../raekidion/menus/title_screen.html">TITLE_SCREEN</A>
+            l_event: <A HREF="../raekidion/objects/event_handler.html">EVENT_HANDLER</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> <A HREF="../elks/arguments.html#f_separate_character_option_value">separate_character_option_value</A> ('d') <B>as</B> la_parameter <B>then</B>
+                <A HREF="../raekidion/application.html#f_debug_mode">debug_mode</A> := <B>True</B>
+            <B>end</B>
+            {<A HREF="../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../raekidion/wrapper/sdl.html#f_sdl_init_noreturn">sdl_init_noreturn</A> ({<A HREF="../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../raekidion/wrapper/sdl.html#f_sdl_init_video_timer_audio">sdl_init_video_timer_audio</A>)
+            {<A HREF="../raekidion/wrapper/sdl_ttf.html">SDL_TTF</A>}.<A HREF="../raekidion/wrapper/sdl_ttf.html#f_ttf_init_noreturn">ttf_init_noreturn</A>
+            {<A HREF="../raekidion/wrapper/sdl_mixer.html">SDL_MIXER</A>}.<A HREF="../raekidion/wrapper/sdl_mixer.html#f_mix_init_noreturn">mix_init_noreturn</A> ({<A HREF="../raekidion/wrapper/sdl_mixer.html">SDL_MIXER</A>}.<A HREF="../raekidion/wrapper/sdl_mixer.html#f_mix_init_ogg">mix_init_ogg</A>)
+            {<A HREF="../raekidion/wrapper/sdl_mixer.html">SDL_MIXER</A>}.<A HREF="../raekidion/wrapper/sdl_mixer.html#f_mix_open_audio_noreturn">mix_open_audio_noreturn</A> (22050, {<A HREF="../raekidion/wrapper/sdl_mixer.html">SDL_MIXER</A>}.<A HREF="../raekidion/wrapper/sdl_mixer.html#f_mix_default_format">mix_default_format</A>, 2, 4096)
+            <B>create</B> l_window.<A HREF="../raekidion/objects/window.html#f_make">make</A> ("War of Raekidion", {<A HREF="../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../raekidion/wrapper/sdl.html#f_sdl_windowpos_undefined">sdl_windowpos_undefined</A>, {<A HREF="../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../raekidion/wrapper/sdl.html#f_sdl_windowpos_undefined">sdl_windowpos_undefined</A>, <A HREF="../raekidion/application.html#f_window_width">Window_width</A>, <A HREF="../raekidion/application.html#f_window_height">Window_height</A>, <A HREF="../raekidion/application.html#f_pixel_ratio">Pixel_ratio</A>, {<A HREF="../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../raekidion/wrapper/sdl.html#f_sdl_window_hidden">sdl_window_hidden</A>, <A HREF="../raekidion/application.html#f_version">Version</A>)
+            <B>create</B> l_event.<A HREF="../raekidion/objects/event_handler.html#f_make">make</A> (l_window)
+            {<A HREF="../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../raekidion/wrapper/sdl.html#f_sdl_show_window">sdl_show_window</A> (l_window.<A HREF="../raekidion/objects/window.html#f_window">window</A>)
+            <B>create</B> l_title_screen.<A HREF="../raekidion/menus/title_screen.html#f_make">make</A> (l_window, <A HREF="../raekidion/application.html#f_debug_mode">debug_mode</A>)
+            l_event.<A HREF="../raekidion/objects/event_handler.html#f_destroy">destroy</A>
+            l_window.<A HREF="../raekidion/objects/window.html#f_destroy">destroy</A>
+            {<A HREF="../raekidion/wrapper/sdl_mixer.html">SDL_MIXER</A>}.<A HREF="../raekidion/wrapper/sdl_mixer.html#f_mix_close_audio">mix_close_audio</A>
+            {<A HREF="../raekidion/wrapper/sdl_mixer.html">SDL_MIXER</A>}.<A HREF="../raekidion/wrapper/sdl_mixer.html#f_mix_quit">mix_quit</A>
+            {<A HREF="../raekidion/wrapper/sdl_ttf.html">SDL_TTF</A>}.<A HREF="../raekidion/wrapper/sdl_ttf.html#f_ttf_quit">ttf_quit</A>
+            {<A HREF="../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../raekidion/wrapper/sdl.html#f_sdl_quit">sdl_quit</A>
+        <B>end</B></A>
+    
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../raekidion/application.html">APPLICATION</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="application_chart.html">Chart</A></TD><TD><A HREF="application_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="application_flat.html">Flat</A></TD><TD><A HREF="application_short.html">Contracts</A></TD><TD><A HREF="application_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

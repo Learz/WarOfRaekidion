@@ -1,0 +1,227 @@
+<HTML><HEAD>
+<meta name="description" content="Binary tree: each node may have a left child and a right child"/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="names" content="binary_tree, tree, fixed_tree"/>
+<meta name="representation" content="recursive, array"/>
+<meta name="access" content="cursor, membership"/>
+<meta name="contents" content="generic"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>binary_tree Contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="binary_tree_chart.html">Chart</A></TD><TD><A HREF="binary_tree_links.html">Relations</A></TD><TD><A HREF="binary_tree.html">Text</A></TD><TD><A HREF="binary_tree_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="binary_tree_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Binary tree: each node may have a left child and a right child"
+    library: "Free implementation of ELKS library"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    names: binary_tree, tree, fixed_tree
+    representation: recursive, array
+    access: cursor, membership
+    contents: generic
+    date: "$Date: 2012-07-23 14:02:19 -0700 (Mon, 23 Jul 2012) $"
+    revision: "$Revision: 91989 $"
+
+<B>class</B> <B>interface</B>
+    <A HREF="../elks/binary_tree_short.html">BINARY_TREE</A> [G]
+
+<B>create</B> 
+    <A HREF="../elks/binary_tree_short.html#f_make">make</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../elks/binary_tree_short.html#f_make">make</A> (v: <B>like</B> <A HREF="../elks/cell_short.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create a root node with value </FONT>`v'<FONT COLOR="red">.</FONT>
+        <B>ensure</B>
+            node_item: <A HREF="../elks/cell_short.html#f_item">item</A> = v
+            is_root: <A HREF="../elks/tree_short.html#f_is_root">is_root</A>
+            is_leaf: <A HREF="../elks/binary_tree_short.html#f_is_leaf">is_leaf</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_parent"><A HREF="../elks/binary_tree_short.html#f_parent">parent</A>: <B>detachable</B> <B>like</B> <B>Current</B></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Parent of current node</FONT>
+
+    <A NAME="f_child_index"><A HREF="../elks/binary_tree_short.html#f_child_index">child_index</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Index of cursor position</FONT>
+
+    <A NAME="f_left_child"><A HREF="../elks/binary_tree_short.html#f_left_child">left_child</A>: <B>like</B> <A HREF="../elks/binary_tree_short.html#f_parent">parent</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Left child, if any</FONT>
+
+    <A NAME="f_right_child"><A HREF="../elks/binary_tree_short.html#f_right_child">right_child</A>: <B>like</B> <A HREF="../elks/binary_tree_short.html#f_parent">parent</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Right child, if any</FONT>
+
+    <A NAME="f_left_item"><A HREF="../elks/binary_tree_short.html#f_left_item">left_item</A>: <B>like</B> <A HREF="../elks/cell_short.html#f_item">item</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Value of left child</FONT>
+        <B>require</B>
+            has_left: <A HREF="../elks/binary_tree_short.html#f_left_child">left_child</A> /= <B>Void</B>
+</A>
+    <A NAME="f_right_item"><A HREF="../elks/binary_tree_short.html#f_right_item">right_item</A>: <B>like</B> <A HREF="../elks/cell_short.html#f_item">item</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Value of right child</FONT>
+        <B>require</B>
+            has_right: <A HREF="../elks/binary_tree_short.html#f_right_child">right_child</A> /= <B>Void</B>
+</A>
+    <A NAME="f_first_child"><A HREF="../elks/binary_tree_short.html#f_first_child">first_child</A>: <B>like</B> <A HREF="../elks/binary_tree_short.html#f_parent">parent</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Left child</FONT>
+</A>
+    <A NAME="f_last_child"><A HREF="../elks/binary_tree_short.html#f_last_child">last_child</A>: <B>like</B> <A HREF="../elks/binary_tree_short.html#f_parent">parent</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Right child</FONT>
+</A>
+    <A NAME="f_child"><A HREF="../elks/binary_tree_short.html#f_child">child</A>: <B>like</B> <A HREF="../elks/binary_tree_short.html#f_parent">parent</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Child at cursor position</FONT>
+</A>
+    <A NAME="f_child_cursor"><A HREF="../elks/binary_tree_short.html#f_child_cursor">child_cursor</A>: <A HREF="../elks/arrayed_list_cursor_short.html">ARRAYED_LIST_CURSOR</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Current cursor position</FONT>
+</A>
+    <A NAME="f_left_sibling"><A HREF="../elks/binary_tree_short.html#f_left_sibling">left_sibling</A>: <B>like</B> <A HREF="../elks/binary_tree_short.html#f_parent">parent</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Left neighbor, if any</FONT>
+</A>
+    <A NAME="f_right_sibling"><A HREF="../elks/binary_tree_short.html#f_right_sibling">right_sibling</A>: <B>like</B> <A HREF="../elks/binary_tree_short.html#f_parent">parent</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Right neighbor, if any</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_arity"><A HREF="../elks/binary_tree_short.html#f_arity">arity</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of children</FONT>
+        <B>ensure then</B>
+            valid_arity: <B>Result</B> &lt;= <A HREF="../elks/binary_tree_short.html#f_child_capacity">Child_capacity</A>
+</A>
+    <A NAME="f_child_capacity"><A HREF="../elks/binary_tree_short.html#f_child_capacity">Child_capacity</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A> = 2</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Maximum number of children</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_child_after"><A HREF="../elks/binary_tree_short.html#f_child_after">child_after</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there no valid child position to the right of cursor?</FONT>
+</A>
+    <A NAME="f_is_leaf"><A HREF="../elks/binary_tree_short.html#f_is_leaf">is_leaf</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are there no children?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/binary_tree_short.html">BINARY_TREE</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/binary_tree_short.html#f_has_none">has_none</A><FONT COLOR="red">.</FONT>
+</A>
+    <A NAME="f_has_none"><A HREF="../elks/binary_tree_short.html#f_has_none">has_none</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are there no children?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/binary_tree_short.html">BINARY_TREE</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/binary_tree_short.html#f_is_leaf">is_leaf</A><FONT COLOR="red">.</FONT>
+</A>
+    <A NAME="f_has_left"><A HREF="../elks/binary_tree_short.html#f_has_left">has_left</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Has current node a left child?</FONT>
+        <B>ensure</B>
+            <B>Result</B> = (<A HREF="../elks/binary_tree_short.html#f_left_child">left_child</A> /= <B>Void</B>)
+</A>
+    <A NAME="f_has_right"><A HREF="../elks/binary_tree_short.html#f_has_right">has_right</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Has current node a right child?</FONT>
+        <B>ensure</B>
+            <B>Result</B> = (<A HREF="../elks/binary_tree_short.html#f_right_child">right_child</A> /= <B>Void</B>)
+</A>
+    <A NAME="f_has_both"><A HREF="../elks/binary_tree_short.html#f_has_both">has_both</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Has current node two children?</FONT>
+        <B>ensure</B>
+            <B>Result</B> = (<A HREF="../elks/binary_tree_short.html#f_has_left">has_left</A> <B>and</B> <A HREF="../elks/binary_tree_short.html#f_has_right">has_right</A>)
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Cursor movement</FONT>
+
+    <A NAME="f_child_go_to"><A HREF="../elks/binary_tree_short.html#f_child_go_to">child_go_to</A> (p: <A HREF="../elks/arrayed_list_cursor_short.html">ARRAYED_LIST_CURSOR</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to child remembered by </FONT>`p'<FONT COLOR="red">.</FONT>
+</A>
+    <A NAME="f_child_start"><A HREF="../elks/binary_tree_short.html#f_child_start">child_start</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move to first child.</FONT>
+</A>
+    <A NAME="f_child_finish"><A HREF="../elks/binary_tree_short.html#f_child_finish">child_finish</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to last child.</FONT>
+</A>
+    <A NAME="f_child_forth"><A HREF="../elks/binary_tree_short.html#f_child_forth">child_forth</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to next child.</FONT>
+</A>
+    <A NAME="f_child_back"><A HREF="../elks/binary_tree_short.html#f_child_back">child_back</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to previous child.</FONT>
+</A>
+    <A NAME="f_child_go_i_th"><A HREF="../elks/binary_tree_short.html#f_child_go_i_th">child_go_i_th</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to </FONT>`i'<FONT COLOR="red">-th child.</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_put_left_child"><A HREF="../elks/binary_tree_short.html#f_put_left_child">put_left_child</A> (n: <B>like</B> <A HREF="../elks/binary_tree_short.html#f_parent">parent</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/binary_tree_short.html#f_left_child">left_child</A><FONT COLOR="red"> to </FONT>`n'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            no_parent: n = <B>Void</B> <B>or else</B> n.<A HREF="../elks/tree_short.html#f_is_root">is_root</A>
+</A>
+    <A NAME="f_put_right_child"><A HREF="../elks/binary_tree_short.html#f_put_right_child">put_right_child</A> (n: <B>like</B> <A HREF="../elks/binary_tree_short.html#f_parent">parent</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/binary_tree_short.html#f_right_child">right_child</A><FONT COLOR="red"> to </FONT>`n'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            no_parent: n = <B>Void</B> <B>or else</B> n.<A HREF="../elks/tree_short.html#f_is_root">is_root</A>
+</A>
+    <A NAME="f_child_put"><A HREF="../elks/binary_tree_short.html#f_child_put">child_put</A> (v: <B>like</B> <A HREF="../elks/cell_short.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Put </FONT>`v'<FONT COLOR="red"> at current child position.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/binary_tree_short.html">BINARY_TREE</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/binary_tree_short.html#f_child_replace">child_replace</A><FONT COLOR="red">.</FONT>
+</A>
+    <A NAME="f_child_replace"><A HREF="../elks/binary_tree_short.html#f_child_replace">child_replace</A> (v: <B>like</B> <A HREF="../elks/cell_short.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Put </FONT>`v'<FONT COLOR="red"> at current child position.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/binary_tree_short.html">BINARY_TREE</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/binary_tree_short.html#f_child_put">child_put</A><FONT COLOR="red">.</FONT>
+</A>
+    <A NAME="f_put_child"><A HREF="../elks/binary_tree_short.html#f_put_child">put_child</A> (n: <B>like</B> <A HREF="../elks/binary_tree_short.html#f_new_tree">new_tree</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Put </FONT>`n'<FONT COLOR="red"> at current child position.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/binary_tree_short.html">BINARY_TREE</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/binary_tree_short.html#f_replace_child">replace_child</A><FONT COLOR="red">.</FONT>
+</A>
+    <A NAME="f_replace_child"><A HREF="../elks/binary_tree_short.html#f_replace_child">replace_child</A> (n: <B>like</B> <A HREF="../elks/binary_tree_short.html#f_new_tree">new_tree</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Put </FONT>`n'<FONT COLOR="red"> at current child position.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/binary_tree_short.html">BINARY_TREE</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/binary_tree_short.html#f_put_child">put_child</A><FONT COLOR="red">.</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removal</FONT>
+
+    <A NAME="f_remove_left_child"><A HREF="../elks/binary_tree_short.html#f_remove_left_child">remove_left_child</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove left child.</FONT>
+        <B>ensure</B>
+            <B>not</B> <A HREF="../elks/binary_tree_short.html#f_has_left">has_left</A>
+</A>
+    <A NAME="f_remove_right_child"><A HREF="../elks/binary_tree_short.html#f_remove_right_child">remove_right_child</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove right child.</FONT>
+        <B>ensure</B>
+            <B>not</B> <A HREF="../elks/binary_tree_short.html#f_has_right">has_right</A>
+</A>
+    <A NAME="f_child_remove"><A HREF="../elks/binary_tree_short.html#f_child_remove">child_remove</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove current child.</FONT>
+</A>
+    <A NAME="f_prune"><A HREF="../elks/binary_tree_short.html#f_prune">prune</A> (n: <B>like</B> <A HREF="../elks/binary_tree_short.html#f_new_tree">new_tree</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Prune </FONT>`n'<FONT COLOR="red"> from child nodes.</FONT>
+</A>
+    <A NAME="f_wipe_out"><A HREF="../elks/binary_tree_short.html#f_wipe_out">wipe_out</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove all children.</FONT>
+</A>
+    <A NAME="f_forget_left"><A HREF="../elks/binary_tree_short.html#f_forget_left">forget_left</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Forget left sibling.</FONT>
+</A>
+    <A NAME="f_forget_right"><A HREF="../elks/binary_tree_short.html#f_forget_right">forget_right</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Forget right sibling.</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_duplicate"><A HREF="../elks/binary_tree_short.html#f_duplicate">duplicate</A> (n: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy of sub-tree beginning at cursor position and</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> having min (</FONT>`n'<FONT COLOR="red">, </FONT><A HREF="../elks/binary_tree_short.html#f_arity">arity</A><FONT COLOR="red"> - </FONT><A HREF="../elks/binary_tree_short.html#f_child_index">child_index</A><FONT COLOR="red"> + 1)</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> children.</FONT>
+</A>
+    <A NAME="f_duplicate_all"><A HREF="../elks/binary_tree_short.html#f_duplicate_all">duplicate_all</A>: <B>like</B> <B>Current</B>
+</A>    
+<B>invariant</B>
+    tree_is_binary: <A HREF="../elks/binary_tree_short.html#f_child_capacity">Child_capacity</A> = 2
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/binary_tree_short.html">BINARY_TREE</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="binary_tree_chart.html">Chart</A></TD><TD><A HREF="binary_tree_links.html">Relations</A></TD><TD><A HREF="binary_tree.html">Text</A></TD><TD><A HREF="binary_tree_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="binary_tree_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

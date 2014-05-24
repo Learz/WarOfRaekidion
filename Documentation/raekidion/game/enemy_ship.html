@@ -1,0 +1,104 @@
+<HTML><HEAD>
+<meta name="description" content="War of Raekidion - An enemy ship An {ENEMY_SHIP} is an entity who's only goal is  to shoot at the player."/>
+<meta name="author" content="François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>enemy_ship Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="enemy_ship_chart.html">Chart</A></TD><TD><A HREF="enemy_ship_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="enemy_ship_flat.html">Flat</A></TD><TD><A HREF="enemy_ship_short.html">Contracts</A></TD><TD><A HREF="enemy_ship_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        War of Raekidion - An enemy ship
+        An <A HREF="../../raekidion/game/enemy_ship.html">ENEMY_SHIP</A> is an entity who's only goal is 
+        to shoot at the player.
+    ]"
+    author: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+    date: "$Date$"
+    revision: "$Revision$"
+
+<B>class</B> 
+    <A HREF="../../raekidion/game/enemy_ship.html">ENEMY_SHIP</A>
+
+<B>inherit</B>
+    <A HREF="../../raekidion/game/enemy_factory_shared.html">ENEMY_FACTORY_SHARED</A>
+
+    <A HREF="../../raekidion/game/ship.html">SHIP</A>
+        <B>rename</B>
+            <A HREF="../../raekidion/game/ship.html#f_make">make</A> <B>as</B> <A HREF="../../raekidion/game/ship.html#f_make">ship_make</A>,
+            <A HREF="../../raekidion/game/entity.html#f_update">update</A> <B>as</B> <A HREF="../../raekidion/game/entity.html#f_update">ship_update</A>
+        <B>end</B>
+
+<B>create</B> 
+    <A HREF="../../raekidion/game/enemy_ship.html#f_make">make</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../../raekidion/game/enemy_ship.html#f_make">make</A> (a_name: <A HREF="../../elks/string_8.html">STRING_8</A>; a_window: <A HREF="../../raekidion/objects/window.html">WINDOW</A>; a_x, a_y, a_dest_x, a_dest_y: <A HREF="../../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize </FONT>`Current'<FONT COLOR="red"> from </FONT>`a_name'<FONT COLOR="red">, </FONT>`a_window'<FONT COLOR="red">, </FONT>`a_x'<FONT COLOR="red">, </FONT>`a_y'<FONT COLOR="red">, </FONT>`a_dest_x'<FONT COLOR="red"> and </FONT>`a_dest_y'
+        <B>do</B>
+            <A HREF="../../raekidion/game/enemy_ship.html#f_enemyfactory">enemyfactory</A> := <A HREF="../../raekidion/game/enemy_factory_shared.html#f_enemy_factory">Enemy_factory</A>
+            <A HREF="../../raekidion/game/enemy_ship.html#f_enemy_properties">enemy_properties</A> := <A HREF="../../raekidion/game/enemy_ship.html#f_enemyfactory">enemyfactory</A>.<A HREF="../../raekidion/game/enemy_factory.html#f_enemy">enemy</A> (a_name)
+            <A HREF="../../raekidion/game/ship.html#f_make">ship_make</A> (<A HREF="../../raekidion/game/enemy_ship.html#f_enemy_properties">enemy_properties</A>.<A HREF="../../raekidion/game/enemy_properties.html#f_filename">filename</A>, a_window, a_x, a_y, <A HREF="../../raekidion/game/enemy_ship.html#f_enemy_properties">enemy_properties</A>.<A HREF="../../raekidion/game/enemy_properties.html#f_health">health</A>)
+            <A HREF="../../raekidion/game/enemy_ship.html#f_dest_x">dest_x</A> := a_dest_x
+            <A HREF="../../raekidion/game/enemy_ship.html#f_dest_y">dest_y</A> := a_dest_y
+            <B>create</B> <A HREF="../../raekidion/game/enemy_ship.html#f_random">random</A>.<A HREF="../../elks/random.html#f_make">make</A>
+        <B>ensure</B>
+            enemy_properties_not_null: <A HREF="../../raekidion/game/enemy_ship.html#f_enemy_properties">enemy_properties</A>.<A HREF="../../raekidion/game/enemy_properties.html#f_name">name</A> /= ""
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_enemy_properties"><A HREF="../../raekidion/game/enemy_ship.html#f_enemy_properties">enemy_properties</A>: <A HREF="../../raekidion/game/enemy_properties.html">ENEMY_PROPERTIES</A></A>
+
+    <A NAME="f_update"><A HREF="../../raekidion/game/enemy_ship.html#f_update">update</A> (a_x, a_y: <A HREF="../../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update the enemy on screen from player's </FONT>`a_x'<FONT COLOR="red"> and </FONT>`a_y'
+        <B>local</B>
+            l_vector: <A HREF="../../raekidion/objects/vector.html">VECTOR</A>
+            l_random_int: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+            l_count: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>if</B> (<A HREF="../../raekidion/game/enemy_ship.html#f_dest_x">dest_x</A> - <A HREF="../../raekidion/game/entity.html#f_x">x</A>) &lt;= 5.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> <B>and</B> (<A HREF="../../raekidion/game/enemy_ship.html#f_dest_y">dest_y</A> - <A HREF="../../raekidion/game/entity.html#f_y">y</A>) &lt;= 5.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> <B>then</B>
+                <A HREF="../../raekidion/game/entity.html#f_trajectory">trajectory</A>.<A HREF="../../raekidion/objects/vector.html#f_set_force">set_force</A> (0.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>)
+                <B>if</B> <A HREF="../../raekidion/game/entity.html#f_lifetime">lifetime</A> \\ <A HREF="../../raekidion/game/enemy_ship.html#f_enemy_properties">enemy_properties</A>.<A HREF="../../raekidion/game/enemy_properties.html#f_firerate">firerate</A> = 0 <B>then</B>
+                    <B>from</B>
+                        l_count := 0
+                    <B>until</B>
+                        l_count = <A HREF="../../raekidion/game/enemy_ship.html#f_enemy_properties">enemy_properties</A>.<A HREF="../../raekidion/game/enemy_properties.html#f_count">count</A>
+                    <B>loop</B>
+                        <B>if</B> <A HREF="../../raekidion/game/enemy_ship.html#f_enemy_properties">enemy_properties</A>.<A HREF="../../raekidion/game/enemy_properties.html#f_aiming">aiming</A> <B>then</B>
+                            l_random_int := (<A HREF="../../raekidion/game/enemy_ship.html#f_random">random</A>.<A HREF="../../elks/random.html#f_double_item">double_item</A> * <A HREF="../../raekidion/game/enemy_ship.html#f_enemy_properties">enemy_properties</A>.<A HREF="../../raekidion/game/enemy_properties.html#f_spread">spread</A>).<A HREF="../../elks/real_64_ref.html#f_floor">floor</A> - (<A HREF="../../raekidion/game/enemy_ship.html#f_enemy_properties">enemy_properties</A>.<A HREF="../../raekidion/game/enemy_properties.html#f_spread">spread</A> / 2.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>).<A HREF="../../elks/real_64_ref.html#f_floor">floor</A>
+                            <A HREF="../../raekidion/game/enemy_ship.html#f_random">random</A>.<A HREF="../../elks/countable_sequence.html#f_forth">forth</A>
+                            <B>create</B> l_vector.<A HREF="../../raekidion/objects/vector.html#f_make_from_x_y">make_from_x_y</A> (a_x - <A HREF="../../raekidion/game/entity.html#f_x">x</A>, - a_y + <A HREF="../../raekidion/game/entity.html#f_y">y</A>)
+                            l_vector.<A HREF="../../raekidion/objects/vector.html#f_enable_degree_mode">enable_degree_mode</A>
+                            <A HREF="../../raekidion/game/ship.html#f_on_shoot">on_shoot</A>.<A HREF="../../ise/action_sequence.html#f_call">call</A> ([<A HREF="../../raekidion/game/enemy_ship.html#f_enemy_properties">enemy_properties</A>.<A HREF="../../raekidion/game/enemy_properties.html#f_bullet">bullet</A>, <A HREF="../../raekidion/game/entity.html#f_x">x</A>.<A HREF="../../elks/real_64_ref.html#f_floor">floor</A>, <A HREF="../../raekidion/game/entity.html#f_y">y</A>.<A HREF="../../elks/real_64_ref.html#f_floor">floor</A>, l_vector.<A HREF="../../raekidion/objects/vector.html#f_angle">angle</A> + l_random_int.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, <B>Current</B>])
+                        <B>else</B>
+                            <A HREF="../../raekidion/game/ship.html#f_on_shoot">on_shoot</A>.<A HREF="../../ise/action_sequence.html#f_call">call</A> ([<A HREF="../../raekidion/game/enemy_ship.html#f_enemy_properties">enemy_properties</A>.<A HREF="../../raekidion/game/enemy_properties.html#f_bullet">bullet</A>, <A HREF="../../raekidion/game/entity.html#f_x">x</A>.<A HREF="../../elks/real_64_ref.html#f_floor">floor</A>, <A HREF="../../raekidion/game/entity.html#f_y">y</A>.<A HREF="../../elks/real_64_ref.html#f_floor">floor</A>, <A HREF="../../raekidion/game/entity.html#f_lifetime">lifetime</A>.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> * <A HREF="../../raekidion/game/enemy_ship.html#f_enemy_properties">enemy_properties</A>.<A HREF="../../raekidion/game/enemy_properties.html#f_spread">spread</A>, <B>Current</B>])
+                        <B>end</B>
+                        l_count := l_count + 1
+                    <B>end</B>
+                <B>end</B>
+            <B>else</B>
+                <A HREF="../../raekidion/game/entity.html#f_trajectory">trajectory</A>.<A HREF="../../raekidion/objects/vector.html#f_set_x_and_y">set_x_and_y</A> (<A HREF="../../raekidion/game/enemy_ship.html#f_dest_x">dest_x</A> - <A HREF="../../raekidion/game/entity.html#f_x">x</A>, - <A HREF="../../raekidion/game/enemy_ship.html#f_dest_y">dest_y</A> + <A HREF="../../raekidion/game/entity.html#f_y">y</A>)
+                <A HREF="../../raekidion/game/entity.html#f_trajectory">trajectory</A>.<A HREF="../../raekidion/objects/vector.html#f_set_force">set_force</A> (<A HREF="../../raekidion/game/enemy_ship.html#f_enemy_properties">enemy_properties</A>.<A HREF="../../raekidion/game/enemy_properties.html#f_speed">speed</A>)
+            <B>end</B>
+            <A HREF="../../raekidion/game/entity.html#f_update">ship_update</A>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_random"><A HREF="../../raekidion/game/enemy_ship.html#f_random">random</A>: <A HREF="../../elks/random.html">RANDOM</A></A>
+
+    <A NAME="f_dest_x"><A HREF="../../raekidion/game/enemy_ship.html#f_dest_x">dest_x</A>: <A HREF="../../elks/real_64.html">REAL_64</A></A>
+
+    <A NAME="f_dest_y"><A HREF="../../raekidion/game/enemy_ship.html#f_dest_y">dest_y</A>: <A HREF="../../elks/real_64.html">REAL_64</A></A>
+
+    <A NAME="f_enemyfactory"><A HREF="../../raekidion/game/enemy_ship.html#f_enemyfactory">enemyfactory</A>: <A HREF="../../raekidion/game/enemy_factory.html">ENEMY_FACTORY</A></A>
+
+    <A NAME="f_create_projectile"><A HREF="../../raekidion/game/enemy_ship.html#f_create_projectile">create_projectile</A>: <A HREF="../../elks/boolean.html">BOOLEAN</A></A>
+    
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../../raekidion/game/enemy_ship.html">ENEMY_SHIP</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="enemy_ship_chart.html">Chart</A></TD><TD><A HREF="enemy_ship_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="enemy_ship_flat.html">Flat</A></TD><TD><A HREF="enemy_ship_short.html">Contracts</A></TD><TD><A HREF="enemy_ship_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

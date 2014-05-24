@@ -1,0 +1,228 @@
+<HTML><HEAD>
+<meta name="description" content="Two-dimensional arrays"/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="names" content="array2, matrix, table"/>
+<meta name="representation" content="array"/>
+<meta name="access" content="index, row_and_column, membership"/>
+<meta name="size" content="resizable"/>
+<meta name="contents" content="generic"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>array2 Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="array2_chart.html">Chart</A></TD><TD><A HREF="array2_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="array2_flat.html">Flat</A></TD><TD><A HREF="array2_short.html">Contracts</A></TD><TD><A HREF="array2_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Two-dimensional arrays"
+    library: "Free implementation of ELKS library"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    names: array2, matrix, table
+    representation: array
+    access: index, row_and_column, membership
+    size: resizable
+    contents: generic
+    date: "$Date: 2012-05-23 21:13:10 -0700 (Wed, 23 May 2012) $"
+    revision: "$Revision: 91981 $"
+
+<B>class</B> 
+    <A HREF="../elks/array2.html">ARRAY2</A> [G]
+
+<B>inherit</B>
+    <A HREF="../elks/array.html">ARRAY</A> [G]
+        <B>rename</B>
+            <A HREF="../elks/array.html#f_make">make</A> <B>as</B> <A HREF="../elks/array.html#f_make">array_make</A>,
+            <A HREF="../elks/array.html#f_item">item</A> <B>as</B> <A HREF="../elks/array.html#f_item">array_item</A>,
+            <A HREF="../elks/array.html#f_put">put</A> <B>as</B> <A HREF="../elks/array.html#f_put">array_put</A>,
+            <A HREF="../elks/array.html#f_force">force</A> <B>as</B> <A HREF="../elks/array.html#f_force">array_force</A>,
+            <A HREF="../elks/array.html#f_resize">resize</A> <B>as</B> <A HREF="../elks/array.html#f_resize">array_resize</A>,
+            <A HREF="../elks/array.html#f_wipe_out">wipe_out</A> <B>as</B> <A HREF="../elks/array.html#f_wipe_out">array_wipe_out</A>,
+            <A HREF="../elks/array.html#f_make_filled">make_filled</A> <B>as</B> <A HREF="../elks/array.html#f_make_filled">array_make_filled</A>
+        <B>export</B>
+            {NONE} <A HREF="../elks/array.html#f_make">array_make</A>, <A HREF="../elks/array.html#f_force">array_force</A>, <A HREF="../elks/array.html#f_resize">array_resize</A>, <A HREF="../elks/array.html#f_wipe_out">array_wipe_out</A>, <A HREF="../elks/array.html#f_make_from_array">make_from_array</A>, <A HREF="../elks/array.html#f_make_filled">array_make_filled</A>, <A HREF="../elks/array.html#f_make_from_special">make_from_special</A>, <A HREF="../elks/array.html#f_make_from_cil">make_from_cil</A>, <A HREF="../elks/array.html#f_remove_head">remove_head</A>, <A HREF="../elks/array.html#f_remove_tail">remove_tail</A>, <A HREF="../elks/array.html#f_keep_head">keep_head</A>, <A HREF="../elks/array.html#f_keep_tail">keep_tail</A>, <A HREF="../elks/array.html#f_grow">grow</A>, <A HREF="../elks/array.html#f_conservative_resize">conservative_resize</A>, <A HREF="../elks/array.html#f_conservative_resize_with_default">conservative_resize_with_default</A>, <A HREF="../elks/resizable.html#f_automatic_grow">automatic_grow</A>
+            {<A HREF="../elks/array2.html">ARRAY2</A>} <A HREF="../elks/array.html#f_put">array_put</A>, <A HREF="../elks/array.html#f_item">array_item</A>
+            {<A HREF="../elks/any.html">ANY</A>} <A HREF="../elks/array.html#f_copy">copy</A>, <A HREF="../elks/array.html#f_is_equal">is_equal</A>, <A HREF="../elks/to_special.html#f_area">area</A>, <A HREF="../elks/array.html#f_to_c">to_c</A>
+        <B>end</B>
+
+<B>create</B> 
+    <A HREF="../elks/array2.html#f_make">make</A>,
+    <A HREF="../elks/array2.html#f_make_filled">make_filled</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../elks/array2.html#f_make">make</A> (nb_rows, nb_columns: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+        <B>obsolete</B> "`make' is not void-safe statically. Use `make_filled' instead. [07-2010]"
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create a two dimensional array which has </FONT>`nb_rows'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> rows and </FONT>`nb_columns'<FONT COLOR="red"> columns,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> with lower bounds starting at 1.</FONT>
+        <B>require</B>
+            nb_rows_non_negative: nb_rows &gt;= 0
+            nb_columns_non_negative: nb_columns &gt;= 0
+            both_zero_or_both_non_zero: <B>not</B> (nb_rows = 0 <B>xor</B> nb_columns = 0)
+            has_default: (nb_rows * nb_columns) /= 0 <B>implies</B> ({G}).<A HREF="../elks/type.html#f_has_default">has_default</A>
+        <B>do</B>
+            <A HREF="../elks/array2.html#f_height">height</A> := nb_rows
+            <A HREF="../elks/array2.html#f_width">width</A> := nb_columns
+            <A HREF="../elks/array.html#f_make">array_make</A> (1, nb_rows * nb_columns)
+        <B>ensure</B>
+            new_count: <A HREF="../elks/array.html#f_count">count</A> = <A HREF="../elks/array2.html#f_height">height</A> * <A HREF="../elks/array2.html#f_width">width</A>
+        <B>end</B></A>
+
+    <A NAME="f_make_filled"><A HREF="../elks/array2.html#f_make_filled">make_filled</A> (a_default_value: G; nb_rows, nb_columns: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create a two dimensional array which has </FONT>`nb_rows'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> rows and </FONT>`nb_columns'<FONT COLOR="red"> columns,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> with lower bounds starting at 1 filled with value </FONT>`a_default_value'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            nb_rows_non_negative: nb_rows &gt;= 0
+            nb_columns_non_negative: nb_columns &gt;= 0
+            both_zero_or_both_non_zero: <B>not</B> (nb_rows = 0 <B>xor</B> nb_columns = 0)
+        <B>do</B>
+            <A HREF="../elks/array2.html#f_height">height</A> := nb_rows
+            <A HREF="../elks/array2.html#f_width">width</A> := nb_columns
+            <A HREF="../elks/array.html#f_make_filled">array_make_filled</A> (a_default_value, 1, nb_rows * nb_columns)
+        <B>ensure</B>
+            new_count: <A HREF="../elks/array.html#f_count">count</A> = <A HREF="../elks/array2.html#f_height">height</A> * <A HREF="../elks/array2.html#f_width">width</A>
+            filled: <A HREF="../elks/array.html#f_filled_with">filled_with</A> (a_default_value)
+        <B>end</B></A>
+
+    <A NAME="f_initialize"><A HREF="../elks/array2.html#f_initialize">initialize</A> (v: G)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make each entry have value </FONT>`v'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/array.html#f_fill_with">fill_with</A> (v)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_item"><A HREF="../elks/array2.html#f_item">item</A> <B>alias</B> "[]" (row, column: <A HREF="../elks/integer_32.html">INTEGER_32</A>): G <B>assign</B> <A HREF="../elks/array2.html#f_put">put</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Entry at coordinates (</FONT>`row'<FONT COLOR="red">, </FONT>`column'<FONT COLOR="red">)</FONT>
+        <B>require</B>
+            valid_row: (1 &lt;= row) <B>and</B> (row &lt;= <A HREF="../elks/array2.html#f_height">height</A>)
+            valid_column: (1 &lt;= column) <B>and</B> (column &lt;= <A HREF="../elks/array2.html#f_width">width</A>)
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/array.html#f_item">array_item</A> ((row - 1) * <A HREF="../elks/array2.html#f_width">width</A> + column)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_height"><A HREF="../elks/array2.html#f_height">height</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of rows</FONT>
+
+    <A NAME="f_width"><A HREF="../elks/array2.html#f_width">width</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of columns</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_put"><A HREF="../elks/array2.html#f_put">put</A> (v: <B>like</B> <A HREF="../elks/array2.html#f_item">item</A>; row, column: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Assign item </FONT>`v'<FONT COLOR="red"> at coordinates (</FONT>`row'<FONT COLOR="red">, </FONT>`column'<FONT COLOR="red">).</FONT>
+        <B>require</B>
+            valid_row: 1 &lt;= row <B>and</B> row &lt;= <A HREF="../elks/array2.html#f_height">height</A>
+            valid_column: 1 &lt;= column <B>and</B> column &lt;= <A HREF="../elks/array2.html#f_width">width</A>
+        <B>do</B>
+            <A HREF="../elks/array.html#f_put">array_put</A> (v, (row - 1) * <A HREF="../elks/array2.html#f_width">width</A> + column)
+        <B>end</B></A>
+
+    <A NAME="f_force"><A HREF="../elks/array2.html#f_force">force</A> (v: <B>like</B> <A HREF="../elks/array2.html#f_item">item</A>; row, column: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Assign item </FONT>`v'<FONT COLOR="red"> at coordinates (</FONT>`row'<FONT COLOR="red">, </FONT>`column'<FONT COLOR="red">).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Resize if necessary.</FONT>
+        <B>require</B>
+            row_large_enough: 1 &lt;= row
+            column_large_enough: 1 &lt;= column
+            has_default: ({G}).<A HREF="../elks/type.html#f_has_default">has_default</A>
+        <B>do</B>
+            <A HREF="../elks/array2.html#f_resize_with_default">resize_with_default</A> (({G}).<A HREF="../elks/type.html#f_default">default</A>, row, column)
+            <A HREF="../elks/array2.html#f_put">put</A> (v, row, column)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removal</FONT>
+
+    <A NAME="f_wipe_out"><A HREF="../elks/array2.html#f_wipe_out">wipe_out</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove all items.</FONT>
+        <B>do</B>
+            <A HREF="../elks/array2.html#f_height">height</A> := 0
+            <A HREF="../elks/array2.html#f_width">width</A> := 0
+            <A HREF="../elks/array.html#f_make_empty">make_empty</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Resizing</FONT>
+
+    <A NAME="f_resize"><A HREF="../elks/array2.html#f_resize">resize</A> (nb_rows, nb_columns: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+        <B>obsolete</B> "`resize' is not void-safe statically. Use `resize_with_default' instead. [07-2010]"
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Rearrange array so that it can accommodate</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`nb_rows'<FONT COLOR="red"> rows and </FONT>`nb_columns'<FONT COLOR="red"> columns,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> without losing any previously</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> entered items, nor changing their coordinates;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> do nothing if new values are smaller.</FONT>
+        <B>require</B>
+            valid_row: nb_rows &gt;= 1
+            valid_column: nb_columns &gt;= 1
+            has_default: ({G}).<A HREF="../elks/type.html#f_has_default">has_default</A>
+        <B>do</B>
+            <B>if</B> (nb_columns &gt; <A HREF="../elks/array2.html#f_width">width</A>) <B>or</B> (nb_rows &gt; <A HREF="../elks/array2.html#f_height">height</A>) <B>then</B>
+                <A HREF="../elks/array2.html#f_resize_with_default">resize_with_default</A> (({G}).<A HREF="../elks/type.html#f_default">default</A>, nb_rows, nb_columns)
+            <B>end</B>
+        <B>ensure</B>
+            no_smaller_height: <A HREF="../elks/array2.html#f_height">height</A> &gt;= <B>old</B> <A HREF="../elks/array2.html#f_height">height</A>
+            no_smaller_width: <A HREF="../elks/array2.html#f_width">width</A> &gt;= <B>old</B> <A HREF="../elks/array2.html#f_width">width</A>
+        <B>end</B></A>
+
+    <A NAME="f_resize_with_default"><A HREF="../elks/array2.html#f_resize_with_default">resize_with_default</A> (a_default: G; nb_rows, nb_columns: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Rearrange array so that it can accommodate</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`nb_rows'<FONT COLOR="red"> rows and </FONT>`nb_columns'<FONT COLOR="red"> columns,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> without losing any previously</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> entered items, nor changing their coordinates;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> do nothing if new values are smaller.</FONT>
+        <B>require</B>
+            valid_row: nb_rows &gt;= 1
+            valid_column: nb_columns &gt;= 1
+        <B>local</B>
+            i: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            new_height: <B>like</B> <A HREF="../elks/array2.html#f_height">height</A>
+            previous_width: <B>like</B> <A HREF="../elks/array2.html#f_width">width</A>
+        <B>do</B>
+            <B>if</B> nb_columns &gt; <A HREF="../elks/array2.html#f_width">width</A> <B>then</B>
+                new_height := nb_rows.<A HREF="../elks/comparable.html#f_max">max</A> (<A HREF="../elks/array2.html#f_height">height</A>)
+                previous_width := <A HREF="../elks/array2.html#f_width">width</A>
+                <A HREF="../elks/array.html#f_conservative_resize_with_default">conservative_resize_with_default</A> (a_default, 1, new_height * nb_columns)
+                <B>from</B>
+                    i := <A HREF="../elks/array2.html#f_height">height</A>
+                <B>until</B>
+                    i = 0
+                <B>loop</B>
+                    <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_move_data">move_data</A> ((i - 1) * previous_width, (i - 1) * nb_columns, previous_width)
+                    <A HREF="../elks/to_special.html#f_area">area</A>.<A HREF="../elks/special.html#f_fill_with">fill_with</A> (a_default, (i - 1) * nb_columns + previous_width, i * nb_columns - 1)
+                    i := i - 1
+                <B>end</B>
+                <A HREF="../elks/array2.html#f_width">width</A> := nb_columns
+                <A HREF="../elks/array2.html#f_height">height</A> := new_height
+            <B>elseif</B> nb_rows &gt; <A HREF="../elks/array2.html#f_height">height</A> <B>then</B>
+                <A HREF="../elks/array.html#f_conservative_resize_with_default">conservative_resize_with_default</A> (a_default, 1, nb_rows * <A HREF="../elks/array2.html#f_width">width</A>)
+                <A HREF="../elks/array2.html#f_height">height</A> := nb_rows
+            <B>end</B>
+        <B>ensure</B>
+            no_smaller_height: <A HREF="../elks/array2.html#f_height">height</A> &gt;= <B>old</B> <A HREF="../elks/array2.html#f_height">height</A>
+            no_smaller_width: <A HREF="../elks/array2.html#f_width">width</A> &gt;= <B>old</B> <A HREF="../elks/array2.html#f_width">width</A>
+        <B>end</B></A>
+    
+<B>invariant</B>
+    items_number: <A HREF="../elks/array.html#f_count">count</A> = <A HREF="../elks/array2.html#f_width">width</A> * <A HREF="../elks/array2.html#f_height">height</A>
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/array2.html">ARRAY2</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="array2_chart.html">Chart</A></TD><TD><A HREF="array2_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="array2_flat.html">Flat</A></TD><TD><A HREF="array2_short.html">Contracts</A></TD><TD><A HREF="array2_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

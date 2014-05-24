@@ -1,0 +1,139 @@
+<HTML><HEAD>
+<meta name="description" content="A socket address."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2006, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 356 Storke Road, Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>socket_address Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="socket_address_chart.html">Chart</A></TD><TD><A HREF="socket_address_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="socket_address_flat.html">Flat</A></TD><TD><A HREF="socket_address_short.html">Contracts</A></TD><TD><A HREF="socket_address_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "A socket address."
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2009-07-17 21:44:53 -0700 (Fri, 17 Jul 2009) $"
+    revision: "$Revision: 79840 $"
+
+<B>class</B> 
+    <A HREF="../abstract/socket_address.html">SOCKET_ADDRESS</A>
+
+<B>inherit</B>
+    <A HREF="../elks/any.html">ANY</A>
+        <B>redefine</B>
+            <A HREF="../abstract/socket_address.html#f_copy">copy</A>,
+            <A HREF="../abstract/socket_address.html#f_is_equal">is_equal</A>
+        <B>end</B>
+
+<B>create</B> 
+    <A HREF="../abstract/socket_address.html#f_make">make</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initalization</FONT>
+
+    <A NAME="f_make"><A HREF="../abstract/socket_address.html#f_make">make</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make space available for address size.</FONT>
+        <B>do</B>
+            <B>create</B> <A HREF="../abstract/socket_address.html#f_socket_address">socket_address</A>.<A HREF="../elks/managed_pointer.html#f_make">make</A> (<A HREF="../abstract/socket_address.html#f_address_size">address_size</A>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_socket_address"><A HREF="../abstract/socket_address.html#f_socket_address">socket_address</A>: <A HREF="../elks/managed_pointer.html">MANAGED_POINTER</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Hold data.</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_count"><A HREF="../abstract/socket_address.html#f_count">count</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Size of address</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../abstract/socket_address.html#f_socket_address">socket_address</A>.<A HREF="../elks/managed_pointer.html#f_count">count</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_is_equal"><A HREF="../abstract/socket_address.html#f_is_equal">is_equal</A> (other: <B>like</B> <B>Current</B>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current address equal to </FONT>`other'<FONT COLOR="red">?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../abstract/socket_address.html#f_socket_address">socket_address</A>.<A HREF="../elks/managed_pointer.html#f_is_equal">is_equal</A> (other.<A HREF="../abstract/socket_address.html#f_socket_address">socket_address</A>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_family"><A HREF="../abstract/socket_address.html#f_family">family</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Get the socket family of socket address.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../abstract/socket_address.html#f_get_sock_family">get_sock_family</A> (<A HREF="../abstract/socket_address.html#f_socket_address">socket_address</A>.<A HREF="../elks/managed_pointer.html#f_item">item</A>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status setting</FONT>
+
+    <A NAME="f_set_family"><A HREF="../abstract/socket_address.html#f_set_family">set_family</A> (f: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set socket address family to </FONT>`f'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket_address.html#f_set_sock_family">set_sock_family</A> (<A HREF="../abstract/socket_address.html#f_socket_address">socket_address</A>.<A HREF="../elks/managed_pointer.html#f_item">item</A>, f)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_copy"><A HREF="../abstract/socket_address.html#f_copy">copy</A> (other: <B>like</B> <B>Current</B>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Reinitialize by copying characters of </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (This is also used by </FONT><A HREF="../elks/any.html#f_clone">clone</A><FONT COLOR="red">.)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Current</B> <B>then</B>
+                <A HREF="../elks/any.html#f_standard_copy">standard_copy</A> (other)
+                <A HREF="../abstract/socket_address.html#f_socket_address">socket_address</A> := other.<A HREF="../abstract/socket_address.html#f_socket_address">socket_address</A>.<A HREF="../elks/any.html#f_twin">twin</A>
+            <B>end</B>
+        <B>ensure then</B>
+            new_result_count: <A HREF="../abstract/socket_address.html#f_count">count</A> = other.<A HREF="../abstract/socket_address.html#f_count">count</A> <B>or else</B> <A HREF="../abstract/socket_address.html#f_count">count</A> = <A HREF="../abstract/socket_address.html#f_address_size">address_size</A>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> External</FONT>
+
+    <A NAME="f_address_size"><A HREF="../abstract/socket_address.html#f_address_size">address_size</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Size of socket address</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_set_sock_family"><A HREF="../abstract/socket_address.html#f_set_sock_family">set_sock_family</A> (address: <A HREF="../elks/pointer.html">POINTER</A>; a_family: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set family of socket address.</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_get_sock_family"><A HREF="../abstract/socket_address.html#f_get_sock_family">get_sock_family</A> (address: <A HREF="../elks/pointer.html">POINTER</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Get socket family from socket address.</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_set_sock_data"><A HREF="../abstract/socket_address.html#f_set_sock_data">set_sock_data</A> (address: <A HREF="../elks/pointer.html">POINTER</A>; dat: <A HREF="../elks/pointer.html">POINTER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set data area of socket address.</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_get_sock_data"><A HREF="../abstract/socket_address.html#f_get_sock_data">get_sock_data</A> (address: <A HREF="../elks/pointer.html">POINTER</A>): <A HREF="../elks/pointer.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Get data portion of socket address.</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2006, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        356 Storke Road, Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../abstract/socket_address.html">SOCKET_ADDRESS</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="socket_address_chart.html">Chart</A></TD><TD><A HREF="socket_address_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="socket_address_flat.html">Flat</A></TD><TD><A HREF="socket_address_short.html">Contracts</A></TD><TD><A HREF="socket_address_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

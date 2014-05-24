@@ -1,8 +1,12 @@
 note
-	description: "Summary description for {RESOURCE_LOAD}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description : "[
+					War of Raekidion - Asynchronous resource loading
+					A {RESOURCE_LOAD} thread will ensure every memory expensive 
+					resource loading is made before the game starts.
+				]"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date: May 23 2014$"
+	revision	: "$Revision: 1$"
 
 class
 	RESOURCE_LOAD
@@ -50,5 +54,13 @@ feature {NONE} -- Implementation
 			l_any := connexion
 			must_quit := true
 		end
+
+note
+	copyright: "[
+				War of Raekidion
+				Copyright (C) 2014 François Allard <binarmorker@gmail.com>
+             		   		   and Marc-Antoine Renaud <legars123456@gmail.com>
+               ]"
+	license:   "GNU General Public License, <http://www.gnu.org/licenses/>"
 
 end

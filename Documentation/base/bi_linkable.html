@@ -1,0 +1,169 @@
+<HTML><HEAD>
+<meta name="description" content="Linkable cells with a reference to the left and right neighbors"/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="names" content="bi_linkable, cell"/>
+<meta name="representation" content="linked"/>
+<meta name="contents" content="generic"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>bi_linkable Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="bi_linkable_chart.html">Chart</A></TD><TD><A HREF="bi_linkable_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="bi_linkable_flat.html">Flat</A></TD><TD><A HREF="bi_linkable_short.html">Contracts</A></TD><TD><A HREF="bi_linkable_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Linkable cells with a reference to the left and right neighbors"
+    library: "Free implementation of ELKS library"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    names: bi_linkable, cell
+    representation: linked
+    contents: generic
+    date: "$Date: 2012-07-23 14:02:19 -0700 (Mon, 23 Jul 2012) $"
+    revision: "$Revision: 91989 $"
+
+<B>class</B> 
+    <A HREF="../elks/bi_linkable.html">BI_LINKABLE</A> [G]
+
+<B>inherit</B>
+    <A HREF="../elks/linkable.html">LINKABLE</A> [G]
+        <B>redefine</B>
+            <A HREF="../elks/bi_linkable.html#f_put_right">put_right</A>,
+            <A HREF="../elks/bi_linkable.html#f_forget_right">forget_right</A>
+        <B>end</B>
+
+<B>create</B> {<A HREF="../elks/chain.html">CHAIN</A>}
+    <A HREF="../elks/cell.html#f_put">put</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_left"><A HREF="../elks/bi_linkable.html#f_left">left</A>: <B>detachable</B> <B>like</B> <B>Current</B></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Left neighbor</FONT>
+    
+<B>feature</B> {<A HREF="../elks/cell.html">CELL</A>, <A HREF="../elks/chain.html">CHAIN</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_put_right"><A HREF="../elks/bi_linkable.html#f_put_right">put_right</A> (other: <B>detachable</B> <B>like</B> <B>Current</B>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Put </FONT>`other'<FONT COLOR="red"> to the right of current cell.</FONT>
+        <B>local</B>
+            l_right: <B>like</B> <A HREF="../elks/linkable.html#f_right">right</A>
+            l_other: <B>like</B> other
+        <B>do</B>
+            l_right := <A HREF="../elks/linkable.html#f_right">right</A>
+            <B>if</B> l_right /= <B>Void</B> <B>then</B>
+                l_right.<A HREF="../elks/bi_linkable.html#f_simple_forget_left">simple_forget_left</A>
+            <B>end</B>
+            <A HREF="../elks/linkable.html#f_right">right</A> := other
+            l_other := other
+            <B>if</B> l_other /= <B>Void</B> <B>then</B>
+                l_other.<A HREF="../elks/bi_linkable.html#f_simple_put_left">simple_put_left</A> (<B>Current</B>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_put_left"><A HREF="../elks/bi_linkable.html#f_put_left">put_left</A> (other: <B>detachable</B> <B>like</B> <B>Current</B>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Put </FONT>`other'<FONT COLOR="red"> to the left of current cell.</FONT>
+        <B>local</B>
+            l: <B>like</B> <A HREF="../elks/bi_linkable.html#f_left">left</A>
+        <B>do</B>
+            l := <A HREF="../elks/bi_linkable.html#f_left">left</A>
+            <B>if</B> l /= <B>Void</B> <B>then</B>
+                l.<A HREF="../elks/bi_linkable.html#f_simple_forget_right">simple_forget_right</A>
+            <B>end</B>
+            <A HREF="../elks/bi_linkable.html#f_left">left</A> := other
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                other.<A HREF="../elks/bi_linkable.html#f_simple_put_right">simple_put_right</A> (<B>Current</B>)
+            <B>end</B>
+        <B>ensure</B>
+            chained: <A HREF="../elks/bi_linkable.html#f_left">left</A> = other
+        <B>end</B></A>
+
+    <A NAME="f_forget_right"><A HREF="../elks/bi_linkable.html#f_forget_right">forget_right</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove links with right neighbor.</FONT>
+        <B>local</B>
+            l_right: <B>like</B> <A HREF="../elks/linkable.html#f_right">right</A>
+        <B>do</B>
+            l_right := <A HREF="../elks/linkable.html#f_right">right</A>
+            <B>if</B> l_right /= <B>Void</B> <B>then</B>
+                l_right.<A HREF="../elks/bi_linkable.html#f_simple_forget_left">simple_forget_left</A>
+                <A HREF="../elks/linkable.html#f_right">right</A> := <B>Void</B>
+            <B>end</B>
+        <B>ensure then</B>
+            right_not_chained: (<B>attached</B> {<B>like</B> <A HREF="../elks/linkable.html#f_right">right</A>} <B>old</B> <A HREF="../elks/linkable.html#f_right">right</A> <B>as</B> r) <B>implies</B> r.<A HREF="../elks/bi_linkable.html#f_left">left</A> = <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_forget_left"><A HREF="../elks/bi_linkable.html#f_forget_left">forget_left</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove links with left neighbor.</FONT>
+        <B>local</B>
+            l: <B>like</B> <A HREF="../elks/bi_linkable.html#f_left">left</A>
+        <B>do</B>
+            l := <A HREF="../elks/bi_linkable.html#f_left">left</A>
+            <B>if</B> l /= <B>Void</B> <B>then</B>
+                l.<A HREF="../elks/bi_linkable.html#f_simple_forget_right">simple_forget_right</A>
+                <A HREF="../elks/bi_linkable.html#f_left">left</A> := <B>Void</B>
+            <B>end</B>
+        <B>ensure</B>
+            left_not_chained: <A HREF="../elks/bi_linkable.html#f_left">left</A> = <B>Void</B> <B>or else</B> (<B>attached</B> {<B>like</B> <A HREF="../elks/bi_linkable.html#f_left">left</A>} <B>old</B> <A HREF="../elks/bi_linkable.html#f_left">left</A> <B>as</B> p <B>implies</B> p.<A HREF="../elks/linkable.html#f_right">right</A> = <B>Void</B>)
+        <B>end</B></A>
+    
+<B>feature</B> {<A HREF="../elks/bi_linkable.html">BI_LINKABLE</A>, <A HREF="../elks/two_way_list.html">TWO_WAY_LIST</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_simple_put_right"><A HREF="../elks/bi_linkable.html#f_simple_put_right">simple_put_right</A> (other: <B>detachable</B> <B>like</B> <B>Current</B>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/linkable.html#f_right">right</A><FONT COLOR="red"> to </FONT>`other'
+        <B>local</B>
+            l_right: <B>like</B> <A HREF="../elks/linkable.html#f_right">right</A>
+        <B>do</B>
+            l_right := <A HREF="../elks/linkable.html#f_right">right</A>
+            <B>if</B> l_right /= <B>Void</B> <B>then</B>
+                l_right.<A HREF="../elks/bi_linkable.html#f_simple_forget_left">simple_forget_left</A>
+            <B>end</B>
+            <A HREF="../elks/linkable.html#f_right">right</A> := other
+        <B>end</B></A>
+
+    <A NAME="f_simple_put_left"><A HREF="../elks/bi_linkable.html#f_simple_put_left">simple_put_left</A> (other: <B>detachable</B> <B>like</B> <B>Current</B>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/bi_linkable.html#f_left">left</A><FONT COLOR="red"> to </FONT>`other'<FONT COLOR="red"> is</FONT>
+        <B>local</B>
+            l: <B>like</B> <A HREF="../elks/bi_linkable.html#f_left">left</A>
+        <B>do</B>
+            l := <A HREF="../elks/bi_linkable.html#f_left">left</A>
+            <B>if</B> l /= <B>Void</B> <B>then</B>
+                l.<A HREF="../elks/bi_linkable.html#f_simple_forget_right">simple_forget_right</A>
+            <B>end</B>
+            <A HREF="../elks/bi_linkable.html#f_left">left</A> := other
+        <B>end</B></A>
+
+    <A NAME="f_simple_forget_right"><A HREF="../elks/bi_linkable.html#f_simple_forget_right">simple_forget_right</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove right link (do nothing to right neighbor).</FONT>
+        <B>do</B>
+            <A HREF="../elks/linkable.html#f_right">right</A> := <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_simple_forget_left"><A HREF="../elks/bi_linkable.html#f_simple_forget_left">simple_forget_left</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove left link (do nothing to left neighbor).</FONT>
+        <B>do</B>
+            <A HREF="../elks/bi_linkable.html#f_left">left</A> := <B>Void</B>
+        <B>ensure</B>
+            not_chained: <A HREF="../elks/bi_linkable.html#f_left">left</A> = <B>Void</B>
+        <B>end</B></A>
+    
+<B>invariant</B>
+    right_symmetry: <B>attached</B> <A HREF="../elks/linkable.html#f_right">right</A> <B>as</B> r <B>implies</B> (r.<A HREF="../elks/bi_linkable.html#f_left">left</A> = <B>Current</B>)
+    left_symmetry: <B>attached</B> <A HREF="../elks/bi_linkable.html#f_left">left</A> <B>as</B> l <B>implies</B> (l.<A HREF="../elks/linkable.html#f_right">right</A> = <B>Current</B>)
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/bi_linkable.html">BI_LINKABLE</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="bi_linkable_chart.html">Chart</A></TD><TD><A HREF="bi_linkable_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="bi_linkable_flat.html">Flat</A></TD><TD><A HREF="bi_linkable_short.html">Contracts</A></TD><TD><A HREF="bi_linkable_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

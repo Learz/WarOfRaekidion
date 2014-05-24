@@ -1,0 +1,2014 @@
+<HTML><HEAD>
+<meta name="description" content="Sequential, one-way linked lists"/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="names" content="linked_list, sequence"/>
+<meta name="representation" content="linked"/>
+<meta name="access" content="index, cursor, membership"/>
+<meta name="contents" content="generic"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>linked_list Flat</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="linked_list_chart.html">Chart</A></TD><TD><A HREF="linked_list_links.html">Relations</A></TD><TD><A HREF="linked_list.html">Text</A></TD><TD>Flat</TD><TD><A HREF="linked_list_short.html">Contracts</A></TD><TD><A HREF="linked_list_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Sequential, one-way linked lists"
+    library: "Free implementation of ELKS library"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    names: linked_list, sequence
+    representation: linked
+    access: index, cursor, membership
+    contents: generic
+    date: "$Date: 2012-07-23 14:02:19 -0700 (Mon, 23 Jul 2012) $"
+    revision: "$Revision: 91989 $"
+
+<B>class</B> 
+    <A HREF="../elks/linked_list_flat.html">LINKED_LIST</A> [G]
+
+<B>create</B> 
+    <A HREF="../elks/linked_list_flat.html#f_make">make</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_default_create"><A HREF="../elks/any_flat.html#f_default_create">default_create</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process instances of classes with no creation clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_make"><A HREF="../elks/linked_list_flat.html#f_make">make</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create an empty list.</FONT>
+        <B>do</B>
+            <A HREF="../elks/linked_list_flat.html#f_before">before</A> := <B>True</B>
+        <B>ensure</B>
+            is_before: <A HREF="../elks/linked_list_flat.html#f_before">before</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_at"><A HREF="../elks/chain_flat.html#f_at">at</A> <B>alias</B> "@" (i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <B>like</B> <A HREF="../elks/linked_list_flat.html#f_item">item</A> <B>assign</B> <A HREF="../elks/chain_flat.html#f_put_i_th">put_i_th</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Item at </FONT>`i'<FONT COLOR="red">-th position</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/chain_flat.html">CHAIN</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/chain_flat.html#f_i_th">i_th</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/table_flat.html">TABLE</A>
+            valid_key: <A HREF="../elks/chain_flat.html#f_valid_index">valid_index</A> (i)
+        <B>local</B>
+            pos: <A HREF="../elks/cursor_flat.html">CURSOR</A>
+        <B>do</B>
+            pos := <A HREF="../elks/linked_list_flat.html#f_cursor">cursor</A>
+            <A HREF="../elks/linked_list_flat.html#f_go_i_th">go_i_th</A> (i)
+            <B>Result</B> := <A HREF="../elks/linked_list_flat.html#f_item">item</A>
+            <A HREF="../elks/linked_list_flat.html#f_go_to">go_to</A> (pos)
+        <B>end</B></A>
+
+    <A NAME="f_cursor"><A HREF="../elks/linked_list_flat.html#f_cursor">cursor</A>: <A HREF="../elks/linked_list_cursor_flat.html">LINKED_LIST_CURSOR</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Current cursor position</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/linked_list_cursor_flat.html#f_make">make</A> (<A HREF="../elks/linked_list_flat.html#f_active">active</A>, <A HREF="../elks/linked_list_flat.html#f_after">after</A>, <A HREF="../elks/linked_list_flat.html#f_before">before</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/cursor_structure_flat.html">CURSOR_STRUCTURE</A>
+            cursor_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_first"><A HREF="../elks/linked_list_flat.html#f_first">first</A>: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_item">item</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Item at first position</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A>
+            not_empty: <B>not</B> <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>do</B>
+            <B>check</B>
+                <B>attached</B> <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A> <B>as</B> f
+            <B>then</B>
+                <B>Result</B> := f.<A HREF="../elks/cell_flat.html#f_item">item</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_generating_type"><A HREF="../elks/any_flat.html#f_generating_type">generating_type</A>: <A HREF="../elks/type_flat.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/linked_list_flat.html">LINKED_LIST</A> [G]]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Type of current object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := {<B>detachable</B> <A HREF="../elks/linked_list_flat.html">LINKED_LIST</A> [G]}
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            generating_type_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_generator"><A HREF="../elks/any_flat.html#f_generator">generator</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of current object's generating class</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (base class of the type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            generator_not_void: <B>Result</B> /= <B>Void</B>
+            generator_not_empty: <B>not</B> <B>Result</B>.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+
+    <A NAME="f_has"><A HREF="../elks/chain_flat.html#f_has">has</A> (v: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_item">item</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does chain include </FONT>`v'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Reference or object equality,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> based on </FONT><A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A><FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/container_flat.html">CONTAINER</A>
+            <B>True</B>
+        <B>local</B>
+            pos: <A HREF="../elks/cursor_flat.html">CURSOR</A>
+        <B>do</B>
+            pos := <A HREF="../elks/linked_list_flat.html#f_cursor">cursor</A>
+            <B>Result</B> := <A HREF="../elks/linear_flat.html#f_has">sequential_has</A> (v)
+            <A HREF="../elks/linked_list_flat.html#f_go_to">go_to</A> (pos)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/container_flat.html">CONTAINER</A>
+            not_found_in_empty: <B>Result</B> <B>implies</B> <B>not</B> <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+
+    <A NAME="f_i_th"><A HREF="../elks/chain_flat.html#f_i_th">i_th</A> <B>alias</B> "[]" (i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <B>like</B> <A HREF="../elks/linked_list_flat.html#f_item">item</A> <B>assign</B> <A HREF="../elks/chain_flat.html#f_put_i_th">put_i_th</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Item at </FONT>`i'<FONT COLOR="red">-th position</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/chain_flat.html">CHAIN</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/chain_flat.html#f_at">at</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/table_flat.html">TABLE</A>
+            valid_key: <A HREF="../elks/chain_flat.html#f_valid_index">valid_index</A> (i)
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/readable_indexable_flat.html">READABLE_INDEXABLE</A>
+            valid_index: <A HREF="../elks/chain_flat.html#f_valid_index">valid_index</A> (i)
+        <B>local</B>
+            pos: <A HREF="../elks/cursor_flat.html">CURSOR</A>
+        <B>do</B>
+            pos := <A HREF="../elks/linked_list_flat.html#f_cursor">cursor</A>
+            <A HREF="../elks/linked_list_flat.html#f_go_i_th">go_i_th</A> (i)
+            <B>Result</B> := <A HREF="../elks/linked_list_flat.html#f_item">item</A>
+            <A HREF="../elks/linked_list_flat.html#f_go_to">go_to</A> (pos)
+        <B>end</B></A>
+
+    <A NAME="f_index"><A HREF="../elks/linked_list_flat.html#f_index">index</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Index of current position</FONT>
+        <B>local</B>
+            l_active, l_active_iterator: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_active">active</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/linked_list_flat.html#f_after">after</A> <B>then</B>
+                <B>Result</B> := <A HREF="../elks/linked_list_flat.html#f_count">count</A> + 1
+            <B>elseif</B> <B>not</B> <A HREF="../elks/linked_list_flat.html#f_before">before</A> <B>then</B>
+                <B>from</B>
+                    <B>Result</B> := 1
+                    l_active := <A HREF="../elks/linked_list_flat.html#f_active">active</A>
+                    l_active_iterator := <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>
+                <B>until</B>
+                    l_active_iterator = l_active <B>or else</B> l_active_iterator = <B>Void</B>
+                <B>loop</B>
+                    l_active_iterator := l_active_iterator.<A HREF="../elks/linkable_flat.html#f_right">right</A>
+                    <B>Result</B> := <B>Result</B> + 1
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_index_of"><A HREF="../elks/chain_flat.html#f_index_of">index_of</A> (v: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_item">item</A>; i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Index of </FONT>`i'<FONT COLOR="red">-th occurrence of item identical to </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Reference or object equality,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> based on </FONT><A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A><FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 0 if none.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/linear_flat.html">LINEAR</A>
+            positive_occurrences: i &gt; 0
+        <B>local</B>
+            pos: <A HREF="../elks/cursor_flat.html">CURSOR</A>
+        <B>do</B>
+            pos := <A HREF="../elks/linked_list_flat.html#f_cursor">cursor</A>
+            <B>Result</B> := <A HREF="../elks/linear_flat.html#f_index_of">sequential_index_of</A> (v, i)
+            <A HREF="../elks/linked_list_flat.html#f_go_to">go_to</A> (pos)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/linear_flat.html">LINEAR</A>
+            non_negative_result: <B>Result</B> &gt;= 0
+        <B>end</B></A>
+
+    <A NAME="f_item"><A HREF="../elks/linked_list_flat.html#f_item">item</A>: G
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Current item</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/traversable_flat.html">TRAVERSABLE</A>
+            not_off: <B>not</B> <A HREF="../elks/linked_list_flat.html#f_off">off</A>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/active_flat.html">ACTIVE</A>
+            readable: <A HREF="../elks/linked_list_flat.html#f_readable">readable</A>
+        <B>do</B>
+            <B>check</B>
+                <B>attached</B> <A HREF="../elks/linked_list_flat.html#f_active">active</A> <B>as</B> a
+            <B>then</B>
+                <B>Result</B> := a.<A HREF="../elks/cell_flat.html#f_item">item</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_item_for_iteration"><A HREF="../elks/linear_flat.html#f_item_for_iteration">item_for_iteration</A>: G
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Item at current position</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/linear_flat.html">LINEAR</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/linear_flat.html">LINEAR</A>
+            not_off: <B>not</B> <A HREF="../elks/linked_list_flat.html#f_off">off</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/linked_list_flat.html#f_item">item</A>
+        <B>end</B></A>
+
+    <A NAME="f_last"><A HREF="../elks/linked_list_flat.html#f_last">last</A>: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_item">item</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Item at last position</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A>
+            not_empty: <B>not</B> <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>do</B>
+            <B>check</B>
+                <B>attached</B> <A HREF="../elks/linked_list_flat.html#f_last_element">last_element</A> <B>as</B> l
+            <B>then</B>
+                <B>Result</B> := l.<A HREF="../elks/cell_flat.html#f_item">item</A>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {<A HREF="../elks/linked_list_flat.html">LINKED_LIST</A>, <A HREF="../elks/linked_list_iteration_cursor_flat.html">LINKED_LIST_ITERATION_CURSOR</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_first_element"><A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>: <B>detachable</B> <B>like</B> <A HREF="../elks/linked_list_flat.html#f_new_cell">new_cell</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Head of list</FONT>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_has"><A HREF="../elks/linear_flat.html#f_has">sequential_has</A> (v: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_item">item</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does structure include an occurrence of </FONT>`v'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Reference or object equality,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> based on </FONT><A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A><FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/linear_flat.html">LINEAR</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/container_flat.html">CONTAINER</A>
+            <B>True</B>
+        <B>do</B>
+            <A HREF="../elks/linked_list_flat.html#f_start">start</A>
+            <B>if</B> <B>not</B> <A HREF="../elks/linked_list_flat.html#f_off">off</A> <B>then</B>
+                <A HREF="../elks/bilinear_flat.html#f_search">search</A> (v)
+            <B>end</B>
+            <B>Result</B> := <B>not</B> <A HREF="../elks/linear_flat.html#f_exhausted">exhausted</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/container_flat.html">CONTAINER</A>
+            not_found_in_empty: <B>Result</B> <B>implies</B> <B>not</B> <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+
+    <A NAME="f_index_of"><A HREF="../elks/linear_flat.html#f_index_of">sequential_index_of</A> (v: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_item">item</A>; i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Index of </FONT>`i'<FONT COLOR="red">-th occurrence of </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 0 if none.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Reference or object equality,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> based on </FONT><A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A><FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/linear_flat.html">LINEAR</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/linear_flat.html">LINEAR</A>
+            positive_occurrences: i &gt; 0
+        <B>local</B>
+            occur, pos: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A> <B>and</B> v /= <B>Void</B> <B>then</B>
+                <B>from</B>
+                    <A HREF="../elks/linked_list_flat.html#f_start">start</A>
+                    pos := 1
+                <B>until</B>
+                    <A HREF="../elks/linear_flat.html#f_exhausted">exhausted</A> <B>or</B> (occur = i)
+                <B>loop</B>
+                    <B>if</B> <A HREF="../elks/linked_list_flat.html#f_item">item</A> ~ v <B>then</B>
+                        occur := occur + 1
+                    <B>end</B>
+                    <A HREF="../elks/linked_list_flat.html#f_forth">forth</A>
+                    pos := pos + 1
+                <B>end</B>
+            <B>else</B>
+                <B>from</B>
+                    <A HREF="../elks/linked_list_flat.html#f_start">start</A>
+                    pos := 1
+                <B>until</B>
+                    <A HREF="../elks/linear_flat.html#f_exhausted">exhausted</A> <B>or</B> (occur = i)
+                <B>loop</B>
+                    <B>if</B> <A HREF="../elks/linked_list_flat.html#f_item">item</A> = v <B>then</B>
+                        occur := occur + 1
+                    <B>end</B>
+                    <A HREF="../elks/linked_list_flat.html#f_forth">forth</A>
+                    pos := pos + 1
+                <B>end</B>
+            <B>end</B>
+            <B>if</B> occur = i <B>then</B>
+                <B>Result</B> := pos - 1
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/linear_flat.html">LINEAR</A>
+            non_negative_result: <B>Result</B> &gt;= 0
+        <B>end</B></A>
+
+    <A NAME="f_occurrences"><A HREF="../elks/linear_flat.html#f_occurrences">sequential_occurrences</A> (v: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_item">item</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of times </FONT>`v'<FONT COLOR="red"> appears.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Reference or object equality,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> based on </FONT><A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A><FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/linear_flat.html">LINEAR</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/bag_flat.html">BAG</A>
+            <B>True</B>
+        <B>do</B>
+            <B>from</B>
+                <A HREF="../elks/linked_list_flat.html#f_start">start</A>
+                <A HREF="../elks/bilinear_flat.html#f_search">search</A> (v)
+            <B>until</B>
+                <A HREF="../elks/linear_flat.html#f_exhausted">exhausted</A>
+            <B>loop</B>
+                <B>Result</B> := <B>Result</B> + 1
+                <A HREF="../elks/linked_list_flat.html#f_forth">forth</A>
+                <A HREF="../elks/bilinear_flat.html#f_search">search</A> (v)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/bag_flat.html">BAG</A>
+            non_negative_occurrences: <B>Result</B> &gt;= 0
+        <B>end</B></A>
+
+    <A NAME="f_search"><A HREF="../elks/linear_flat.html#f_search">sequential_search</A> (v: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move to first position (at or after current</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> position) where </FONT><A HREF="../elks/linked_list_flat.html#f_item">item</A><FONT COLOR="red"> and </FONT>`v'<FONT COLOR="red"> are equal.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Reference or object equality,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> based on </FONT><A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A><FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If no such position ensure that </FONT><A HREF="../elks/linear_flat.html#f_exhausted">exhausted</A><FONT COLOR="red"> will be true.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/linear_flat.html">LINEAR</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A> <B>then</B>
+                <B>from</B>
+                <B>until</B>
+                    <A HREF="../elks/linear_flat.html#f_exhausted">exhausted</A> <B>or else</B> v ~ <A HREF="../elks/linked_list_flat.html#f_item">item</A>
+                <B>loop</B>
+                    <A HREF="../elks/linked_list_flat.html#f_forth">forth</A>
+                <B>end</B>
+            <B>else</B>
+                <B>from</B>
+                <B>until</B>
+                    <A HREF="../elks/linear_flat.html#f_exhausted">exhausted</A> <B>or else</B> v = <A HREF="../elks/linked_list_flat.html#f_item">item</A>
+                <B>loop</B>
+                    <A HREF="../elks/linked_list_flat.html#f_forth">forth</A>
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/linear_flat.html">LINEAR</A>
+            object_found: (<B>not</B> <A HREF="../elks/linear_flat.html#f_exhausted">exhausted</A> <B>and</B> <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A>) <B>implies</B> v ~ <A HREF="../elks/linked_list_flat.html#f_item">item</A>
+            item_found: (<B>not</B> <A HREF="../elks/linear_flat.html#f_exhausted">exhausted</A> <B>and</B> <B>not</B> <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A>) <B>implies</B> v = <A HREF="../elks/linked_list_flat.html#f_item">item</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_count"><A HREF="../elks/linked_list_flat.html#f_count">count</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of items</FONT>
+
+    <A NAME="f_index_set"><A HREF="../elks/chain_flat.html#f_index_set">index_set</A>: <A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Range of acceptable indexes</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/readable_indexable_flat.html">READABLE_INDEXABLE</A>
+            <B>True</B>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/integer_interval_flat.html#f_make">make</A> (1, <A HREF="../elks/linked_list_flat.html#f_count">count</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/readable_indexable_flat.html">READABLE_INDEXABLE</A>
+            not_void: <B>Result</B> /= <B>Void</B>
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A>
+            count_definition: <B>Result</B>.<A HREF="../elks/integer_interval_flat.html#f_count">count</A> = <A HREF="../elks/linked_list_flat.html#f_count">count</A>
+        <B>end</B></A>
+
+    <A NAME="f_occurrences"><A HREF="../elks/chain_flat.html#f_occurrences">occurrences</A> (v: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_item">item</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of times </FONT>`v'<FONT COLOR="red"> appears.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Reference or object equality,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> based on </FONT><A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A><FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/bag_flat.html">BAG</A>
+            <B>True</B>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/linear_flat.html">LINEAR</A>
+            <B>True</B>
+        <B>local</B>
+            pos: <A HREF="../elks/cursor_flat.html">CURSOR</A>
+        <B>do</B>
+            pos := <A HREF="../elks/linked_list_flat.html#f_cursor">cursor</A>
+            <B>Result</B> := <A HREF="../elks/linear_flat.html#f_occurrences">sequential_occurrences</A> (v)
+            <A HREF="../elks/linked_list_flat.html#f_go_to">go_to</A> (pos)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/bag_flat.html">BAG</A>
+            non_negative_occurrences: <B>Result</B> &gt;= 0
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_deep_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (a, b) <B>implies</B> <B>Result</B>
+            both_or_none_void: (a = <B>Void</B>) <B>implies</B> (<B>Result</B> = (b = <B>Void</B>))
+            same_type: (<B>Result</B> <B>and</B> (a /= <B>Void</B>)) <B>implies</B> (b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_same_type">same_type</A> (b))
+            symmetric: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (b, a)
+        <B>end</B></A>
+
+    <A NAME="f_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_equal">equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to objects considered equal?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_equal">is_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_equal">is_equal</A> (b))
+        <B>end</B></A>
+
+    <A NAME="f_is_deep_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (other: <B>attached</B> <A HREF="../elks/linked_list_flat.html">LINKED_LIST</A> [G]): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`Current'<FONT COLOR="red"> and </FONT>`other'<FONT COLOR="red"> attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (<B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_is_equal"><A HREF="../elks/list_flat.html#f_is_equal">is_equal</A> (other: <B>attached</B> <A HREF="../elks/linked_list_flat.html">LINKED_LIST</A> [G]): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`other'<FONT COLOR="red"> contain the same elements?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/list_flat.html">LIST</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>do</B>
+            <B>if</B> <B>Current</B> = other <B>then</B>
+                <B>Result</B> := <B>True</B>
+            <B>else</B>
+                <B>Result</B> := (<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> = other.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>) <B>and</B> (<A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A> = other.<A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A>) <B>and</B> (<A HREF="../elks/linked_list_flat.html#f_count">count</A> = other.<A HREF="../elks/linked_list_flat.html#f_count">count</A>)
+                <B>if</B> <B>Result</B> <B>and</B> <B>not</B> <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>then</B>
+                    <B>if</B> <B>attached</B> {<A HREF="../elks/cursor_flat.html">CURSOR</A>} <A HREF="../elks/linked_list_flat.html#f_cursor">cursor</A> <B>as</B> c1 <B>and then</B> <B>attached</B> {<A HREF="../elks/cursor_flat.html">CURSOR</A>} other.<A HREF="../elks/linked_list_flat.html#f_cursor">cursor</A> <B>as</B> c2 <B>then</B>
+                        <B>from</B>
+                            <A HREF="../elks/linked_list_flat.html#f_start">start</A>
+                            other.<A HREF="../elks/linked_list_flat.html#f_start">start</A>
+                        <B>until</B>
+                            <A HREF="../elks/linked_list_flat.html#f_after">after</A> <B>or</B> <B>not</B> <B>Result</B>
+                        <B>loop</B>
+                            <B>if</B> <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A> <B>then</B>
+                                <B>Result</B> := <A HREF="../elks/linked_list_flat.html#f_item">item</A> ~ other.<A HREF="../elks/linked_list_flat.html#f_item">item</A>
+                            <B>else</B>
+                                <B>Result</B> := <A HREF="../elks/linked_list_flat.html#f_item">item</A> = other.<A HREF="../elks/linked_list_flat.html#f_item">item</A>
+                            <B>end</B>
+                            <A HREF="../elks/linked_list_flat.html#f_forth">forth</A>
+                            other.<A HREF="../elks/linked_list_flat.html#f_forth">forth</A>
+                        <B>end</B>
+                        <A HREF="../elks/linked_list_flat.html#f_go_to">go_to</A> (c1)
+                        other.<A HREF="../elks/linked_list_flat.html#f_go_to">go_to</A> (c2)
+                    <B>else</B>
+                        <B>check</B>
+                            cursors_exist: <B>False</B>
+                        <B>end</B>
+                    <B>end</B>
+                <B>elseif</B> <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>and</B> other.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>and</B> <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A> = other.<A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A> <B>then</B>
+                    <B>Result</B> := <B>True</B>
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            symmetric: <B>Result</B> <B>implies</B> other ~ <B>Current</B>
+            consistent: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/list_flat.html">LIST</A>
+            indices_unchanged: <A HREF="../elks/linked_list_flat.html#f_index">index</A> = <B>old</B> <A HREF="../elks/linked_list_flat.html#f_index">index</A> <B>and</B> other.<A HREF="../elks/linked_list_flat.html#f_index">index</A> = <B>old</B> other.<A HREF="../elks/linked_list_flat.html#f_index">index</A>
+            true_implies_same_size: <B>Result</B> <B>implies</B> <A HREF="../elks/linked_list_flat.html#f_count">count</A> = other.<A HREF="../elks/linked_list_flat.html#f_count">count</A>
+        <B>end</B></A>
+
+    <A NAME="f_standard_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical objects of the same type?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default object comparison criterion.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (b))
+        <B>end</B></A>
+
+    <A NAME="f_standard_is_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other: <B>attached</B> <A HREF="../elks/linked_list_flat.html">LINKED_LIST</A> [G]): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object of the same type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as current object, and field-by-field identical to it?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_after"><A HREF="../elks/linked_list_flat.html#f_after">after</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there no valid cursor position to the right of cursor?</FONT>
+
+    <A NAME="f_before"><A HREF="../elks/linked_list_flat.html#f_before">before</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there no valid cursor position to the left of cursor?</FONT>
+
+    <A NAME="f_changeable_comparison_criterion"><A HREF="../elks/container_flat.html#f_changeable_comparison_criterion">changeable_comparison_criterion</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May </FONT><A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A><FONT COLOR="red"> be changed?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Answer: yes by default.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/container_flat.html">CONTAINER</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>True</B>
+        <B>end</B></A>
+
+    <A NAME="f_conforms_to"><A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (other: <A HREF="../elks/any_flat.html">ANY</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does type of current object conform to type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of </FONT>`other'<FONT COLOR="red"> (as per Eiffel: The Language, chapter 13)?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>end</B></A>
+
+    <A NAME="f_empty"><A HREF="../elks/container_flat.html#f_empty">empty</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+        <B>obsolete</B> "ELKS 2000: Use `is_empty' instead"
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there no element?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/container_flat.html">CONTAINER</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+
+    <A NAME="f_exhausted"><A HREF="../elks/linear_flat.html#f_exhausted">exhausted</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Has structure been completely explored?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/linear_flat.html">LINEAR</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/linked_list_flat.html#f_off">off</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/linear_flat.html">LINEAR</A>
+            exhausted_when_off: <A HREF="../elks/linked_list_flat.html#f_off">off</A> <B>implies</B> <B>Result</B>
+        <B>end</B></A>
+
+    <A NAME="f_extendible"><A HREF="../elks/dynamic_chain_flat.html#f_extendible">extendible</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May new items be added? (Answer: yes.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/dynamic_chain_flat.html">DYNAMIC_CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/collection_flat.html">COLLECTION</A>
+            <B>True</B>
+        <B>do</B>
+            <B>Result</B> := <B>True</B>
+        <B>end</B></A>
+
+    <A NAME="f_full"><A HREF="../elks/linked_list_flat.html#f_full">Full</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A> = <B>False</B></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is structured filled to capacity? (Answer: no.)</FONT>
+
+    <A NAME="f_is_empty"><A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is structure empty?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/finite_flat.html">FINITE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/container_flat.html">CONTAINER</A>
+            <B>True</B>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../elks/linked_list_flat.html#f_count">count</A> = 0)
+        <B>end</B></A>
+
+    <A NAME="f_is_inserted"><A HREF="../elks/linked_list_flat.html#f_is_inserted">is_inserted</A> (v: G): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Has </FONT>`v'<FONT COLOR="red"> been inserted at the end by the most recent </FONT><A HREF="../elks/chain_flat.html#f_put">put</A><FONT COLOR="red"> or</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/linked_list_flat.html#f_extend">extend</A><FONT COLOR="red">?</FONT>
+        <B>local</B>
+            l: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_last_element">last_element</A>
+        <B>do</B>
+            l := <A HREF="../elks/linked_list_flat.html#f_last_element">last_element</A>
+            <B>if</B> l /= <B>Void</B> <B>then</B>
+                <B>check</B>
+                    put_constraint: (v /= l.<A HREF="../elks/cell_flat.html#f_item">item</A>) <B>implies</B> <B>not</B> <A HREF="../elks/linked_list_flat.html#f_off">off</A>
+                <B>end</B>
+                <B>Result</B> := (v = l.<A HREF="../elks/cell_flat.html#f_item">item</A>) <B>or else</B> (v = <A HREF="../elks/linked_list_flat.html#f_item">item</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_isfirst"><A HREF="../elks/linked_list_flat.html#f_isfirst">isfirst</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is cursor at first position?</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>not</B> <A HREF="../elks/linked_list_flat.html#f_after">after</A> <B>and</B> <B>not</B> <A HREF="../elks/linked_list_flat.html#f_before">before</A> <B>and</B> (<A HREF="../elks/linked_list_flat.html#f_active">active</A> = <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A>
+            valid_position: <B>Result</B> <B>implies</B> <B>not</B> <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+
+    <A NAME="f_islast"><A HREF="../elks/linked_list_flat.html#f_islast">islast</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is cursor at last position?</FONT>
+        <B>local</B>
+            a: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_active">active</A>
+        <B>do</B>
+            <B>if</B> <B>not</B> <A HREF="../elks/linked_list_flat.html#f_after">after</A> <B>and then</B> <B>not</B> <A HREF="../elks/linked_list_flat.html#f_before">before</A> <B>then</B>
+                a := <A HREF="../elks/linked_list_flat.html#f_active">active</A>
+                <B>Result</B> := a /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/linkable_flat.html#f_right">right</A> = <B>Void</B>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A>
+            valid_position: <B>Result</B> <B>implies</B> <B>not</B> <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+
+    <A NAME="f_object_comparison"><A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Must search operations use </FONT><A HREF="../elks/any_flat.html#f_equal">equal</A><FONT COLOR="red"> rather than </FONT>`='
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> for comparing references? (Default: no, use </FONT>`='<FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/container_flat.html">CONTAINER</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_off"><A HREF="../elks/linked_list_flat.html#f_off">off</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there no current item?</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/traversable_flat.html">TRAVERSABLE</A>
+            <B>True</B>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/linked_list_flat.html#f_after">after</A> <B>or</B> <A HREF="../elks/linked_list_flat.html#f_before">before</A>
+        <B>end</B></A>
+
+    <A NAME="f_prunable"><A HREF="../elks/dynamic_chain_flat.html#f_prunable">prunable</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May items be removed? (Answer: yes.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/dynamic_chain_flat.html">DYNAMIC_CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/collection_flat.html">COLLECTION</A>
+            <B>True</B>
+        <B>do</B>
+            <B>Result</B> := <B>True</B>
+        <B>end</B></A>
+
+    <A NAME="f_readable"><A HREF="../elks/linked_list_flat.html#f_readable">readable</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there a current item that may be read?</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/active_flat.html">ACTIVE</A>
+            <B>True</B>
+        <B>do</B>
+            <B>Result</B> := <B>not</B> <A HREF="../elks/linked_list_flat.html#f_off">off</A>
+        <B>end</B></A>
+
+    <A NAME="f_replaceable"><A HREF="../elks/active_flat.html#f_replaceable">replaceable</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Can current item be replaced?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/active_flat.html">ACTIVE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>True</B>
+        <B>end</B></A>
+
+    <A NAME="f_same_type"><A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other: <A HREF="../elks/any_flat.html">ANY</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is type of current object identical to type of </FONT>`other'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (<A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (other) <B>and</B> other.<A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>Current</B>))
+        <B>end</B></A>
+
+    <A NAME="f_valid_cursor"><A HREF="../elks/linked_list_flat.html#f_valid_cursor">valid_cursor</A> (p: <A HREF="../elks/cursor_flat.html">CURSOR</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Can the cursor be moved to position </FONT>`p'<FONT COLOR="red">?</FONT>
+        <B>local</B>
+            temp, sought: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<B>like</B> <A HREF="../elks/linked_list_flat.html#f_cursor">cursor</A>} p <B>as</B> ll_c <B>then</B>
+                <B>from</B>
+                    temp := <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>
+                    sought := ll_c.<A HREF="../elks/linked_list_cursor_flat.html#f_active">active</A>
+                    <B>Result</B> := ll_c.<A HREF="../elks/linked_list_cursor_flat.html#f_after">after</A> <B>or else</B> ll_c.<A HREF="../elks/linked_list_cursor_flat.html#f_before">before</A>
+                <B>until</B>
+                    <B>Result</B> <B>or else</B> temp = <B>Void</B>
+                <B>loop</B>
+                    <B>Result</B> := (temp = sought)
+                    temp := temp.<A HREF="../elks/linkable_flat.html#f_right">right</A>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_valid_cursor_index"><A HREF="../elks/chain_flat.html#f_valid_cursor_index">valid_cursor_index</A> (i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`i'<FONT COLOR="red"> correctly bounded for cursor movement?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (i &gt;= 0) <B>and</B> (i &lt;= <A HREF="../elks/linked_list_flat.html#f_count">count</A> + 1)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A>
+            valid_cursor_index_definition: <B>Result</B> = ((i &gt;= 0) <B>and</B> (i &lt;= <A HREF="../elks/linked_list_flat.html#f_count">count</A> + 1))
+        <B>end</B></A>
+
+    <A NAME="f_valid_index"><A HREF="../elks/chain_flat.html#f_valid_index">valid_index</A> (i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`i'<FONT COLOR="red"> within allowable bounds?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/readable_indexable_flat.html">READABLE_INDEXABLE</A>
+            <B>True</B>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/table_flat.html">TABLE</A>
+            <B>True</B>
+        <B>do</B>
+            <B>Result</B> := (i &gt;= 1) <B>and</B> (i &lt;= <A HREF="../elks/linked_list_flat.html#f_count">count</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/readable_indexable_flat.html">READABLE_INDEXABLE</A>
+            only_if_in_index_set: <B>Result</B> <B>implies</B> ((i &gt;= <A HREF="../elks/chain_flat.html#f_index_set">index_set</A>.<A HREF="../elks/integer_interval_flat.html#f_lower">lower</A>) <B>and</B> (i &lt;= <A HREF="../elks/chain_flat.html#f_index_set">index_set</A>.<A HREF="../elks/integer_interval_flat.html#f_upper">upper</A>))
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A>
+            valid_index_definition: <B>Result</B> = ((i &gt;= 1) <B>and</B> (i &lt;= <A HREF="../elks/linked_list_flat.html#f_count">count</A>))
+        <B>end</B></A>
+
+    <A NAME="f_writable"><A HREF="../elks/sequence_flat.html#f_writable">writable</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there a current item that may be modified?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/sequence_flat.html">SEQUENCE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/active_flat.html">ACTIVE</A>
+            <B>True</B>
+        <B>do</B>
+            <B>Result</B> := <B>not</B> <A HREF="../elks/linked_list_flat.html#f_off">off</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status setting</FONT>
+
+    <A NAME="f_compare_objects"><A HREF="../elks/container_flat.html#f_compare_objects">compare_objects</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Ensure that future search operations will use </FONT><A HREF="../elks/any_flat.html#f_equal">equal</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> rather than </FONT>`='<FONT COLOR="red"> for comparing references.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/container_flat.html">CONTAINER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/container_flat.html">CONTAINER</A>
+            changeable_comparison_criterion: <A HREF="../elks/container_flat.html#f_changeable_comparison_criterion">changeable_comparison_criterion</A>
+        <B>do</B>
+            <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A> := <B>True</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/container_flat.html">CONTAINER</A>
+            <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A>
+        <B>end</B></A>
+
+    <A NAME="f_compare_references"><A HREF="../elks/container_flat.html#f_compare_references">compare_references</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Ensure that future search operations will use </FONT>`='
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> rather than </FONT><A HREF="../elks/any_flat.html#f_equal">equal</A><FONT COLOR="red"> for comparing references.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/container_flat.html">CONTAINER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/container_flat.html">CONTAINER</A>
+            changeable_comparison_criterion: <A HREF="../elks/container_flat.html#f_changeable_comparison_criterion">changeable_comparison_criterion</A>
+        <B>do</B>
+            <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A> := <B>False</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/container_flat.html">CONTAINER</A>
+            reference_comparison: <B>not</B> <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Cursor movement</FONT>
+
+    <A NAME="f_back"><A HREF="../elks/linked_list_flat.html#f_back">back</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move to previous item.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/bilinear_flat.html">BILINEAR</A>
+            not_before: <B>not</B> <A HREF="../elks/linked_list_flat.html#f_before">before</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>then</B>
+                <A HREF="../elks/linked_list_flat.html#f_before">before</A> := <B>True</B>
+                <A HREF="../elks/linked_list_flat.html#f_after">after</A> := <B>False</B>
+            <B>elseif</B> <A HREF="../elks/linked_list_flat.html#f_after">after</A> <B>then</B>
+                <A HREF="../elks/linked_list_flat.html#f_after">after</A> := <B>False</B>
+            <B>elseif</B> <A HREF="../elks/linked_list_flat.html#f_isfirst">isfirst</A> <B>then</B>
+                <A HREF="../elks/linked_list_flat.html#f_before">before</A> := <B>True</B>
+            <B>else</B>
+                <A HREF="../elks/linked_list_flat.html#f_active">active</A> := <A HREF="../elks/linked_list_flat.html#f_previous">previous</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_finish"><A HREF="../elks/linked_list_flat.html#f_finish">finish</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to last position.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Go before if empty)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/linear_flat.html">LINEAR</A>
+            <B>True</B>
+        <B>local</B>
+            p: <B>detachable</B> <B>like</B> <A HREF="../elks/linked_list_flat.html#f_new_cell">new_cell</A>
+        <B>do</B>
+            <B>from</B>
+                p := <A HREF="../elks/linked_list_flat.html#f_active">active</A>
+            <B>until</B>
+                p = <B>Void</B>
+            <B>loop</B>
+                <A HREF="../elks/linked_list_flat.html#f_active">active</A> := p
+                p := p.<A HREF="../elks/linkable_flat.html#f_right">right</A>
+            <B>end</B>
+            <A HREF="../elks/linked_list_flat.html#f_after">after</A> := <B>False</B>
+            <A HREF="../elks/linked_list_flat.html#f_before">before</A> := (<A HREF="../elks/linked_list_flat.html#f_active">active</A> = <B>Void</B>)
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A>
+            at_last: <B>not</B> <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>implies</B> <A HREF="../elks/linked_list_flat.html#f_islast">islast</A>
+        <B>ensure then</B>
+            empty_convention: <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>implies</B> <A HREF="../elks/linked_list_flat.html#f_before">before</A>
+        <B>end</B></A>
+
+    <A NAME="f_forth"><A HREF="../elks/linked_list_flat.html#f_forth">forth</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to next position.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/linear_flat.html">LINEAR</A>
+            not_after: <B>not</B> <A HREF="../elks/linked_list_flat.html#f_after">after</A>
+        <B>local</B>
+            a: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_active">active</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/linked_list_flat.html#f_before">before</A> <B>then</B>
+                <A HREF="../elks/linked_list_flat.html#f_before">before</A> := <B>False</B>
+                <B>if</B> <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>then</B>
+                    <A HREF="../elks/linked_list_flat.html#f_after">after</A> := <B>True</B>
+                <B>end</B>
+            <B>else</B>
+                a := <A HREF="../elks/linked_list_flat.html#f_active">active</A>
+                <B>if</B> a /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/linkable_flat.html#f_right">right</A> /= <B>Void</B> <B>then</B>
+                    <A HREF="../elks/linked_list_flat.html#f_active">active</A> := a.<A HREF="../elks/linkable_flat.html#f_right">right</A>
+                <B>else</B>
+                    <A HREF="../elks/linked_list_flat.html#f_after">after</A> := <B>True</B>
+                <B>end</B>
+            <B>end</B>
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/list_flat.html">LIST</A>
+            moved_forth: <A HREF="../elks/linked_list_flat.html#f_index">index</A> = <B>old</B> <A HREF="../elks/linked_list_flat.html#f_index">index</A> + 1
+        <B>end</B></A>
+
+    <A NAME="f_go_i_th"><A HREF="../elks/linked_list_flat.html#f_go_i_th">go_i_th</A> (i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to </FONT>`i'<FONT COLOR="red">-th position.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A>
+            valid_cursor_index: <A HREF="../elks/chain_flat.html#f_valid_cursor_index">valid_cursor_index</A> (i)
+        <B>do</B>
+            <B>if</B> i = 0 <B>then</B>
+                <A HREF="../elks/linked_list_flat.html#f_before">before</A> := <B>True</B>
+                <A HREF="../elks/linked_list_flat.html#f_after">after</A> := <B>False</B>
+                <A HREF="../elks/linked_list_flat.html#f_active">active</A> := <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>
+            <B>elseif</B> i = <A HREF="../elks/linked_list_flat.html#f_count">count</A> + 1 <B>then</B>
+                <A HREF="../elks/linked_list_flat.html#f_before">before</A> := <B>False</B>
+                <A HREF="../elks/linked_list_flat.html#f_after">after</A> := <B>True</B>
+                <A HREF="../elks/linked_list_flat.html#f_active">active</A> := <A HREF="../elks/linked_list_flat.html#f_last_element">last_element</A>
+            <B>else</B>
+                <A HREF="../elks/linked_list_flat.html#f_move">move</A> (i - <A HREF="../elks/linked_list_flat.html#f_index">index</A>)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A>
+            position_expected: <A HREF="../elks/linked_list_flat.html#f_index">index</A> = i
+        <B>end</B></A>
+
+    <A NAME="f_go_to"><A HREF="../elks/linked_list_flat.html#f_go_to">go_to</A> (p: <A HREF="../elks/cursor_flat.html">CURSOR</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to position </FONT>`p'<FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/cursor_structure_flat.html">CURSOR_STRUCTURE</A>
+            cursor_position_valid: <A HREF="../elks/linked_list_flat.html#f_valid_cursor">valid_cursor</A> (p)
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<B>like</B> <A HREF="../elks/linked_list_flat.html#f_cursor">cursor</A>} p <B>as</B> ll_c <B>then</B>
+                <A HREF="../elks/linked_list_flat.html#f_after">after</A> := ll_c.<A HREF="../elks/linked_list_cursor_flat.html#f_after">after</A>
+                <A HREF="../elks/linked_list_flat.html#f_before">before</A> := ll_c.<A HREF="../elks/linked_list_cursor_flat.html#f_before">before</A>
+                <B>if</B> <A HREF="../elks/linked_list_flat.html#f_before">before</A> <B>then</B>
+                    <A HREF="../elks/linked_list_flat.html#f_active">active</A> := <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>
+                <B>elseif</B> <A HREF="../elks/linked_list_flat.html#f_after">after</A> <B>then</B>
+                    <A HREF="../elks/linked_list_flat.html#f_active">active</A> := <A HREF="../elks/linked_list_flat.html#f_last_element">last_element</A>
+                <B>else</B>
+                    <A HREF="../elks/linked_list_flat.html#f_active">active</A> := ll_c.<A HREF="../elks/linked_list_cursor_flat.html#f_active">active</A>
+                <B>end</B>
+            <B>else</B>
+                <B>check</B>
+                    correct_cursor_type: <B>False</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_move"><A HREF="../elks/linked_list_flat.html#f_move">move</A> (i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor </FONT>`i'<FONT COLOR="red"> positions. The cursor</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> may end up </FONT><A HREF="../elks/linked_list_flat.html#f_off">off</A><FONT COLOR="red"> if the offset is too big.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/chain_flat.html">CHAIN</A>
+            <B>True</B>
+        <B>local</B>
+            counter, new_index: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            p: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>
+        <B>do</B>
+            <B>if</B> i &gt; 0 <B>then</B>
+                <B>if</B> <A HREF="../elks/linked_list_flat.html#f_before">before</A> <B>then</B>
+                    <A HREF="../elks/linked_list_flat.html#f_before">before</A> := <B>False</B>
+                    counter := 1
+                <B>end</B>
+                <B>from</B>
+                    p := <A HREF="../elks/linked_list_flat.html#f_active">active</A>
+                <B>until</B>
+                    (counter = i) <B>or else</B> (p = <B>Void</B>)
+                <B>loop</B>
+                    <A HREF="../elks/linked_list_flat.html#f_active">active</A> := p
+                    p := p.<A HREF="../elks/linkable_flat.html#f_right">right</A>
+                    counter := counter + 1
+                <B>end</B>
+                <B>if</B> p = <B>Void</B> <B>then</B>
+                    <A HREF="../elks/linked_list_flat.html#f_after">after</A> := <B>True</B>
+                <B>else</B>
+                    <A HREF="../elks/linked_list_flat.html#f_active">active</A> := p
+                <B>end</B>
+            <B>elseif</B> i &lt; 0 <B>then</B>
+                new_index := <A HREF="../elks/linked_list_flat.html#f_index">index</A> + i
+                <A HREF="../elks/linked_list_flat.html#f_before">before</A> := <B>True</B>
+                <A HREF="../elks/linked_list_flat.html#f_after">after</A> := <B>False</B>
+                <A HREF="../elks/linked_list_flat.html#f_active">active</A> := <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>
+                <B>if</B> (new_index &gt; 0) <B>then</B>
+                    <A HREF="../elks/linked_list_flat.html#f_move">move</A> (new_index)
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A>
+            too_far_right: (<B>old</B> <A HREF="../elks/linked_list_flat.html#f_index">index</A> + i &gt; <A HREF="../elks/linked_list_flat.html#f_count">count</A>) <B>implies</B> <A HREF="../elks/linear_flat.html#f_exhausted">exhausted</A>
+            too_far_left: (<B>old</B> <A HREF="../elks/linked_list_flat.html#f_index">index</A> + i &lt; 1) <B>implies</B> <A HREF="../elks/linear_flat.html#f_exhausted">exhausted</A>
+            expected_index: (<B>not</B> <A HREF="../elks/linear_flat.html#f_exhausted">exhausted</A>) <B>implies</B> (<A HREF="../elks/linked_list_flat.html#f_index">index</A> = <B>old</B> <A HREF="../elks/linked_list_flat.html#f_index">index</A> + i)
+        <B>ensure then</B>
+            moved_if_inbounds: ((<B>old</B> <A HREF="../elks/linked_list_flat.html#f_index">index</A> + i) &gt;= 0 <B>and</B> (<B>old</B> <A HREF="../elks/linked_list_flat.html#f_index">index</A> + i) &lt;= (<A HREF="../elks/linked_list_flat.html#f_count">count</A> + 1)) <B>implies</B> <A HREF="../elks/linked_list_flat.html#f_index">index</A> = (<B>old</B> <A HREF="../elks/linked_list_flat.html#f_index">index</A> + i)
+            before_set: (<B>old</B> <A HREF="../elks/linked_list_flat.html#f_index">index</A> + i) &lt;= 0 <B>implies</B> <A HREF="../elks/linked_list_flat.html#f_before">before</A>
+            after_set: (<B>old</B> <A HREF="../elks/linked_list_flat.html#f_index">index</A> + i) &gt;= (<A HREF="../elks/linked_list_flat.html#f_count">count</A> + 1) <B>implies</B> <A HREF="../elks/linked_list_flat.html#f_after">after</A>
+        <B>end</B></A>
+
+    <A NAME="f_search"><A HREF="../elks/bilinear_flat.html#f_search">search</A> (v: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move to first position (at or after current</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> position) where </FONT><A HREF="../elks/linked_list_flat.html#f_item">item</A><FONT COLOR="red"> and </FONT>`v'<FONT COLOR="red"> are equal.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If structure does not include </FONT>`v'<FONT COLOR="red"> ensure that</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/linear_flat.html#f_exhausted">exhausted</A><FONT COLOR="red"> will be true.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Reference or object equality,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> based on </FONT><A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A><FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/bilinear_flat.html">BILINEAR</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/linked_list_flat.html#f_before">before</A> <B>and</B> <B>not</B> <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>then</B>
+                <A HREF="../elks/linked_list_flat.html#f_forth">forth</A>
+            <B>end</B>
+            <A HREF="../elks/linear_flat.html#f_search">sequential_search</A> (v)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/linear_flat.html">LINEAR</A>
+            object_found: (<B>not</B> <A HREF="../elks/linear_flat.html#f_exhausted">exhausted</A> <B>and</B> <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A>) <B>implies</B> v ~ <A HREF="../elks/linked_list_flat.html#f_item">item</A>
+            item_found: (<B>not</B> <A HREF="../elks/linear_flat.html#f_exhausted">exhausted</A> <B>and</B> <B>not</B> <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A>) <B>implies</B> v = <A HREF="../elks/linked_list_flat.html#f_item">item</A>
+        <B>end</B></A>
+
+    <A NAME="f_start"><A HREF="../elks/linked_list_flat.html#f_start">start</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to first position.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/traversable_flat.html">TRAVERSABLE</A>
+            <B>True</B>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A> /= <B>Void</B> <B>then</B>
+                <A HREF="../elks/linked_list_flat.html#f_active">active</A> := <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>
+                <A HREF="../elks/linked_list_flat.html#f_after">after</A> := <B>False</B>
+            <B>else</B>
+                <A HREF="../elks/linked_list_flat.html#f_after">after</A> := <B>True</B>
+            <B>end</B>
+            <A HREF="../elks/linked_list_flat.html#f_before">before</A> := <B>False</B>
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A>
+            at_first: <B>not</B> <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>implies</B> <A HREF="../elks/linked_list_flat.html#f_isfirst">isfirst</A>
+        <B>ensure then</B>
+            empty_convention: <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>implies</B> <A HREF="../elks/linked_list_flat.html#f_after">after</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_append"><A HREF="../elks/chain_flat.html#f_append">append</A> (s: <A HREF="../elks/sequence_flat.html">SEQUENCE</A> [G])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Append a copy of </FONT>`s'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/sequence_flat.html">SEQUENCE</A>
+            argument_not_void: s /= <B>Void</B>
+        <B>local</B>
+            l: <A HREF="../elks/sequence_flat.html">SEQUENCE</A> [G]
+            l_cursor: <A HREF="../elks/cursor_flat.html">CURSOR</A>
+        <B>do</B>
+            l := s
+            <B>if</B> s = <B>Current</B> <B>then</B>
+                l := <A HREF="../elks/any_flat.html#f_twin">twin</A>
+            <B>end</B>
+            <B>from</B>
+                l_cursor := <A HREF="../elks/linked_list_flat.html#f_cursor">cursor</A>
+                l.<A HREF="../elks/traversable_flat.html#f_start">start</A>
+            <B>until</B>
+                l.<A HREF="../elks/linear_flat.html#f_exhausted">exhausted</A>
+            <B>loop</B>
+                <A HREF="../elks/linked_list_flat.html#f_extend">extend</A> (l.<A HREF="../elks/active_flat.html#f_item">item</A>)
+                <A HREF="../elks/linked_list_flat.html#f_finish">finish</A>
+                l.<A HREF="../elks/linear_flat.html#f_forth">forth</A>
+            <B>end</B>
+            <A HREF="../elks/linked_list_flat.html#f_go_to">go_to</A> (l_cursor)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/sequence_flat.html">SEQUENCE</A>
+            new_count: <A HREF="../elks/linked_list_flat.html#f_count">count</A> &gt;= <B>old</B> <A HREF="../elks/linked_list_flat.html#f_count">count</A>
+        <B>end</B></A>
+
+    <A NAME="f_extend"><A HREF="../elks/linked_list_flat.html#f_extend">extend</A> (v: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Add </FONT>`v'<FONT COLOR="red"> to end.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do not move cursor.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flat.html">COLLECTION</A>
+            extendible: <A HREF="../elks/dynamic_chain_flat.html#f_extendible">extendible</A>
+        <B>local</B>
+            p: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>
+            l: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_last_element">last_element</A>
+        <B>do</B>
+            p := <A HREF="../elks/linked_list_flat.html#f_new_cell">new_cell</A> (v)
+            <B>if</B> <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>then</B>
+                <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A> := p
+                <A HREF="../elks/linked_list_flat.html#f_active">active</A> := p
+            <B>else</B>
+                l := <A HREF="../elks/linked_list_flat.html#f_last_element">last_element</A>
+                <B>if</B> l /= <B>Void</B> <B>then</B>
+                    l.<A HREF="../elks/linkable_flat.html#f_put_right">put_right</A> (p)
+                    <B>if</B> <A HREF="../elks/linked_list_flat.html#f_after">after</A> <B>then</B>
+                        <A HREF="../elks/linked_list_flat.html#f_active">active</A> := p
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+            <A HREF="../elks/linked_list_flat.html#f_count">count</A> := <A HREF="../elks/linked_list_flat.html#f_count">count</A> + 1
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flat.html">COLLECTION</A>
+            item_inserted: <A HREF="../elks/linked_list_flat.html#f_is_inserted">is_inserted</A> (v)
+        <B>end</B></A>
+
+    <A NAME="f_fill"><A HREF="../elks/chain_flat.html#f_fill">fill</A> (other: <A HREF="../elks/container_flat.html">CONTAINER</A> [G])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Fill with as many items of </FONT>`other'<FONT COLOR="red"> as possible.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The representations of </FONT>`other'<FONT COLOR="red"> and current structure</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> need not be the same.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flat.html">COLLECTION</A>
+            other_not_void: other /= <B>Void</B>
+            extendible: <A HREF="../elks/dynamic_chain_flat.html#f_extendible">extendible</A>
+        <B>local</B>
+            lin_rep: <A HREF="../elks/linear_flat.html">LINEAR</A> [G]
+            l_cursor: <A HREF="../elks/cursor_flat.html">CURSOR</A>
+        <B>do</B>
+            lin_rep := other.<A HREF="../elks/container_flat.html#f_linear_representation">linear_representation</A>
+            <B>from</B>
+                l_cursor := <A HREF="../elks/linked_list_flat.html#f_cursor">cursor</A>
+                lin_rep.<A HREF="../elks/traversable_flat.html#f_start">start</A>
+            <B>until</B>
+                <B>not</B> <A HREF="../elks/dynamic_chain_flat.html#f_extendible">extendible</A> <B>or else</B> lin_rep.<A HREF="../elks/linear_flat.html#f_off">off</A>
+            <B>loop</B>
+                <A HREF="../elks/linked_list_flat.html#f_extend">extend</A> (lin_rep.<A HREF="../elks/traversable_flat.html#f_item">item</A>)
+                <A HREF="../elks/linked_list_flat.html#f_finish">finish</A>
+                lin_rep.<A HREF="../elks/linear_flat.html#f_forth">forth</A>
+            <B>end</B>
+            <A HREF="../elks/linked_list_flat.html#f_go_to">go_to</A> (l_cursor)
+        <B>end</B></A>
+
+    <A NAME="f_force"><A HREF="../elks/sequence_flat.html#f_force">force</A> (v: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Add </FONT>`v'<FONT COLOR="red"> to end.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/sequence_flat.html">SEQUENCE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/sequence_flat.html">SEQUENCE</A>
+            extendible: <A HREF="../elks/dynamic_chain_flat.html#f_extendible">extendible</A>
+        <B>do</B>
+            <A HREF="../elks/linked_list_flat.html#f_extend">extend</A> (v)
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/sequence_flat.html">SEQUENCE</A>
+            new_count: <A HREF="../elks/linked_list_flat.html#f_count">count</A> = <B>old</B> <A HREF="../elks/linked_list_flat.html#f_count">count</A> + 1
+            item_inserted: <A HREF="../elks/chain_flat.html#f_has">has</A> (v)
+        <B>end</B></A>
+
+    <A NAME="f_merge_left"><A HREF="../elks/linked_list_flat.html#f_merge_left">merge_left</A> (other: <B>like</B> <B>Current</B>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Merge </FONT>`other'<FONT COLOR="red"> into current structure before cursor</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> position. Do not move cursor. Empty </FONT>`other'<FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/dynamic_chain_flat.html">DYNAMIC_CHAIN</A>
+            extendible: <A HREF="../elks/dynamic_chain_flat.html#f_extendible">extendible</A>
+            not_before: <B>not</B> <A HREF="../elks/linked_list_flat.html#f_before">before</A>
+            other_exists: other /= <B>Void</B>
+            not_current: other /= <B>Current</B>
+        <B>local</B>
+            other_first_element: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>
+            other_last_element: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_last_element">last_element</A>
+            other_count: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            p: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>
+        <B>do</B>
+            other_last_element := other.<A HREF="../elks/linked_list_flat.html#f_last_element">last_element</A>
+            <B>if</B> other_last_element /= <B>Void</B> <B>then</B>
+                other_first_element := other.<A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>
+                other_count := other.<A HREF="../elks/linked_list_flat.html#f_count">count</A>
+                other.<A HREF="../elks/linked_list_flat.html#f_wipe_out">wipe_out</A>
+                <B>check</B>
+                    other_first_element /= <B>Void</B>
+                    other_last_element /= <B>Void</B>
+                <B>end</B>
+                <B>if</B> <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>then</B>
+                    <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A> := other_first_element
+                    <A HREF="../elks/linked_list_flat.html#f_active">active</A> := <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>
+                <B>elseif</B> <A HREF="../elks/linked_list_flat.html#f_isfirst">isfirst</A> <B>then</B>
+                    other_last_element.<A HREF="../elks/linkable_flat.html#f_put_right">put_right</A> (<A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>)
+                    <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A> := other_first_element
+                <B>else</B>
+                    p := <A HREF="../elks/linked_list_flat.html#f_previous">previous</A>
+                    <B>if</B> p /= <B>Void</B> <B>then</B>
+                        p.<A HREF="../elks/linkable_flat.html#f_put_right">put_right</A> (other_first_element)
+                    <B>end</B>
+                    other_last_element.<A HREF="../elks/linkable_flat.html#f_put_right">put_right</A> (<A HREF="../elks/linked_list_flat.html#f_active">active</A>)
+                <B>end</B>
+                <A HREF="../elks/linked_list_flat.html#f_count">count</A> := <A HREF="../elks/linked_list_flat.html#f_count">count</A> + other_count
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/dynamic_chain_flat.html">DYNAMIC_CHAIN</A>
+            new_count: <A HREF="../elks/linked_list_flat.html#f_count">count</A> = <B>old</B> <A HREF="../elks/linked_list_flat.html#f_count">count</A> + <B>old</B> other.<A HREF="../elks/linked_list_flat.html#f_count">count</A>
+            new_index: <A HREF="../elks/linked_list_flat.html#f_index">index</A> = <B>old</B> <A HREF="../elks/linked_list_flat.html#f_index">index</A> + <B>old</B> other.<A HREF="../elks/linked_list_flat.html#f_count">count</A>
+            other_is_empty: other.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+
+    <A NAME="f_merge_right"><A HREF="../elks/linked_list_flat.html#f_merge_right">merge_right</A> (other: <B>like</B> <B>Current</B>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Merge </FONT>`other'<FONT COLOR="red"> into current structure after cursor</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> position. Do not move cursor. Empty </FONT>`other'<FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/dynamic_chain_flat.html">DYNAMIC_CHAIN</A>
+            extendible: <A HREF="../elks/dynamic_chain_flat.html#f_extendible">extendible</A>
+            not_after: <B>not</B> <A HREF="../elks/linked_list_flat.html#f_after">after</A>
+            other_exists: other /= <B>Void</B>
+            not_current: other /= <B>Current</B>
+        <B>local</B>
+            other_first_element: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>
+            other_last_element: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_last_element">last_element</A>
+            other_count: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            a: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_active">active</A>
+        <B>do</B>
+            other_last_element := other.<A HREF="../elks/linked_list_flat.html#f_last_element">last_element</A>
+            <B>if</B> other_last_element /= <B>Void</B> <B>then</B>
+                other_first_element := other.<A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>
+                other_count := other.<A HREF="../elks/linked_list_flat.html#f_count">count</A>
+                other.<A HREF="../elks/linked_list_flat.html#f_wipe_out">wipe_out</A>
+                <B>check</B>
+                    other_first_element /= <B>Void</B>
+                    other_last_element /= <B>Void</B>
+                <B>end</B>
+                a := <A HREF="../elks/linked_list_flat.html#f_active">active</A>
+                <B>if</B> a = <B>Void</B> <B>then</B>
+                    <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A> := other_first_element
+                    <A HREF="../elks/linked_list_flat.html#f_active">active</A> := <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>
+                <B>else</B>
+                    <B>if</B> <B>not</B> <A HREF="../elks/linked_list_flat.html#f_islast">islast</A> <B>then</B>
+                        other_last_element.<A HREF="../elks/linkable_flat.html#f_put_right">put_right</A> (a.<A HREF="../elks/linkable_flat.html#f_right">right</A>)
+                    <B>end</B>
+                    a.<A HREF="../elks/linkable_flat.html#f_put_right">put_right</A> (other_first_element)
+                <B>end</B>
+                <A HREF="../elks/linked_list_flat.html#f_count">count</A> := <A HREF="../elks/linked_list_flat.html#f_count">count</A> + other_count
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/dynamic_chain_flat.html">DYNAMIC_CHAIN</A>
+            new_count: <A HREF="../elks/linked_list_flat.html#f_count">count</A> = <B>old</B> <A HREF="../elks/linked_list_flat.html#f_count">count</A> + <B>old</B> other.<A HREF="../elks/linked_list_flat.html#f_count">count</A>
+            same_index: <A HREF="../elks/linked_list_flat.html#f_index">index</A> = <B>old</B> <A HREF="../elks/linked_list_flat.html#f_index">index</A>
+            other_is_empty: other.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+
+    <A NAME="f_put"><A HREF="../elks/chain_flat.html#f_put">put</A> (v: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Replace current item by </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Synonym for </FONT><A HREF="../elks/linked_list_flat.html#f_replace">replace</A><FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A>
+            writeable: <A HREF="../elks/sequence_flat.html#f_writable">writable</A>
+            replaceable: <A HREF="../elks/active_flat.html#f_replaceable">replaceable</A>
+        <B>do</B>
+            <A HREF="../elks/linked_list_flat.html#f_replace">replace</A> (v)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A>
+            same_count: <A HREF="../elks/linked_list_flat.html#f_count">count</A> = <B>old</B> <A HREF="../elks/linked_list_flat.html#f_count">count</A>
+            is_inserted: <A HREF="../elks/linked_list_flat.html#f_is_inserted">is_inserted</A> (v)
+        <B>end</B></A>
+
+    <A NAME="f_put"><A HREF="../elks/sequence_flat.html#f_put">sequence_put</A> (v: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Add </FONT>`v'<FONT COLOR="red"> to end.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/sequence_flat.html">SEQUENCE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flat.html">COLLECTION</A>
+            extendible: <A HREF="../elks/dynamic_chain_flat.html#f_extendible">extendible</A>
+        <B>do</B>
+            <A HREF="../elks/linked_list_flat.html#f_extend">extend</A> (v)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flat.html">COLLECTION</A>
+            item_inserted: <A HREF="../elks/linked_list_flat.html#f_is_inserted">is_inserted</A> (v)
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/sequence_flat.html">SEQUENCE</A>
+            new_count: <A HREF="../elks/linked_list_flat.html#f_count">count</A> = <B>old</B> <A HREF="../elks/linked_list_flat.html#f_count">count</A> + 1
+        <B>end</B></A>
+
+    <A NAME="f_put_front"><A HREF="../elks/linked_list_flat.html#f_put_front">put_front</A> (v: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Add </FONT>`v'<FONT COLOR="red"> to beginning.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do not move cursor.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/dynamic_chain_flat.html">DYNAMIC_CHAIN</A>
+            extendible: <A HREF="../elks/dynamic_chain_flat.html#f_extendible">extendible</A>
+        <B>local</B>
+            p: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_new_cell">new_cell</A>
+        <B>do</B>
+            p := <A HREF="../elks/linked_list_flat.html#f_new_cell">new_cell</A> (v)
+            p.<A HREF="../elks/linkable_flat.html#f_put_right">put_right</A> (<A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>)
+            <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A> := p
+            <B>if</B> <A HREF="../elks/linked_list_flat.html#f_before">before</A> <B>or</B> <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>then</B>
+                <A HREF="../elks/linked_list_flat.html#f_active">active</A> := p
+            <B>end</B>
+            <A HREF="../elks/linked_list_flat.html#f_count">count</A> := <A HREF="../elks/linked_list_flat.html#f_count">count</A> + 1
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/dynamic_chain_flat.html">DYNAMIC_CHAIN</A>
+            new_count: <A HREF="../elks/linked_list_flat.html#f_count">count</A> = <B>old</B> <A HREF="../elks/linked_list_flat.html#f_count">count</A> + 1
+            item_inserted: <A HREF="../elks/linked_list_flat.html#f_first">first</A> = v
+        <B>end</B></A>
+
+    <A NAME="f_put_i_th"><A HREF="../elks/chain_flat.html#f_put_i_th">put_i_th</A> (v: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_item">item</A>; i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Put </FONT>`v'<FONT COLOR="red"> at </FONT>`i'<FONT COLOR="red">-th position.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/table_flat.html">TABLE</A>
+            valid_key: <A HREF="../elks/chain_flat.html#f_valid_index">valid_index</A> (i)
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/table_flat.html">TABLE</A>
+            valid_key: <A HREF="../elks/chain_flat.html#f_valid_index">valid_index</A> (i)
+        <B>local</B>
+            pos: <A HREF="../elks/cursor_flat.html">CURSOR</A>
+        <B>do</B>
+            pos := <A HREF="../elks/linked_list_flat.html#f_cursor">cursor</A>
+            <A HREF="../elks/linked_list_flat.html#f_go_i_th">go_i_th</A> (i)
+            <A HREF="../elks/linked_list_flat.html#f_replace">replace</A> (v)
+            <A HREF="../elks/linked_list_flat.html#f_go_to">go_to</A> (pos)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/table_flat.html">TABLE</A>
+            inserted: <A HREF="../elks/chain_flat.html#f_i_th">i_th</A> (i) = v
+        <B>end</B></A>
+
+    <A NAME="f_put_left"><A HREF="../elks/linked_list_flat.html#f_put_left">put_left</A> (v: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Add </FONT>`v'<FONT COLOR="red"> to the left of cursor position.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do not move cursor.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/dynamic_chain_flat.html">DYNAMIC_CHAIN</A>
+            extendible: <A HREF="../elks/dynamic_chain_flat.html#f_extendible">extendible</A>
+            not_before: <B>not</B> <A HREF="../elks/linked_list_flat.html#f_before">before</A>
+        <B>local</B>
+            p: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_new_cell">new_cell</A>
+            a: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_active">active</A>
+        <B>do</B>
+            a := <A HREF="../elks/linked_list_flat.html#f_active">active</A>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <A HREF="../elks/linked_list_flat.html#f_put_front">put_front</A> (v)
+            <B>elseif</B> <A HREF="../elks/linked_list_flat.html#f_after">after</A> <B>then</B>
+                <A HREF="../elks/linked_list_flat.html#f_back">back</A>
+                <A HREF="../elks/linked_list_flat.html#f_put_right">put_right</A> (v)
+                <A HREF="../elks/linked_list_flat.html#f_move">move</A> (2)
+            <B>else</B>
+                p := <A HREF="../elks/linked_list_flat.html#f_new_cell">new_cell</A> (a.<A HREF="../elks/cell_flat.html#f_item">item</A>)
+                p.<A HREF="../elks/linkable_flat.html#f_put_right">put_right</A> (a.<A HREF="../elks/linkable_flat.html#f_right">right</A>)
+                a.<A HREF="../elks/cell_flat.html#f_put">put</A> (v)
+                a.<A HREF="../elks/linkable_flat.html#f_put_right">put_right</A> (p)
+                <A HREF="../elks/linked_list_flat.html#f_active">active</A> := p
+                <A HREF="../elks/linked_list_flat.html#f_count">count</A> := <A HREF="../elks/linked_list_flat.html#f_count">count</A> + 1
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/dynamic_chain_flat.html">DYNAMIC_CHAIN</A>
+            new_count: <A HREF="../elks/linked_list_flat.html#f_count">count</A> = <B>old</B> <A HREF="../elks/linked_list_flat.html#f_count">count</A> + 1
+            new_index: <A HREF="../elks/linked_list_flat.html#f_index">index</A> = <B>old</B> <A HREF="../elks/linked_list_flat.html#f_index">index</A> + 1
+        <B>ensure then</B>
+            previous_exists: <A HREF="../elks/linked_list_flat.html#f_previous">previous</A> /= <B>Void</B>
+            item_inserted: <B>attached</B> <A HREF="../elks/linked_list_flat.html#f_previous">previous</A> <B>as</B> q <B>and then</B> q.<A HREF="../elks/cell_flat.html#f_item">item</A> = v
+        <B>end</B></A>
+
+    <A NAME="f_put_right"><A HREF="../elks/linked_list_flat.html#f_put_right">put_right</A> (v: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Add </FONT>`v'<FONT COLOR="red"> to the right of cursor position.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do not move cursor.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/dynamic_chain_flat.html">DYNAMIC_CHAIN</A>
+            extendible: <A HREF="../elks/dynamic_chain_flat.html#f_extendible">extendible</A>
+            not_after: <B>not</B> <A HREF="../elks/linked_list_flat.html#f_after">after</A>
+        <B>local</B>
+            p: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_new_cell">new_cell</A>
+            a: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_active">active</A>
+        <B>do</B>
+            p := <A HREF="../elks/linked_list_flat.html#f_new_cell">new_cell</A> (v)
+            <B>check</B>
+                <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>implies</B> <A HREF="../elks/linked_list_flat.html#f_before">before</A>
+            <B>end</B>
+            <B>if</B> <A HREF="../elks/linked_list_flat.html#f_before">before</A> <B>then</B>
+                p.<A HREF="../elks/linkable_flat.html#f_put_right">put_right</A> (<A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>)
+                <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A> := p
+                <A HREF="../elks/linked_list_flat.html#f_active">active</A> := p
+            <B>else</B>
+                a := <A HREF="../elks/linked_list_flat.html#f_active">active</A>
+                <B>if</B> a /= <B>Void</B> <B>then</B>
+                    p.<A HREF="../elks/linkable_flat.html#f_put_right">put_right</A> (a.<A HREF="../elks/linkable_flat.html#f_right">right</A>)
+                    a.<A HREF="../elks/linkable_flat.html#f_put_right">put_right</A> (p)
+                <B>end</B>
+            <B>end</B>
+            <A HREF="../elks/linked_list_flat.html#f_count">count</A> := <A HREF="../elks/linked_list_flat.html#f_count">count</A> + 1
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/dynamic_chain_flat.html">DYNAMIC_CHAIN</A>
+            new_count: <A HREF="../elks/linked_list_flat.html#f_count">count</A> = <B>old</B> <A HREF="../elks/linked_list_flat.html#f_count">count</A> + 1
+            same_index: <A HREF="../elks/linked_list_flat.html#f_index">index</A> = <B>old</B> <A HREF="../elks/linked_list_flat.html#f_index">index</A>
+        <B>ensure then</B>
+            next_exists: <A HREF="../elks/linked_list_flat.html#f_next">next</A> /= <B>Void</B>
+            item_inserted: <B>not</B> <B>old</B> <A HREF="../elks/linked_list_flat.html#f_before">before</A> <B>implies</B> (<B>attached</B> <A HREF="../elks/linked_list_flat.html#f_next">next</A> <B>as</B> n <B>and then</B> n.<A HREF="../elks/cell_flat.html#f_item">item</A> = v)
+            item_inserted_before: <B>old</B> <A HREF="../elks/linked_list_flat.html#f_before">before</A> <B>implies</B> (<B>attached</B> <A HREF="../elks/linked_list_flat.html#f_active">active</A> <B>as</B> c <B>and then</B> c.<A HREF="../elks/cell_flat.html#f_item">item</A> = v)
+        <B>end</B></A>
+
+    <A NAME="f_replace"><A HREF="../elks/linked_list_flat.html#f_replace">replace</A> (v: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Replace current item by </FONT>`v'<FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/active_flat.html">ACTIVE</A>
+            writable: <A HREF="../elks/sequence_flat.html#f_writable">writable</A>
+            replaceable: <A HREF="../elks/active_flat.html#f_replaceable">replaceable</A>
+        <B>local</B>
+            a: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_active">active</A>
+        <B>do</B>
+            a := <A HREF="../elks/linked_list_flat.html#f_active">active</A>
+            <B>if</B> a /= <B>Void</B> <B>then</B>
+                a.<A HREF="../elks/cell_flat.html#f_put">put</A> (v)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/active_flat.html">ACTIVE</A>
+            item_replaced: <A HREF="../elks/linked_list_flat.html#f_item">item</A> = v
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removal</FONT>
+
+    <A NAME="f_prune"><A HREF="../elks/dynamic_chain_flat.html#f_prune">prune</A> (v: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove first occurrence of </FONT>`v'<FONT COLOR="red">, if any,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> after cursor position.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If found, move cursor to right neighbor;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> if not, make structure </FONT><A HREF="../elks/linear_flat.html#f_exhausted">exhausted</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/dynamic_chain_flat.html">DYNAMIC_CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flat.html">COLLECTION</A>
+            prunable: <A HREF="../elks/dynamic_chain_flat.html#f_prunable">prunable</A>
+        <B>do</B>
+            <A HREF="../elks/bilinear_flat.html#f_search">search</A> (v)
+            <B>if</B> <B>not</B> <A HREF="../elks/linear_flat.html#f_exhausted">exhausted</A> <B>then</B>
+                <A HREF="../elks/linked_list_flat.html#f_remove">remove</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_prune_all"><A HREF="../elks/dynamic_chain_flat.html#f_prune_all">prune_all</A> (v: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove all occurrences of </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Reference or object equality,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> based on </FONT><A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A><FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Leave structure </FONT><A HREF="../elks/linear_flat.html#f_exhausted">exhausted</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/dynamic_chain_flat.html">DYNAMIC_CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flat.html">COLLECTION</A>
+            prunable: <A HREF="../elks/dynamic_chain_flat.html#f_prunable">prunable</A>
+        <B>do</B>
+            <B>from</B>
+                <A HREF="../elks/linked_list_flat.html#f_start">start</A>
+                <A HREF="../elks/bilinear_flat.html#f_search">search</A> (v)
+            <B>until</B>
+                <A HREF="../elks/linear_flat.html#f_exhausted">exhausted</A>
+            <B>loop</B>
+                <A HREF="../elks/linked_list_flat.html#f_remove">remove</A>
+                <A HREF="../elks/bilinear_flat.html#f_search">search</A> (v)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flat.html">COLLECTION</A>
+            no_more_occurrences: <B>not</B> <A HREF="../elks/chain_flat.html#f_has">has</A> (v)
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/dynamic_chain_flat.html">DYNAMIC_CHAIN</A>
+            is_exhausted: <A HREF="../elks/linear_flat.html#f_exhausted">exhausted</A>
+        <B>end</B></A>
+
+    <A NAME="f_remove"><A HREF="../elks/linked_list_flat.html#f_remove">remove</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove current item.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to right neighbor</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (or </FONT><A HREF="../elks/linked_list_flat.html#f_after">after</A><FONT COLOR="red"> if no right neighbor).</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/active_flat.html">ACTIVE</A>
+            prunable: <A HREF="../elks/dynamic_chain_flat.html#f_prunable">prunable</A>
+            writable: <A HREF="../elks/sequence_flat.html#f_writable">writable</A>
+        <B>local</B>
+            succ: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>
+            removed: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_active">active</A>
+            a: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_active">active</A>
+            p: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_previous">previous</A>
+        <B>do</B>
+            removed := <A HREF="../elks/linked_list_flat.html#f_active">active</A>
+            <B>if</B> removed /= <B>Void</B> <B>then</B>
+                <B>if</B> <A HREF="../elks/linked_list_flat.html#f_isfirst">isfirst</A> <B>then</B>
+                    <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A> := removed.<A HREF="../elks/linkable_flat.html#f_right">right</A>
+                    removed.<A HREF="../elks/linkable_flat.html#f_forget_right">forget_right</A>
+                    <A HREF="../elks/linked_list_flat.html#f_active">active</A> := <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>
+                    <B>if</B> <A HREF="../elks/linked_list_flat.html#f_count">count</A> = 1 <B>then</B>
+                        <B>check</B>
+                            no_active: <A HREF="../elks/linked_list_flat.html#f_active">active</A> = <B>Void</B>
+                        <B>end</B>
+                        <A HREF="../elks/linked_list_flat.html#f_after">after</A> := <B>True</B>
+                    <B>end</B>
+                <B>elseif</B> <A HREF="../elks/linked_list_flat.html#f_islast">islast</A> <B>then</B>
+                    <A HREF="../elks/linked_list_flat.html#f_active">active</A> := <A HREF="../elks/linked_list_flat.html#f_previous">previous</A>
+                    a := <A HREF="../elks/linked_list_flat.html#f_active">active</A>
+                    <B>if</B> a /= <B>Void</B> <B>then</B>
+                        a.<A HREF="../elks/linkable_flat.html#f_forget_right">forget_right</A>
+                    <B>end</B>
+                    <A HREF="../elks/linked_list_flat.html#f_after">after</A> := <B>True</B>
+                <B>else</B>
+                    succ := removed.<A HREF="../elks/linkable_flat.html#f_right">right</A>
+                    p := <A HREF="../elks/linked_list_flat.html#f_previous">previous</A>
+                    <B>if</B> p /= <B>Void</B> <B>then</B>
+                        p.<A HREF="../elks/linkable_flat.html#f_put_right">put_right</A> (succ)
+                    <B>end</B>
+                    removed.<A HREF="../elks/linkable_flat.html#f_forget_right">forget_right</A>
+                    <A HREF="../elks/linked_list_flat.html#f_active">active</A> := succ
+                <B>end</B>
+                <A HREF="../elks/linked_list_flat.html#f_count">count</A> := <A HREF="../elks/linked_list_flat.html#f_count">count</A> - 1
+                <A HREF="../elks/linked_list_flat.html#f_cleanup_after_remove">cleanup_after_remove</A> (removed)
+            <B>end</B>
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/dynamic_list_flat.html">DYNAMIC_LIST</A>
+            after_when_empty: <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>implies</B> <A HREF="../elks/linked_list_flat.html#f_after">after</A>
+        <B>end</B></A>
+
+    <A NAME="f_remove_left"><A HREF="../elks/linked_list_flat.html#f_remove_left">remove_left</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove item to the left of cursor position.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do not move cursor.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/dynamic_chain_flat.html">DYNAMIC_CHAIN</A>
+            left_exists: <A HREF="../elks/linked_list_flat.html#f_index">index</A> &gt; 1
+        <B>do</B>
+            <A HREF="../elks/linked_list_flat.html#f_move">move</A> (-2)
+            <A HREF="../elks/linked_list_flat.html#f_remove_right">remove_right</A>
+            <A HREF="../elks/linked_list_flat.html#f_forth">forth</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/dynamic_chain_flat.html">DYNAMIC_CHAIN</A>
+            new_count: <A HREF="../elks/linked_list_flat.html#f_count">count</A> = <B>old</B> <A HREF="../elks/linked_list_flat.html#f_count">count</A> - 1
+            new_index: <A HREF="../elks/linked_list_flat.html#f_index">index</A> = <B>old</B> <A HREF="../elks/linked_list_flat.html#f_index">index</A> - 1
+        <B>end</B></A>
+
+    <A NAME="f_remove_right"><A HREF="../elks/linked_list_flat.html#f_remove_right">remove_right</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove item to the right of cursor position.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do not move cursor.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/dynamic_chain_flat.html">DYNAMIC_CHAIN</A>
+            right_exists: <A HREF="../elks/linked_list_flat.html#f_index">index</A> &lt; <A HREF="../elks/linked_list_flat.html#f_count">count</A>
+        <B>local</B>
+            removed: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>
+            f: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>
+            a: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_active">active</A>
+            succ: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_active">active</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/linked_list_flat.html#f_before">before</A> <B>then</B>
+                f := <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>
+                <B>if</B> f /= <B>Void</B> <B>then</B>
+                    removed := f
+                    <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A> := f.<A HREF="../elks/linkable_flat.html#f_right">right</A>
+                    a := <A HREF="../elks/linked_list_flat.html#f_active">active</A>
+                    <B>if</B> a /= <B>Void</B> <B>then</B>
+                        a.<A HREF="../elks/linkable_flat.html#f_forget_right">forget_right</A>
+                    <B>end</B>
+                    <A HREF="../elks/linked_list_flat.html#f_active">active</A> := <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>
+                <B>end</B>
+            <B>else</B>
+                a := <A HREF="../elks/linked_list_flat.html#f_active">active</A>
+                <B>if</B> a /= <B>Void</B> <B>then</B>
+                    succ := a.<A HREF="../elks/linkable_flat.html#f_right">right</A>
+                    <B>if</B> succ /= <B>Void</B> <B>then</B>
+                        removed := succ
+                        a.<A HREF="../elks/linkable_flat.html#f_put_right">put_right</A> (succ.<A HREF="../elks/linkable_flat.html#f_right">right</A>)
+                        succ.<A HREF="../elks/linkable_flat.html#f_forget_right">forget_right</A>
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+            <A HREF="../elks/linked_list_flat.html#f_count">count</A> := <A HREF="../elks/linked_list_flat.html#f_count">count</A> - 1
+            <A HREF="../elks/linked_list_flat.html#f_cleanup_after_remove">cleanup_after_remove</A> (removed)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/dynamic_chain_flat.html">DYNAMIC_CHAIN</A>
+            new_count: <A HREF="../elks/linked_list_flat.html#f_count">count</A> = <B>old</B> <A HREF="../elks/linked_list_flat.html#f_count">count</A> - 1
+            same_index: <A HREF="../elks/linked_list_flat.html#f_index">index</A> = <B>old</B> <A HREF="../elks/linked_list_flat.html#f_index">index</A>
+        <B>end</B></A>
+
+    <A NAME="f_wipe_out"><A HREF="../elks/linked_list_flat.html#f_wipe_out">wipe_out</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove all items.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flat.html">COLLECTION</A>
+            prunable: <A HREF="../elks/dynamic_chain_flat.html#f_prunable">prunable</A>
+        <B>do</B>
+            <A HREF="../elks/linked_list_flat.html#f_internal_wipe_out">internal_wipe_out</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flat.html">COLLECTION</A>
+            wiped_out: <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/dynamic_list_flat.html">DYNAMIC_LIST</A>
+            is_before: <A HREF="../elks/linked_list_flat.html#f_before">before</A>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removal</FONT>
+
+    <A NAME="f_wipe_out"><A HREF="../elks/dynamic_chain_flat.html#f_wipe_out">chain_wipe_out</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove all items.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/dynamic_chain_flat.html">DYNAMIC_CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flat.html">COLLECTION</A>
+            prunable: <A HREF="../elks/dynamic_chain_flat.html#f_prunable">prunable</A>
+        <B>do</B>
+            <B>from</B>
+                <A HREF="../elks/linked_list_flat.html#f_start">start</A>
+            <B>until</B>
+                <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+            <B>loop</B>
+                <A HREF="../elks/linked_list_flat.html#f_remove">remove</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flat.html">COLLECTION</A>
+            wiped_out: <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Transformation</FONT>
+
+    <A NAME="f_swap"><A HREF="../elks/chain_flat.html#f_swap">swap</A> (i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Exchange item at </FONT>`i'<FONT COLOR="red">-th position with item</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> at cursor position.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A>
+            not_off: <B>not</B> <A HREF="../elks/linked_list_flat.html#f_off">off</A>
+            valid_index: <A HREF="../elks/chain_flat.html#f_valid_index">valid_index</A> (i)
+        <B>local</B>
+            old_item, new_item: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_item">item</A>
+            pos: <A HREF="../elks/cursor_flat.html">CURSOR</A>
+        <B>do</B>
+            pos := <A HREF="../elks/linked_list_flat.html#f_cursor">cursor</A>
+            old_item := <A HREF="../elks/linked_list_flat.html#f_item">item</A>
+            <A HREF="../elks/linked_list_flat.html#f_go_i_th">go_i_th</A> (i)
+            new_item := <A HREF="../elks/linked_list_flat.html#f_item">item</A>
+            <A HREF="../elks/linked_list_flat.html#f_replace">replace</A> (old_item)
+            <A HREF="../elks/linked_list_flat.html#f_go_to">go_to</A> (pos)
+            <A HREF="../elks/linked_list_flat.html#f_replace">replace</A> (new_item)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A>
+            swapped_to_item: <A HREF="../elks/linked_list_flat.html#f_item">item</A> = <B>old</B> <A HREF="../elks/chain_flat.html#f_i_th">i_th</A> (i)
+            swapped_from_item: <A HREF="../elks/chain_flat.html#f_i_th">i_th</A> (i) = <B>old</B> <A HREF="../elks/linked_list_flat.html#f_item">item</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Conversion</FONT>
+
+    <A NAME="f_linear_representation"><A HREF="../elks/linear_flat.html#f_linear_representation">linear_representation</A>: <A HREF="../elks/linear_flat.html">LINEAR</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Representation as a linear structure</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/linear_flat.html">LINEAR</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/container_flat.html">CONTAINER</A>
+            <B>True</B>
+        <B>do</B>
+            <B>Result</B> := <B>Current</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_clone">clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void; otherwise new object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to </FONT>`other'
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> For non-void </FONT>`other'<FONT COLOR="red">, </FONT><A HREF="../elks/any_flat.html#f_clone">clone</A><FONT COLOR="red"> calls </FONT><A HREF="../elks/linked_list_flat.html#f_copy">copy</A><FONT COLOR="red">;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to change copying/cloning semantics, redefine </FONT><A HREF="../elks/linked_list_flat.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_twin">twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            equal: <B>Result</B> ~ other
+        <B>end</B></A>
+
+    <A NAME="f_copy"><A HREF="../elks/linked_list_flat.html#f_copy">copy</A> (other: <B>like</B> <B>Current</B>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update current object using fields of object attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to </FONT>`other'<FONT COLOR="red">, so as to yield equal objects.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+        <B>local</B>
+            cur: <B>detachable</B> <A HREF="../elks/linked_list_cursor_flat.html">LINKED_LIST_CURSOR</A> [G]
+        <B>do</B>
+            <B>if</B> other /= <B>Current</B> <B>then</B>
+                <A HREF="../elks/any_flat.html#f_standard_copy">standard_copy</A> (other)
+                <B>if</B> <B>not</B> other.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>then</B>
+                    <A HREF="../elks/linked_list_flat.html#f_internal_wipe_out">internal_wipe_out</A>
+                    <B>if</B> <B>attached</B> {<A HREF="../elks/linked_list_cursor_flat.html">LINKED_LIST_CURSOR</A> [G]} other.<A HREF="../elks/linked_list_flat.html#f_cursor">cursor</A> <B>as</B> l_cur <B>then</B>
+                        cur := l_cur
+                    <B>end</B>
+                    <B>from</B>
+                        other.<A HREF="../elks/linked_list_flat.html#f_start">start</A>
+                    <B>until</B>
+                        other.<A HREF="../elks/linked_list_flat.html#f_off">off</A>
+                    <B>loop</B>
+                        <A HREF="../elks/linked_list_flat.html#f_extend">extend</A> (other.<A HREF="../elks/linked_list_flat.html#f_item">item</A>)
+                        <A HREF="../elks/linked_list_flat.html#f_finish">finish</A>
+                        other.<A HREF="../elks/linked_list_flat.html#f_forth">forth</A>
+                    <B>end</B>
+                    <B>if</B> cur /= <B>Void</B> <B>then</B>
+                        other.<A HREF="../elks/linked_list_flat.html#f_go_to">go_to</A> (cur)
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            is_equal: <B>Current</B> ~ other
+        <B>end</B></A>
+
+    <A NAME="f_deep_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_clone">deep_clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `deep_twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void: otherwise, new object structure</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> recursively duplicated from the one attached to </FONT>`other'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (other, <B>Result</B>)
+        <B>end</B></A>
+
+    <A NAME="f_deep_copy"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_copy">deep_copy</A> (other: <B>attached</B> <A HREF="../elks/linked_list_flat.html">LINKED_LIST</A> [G])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Effect equivalent to that of:</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">		</FONT><A HREF="../elks/linked_list_flat.html#f_copy">copy</A><FONT COLOR="red"> (</FONT>`other'<FONT COLOR="red"> . </FONT><A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A><FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../elks/linked_list_flat.html#f_copy">copy</A> (other.<A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (<B>Current</B>, other)
+        <B>end</B></A>
+
+    <A NAME="f_deep_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>: <B>attached</B> <A HREF="../elks/linked_list_flat.html">LINKED_LIST</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object structure recursively duplicated from Current.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_twin_not_void: <B>Result</B> /= <B>Void</B>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (<B>Current</B>, <B>Result</B>)
+        <B>end</B></A>
+
+    <A NAME="f_duplicate"><A HREF="../elks/dynamic_chain_flat.html#f_duplicate">duplicate</A> (n: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <B>attached</B> <A HREF="../elks/linked_list_flat.html">LINKED_LIST</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy of sub-chain beginning at current position</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> and having min (</FONT>`n'<FONT COLOR="red">, </FONT>`from_here'<FONT COLOR="red">) items,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> where </FONT>`from_here'<FONT COLOR="red"> is the number of items</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> at or to the right of current position.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/dynamic_chain_flat.html">DYNAMIC_CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A>
+            not_off_unless_after: <A HREF="../elks/linked_list_flat.html#f_off">off</A> <B>implies</B> <A HREF="../elks/linked_list_flat.html#f_after">after</A>
+            valid_subchain: n &gt;= 0
+        <B>local</B>
+            pos: <A HREF="../elks/cursor_flat.html">CURSOR</A>
+            counter: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                <B>Result</B> := <A HREF="../elks/linked_list_flat.html#f_new_chain">new_chain</A>
+                <B>if</B> <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A> <B>then</B>
+                    <B>Result</B>.<A HREF="../elks/container_flat.html#f_compare_objects">compare_objects</A>
+                <B>end</B>
+                pos := <A HREF="../elks/linked_list_flat.html#f_cursor">cursor</A>
+            <B>until</B>
+                (counter = n) <B>or else</B> <A HREF="../elks/linear_flat.html#f_exhausted">exhausted</A>
+            <B>loop</B>
+                <B>Result</B>.<A HREF="../elks/linked_list_flat.html#f_extend">extend</A> (<A HREF="../elks/linked_list_flat.html#f_item">item</A>)
+                <A HREF="../elks/linked_list_flat.html#f_forth">forth</A>
+                counter := counter + 1
+            <B>end</B>
+            <A HREF="../elks/linked_list_flat.html#f_go_to">go_to</A> (pos)
+        <B>end</B></A>
+
+    <A NAME="f_standard_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_clone">standard_clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `standard_twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void; otherwise new object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_standard_twin">standard_twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            equal: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (<B>Result</B>, other)
+        <B>end</B></A>
+
+    <A NAME="f_standard_copy"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_copy">standard_copy</A> (other: <B>attached</B> <A HREF="../elks/linked_list_flat.html">LINKED_LIST</A> [G])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy every field of </FONT>`other'<FONT COLOR="red"> onto corresponding field</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            is_standard_equal: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other)
+        <B>end</B></A>
+
+    <A NAME="f_standard_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_twin">standard_twin</A>: <B>attached</B> <A HREF="../elks/linked_list_flat.html">LINKED_LIST</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            standard_twin_not_void: <B>Result</B> /= <B>Void</B>
+            equal: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (<B>Result</B>, <B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_twin">twin</A>: <B>attached</B> <A HREF="../elks/linked_list_flat.html">LINKED_LIST</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object equal to </FONT>`Current'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/any_flat.html#f_twin">twin</A><FONT COLOR="red"> calls </FONT><A HREF="../elks/linked_list_flat.html#f_copy">copy</A><FONT COLOR="red">; to change copying/twinning semantics, redefine </FONT><A HREF="../elks/linked_list_flat.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            twin_not_void: <B>Result</B> /= <B>Void</B>
+            is_equal: <B>Result</B> ~ <B>Current</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_as_attached"><B>frozen</B> <A HREF="../elks/any_flat.html#f_as_attached">as_attached</A>: <B>attached</B> <A HREF="../elks/linked_list_flat.html">LINKED_LIST</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attached version of Current</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Can be used during transitional period to convert</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> non-void-safe classes to void-safe ones.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>Current</B>
+        <B>end</B></A>
+
+    <A NAME="f_default"><B>frozen</B> <A HREF="../elks/any_flat.html#f_default">default</A>: <B>detachable</B> <A HREF="../elks/linked_list_flat.html">LINKED_LIST</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of object's type</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_default_pointer"><B>frozen</B> <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>: <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of type </FONT>`POINTER'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Avoid the need to write </FONT>`p'<FONT COLOR="red">.</FONT><A HREF="../elks/any_flat.html#f_default">default</A><FONT COLOR="red"> for</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> some </FONT>`p'<FONT COLOR="red"> of type </FONT>`POINTER'<FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_default_rescue"><A HREF="../elks/any_flat.html#f_default_rescue">default_rescue</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process exception for routines with no Rescue clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_do_nothing"><B>frozen</B> <A HREF="../elks/any_flat.html#f_do_nothing">do_nothing</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execute a null action.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+    
+<B>feature</B> {<A HREF="../elks/linked_list_flat.html">LINKED_LIST</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_active"><A HREF="../elks/linked_list_flat.html#f_active">active</A>: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element at cursor position</FONT>
+
+    <A NAME="f_cleanup_after_remove"><A HREF="../elks/linked_list_flat.html#f_cleanup_after_remove">cleanup_after_remove</A> (v: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Clean-up a just removed cell.</FONT>
+        <B>require</B>
+            non_void_cell: v /= <B>Void</B>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_last_element"><A HREF="../elks/linked_list_flat.html#f_last_element">last_element</A>: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Tail of list</FONT>
+        <B>local</B>
+            p: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>
+        <B>do</B>
+            <B>from</B>
+                p := <A HREF="../elks/linked_list_flat.html#f_active">active</A>
+            <B>until</B>
+                p = <B>Void</B>
+            <B>loop</B>
+                <B>Result</B> := p
+                p := p.<A HREF="../elks/linkable_flat.html#f_right">right</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_new_cell"><A HREF="../elks/linked_list_flat.html#f_new_cell">new_cell</A> (v: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_item">item</A>): <A HREF="../elks/linkable_flat.html">LINKABLE</A> [<B>like</B> <A HREF="../elks/linked_list_flat.html#f_item">item</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> A newly created instance of the same type as </FONT><A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> This feature may be redefined in descendants so as to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> produce an adequately allocated and initialized object.</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/cell_flat.html#f_put">put</A> (v)
+        <B>ensure</B>
+            result_exists: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_new_chain"><A HREF="../elks/linked_list_flat.html#f_new_chain">new_chain</A>: <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> A newly created instance of the same type.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> This feature may be redefined in descendants so as to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> produce an adequately allocated and initialized object.</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/linked_list_flat.html#f_make">make</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/dynamic_chain_flat.html">DYNAMIC_CHAIN</A>
+            result_exists: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_next"><A HREF="../elks/linked_list_flat.html#f_next">next</A>: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element right of cursor</FONT>
+        <B>local</B>
+            a: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_active">active</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/linked_list_flat.html#f_before">before</A> <B>then</B>
+                <B>Result</B> := <A HREF="../elks/linked_list_flat.html#f_active">active</A>
+            <B>else</B>
+                a := <A HREF="../elks/linked_list_flat.html#f_active">active</A>
+                <B>if</B> a /= <B>Void</B> <B>then</B>
+                    <B>Result</B> := a.<A HREF="../elks/linkable_flat.html#f_right">right</A>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_previous"><A HREF="../elks/linked_list_flat.html#f_previous">previous</A>: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element left of cursor</FONT>
+        <B>local</B>
+            p: <B>like</B> <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/linked_list_flat.html#f_after">after</A> <B>then</B>
+                <B>Result</B> := <A HREF="../elks/linked_list_flat.html#f_active">active</A>
+            <B>elseif</B> <B>not</B> (<A HREF="../elks/linked_list_flat.html#f_isfirst">isfirst</A> <B>or</B> <A HREF="../elks/linked_list_flat.html#f_before">before</A>) <B>then</B>
+                <B>from</B>
+                    p := <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>
+                <B>until</B>
+                    p = <B>Void</B> <B>or else</B> p.<A HREF="../elks/linkable_flat.html#f_right">right</A> = <A HREF="../elks/linked_list_flat.html#f_active">active</A>
+                <B>loop</B>
+                    p := p.<A HREF="../elks/linkable_flat.html#f_right">right</A>
+                <B>end</B>
+                <B>Result</B> := p
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_internal_wipe_out"><B>frozen</B> <A HREF="../elks/linked_list_flat.html#f_internal_wipe_out">internal_wipe_out</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove all items.</FONT>
+        <B>require</B>
+            <A HREF="../elks/dynamic_chain_flat.html#f_prunable">prunable</A>
+        <B>do</B>
+            <A HREF="../elks/linked_list_flat.html#f_active">active</A> := <B>Void</B>
+            <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A> := <B>Void</B>
+            <A HREF="../elks/linked_list_flat.html#f_before">before</A> := <B>True</B>
+            <A HREF="../elks/linked_list_flat.html#f_after">after</A> := <B>False</B>
+            <A HREF="../elks/linked_list_flat.html#f_count">count</A> := 0
+        <B>ensure</B>
+            wiped_out: <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+            is_before: <A HREF="../elks/linked_list_flat.html#f_before">before</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access: Cursor</FONT>
+
+    <A NAME="f_new_cursor"><A HREF="../elks/linked_list_flat.html#f_new_cursor">new_cursor</A>: <A HREF="../elks/linked_list_iteration_cursor_flat.html">LINKED_LIST_ITERATION_CURSOR</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Fresh cursor associated with current structure</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/iterable_flat.html">ITERABLE</A>
+            <B>True</B>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/indexable_iteration_cursor_flat.html#f_make">make</A> (<B>Current</B>)
+            <B>Result</B>.<A HREF="../elks/linked_list_iteration_cursor_flat.html#f_start">start</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/iterable_flat.html">ITERABLE</A>
+            result_attached: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Iteration</FONT>
+
+    <A NAME="f_do_all"><A HREF="../elks/linear_flat.html#f_do_all">do_all</A> (action: <A HREF="../elks/procedure_flat.html">PROCEDURE</A> [<A HREF="../elks/any_flat.html">ANY</A>, <A HREF="../elks/tuple_flat.html">TUPLE</A> [G]])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Apply </FONT>`action'<FONT COLOR="red"> to every item.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Semantics not guaranteed if </FONT>`action'<FONT COLOR="red"> changes the structure;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> in such a case, apply iterator to clone of structure instead.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/linear_flat.html">LINEAR</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/traversable_flat.html">TRAVERSABLE</A>
+            action_exists: action /= <B>Void</B>
+        <B>local</B>
+            c: <B>detachable</B> <A HREF="../elks/cursor_flat.html">CURSOR</A>
+            cs: <B>detachable</B> <A HREF="../elks/cursor_structure_flat.html">CURSOR_STRUCTURE</A> [G]
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<A HREF="../elks/cursor_structure_flat.html">CURSOR_STRUCTURE</A> [G]} <B>Current</B> <B>as</B> acs <B>then</B>
+                cs := acs
+                c := acs.<A HREF="../elks/cursor_structure_flat.html#f_cursor">cursor</A>
+            <B>end</B>
+            <B>from</B>
+                <A HREF="../elks/linked_list_flat.html#f_start">start</A>
+            <B>until</B>
+                <A HREF="../elks/linked_list_flat.html#f_after">after</A>
+            <B>loop</B>
+                action.<A HREF="../elks/procedure_flat.html#f_call">call</A> ([<A HREF="../elks/linked_list_flat.html#f_item">item</A>])
+                <A HREF="../elks/linked_list_flat.html#f_forth">forth</A>
+            <B>end</B>
+            <B>if</B> cs /= <B>Void</B> <B>and</B> c /= <B>Void</B> <B>then</B>
+                cs.<A HREF="../elks/cursor_structure_flat.html#f_go_to">go_to</A> (c)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_do_if"><A HREF="../elks/linear_flat.html#f_do_if">do_if</A> (action: <A HREF="../elks/procedure_flat.html">PROCEDURE</A> [<A HREF="../elks/any_flat.html">ANY</A>, <A HREF="../elks/tuple_flat.html">TUPLE</A> [G]]; test: <A HREF="../elks/function_flat.html">FUNCTION</A> [<A HREF="../elks/any_flat.html">ANY</A>, <A HREF="../elks/tuple_flat.html">TUPLE</A> [G], <A HREF="../elks/boolean_flat.html">BOOLEAN</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Apply </FONT>`action'<FONT COLOR="red"> to every item that satisfies </FONT>`test'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Semantics not guaranteed if </FONT>`action'<FONT COLOR="red"> or </FONT>`test'<FONT COLOR="red"> changes the structure;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> in such a case, apply iterator to clone of structure instead.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/linear_flat.html">LINEAR</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/traversable_flat.html">TRAVERSABLE</A>
+            action_exists: action /= <B>Void</B>
+            test_exists: test /= <B>Void</B>
+        <B>local</B>
+            c: <B>detachable</B> <A HREF="../elks/cursor_flat.html">CURSOR</A>
+            cs: <B>detachable</B> <A HREF="../elks/cursor_structure_flat.html">CURSOR_STRUCTURE</A> [G]
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<A HREF="../elks/cursor_structure_flat.html">CURSOR_STRUCTURE</A> [G]} <B>Current</B> <B>as</B> acs <B>then</B>
+                cs := acs
+                c := acs.<A HREF="../elks/cursor_structure_flat.html#f_cursor">cursor</A>
+            <B>end</B>
+            <B>from</B>
+                <A HREF="../elks/linked_list_flat.html#f_start">start</A>
+            <B>until</B>
+                <A HREF="../elks/linked_list_flat.html#f_after">after</A>
+            <B>loop</B>
+                <B>if</B> test.<A HREF="../elks/function_flat.html#f_item">item</A> ([<A HREF="../elks/linked_list_flat.html#f_item">item</A>]) <B>then</B>
+                    action.<A HREF="../elks/procedure_flat.html#f_call">call</A> ([<A HREF="../elks/linked_list_flat.html#f_item">item</A>])
+                <B>end</B>
+                <A HREF="../elks/linked_list_flat.html#f_forth">forth</A>
+            <B>end</B>
+            <B>if</B> cs /= <B>Void</B> <B>and</B> c /= <B>Void</B> <B>then</B>
+                cs.<A HREF="../elks/cursor_structure_flat.html#f_go_to">go_to</A> (c)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_for_all"><A HREF="../elks/linear_flat.html#f_for_all">for_all</A> (test: <A HREF="../elks/function_flat.html">FUNCTION</A> [<A HREF="../elks/any_flat.html">ANY</A>, <A HREF="../elks/tuple_flat.html">TUPLE</A> [G], <A HREF="../elks/boolean_flat.html">BOOLEAN</A>]): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`test'<FONT COLOR="red"> true for all items?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Semantics not guaranteed if </FONT>`test'<FONT COLOR="red"> changes the structure;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> in such a case, apply iterator to clone of structure instead.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/linear_flat.html">LINEAR</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/traversable_flat.html">TRAVERSABLE</A>
+            test_exists: test /= <B>Void</B>
+        <B>local</B>
+            c: <B>detachable</B> <A HREF="../elks/cursor_flat.html">CURSOR</A>
+            cs: <B>detachable</B> <A HREF="../elks/cursor_structure_flat.html">CURSOR_STRUCTURE</A> [G]
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<A HREF="../elks/cursor_structure_flat.html">CURSOR_STRUCTURE</A> [G]} <B>Current</B> <B>as</B> acs <B>then</B>
+                cs := acs
+                c := acs.<A HREF="../elks/cursor_structure_flat.html#f_cursor">cursor</A>
+            <B>end</B>
+            <B>from</B>
+                <A HREF="../elks/linked_list_flat.html#f_start">start</A>
+                <B>Result</B> := <B>True</B>
+            <B>until</B>
+                <A HREF="../elks/linked_list_flat.html#f_after">after</A> <B>or</B> <B>not</B> <B>Result</B>
+            <B>loop</B>
+                <B>Result</B> := test.<A HREF="../elks/function_flat.html#f_item">item</A> ([<A HREF="../elks/linked_list_flat.html#f_item">item</A>])
+                <A HREF="../elks/linked_list_flat.html#f_forth">forth</A>
+            <B>end</B>
+            <B>if</B> cs /= <B>Void</B> <B>and</B> c /= <B>Void</B> <B>then</B>
+                cs.<A HREF="../elks/cursor_structure_flat.html#f_go_to">go_to</A> (c)
+            <B>end</B>
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/linear_flat.html">LINEAR</A>
+            empty: <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>implies</B> <B>Result</B>
+        <B>end</B></A>
+
+    <A NAME="f_there_exists"><A HREF="../elks/linear_flat.html#f_there_exists">there_exists</A> (test: <A HREF="../elks/function_flat.html">FUNCTION</A> [<A HREF="../elks/any_flat.html">ANY</A>, <A HREF="../elks/tuple_flat.html">TUPLE</A> [G], <A HREF="../elks/boolean_flat.html">BOOLEAN</A>]): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`test'<FONT COLOR="red"> true for at least one item?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Semantics not guaranteed if </FONT>`test'<FONT COLOR="red"> changes the structure;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> in such a case, apply iterator to clone of structure instead.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/linear_flat.html">LINEAR</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/traversable_flat.html">TRAVERSABLE</A>
+            test_exists: test /= <B>Void</B>
+        <B>local</B>
+            c: <B>detachable</B> <A HREF="../elks/cursor_flat.html">CURSOR</A>
+            cs: <B>detachable</B> <A HREF="../elks/cursor_structure_flat.html">CURSOR_STRUCTURE</A> [G]
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<A HREF="../elks/cursor_structure_flat.html">CURSOR_STRUCTURE</A> [G]} <B>Current</B> <B>as</B> acs <B>then</B>
+                cs := acs
+                c := acs.<A HREF="../elks/cursor_structure_flat.html#f_cursor">cursor</A>
+            <B>end</B>
+            <B>from</B>
+                <A HREF="../elks/linked_list_flat.html#f_start">start</A>
+            <B>until</B>
+                <A HREF="../elks/linked_list_flat.html#f_after">after</A> <B>or</B> <B>Result</B>
+            <B>loop</B>
+                <B>Result</B> := test.<A HREF="../elks/function_flat.html#f_item">item</A> ([<A HREF="../elks/linked_list_flat.html#f_item">item</A>])
+                <A HREF="../elks/linked_list_flat.html#f_forth">forth</A>
+            <B>end</B>
+            <B>if</B> cs /= <B>Void</B> <B>and</B> c /= <B>Void</B> <B>then</B>
+                cs.<A HREF="../elks/cursor_structure_flat.html#f_go_to">go_to</A> (c)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output</FONT>
+
+    <A NAME="f_io"><A HREF="../elks/any_flat.html#f_io">Io</A>: <A HREF="../elks/std_files_flat.html">STD_FILES</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Handle to standard file setup</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../elks/std_files_flat.html#f_set_output_default">set_output_default</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            io_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_out"><A HREF="../elks/any_flat.html#f_out">out</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/any_flat.html#f_tagged_out">tagged_out</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            out_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_print"><A HREF="../elks/any_flat.html#f_print">print</A> (o: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write terse external representation of </FONT>`o'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on standard output.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> o /= <B>Void</B> <B>then</B>
+                <A HREF="../elks/any_flat.html#f_io">Io</A>.<A HREF="../elks/std_files_flat.html#f_put_string">put_string</A> (o.<A HREF="../elks/any_flat.html#f_out">out</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_tagged_out"><B>frozen</B> <A HREF="../elks/any_flat.html#f_tagged_out">tagged_out</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            tagged_out_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Platform</FONT>
+
+    <A NAME="f_operating_environment"><A HREF="../elks/any_flat.html#f_operating_environment">Operating_environment</A>: <A HREF="../elks/operating_environment_flat.html">OPERATING_ENVIRONMENT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Objects available from the operating system</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            operating_environment_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieval</FONT>
+
+    <A NAME="f_internal_correct_mismatch"><B>frozen</B> <A HREF="../elks/any_flat.html#f_internal_correct_mismatch">internal_correct_mismatch</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Called from runtime to perform a proper dynamic dispatch on </FONT>`correct_mismatch'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> from MISMATCH_CORRECTOR.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            l_msg: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            l_exc: <A HREF="../elks/exceptions_flat.html">EXCEPTIONS</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<A HREF="../elks/mismatch_corrector_flat.html">MISMATCH_CORRECTOR</A>} <B>Current</B> <B>as</B> l_corrector <B>then</B>
+                l_corrector.<A HREF="../elks/mismatch_corrector_flat.html#f_correct_mismatch">correct_mismatch</A>
+            <B>else</B>
+                <B>create</B> l_msg.<A HREF="../elks/readable_string_8_flat.html#f_make_from_string">make_from_string</A> ("Mismatch: ")
+                <B>create</B> l_exc
+                l_msg.<A HREF="../elks/string_8_flat.html#f_append">append</A> (<A HREF="../elks/any_flat.html#f_generating_type">generating_type</A>.<A HREF="../elks/type_flat.html#f_name">name</A>)
+                l_exc.<A HREF="../elks/exceptions_flat.html#f_raise_retrieval_exception">raise_retrieval_exception</A> (l_msg)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>invariant</B>
+    prunable: <A HREF="../elks/dynamic_chain_flat.html#f_prunable">prunable</A>
+    empty_constraint: <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>implies</B> ((<A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A> = <B>Void</B>) <B>and</B> (<A HREF="../elks/linked_list_flat.html#f_active">active</A> = <B>Void</B>))
+    not_void_unless_empty: (<A HREF="../elks/linked_list_flat.html#f_active">active</A> = <B>Void</B>) <B>implies</B> <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+    before_constraint: <A HREF="../elks/linked_list_flat.html#f_before">before</A> <B>implies</B> (<A HREF="../elks/linked_list_flat.html#f_active">active</A> = <A HREF="../elks/linked_list_flat.html#f_first_element">first_element</A>)
+    after_constraint: <A HREF="../elks/linked_list_flat.html#f_after">after</A> <B>implies</B> (<A HREF="../elks/linked_list_flat.html#f_active">active</A> = <A HREF="../elks/linked_list_flat.html#f_last_element">last_element</A>)
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/list_flat.html">LIST</A>
+    before_definition: <A HREF="../elks/linked_list_flat.html#f_before">before</A> = (<A HREF="../elks/linked_list_flat.html#f_index">index</A> = 0)
+    after_definition: <A HREF="../elks/linked_list_flat.html#f_after">after</A> = (<A HREF="../elks/linked_list_flat.html#f_index">index</A> = <A HREF="../elks/linked_list_flat.html#f_count">count</A> + 1)
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flat.html">CHAIN</A>
+    non_negative_index: <A HREF="../elks/linked_list_flat.html#f_index">index</A> &gt;= 0
+    index_small_enough: <A HREF="../elks/linked_list_flat.html#f_index">index</A> &lt;= <A HREF="../elks/linked_list_flat.html#f_count">count</A> + 1
+    off_definition: <A HREF="../elks/linked_list_flat.html#f_off">off</A> = ((<A HREF="../elks/linked_list_flat.html#f_index">index</A> = 0) <B>or</B> (<A HREF="../elks/linked_list_flat.html#f_index">index</A> = <A HREF="../elks/linked_list_flat.html#f_count">count</A> + 1))
+    isfirst_definition: <A HREF="../elks/linked_list_flat.html#f_isfirst">isfirst</A> = ((<B>not</B> <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>) <B>and</B> (<A HREF="../elks/linked_list_flat.html#f_index">index</A> = 1))
+    islast_definition: <A HREF="../elks/linked_list_flat.html#f_islast">islast</A> = ((<B>not</B> <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>) <B>and</B> (<A HREF="../elks/linked_list_flat.html#f_index">index</A> = <A HREF="../elks/linked_list_flat.html#f_count">count</A>))
+    item_corresponds_to_index: (<B>not</B> <A HREF="../elks/linked_list_flat.html#f_off">off</A>) <B>implies</B> (<A HREF="../elks/linked_list_flat.html#f_item">item</A> = <A HREF="../elks/chain_flat.html#f_i_th">i_th</A> (<A HREF="../elks/linked_list_flat.html#f_index">index</A>))
+    index_set_has_same_count: <A HREF="../elks/chain_flat.html#f_index_set">index_set</A>.<A HREF="../elks/integer_interval_flat.html#f_count">count</A> = <A HREF="../elks/linked_list_flat.html#f_count">count</A>
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/active_flat.html">ACTIVE</A>
+    writable_constraint: <A HREF="../elks/sequence_flat.html#f_writable">writable</A> <B>implies</B> <A HREF="../elks/linked_list_flat.html#f_readable">readable</A>
+    empty_constraint: <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>implies</B> (<B>not</B> <A HREF="../elks/linked_list_flat.html#f_readable">readable</A>) <B>and</B> (<B>not</B> <A HREF="../elks/sequence_flat.html#f_writable">writable</A>)
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+    reflexive_equality: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+    reflexive_conformance: <A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>Current</B>)
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/bilinear_flat.html">BILINEAR</A>
+    not_both: <B>not</B> (<A HREF="../elks/linked_list_flat.html#f_after">after</A> <B>and</B> <A HREF="../elks/linked_list_flat.html#f_before">before</A>)
+    before_constraint: <A HREF="../elks/linked_list_flat.html#f_before">before</A> <B>implies</B> <A HREF="../elks/linked_list_flat.html#f_off">off</A>
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/linear_flat.html">LINEAR</A>
+    after_constraint: <A HREF="../elks/linked_list_flat.html#f_after">after</A> <B>implies</B> <A HREF="../elks/linked_list_flat.html#f_off">off</A>
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/traversable_flat.html">TRAVERSABLE</A>
+    empty_constraint: <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>implies</B> <A HREF="../elks/linked_list_flat.html#f_off">off</A>
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/finite_flat.html">FINITE</A>
+    empty_definition: <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> = (<A HREF="../elks/linked_list_flat.html#f_count">count</A> = 0)
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/linked_list_flat.html">LINKED_LIST</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="linked_list_chart.html">Chart</A></TD><TD><A HREF="linked_list_links.html">Relations</A></TD><TD><A HREF="linked_list.html">Text</A></TD><TD>Flat</TD><TD><A HREF="linked_list_short.html">Contracts</A></TD><TD><A HREF="linked_list_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

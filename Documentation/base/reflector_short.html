@@ -1,0 +1,261 @@
+<HTML><HEAD>
+<meta name="description" content="Access to internal object properties. This class may be used as ancestor by classes needing its facilities."/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>reflector Contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="reflector_chart.html">Chart</A></TD><TD><A HREF="reflector_links.html">Relations</A></TD><TD><A HREF="reflector.html">Text</A></TD><TD><A HREF="reflector_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="reflector_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Access to internal object properties.
+        This class may be used as ancestor by classes needing its facilities.
+    ]"
+    library: "Free implementation of ELKS library"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2013-09-06 21:45:47 -0700 (Fri, 06 Sep 2013) $"
+    revision: "$Revision: 92917 $"
+
+<B>class</B> <B>interface</B>
+    <A HREF="../elks/reflector_short.html">REFLECTOR</A>
+
+<B>create</B> 
+    <A HREF="../elks/any_short.html#f_default_create">default_create</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Conformance</FONT>
+
+    <A NAME="f_type_conforms_to"><A HREF="../elks/reflector_short.html#f_type_conforms_to">type_conforms_to</A> (type1, type2: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`type1'<FONT COLOR="red"> conform to </FONT>`type2'<FONT COLOR="red">?</FONT>
+        <B>require</B>
+            type1_nonnegative: type1 &gt;= 0
+            type2_nonnegative: type2 &gt;= 0
+</A>
+    <A NAME="f_field_conforms_to"><A HREF="../elks/reflector_short.html#f_field_conforms_to">field_conforms_to</A> (a_source_type, a_field_type: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`a_source_type'<FONT COLOR="red"> conform to </FONT>`a_field_type'<FONT COLOR="red">?</FONT>
+        <B>require</B>
+            a_source_type_non_negative: a_source_type &gt;= 0
+            a_field_type_non_negative: a_field_type &gt;= 0
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Creation</FONT>
+
+    <A NAME="f_dynamic_type_from_string"><A HREF="../elks/reflector_short.html#f_dynamic_type_from_string">dynamic_type_from_string</A> (class_type: <A HREF="../elks/readable_string_general_short.html">READABLE_STRING_GENERAL</A>): <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Dynamic type corresponding to </FONT>`class_type'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If no dynamic type available, returns -1.</FONT>
+        <B>require</B>
+            class_type_not_void: class_type /= <B>Void</B>
+            class_type_not_empty: <B>not</B> class_type.<A HREF="../elks/readable_string_general_short.html#f_is_empty">is_empty</A>
+            is_valid_type_string: <A HREF="../elks/reflector_helper_short.html#f_is_valid_type_string">is_valid_type_string</A> (class_type)
+        <B>ensure</B>
+            dynamic_type_from_string_valid: <B>Result</B> = -1 <B>or</B> <B>Result</B> = <A HREF="../elks/reflector_constants_short.html#f_none_type">None_type</A> <B>or</B> <B>Result</B> &gt;= 0
+</A>
+    <A NAME="f_new_instance_of"><A HREF="../elks/reflector_short.html#f_new_instance_of">new_instance_of</A> (type_id: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/any_short.html">ANY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New instance of dynamic </FONT>`type_id'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note: returned object is not initialized and may</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> hence violate its invariant.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`type_id'<FONT COLOR="red"> cannot represent a SPECIAL type, use</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/reflector_short.html#f_new_special_any_instance">new_special_any_instance</A><FONT COLOR="red"> instead.</FONT>
+        <B>require</B>
+            type_id_nonnegative: type_id &gt;= 0
+            not_special_type: <B>not</B> <A HREF="../elks/reflector_short.html#f_is_special_type">is_special_type</A> (type_id)
+        <B>ensure</B>
+            not_special_type: <B>not</B> <B>attached</B> {<A HREF="../elks/special_short.html">SPECIAL</A> [<B>detachable</B> <A HREF="../elks/any_short.html">ANY</A>]} <B>Result</B>
+            dynamic_type_set: <B>Result</B>.<A HREF="../elks/any_short.html#f_generating_type">generating_type</A>.<A HREF="../elks/type_short.html#f_type_id">type_id</A> = type_id
+</A>
+    <A NAME="f_new_special_any_instance"><A HREF="../elks/reflector_short.html#f_new_special_any_instance">new_special_any_instance</A> (type_id, count: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/special_short.html">SPECIAL</A> [<B>detachable</B> <A HREF="../elks/any_short.html">ANY</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New instance of dynamic </FONT>`type_id'<FONT COLOR="red"> that represents</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> a SPECIAL with </FONT>`count'<FONT COLOR="red"> element. To create a SPECIAL of</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> basic type, use </FONT>`SPECIAL'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            count_valid: count &gt;= 0
+            type_id_nonnegative: type_id &gt;= 0
+            special_type: <A HREF="../elks/reflector_short.html#f_is_special_any_type">is_special_any_type</A> (type_id)
+        <B>ensure</B>
+            dynamic_type_set: <B>Result</B>.<A HREF="../elks/any_short.html#f_generating_type">generating_type</A>.<A HREF="../elks/type_short.html#f_type_id">type_id</A> = type_id
+            count_set: <B>Result</B>.<A HREF="../elks/special_short.html#f_count">count</A> = 0
+            capacity_set: <B>Result</B>.<A HREF="../elks/special_short.html#f_capacity">capacity</A> = count
+</A>
+    <A NAME="f_new_tuple_from_special"><A HREF="../elks/reflector_short.html#f_new_tuple_from_special">new_tuple_from_special</A> (type_id: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; values: <A HREF="../elks/special_short.html">SPECIAL</A> [<B>detachable</B> <A HREF="../elks/any_short.html">ANY</A>]): <B>detachable</B> <A HREF="../elks/tuple_short.html">TUPLE</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New instance of a tuple of type </FONT>`type_id'<FONT COLOR="red"> filled with </FONT>`values'<FONT COLOR="red"> if all types of items are suitable.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`Void'<FONT COLOR="red"> if some items from </FONT>`values'<FONT COLOR="red"> are inappropriate for a tuple of type </FONT>`type_id'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            type_id_nonnegative: type_id &gt;= 0
+            is_tuple_type: <A HREF="../elks/reflector_short.html#f_is_tuple_type">is_tuple_type</A> (type_id)
+        <B>ensure</B>
+            dynamic_type_set: <B>attached</B> <B>Result</B> <B>implies</B> <B>Result</B>.<A HREF="../elks/any_short.html#f_generating_type">generating_type</A>.<A HREF="../elks/type_short.html#f_type_id">type_id</A> = type_id
+            values_set: <B>attached</B> <B>Result</B> <B>implies</B> <B>across</B>
+                1 |..| <B>Result</B>.<A HREF="../elks/tuple_short.html#f_count">count</A> <B>as</B> k
+            <B>all</B>
+                <B>Result</B>.<A HREF="../elks/tuple_short.html#f_item">item</A> (k.<A HREF="../elks/indexable_iteration_cursor_short.html#f_item">item</A>) = values [k.<A HREF="../elks/indexable_iteration_cursor_short.html#f_item">item</A> - 1]
+            <B>end</B>
+</A>
+    <A NAME="f_new_tuple_from_tuple"><A HREF="../elks/reflector_short.html#f_new_tuple_from_tuple">new_tuple_from_tuple</A> (type_id: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; source: <A HREF="../elks/tuple_short.html">TUPLE</A>): <B>detachable</B> <A HREF="../elks/tuple_short.html">TUPLE</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New instance of a tuple of type </FONT>`type_id'<FONT COLOR="red"> filled with values fom </FONT>`source'<FONT COLOR="red"> if all value types are suitable.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`Void'<FONT COLOR="red"> if some values from </FONT>`source'<FONT COLOR="red"> are inappropriate for a tuple of type </FONT>`type_id'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            type_id_nonnegative: type_id &gt;= 0
+            is_tuple_type: <A HREF="../elks/reflector_short.html#f_is_tuple_type">is_tuple_type</A> (type_id)
+        <B>ensure</B>
+            dynamic_type_set: <B>attached</B> <B>Result</B> <B>implies</B> <B>Result</B>.<A HREF="../elks/any_short.html#f_generating_type">generating_type</A>.<A HREF="../elks/type_short.html#f_type_id">type_id</A> = type_id
+            object_comparison_set: <B>attached</B> <B>Result</B> <B>implies</B> <B>Result</B>.<A HREF="../elks/tuple_short.html#f_object_comparison">object_comparison</A> = source.<A HREF="../elks/tuple_short.html#f_object_comparison">object_comparison</A>
+            values_set: <B>attached</B> <B>Result</B> <B>implies</B> <B>across</B>
+                1 |..| <B>Result</B>.<A HREF="../elks/tuple_short.html#f_count">count</A> <B>as</B> k
+            <B>all</B>
+                <B>Result</B>.<A HREF="../elks/tuple_short.html#f_item">item</A> (k.<A HREF="../elks/indexable_iteration_cursor_short.html#f_item">item</A>) = source [k.<A HREF="../elks/indexable_iteration_cursor_short.html#f_item">item</A>]
+            <B>end</B>
+</A>
+    <A NAME="f_type_of_type"><A HREF="../elks/reflector_short.html#f_type_of_type">type_of_type</A> (type_id: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/type_short.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/any_short.html">ANY</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Associated TYPE instance for an object of type id </FONT>`type_id'
+        <B>require</B>
+            type_id_nonnegative: type_id &gt;= 0
+        <B>ensure</B>
+            result_not_void: <B>Result</B> /= <B>Void</B>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_is_special_any_type"><A HREF="../elks/reflector_short.html#f_is_special_any_type">is_special_any_type</A> (type_id: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is type represented by </FONT>`type_id'<FONT COLOR="red"> represent</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> a SPECIAL </FONT><FONT COLOR="red">[XX]</FONT><FONT COLOR="red"> where XX is a reference type.</FONT>
+        <B>require</B>
+            type_id_nonnegative: type_id &gt;= 0
+</A>
+    <A NAME="f_is_special_type"><A HREF="../elks/reflector_short.html#f_is_special_type">is_special_type</A> (type_id: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is type represented by </FONT>`type_id'<FONT COLOR="red"> represent</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> a SPECIAL </FONT><FONT COLOR="red">[XX]</FONT><FONT COLOR="red"> where XX is a reference type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or a basic type.</FONT>
+        <B>require</B>
+            type_id_nonnegative: type_id &gt;= 0
+</A>
+    <A NAME="f_is_tuple_type"><A HREF="../elks/reflector_short.html#f_is_tuple_type">is_tuple_type</A> (type_id: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is type represented by </FONT>`type_id'<FONT COLOR="red"> represent a TUPLE?</FONT>
+        <B>require</B>
+            type_id_nonnegative: type_id &gt;= 0
+</A>
+    <A NAME="f_is_attached_type"><A HREF="../elks/reflector_short.html#f_is_attached_type">is_attached_type</A> (a_type_id: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`a_type_id'<FONT COLOR="red"> an attached type?</FONT>
+        <B>require</B>
+            a_type_non_negative: a_type_id &gt;= 0
+</A>
+    <A NAME="f_is_field_transient_of_type"><A HREF="../elks/reflector_short.html#f_is_field_transient_of_type">is_field_transient_of_type</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; a_type_id: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`i'<FONT COLOR="red">-th field of </FONT>`object'<FONT COLOR="red"> a transient attribute?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> I.e. an attribute that does not need to be stored?</FONT>
+        <B>require</B>
+            a_type_non_negative: a_type_id &gt;= 0
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflector_short.html#f_field_count_of_type">field_count_of_type</A> (a_type_id)
+</A>
+    <A NAME="f_is_field_expanded_of_type"><A HREF="../elks/reflector_short.html#f_is_field_expanded_of_type">is_field_expanded_of_type</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; a_type_id: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`i'<FONT COLOR="red">-th field of type </FONT>`a_type_id'<FONT COLOR="red"> a user-defined expanded attribute?</FONT>
+        <B>require</B>
+            a_type_non_negative: a_type_id &gt;= 0
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflector_short.html#f_field_count_of_type">field_count_of_type</A> (a_type_id)
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_class_name_of_type"><A HREF="../elks/reflector_short.html#f_class_name_of_type">class_name_of_type</A> (type_id: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/string_8_short.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of class associated with dynamic type </FONT>`type_id'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            type_id_nonnegative: type_id &gt;= 0
+</A>
+    <A NAME="f_type_name_of_type"><A HREF="../elks/reflector_short.html#f_type_name_of_type">type_name_of_type</A> (type_id: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/string_8_short.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of </FONT>`type_id'<FONT COLOR="red">'s generating type (type of which </FONT>`type_id'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> is a direct instance).</FONT>
+        <B>require</B>
+            type_id_nonnegative: type_id &gt;= 0
+</A>
+    <A NAME="f_attached_type"><A HREF="../elks/reflector_short.html#f_attached_type">attached_type</A> (type_id: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attached version of </FONT>`type_id'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            type_id_nonnegative: type_id &gt;= 0
+        <B>ensure</B>
+            unchanged_if_attached: <A HREF="../elks/reflector_short.html#f_is_attached_type">is_attached_type</A> (type_id) <B>implies</B> type_id = <B>Result</B>
+</A>
+    <A NAME="f_detachable_type"><A HREF="../elks/reflector_short.html#f_detachable_type">detachable_type</A> (type_id: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Detachable version of </FONT>`type_id'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            type_id_nonnegative: type_id &gt;= 0
+        <B>ensure</B>
+            unchanged_if_detachable: <B>not</B> <A HREF="../elks/reflector_short.html#f_is_attached_type">is_attached_type</A> (type_id) <B>implies</B> type_id = <B>Result</B>
+</A>
+    <A NAME="f_generic_count_of_type"><A HREF="../elks/reflector_short.html#f_generic_count_of_type">generic_count_of_type</A> (type_id: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of generic parameter in </FONT>`type_id'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            type_id_nonnegative: type_id &gt;= 0
+</A>
+    <A NAME="f_generic_dynamic_type_of_type"><A HREF="../elks/reflector_short.html#f_generic_dynamic_type_of_type">generic_dynamic_type_of_type</A> (type_id: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Dynamic type of generic parameter of </FONT>`type_id'<FONT COLOR="red"> at position </FONT>`i'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            type_id_nonnegative: type_id &gt;= 0
+            type_id_generic: <A HREF="../elks/reflector_short.html#f_generic_count_of_type">generic_count_of_type</A> (type_id) &gt; 0
+            i_valid: i &gt; 0 <B>and</B> i &lt;= <A HREF="../elks/reflector_short.html#f_generic_count_of_type">generic_count_of_type</A> (type_id)
+        <B>ensure</B>
+            dynamic_type_nonnegative: <B>Result</B> &gt;= 0
+</A>
+    <A NAME="f_storable_version_of_type"><A HREF="../elks/reflector_short.html#f_storable_version_of_type">storable_version_of_type</A> (a_type_id: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <B>detachable</B> <A HREF="../elks/immutable_string_8_short.html">IMMUTABLE_STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Storable version if any specified.</FONT>
+        <B>require</B>
+            a_type_id_nonnegative: a_type_id &gt;= 0
+</A>
+    <A NAME="f_field_name_of_type"><A HREF="../elks/reflector_short.html#f_field_name_of_type">field_name_of_type</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; type_id: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/string_8_short.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of </FONT>`i'<FONT COLOR="red">-th field of dynamic type </FONT>`type_id'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            type_id_nonnegative: type_id &gt;= 0
+            index_large_enough: i &gt;= 1
+            index_small_enought: i &lt;= <A HREF="../elks/reflector_short.html#f_field_count_of_type">field_count_of_type</A> (type_id)
+</A>
+    <A NAME="f_field_type_of_type"><A HREF="../elks/reflector_short.html#f_field_type_of_type">field_type_of_type</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; type_id: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Abstract type of </FONT>`i'<FONT COLOR="red">-th field of dynamic type </FONT>`type_id'
+        <B>require</B>
+            type_id_nonnegative: type_id &gt;= 0
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflector_short.html#f_field_count_of_type">field_count_of_type</A> (type_id)
+        <B>ensure</B>
+            field_type_nonnegative: <B>Result</B> &gt;= 0
+</A>
+    <A NAME="f_field_static_type_of_type"><A HREF="../elks/reflector_short.html#f_field_static_type_of_type">field_static_type_of_type</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; type_id: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Static type of declared </FONT>`i'<FONT COLOR="red">-th field of dynamic type </FONT>`type_id'
+        <B>require</B>
+            type_id_nonnegative: type_id &gt;= 0
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflector_short.html#f_field_count_of_type">field_count_of_type</A> (type_id)
+        <B>ensure</B>
+            field_type_nonnegative: <B>Result</B> &gt;= 0
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Version</FONT>
+
+    <A NAME="f_compiler_version"><A HREF="../elks/reflector_short.html#f_compiler_version">compiler_version</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_field_count_of_type"><A HREF="../elks/reflector_short.html#f_field_count_of_type">field_count_of_type</A> (type_id: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of logical fields in dynamic type </FONT>`type_id'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            type_id_nonnegative: type_id &gt;= 0
+</A>
+    <A NAME="f_persistent_field_count_of_type"><A HREF="../elks/reflector_short.html#f_persistent_field_count_of_type">persistent_field_count_of_type</A> (a_type_id: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of logical fields in dynamic type </FONT>`type_id'<FONT COLOR="red"> that are not transient.</FONT>
+        <B>require</B>
+            a_type_non_negative: a_type_id &gt;= 0
+</A>    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/reflector_short.html">REFLECTOR</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="reflector_chart.html">Chart</A></TD><TD><A HREF="reflector_links.html">Relations</A></TD><TD><A HREF="reflector.html">Text</A></TD><TD><A HREF="reflector_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="reflector_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

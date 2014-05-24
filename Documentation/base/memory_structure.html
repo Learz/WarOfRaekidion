@@ -1,0 +1,115 @@
+<HTML><HEAD>
+<meta name="description" content="Representation of a memory structure."/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>memory_structure Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="memory_structure_chart.html">Chart</A></TD><TD><A HREF="memory_structure_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="memory_structure_flat.html">Flat</A></TD><TD><A HREF="memory_structure_short.html">Contracts</A></TD><TD><A HREF="memory_structure_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Representation of a memory structure."
+    library: "Free implementation of ELKS library"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2012-05-23 21:13:10 -0700 (Wed, 23 May 2012) $"
+    revision: "$Revision: 91981 $"
+
+<B>deferred</B> <B>class</B> 
+    <A HREF="../elks/memory_structure.html">MEMORY_STRUCTURE</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../elks/memory_structure.html#f_make">make</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize current with given </FONT><A HREF="../elks/memory_structure.html#f_structure_size">structure_size</A><FONT COLOR="red">.</FONT>
+        <B>local</B>
+            null: <A HREF="../elks/pointer.html">POINTER</A>
+        <B>do</B>
+            <A HREF="../elks/memory_structure.html#f_internal_item">internal_item</A> := null
+            <B>create</B> <A HREF="../elks/memory_structure.html#f_managed_pointer">managed_pointer</A>.<A HREF="../elks/managed_pointer.html#f_make">make</A> (<A HREF="../elks/memory_structure.html#f_structure_size">structure_size</A>)
+            <A HREF="../elks/memory_structure.html#f_shared">shared</A> := <B>False</B>
+        <B>ensure</B>
+            not_shared: <B>not</B> <A HREF="../elks/memory_structure.html#f_shared">shared</A>
+        <B>end</B></A>
+
+    <A NAME="f_make_by_pointer"><A HREF="../elks/memory_structure.html#f_make_by_pointer">make_by_pointer</A> (a_ptr: <A HREF="../elks/pointer.html">POINTER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize current with </FONT>`a_ptr'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_ptr_not_null: a_ptr /= <A HREF="../elks/any.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <A HREF="../elks/memory_structure.html#f_internal_item">internal_item</A> := a_ptr
+            <A HREF="../elks/memory_structure.html#f_managed_pointer">managed_pointer</A> := <B>Void</B>
+            <A HREF="../elks/memory_structure.html#f_shared">shared</A> := <B>True</B>
+        <B>ensure</B>
+            shared: <A HREF="../elks/memory_structure.html#f_shared">shared</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_shared"><A HREF="../elks/memory_structure.html#f_shared">shared</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current memory area shared with others?</FONT>
+
+    <A NAME="f_item"><A HREF="../elks/memory_structure.html#f_item">item</A>: <A HREF="../elks/pointer.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access to memory area.</FONT>
+        <B>local</B>
+            m: <B>like</B> <A HREF="../elks/memory_structure.html#f_managed_pointer">managed_pointer</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/memory_structure.html#f_shared">shared</A> <B>then</B>
+                <B>Result</B> := <A HREF="../elks/memory_structure.html#f_internal_item">internal_item</A>
+            <B>else</B>
+                m := <A HREF="../elks/memory_structure.html#f_managed_pointer">managed_pointer</A>
+                <B>if</B> m /= <B>Void</B> <B>then</B>
+                    <B>Result</B> := m.<A HREF="../elks/managed_pointer.html#f_item">item</A>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_exists"><A HREF="../elks/memory_structure.html#f_exists">exists</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is allocated memory still allocated?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/memory_structure.html#f_item">item</A> /= <A HREF="../elks/any.html#f_default_pointer">default_pointer</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_structure_size"><A HREF="../elks/memory_structure.html#f_structure_size">structure_size</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Size to allocate (in bytes)</FONT>
+        <B>deferred</B>
+        <B>ensure</B>
+            positive_result: <B>Result</B> &gt; 0
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_internal_item"><A HREF="../elks/memory_structure.html#f_internal_item">internal_item</A>: <A HREF="../elks/pointer.html">POINTER</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Pointer holding value when shared.</FONT>
+
+    <A NAME="f_managed_pointer"><A HREF="../elks/memory_structure.html#f_managed_pointer">managed_pointer</A>: <B>detachable</B> <A HREF="../elks/managed_pointer.html">MANAGED_POINTER</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Hold memory area in a managed way.</FONT>
+    
+<B>invariant</B>
+    managed_pointer_valid: <B>not</B> <A HREF="../elks/memory_structure.html#f_shared">shared</A> <B>implies</B> <A HREF="../elks/memory_structure.html#f_managed_pointer">managed_pointer</A> /= <B>Void</B>
+    internal_item_valid: <A HREF="../elks/memory_structure.html#f_shared">shared</A> <B>implies</B> <A HREF="../elks/memory_structure.html#f_internal_item">internal_item</A> /= <A HREF="../elks/any.html#f_default_pointer">default_pointer</A>
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/memory_structure.html">MEMORY_STRUCTURE</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="memory_structure_chart.html">Chart</A></TD><TD><A HREF="memory_structure_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="memory_structure_flat.html">Flat</A></TD><TD><A HREF="memory_structure_short.html">Contracts</A></TD><TD><A HREF="memory_structure_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

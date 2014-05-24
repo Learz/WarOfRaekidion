@@ -1,12 +1,12 @@
 note
 	description : "[
-						War of Raekidion - A 2D texturable surface
-						A {SURFACE} is a simple rectangle and texture 
-						definition for a sprite or any other rendered image.
-					]"
+					War of Raekidion - A 2D texturable surface
+					A {SURFACE} is a simple rectangle and texture 
+					definition for a sprite or any other rendered image.
+				]"
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
-	date		: "$Date$"
-	revision	: "$Revision$"
+	date		: "$Date: May 23 2014$"
+	revision	: "$Revision: 1$"
 
 deferred class
 	SURFACE
@@ -111,5 +111,13 @@ feature {NONE} -- Implementation
 		-- Free memory
 		deferred
 		end
+
+note
+	copyright: "[
+				War of Raekidion
+				Copyright (C) 2014 François Allard <binarmorker@gmail.com>
+             		   		   and Marc-Antoine Renaud <legars123456@gmail.com>
+               ]"
+	license:   "GNU General Public License, <http://www.gnu.org/licenses/>"
 
 end

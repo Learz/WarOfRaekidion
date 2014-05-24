@@ -1,0 +1,76 @@
+<HTML><HEAD>
+<meta name="description" content="Class defining thread attributes."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2010, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>thread_attributes Contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="thread_attributes_chart.html">Chart</A></TD><TD><A HREF="thread_attributes_links.html">Relations</A></TD><TD><A HREF="thread_attributes.html">Text</A></TD><TD><A HREF="thread_attributes_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="thread_attributes_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Class defining thread attributes."
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2010-01-27 12:14:26 -0800 (Wed, 27 Jan 2010) $"
+    revision: "$Revision: 82180 $"
+
+<B>class</B> <B>interface</B>
+    <A HREF="../thread/thread_attributes_short.html">THREAD_ATTRIBUTES</A>
+
+<B>create</B> 
+    <A HREF="../thread/thread_attributes_short.html#f_make">make</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attribute change</FONT>
+
+    <A NAME="f_set_priority"><A HREF="../thread/thread_attributes_short.html#f_set_priority">set_priority</A> (prio: <B>like</B> <A HREF="../thread/thread_attributes_short.html#f_priority">priority</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set thread priority to </FONT>`prio'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            valid_priority: (prio &gt;= <A HREF="../thread/thread_attributes_short.html#f_min_priority">min_priority</A>) <B>and</B> (prio &lt;= <A HREF="../thread/thread_attributes_short.html#f_max_priority">max_priority</A>)
+        <B>ensure</B>
+            priority_set: <A HREF="../thread/thread_attributes_short.html#f_priority">priority</A> = prio
+</A>
+    <A NAME="f_set_stack_size"><A HREF="../thread/thread_attributes_short.html#f_set_stack_size">set_stack_size</A> (s: <B>like</B> <A HREF="../thread/thread_attributes_short.html#f_stack_size">stack_size</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../thread/thread_attributes_short.html#f_stack_size">stack_size</A><FONT COLOR="red"> to </FONT>`s'<FONT COLOR="red">.</FONT>
+        <B>ensure</B>
+            stack_size_set: <A HREF="../thread/thread_attributes_short.html#f_stack_size">stack_size</A> = s
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_priority"><A HREF="../thread/thread_attributes_short.html#f_priority">priority</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Current thread priority</FONT>
+</A>
+    <A NAME="f_stack_size"><A HREF="../thread/thread_attributes_short.html#f_stack_size">stack_size</A>: <A HREF="../elks/natural_64_short.html">NATURAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Size of the call stack reserved for launching the thread. If </FONT>`0'<FONT COLOR="red"> the default size for</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> the current platform.</FONT>
+</A>
+    <A NAME="f_default_priority"><A HREF="../thread/thread_attributes_short.html#f_default_priority">default_priority</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Get default thread priority for the current architecture.</FONT>
+</A>
+    <A NAME="f_min_priority"><A HREF="../thread/thread_attributes_short.html#f_min_priority">min_priority</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Get minimum thread priority for the current architecture.</FONT>
+</A>
+    <A NAME="f_max_priority"><A HREF="../thread/thread_attributes_short.html#f_max_priority">max_priority</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Get maximum thread priority for the current architecture.</FONT>
+</A>    
+<B>invariant</B>
+    priority_bounded: <A HREF="../thread/thread_attributes_short.html#f_min_priority">min_priority</A> &lt;= <A HREF="../thread/thread_attributes_short.html#f_priority">priority</A> <B>and</B> <A HREF="../thread/thread_attributes_short.html#f_priority">priority</A> &lt;= <A HREF="../thread/thread_attributes_short.html#f_max_priority">max_priority</A>
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2010, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../thread/thread_attributes_short.html">THREAD_ATTRIBUTES</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="thread_attributes_chart.html">Chart</A></TD><TD><A HREF="thread_attributes_links.html">Relations</A></TD><TD><A HREF="thread_attributes.html">Text</A></TD><TD><A HREF="thread_attributes_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="thread_attributes_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

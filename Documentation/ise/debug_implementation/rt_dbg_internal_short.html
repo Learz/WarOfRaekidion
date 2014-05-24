@@ -1,0 +1,159 @@
+<HTML><HEAD>
+<meta name="description" content="Internal routine for RT_DBG_ classes"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="library" content="EiffelBase: Library of reusable components for Eiffel."/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>rt_dbg_internal Contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="rt_dbg_internal_chart.html">Chart</A></TD><TD><A HREF="rt_dbg_internal_links.html">Relations</A></TD><TD><A HREF="rt_dbg_internal.html">Text</A></TD><TD><A HREF="rt_dbg_internal_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="rt_dbg_internal_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Internal routine for RT_DBG_ classes"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2013-04-08 17:12:32 -0700 (Mon, 08 Apr 2013) $"
+    revision: "$Revision: 92422 $"
+
+<B>deferred</B> <B>class</B> <B>interface</B>
+    <A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html">RT_DBG_INTERNAL</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Object access</FONT>
+
+    <A NAME="f_object_field_count"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_object_field_count">object_field_count</A> (obj: <A HREF="../../elks/any_short.html">ANY</A>): <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Field_count on </FONT>`obj'
+        <B>require</B>
+            obj_attached: obj /= <B>Void</B>
+</A>
+    <A NAME="f_object_records"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_object_records">object_records</A> (obj: <A HREF="../../elks/any_short.html">ANY</A>): <B>detachable</B> <A HREF="../../elks/arrayed_list_short.html">ARRAYED_LIST</A> [<A HREF="../../ise/debug_implementation/rt_dbg_value_record_short.html">RT_DBG_VALUE_RECORD</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> List of field records on </FONT>`obj'
+        <B>require</B>
+            obj_attached: obj /= <B>Void</B>
+</A>
+    <A NAME="f_object_is_expanded"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_object_is_expanded">object_is_expanded</A> (object: <A HREF="../../elks/any_short.html">ANY</A>): <A HREF="../../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`object'<FONT COLOR="red"> an expanded value ?</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+</A>
+    <A NAME="f_field_index_at"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_field_index_at">field_index_at</A> (off: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; obj: <A HREF="../../elks/any_short.html">ANY</A>): <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Field name at offset </FONT>`off'<FONT COLOR="red"> on </FONT>`obj'
+        <B>require</B>
+            obj /= <B>Void</B>
+</A>
+    <A NAME="f_field_name_at"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_field_name_at">field_name_at</A> (off: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; obj: <A HREF="../../elks/any_short.html">ANY</A>): <B>detachable</B> <A HREF="../../elks/string_8_short.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Field name at offset </FONT>`off'<FONT COLOR="red"> on </FONT>`obj'
+        <B>require</B>
+            obj /= <B>Void</B>
+</A>
+    <A NAME="f_field_at"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_field_at">field_at</A> (off: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_field_type: <A HREF="../../elks/natural_32_short.html">NATURAL_32</A>; object: <A HREF="../../elks/any_short.html">ANY</A>): <B>detachable</B> <A HREF="../../elks/any_short.html">ANY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Object attached at offset </FONT>`off'<FONT COLOR="red"> field of </FONT>`object'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (directly or through a reference)</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: off &gt;= 1
+</A>
+    <A NAME="f_stack_value_at"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_stack_value_at">stack_value_at</A> (dep: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_rt_type: <A HREF="../../elks/natural_32_short.html">NATURAL_32</A>): <B>detachable</B> <A HREF="../../elks/any_short.html">ANY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Object attached at offset </FONT>`off'<FONT COLOR="red"> field of </FONT>`object'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (directly or through a reference)</FONT>
+        <B>require</B>
+            index_large_enough: pos &gt;= 1
+</A>
+    <A NAME="f_eif_type"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_eif_type">eif_type</A> (a_field_type: <A HREF="../../elks/natural_32_short.html">NATURAL_32</A>): <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> EIF_ type from field type </FONT>`a_field_type'
+</A>
+    <A NAME="f_rt_dynamic_type"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_rt_dynamic_type">rt_dynamic_type</A> (object: <A HREF="../../elks/any_short.html">ANY</A>): <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Dynamic type of </FONT>`object'
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+        <B>ensure</B>
+            rt_dynamic_type_nonnegative: <B>Result</B> &gt;= 0
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Change field</FONT>
+
+    <A NAME="f_set_field_at"><A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_set_field_at">set_field_at</A> (off: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_type: <A HREF="../../elks/natural_32_short.html">NATURAL_32</A>; value: <B>detachable</B> <A HREF="../../elks/any_short.html">ANY</A>; object: <A HREF="../../elks/any_short.html">ANY</A>)
+        <B>require</B>
+            object_attached: object /= <B>Void</B>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access local</FONT>
+
+    <A NAME="f_c_stack_value_at"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_c_stack_value_at">c_stack_value_at</A> (dep: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_rt_type: <A HREF="../../elks/natural_32_short.html">NATURAL_32</A>): <B>detachable</B> <A HREF="../../elks/any_short.html">ANY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Object value referenced at </FONT>`off'<FONT COLOR="red"> offset of </FONT>`object'
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Change local</FONT>
+
+    <A NAME="f_rt_dlt_argument"><A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_rt_dlt_argument">Rt_dlt_argument</A>: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A> = 0</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> DLT=DebugLocalType, the type is an argument of a function</FONT>
+
+    <A NAME="f_rt_dlt_localvar"><A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_rt_dlt_localvar">Rt_dlt_localvar</A>: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A> = 1</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> DLT=DebugLocalType, the type is a local variable inside a function</FONT>
+
+    <A NAME="f_rt_dlt_result"><A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_rt_dlt_result">Rt_dlt_result</A>: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A> = 2</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> DLT=DebugLocalType, the type is the Result of the current feature</FONT>
+
+    <A NAME="f_set_stack_value_at"><A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_set_stack_value_at">set_stack_value_at</A> (dep: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_rt_type: <A HREF="../../elks/natural_32_short.html">NATURAL_32</A>; value: <B>detachable</B> <A HREF="../../elks/any_short.html">ANY</A>): <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set stack value at position </FONT>`pos'<FONT COLOR="red"> on stack of depth </FONT>`dep'<FONT COLOR="red"> with </FONT>`value'
+        <B>require</B>
+            a_loc_type_valid: a_loc_type = <A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_rt_dlt_localvar">Rt_dlt_localvar</A> <B>or</B> a_loc_type = <A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_rt_dlt_argument">Rt_dlt_argument</A> <B>or</B> a_loc_type = <A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_rt_dlt_result">Rt_dlt_result</A>
+</A>
+    <A NAME="f_c_set_boolean_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_c_set_boolean_stack_value">c_set_boolean_stack_value</A> (dep: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_bool: <A HREF="../../elks/boolean_short.html">BOOLEAN</A>): <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>
+</A>
+    <A NAME="f_c_set_character_8_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_c_set_character_8_stack_value">c_set_character_8_stack_value</A> (dep: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_ch8: <A HREF="../../elks/character_8_short.html">CHARACTER_8</A>): <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>
+</A>
+    <A NAME="f_c_set_character_32_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_c_set_character_32_stack_value">c_set_character_32_stack_value</A> (dep: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_ch32: <A HREF="../../elks/character_32_short.html">CHARACTER_32</A>): <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>
+</A>
+    <A NAME="f_c_set_natural_8_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_c_set_natural_8_stack_value">c_set_natural_8_stack_value</A> (dep: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_n8: <A HREF="../../elks/natural_8_short.html">NATURAL_8</A>): <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>
+</A>
+    <A NAME="f_c_set_natural_16_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_c_set_natural_16_stack_value">c_set_natural_16_stack_value</A> (dep: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_n16: <A HREF="../../elks/natural_16_short.html">NATURAL_16</A>): <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>
+</A>
+    <A NAME="f_c_set_natural_32_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_c_set_natural_32_stack_value">c_set_natural_32_stack_value</A> (dep: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_n32: <A HREF="../../elks/natural_32_short.html">NATURAL_32</A>): <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>
+</A>
+    <A NAME="f_c_set_natural_64_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_c_set_natural_64_stack_value">c_set_natural_64_stack_value</A> (dep: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_n64: <A HREF="../../elks/natural_64_short.html">NATURAL_64</A>): <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>
+</A>
+    <A NAME="f_c_set_integer_8_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_c_set_integer_8_stack_value">c_set_integer_8_stack_value</A> (dep: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_i8: <A HREF="../../elks/integer_8_short.html">INTEGER_8</A>): <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>
+</A>
+    <A NAME="f_c_set_integer_16_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_c_set_integer_16_stack_value">c_set_integer_16_stack_value</A> (dep: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_i16: <A HREF="../../elks/integer_16_short.html">INTEGER_16</A>): <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>
+</A>
+    <A NAME="f_c_set_integer_32_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_c_set_integer_32_stack_value">c_set_integer_32_stack_value</A> (dep: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_i32: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>
+</A>
+    <A NAME="f_c_set_integer_64_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_c_set_integer_64_stack_value">c_set_integer_64_stack_value</A> (dep: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_i64: <A HREF="../../elks/integer_64_short.html">INTEGER_64</A>): <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>
+</A>
+    <A NAME="f_c_set_real_32_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_c_set_real_32_stack_value">c_set_real_32_stack_value</A> (dep: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_i32: <A HREF="../../elks/real_32_short.html">REAL_32</A>): <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>
+</A>
+    <A NAME="f_c_set_real_64_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_c_set_real_64_stack_value">c_set_real_64_stack_value</A> (dep: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_i64: <A HREF="../../elks/real_64_short.html">REAL_64</A>): <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>
+</A>
+    <A NAME="f_c_set_pointer_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_c_set_pointer_stack_value">c_set_pointer_stack_value</A> (dep: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_p: <A HREF="../../elks/pointer_short.html">POINTER</A>): <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>
+</A>
+    <A NAME="f_c_set_reference_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_c_set_reference_stack_value">c_set_reference_stack_value</A> (dep: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_ref: <A HREF="../../elks/pointer_short.html">POINTER</A>): <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>
+        <B>require</B>
+            a_ref_not_null: a_ref /= <A HREF="../../elks/any_short.html#f_default_pointer">default_pointer</A>
+</A>
+    <A NAME="f_c_set_void_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_c_set_void_stack_value">c_set_void_stack_value</A> (dep: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Testing</FONT>
+
+    <A NAME="f_c_rt_set_is_inside_rt_eiffel_code"><A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_c_rt_set_is_inside_rt_eiffel_code">c_rt_set_is_inside_rt_eiffel_code</A> (v: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>)
+</A>
+    <A NAME="f_test_locals"><A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_test_locals">test_locals</A> (dep: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; loc_pos: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; val: <A HREF="../../elks/any_short.html">ANY</A>; a_rt_type: <A HREF="../../elks/natural_32_short.html">NATURAL_32</A>)
+</A>
+    <A NAME="f_test_set_local"><A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html#f_test_set_local">test_set_local</A> (dep: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; loc_pos: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>; val: <A HREF="../../elks/any_short.html">ANY</A>; a_rt_type: <A HREF="../../elks/natural_32_short.html">NATURAL_32</A>)
+</A>    
+<B>note</B>
+    library: "EiffelBase: Library of reusable components for Eiffel."
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../../ise/debug_implementation/rt_dbg_internal_short.html">RT_DBG_INTERNAL</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="rt_dbg_internal_chart.html">Chart</A></TD><TD><A HREF="rt_dbg_internal_links.html">Relations</A></TD><TD><A HREF="rt_dbg_internal.html">Text</A></TD><TD><A HREF="rt_dbg_internal_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="rt_dbg_internal_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

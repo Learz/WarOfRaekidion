@@ -1,12 +1,12 @@
 note
 	description : "[
-						War of Raekidion - The options screen
-						The {HIGHSCORE_SCREEN} allows to see the most recent 
-						and best scores made by you and other players.
-					]"
+					War of Raekidion - The options screen
+					The {HIGHSCORE_SCREEN} allows to see the most recent 
+					and best scores made by you and other players.
+				]"
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
-	date		: "$Date$"
-	revision	: "$Revision$"
+	date		: "$Date: May 23 2014$"
+	revision	: "$Revision: 1$"
 
 class
 	HIGHSCORE_SCREEN
@@ -147,5 +147,13 @@ feature {NONE} -- Implementation
 				must_close := true
 			end
 		end
+
+note
+	copyright: "[
+				War of Raekidion
+				Copyright (C) 2014 François Allard <binarmorker@gmail.com>
+             		   		   and Marc-Antoine Renaud <legars123456@gmail.com>
+               ]"
+	license:   "GNU General Public License, <http://www.gnu.org/licenses/>"
 
 end

@@ -1,0 +1,626 @@
+<HTML><HEAD>
+<meta name="description" content="Commonly used input and output mechanisms. This class may be used as either ancestor or supplier by classes needing its facilities."/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>std_files Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="std_files_chart.html">Chart</A></TD><TD><A HREF="std_files_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="std_files_flat.html">Flat</A></TD><TD><A HREF="std_files_short.html">Contracts</A></TD><TD><A HREF="std_files_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Commonly used input and output mechanisms.
+        This class may be used as either ancestor or supplier
+        by classes needing its facilities.
+    ]"
+    library: "Free implementation of ELKS library"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2012-05-23 21:13:10 -0700 (Wed, 23 May 2012) $"
+    revision: "$Revision: 91981 $"
+
+<B>class</B> 
+    <A HREF="../elks/std_files.html">STD_FILES</A>
+
+<B>create</B> 
+    <A HREF="../elks/any.html#f_default_create">default_create</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_input"><A HREF="../elks/std_files.html#f_input">Input</A>: <A HREF="../elks/plain_text_file.html">PLAIN_TEXT_FILE</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Standard input file</FONT>
+        <B>once</B>
+            <B>create</B> {<A HREF="../elks/console.html">CONSOLE</A>} <B>Result</B>.<A HREF="../elks/console.html#f_make_open_stdin">make_open_stdin</A> ("stdin")
+        <B>ensure</B>
+            input_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_output"><A HREF="../elks/std_files.html#f_output">Output</A>: <A HREF="../elks/plain_text_file.html">PLAIN_TEXT_FILE</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Standard output file</FONT>
+        <B>once</B>
+            <B>create</B> {<A HREF="../elks/console.html">CONSOLE</A>} <B>Result</B>.<A HREF="../elks/console.html#f_make_open_stdout">make_open_stdout</A> ("stdout")
+        <B>ensure</B>
+            output_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_error"><A HREF="../elks/std_files.html#f_error">Error</A>: <A HREF="../elks/plain_text_file.html">PLAIN_TEXT_FILE</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Standard error file</FONT>
+        <B>once</B>
+            <B>create</B> {<A HREF="../elks/console.html">CONSOLE</A>} <B>Result</B>.<A HREF="../elks/console.html#f_make_open_stderr">make_open_stderr</A> ("stderr")
+        <B>ensure</B>
+            error_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_default_output"><A HREF="../elks/std_files.html#f_default_output">default_output</A>: <B>detachable</B> <A HREF="../elks/plain_text_file.html">PLAIN_TEXT_FILE</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default output</FONT>
+
+    <A NAME="f_standard_default"><A HREF="../elks/std_files.html#f_standard_default">standard_default</A>: <A HREF="../elks/plain_text_file.html">PLAIN_TEXT_FILE</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Return the </FONT><A HREF="../elks/std_files.html#f_default_output">default_output</A><FONT COLOR="red"> or </FONT><A HREF="../elks/std_files.html#f_output">Output</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> if </FONT><A HREF="../elks/std_files.html#f_default_output">default_output</A><FONT COLOR="red"> is Void.</FONT>
+        <B>local</B>
+            r: <B>detachable</B> <A HREF="../elks/plain_text_file.html">PLAIN_TEXT_FILE</A>
+        <B>do</B>
+            r := <A HREF="../elks/std_files.html#f_default_output">default_output</A>
+            <B>if</B> r = <B>Void</B> <B>then</B>
+                r := <A HREF="../elks/std_files.html#f_output">Output</A>
+            <B>end</B>
+            <B>Result</B> := r
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_last_character"><A HREF="../elks/std_files.html#f_last_character">last_character</A>: <A HREF="../elks/character_8.html">CHARACTER_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last character read by </FONT><A HREF="../elks/std_files.html#f_read_character">read_character</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_lastchar">lastchar</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/io_medium.html#f_last_character">last_character</A>
+        <B>end</B></A>
+
+    <A NAME="f_lastchar"><A HREF="../elks/std_files.html#f_lastchar">lastchar</A>: <A HREF="../elks/character_8.html">CHARACTER_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last character read by </FONT><A HREF="../elks/std_files.html#f_read_character">read_character</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_last_character">last_character</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/io_medium.html#f_last_character">last_character</A>
+        <B>end</B></A>
+
+    <A NAME="f_last_integer"><A HREF="../elks/std_files.html#f_last_integer">last_integer</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last integer read by </FONT><A HREF="../elks/std_files.html#f_read_integer">read_integer</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_lastint">lastint</A><FONT COLOR="red"> and </FONT><A HREF="../elks/std_files.html#f_last_integer_32">last_integer_32</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/io_medium.html#f_last_integer">last_integer</A>
+        <B>end</B></A>
+
+    <A NAME="f_lastint"><A HREF="../elks/std_files.html#f_lastint">lastint</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last integer read by </FONT><A HREF="../elks/std_files.html#f_read_integer">read_integer</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_last_integer">last_integer</A><FONT COLOR="red"> and </FONT><A HREF="../elks/std_files.html#f_last_integer_32">last_integer_32</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/io_medium.html#f_last_integer">last_integer</A>
+        <B>end</B></A>
+
+    <A NAME="f_last_integer_32"><A HREF="../elks/std_files.html#f_last_integer_32">last_integer_32</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last integer read by </FONT><A HREF="../elks/std_files.html#f_read_integer">read_integer</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_last_integer">last_integer</A><FONT COLOR="red"> and </FONT><A HREF="../elks/std_files.html#f_lastint">lastint</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/io_medium.html#f_last_integer">last_integer</A>
+        <B>end</B></A>
+
+    <A NAME="f_last_integer_8"><A HREF="../elks/std_files.html#f_last_integer_8">last_integer_8</A>: <A HREF="../elks/integer_8.html">INTEGER_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last 8-bit integer read by </FONT><A HREF="../elks/std_files.html#f_read_integer_8">read_integer_8</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/io_medium.html#f_last_integer_8">last_integer_8</A>
+        <B>end</B></A>
+
+    <A NAME="f_last_integer_16"><A HREF="../elks/std_files.html#f_last_integer_16">last_integer_16</A>: <A HREF="../elks/integer_16.html">INTEGER_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last 16-bit integer read by </FONT><A HREF="../elks/std_files.html#f_read_integer_16">read_integer_16</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/io_medium.html#f_last_integer_16">last_integer_16</A>
+        <B>end</B></A>
+
+    <A NAME="f_last_integer_64"><A HREF="../elks/std_files.html#f_last_integer_64">last_integer_64</A>: <A HREF="../elks/integer_64.html">INTEGER_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last 8-bit integer read by </FONT><A HREF="../elks/std_files.html#f_read_integer_64">read_integer_64</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/io_medium.html#f_last_integer_64">last_integer_64</A>
+        <B>end</B></A>
+
+    <A NAME="f_last_natural_8"><A HREF="../elks/std_files.html#f_last_natural_8">last_natural_8</A>: <A HREF="../elks/natural_8.html">NATURAL_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last 8-bit natural read by </FONT><A HREF="../elks/std_files.html#f_read_natural_8">read_natural_8</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/io_medium.html#f_last_natural_8">last_natural_8</A>
+        <B>end</B></A>
+
+    <A NAME="f_last_natural_16"><A HREF="../elks/std_files.html#f_last_natural_16">last_natural_16</A>: <A HREF="../elks/natural_16.html">NATURAL_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last 16-bit natural read by </FONT><A HREF="../elks/std_files.html#f_read_natural_16">read_natural_16</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/io_medium.html#f_last_natural_16">last_natural_16</A>
+        <B>end</B></A>
+
+    <A NAME="f_last_natural"><A HREF="../elks/std_files.html#f_last_natural">last_natural</A>: <A HREF="../elks/natural_32.html">NATURAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last 32-bit natural read by </FONT><A HREF="../elks/std_files.html#f_read_natural_32">read_natural_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_last_natural_32">last_natural_32</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/io_medium.html#f_last_natural_32">last_natural_32</A>
+        <B>end</B></A>
+
+    <A NAME="f_last_natural_32"><A HREF="../elks/std_files.html#f_last_natural_32">last_natural_32</A>: <A HREF="../elks/natural_32.html">NATURAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last 32-bit natural read by </FONT><A HREF="../elks/std_files.html#f_read_natural_32">read_natural_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_last_natural">last_natural</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/io_medium.html#f_last_natural_32">last_natural_32</A>
+        <B>end</B></A>
+
+    <A NAME="f_last_natural_64"><A HREF="../elks/std_files.html#f_last_natural_64">last_natural_64</A>: <A HREF="../elks/natural_64.html">NATURAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last 64-bit natural read by </FONT><A HREF="../elks/std_files.html#f_read_natural_64">read_natural_64</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/io_medium.html#f_last_natural_64">last_natural_64</A>
+        <B>end</B></A>
+
+    <A NAME="f_last_real"><A HREF="../elks/std_files.html#f_last_real">last_real</A>: <A HREF="../elks/real_32.html">REAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last real read by </FONT><A HREF="../elks/std_files.html#f_read_real">read_real</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_lastreal">lastreal</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/io_medium.html#f_last_real">last_real</A>
+        <B>end</B></A>
+
+    <A NAME="f_lastreal"><A HREF="../elks/std_files.html#f_lastreal">lastreal</A>: <A HREF="../elks/real_32.html">REAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last real read by </FONT><A HREF="../elks/std_files.html#f_read_real">read_real</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_last_real">last_real</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/io_medium.html#f_last_real">last_real</A>
+        <B>end</B></A>
+
+    <A NAME="f_last_string"><A HREF="../elks/std_files.html#f_last_string">last_string</A>: <A HREF="../elks/string_8.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last string read by </FONT><A HREF="../elks/std_files.html#f_read_line">read_line</A><FONT COLOR="red">,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/std_files.html#f_read_stream">read_stream</A><FONT COLOR="red">, or </FONT><A HREF="../elks/std_files.html#f_read_word">read_word</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_laststring">laststring</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/io_medium.html#f_last_string">last_string</A>
+        <B>end</B></A>
+
+    <A NAME="f_laststring"><A HREF="../elks/std_files.html#f_laststring">laststring</A>: <A HREF="../elks/string_8.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last string read by </FONT><A HREF="../elks/std_files.html#f_read_line">read_line</A><FONT COLOR="red">,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/std_files.html#f_read_stream">read_stream</A><FONT COLOR="red">, or </FONT><A HREF="../elks/std_files.html#f_read_word">read_word</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_last_string">last_string</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/io_medium.html#f_last_string">last_string</A>
+        <B>end</B></A>
+
+    <A NAME="f_last_double"><A HREF="../elks/std_files.html#f_last_double">last_double</A>: <A HREF="../elks/real_64.html">REAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last double read by </FONT><A HREF="../elks/std_files.html#f_read_double">read_double</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_lastdouble">lastdouble</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/io_medium.html#f_last_double">last_double</A>
+        <B>end</B></A>
+
+    <A NAME="f_lastdouble"><A HREF="../elks/std_files.html#f_lastdouble">lastdouble</A>: <A HREF="../elks/real_64.html">REAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last double read by </FONT><A HREF="../elks/std_files.html#f_read_double">read_double</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_last_double">last_double</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/io_medium.html#f_last_double">last_double</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_set_error_default"><A HREF="../elks/std_files.html#f_set_error_default">set_error_default</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Use standard error as default output.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_default_output">default_output</A> := <A HREF="../elks/std_files.html#f_error">Error</A>
+        <B>end</B></A>
+
+    <A NAME="f_set_file_default"><A HREF="../elks/std_files.html#f_set_file_default">set_file_default</A> (f: <A HREF="../elks/plain_text_file.html">PLAIN_TEXT_FILE</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Use </FONT>`f'<FONT COLOR="red"> as default output.</FONT>
+        <B>require</B>
+            valid_argument: f /= <B>Void</B>
+            file_open_write: f.<A HREF="../elks/file.html#f_is_open_write">is_open_write</A>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_default_output">default_output</A> := f
+        <B>end</B></A>
+
+    <A NAME="f_set_output_default"><A HREF="../elks/std_files.html#f_set_output_default">set_output_default</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Use standard output as default output.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_default_output">default_output</A> := <A HREF="../elks/std_files.html#f_output">Output</A>
+        <B>end</B></A>
+
+    <A NAME="f_put_character"><A HREF="../elks/std_files.html#f_put_character">put_character</A> (c: <A HREF="../elks/character_8.html">CHARACTER_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`c'<FONT COLOR="red"> at end of default output.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_putchar">putchar</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_standard_default">standard_default</A>.<A HREF="../elks/file.html#f_put_character">put_character</A> (c)
+        <B>end</B></A>
+
+    <A NAME="f_putchar"><A HREF="../elks/std_files.html#f_putchar">putchar</A> (c: <A HREF="../elks/character_8.html">CHARACTER_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`c'<FONT COLOR="red"> at end of default output.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_put_character">put_character</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_standard_default">standard_default</A>.<A HREF="../elks/file.html#f_put_character">put_character</A> (c)
+        <B>end</B></A>
+
+    <A NAME="f_put_string"><A HREF="../elks/std_files.html#f_put_string">put_string</A> (s: <A HREF="../elks/string_8.html">STRING_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`s'<FONT COLOR="red"> at end of default output.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_putstring">putstring</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            string_not_void: s /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_standard_default">standard_default</A>.<A HREF="../elks/file.html#f_put_string">put_string</A> (s)
+        <B>end</B></A>
+
+    <A NAME="f_putstring"><A HREF="../elks/std_files.html#f_putstring">putstring</A> (s: <A HREF="../elks/string_8.html">STRING_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`s'<FONT COLOR="red"> at end of default output.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_put_string">put_string</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            string_not_void: s /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_standard_default">standard_default</A>.<A HREF="../elks/file.html#f_put_string">put_string</A> (s)
+        <B>end</B></A>
+
+    <A NAME="f_put_real"><A HREF="../elks/std_files.html#f_put_real">put_real</A> (r: <A HREF="../elks/real_32.html">REAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`r'<FONT COLOR="red"> at end of default output.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_putreal">putreal</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_standard_default">standard_default</A>.<A HREF="../elks/plain_text_file.html#f_put_real">put_real</A> (r)
+        <B>end</B></A>
+
+    <A NAME="f_putreal"><A HREF="../elks/std_files.html#f_putreal">putreal</A> (r: <A HREF="../elks/real_32.html">REAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`r'<FONT COLOR="red"> at end of default output.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_put_real">put_real</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_standard_default">standard_default</A>.<A HREF="../elks/plain_text_file.html#f_put_real">put_real</A> (r)
+        <B>end</B></A>
+
+    <A NAME="f_put_double"><A HREF="../elks/std_files.html#f_put_double">put_double</A> (d: <A HREF="../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`d'<FONT COLOR="red"> at end of default output.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_putdouble">putdouble</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_standard_default">standard_default</A>.<A HREF="../elks/plain_text_file.html#f_put_double">put_double</A> (d)
+        <B>end</B></A>
+
+    <A NAME="f_putdouble"><A HREF="../elks/std_files.html#f_putdouble">putdouble</A> (d: <A HREF="../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`d'<FONT COLOR="red"> at end of default output.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_put_double">put_double</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_standard_default">standard_default</A>.<A HREF="../elks/plain_text_file.html#f_put_double">put_double</A> (d)
+        <B>end</B></A>
+
+    <A NAME="f_put_integer"><A HREF="../elks/std_files.html#f_put_integer">put_integer</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> at end of default output.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_putint">putint</A><FONT COLOR="red"> and </FONT><A HREF="../elks/std_files.html#f_put_integer_32">put_integer_32</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_standard_default">standard_default</A>.<A HREF="../elks/plain_text_file.html#f_put_integer">put_integer</A> (i)
+        <B>end</B></A>
+
+    <A NAME="f_putint"><A HREF="../elks/std_files.html#f_putint">putint</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> at end of default output.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_put_integer">put_integer</A><FONT COLOR="red"> and </FONT><A HREF="../elks/std_files.html#f_put_integer_32">put_integer_32</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_standard_default">standard_default</A>.<A HREF="../elks/plain_text_file.html#f_put_integer">put_integer</A> (i)
+        <B>end</B></A>
+
+    <A NAME="f_put_integer_32"><A HREF="../elks/std_files.html#f_put_integer_32">put_integer_32</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> at end of default output.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_put_integer">put_integer</A><FONT COLOR="red"> and </FONT><A HREF="../elks/std_files.html#f_putint">putint</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_standard_default">standard_default</A>.<A HREF="../elks/plain_text_file.html#f_put_integer">put_integer</A> (i)
+        <B>end</B></A>
+
+    <A NAME="f_put_integer_8"><A HREF="../elks/std_files.html#f_put_integer_8">put_integer_8</A> (i: <A HREF="../elks/integer_8.html">INTEGER_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> at end of default output.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_standard_default">standard_default</A>.<A HREF="../elks/plain_text_file.html#f_put_integer_8">put_integer_8</A> (i)
+        <B>end</B></A>
+
+    <A NAME="f_put_integer_16"><A HREF="../elks/std_files.html#f_put_integer_16">put_integer_16</A> (i: <A HREF="../elks/integer_16.html">INTEGER_16</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> at end of default output.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_standard_default">standard_default</A>.<A HREF="../elks/plain_text_file.html#f_put_integer_16">put_integer_16</A> (i)
+        <B>end</B></A>
+
+    <A NAME="f_put_integer_64"><A HREF="../elks/std_files.html#f_put_integer_64">put_integer_64</A> (i: <A HREF="../elks/integer_64.html">INTEGER_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> at end of default output.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_standard_default">standard_default</A>.<A HREF="../elks/plain_text_file.html#f_put_integer_64">put_integer_64</A> (i)
+        <B>end</B></A>
+
+    <A NAME="f_put_natural_8"><A HREF="../elks/std_files.html#f_put_natural_8">put_natural_8</A> (i: <A HREF="../elks/natural_8.html">NATURAL_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> at end of default output.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_standard_default">standard_default</A>.<A HREF="../elks/plain_text_file.html#f_put_natural_8">put_natural_8</A> (i)
+        <B>end</B></A>
+
+    <A NAME="f_put_natural_16"><A HREF="../elks/std_files.html#f_put_natural_16">put_natural_16</A> (i: <A HREF="../elks/natural_16.html">NATURAL_16</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> at end of default output.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_standard_default">standard_default</A>.<A HREF="../elks/plain_text_file.html#f_put_natural_16">put_natural_16</A> (i)
+        <B>end</B></A>
+
+    <A NAME="f_put_natural"><A HREF="../elks/std_files.html#f_put_natural">put_natural</A> (i: <A HREF="../elks/natural_32.html">NATURAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> at end of default output.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_put_natural_32">put_natural_32</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_standard_default">standard_default</A>.<A HREF="../elks/plain_text_file.html#f_put_natural_32">put_natural_32</A> (i)
+        <B>end</B></A>
+
+    <A NAME="f_put_natural_32"><A HREF="../elks/std_files.html#f_put_natural_32">put_natural_32</A> (i: <A HREF="../elks/natural_32.html">NATURAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> at end of default output.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_put_natural">put_natural</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_standard_default">standard_default</A>.<A HREF="../elks/plain_text_file.html#f_put_natural_32">put_natural_32</A> (i)
+        <B>end</B></A>
+
+    <A NAME="f_put_natural_64"><A HREF="../elks/std_files.html#f_put_natural_64">put_natural_64</A> (i: <A HREF="../elks/natural_64.html">NATURAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> at end of default output.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_standard_default">standard_default</A>.<A HREF="../elks/plain_text_file.html#f_put_natural_64">put_natural_64</A> (i)
+        <B>end</B></A>
+
+    <A NAME="f_put_boolean"><A HREF="../elks/std_files.html#f_put_boolean">put_boolean</A> (b: <A HREF="../elks/boolean.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`b'<FONT COLOR="red"> at end of default output.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_putbool">putbool</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>if</B> b <B>then</B>
+                <A HREF="../elks/std_files.html#f_put_string">put_string</A> ("True")
+            <B>else</B>
+                <A HREF="../elks/std_files.html#f_put_string">put_string</A> ("False")
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_putbool"><A HREF="../elks/std_files.html#f_putbool">putbool</A> (b: <A HREF="../elks/boolean.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`b'<FONT COLOR="red"> at end of default output.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_put_boolean">put_boolean</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>if</B> b <B>then</B>
+                <A HREF="../elks/std_files.html#f_put_string">put_string</A> ("True")
+            <B>else</B>
+                <A HREF="../elks/std_files.html#f_put_string">put_string</A> ("False")
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_put_new_line"><A HREF="../elks/std_files.html#f_put_new_line">put_new_line</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write line feed at end of default output.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_new_line">new_line</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_standard_default">standard_default</A>.<A HREF="../elks/file.html#f_put_new_line">put_new_line</A>
+        <B>end</B></A>
+
+    <A NAME="f_new_line"><A HREF="../elks/std_files.html#f_new_line">new_line</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write line feed at end of default output.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_put_new_line">put_new_line</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_standard_default">standard_default</A>.<A HREF="../elks/file.html#f_put_new_line">put_new_line</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Input</FONT>
+
+    <A NAME="f_read_integer"><A HREF="../elks/std_files.html#f_read_integer">read_integer</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 32-bit integer from standard input.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/std_files.html#f_last_integer">last_integer</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_readint">readint</A><FONT COLOR="red"> and </FONT><A HREF="../elks/std_files.html#f_read_integer_32">read_integer_32</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/plain_text_file.html#f_read_integer">read_integer</A>
+        <B>end</B></A>
+
+    <A NAME="f_readint"><A HREF="../elks/std_files.html#f_readint">readint</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 32-bit integer from standard input.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/std_files.html#f_last_integer">last_integer</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_read_integer">read_integer</A><FONT COLOR="red"> and </FONT><A HREF="../elks/std_files.html#f_read_integer_32">read_integer_32</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/plain_text_file.html#f_read_integer">read_integer</A>
+        <B>end</B></A>
+
+    <A NAME="f_read_integer_32"><A HREF="../elks/std_files.html#f_read_integer_32">read_integer_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 32-bit integer from standard input.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/std_files.html#f_last_integer">last_integer</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_read_integer">read_integer</A><FONT COLOR="red"> and </FONT><A HREF="../elks/std_files.html#f_readint">readint</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/plain_text_file.html#f_read_integer">read_integer</A>
+        <B>end</B></A>
+
+    <A NAME="f_read_integer_8"><A HREF="../elks/std_files.html#f_read_integer_8">read_integer_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 8-bit integer from standard input.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/std_files.html#f_last_integer_8">last_integer_8</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/plain_text_file.html#f_read_integer_8">read_integer_8</A>
+        <B>end</B></A>
+
+    <A NAME="f_read_integer_16"><A HREF="../elks/std_files.html#f_read_integer_16">read_integer_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 16-bit integer from standard input.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/std_files.html#f_last_integer_16">last_integer_16</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/plain_text_file.html#f_read_integer_16">read_integer_16</A>
+        <B>end</B></A>
+
+    <A NAME="f_read_integer_64"><A HREF="../elks/std_files.html#f_read_integer_64">read_integer_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 64-bit integer from standard input.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/std_files.html#f_last_integer_64">last_integer_64</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/plain_text_file.html#f_read_integer_64">read_integer_64</A>
+        <B>end</B></A>
+
+    <A NAME="f_read_natural_8"><A HREF="../elks/std_files.html#f_read_natural_8">read_natural_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 8-bit natural from standard input.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/std_files.html#f_last_natural_8">last_natural_8</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/plain_text_file.html#f_read_natural_8">read_natural_8</A>
+        <B>end</B></A>
+
+    <A NAME="f_read_natural_16"><A HREF="../elks/std_files.html#f_read_natural_16">read_natural_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 16-bit natural from standard input.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/std_files.html#f_last_natural_16">last_natural_16</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/plain_text_file.html#f_read_natural_16">read_natural_16</A>
+        <B>end</B></A>
+
+    <A NAME="f_read_natural"><A HREF="../elks/std_files.html#f_read_natural">read_natural</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 32-bit natural from standard input.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/std_files.html#f_last_natural">last_natural</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_read_natural_32">read_natural_32</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/plain_text_file.html#f_read_natural_32">read_natural_32</A>
+        <B>end</B></A>
+
+    <A NAME="f_read_natural_32"><A HREF="../elks/std_files.html#f_read_natural_32">read_natural_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 32-bit natural from standard input.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/std_files.html#f_last_natural">last_natural</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_read_natural">read_natural</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/plain_text_file.html#f_read_natural_32">read_natural_32</A>
+        <B>end</B></A>
+
+    <A NAME="f_read_natural_64"><A HREF="../elks/std_files.html#f_read_natural_64">read_natural_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 64-bit natural from standard input.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/std_files.html#f_last_natural_64">last_natural_64</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/plain_text_file.html#f_read_natural_64">read_natural_64</A>
+        <B>end</B></A>
+
+    <A NAME="f_read_real"><A HREF="../elks/std_files.html#f_read_real">read_real</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new real from standard input.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/std_files.html#f_last_real">last_real</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_readreal">readreal</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/plain_text_file.html#f_read_real">read_real</A>
+        <B>end</B></A>
+
+    <A NAME="f_readreal"><A HREF="../elks/std_files.html#f_readreal">readreal</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new real from standard input.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/std_files.html#f_last_real">last_real</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_read_real">read_real</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/plain_text_file.html#f_read_real">read_real</A>
+        <B>end</B></A>
+
+    <A NAME="f_read_double"><A HREF="../elks/std_files.html#f_read_double">read_double</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new double from standard input.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/std_files.html#f_last_double">last_double</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_readdouble">readdouble</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/plain_text_file.html#f_read_double">read_double</A>
+        <B>end</B></A>
+
+    <A NAME="f_readdouble"><A HREF="../elks/std_files.html#f_readdouble">readdouble</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new double from standard input.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/std_files.html#f_last_double">last_double</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_read_double">read_double</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/plain_text_file.html#f_read_double">read_double</A>
+        <B>end</B></A>
+
+    <A NAME="f_read_line"><A HREF="../elks/std_files.html#f_read_line">read_line</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a line from standard input.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/std_files.html#f_last_string">last_string</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_readline">readline</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/file.html#f_read_line">read_line</A>
+        <B>ensure</B>
+            last_string_not_void: <A HREF="../elks/std_files.html#f_last_string">last_string</A> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_readline"><A HREF="../elks/std_files.html#f_readline">readline</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a line from standard input.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/std_files.html#f_last_string">last_string</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_read_line">read_line</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/file.html#f_read_line">read_line</A>
+        <B>ensure</B>
+            last_string_not_void: <A HREF="../elks/std_files.html#f_last_string">last_string</A> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_stream"><A HREF="../elks/std_files.html#f_read_stream">read_stream</A> (nb_char: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a string of at most </FONT>`nb_char'<FONT COLOR="red"> bound characters</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> from standard input.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/std_files.html#f_last_string">last_string</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_readstream">readstream</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/file.html#f_read_stream">read_stream</A> (nb_char)
+        <B>ensure</B>
+            last_string_not_void: <A HREF="../elks/std_files.html#f_last_string">last_string</A> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_readstream"><A HREF="../elks/std_files.html#f_readstream">readstream</A> (nb_char: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a string of at most </FONT>`nb_char'<FONT COLOR="red"> bound characters</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> from standard input.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/std_files.html#f_last_string">last_string</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_read_stream">read_stream</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/file.html#f_read_stream">read_stream</A> (nb_char)
+        <B>ensure</B>
+            last_string_not_void: <A HREF="../elks/std_files.html#f_last_string">last_string</A> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_word"><A HREF="../elks/std_files.html#f_read_word">read_word</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new word from standard input.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/std_files.html#f_last_string">last_string</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_readword">readword</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/file.html#f_read_word">read_word</A>
+        <B>ensure</B>
+            last_string_not_void: <A HREF="../elks/std_files.html#f_last_string">last_string</A> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_readword"><A HREF="../elks/std_files.html#f_readword">readword</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new word from standard input.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/std_files.html#f_last_string">last_string</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_read_word">read_word</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/file.html#f_read_word">read_word</A>
+        <B>ensure</B>
+            last_string_not_void: <A HREF="../elks/std_files.html#f_last_string">last_string</A> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_character"><A HREF="../elks/std_files.html#f_read_character">read_character</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new character from standard input.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> It will not return until read operation is</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> terminated when enter key is pressed.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/std_files.html#f_last_character">last_character</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/std_files.html#f_last_character">last_character</A><FONT COLOR="red"> will also contains platform</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> specific newline character.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_readchar">readchar</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/file.html#f_read_character">read_character</A>
+        <B>end</B></A>
+
+    <A NAME="f_readchar"><A HREF="../elks/std_files.html#f_readchar">readchar</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new character from standard input.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> It will not return until read operation is</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> terminated when enter key is pressed.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/std_files.html#f_last_character">last_character</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/std_files.html#f_last_character">last_character</A><FONT COLOR="red"> will also contains platform</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> specific newline character.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_read_character">read_character</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/file.html#f_read_character">read_character</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_next_line"><A HREF="../elks/std_files.html#f_to_next_line">to_next_line</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move to next input line on standard input.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_next_line">next_line</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/file.html#f_next_line">next_line</A>
+        <B>end</B></A>
+
+    <A NAME="f_next_line"><A HREF="../elks/std_files.html#f_next_line">next_line</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move to next input line on standard input.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/std_files.html">STD_FILES</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/std_files.html#f_to_next_line">to_next_line</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/std_files.html#f_input">Input</A>.<A HREF="../elks/file.html#f_next_line">next_line</A>
+        <B>end</B></A>
+    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/std_files.html">STD_FILES</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="std_files_chart.html">Chart</A></TD><TD><A HREF="std_files_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="std_files_flat.html">Flat</A></TD><TD><A HREF="std_files_short.html">Contracts</A></TD><TD><A HREF="std_files_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

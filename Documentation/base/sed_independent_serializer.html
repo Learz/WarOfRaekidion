@@ -1,0 +1,200 @@
+<HTML><HEAD>
+<meta name="description" content="Encoding of arbitrary objects graphs between different version of programs containing the same types."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="library" content="EiffelBase: Library of reusable components for Eiffel."/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>sed_independent_serializer Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sed_independent_serializer_chart.html">Chart</A></TD><TD><A HREF="sed_independent_serializer_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="sed_independent_serializer_flat.html">Flat</A></TD><TD><A HREF="sed_independent_serializer_short.html">Contracts</A></TD><TD><A HREF="sed_independent_serializer_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Encoding of arbitrary objects graphs between different version of programs containing the same types."
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2013-06-27 05:21:14 -0700 (Thu, 27 Jun 2013) $"
+    revision: "$Revision: 92746 $"
+
+<B>class</B> 
+    <A HREF="../ise/sed_independent_serializer.html">SED_INDEPENDENT_SERIALIZER</A>
+
+<B>obsolete</B> "Use SED_RECOVERABLE_SERIALIZER instead."
+
+<B>inherit</B>
+    <A HREF="../ise/sed_basic_serializer.html">SED_BASIC_SERIALIZER</A>
+        <B>redefine</B>
+            <A HREF="../ise/sed_independent_serializer.html#f_write_header">write_header</A>,
+            <A HREF="../ise/sed_independent_serializer.html#f_is_store_settings_enabled">is_store_settings_enabled</A>,
+            <A HREF="../ise/sed_independent_serializer.html#f_set_version">set_version</A>
+        <B>end</B>
+
+<B>create</B> 
+    <A HREF="../ise/sed_session_serializer.html#f_make">make</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status Report</FONT>
+
+    <A NAME="f_is_store_settings_enabled"><A HREF="../ise/sed_independent_serializer.html#f_is_store_settings_enabled">is_store_settings_enabled</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are settings stored?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> By default not for SED_INDEPENDENT_SERIALIZER.</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>False</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation: Setting</FONT>
+
+    <A NAME="f_set_version"><A HREF="../ise/sed_independent_serializer.html#f_set_version">set_version</A> (v: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_version">version</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../ise/sed_session_serializer.html#f_version">version</A><FONT COLOR="red"> with </FONT>`v'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../ise/sed_session_serializer.html#f_version">version</A> := {<A HREF="../ise/sed_versions.html">SED_VERSIONS</A>}.<A HREF="../ise/sed_versions.html#f_version_5_6">version_5_6</A>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_write_header"><A HREF="../ise/sed_independent_serializer.html#f_write_header">write_header</A> (a_list: <A HREF="../elks/arrayed_list.html">ARRAYED_LIST</A> [<A HREF="../elks/any.html">ANY</A>]; a_type_table: <A HREF="../elks/hash_table.html">HASH_TABLE</A> [<A HREF="../elks/integer_32.html">INTEGER_32</A>, <A HREF="../elks/integer_32.html">INTEGER_32</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write header of storable.</FONT>
+        <B>local</B>
+            l_attr_dtype_table: <B>like</B> <A HREF="../ise/sed_independent_serializer.html#f_attributes_dynamic_types">attributes_dynamic_types</A>
+            l_dtype: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_ser: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+            l_reflector: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_reflector">reflector</A>
+            l_is_independent_serializer: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            l_ser := <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+            l_reflector := <A HREF="../ise/sed_session_serializer.html#f_reflector">reflector</A>
+            <A HREF="../ise/sed_session_serializer.html#f_write_settings">write_settings</A>
+            l_is_independent_serializer := <B>not</B> <A HREF="../ise/sed_independent_serializer.html#f_is_store_settings_enabled">is_store_settings_enabled</A>
+            l_attr_dtype_table := <A HREF="../ise/sed_independent_serializer.html#f_attributes_dynamic_types">attributes_dynamic_types</A> (a_type_table)
+            <B>from</B>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_natural_32">write_compressed_natural_32</A> (a_type_table.<A HREF="../elks/hash_table.html#f_count">count</A>.<A HREF="../elks/integer_32_ref.html#f_to_natural_32">to_natural_32</A>)
+                a_type_table.<A HREF="../elks/hash_table.html#f_start">start</A>
+            <B>until</B>
+                a_type_table.<A HREF="../elks/hash_table.html#f_after">after</A>
+            <B>loop</B>
+                l_dtype := a_type_table.<A HREF="../elks/hash_table.html#f_item_for_iteration">item_for_iteration</A>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_natural_32">write_compressed_natural_32</A> (l_dtype.<A HREF="../elks/integer_32_ref.html#f_to_natural_32">to_natural_32</A>)
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_string_8">write_string_8</A> (l_reflector.<A HREF="../elks/reflector.html#f_type_name_of_type">type_name_of_type</A> (l_dtype))
+                a_type_table.<A HREF="../elks/hash_table.html#f_forth">forth</A>
+                <B>if</B> <B>not</B> l_is_independent_serializer <B>and then</B> <A HREF="../ise/sed_session_serializer.html#f_version">version</A> &gt;= {<A HREF="../ise/sed_versions.html">SED_VERSIONS</A>}.<A HREF="../ise/sed_versions.html#f_version_6_6">version_6_6</A> <B>then</B>
+                    <B>if</B> <B>attached</B> l_reflector.<A HREF="../elks/reflector.html#f_storable_version_of_type">storable_version_of_type</A> (l_dtype) <B>as</B> l_version <B>and then</B> <B>not</B> l_version.<A HREF="../elks/immutable_string_8.html#f_is_empty">is_empty</A> <B>then</B>
+                        l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_boolean">write_boolean</A> (<B>True</B>)
+                        l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_string_8">write_string_8</A> (l_version)
+                    <B>else</B>
+                        l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_boolean">write_boolean</A> (<B>False</B>)
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+            <B>from</B>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_natural_32">write_compressed_natural_32</A> (l_attr_dtype_table.<A HREF="../elks/hash_table.html#f_count">count</A>.<A HREF="../elks/integer_32_ref.html#f_to_natural_32">to_natural_32</A>)
+                l_attr_dtype_table.<A HREF="../elks/hash_table.html#f_start">start</A>
+            <B>until</B>
+                l_attr_dtype_table.<A HREF="../elks/hash_table.html#f_after">after</A>
+            <B>loop</B>
+                l_dtype := l_attr_dtype_table.<A HREF="../elks/hash_table.html#f_item_for_iteration">item_for_iteration</A>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_natural_32">write_compressed_natural_32</A> (l_dtype.<A HREF="../elks/integer_32_ref.html#f_to_natural_32">to_natural_32</A>)
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_string_8">write_string_8</A> (l_reflector.<A HREF="../elks/reflector.html#f_type_name_of_type">type_name_of_type</A> (l_dtype))
+                l_attr_dtype_table.<A HREF="../elks/hash_table.html#f_forth">forth</A>
+            <B>end</B>
+            <B>from</B>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_natural_32">write_compressed_natural_32</A> (a_type_table.<A HREF="../elks/hash_table.html#f_count">count</A>.<A HREF="../elks/integer_32_ref.html#f_to_natural_32">to_natural_32</A>)
+                a_type_table.<A HREF="../elks/hash_table.html#f_start">start</A>
+            <B>until</B>
+                a_type_table.<A HREF="../elks/hash_table.html#f_after">after</A>
+            <B>loop</B>
+                l_dtype := a_type_table.<A HREF="../elks/hash_table.html#f_item_for_iteration">item_for_iteration</A>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_natural_32">write_compressed_natural_32</A> (l_dtype.<A HREF="../elks/integer_32_ref.html#f_to_natural_32">to_natural_32</A>)
+                <A HREF="../ise/sed_independent_serializer.html#f_write_attributes">write_attributes</A> (l_dtype)
+                a_type_table.<A HREF="../elks/hash_table.html#f_forth">forth</A>
+            <B>end</B>
+            <A HREF="../ise/sed_session_serializer.html#f_write_object_table">write_object_table</A> (a_list)
+        <B>end</B></A>
+
+    <A NAME="f_attributes_dynamic_types"><A HREF="../ise/sed_independent_serializer.html#f_attributes_dynamic_types">attributes_dynamic_types</A> (a_type_table: <A HREF="../elks/hash_table.html">HASH_TABLE</A> [<A HREF="../elks/integer_32.html">INTEGER_32</A>, <A HREF="../elks/integer_32.html">INTEGER_32</A>]): <A HREF="../elks/hash_table.html">HASH_TABLE</A> [<A HREF="../elks/integer_32.html">INTEGER_32</A>, <A HREF="../elks/integer_32.html">INTEGER_32</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Table of dynamic types of attributes appearing in </FONT>`a_type_table'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If encountering an expanded type inside one of the type of </FONT>`a_type_table'<FONT COLOR="red">,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> we add it to </FONT>`a_type_table'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_type_table_not_void: a_type_table /= <B>Void</B>
+        <B>local</B>
+            l_reflector: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_reflector">reflector</A>
+            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_dtype, l_obj_dtype: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            l_reflector := <A HREF="../ise/sed_session_serializer.html#f_reflector">reflector</A>
+            <B>from</B>
+                a_type_table.<A HREF="../elks/hash_table.html#f_start">start</A>
+                <B>create</B> <B>Result</B>.<A HREF="../elks/hash_table.html#f_make">make</A> (500)
+            <B>until</B>
+                a_type_table.<A HREF="../elks/hash_table.html#f_after">after</A>
+            <B>loop</B>
+                <B>from</B>
+                    i := 1
+                    l_obj_dtype := a_type_table.<A HREF="../elks/hash_table.html#f_item_for_iteration">item_for_iteration</A>
+                    nb := l_reflector.<A HREF="../elks/reflector.html#f_field_count_of_type">field_count_of_type</A> (l_obj_dtype)
+                    nb := nb + 1
+                <B>until</B>
+                    i = nb
+                <B>loop</B>
+                    <B>if</B> <B>not</B> l_reflector.<A HREF="../elks/reflector.html#f_is_field_transient_of_type">is_field_transient_of_type</A> (i, l_obj_dtype) <B>then</B>
+                        l_dtype := l_reflector.<A HREF="../elks/reflector.html#f_field_static_type_of_type">field_static_type_of_type</A> (i, l_obj_dtype)
+                        <B>if</B> <B>not</B> a_type_table.<A HREF="../elks/hash_table.html#f_has">has</A> (l_dtype) <B>then</B>
+                            <B>if</B> l_reflector.<A HREF="../elks/reflector.html#f_is_field_expanded_of_type">is_field_expanded_of_type</A> (i, l_obj_dtype) <B>then</B>
+                                a_type_table.<A HREF="../elks/hash_table.html#f_put">put</A> (l_dtype, l_dtype)
+                            <B>else</B>
+                                <B>Result</B>.<A HREF="../elks/hash_table.html#f_put">put</A> (l_dtype, l_dtype)
+                            <B>end</B>
+                        <B>end</B>
+                    <B>end</B>
+                    i := i + 1
+                <B>end</B>
+                a_type_table.<A HREF="../elks/hash_table.html#f_forth">forth</A>
+            <B>end</B>
+        <B>ensure</B>
+            attributes_dynamic_types_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_write_attributes"><A HREF="../ise/sed_independent_serializer.html#f_write_attributes">write_attributes</A> (a_dtype: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write attribute description for type whose dynamic type id is </FONT>`a_dtype'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_dtype_non_negative: a_dtype &gt;= 0
+        <B>local</B>
+            l_reflector: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_reflector">reflector</A>
+            l_ser: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            l_reflector := <A HREF="../ise/sed_session_serializer.html#f_reflector">reflector</A>
+            l_ser := <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+            <B>from</B>
+                i := 1
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_natural_32">write_compressed_natural_32</A> (l_reflector.<A HREF="../elks/reflector.html#f_persistent_field_count_of_type">persistent_field_count_of_type</A> (a_dtype).<A HREF="../elks/integer_32_ref.html#f_to_natural_32">to_natural_32</A>)
+                nb := l_reflector.<A HREF="../elks/reflector.html#f_field_count_of_type">field_count_of_type</A> (a_dtype) + 1
+            <B>until</B>
+                i = nb
+            <B>loop</B>
+                <B>if</B> <B>not</B> l_reflector.<A HREF="../elks/reflector.html#f_is_field_transient_of_type">is_field_transient_of_type</A> (i, a_dtype) <B>then</B>
+                    l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_natural_32">write_compressed_natural_32</A> (l_reflector.<A HREF="../elks/reflector.html#f_field_static_type_of_type">field_static_type_of_type</A> (i, a_dtype).<A HREF="../elks/integer_32_ref.html#f_to_natural_32">to_natural_32</A>)
+                    l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_string_8">write_string_8</A> (l_reflector.<A HREF="../elks/reflector.html#f_field_name_of_type">field_name_of_type</A> (i, a_dtype))
+                <B>end</B>
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>note</B>
+    library: "EiffelBase: Library of reusable components for Eiffel."
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../ise/sed_independent_serializer.html">SED_INDEPENDENT_SERIALIZER</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sed_independent_serializer_chart.html">Chart</A></TD><TD><A HREF="sed_independent_serializer_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="sed_independent_serializer_flat.html">Flat</A></TD><TD><A HREF="sed_independent_serializer_short.html">Contracts</A></TD><TD><A HREF="sed_independent_serializer_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

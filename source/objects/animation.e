@@ -1,12 +1,12 @@
 note
 	description : "[
-						War of Raekidion - A simple animation
-						An {ANIMATION} will switch between a fixed set of 
-						different frames with time.
-					]"
+					War of Raekidion - A simple animation
+					An {ANIMATION} will switch between a fixed set of 
+					different frames with time.
+				]"
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
-	date		: "$Date$"
-	revision	: "$Revision$"
+	date		: "$Date: May 23 2014$"
+	revision	: "$Revision: 1$"
 
 class
 	ANIMATION
@@ -163,5 +163,13 @@ invariant
 
 	time_not_null: time > 0
 		-- Ensure the time is never null
+
+note
+	copyright: "[
+				War of Raekidion
+				Copyright (C) 2014 François Allard <binarmorker@gmail.com>
+             		   		   and Marc-Antoine Renaud <legars123456@gmail.com>
+               ]"
+	license:   "GNU General Public License, <http://www.gnu.org/licenses/>"
 
 end

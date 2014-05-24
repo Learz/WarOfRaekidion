@@ -1,0 +1,171 @@
+<HTML><HEAD>
+<meta name="description" content="Serialize/Deserialize data from a medium."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="library" content="EiffelBase: Library of reusable components for Eiffel."/>
+<meta name="copyright" content="Copyright (c) 1984-2006, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 356 Storke Road, Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>sed_medium_reader_writer_1 Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sed_medium_reader_writer_1_chart.html">Chart</A></TD><TD><A HREF="sed_medium_reader_writer_1_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="sed_medium_reader_writer_1_flat.html">Flat</A></TD><TD><A HREF="sed_medium_reader_writer_1_short.html">Contracts</A></TD><TD><A HREF="sed_medium_reader_writer_1_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Serialize/Deserialize data from a medium."
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2010-02-22 10:14:01 -0800 (Mon, 22 Feb 2010) $"
+    revision: "$Revision: 82390 $"
+
+<B>class</B> 
+    <A HREF="../ise/sed_medium_reader_writer_1.html">SED_MEDIUM_READER_WRITER_1</A>
+
+<B>inherit</B>
+    <A HREF="../ise/sed_binary_reader_writer.html">SED_BINARY_READER_WRITER</A>
+        <B>redefine</B>
+            <A HREF="../ise/sed_medium_reader_writer_1.html#f_read_header">read_header</A>,
+            <A HREF="../ise/sed_medium_reader_writer_1.html#f_write_header">write_header</A>,
+            <A HREF="../ise/sed_medium_reader_writer_1.html#f_write_footer">write_footer</A>,
+            <A HREF="../ise/sed_medium_reader_writer_1.html#f_is_ready_for_reading">is_ready_for_reading</A>,
+            <A HREF="../ise/sed_medium_reader_writer_1.html#f_is_ready_for_writing">is_ready_for_writing</A>,
+            <A HREF="../ise/sed_medium_reader_writer_1.html#f_medium">medium</A>
+        <B>end</B>
+
+    <A HREF="../elks/platform.html">PLATFORM</A>
+        <B>export</B>
+            {NONE} <B>all</B>
+        <B>end</B>
+
+<B>create</B> 
+    <A HREF="../ise/sed_medium_reader_writer_1.html#f_make">make</A>,
+    <A HREF="../ise/sed_medium_reader_writer_1.html#f_make_with_buffer">make_with_buffer</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../ise/sed_medium_reader_writer_1.html#f_make">make</A> (a_medium: <A HREF="../elks/io_medium.html">IO_MEDIUM</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize current to read or write from </FONT>`a_medium'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_medium_not_void: a_medium /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../ise/sed_medium_reader_writer_1.html#f_make_with_buffer">make_with_buffer</A> (a_medium, <A HREF="../ise/sed_binary_reader_writer.html#f_default_buffer_size">Default_buffer_size</A>)
+        <B>ensure</B>
+            medium_set: <A HREF="../ise/sed_medium_reader_writer_1.html#f_medium">medium</A> = a_medium
+            buffer_size_set: <A HREF="../ise/sed_binary_reader_writer.html#f_buffer_size">buffer_size</A> = <A HREF="../ise/sed_binary_reader_writer.html#f_default_buffer_size">Default_buffer_size</A>
+        <B>end</B></A>
+
+    <A NAME="f_make_with_buffer"><A HREF="../ise/sed_medium_reader_writer_1.html#f_make_with_buffer">make_with_buffer</A> (a_medium: <A HREF="../elks/io_medium.html">IO_MEDIUM</A>; a_buffer_size: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize current to read or write from </FONT>`a_medium'<FONT COLOR="red"> using a buffer of size </FONT>`a_buffer_size'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../ise/sed_binary_reader_writer.html#f_buffer_size">buffer_size</A><FONT COLOR="red"> will be overriden during read operation by the value of </FONT><A HREF="../ise/sed_binary_reader_writer.html#f_buffer_size">buffer_size</A><FONT COLOR="red"> used</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> when writing.</FONT>
+        <B>require</B>
+            a_medium_not_void: a_medium /= <B>Void</B>
+            a_buffer_size_non_negative: a_buffer_size &gt;= 0
+        <B>do</B>
+            <A HREF="../ise/sed_medium_reader_writer_1.html#f_medium">medium</A> := a_medium
+            <A HREF="../ise/sed_binary_reader_writer.html#f_buffer_size">buffer_size</A> := a_buffer_size
+            <B>create</B> <A HREF="../ise/sed_binary_reader_writer.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer.html#f_make">make</A> (a_buffer_size)
+        <B>ensure</B>
+            medium_set: <A HREF="../ise/sed_medium_reader_writer_1.html#f_medium">medium</A> = a_medium
+            buffer_size_set: <A HREF="../ise/sed_binary_reader_writer.html#f_buffer_size">buffer_size</A> = a_buffer_size
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Header/Footer</FONT>
+
+    <A NAME="f_read_header"><A HREF="../ise/sed_medium_reader_writer_1.html#f_read_header">read_header</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieve configuration of how data was stored.</FONT>
+        <B>do</B>
+            <A HREF="../ise/sed_medium_reader_writer_1.html#f_medium">medium</A>.<A HREF="../elks/io_medium.html#f_read_to_managed_pointer">read_to_managed_pointer</A> (<A HREF="../ise/sed_binary_reader_writer.html#f_buffer">buffer</A>, 0, <A HREF="../ise/sed_medium_reader_writer_1.html#f_header_size">header_size</A>)
+            <A HREF="../ise/sed_binary_reader_writer.html#f_is_little_endian_storable">is_little_endian_storable</A> := <A HREF="../ise/sed_binary_reader_writer.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer.html#f_read_boolean">read_boolean</A> (0)
+            <A HREF="../ise/sed_reader_writer.html#f_is_pointer_value_stored">is_pointer_value_stored</A> := <A HREF="../ise/sed_binary_reader_writer.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer.html#f_read_boolean">read_boolean</A> ({<A HREF="../elks/platform.html">PLATFORM</A>}.<A HREF="../elks/platform.html#f_natural_8_bytes">natural_8_bytes</A>)
+            <A HREF="../ise/sed_binary_reader_writer.html#f_buffer_size">buffer_size</A> := <A HREF="../ise/sed_binary_reader_writer.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer.html#f_read_integer_32_le">read_integer_32_le</A> (2 * {<A HREF="../elks/platform.html">PLATFORM</A>}.<A HREF="../elks/platform.html#f_natural_8_bytes">natural_8_bytes</A>)
+            <A HREF="../ise/sed_binary_reader_writer.html#f_stored_pointer_bytes">stored_pointer_bytes</A> := <A HREF="../ise/sed_binary_reader_writer.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer.html#f_read_integer_32_le">read_integer_32_le</A> (2 * {<A HREF="../elks/platform.html">PLATFORM</A>}.<A HREF="../elks/platform.html#f_natural_8_bytes">natural_8_bytes</A> + {<A HREF="../elks/platform.html">PLATFORM</A>}.<A HREF="../elks/platform.html#f_integer_32_bytes">integer_32_bytes</A>)
+            <A HREF="../ise/sed_medium_reader_writer_1.html#f_medium">medium</A>.<A HREF="../elks/io_medium.html#f_read_to_managed_pointer">read_to_managed_pointer</A> (<A HREF="../ise/sed_binary_reader_writer.html#f_buffer">buffer</A>, 0, <A HREF="../ise/sed_binary_reader_writer.html#f_buffer_size">buffer_size</A>)
+            <A HREF="../ise/sed_binary_reader_writer.html#f_buffer_position">buffer_position</A> := 0
+        <B>ensure then</B>
+            buffer_position_reset: <A HREF="../ise/sed_binary_reader_writer.html#f_buffer_position">buffer_position</A> = 0
+        <B>end</B></A>
+
+    <A NAME="f_write_header"><A HREF="../ise/sed_medium_reader_writer_1.html#f_write_header">write_header</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Store configuration on how data will be stored.</FONT>
+        <B>do</B>
+            <A HREF="../ise/sed_binary_reader_writer.html#f_is_little_endian_storable">is_little_endian_storable</A> := <A HREF="../elks/platform.html#f_is_little_endian">Is_little_endian</A>
+            <A HREF="../ise/sed_binary_reader_writer.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer.html#f_put_boolean">put_boolean</A> (<A HREF="../ise/sed_binary_reader_writer.html#f_is_little_endian_storable">is_little_endian_storable</A>, 0)
+            <A HREF="../ise/sed_binary_reader_writer.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer.html#f_put_boolean">put_boolean</A> (<A HREF="../ise/sed_reader_writer.html#f_is_pointer_value_stored">is_pointer_value_stored</A>, {<A HREF="../elks/platform.html">PLATFORM</A>}.<A HREF="../elks/platform.html#f_natural_8_bytes">natural_8_bytes</A>)
+            <A HREF="../ise/sed_binary_reader_writer.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer.html#f_put_integer_32_le">put_integer_32_le</A> (<A HREF="../ise/sed_binary_reader_writer.html#f_buffer_size">buffer_size</A>, 2 * {<A HREF="../elks/platform.html">PLATFORM</A>}.<A HREF="../elks/platform.html#f_natural_8_bytes">natural_8_bytes</A>)
+            <A HREF="../ise/sed_binary_reader_writer.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer.html#f_put_integer_32_le">put_integer_32_le</A> ({<A HREF="../elks/platform.html">PLATFORM</A>}.<A HREF="../elks/platform.html#f_pointer_bytes">pointer_bytes</A>, 2 * {<A HREF="../elks/platform.html">PLATFORM</A>}.<A HREF="../elks/platform.html#f_natural_8_bytes">natural_8_bytes</A> + {<A HREF="../elks/platform.html">PLATFORM</A>}.<A HREF="../elks/platform.html#f_integer_32_bytes">integer_32_bytes</A>)
+            <A HREF="../ise/sed_medium_reader_writer_1.html#f_medium">medium</A>.<A HREF="../elks/io_medium.html#f_put_managed_pointer">put_managed_pointer</A> (<A HREF="../ise/sed_binary_reader_writer.html#f_buffer">buffer</A>, 0, <A HREF="../ise/sed_medium_reader_writer_1.html#f_header_size">header_size</A>)
+            <A HREF="../ise/sed_binary_reader_writer.html#f_buffer_position">buffer_position</A> := 0
+        <B>ensure then</B>
+            buffer_position_reset: <A HREF="../ise/sed_binary_reader_writer.html#f_buffer_position">buffer_position</A> = 0
+        <B>end</B></A>
+
+    <A NAME="f_write_footer"><A HREF="../ise/sed_medium_reader_writer_1.html#f_write_footer">write_footer</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Store last buffered data.</FONT>
+        <B>do</B>
+            <A HREF="../ise/sed_medium_reader_writer_1.html#f_medium">medium</A>.<A HREF="../elks/io_medium.html#f_put_managed_pointer">put_managed_pointer</A> (<A HREF="../ise/sed_binary_reader_writer.html#f_buffer">buffer</A>, 0, <A HREF="../ise/sed_binary_reader_writer.html#f_buffer_position">buffer_position</A>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_is_ready_for_reading"><A HREF="../ise/sed_medium_reader_writer_1.html#f_is_ready_for_reading">is_ready_for_reading</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is Current ready for future read operations?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../ise/sed_binary_reader_writer.html#f_is_for_reading">is_for_reading</A> <B>and then</B> <A HREF="../ise/sed_medium_reader_writer_1.html#f_medium">medium</A>.<A HREF="../elks/io_medium.html#f_exists">exists</A> <B>and then</B> <A HREF="../ise/sed_medium_reader_writer_1.html#f_medium">medium</A>.<A HREF="../elks/io_medium.html#f_is_open_read">is_open_read</A> <B>and then</B> <A HREF="../ise/sed_medium_reader_writer_1.html#f_medium">medium</A>.<A HREF="../elks/io_medium.html#f_support_storable">support_storable</A>
+        <B>end</B></A>
+
+    <A NAME="f_is_ready_for_writing"><A HREF="../ise/sed_medium_reader_writer_1.html#f_is_ready_for_writing">is_ready_for_writing</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is Current ready for future write operations?</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>not</B> <A HREF="../ise/sed_binary_reader_writer.html#f_is_for_reading">is_for_reading</A> <B>and then</B> <A HREF="../ise/sed_medium_reader_writer_1.html#f_medium">medium</A>.<A HREF="../elks/io_medium.html#f_exists">exists</A> <B>and then</B> <A HREF="../ise/sed_medium_reader_writer_1.html#f_medium">medium</A>.<A HREF="../elks/io_medium.html#f_is_open_write">is_open_write</A> <B>and then</B> <A HREF="../ise/sed_medium_reader_writer_1.html#f_medium">medium</A>.<A HREF="../elks/io_medium.html#f_support_storable">support_storable</A>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation: Access</FONT>
+
+    <A NAME="f_medium"><A HREF="../ise/sed_medium_reader_writer_1.html#f_medium">medium</A>: <A HREF="../elks/io_medium.html">IO_MEDIUM</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Medium used for read/write operations</FONT>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation: Status report</FONT>
+
+    <A NAME="f_header_size"><A HREF="../ise/sed_medium_reader_writer_1.html#f_header_size">header_size</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Size for header storing properties of data stored in </FONT><A HREF="../ise/sed_medium_reader_writer_1.html#f_medium">medium</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/platform.html">PLATFORM</A>}.<A HREF="../elks/platform.html#f_natural_8_bytes">natural_8_bytes</A> + {<A HREF="../elks/platform.html">PLATFORM</A>}.<A HREF="../elks/platform.html#f_natural_8_bytes">natural_8_bytes</A> + {<A HREF="../elks/platform.html">PLATFORM</A>}.<A HREF="../elks/platform.html#f_integer_32_bytes">integer_32_bytes</A> + {<A HREF="../elks/platform.html">PLATFORM</A>}.<A HREF="../elks/platform.html#f_integer_32_bytes">integer_32_bytes</A>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Buffer update</FONT>
+
+    <A NAME="f_check_buffer"><A HREF="../ise/sed_medium_reader_writer_1.html#f_check_buffer">check_buffer</A> (n: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If there is enough space in </FONT><A HREF="../ise/sed_binary_reader_writer.html#f_buffer">buffer</A><FONT COLOR="red"> to read </FONT>`n'<FONT COLOR="red"> bytes, do nothing.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Otherwise, read/write to </FONT><A HREF="../ise/sed_medium_reader_writer_1.html#f_medium">medium</A><FONT COLOR="red"> to free some space.</FONT>
+        <B>do</B>
+            <B>if</B> n + <A HREF="../ise/sed_binary_reader_writer.html#f_buffer_position">buffer_position</A> &gt; <A HREF="../ise/sed_binary_reader_writer.html#f_buffer_size">buffer_size</A> <B>then</B>
+                <B>if</B> <A HREF="../ise/sed_binary_reader_writer.html#f_is_for_reading">is_for_reading</A> <B>then</B>
+                    <A HREF="../ise/sed_medium_reader_writer_1.html#f_medium">medium</A>.<A HREF="../elks/io_medium.html#f_read_to_managed_pointer">read_to_managed_pointer</A> (<A HREF="../ise/sed_binary_reader_writer.html#f_buffer">buffer</A>, 0, <A HREF="../ise/sed_binary_reader_writer.html#f_buffer_size">buffer_size</A>)
+                <B>else</B>
+                    <A HREF="../ise/sed_medium_reader_writer_1.html#f_medium">medium</A>.<A HREF="../elks/io_medium.html#f_put_managed_pointer">put_managed_pointer</A> (<A HREF="../ise/sed_binary_reader_writer.html#f_buffer">buffer</A>, 0, <A HREF="../ise/sed_binary_reader_writer.html#f_buffer_size">buffer_size</A>)
+                <B>end</B>
+                <A HREF="../ise/sed_binary_reader_writer.html#f_buffer_position">buffer_position</A> := 0
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>invariant</B>
+    medium_not_void: <A HREF="../ise/sed_medium_reader_writer_1.html#f_medium">medium</A> /= <B>Void</B>
+
+<B>note</B>
+    library: "EiffelBase: Library of reusable components for Eiffel."
+    copyright: "Copyright (c) 1984-2006, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        356 Storke Road, Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../ise/sed_medium_reader_writer_1.html">SED_MEDIUM_READER_WRITER_1</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sed_medium_reader_writer_1_chart.html">Chart</A></TD><TD><A HREF="sed_medium_reader_writer_1_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="sed_medium_reader_writer_1_flat.html">Flat</A></TD><TD><A HREF="sed_medium_reader_writer_1_short.html">Contracts</A></TD><TD><A HREF="sed_medium_reader_writer_1_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

@@ -1,0 +1,81 @@
+<HTML><HEAD>
+<meta name="description" content="Holder for non-comparable objects used for pseudo-comparison with others via the use of a custom comparator."/>
+<meta name="author" content=""/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="library" content="EiffelBase: Library of reusable components for Eiffel."/>
+<meta name="copyright" content="Copyright (c) 1984-2006, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 356 Storke Road, Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>proxy_comparable Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="proxy_comparable_chart.html">Chart</A></TD><TD><A HREF="proxy_comparable_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="proxy_comparable_flat.html">Flat</A></TD><TD><A HREF="proxy_comparable_short.html">Contracts</A></TD><TD><A HREF="proxy_comparable_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Holder for non-comparable objects used for pseudo-comparison
+        with others via the use of a custom comparator.
+    ]"
+    author: ""
+    date: "$Date: 2013-05-20 16:15:17 -0700 (Mon, 20 May 2013) $"
+    revision: "$Revision: 92557 $"
+
+<B>frozen</B> <B>class</B> 
+    <A HREF="../ise/proxy_comparable.html">PROXY_COMPARABLE</A> [G]
+
+<B>inherit</B>
+    <A HREF="../elks/comparable.html">COMPARABLE</A>
+
+<B>create</B> 
+    <A HREF="../ise/proxy_comparable.html#f_make">make</A>
+
+<B>feature</B> 
+
+    <A NAME="f_make"><A HREF="../ise/proxy_comparable.html#f_make">make</A> (a_item: <B>like</B> <A HREF="../ise/proxy_comparable.html#f_item">item</A>; a_less_than_comparator: <A HREF="../elks/predicate.html">PREDICATE</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A> [first_item: <B>like</B> <A HREF="../ise/proxy_comparable.html#f_item">item</A>; second_item: <B>like</B> <A HREF="../ise/proxy_comparable.html#f_item">item</A>]])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make comparable object for </FONT>`a_item'<FONT COLOR="red"> using '&lt;' comparator agent </FONT>`a_less_than_comparator'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparator predicate returns True if </FONT>`first_item'<FONT COLOR="red"> is deemed less than </FONT>`second_item'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_item_not_void: a_item /= <B>Void</B>
+            a_less_than_comparator: a_less_than_comparator /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../ise/proxy_comparable.html#f_item">item</A> := a_item
+            <A HREF="../ise/proxy_comparable.html#f_less_than_comparator">less_than_comparator</A> := a_less_than_comparator
+        <B>ensure</B>
+            item_set: <A HREF="../ise/proxy_comparable.html#f_item">item</A> = a_item
+            comparator_set: <A HREF="../ise/proxy_comparable.html#f_less_than_comparator">less_than_comparator</A> = a_less_than_comparator
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_item"><A HREF="../ise/proxy_comparable.html#f_item">item</A>: G</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Item used for comparison.</FONT>
+
+    <A NAME="f_less_than_comparator"><A HREF="../ise/proxy_comparable.html#f_less_than_comparator">less_than_comparator</A>: <A HREF="../elks/predicate.html">PREDICATE</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A> [first_item: <B>like</B> <A HREF="../ise/proxy_comparable.html#f_item">item</A>; second_item: <B>like</B> <A HREF="../ise/proxy_comparable.html#f_item">item</A>]]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparator agent used for '&lt;' comparison of 'item' with other objects of type G</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Function returns True of 'first_item' is deemed to be less than 'second_item'.</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_is_less"><A HREF="../ise/proxy_comparable.html#f_is_less">is_less</A> <B>alias</B> "&lt;" (other: <B>like</B> <B>Current</B>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current object less than </FONT>`other'<FONT COLOR="red">?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../ise/proxy_comparable.html#f_less_than_comparator">less_than_comparator</A>.<A HREF="../elks/function.html#f_item">item</A> ([<A HREF="../ise/proxy_comparable.html#f_item">item</A>, other.<A HREF="../ise/proxy_comparable.html#f_item">item</A>])
+        <B>end</B></A>
+    
+<B>note</B>
+    library: "EiffelBase: Library of reusable components for Eiffel."
+    copyright: "Copyright (c) 1984-2006, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        356 Storke Road, Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../ise/proxy_comparable.html">PROXY_COMPARABLE</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="proxy_comparable_chart.html">Chart</A></TD><TD><A HREF="proxy_comparable_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="proxy_comparable_flat.html">Flat</A></TD><TD><A HREF="proxy_comparable_short.html">Contracts</A></TD><TD><A HREF="proxy_comparable_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

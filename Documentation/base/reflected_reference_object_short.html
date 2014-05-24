@@ -1,0 +1,88 @@
+<HTML><HEAD>
+<meta name="description" content="Accessor to an object. Useful to manipulate fields of an object, or an expanded field of an object without causing any copying. If applied to an expanded type, a copy will be manipulated."/>
+<meta name="implementation_details" content="The GC might be moving objects, some of the routines are actually builtin."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>reflected_reference_object Contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="reflected_reference_object_chart.html">Chart</A></TD><TD><A HREF="reflected_reference_object_links.html">Relations</A></TD><TD><A HREF="reflected_reference_object.html">Text</A></TD><TD><A HREF="reflected_reference_object_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="reflected_reference_object_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Accessor to an object. Useful to manipulate fields of an object, or
+        an expanded field of an object without causing any copying.
+        If applied to an expanded type, a copy will be manipulated.
+    ]"
+    implementation_details: "[
+        The GC might be moving objects, some of the routines are actually builtin.
+    ]"
+    date: "$Date: 2013-11-19 13:41:44 -0800 (Tue, 19 Nov 2013) $"
+    revision: "$Revision: 93442 $"
+
+<B>class</B> <B>interface</B>
+    <A HREF="../elks/reflected_reference_object_short.html">REFLECTED_REFERENCE_OBJECT</A>
+
+<B>create</B> 
+    <A HREF="../elks/reflected_reference_object_short.html#f_make">make</A>
+
+
+<B>create</B> {<A HREF="../elks/reflected_reference_object_short.html">REFLECTED_REFERENCE_OBJECT</A>, <A HREF="../ise/debug_implementation/rt_dbg_internal_short.html">RT_DBG_INTERNAL</A>}
+    <A HREF="../elks/reflected_reference_object_short.html#f_make_for_expanded_field">make_for_expanded_field</A>,
+    <A HREF="../elks/reflected_reference_object_short.html#f_make_for_expanded_field_at">make_for_expanded_field_at</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_object"><A HREF="../elks/reflected_reference_object_short.html#f_object">object</A>: <A HREF="../elks/any_short.html">ANY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Associated object for Current.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> It might be a copy if Current is expanded.</FONT>
+</A>
+    <A NAME="f_object_address"><A HREF="../elks/reflected_reference_object_short.html#f_object_address">object_address</A>: <A HREF="../elks/pointer_short.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Unprotected reference to </FONT><A HREF="../elks/reflected_reference_object_short.html#f_object">object</A><FONT COLOR="red">.</FONT>
+</A>
+    <A NAME="f_enclosing_object"><A HREF="../elks/reflected_reference_object_short.html#f_enclosing_object">enclosing_object</A>: <A HREF="../elks/any_short.html">ANY</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Enclosing object containing </FONT><A HREF="../elks/reflected_reference_object_short.html#f_object">object</A><FONT COLOR="red"> or a reference to `object.</FONT>
+
+    <A NAME="f_physical_offset"><A HREF="../elks/reflected_reference_object_short.html#f_physical_offset">physical_offset</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Actual offset in bytes of </FONT><A HREF="../elks/reflected_reference_object_short.html#f_object">object</A><FONT COLOR="red"> in </FONT><A HREF="../elks/reflected_reference_object_short.html#f_enclosing_object">enclosing_object</A><FONT COLOR="red">.</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_copy_semantics_field"><A HREF="../elks/reflected_reference_object_short.html#f_copy_semantics_field">copy_semantics_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/reflected_copy_semantics_object_short.html">REFLECTED_COPY_SEMANTICS_OBJECT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Object attached to the </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_reference_object_short.html#f_object">object</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (directly or through a reference)</FONT>
+</A>
+    <A NAME="f_expanded_field"><A HREF="../elks/reflected_reference_object_short.html#f_expanded_field">expanded_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/reflected_reference_object_short.html">REFLECTED_REFERENCE_OBJECT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Object representation of the </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_reference_object_short.html#f_object">object</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> which is expanded. We provide a wrapper that enables</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> direct editing of the field without duplicating</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> the expanded object.</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Settings</FONT>
+
+    <A NAME="f_set_object"><A HREF="../elks/reflected_reference_object_short.html#f_set_object">set_object</A> (a_obj: <A HREF="../elks/any_short.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update Current to represent a new reflected object.</FONT>
+        <B>require</B>
+            physical_offset_not_set: <A HREF="../elks/reflected_reference_object_short.html#f_physical_offset">physical_offset</A> = 0
+        <B>ensure</B>
+            enclosing_object_set: <A HREF="../elks/reflected_reference_object_short.html#f_enclosing_object">enclosing_object</A> = a_obj
+            no_physical_offset: <A HREF="../elks/reflected_reference_object_short.html#f_physical_offset">physical_offset</A> = 0
+</A>    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/reflected_reference_object_short.html">REFLECTED_REFERENCE_OBJECT</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="reflected_reference_object_chart.html">Chart</A></TD><TD><A HREF="reflected_reference_object_links.html">Relations</A></TD><TD><A HREF="reflected_reference_object.html">Text</A></TD><TD><A HREF="reflected_reference_object_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="reflected_reference_object_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

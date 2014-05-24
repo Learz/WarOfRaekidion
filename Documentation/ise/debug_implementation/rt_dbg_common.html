@@ -1,0 +1,86 @@
+<HTML><HEAD>
+<meta name="description" content="Common routine for RT_DBG_ classes"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="library" content="EiffelBase: Library of reusable components for Eiffel."/>
+<meta name="copyright" content="Copyright (c) 1984-2008, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 356 Storke Road, Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>rt_dbg_common Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="rt_dbg_common_chart.html">Chart</A></TD><TD><A HREF="rt_dbg_common_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="rt_dbg_common_flat.html">Flat</A></TD><TD><A HREF="rt_dbg_common_short.html">Contracts</A></TD><TD><A HREF="rt_dbg_common_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Common routine for RT_DBG_ classes"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2013-05-20 16:15:17 -0700 (Mon, 20 May 2013) $"
+    revision: "$Revision: 92557 $"
+
+<B>deferred</B> <B>class</B> 
+    <A HREF="../../ise/debug_implementation/rt_dbg_common.html">RT_DBG_COMMON</A>
+
+<B>inherit</B>
+    <A HREF="../../ise/debug_implementation/rt_extension_common.html">RT_EXTENSION_COMMON</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Query</FONT>
+
+    <A NAME="f_changes_between"><A HREF="../../ise/debug_implementation/rt_dbg_common.html#f_changes_between">changes_between</A> (csr1: <A HREF="../../ise/debug_implementation/rt_dbg_call_record.html">RT_DBG_CALL_RECORD</A>; csr2: <B>detachable</B> <A HREF="../../ise/debug_implementation/rt_dbg_call_record.html">RT_DBG_CALL_RECORD</A>): <A HREF="../../elks/arrayed_list.html">ARRAYED_LIST</A> [<A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Return records from </FONT>`r1'<FONT COLOR="red"> to -beginning-of- </FONT>`r2'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            csr1_not_void: csr1 /= <B>Void</B>
+        <B>local</B>
+            chgs: <B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_common.html#f_changes_between">changes_between</A>
+            c, v: <A HREF="../../elks/cursor.html">CURSOR</A>
+            r: <B>detachable</B> <B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_common.html#f_changes_between">changes_between</A>
+        <B>do</B>
+            <B>if</B> csr1.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_is_flat">is_flat</A> <B>then</B>
+                r := csr1.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_value_records">value_records</A>
+            <B>end</B>
+            <B>if</B> r /= <B>Void</B> <B>then</B>
+                <B>Result</B> := r
+            <B>else</B>
+                <B>create</B> <B>Result</B>.<A HREF="../../elks/arrayed_list.html#f_make">make</A> (30)
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/list.html">LIST</A> [<A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>]} csr1.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_value_records">value_records</A> <B>as</B> vrecs <B>then</B>
+                    v := vrecs.<A HREF="../../elks/cursor_structure.html#f_cursor">cursor</A>
+                    <B>Result</B>.<A HREF="../../elks/arrayed_list.html#f_append">append</A> (vrecs)
+                    vrecs.<A HREF="../../elks/cursor_structure.html#f_go_to">go_to</A> (v)
+                <B>end</B>
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/list.html">LIST</A> [<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html">RT_DBG_CALL_RECORD</A>]} csr1.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_call_records">call_records</A> <B>as</B> crecs <B>then</B>
+                    c := crecs.<A HREF="../../elks/cursor_structure.html#f_cursor">cursor</A>
+                    <B>from</B>
+                        crecs.<A HREF="../../elks/chain.html#f_start">start</A>
+                    <B>until</B>
+                        crecs.<A HREF="../../elks/list.html#f_after">after</A> <B>or</B> crecs.<A HREF="../../elks/linear.html#f_item_for_iteration">item_for_iteration</A> = csr2
+                    <B>loop</B>
+                        chgs := <A HREF="../../ise/debug_implementation/rt_dbg_common.html#f_changes_between">changes_between</A> (crecs.<A HREF="../../elks/linear.html#f_item_for_iteration">item_for_iteration</A>, csr2)
+                        <B>if</B> chgs /= <B>Void</B> <B>then</B>
+                            <B>Result</B>.<A HREF="../../elks/arrayed_list.html#f_append">append</A> (chgs)
+                        <B>end</B>
+                        crecs.<A HREF="../../elks/list.html#f_forth">forth</A>
+                    <B>end</B>
+                    crecs.<A HREF="../../elks/cursor_structure.html#f_go_to">go_to</A> (c)
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B>
+            result_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>note</B>
+    library: "EiffelBase: Library of reusable components for Eiffel."
+    copyright: "Copyright (c) 1984-2008, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        356 Storke Road, Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../../ise/debug_implementation/rt_dbg_common.html">RT_DBG_COMMON</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="rt_dbg_common_chart.html">Chart</A></TD><TD><A HREF="rt_dbg_common_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="rt_dbg_common_flat.html">Flat</A></TD><TD><A HREF="rt_dbg_common_short.html">Contracts</A></TD><TD><A HREF="rt_dbg_common_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

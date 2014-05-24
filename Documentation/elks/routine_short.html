@@ -1,0 +1,139 @@
+<HTML><HEAD>
+<meta name="description" content="Objects representing delayed calls to a routine, with some operands possibly still open"/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>routine Contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="routine_chart.html">Chart</A></TD><TD><A HREF="routine_links.html">Relations</A></TD><TD><A HREF="routine.html">Text</A></TD><TD><A HREF="routine_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="routine_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Objects representing delayed calls to a routine,
+        with some operands possibly still open
+    ]"
+    library: "Free implementation of ELKS library"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2013-09-25 14:04:23 -0700 (Wed, 25 Sep 2013) $"
+    revision: "$Revision: 93010 $"
+
+<B>deferred</B> <B>class</B> <B>interface</B>
+    <A HREF="../elks/routine_short.html">ROUTINE</A> [BASE_TYPE -&gt; <B>detachable</B> <A HREF="../elks/any_short.html">ANY</A>, OPEN_ARGS -&gt; <B>detachable</B> <A HREF="../elks/tuple_short.html">TUPLE</A> <B>create</B> <A HREF="../elks/any_short.html#f_default_create">default_create</A> <B>end</B>]
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_adapt"><A HREF="../elks/routine_short.html#f_adapt">adapt</A> (other: <B>like</B> <B>Current</B>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize from </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Useful in descendants.</FONT>
+        <B>require</B>
+            other_exists: other /= <B>Void</B>
+            conforming: <A HREF="../elks/any_short.html#f_conforms_to">conforms_to</A> (other)
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_operands"><B>frozen</B> <A HREF="../elks/routine_short.html#f_operands">operands</A>: <B>detachable</B> OPEN_ARGS</A>
+
+    <A NAME="f_target"><A HREF="../elks/routine_short.html#f_target">target</A>: <B>detachable</B> <A HREF="../elks/any_short.html">ANY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Target of call</FONT>
+</A>
+    <A NAME="f_hash_code"><A HREF="../elks/routine_short.html#f_hash_code">hash_code</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Hash code value.</FONT>
+</A>
+    <A NAME="f_precondition"><A HREF="../elks/routine_short.html#f_precondition">precondition</A> (args: <B>like</B> <A HREF="../elks/routine_short.html#f_operands">operands</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do </FONT>`args'<FONT COLOR="red"> satisfy routine's precondition</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> in current state?</FONT>
+</A>
+    <A NAME="f_postcondition"><A HREF="../elks/routine_short.html#f_postcondition">postcondition</A> (args: <B>like</B> <A HREF="../elks/routine_short.html#f_operands">operands</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does current state satisfy routine's</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> postcondition for </FONT>`args'<FONT COLOR="red">?</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_callable"><A HREF="../elks/routine_short.html#f_callable">Callable</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A> = <B>True</B></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Can routine be called on current object?</FONT>
+
+    <A NAME="f_is_equal"><A HREF="../elks/routine_short.html#f_is_equal">is_equal</A> (other: <B>like</B> <B>Current</B>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is associated routine the same as the one</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> associated with </FONT>`other'<FONT COLOR="red">.</FONT>
+</A>
+    <A NAME="f_valid_operands"><A HREF="../elks/routine_short.html#f_valid_operands">valid_operands</A> (args: <B>detachable</B> <A HREF="../elks/tuple_short.html">TUPLE</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`args'<FONT COLOR="red"> valid operands for this routine?</FONT>
+</A>
+    <A NAME="f_valid_target"><A HREF="../elks/routine_short.html#f_valid_target">valid_target</A> (args: <B>detachable</B> <A HREF="../elks/tuple_short.html">TUPLE</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is the first element of tuple </FONT>`args'<FONT COLOR="red"> a valid target</FONT>
+</A>
+    <A NAME="f_is_target_closed"><A HREF="../elks/routine_short.html#f_is_target_closed">is_target_closed</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is target for current agent closed, i.e. specified at creation time?</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_open_count"><A HREF="../elks/routine_short.html#f_open_count">open_count</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of open operands.</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Settings</FONT>
+
+    <A NAME="f_set_operands"><B>frozen</B> <A HREF="../elks/routine_short.html#f_set_operands">set_operands</A> (args: <B>detachable</B> OPEN_ARGS)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Use </FONT>`args'<FONT COLOR="red"> as operands for next call.</FONT>
+        <B>require</B>
+            valid_operands: <A HREF="../elks/routine_short.html#f_valid_operands">valid_operands</A> (args)
+        <B>ensure</B>
+            operands_set: (<A HREF="../elks/routine_short.html#f_operands">operands</A> /= <B>Void</B> <B>implies</B> (<A HREF="../elks/routine_short.html#f_operands">operands</A> ~ args)) <B>or</B> (<A HREF="../elks/routine_short.html#f_operands">operands</A> = <B>Void</B> <B>implies</B> (args = <B>Void</B> <B>or else</B> args.<A HREF="../elks/tuple_short.html#f_is_empty">is_empty</A>))
+</A>
+    <A NAME="f_set_target"><A HREF="../elks/routine_short.html#f_set_target">set_target</A> (a_target: <B>like</B> <A HREF="../elks/routine_short.html#f_target">target</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT>`a_target'<FONT COLOR="red"> as the next </FONT><A HREF="../elks/routine_short.html#f_target">target</A><FONT COLOR="red"> for remaining calls to Current.</FONT>
+        <B>require</B>
+            a_target_not_void: a_target /= <B>Void</B>
+            is_target_closed: <A HREF="../elks/routine_short.html#f_is_target_closed">is_target_closed</A>
+            target_not_void: <A HREF="../elks/routine_short.html#f_target">target</A> /= <B>Void</B>
+            same_target_type: <B>attached</B> <A HREF="../elks/routine_short.html#f_target">target</A> <B>as</B> t <B>and then</B> t.<A HREF="../elks/any_short.html#f_same_type">same_type</A> (a_target)
+        <B>ensure</B>
+            target_set: <A HREF="../elks/routine_short.html#f_target">target</A> = a_target
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_copy"><A HREF="../elks/routine_short.html#f_copy">copy</A> (other: <B>like</B> <B>Current</B>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Use same routine as </FONT>`other'<FONT COLOR="red">.</FONT>
+        <B>ensure then</B>
+            same_call_status: other.<A HREF="../elks/routine_short.html#f_callable">Callable</A> <B>implies</B> <A HREF="../elks/routine_short.html#f_callable">Callable</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_call"><A HREF="../elks/routine_short.html#f_call">call</A> (args: <B>detachable</B> OPEN_ARGS)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Call routine with </FONT>`args'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            valid_operands: <A HREF="../elks/routine_short.html#f_valid_operands">valid_operands</A> (args)
+</A>
+    <A NAME="f_apply"><A HREF="../elks/routine_short.html#f_apply">apply</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Call routine with </FONT><A HREF="../elks/routine_short.html#f_operands">operands</A><FONT COLOR="red"> as last set.</FONT>
+        <B>require</B>
+            valid_operands: <A HREF="../elks/routine_short.html#f_valid_operands">valid_operands</A> (<A HREF="../elks/routine_short.html#f_operands">operands</A>)
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Extended operations</FONT>
+
+    <A NAME="f_flexible_call"><A HREF="../elks/routine_short.html#f_flexible_call">flexible_call</A> (a: <B>detachable</B> <A HREF="../elks/tuple_short.html">TUPLE</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Call routine with arguments </FONT>`a'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Compared to </FONT><A HREF="../elks/routine_short.html#f_call">call</A><FONT COLOR="red"> the type of </FONT>`a'<FONT COLOR="red"> may be different from </FONT>`{OPEN_ARGS}'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            valid_operands: <A HREF="../elks/routine_short.html#f_valid_operands">valid_operands</A> (a)
+</A>    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/routine_short.html">ROUTINE</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="routine_chart.html">Chart</A></TD><TD><A HREF="routine_links.html">Relations</A></TD><TD><A HREF="routine.html">Text</A></TD><TD><A HREF="routine_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="routine_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

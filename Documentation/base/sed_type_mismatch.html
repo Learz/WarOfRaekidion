@@ -1,0 +1,203 @@
+<HTML><HEAD>
+<meta name="description" content="Store all information about a mismatch in a type."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="library" content="EiffelBase: Library of reusable components for Eiffel."/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>sed_type_mismatch Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sed_type_mismatch_chart.html">Chart</A></TD><TD><A HREF="sed_type_mismatch_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="sed_type_mismatch_flat.html">Flat</A></TD><TD><A HREF="sed_type_mismatch_short.html">Contracts</A></TD><TD><A HREF="sed_type_mismatch_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Store all information about a mismatch in a type."
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2013-03-04 14:57:52 -0800 (Mon, 04 Mar 2013) $"
+    revision: "$Revision: 91317 $"
+
+<B>class</B> 
+    <A HREF="../ise/sed_type_mismatch.html">SED_TYPE_MISMATCH</A>
+
+<B>create</B> 
+    <A HREF="../ise/sed_type_mismatch.html#f_make">make</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../ise/sed_type_mismatch.html#f_make">make</A> (a_type_id: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Mismatch for dynamic type </FONT>`a_type_id'<FONT COLOR="red"> in retrieving system.</FONT>
+        <B>require</B>
+            type_id_non_negative: a_type_id &gt;= 0
+        <B>local</B>
+            l_attribute_count: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <A HREF="../ise/sed_type_mismatch.html#f_type_id">type_id</A> := a_type_id
+            l_attribute_count := <A HREF="../ise/sed_type_mismatch.html#f_internal">Internal</A>.<A HREF="../elks/reflector.html#f_field_count_of_type">field_count_of_type</A> (<A HREF="../ise/sed_type_mismatch.html#f_type_id">type_id</A>)
+            <B>create</B> <A HREF="../ise/sed_type_mismatch.html#f_mismatches_by_name">mismatches_by_name</A>.<A HREF="../elks/hash_table.html#f_make">make</A> (l_attribute_count)
+            <B>create</B> <A HREF="../ise/sed_type_mismatch.html#f_mismatches_by_stored_position">mismatches_by_stored_position</A>.<A HREF="../elks/hash_table.html#f_make">make</A> (l_attribute_count)
+        <B>ensure</B>
+            type_id_set: <A HREF="../ise/sed_type_mismatch.html#f_type_id">type_id</A> = a_type_id
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_add_new_attribute_mismatch"><A HREF="../ise/sed_type_mismatch.html#f_add_new_attribute_mismatch">add_new_attribute_mismatch</A> (a_added_attribute_count: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Mismatch when new attributes have been added</FONT>
+        <B>require</B>
+            a_added_attribute_count_positive: a_added_attribute_count &gt; 0
+        <B>do</B>
+            <A HREF="../ise/sed_type_mismatch.html#f_has_new_attribute">has_new_attribute</A> := <B>True</B>
+        <B>end</B></A>
+
+    <A NAME="f_add_attribute_count_mismatch"><A HREF="../ise/sed_type_mismatch.html#f_add_attribute_count_mismatch">add_attribute_count_mismatch</A> (a_old_count, a_new_count: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Mismatch where there is </FONT>`a_old_count'<FONT COLOR="red"> attributes in the original system</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> and </FONT>`a_new_count'<FONT COLOR="red"> attributes in the retrieving system.</FONT>
+        <B>require</B>
+            old_count_non_negative: a_old_count &gt;= 0
+            new_count_non_negative: a_new_count &gt;= 0
+        <B>do</B>
+            <A HREF="../ise/sed_type_mismatch.html#f_old_count">old_count</A> := a_old_count
+            <A HREF="../ise/sed_type_mismatch.html#f_new_count">new_count</A> := a_new_count
+        <B>ensure</B>
+            old_count_set: <A HREF="../ise/sed_type_mismatch.html#f_old_count">old_count</A> = a_old_count
+            new_count_set: <A HREF="../ise/sed_type_mismatch.html#f_new_count">new_count</A> = a_new_count
+        <B>end</B></A>
+
+    <A NAME="f_add_version_mismatch"><A HREF="../ise/sed_type_mismatch.html#f_add_version_mismatch">add_version_mismatch</A> (a_old_version, a_new_version: <B>detachable</B> <A HREF="../elks/immutable_string_8.html">IMMUTABLE_STRING_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Mismatch where the original system as a version </FONT>`a_old_version'<FONT COLOR="red"> which differs</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> from the version </FONT>`a_new_version'<FONT COLOR="red"> in the retrieving system.</FONT>
+        <B>require</B>
+            different_version: a_old_version /~ a_new_version
+        <B>do</B>
+            <A HREF="../ise/sed_type_mismatch.html#f_old_version">old_version</A> := a_old_version
+            <A HREF="../ise/sed_type_mismatch.html#f_new_version">new_version</A> := a_new_version
+            <A HREF="../ise/sed_type_mismatch.html#f_has_version_mismatch">has_version_mismatch</A> := <B>True</B>
+        <B>ensure</B>
+            old_version_set: <A HREF="../ise/sed_type_mismatch.html#f_old_version">old_version</A> = a_old_version
+            new_version_set: <A HREF="../ise/sed_type_mismatch.html#f_new_version">new_version</A> = a_new_version
+            version_mismatched: <A HREF="../ise/sed_type_mismatch.html#f_has_version_mismatch">has_version_mismatch</A>
+        <B>end</B></A>
+
+    <A NAME="f_add_attribute_mismatch"><A HREF="../ise/sed_type_mismatch.html#f_add_attribute_mismatch">add_attribute_mismatch</A> (a_old_attr_type, a_new_attr_type: <A HREF="../elks/integer_32.html">INTEGER_32</A>; a_old_name, a_new_name: <A HREF="../elks/string_8.html">STRING_8</A>; a_old_pos, a_new_pos: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Mismatch for </FONT>`a_old_name'<FONT COLOR="red"> where the new name is </FONT>`a_new_name'<FONT COLOR="red">, the new type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_new_attr_type'<FONT COLOR="red"> is different from </FONT>`a_old_attr_type'<FONT COLOR="red"> stored at position</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_old_pos'<FONT COLOR="red"> in the stored system for a </FONT>`a_new_pos'<FONT COLOR="red"> in the retrieving system.</FONT>
+        <B>require</B>
+            a_old_attr_type_non_negative: a_old_attr_type &gt;= 0
+            a_new_attr_type_non_negative: a_new_attr_type &gt;= 0
+            a_old_name_attached: a_old_name /= <B>Void</B>
+            a_new_name_attached: a_new_name /= <B>Void</B>
+            a_old_pos_positive: a_old_pos &gt; 0
+            a_new_pos_positive: a_new_pos &gt; 0
+        <B>local</B>
+            l_info: <B>like</B> <A HREF="../ise/sed_type_mismatch.html#f_attribute_info">attribute_info</A>
+        <B>do</B>
+            l_info := [a_old_name, a_new_name, a_old_attr_type, a_new_attr_type, a_old_pos, a_new_pos, <B>True</B>, <B>False</B>, <B>False</B>]
+            <A HREF="../ise/sed_type_mismatch.html#f_mismatches_by_name">mismatches_by_name</A>.<A HREF="../elks/hash_table.html#f_put">put</A> (l_info, a_new_name)
+            <A HREF="../ise/sed_type_mismatch.html#f_mismatches_by_stored_position">mismatches_by_stored_position</A>.<A HREF="../elks/hash_table.html#f_put">put</A> (l_info, a_old_pos)
+        <B>end</B></A>
+
+    <A NAME="f_add_void_safe_mismatch"><A HREF="../ise/sed_type_mismatch.html#f_add_void_safe_mismatch">add_void_safe_mismatch</A> (a_old_attr_type, a_new_attr_type: <A HREF="../elks/integer_32.html">INTEGER_32</A>; a_old_name, a_new_name: <A HREF="../elks/string_8.html">STRING_8</A>; a_old_pos, a_new_pos: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Mismatch for </FONT>`a_old_name'<FONT COLOR="red"> where the new name is </FONT>`a_new_name'<FONT COLOR="red">, the new type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_new_attr_type'<FONT COLOR="red"> is attached and </FONT>`a_old_attr_type'<FONT COLOR="red"> is detachable stored at position</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_old_pos'<FONT COLOR="red"> in the stored system for a </FONT>`a_new_pos'<FONT COLOR="red"> in the retrieving system.</FONT>
+        <B>require</B>
+            a_old_attr_type_non_negative: a_old_attr_type &gt;= 0
+            a_new_attr_type_non_negative: a_new_attr_type &gt;= 0
+            a_old_name_attached: a_old_name /= <B>Void</B>
+            a_new_name_attached: a_new_name /= <B>Void</B>
+            a_old_pos_positive: a_old_pos &gt; 0
+            a_new_pos_positive: a_new_pos &gt; 0
+        <B>local</B>
+            l_info: <B>like</B> <A HREF="../ise/sed_type_mismatch.html#f_attribute_info">attribute_info</A>
+        <B>do</B>
+            l_info := [a_old_name, a_new_name, a_old_attr_type, a_new_attr_type, a_old_pos, a_new_pos, <B>False</B>, <B>False</B>, <B>True</B>]
+            <A HREF="../ise/sed_type_mismatch.html#f_mismatches_by_name">mismatches_by_name</A>.<A HREF="../elks/hash_table.html#f_put">put</A> (l_info, a_new_name)
+            <A HREF="../ise/sed_type_mismatch.html#f_mismatches_by_stored_position">mismatches_by_stored_position</A>.<A HREF="../elks/hash_table.html#f_put">put</A> (l_info, a_old_pos)
+        <B>end</B></A>
+
+    <A NAME="f_add_removed_attribute"><A HREF="../ise/sed_type_mismatch.html#f_add_removed_attribute">add_removed_attribute</A> (a_old_attr_type: <A HREF="../elks/integer_32.html">INTEGER_32</A>; a_old_name, a_new_name: <A HREF="../elks/string_8.html">STRING_8</A>; a_old_pos: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attribute </FONT>`a_name'<FONT COLOR="red"> of type </FONT>`a_old_attr_type'<FONT COLOR="red"> at position </FONT>`a_old_pos'<FONT COLOR="red"> in</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> the stored system is now missing from Current.</FONT>
+        <B>require</B>
+            a_old_attr_type_non_negative: a_old_attr_type &gt;= 0
+            a_old_name_attached: a_old_name /= <B>Void</B>
+            a_new_name_attached: a_new_name /= <B>Void</B>
+            a_old_pos_positive: a_old_pos &gt; 0
+        <B>local</B>
+            l_info: <B>like</B> <A HREF="../ise/sed_type_mismatch.html#f_attribute_info">attribute_info</A>
+        <B>do</B>
+            l_info := [a_old_name, a_new_name, a_old_attr_type, -1, a_old_pos, -1, <B>False</B>, <B>True</B>, <B>False</B>]
+            <A HREF="../ise/sed_type_mismatch.html#f_mismatches_by_name">mismatches_by_name</A>.<A HREF="../elks/hash_table.html#f_put">put</A> (l_info, a_new_name)
+            <A HREF="../ise/sed_type_mismatch.html#f_mismatches_by_stored_position">mismatches_by_stored_position</A>.<A HREF="../elks/hash_table.html#f_put">put</A> (l_info, a_old_pos)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_has_version_mismatch"><A HREF="../ise/sed_type_mismatch.html#f_has_version_mismatch">has_version_mismatch</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do we have a mismatch in versioning?</FONT>
+
+    <A NAME="f_has_new_attribute"><A HREF="../ise/sed_type_mismatch.html#f_has_new_attribute">has_new_attribute</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do we have new attributes that did not exist in the stored system?</FONT>
+
+    <A NAME="f_has_new_attached_attribute"><A HREF="../ise/sed_type_mismatch.html#f_has_new_attached_attribute">has_new_attached_attribute</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do we have new attached attributes that did not exist in the stored system?</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_type_id"><A HREF="../ise/sed_type_mismatch.html#f_type_id">type_id</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Type ID for type having the mismatch</FONT>
+
+    <A NAME="f_old_count"><A HREF="../ise/sed_type_mismatch.html#f_old_count">old_count</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of attributes in original system and retrieving system.</FONT>
+
+    <A NAME="f_new_count"><A HREF="../ise/sed_type_mismatch.html#f_new_count">new_count</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of attributes in original system and retrieving system.</FONT>
+
+    <A NAME="f_old_version"><A HREF="../ise/sed_type_mismatch.html#f_old_version">old_version</A>: <B>detachable</B> <A HREF="../elks/immutable_string_8.html">IMMUTABLE_STRING_8</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Version in stored system and retrieving system.</FONT>
+
+    <A NAME="f_new_version"><A HREF="../ise/sed_type_mismatch.html#f_new_version">new_version</A>: <B>detachable</B> <A HREF="../elks/immutable_string_8.html">IMMUTABLE_STRING_8</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Version in stored system and retrieving system.</FONT>
+
+    <A NAME="f_mismatches_by_name"><A HREF="../ise/sed_type_mismatch.html#f_mismatches_by_name">mismatches_by_name</A>: <A HREF="../elks/hash_table.html">HASH_TABLE</A> [<B>attached</B> <B>like</B> <A HREF="../ise/sed_type_mismatch.html#f_attribute_info">attribute_info</A>, <A HREF="../elks/string_8.html">STRING_8</A>]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Store information about mismatch based on the attribute name.</FONT>
+
+    <A NAME="f_mismatches_by_stored_position"><A HREF="../ise/sed_type_mismatch.html#f_mismatches_by_stored_position">mismatches_by_stored_position</A>: <A HREF="../elks/hash_table.html">HASH_TABLE</A> [<B>attached</B> <B>like</B> <A HREF="../ise/sed_type_mismatch.html#f_attribute_info">attribute_info</A>, <A HREF="../elks/integer_32.html">INTEGER_32</A>]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Store information about mismatch based on the store position.</FONT>
+
+    <A NAME="f_attribute_info"><A HREF="../ise/sed_type_mismatch.html#f_attribute_info">attribute_info</A>: <B>detachable</B> <A HREF="../elks/tuple.html">TUPLE</A> [old_name: <A HREF="../elks/string_8.html">STRING_8</A>; new_name: <A HREF="../elks/string_8.html">STRING_8</A>; old_attribute_type: <A HREF="../elks/integer_32.html">INTEGER_32</A>; new_attribute_type: <A HREF="../elks/integer_32.html">INTEGER_32</A>; old_position: <A HREF="../elks/integer_32.html">INTEGER_32</A>; new_position: <A HREF="../elks/integer_32.html">INTEGER_32</A>; is_changed: <A HREF="../elks/boolean.html">BOOLEAN</A>; is_removed: <A HREF="../elks/boolean.html">BOOLEAN</A>; is_attachment_check_required: <A HREF="../elks/boolean.html">BOOLEAN</A>]
+        <B>do</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_internal"><A HREF="../ise/sed_type_mismatch.html#f_internal">Internal</A>: <A HREF="../elks/reflector.html">REFLECTOR</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> To query type properties.</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+        <B>end</B></A>
+    
+<B>invariant</B>
+    type_id_non_negative: <A HREF="../ise/sed_type_mismatch.html#f_type_id">type_id</A> &gt;= 0
+    counts_non_negative: <A HREF="../ise/sed_type_mismatch.html#f_old_count">old_count</A> &gt;= 0 <B>and</B> <A HREF="../ise/sed_type_mismatch.html#f_new_count">new_count</A> &gt;= 0
+
+<B>note</B>
+    library: "EiffelBase: Library of reusable components for Eiffel."
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../ise/sed_type_mismatch.html">SED_TYPE_MISMATCH</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sed_type_mismatch_chart.html">Chart</A></TD><TD><A HREF="sed_type_mismatch_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="sed_type_mismatch_flat.html">Flat</A></TD><TD><A HREF="sed_type_mismatch_short.html">Contracts</A></TD><TD><A HREF="sed_type_mismatch_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

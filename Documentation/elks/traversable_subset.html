@@ -1,0 +1,260 @@
+<HTML><HEAD>
+<meta name="description" content="Subsets that are traversable sequentially"/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="names" content="traversable_subset, set, subset"/>
+<meta name="access" content="sequential"/>
+<meta name="contents" content="generic"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>traversable_subset Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="traversable_subset_chart.html">Chart</A></TD><TD><A HREF="traversable_subset_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="traversable_subset_flat.html">Flat</A></TD><TD><A HREF="traversable_subset_short.html">Contracts</A></TD><TD><A HREF="traversable_subset_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Subsets that are traversable sequentially"
+    library: "Free implementation of ELKS library"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    names: traversable_subset, set, subset
+    access: sequential
+    contents: generic
+    date: "$Date: 2012-07-23 14:02:19 -0700 (Mon, 23 Jul 2012) $"
+    revision: "$Revision: 91989 $"
+
+<B>deferred</B> <B>class</B> 
+    <A HREF="../elks/traversable_subset.html">TRAVERSABLE_SUBSET</A> [G]
+
+<B>inherit</B>
+    <A HREF="../elks/subset.html">SUBSET</A> [G]
+        <B>undefine</B>
+            <A HREF="../elks/traversable_subset.html#f_disjoint">disjoint</A>,
+            <A HREF="../elks/traversable_subset.html#f_symdif">symdif</A>
+        <B>end</B>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_item"><A HREF="../elks/traversable_subset.html#f_item">item</A>: G
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Current item</FONT>
+        <B>require</B>
+            not_off: <B>not</B> <A HREF="../elks/traversable_subset.html#f_off">off</A>
+        <B>deferred</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_count"><A HREF="../elks/traversable_subset.html#f_count">count</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of items</FONT>
+        <B>deferred</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_disjoint"><A HREF="../elks/traversable_subset.html#f_disjoint">disjoint</A> (other: <A HREF="../elks/traversable_subset.html">TRAVERSABLE_SUBSET</A> [G]): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do current set and </FONT>`other'<FONT COLOR="red"> have no</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> items in common?</FONT>
+        <B>local</B>
+            s: <A HREF="../elks/subset_strategy.html">SUBSET_STRATEGY</A> [G]
+        <B>do</B>
+            <B>if</B> <B>not</B> <A HREF="../elks/traversable_subset.html#f_is_empty">is_empty</A> <B>and</B> <B>not</B> other.<A HREF="../elks/traversable_subset.html#f_is_empty">is_empty</A> <B>then</B>
+                s := <A HREF="../elks/traversable_subset.html#f_subset_strategy">subset_strategy</A> (other)
+                <B>Result</B> := s.<A HREF="../elks/subset_strategy.html#f_disjoint">disjoint</A> (<B>Current</B>, other)
+            <B>else</B>
+                <B>Result</B> := <B>True</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_subset"><A HREF="../elks/traversable_subset.html#f_is_subset">is_subset</A> (other: <A HREF="../elks/traversable_subset.html">TRAVERSABLE_SUBSET</A> [G]): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current set a subset of </FONT>`other'<FONT COLOR="red">?</FONT>
+        <B>do</B>
+            <B>if</B> <B>not</B> other.<A HREF="../elks/traversable_subset.html#f_is_empty">is_empty</A> <B>and then</B> <A HREF="../elks/traversable_subset.html#f_count">count</A> &lt;= other.<A HREF="../elks/traversable_subset.html#f_count">count</A> <B>then</B>
+                <B>from</B>
+                    <A HREF="../elks/traversable_subset.html#f_start">start</A>
+                <B>until</B>
+                    <A HREF="../elks/traversable_subset.html#f_off">off</A> <B>or else</B> <B>not</B> other.<A HREF="../elks/container.html#f_has">has</A> (<A HREF="../elks/traversable_subset.html#f_item">item</A>)
+                <B>loop</B>
+                    <A HREF="../elks/traversable_subset.html#f_forth">forth</A>
+                <B>end</B>
+                <B>if</B> <A HREF="../elks/traversable_subset.html#f_off">off</A> <B>then</B>
+                    <B>Result</B> := <B>True</B>
+                <B>end</B>
+            <B>elseif</B> <A HREF="../elks/traversable_subset.html#f_is_empty">is_empty</A> <B>then</B>
+                <B>Result</B> := <B>True</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_after"><A HREF="../elks/traversable_subset.html#f_after">after</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is cursor behind last item?</FONT>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_off"><A HREF="../elks/traversable_subset.html#f_off">off</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is cursor off the active items?</FONT>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_empty"><A HREF="../elks/traversable_subset.html#f_is_empty">is_empty</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is container empty?</FONT>
+        <B>deferred</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Cursor movement</FONT>
+
+    <A NAME="f_start"><A HREF="../elks/traversable_subset.html#f_start">start</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to first item.</FONT>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_forth"><A HREF="../elks/traversable_subset.html#f_forth">forth</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to next element.</FONT>
+        <B>require</B>
+            not_after: <B>not</B> <A HREF="../elks/traversable_subset.html#f_after">after</A>
+        <B>deferred</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_merge"><A HREF="../elks/traversable_subset.html#f_merge">merge</A> (other: <A HREF="../elks/container.html">CONTAINER</A> [G])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Add all items of </FONT>`other'<FONT COLOR="red">.</FONT>
+        <B>local</B>
+            l: <A HREF="../elks/linear.html">LINEAR</A> [G]
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<A HREF="../elks/linear.html">LINEAR</A> [G]} other <B>as</B> lin_rep <B>then</B>
+                l := lin_rep
+            <B>else</B>
+                l := other.<A HREF="../elks/container.html#f_linear_representation">linear_representation</A>
+            <B>end</B>
+            <B>from</B>
+                l.<A HREF="../elks/traversable.html#f_start">start</A>
+            <B>until</B>
+                l.<A HREF="../elks/linear.html#f_off">off</A>
+            <B>loop</B>
+                <A HREF="../elks/set.html#f_extend">extend</A> (l.<A HREF="../elks/traversable.html#f_item">item</A>)
+                l.<A HREF="../elks/linear.html#f_forth">forth</A>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removal</FONT>
+
+    <A NAME="f_remove"><A HREF="../elks/traversable_subset.html#f_remove">remove</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove current item.</FONT>
+        <B>require</B>
+            not_off: <B>not</B> <A HREF="../elks/traversable_subset.html#f_off">off</A>
+        <B>deferred</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_symdif"><A HREF="../elks/traversable_subset.html#f_symdif">symdif</A> (other: <A HREF="../elks/traversable_subset.html">TRAVERSABLE_SUBSET</A> [G])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove all items also in </FONT>`other'<FONT COLOR="red">, and add all</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> items of </FONT>`other'<FONT COLOR="red"> not already present.</FONT>
+        <B>local</B>
+            s: <A HREF="../elks/subset_strategy.html">SUBSET_STRATEGY</A> [G]
+        <B>do</B>
+            <B>if</B> <B>not</B> other.<A HREF="../elks/traversable_subset.html#f_is_empty">is_empty</A> <B>then</B>
+                <B>if</B> <A HREF="../elks/traversable_subset.html#f_is_empty">is_empty</A> <B>then</B>
+                    <B>from</B>
+                        other.<A HREF="../elks/traversable_subset.html#f_start">start</A>
+                    <B>until</B>
+                        other.<A HREF="../elks/traversable_subset.html#f_after">after</A>
+                    <B>loop</B>
+                        <A HREF="../elks/set.html#f_extend">extend</A> (other.<A HREF="../elks/traversable_subset.html#f_item">item</A>)
+                    <B>end</B>
+                <B>else</B>
+                    s := <A HREF="../elks/traversable_subset.html#f_subset_strategy">subset_strategy</A> (other)
+                    s.<A HREF="../elks/subset_strategy.html#f_symdif">symdif</A> (<B>Current</B>, other)
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_intersect"><A HREF="../elks/traversable_subset.html#f_intersect">intersect</A> (other: <A HREF="../elks/traversable_subset.html">TRAVERSABLE_SUBSET</A> [G])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove all items not in </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> No effect if </FONT>`other'<FONT COLOR="red"> </FONT><A HREF="../elks/traversable_subset.html#f_is_empty">is_empty</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>if</B> <B>not</B> other.<A HREF="../elks/traversable_subset.html#f_is_empty">is_empty</A> <B>then</B>
+                <B>from</B>
+                    <A HREF="../elks/traversable_subset.html#f_start">start</A>
+                    other.<A HREF="../elks/traversable_subset.html#f_start">start</A>
+                <B>until</B>
+                    <A HREF="../elks/traversable_subset.html#f_off">off</A>
+                <B>loop</B>
+                    <B>if</B> other.<A HREF="../elks/container.html#f_has">has</A> (<A HREF="../elks/traversable_subset.html#f_item">item</A>) <B>then</B>
+                        <A HREF="../elks/traversable_subset.html#f_forth">forth</A>
+                    <B>else</B>
+                        <A HREF="../elks/traversable_subset.html#f_remove">remove</A>
+                    <B>end</B>
+                <B>end</B>
+            <B>else</B>
+                <A HREF="../elks/collection.html#f_wipe_out">wipe_out</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_subtract"><A HREF="../elks/traversable_subset.html#f_subtract">subtract</A> (other: <A HREF="../elks/traversable_subset.html">TRAVERSABLE_SUBSET</A> [G])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove all items also in </FONT>`other'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>if</B> <B>not</B> (other.<A HREF="../elks/traversable_subset.html#f_is_empty">is_empty</A> <B>or</B> <A HREF="../elks/traversable_subset.html#f_is_empty">is_empty</A>) <B>then</B>
+                <B>from</B>
+                    <A HREF="../elks/traversable_subset.html#f_start">start</A>
+                    other.<A HREF="../elks/traversable_subset.html#f_start">start</A>
+                <B>until</B>
+                    <A HREF="../elks/traversable_subset.html#f_off">off</A>
+                <B>loop</B>
+                    <B>if</B> other.<A HREF="../elks/container.html#f_has">has</A> (<A HREF="../elks/traversable_subset.html#f_item">item</A>) <B>then</B>
+                        <A HREF="../elks/traversable_subset.html#f_remove">remove</A>
+                    <B>else</B>
+                        <A HREF="../elks/traversable_subset.html#f_forth">forth</A>
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_subset_strategy_selection"><A HREF="../elks/traversable_subset.html#f_subset_strategy_selection">subset_strategy_selection</A> (v: G; other: <A HREF="../elks/traversable_subset.html">TRAVERSABLE_SUBSET</A> [G]): <A HREF="../elks/subset_strategy.html">SUBSET_STRATEGY</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Strategy to calculate several subset features selected depending</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on the dynamic type of </FONT>`v'<FONT COLOR="red"> and </FONT>`other'
+        <B>require</B>
+            item_exists: v /= <B>Void</B>
+            other_exists: other /= <B>Void</B>
+        <B>deferred</B>
+        <B>ensure</B>
+            strategy_set: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_subset_strategy"><A HREF="../elks/traversable_subset.html#f_subset_strategy">subset_strategy</A> (other: <A HREF="../elks/traversable_subset.html">TRAVERSABLE_SUBSET</A> [G]): <A HREF="../elks/subset_strategy.html">SUBSET_STRATEGY</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Subset strategy suitable for the type of the contained elements.</FONT>
+        <B>require</B>
+            not_empty: <B>not</B> <A HREF="../elks/traversable_subset.html#f_is_empty">is_empty</A>
+        <B>do</B>
+            <A HREF="../elks/traversable_subset.html#f_start">start</A>
+            <B>check</B>
+                not_off: <B>not</B> <A HREF="../elks/traversable_subset.html#f_off">off</A>
+            <B>end</B>
+            <B>Result</B> := <A HREF="../elks/traversable_subset.html#f_subset_strategy_selection">subset_strategy_selection</A> (<A HREF="../elks/traversable_subset.html#f_item">item</A>, other)
+        <B>end</B></A>
+    
+<B>invariant</B>
+    empty_definition: <A HREF="../elks/traversable_subset.html#f_is_empty">is_empty</A> = (<A HREF="../elks/traversable_subset.html#f_count">count</A> = 0)
+    count_range: <A HREF="../elks/traversable_subset.html#f_count">count</A> &gt;= 0
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/traversable_subset.html">TRAVERSABLE_SUBSET</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="traversable_subset_chart.html">Chart</A></TD><TD><A HREF="traversable_subset_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="traversable_subset_flat.html">Flat</A></TD><TD><A HREF="traversable_subset_short.html">Contracts</A></TD><TD><A HREF="traversable_subset_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

@@ -1,0 +1,419 @@
+<HTML><HEAD>
+<meta name="description" content="Eiffel class instanciated and used from the Eiffel runtime."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="library" content="EiffelBase: Library of reusable components for Eiffel."/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>rt_extension Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="rt_extension_chart.html">Chart</A></TD><TD><A HREF="rt_extension_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="rt_extension_flat.html">Flat</A></TD><TD><A HREF="rt_extension_short.html">Contracts</A></TD><TD><A HREF="rt_extension_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Eiffel class instanciated and used from the Eiffel runtime."
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2013-11-19 16:39:45 -0800 (Tue, 19 Nov 2013) $"
+    revision: "$Revision: 93456 $"
+
+<B>class</B> 
+    <A HREF="../../ise/debug_implementation/rt_extension.html">RT_EXTENSION</A>
+
+<B>inherit</B>
+    <A HREF="../../ise/debug_implementation/rt_extension_general.html">RT_EXTENSION_GENERAL</A>
+
+<B>create</B> 
+    <A HREF="../../elks/any.html#f_default_create">default_create</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Notification</FONT>
+
+    <A NAME="f_notify"><A HREF="../../ise/debug_implementation/rt_extension.html#f_notify">notify</A> (a_id: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_data: <A HREF="../../elks/tuple.html">TUPLE</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Notify operation </FONT>`a_id'<FONT COLOR="red"> with data </FONT>`a_data'
+        <B>require</B>
+            a_data_attached: a_data /= <B>Void</B>
+        <B>local</B>
+            retried: <A HREF="../../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            <B>if</B> <B>not</B> retried <B>then</B>
+                <B>inspect</B> a_id
+                <B>when</B> <A HREF="../../ise/debug_implementation/rt_extension_general.html#f_op_enter_feature">Op_enter_feature</A> <B>then</B> 
+                    <B>if</B> <B>attached</B> {<B>like</B> <A HREF="../../ise/debug_implementation/rt_extension.html#f_events_feature_argument">events_feature_argument</A>} a_data <B>as</B> t_ef <B>then</B>
+                        <A HREF="../../ise/debug_implementation/rt_extension.html#f_process_enter_feature">process_enter_feature</A> (t_ef)
+                    <B>else</B>
+                        <B>check</B>
+                            valid_tuple_data: <B>False</B>
+                        <B>end</B>
+                    <B>end</B>
+                    <A HREF="../../ise/debug_implementation/rt_extension.html#f_reset_events_feature_argument">reset_events_feature_argument</A> (a_data)
+                <B>when</B> <A HREF="../../ise/debug_implementation/rt_extension_general.html#f_op_leave_feature">Op_leave_feature</A> <B>then</B> 
+                    <B>if</B> <B>attached</B> {<B>like</B> <A HREF="../../ise/debug_implementation/rt_extension.html#f_events_feature_argument">events_feature_argument</A>} a_data <B>as</B> t_lf <B>then</B>
+                        <A HREF="../../ise/debug_implementation/rt_extension.html#f_process_leave_feature">process_leave_feature</A> (t_lf)
+                    <B>else</B>
+                        <B>check</B>
+                            valid_tuple_data: <B>False</B>
+                        <B>end</B>
+                    <B>end</B>
+                    <A HREF="../../ise/debug_implementation/rt_extension.html#f_reset_events_feature_argument">reset_events_feature_argument</A> (a_data)
+                <B>when</B> <A HREF="../../ise/debug_implementation/rt_extension_general.html#f_op_rescue_feature">Op_rescue_feature</A> <B>then</B> 
+                    <B>if</B> <B>attached</B> {<B>like</B> <A HREF="../../ise/debug_implementation/rt_extension.html#f_events_feature_argument">events_feature_argument</A>} a_data <B>as</B> t_rf <B>then</B>
+                        <A HREF="../../ise/debug_implementation/rt_extension.html#f_process_rescue_feature">process_rescue_feature</A> (t_rf)
+                    <B>else</B>
+                        <B>check</B>
+                            valid_tuple_data: <B>False</B>
+                        <B>end</B>
+                    <B>end</B>
+                    <A HREF="../../ise/debug_implementation/rt_extension.html#f_reset_events_feature_argument">reset_events_feature_argument</A> (a_data)
+                <B>when</B> <A HREF="../../ise/debug_implementation/rt_extension_general.html#f_op_rt_hook">Op_rt_hook</A> <B>then</B> 
+                    <B>if</B> <B>attached</B> {<B>like</B> <A HREF="../../ise/debug_implementation/rt_extension.html#f_events_feature_argument">events_feature_argument</A>} a_data <B>as</B> t_rh <B>then</B>
+                        <A HREF="../../ise/debug_implementation/rt_extension.html#f_process_rt_hook">process_rt_hook</A> (t_rh)
+                    <B>else</B>
+                        <B>check</B>
+                            valid_tuple_data: <B>False</B>
+                        <B>end</B>
+                    <B>end</B>
+                    <A HREF="../../ise/debug_implementation/rt_extension.html#f_reset_events_feature_argument">reset_events_feature_argument</A> (a_data)
+                <B>when</B> <A HREF="../../ise/debug_implementation/rt_extension_general.html#f_op_rt_assign_attrib">Op_rt_assign_attrib</A> <B>then</B> 
+                    <B>if</B> <B>attached</B> {<B>like</B> <A HREF="../../ise/debug_implementation/rt_extension.html#f_events_assign_argument">events_assign_argument</A>} a_data <B>as</B> t_att <B>then</B>
+                        <A HREF="../../ise/debug_implementation/rt_extension.html#f_process_rt_assign_attrib">process_rt_assign_attrib</A> (t_att)
+                    <B>else</B>
+                        <B>check</B>
+                            valid_tuple_data: <B>False</B>
+                        <B>end</B>
+                    <B>end</B>
+                    <A HREF="../../ise/debug_implementation/rt_extension.html#f_reset_events_assign_argument">reset_events_assign_argument</A> (a_data)
+                <B>when</B> <A HREF="../../ise/debug_implementation/rt_extension_general.html#f_op_rt_assign_local">Op_rt_assign_local</A> <B>then</B> 
+                    <B>if</B> <B>attached</B> {<B>like</B> <A HREF="../../ise/debug_implementation/rt_extension.html#f_events_assign_argument">events_assign_argument</A>} a_data <B>as</B> t_loc <B>then</B>
+                        <A HREF="../../ise/debug_implementation/rt_extension.html#f_process_rt_assign_local">process_rt_assign_local</A> (t_loc)
+                    <B>else</B>
+                        <B>check</B>
+                            valid_tuple_data: <B>False</B>
+                        <B>end</B>
+                    <B>end</B>
+                    <A HREF="../../ise/debug_implementation/rt_extension.html#f_reset_events_assign_argument">reset_events_assign_argument</A> (a_data)
+                <B>else</B>
+                    <B>debug</B> ("rt_extension")
+                        <A HREF="../../ise/debug_implementation/rt_extension_common.html#f_dtrace">dtrace</A> ("Error: " + <A HREF="../../elks/any.html#f_out">out</A> + " -&gt;" + a_id.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + "%N")
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>rescue</B>
+            <A HREF="../../ise/debug_implementation/rt_extension_common.html#f_dtrace">dtrace</A> ("Error: Rescue -&gt; RT_EXTENSION.notify (" + a_id.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + ", a_data)%N")
+            retried := <B>True</B>
+            <B>retry</B>
+        <B>end</B></A>
+
+    <A NAME="f_notify_argument"><A HREF="../../ise/debug_implementation/rt_extension.html#f_notify_argument">notify_argument</A> (a_id: <A HREF="../../elks/integer_32.html">INTEGER_32</A>): <B>detachable</B> <A HREF="../../elks/tuple.html">TUPLE</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Empty argument container for operation </FONT>`a_id'<FONT COLOR="red">.</FONT>
+        <B>local</B>
+            retried: <A HREF="../../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            <B>if</B> <B>not</B> retried <B>then</B>
+                <B>Result</B> := <A HREF="../../ise/debug_implementation/rt_extension.html#f_cached_arguments">Cached_arguments</A> [a_id]
+                <B>if</B> <B>Result</B> = <B>Void</B> <B>then</B>
+                    <B>inspect</B> a_id
+                    <B>when</B> <A HREF="../../ise/debug_implementation/rt_extension_general.html#f_op_enter_feature">Op_enter_feature</A>, <A HREF="../../ise/debug_implementation/rt_extension_general.html#f_op_leave_feature">Op_leave_feature</A>, <A HREF="../../ise/debug_implementation/rt_extension_general.html#f_op_rescue_feature">Op_rescue_feature</A>, <A HREF="../../ise/debug_implementation/rt_extension_general.html#f_op_rt_hook">Op_rt_hook</A> <B>then</B> 
+                        <B>create</B> {<B>like</B> <A HREF="../../ise/debug_implementation/rt_extension.html#f_events_feature_argument">events_feature_argument</A>} <B>Result</B>
+                    <B>when</B> <A HREF="../../ise/debug_implementation/rt_extension_general.html#f_op_rt_assign_attrib">Op_rt_assign_attrib</A>, <A HREF="../../ise/debug_implementation/rt_extension_general.html#f_op_rt_assign_local">Op_rt_assign_local</A> <B>then</B> 
+                        <B>create</B> {<B>like</B> <A HREF="../../ise/debug_implementation/rt_extension.html#f_events_assign_argument">events_assign_argument</A>} <B>Result</B>
+                    <B>else</B>
+                        <B>debug</B> ("rt_extension")
+                            <A HREF="../../ise/debug_implementation/rt_extension_common.html#f_dtrace">dtrace</A> ("Error: RT_EXTENSION.notify_argument (" + a_id.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + "): unmatched id !%N")
+                        <B>end</B>
+                    <B>end</B>
+                    <A HREF="../../ise/debug_implementation/rt_extension.html#f_cached_arguments">Cached_arguments</A> [a_id] := <B>Result</B>
+                <B>end</B>
+            <B>end</B>
+        <B>rescue</B>
+            <A HREF="../../ise/debug_implementation/rt_extension_common.html#f_dtrace">dtrace</A> ("Error: Rescue -&gt; RT_EXTENSION.notify_argument (" + a_id.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + ")%N")
+            retried := <B>True</B>
+            <B>retry</B>
+        <B>end</B></A>
+
+    <A NAME="f_cached_arguments"><A HREF="../../ise/debug_implementation/rt_extension.html#f_cached_arguments">Cached_arguments</A>: <A HREF="../../elks/array.html">ARRAY</A> [<B>detachable</B> <A HREF="../../elks/tuple.html">TUPLE</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Cached argument to use less temporary objects</FONT>
+        <B>once</B> ("THREAD")
+            <B>create</B> <B>Result</B>.<A HREF="../../elks/array.html#f_make_filled">make_filled</A> (<B>Void</B>, <A HREF="../../ise/debug_implementation/rt_extension_general.html#f_op_enter_feature">Op_enter_feature</A>, <A HREF="../../ise/debug_implementation/rt_extension_general.html#f_op_rt_assign_local">Op_rt_assign_local</A>)
+        <B>ensure</B>
+            result_attached: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execution replay</FONT>
+
+    <A NAME="f_events_feature_argument"><A HREF="../../ise/debug_implementation/rt_extension.html#f_events_feature_argument">events_feature_argument</A>: <A HREF="../../elks/tuple.html">TUPLE</A> [ref: <B>detachable</B> <A HREF="../../elks/any.html">ANY</A>; cid: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; fid: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Argument for </FONT>`process_*_feature'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> used only as anchor for type declaration</FONT>
+        <B>do</B>
+            <B>check</B>
+                <B>False</B>
+            <B>then</B>
+            <B>end</B>
+        <B>ensure</B>
+            <B>False</B>
+        <B>end</B></A>
+
+    <A NAME="f_events_assign_argument"><A HREF="../../ise/debug_implementation/rt_extension.html#f_events_assign_argument">events_assign_argument</A>: <A HREF="../../elks/tuple.html">TUPLE</A> [ref: <B>detachable</B> <A HREF="../../elks/any.html">ANY</A>; a_dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_pos: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_type: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_xpm_info: <A HREF="../../elks/integer_32.html">INTEGER_32</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Argument for </FONT>`process_*_assign'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> used only as anchor for type declaration</FONT>
+        <B>do</B>
+            <B>check</B>
+                <B>False</B>
+            <B>then</B>
+            <B>end</B>
+        <B>ensure</B>
+            <B>False</B>
+        <B>end</B></A>
+
+    <A NAME="f_reset_events_feature_argument"><A HREF="../../ise/debug_implementation/rt_extension.html#f_reset_events_feature_argument">reset_events_feature_argument</A> (t: <A HREF="../../elks/tuple.html">TUPLE</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Reset argument for </FONT>`process_*_feature'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            t_attached: t /= <B>Void</B>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<B>like</B> <A HREF="../../ise/debug_implementation/rt_extension.html#f_events_feature_argument">events_feature_argument</A>} t <B>as</B> ot <B>then</B>
+                ot.ref := <B>Void</B>
+                ot.cid := 0
+                ot.fid := 0
+                ot.a_dep := 0
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_reset_events_assign_argument"><A HREF="../../ise/debug_implementation/rt_extension.html#f_reset_events_assign_argument">reset_events_assign_argument</A> (t: <A HREF="../../elks/tuple.html">TUPLE</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Reset argument for </FONT>`process_*_feature'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            t_attached: t /= <B>Void</B>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<B>like</B> <A HREF="../../ise/debug_implementation/rt_extension.html#f_events_assign_argument">events_assign_argument</A>} t <B>as</B> ot <B>then</B>
+                ot.ref := <B>Void</B>
+                ot.a_dep := 0
+                ot.a_pos := 0
+                ot.a_type := 0
+                ot.a_xpm_info := 0
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_process_enter_feature"><A HREF="../../ise/debug_implementation/rt_extension.html#f_process_enter_feature">process_enter_feature</A> (a_data: <B>like</B> <A HREF="../../ise/debug_implementation/rt_extension.html#f_events_feature_argument">events_feature_argument</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execution enters a feature</FONT>
+        <B>require</B>
+            a_data_attached: a_data /= <B>Void</B>
+            execution_recording_not_void: <A HREF="../../ise/debug_implementation/rt_extension.html#f_execution_recorder">execution_recorder</A> /= <B>Void</B>
+        <B>do</B>
+            <B>if</B> <B>attached</B> <A HREF="../../ise/debug_implementation/rt_extension.html#f_execution_recorder">execution_recorder</A> <B>as</B> r <B>then</B>
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/any.html">ANY</A>} a_data.ref <B>as</B> ref <B>then</B>
+                    r.<A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_enter_feature">enter_feature</A> (ref, a_data.cid, a_data.fid, a_data.a_dep)
+                <B>else</B>
+                    <B>check</B>
+                        ref_should_not_be_void: <B>False</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_process_rescue_feature"><A HREF="../../ise/debug_implementation/rt_extension.html#f_process_rescue_feature">process_rescue_feature</A> (a_data: <B>like</B> <A HREF="../../ise/debug_implementation/rt_extension.html#f_events_feature_argument">events_feature_argument</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execution enters a feature</FONT>
+        <B>require</B>
+            a_data_attached: a_data /= <B>Void</B>
+            execution_recording_not_void: <A HREF="../../ise/debug_implementation/rt_extension.html#f_execution_recorder">execution_recorder</A> /= <B>Void</B>
+        <B>do</B>
+            <B>if</B> <B>attached</B> <A HREF="../../ise/debug_implementation/rt_extension.html#f_execution_recorder">execution_recorder</A> <B>as</B> r <B>then</B>
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/any.html">ANY</A>} a_data.ref <B>as</B> ref <B>then</B>
+                    r.<A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_enter_rescue">enter_rescue</A> (ref, a_data.cid, a_data.fid, a_data.a_dep)
+                <B>else</B>
+                    <B>check</B>
+                        ref_should_not_be_void: <B>False</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_process_leave_feature"><A HREF="../../ise/debug_implementation/rt_extension.html#f_process_leave_feature">process_leave_feature</A> (a_data: <B>like</B> <A HREF="../../ise/debug_implementation/rt_extension.html#f_events_feature_argument">events_feature_argument</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execution leaves a feature</FONT>
+        <B>require</B>
+            a_data_attached: a_data /= <B>Void</B>
+            execution_recording_not_void: <A HREF="../../ise/debug_implementation/rt_extension.html#f_execution_recorder">execution_recorder</A> /= <B>Void</B>
+        <B>do</B>
+            <B>if</B> <B>attached</B> <A HREF="../../ise/debug_implementation/rt_extension.html#f_execution_recorder">execution_recorder</A> <B>as</B> r <B>then</B>
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/any.html">ANY</A>} a_data.ref <B>as</B> ref <B>then</B>
+                    r.<A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_leave_feature">leave_feature</A> (ref, a_data.cid, a_data.fid, a_data.a_dep)
+                <B>else</B>
+                    <B>check</B>
+                        ref_should_not_be_void: <B>False</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_process_rt_hook"><A HREF="../../ise/debug_implementation/rt_extension.html#f_process_rt_hook">process_rt_hook</A> (a_data: <A HREF="../../elks/tuple.html">TUPLE</A> [unused_ref: <B>detachable</B> <A HREF="../../elks/any.html">ANY</A>; a_dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; bp_i: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; bp_ni: <A HREF="../../elks/integer_32.html">INTEGER_32</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execution reach a RTHOOK or RTNHOOK point</FONT>
+        <B>require</B>
+            a_data_attached: a_data /= <B>Void</B>
+            execution_recording_not_void: <A HREF="../../ise/debug_implementation/rt_extension.html#f_execution_recorder">execution_recorder</A> /= <B>Void</B>
+        <B>do</B>
+            <B>if</B> <B>attached</B> <A HREF="../../ise/debug_implementation/rt_extension.html#f_execution_recorder">execution_recorder</A> <B>as</B> r <B>then</B>
+                r.<A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_notify_rt_hook">notify_rt_hook</A> (a_data.a_dep, a_data.bp_i, a_data.bp_ni)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_process_rt_assign_attrib"><A HREF="../../ise/debug_implementation/rt_extension.html#f_process_rt_assign_attrib">process_rt_assign_attrib</A> (a_data: <B>like</B> <A HREF="../../ise/debug_implementation/rt_extension.html#f_events_assign_argument">events_assign_argument</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Local variable assignment event</FONT>
+        <B>require</B>
+            a_data_attached: a_data /= <B>Void</B>
+            execution_recording_not_void: <A HREF="../../ise/debug_implementation/rt_extension.html#f_execution_recorder">execution_recorder</A> /= <B>Void</B>
+        <B>do</B>
+            <B>if</B> <B>attached</B> <A HREF="../../ise/debug_implementation/rt_extension.html#f_execution_recorder">execution_recorder</A> <B>as</B> r <B>and then</B> r.<A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_recording_values">recording_values</A> <B>then</B>
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/any.html">ANY</A>} a_data.ref <B>as</B> ot_ref <B>then</B>
+                    r.<A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_notify_rt_assign_attribute">notify_rt_assign_attribute</A> (a_data.a_dep, ot_ref, a_data.a_pos, a_data.a_type.<A HREF="../../elks/integer_32_ref.html#f_to_natural_32">to_natural_32</A>, a_data.a_xpm_info)
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_process_rt_assign_local"><A HREF="../../ise/debug_implementation/rt_extension.html#f_process_rt_assign_local">process_rt_assign_local</A> (a_data: <B>like</B> <A HREF="../../ise/debug_implementation/rt_extension.html#f_events_assign_argument">events_assign_argument</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Local variable assignment event</FONT>
+        <B>require</B>
+            a_data_attached: a_data /= <B>Void</B>
+            execution_recording_not_void: <A HREF="../../ise/debug_implementation/rt_extension.html#f_execution_recorder">execution_recorder</A> /= <B>Void</B>
+        <B>do</B>
+            <B>if</B> <B>attached</B> <A HREF="../../ise/debug_implementation/rt_extension.html#f_execution_recorder">execution_recorder</A> <B>as</B> r <B>and then</B> r.<A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_recording_values">recording_values</A> <B>then</B>
+                r.<A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_notify_rt_assign_local">notify_rt_assign_local</A> (a_data.a_dep, a_data.a_pos, a_data.a_type.<A HREF="../../elks/integer_32_ref.html#f_to_natural_32">to_natural_32</A>, a_data.a_xpm_info)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_new_execution_recorder"><A HREF="../../ise/debug_implementation/rt_extension.html#f_new_execution_recorder">new_execution_recorder</A>: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html">RT_DBG_EXECUTION_RECORDER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New Execution recorder.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> You can overwrite default parameters in this feature.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Check </FONT>`{RT_DBG_EXECUTION_RECORDER}.make'<FONT COLOR="red"> to see the default values.</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_make">make</A> (<A HREF="../../ise/debug_implementation/rt_extension.html#f_execution_recorder_parameters">Execution_recorder_parameters</A>)
+        <B>ensure</B>
+            result_attached: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_execution_recorder"><A HREF="../../ise/debug_implementation/rt_extension.html#f_execution_recorder">execution_recorder</A>: <B>detachable</B> <B>like</B> <A HREF="../../ise/debug_implementation/rt_extension.html#f_new_execution_recorder">new_execution_recorder</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Once per thread record.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../../ise/debug_implementation/rt_extension.html#f_execution_recorder_cell">Execution_recorder_cell</A>.<A HREF="../../elks/cell.html#f_item">item</A>
+        <B>end</B></A>
+
+    <A NAME="f_execution_recorder_parameters"><A HREF="../../ise/debug_implementation/rt_extension.html#f_execution_recorder_parameters">Execution_recorder_parameters</A>: <A HREF="../../ise/debug_implementation/rt_dbg_execution_parameters.html">RT_DBG_EXECUTION_PARAMETERS</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Once per process record parameters.</FONT>
+        <B>once</B> ("PROCESS")
+            <B>create</B> <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_execution_parameters.html#f_make">make</A>
+        <B>ensure</B>
+            result_attached: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_set_execution_recorder_parameters"><A HREF="../../ise/debug_implementation/rt_extension.html#f_set_execution_recorder_parameters">set_execution_recorder_parameters</A> (a_maximum_record_count: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_flatten_when_closing: <A HREF="../../elks/boolean.html">BOOLEAN</A>; a_keep_calls_record: <A HREF="../../elks/boolean.html">BOOLEAN</A>; a_recording_values: <A HREF="../../elks/boolean.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set execution recorder parameters</FONT>
+        <B>local</B>
+            p: <B>like</B> <A HREF="../../ise/debug_implementation/rt_extension.html#f_execution_recorder_parameters">Execution_recorder_parameters</A>
+        <B>do</B>
+            p := <A HREF="../../ise/debug_implementation/rt_extension.html#f_execution_recorder_parameters">Execution_recorder_parameters</A>
+            <A HREF="../../ise/debug_implementation/rt_extension.html#f_set_execution_recorder_parameters_to">set_execution_recorder_parameters_to</A> (a_maximum_record_count, a_flatten_when_closing, a_keep_calls_record, a_recording_values, p)
+            <B>if</B> <B>attached</B> <A HREF="../../ise/debug_implementation/rt_extension.html#f_execution_recorder">execution_recorder</A> <B>as</B> r <B>then</B>
+                r.<A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_update_parameters">update_parameters</A> (p)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_set_execution_recorder_parameters_to"><A HREF="../../ise/debug_implementation/rt_extension.html#f_set_execution_recorder_parameters_to">set_execution_recorder_parameters_to</A> (a_maximum_record_count: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_flatten_when_closing: <A HREF="../../elks/boolean.html">BOOLEAN</A>; a_keep_calls_record: <A HREF="../../elks/boolean.html">BOOLEAN</A>; a_recording_values: <A HREF="../../elks/boolean.html">BOOLEAN</A>; p: <B>like</B> <A HREF="../../ise/debug_implementation/rt_extension.html#f_execution_recorder_parameters">Execution_recorder_parameters</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set execution recorder parameters to </FONT>`p'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            p.<A HREF="../../ise/debug_implementation/rt_dbg_execution_parameters.html#f_set_maximum_record_count">set_maximum_record_count</A> (a_maximum_record_count)
+            p.<A HREF="../../ise/debug_implementation/rt_dbg_execution_parameters.html#f_set_flatten_when_closing">set_flatten_when_closing</A> (a_flatten_when_closing)
+            p.<A HREF="../../ise/debug_implementation/rt_dbg_execution_parameters.html#f_set_keep_calls_records">set_keep_calls_records</A> (a_keep_calls_record)
+            p.<A HREF="../../ise/debug_implementation/rt_dbg_execution_parameters.html#f_set_recording_values">set_recording_values</A> (a_recording_values)
+        <B>end</B></A>
+
+    <A NAME="f_execution_recorder_cell"><A HREF="../../ise/debug_implementation/rt_extension.html#f_execution_recorder_cell">Execution_recorder_cell</A>: <A HREF="../../elks/cell.html">CELL</A> [<B>detachable</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html">RT_DBG_EXECUTION_RECORDER</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Cell containing the once per thread recorder, if activated.</FONT>
+        <B>once</B> ("THREAD")
+            <B>create</B> <B>Result</B>.<A HREF="../../elks/cell.html#f_put">put</A> (<B>Void</B>)
+        <B>ensure</B>
+            result_attached: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execution replay		</FONT>
+
+    <A NAME="f_activate_execution_replay_recording"><A HREF="../../ise/debug_implementation/rt_extension.html#f_activate_execution_replay_recording">activate_execution_replay_recording</A> (b: <A HREF="../../elks/boolean.html">BOOLEAN</A>; ref: <A HREF="../../elks/any.html">ANY</A>; cid: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; fid: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; break_index: <A HREF="../../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Start or Stop execution replay recording</FONT>
+        <B>require</B>
+            ref_attached: ref /= <B>Void</B>
+        <B>local</B>
+            r: <B>like</B> <A HREF="../../ise/debug_implementation/rt_extension.html#f_execution_recorder">execution_recorder</A>
+        <B>do</B>
+            <B>if</B> b <B>then</B>
+                <B>check</B>
+                    <A HREF="../../ise/debug_implementation/rt_extension.html#f_execution_recorder">execution_recorder</A> = <B>Void</B>
+                <B>end</B>
+                r := <A HREF="../../ise/debug_implementation/rt_extension.html#f_new_execution_recorder">new_execution_recorder</A>
+                <A HREF="../../ise/debug_implementation/rt_extension.html#f_execution_recorder_cell">Execution_recorder_cell</A>.<A HREF="../../elks/cell.html#f_replace">replace</A> (r)
+                r.<A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_start_recording">start_recording</A> (ref, cid, fid, dep, break_index)
+            <B>else</B>
+                r := <A HREF="../../ise/debug_implementation/rt_extension.html#f_execution_recorder">execution_recorder</A>
+                <B>if</B> r /= <B>Void</B> <B>then</B>
+                    r.<A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_stop_recording">stop_recording</A>
+                <B>end</B>
+                <A HREF="../../ise/debug_implementation/rt_extension.html#f_execution_recorder_cell">Execution_recorder_cell</A>.<A HREF="../../elks/cell.html#f_replace">replace</A> (<B>Void</B>)
+            <B>end</B>
+        <B>ensure</B>
+            recorder_if_on: b <B>implies</B> <A HREF="../../ise/debug_implementation/rt_extension.html#f_execution_recorder">execution_recorder</A> /= <B>Void</B>
+            no_recorder_if_off: <B>not</B> b <B>implies</B> <A HREF="../../ise/debug_implementation/rt_extension.html#f_execution_recorder">execution_recorder</A> = <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> debug purpose: to remove</FONT>
+
+    <A NAME="f_test_activate_recording"><A HREF="../../ise/debug_implementation/rt_extension.html#f_test_activate_recording">test_activate_recording</A> (ref: <A HREF="../../elks/any.html">ANY</A>; fid: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; bpline: <A HREF="../../elks/integer_32.html">INTEGER_32</A>)
+        <B>require</B>
+            ref_attached: ref /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../../ise/debug_implementation/rt_extension.html#f_activate_execution_replay_recording">activate_execution_replay_recording</A> (<B>True</B>, ref, ref.<A HREF="../../elks/any.html#f_generating_type">generating_type</A>.<A HREF="../../elks/type.html#f_type_id">type_id</A>, fid, dep, bpline)
+            <A HREF="../../ise/debug_implementation/rt_extension.html#f_c_activate_recording">c_activate_recording</A>
+        <B>end</B></A>
+
+    <A NAME="f_c_activate_recording"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_extension.html#f_c_activate_recording">c_activate_recording</A>
+        <B>external</B>
+            "C inline use %"eif_main.h%""
+        <B>alias</B>
+            "[
+                #ifdef WORKBENCH
+                	EIF_GET_CONTEXT
+                	is_inside_rt_eiffel_code = 0;
+                	exec_recording_enabled = 1;
+                	set_debug_mode (1);
+                #endif
+            ]"
+        <B>end</B></A>
+
+    <A NAME="f_c_is_inside_rt_eiffel_code"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_extension.html#f_c_is_inside_rt_eiffel_code">c_is_inside_rt_eiffel_code</A>: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>external</B>
+            "C inline use %"eif_debug.h%""
+        <B>alias</B>
+            "[
+                #ifdef WORKBENCH
+                	EIF_GET_CONTEXT
+                	return is_inside_rt_eiffel_code;
+                #else
+                	return 0;
+                #endif
+            ]"
+        <B>end</B></A>
+    
+<B>invariant</B>
+    no_attribute: (<B>create</B> {<A HREF="../../elks/reflected_reference_object.html">REFLECTED_REFERENCE_OBJECT</A>}.<A HREF="../../elks/reflected_reference_object.html#f_make">make</A> (<B>Current</B>)).<A HREF="../../elks/reflected_object.html#f_field_count">field_count</A> = 0
+
+<B>note</B>
+    library: "EiffelBase: Library of reusable components for Eiffel."
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../../ise/debug_implementation/rt_extension.html">RT_EXTENSION</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="rt_extension_chart.html">Chart</A></TD><TD><A HREF="rt_extension_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="rt_extension_flat.html">Flat</A></TD><TD><A HREF="rt_extension_short.html">Contracts</A></TD><TD><A HREF="rt_extension_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

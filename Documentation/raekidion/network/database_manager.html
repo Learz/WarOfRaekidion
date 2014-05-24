@@ -1,0 +1,69 @@
+<HTML><HEAD>
+<meta name="description" content="War of Raekidion - An SQLite database manager A {DATABASE_MANAGER} is a singleton implementation of  a {DATABASE_CONNECT} to ensure it is only created once."/>
+<meta name="author" content="François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>database_manager Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="database_manager_chart.html">Chart</A></TD><TD><A HREF="database_manager_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="database_manager_flat.html">Flat</A></TD><TD><A HREF="database_manager_short.html">Contracts</A></TD><TD><A HREF="database_manager_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        War of Raekidion - An SQLite database manager
+        A <A HREF="../../raekidion/network/database_manager.html">DATABASE_MANAGER</A> is a singleton implementation of 
+        a {DATABASE_CONNECT} to ensure it is only created once.
+    ]"
+    author: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+    date: "$Date$"
+    revision: "$Revision$"
+
+<B>class</B> 
+    <A HREF="../../raekidion/network/database_manager.html">DATABASE_MANAGER</A>
+
+<B>inherit</B>
+    <A HREF="../../elks/disposable.html">DISPOSABLE</A>
+
+<B>create</B> 
+    <A HREF="../../raekidion/network/database_manager.html#f_make">make</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../../raekidion/network/database_manager.html#f_make">make</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize </FONT>`Current'
+        <B>require</B>
+            is_not_already_initialised: <B>not</B> <A HREF="../../raekidion/network/database_manager.html#f_is_init">Is_init</A>.<A HREF="../../elks/cell.html#f_item">item</A>
+        <B>local</B>
+            l_source: <A HREF="../../sqlite/sqlite_file_source.html">SQLITE_FILE_SOURCE</A>
+            l_query: <A HREF="../../sqlite/sqlite_query_statement.html">SQLITE_QUERY_STATEMENT</A>
+            l_modify: <A HREF="../../sqlite/sqlite_modify_statement.html">SQLITE_MODIFY_STATEMENT</A>
+        <B>do</B>
+            <B>create</B> <A HREF="../../raekidion/network/database_manager.html#f_database">database</A>.<A HREF="../../sqlite/sqlite_database.html#f_make_create_read_write">make_create_read_write</A> ("resources/data")
+            <B>create</B> l_query.<A HREF="../../sqlite/sqlite_statement.html#f_make">make</A> ("SELECT * FROM sqlite_master;", <A HREF="../../raekidion/network/database_manager.html#f_database">database</A>)
+            <B>create</B> l_modify.<A HREF="../../sqlite/sqlite_statement.html#f_make">make</A> ("CREATE TABLE IF NOT EXISTS scores (name TEXT, score INTEGER);", <A HREF="../../raekidion/network/database_manager.html#f_database">database</A>)
+            l_modify.<A HREF="../../sqlite/sqlite_modify_statement.html#f_execute">execute</A>
+            <A HREF="../../raekidion/network/database_manager.html#f_is_init">Is_init</A>.<A HREF="../../elks/cell.html#f_replace">replace</A> (<B>True</B>)
+        <B>ensure</B>
+            is_initialised: <A HREF="../../raekidion/network/database_manager.html#f_is_init">Is_init</A>.<A HREF="../../elks/cell.html#f_item">item</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_database"><A HREF="../../raekidion/network/database_manager.html#f_database">database</A>: <A HREF="../../sqlite/sqlite_database.html">SQLITE_DATABASE</A></A>
+
+    <A NAME="f_dispose"><A HREF="../../raekidion/network/database_manager.html#f_dispose">dispose</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Free and close the database</FONT>
+        <B>do</B>
+            <A HREF="../../raekidion/network/database_manager.html#f_database">database</A>.<A HREF="../../sqlite/sqlite_database.html#f_close">close</A>
+        <B>end</B></A>
+
+    <A NAME="f_is_init"><A HREF="../../raekidion/network/database_manager.html#f_is_init">Is_init</A>: <A HREF="../../elks/cell.html">CELL</A> [<A HREF="../../elks/boolean.html">BOOLEAN</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If this class has been initialized, don't initialize it again</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>.<A HREF="../../elks/cell.html#f_put">put</A> (<B>False</B>)
+        <B>end</B></A>
+    
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../../raekidion/network/database_manager.html">DATABASE_MANAGER</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="database_manager_chart.html">Chart</A></TD><TD><A HREF="database_manager_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="database_manager_flat.html">Flat</A></TD><TD><A HREF="database_manager_short.html">Contracts</A></TD><TD><A HREF="database_manager_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

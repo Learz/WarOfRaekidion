@@ -1,0 +1,733 @@
+<HTML><HEAD>
+<meta name="description" content="Decoding of arbitrary objects graphs between sessions of programs containing the same types or potentially different types (which can be mapped to the new type system via a correction mechanism,). It also basically takes care of potential reordering of attributes from one system to the other."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="library" content="EiffelBase: Library of reusable components for Eiffel."/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>sed_recoverable_deserializer Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sed_recoverable_deserializer_chart.html">Chart</A></TD><TD><A HREF="sed_recoverable_deserializer_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="sed_recoverable_deserializer_flat.html">Flat</A></TD><TD><A HREF="sed_recoverable_deserializer_short.html">Contracts</A></TD><TD><A HREF="sed_recoverable_deserializer_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Decoding of arbitrary objects graphs between sessions of programs
+        containing the same types or potentially different types (which can
+        be mapped to the new type system via a correction mechanism,). It
+        also basically takes care of potential reordering of attributes
+        from one system to the other.
+    ]"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2013-06-27 05:21:14 -0700 (Thu, 27 Jun 2013) $"
+    revision: "$Revision: 92746 $"
+
+<B>class</B> 
+    <A HREF="../ise/sed_recoverable_deserializer.html">SED_RECOVERABLE_DESERIALIZER</A>
+
+<B>inherit</B>
+    <A HREF="../ise/sed_basic_deserializer.html">SED_BASIC_DESERIALIZER</A>
+        <B>redefine</B>
+            <A HREF="../ise/sed_recoverable_deserializer.html#f_make">make</A>,
+            <A HREF="../ise/sed_recoverable_deserializer.html#f_read_header">read_header</A>,
+            <A HREF="../ise/sed_recoverable_deserializer.html#f_read_persistent_field_count">read_persistent_field_count</A>,
+            <A HREF="../ise/sed_recoverable_deserializer.html#f_new_attribute_offset">new_attribute_offset</A>,
+            <A HREF="../ise/sed_recoverable_deserializer.html#f_is_transient_retrieval_required">is_transient_retrieval_required</A>,
+            <A HREF="../ise/sed_recoverable_deserializer.html#f_clear_internal_data">clear_internal_data</A>,
+            <A HREF="../ise/sed_recoverable_deserializer.html#f_decode_normal_object">decode_normal_object</A>,
+            <A HREF="../ise/sed_recoverable_deserializer.html#f_decode_objects">decode_objects</A>
+        <B>end</B>
+
+    <A HREF="../elks/mismatch_corrector.html">MISMATCH_CORRECTOR</A>
+
+<B>create</B> 
+    <A HREF="../ise/sed_recoverable_deserializer.html#f_make">make</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../ise/sed_recoverable_deserializer.html#f_make">make</A> (a_deserializer: <A HREF="../ise/sed_reader_writer.html">SED_READER_WRITER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize current instance</FONT>
+        <B>do</B>
+            <B>Precursor</B> (a_deserializer)
+            <B>create</B> <A HREF="../ise/sed_recoverable_deserializer.html#f_mismatches">mismatches</A>.<A HREF="../elks/hash_table.html#f_make">make</A> (0)
+            <B>create</B> <A HREF="../ise/sed_recoverable_deserializer.html#f_mismatched_object">mismatched_object</A>.<A HREF="../elks/arrayed_list.html#f_make">make</A> (0)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Settings</FONT>
+
+    <A NAME="f_set_class_type_translator"><A HREF="../ise/sed_recoverable_deserializer.html#f_set_class_type_translator">set_class_type_translator</A> (a_translator: <B>like</B> <A HREF="../ise/sed_recoverable_deserializer.html#f_class_type_translator">class_type_translator</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../ise/sed_recoverable_deserializer.html#f_class_type_translator">class_type_translator</A><FONT COLOR="red"> with </FONT>`a_translator'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../ise/sed_recoverable_deserializer.html#f_class_type_translator">class_type_translator</A> := a_translator
+        <B>ensure</B>
+            class_type_translator_set: <A HREF="../ise/sed_recoverable_deserializer.html#f_class_type_translator">class_type_translator</A> = a_translator
+        <B>end</B></A>
+
+    <A NAME="f_set_attribute_name_translator"><A HREF="../ise/sed_recoverable_deserializer.html#f_set_attribute_name_translator">set_attribute_name_translator</A> (a_translator: <B>like</B> <A HREF="../ise/sed_recoverable_deserializer.html#f_attribute_name_translator">attribute_name_translator</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../ise/sed_recoverable_deserializer.html#f_attribute_name_translator">attribute_name_translator</A><FONT COLOR="red"> with </FONT>`a_translator'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../ise/sed_recoverable_deserializer.html#f_attribute_name_translator">attribute_name_translator</A> := a_translator
+        <B>ensure</B>
+            attribute_name_translator_set: <A HREF="../ise/sed_recoverable_deserializer.html#f_attribute_name_translator">attribute_name_translator</A> = a_translator
+        <B>end</B></A>
+
+    <A NAME="f_allow_conforming_mismatches"><A HREF="../ise/sed_recoverable_deserializer.html#f_allow_conforming_mismatches">allow_conforming_mismatches</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../ise/sed_recoverable_deserializer.html#f_is_conforming_mismatch_allowed">is_conforming_mismatch_allowed</A><FONT COLOR="red"> to True.</FONT>
+        <B>do</B>
+            <A HREF="../ise/sed_recoverable_deserializer.html#f_is_conforming_mismatch_allowed">is_conforming_mismatch_allowed</A> := <B>True</B>
+        <B>ensure</B>
+            is_conforming_mismatch_allowed_set: <A HREF="../ise/sed_recoverable_deserializer.html#f_is_conforming_mismatch_allowed">is_conforming_mismatch_allowed</A>
+        <B>end</B></A>
+
+    <A NAME="f_disallow_conforming_mismatches"><A HREF="../ise/sed_recoverable_deserializer.html#f_disallow_conforming_mismatches">disallow_conforming_mismatches</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../ise/sed_recoverable_deserializer.html#f_is_conforming_mismatch_allowed">is_conforming_mismatch_allowed</A><FONT COLOR="red"> to False.</FONT>
+        <B>do</B>
+            <A HREF="../ise/sed_recoverable_deserializer.html#f_is_conforming_mismatch_allowed">is_conforming_mismatch_allowed</A> := <B>False</B>
+        <B>ensure</B>
+            is_conforming_mismatch_allowed_set: <B>not</B> <A HREF="../ise/sed_recoverable_deserializer.html#f_is_conforming_mismatch_allowed">is_conforming_mismatch_allowed</A>
+        <B>end</B></A>
+
+    <A NAME="f_allow_attribute_removal"><A HREF="../ise/sed_recoverable_deserializer.html#f_allow_attribute_removal">allow_attribute_removal</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../ise/sed_recoverable_deserializer.html#f_is_attribute_removal_allowed">is_attribute_removal_allowed</A><FONT COLOR="red"> to True.</FONT>
+        <B>do</B>
+            <A HREF="../ise/sed_recoverable_deserializer.html#f_is_attribute_removal_allowed">is_attribute_removal_allowed</A> := <B>True</B>
+        <B>ensure</B>
+            is_attribute_removal_allowed_set: <A HREF="../ise/sed_recoverable_deserializer.html#f_is_attribute_removal_allowed">is_attribute_removal_allowed</A>
+        <B>end</B></A>
+
+    <A NAME="f_disallow_attribute_removal"><A HREF="../ise/sed_recoverable_deserializer.html#f_disallow_attribute_removal">disallow_attribute_removal</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../ise/sed_recoverable_deserializer.html#f_is_attribute_removal_allowed">is_attribute_removal_allowed</A><FONT COLOR="red"> to False.</FONT>
+        <B>do</B>
+            <A HREF="../ise/sed_recoverable_deserializer.html#f_is_attribute_removal_allowed">is_attribute_removal_allowed</A> := <B>False</B>
+        <B>ensure</B>
+            is_attribute_removal_allowed_set: <B>not</B> <A HREF="../ise/sed_recoverable_deserializer.html#f_is_attribute_removal_allowed">is_attribute_removal_allowed</A>
+        <B>end</B></A>
+
+    <A NAME="f_stop_on_data_retrieval_error"><A HREF="../ise/sed_recoverable_deserializer.html#f_stop_on_data_retrieval_error">stop_on_data_retrieval_error</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../ise/sed_recoverable_deserializer.html#f_is_stopping_on_data_retrieval_error">is_stopping_on_data_retrieval_error</A><FONT COLOR="red"> to False.</FONT>
+        <B>do</B>
+            <A HREF="../ise/sed_recoverable_deserializer.html#f_is_stopping_on_data_retrieval_error">is_stopping_on_data_retrieval_error</A> := <B>True</B>
+        <B>ensure</B>
+            is_stopping_on_data_retrieval_error_set: <A HREF="../ise/sed_recoverable_deserializer.html#f_is_stopping_on_data_retrieval_error">is_stopping_on_data_retrieval_error</A>
+        <B>end</B></A>
+
+    <A NAME="f_continue_on_data_retrieval_error"><A HREF="../ise/sed_recoverable_deserializer.html#f_continue_on_data_retrieval_error">continue_on_data_retrieval_error</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../ise/sed_recoverable_deserializer.html#f_is_attribute_removal_allowed">is_attribute_removal_allowed</A><FONT COLOR="red"> to False.</FONT>
+        <B>do</B>
+            <A HREF="../ise/sed_recoverable_deserializer.html#f_is_stopping_on_data_retrieval_error">is_stopping_on_data_retrieval_error</A> := <B>False</B>
+        <B>ensure</B>
+            is_stopping_on_data_retrieval_error_set: <B>not</B> <A HREF="../ise/sed_recoverable_deserializer.html#f_is_stopping_on_data_retrieval_error">is_stopping_on_data_retrieval_error</A>
+        <B>end</B></A>
+
+    <A NAME="f_set_is_checking_data_consistency"><A HREF="../ise/sed_recoverable_deserializer.html#f_set_is_checking_data_consistency">set_is_checking_data_consistency</A> (v: <B>like</B> <A HREF="../ise/sed_recoverable_deserializer.html#f_is_checking_data_consistency">is_checking_data_consistency</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../ise/sed_recoverable_deserializer.html#f_is_checking_data_consistency">is_checking_data_consistency</A><FONT COLOR="red"> with </FONT>`v'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../ise/sed_recoverable_deserializer.html#f_is_checking_data_consistency">is_checking_data_consistency</A> := v
+        <B>ensure</B>
+            is_checking_data_consistency_set: <A HREF="../ise/sed_recoverable_deserializer.html#f_is_checking_data_consistency">is_checking_data_consistency</A> = v
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation: access</FONT>
+
+    <A NAME="f_attributes_mapping"><A HREF="../ise/sed_recoverable_deserializer.html#f_attributes_mapping">attributes_mapping</A>: <B>detachable</B> <A HREF="../elks/special.html">SPECIAL</A> [<B>detachable</B> <A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/integer_32.html">INTEGER_32</A>]]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Mapping for each dynamic type id between old attribute location</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> and new attribute location.</FONT>
+
+    <A NAME="f_new_attribute_offset"><A HREF="../ise/sed_recoverable_deserializer.html#f_new_attribute_offset">new_attribute_offset</A> (a_new_type_id, a_old_offset: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Given attribute offset </FONT>`a_old_offset'<FONT COLOR="red"> in the stored object whose dynamic type id</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> is now </FONT>`a_new_type_id'<FONT COLOR="red">, retrieve new offset in </FONT>`a_new_type_id'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>if</B> <B>attached</B> <A HREF="../ise/sed_recoverable_deserializer.html#f_attributes_mapping">attributes_mapping</A> <B>as</B> l_map <B>and then</B> l_map.<A HREF="../elks/special.html#f_valid_index">valid_index</A> (a_new_type_id) <B>and then</B> <B>attached</B> l_map.<A HREF="../elks/special.html#f_item">item</A> (a_new_type_id) <B>as</B> l_entry <B>and then</B> l_entry.<A HREF="../elks/special.html#f_valid_index">valid_index</A> (a_old_offset) <B>then</B>
+                <B>Result</B> := l_entry.<A HREF="../elks/special.html#f_item">item</A> (a_old_offset)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_class_type_translator"><A HREF="../ise/sed_recoverable_deserializer.html#f_class_type_translator">class_type_translator</A>: <B>detachable</B> <A HREF="../elks/function.html">FUNCTION</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A> [<A HREF="../elks/string_8.html">STRING_8</A>], <A HREF="../elks/string_8.html">STRING_8</A>]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Provide a mapping between a class type from the storable to a class type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> in the retrieving system.</FONT>
+
+    <A NAME="f_attribute_name_translator"><A HREF="../ise/sed_recoverable_deserializer.html#f_attribute_name_translator">attribute_name_translator</A>: <B>detachable</B> <A HREF="../elks/function.html">FUNCTION</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A> [<A HREF="../elks/string_8.html">STRING_8</A>, <A HREF="../elks/integer_32.html">INTEGER_32</A>], <A HREF="../elks/string_8.html">STRING_8</A>]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Provide a mapping for an attribute name for a give type ID.</FONT>
+
+    <A NAME="f_mismatches"><A HREF="../ise/sed_recoverable_deserializer.html#f_mismatches">mismatches</A>: <A HREF="../elks/hash_table.html">HASH_TABLE</A> [<A HREF="../ise/sed_type_mismatch.html">SED_TYPE_MISMATCH</A>, <A HREF="../elks/integer_32.html">INTEGER_32</A>]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set of mismatches recorded during retrieval indexed by dynamic types.</FONT>
+
+    <A NAME="f_mismatched_object"><A HREF="../ise/sed_recoverable_deserializer.html#f_mismatched_object">mismatched_object</A>: <A HREF="../elks/arrayed_list.html">ARRAYED_LIST</A> [<A HREF="../elks/tuple.html">TUPLE</A> [object: <A HREF="../elks/any.html">ANY</A>; info: <A HREF="../elks/mismatch_information.html">MISMATCH_INFORMATION</A>]]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> List of all mismatched objects found during retrieval.</FONT>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_is_conforming_mismatch_allowed"><A HREF="../ise/sed_recoverable_deserializer.html#f_is_conforming_mismatch_allowed">is_conforming_mismatch_allowed</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do we not trigger a mismatch when an attribute type in the stored system is</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> different from the retrieving system but conforming?</FONT>
+
+    <A NAME="f_is_attribute_removal_allowed"><A HREF="../ise/sed_recoverable_deserializer.html#f_is_attribute_removal_allowed">is_attribute_removal_allowed</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do we not trigger a mismatch when an attribute has been removed?</FONT>
+
+    <A NAME="f_is_stopping_on_data_retrieval_error"><A HREF="../ise/sed_recoverable_deserializer.html#f_is_stopping_on_data_retrieval_error">is_stopping_on_data_retrieval_error</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> When retrieving objects, should we stop at the first occurrence of a mismatch?</FONT>
+
+    <A NAME="f_is_checking_data_consistency"><A HREF="../ise/sed_recoverable_deserializer.html#f_is_checking_data_consistency">is_checking_data_consistency</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> After retrieving objects, should we check that all objects are consistent?</FONT>
+
+    <A NAME="f_is_transient_retrieval_required"><A HREF="../ise/sed_recoverable_deserializer.html#f_is_transient_retrieval_required">is_transient_retrieval_required</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do we need to retrieve transient attribute with their default value?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> This is necessary for Session/Basic storing where we expect the same</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> object layout.</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>False</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_read_header"><A HREF="../ise/sed_recoverable_deserializer.html#f_read_header">read_header</A> (a_count: <A HREF="../elks/natural_32.html">NATURAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read header which contains mapping between dynamic type and their</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> string representation.</FONT>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_deser: <B>like</B> <A HREF="../ise/sed_session_deserializer.html#f_deserializer">deserializer</A>
+            l_reflector: <B>like</B> <A HREF="../ise/sed_session_deserializer.html#f_reflector">reflector</A>
+            l_table: <B>like</B> <A HREF="../ise/sed_session_deserializer.html#f_dynamic_type_table">dynamic_type_table</A>
+            l_old_dtype, l_new_dtype: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_old_type_str, l_new_type_str: <A HREF="../elks/string_8.html">STRING_8</A>
+            l_old_version, l_new_version: <B>detachable</B> <A HREF="../elks/immutable_string_8.html">IMMUTABLE_STRING_8</A>
+        <B>do</B>
+            l_reflector := <A HREF="../ise/sed_session_deserializer.html#f_reflector">reflector</A>
+            l_deser := <A HREF="../ise/sed_session_deserializer.html#f_deserializer">deserializer</A>
+            <A HREF="../ise/sed_session_deserializer.html#f_read_settings">read_settings</A>
+            <B>if</B> <A HREF="../ise/sed_session_deserializer.html#f_version">version</A> &lt; {<A HREF="../ise/sed_versions.html">SED_VERSIONS</A>}.<A HREF="../ise/sed_versions.html#f_version_6_6">version_6_6</A> <B>then</B>
+                <A HREF="../ise/sed_session_deserializer.html#f_raise_fatal_error">raise_fatal_error</A> (<A HREF="../ise/sed_session_deserializer.html#f_error_factory">Error_factory</A>.<A HREF="../ise/sed_error_factory.html#f_new_format_mismatch">new_format_mismatch</A> (<A HREF="../ise/sed_session_deserializer.html#f_version">version</A>, {<A HREF="../ise/sed_versions.html">SED_VERSIONS</A>}.<A HREF="../ise/sed_versions.html#f_version_6_6">version_6_6</A>))
+            <B>end</B>
+            nb := l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_compressed_natural_32">read_compressed_natural_32</A>.<A HREF="../elks/natural_32_ref.html#f_to_integer_32">to_integer_32</A>
+            <B>create</B> l_table.<A HREF="../elks/special.html#f_make_filled">make_filled</A> (0, nb)
+            <B>create</B> <A HREF="../ise/sed_recoverable_deserializer.html#f_attributes_mapping">attributes_mapping</A>.<A HREF="../elks/special.html#f_make_filled">make_filled</A> (<B>Void</B>, nb)
+            <B>from</B>
+                i := 0
+            <B>until</B>
+                i = nb
+            <B>loop</B>
+                l_old_dtype := l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_compressed_natural_32">read_compressed_natural_32</A>.<A HREF="../elks/natural_32_ref.html#f_to_integer_32">to_integer_32</A>
+                l_old_type_str := l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_string_8">read_string_8</A>
+                <B>if</B> <B>attached</B> <A HREF="../ise/sed_recoverable_deserializer.html#f_class_type_translator">class_type_translator</A> <B>as</B> l_translator <B>then</B>
+                    l_new_type_str := l_translator.<A HREF="../elks/function.html#f_item">item</A> ([l_old_type_str])
+                <B>else</B>
+                    l_new_type_str := l_old_type_str
+                <B>end</B>
+                l_new_dtype := l_reflector.<A HREF="../elks/reflector.html#f_dynamic_type_from_string">dynamic_type_from_string</A> (l_new_type_str)
+                <B>if</B> l_new_dtype &gt;= 0 <B>then</B>
+                    <B>if</B> <B>not</B> l_table.<A HREF="../elks/special.html#f_valid_index">valid_index</A> (l_old_dtype) <B>then</B>
+                        l_table := l_table.<A HREF="../elks/special.html#f_aliased_resized_area_with_default">aliased_resized_area_with_default</A> (0, (l_old_dtype + 1).<A HREF="../elks/comparable.html#f_max">max</A> (l_table.<A HREF="../elks/special.html#f_count">count</A> * 2))
+                    <B>end</B>
+                    l_table.<A HREF="../elks/special.html#f_put">put</A> (l_new_dtype, l_old_dtype)
+                <B>else</B>
+                    <A HREF="../ise/sed_session_deserializer.html#f_add_error">add_error</A> (<A HREF="../ise/sed_session_deserializer.html#f_error_factory">Error_factory</A>.<A HREF="../ise/sed_error_factory.html#f_new_missing_type_error">new_missing_type_error</A> (l_old_type_str, l_new_type_str))
+                <B>end</B>
+                <B>if</B> l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_boolean">read_boolean</A> <B>then</B>
+                    l_old_version := l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_immutable_string_8">read_immutable_string_8</A>
+                <B>else</B>
+                    l_old_version := <B>Void</B>
+                <B>end</B>
+                <B>if</B> l_new_dtype /= -1 <B>then</B>
+                    l_new_version := l_reflector.<A HREF="../elks/reflector.html#f_storable_version_of_type">storable_version_of_type</A> (l_new_dtype)
+                    <B>if</B> l_old_version /~ l_new_version <B>then</B>
+                        <A HREF="../ise/sed_recoverable_deserializer.html#f_associated_mismatch">associated_mismatch</A> (l_new_dtype).<A HREF="../ise/sed_type_mismatch.html#f_add_version_mismatch">add_version_mismatch</A> (l_old_version, l_new_version)
+                    <B>end</B>
+                <B>end</B>
+                i := i + 1
+            <B>end</B>
+            <B>from</B>
+                i := 0
+                nb := l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_compressed_natural_32">read_compressed_natural_32</A>.<A HREF="../elks/natural_32_ref.html#f_to_integer_32">to_integer_32</A>
+            <B>until</B>
+                i = nb
+            <B>loop</B>
+                l_old_dtype := l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_compressed_natural_32">read_compressed_natural_32</A>.<A HREF="../elks/natural_32_ref.html#f_to_integer_32">to_integer_32</A>
+                l_old_type_str := l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_string_8">read_string_8</A>
+                <B>if</B> <B>attached</B> <A HREF="../ise/sed_recoverable_deserializer.html#f_class_type_translator">class_type_translator</A> <B>as</B> l_translator <B>then</B>
+                    l_new_type_str := l_translator.<A HREF="../elks/function.html#f_item">item</A> ([l_old_type_str])
+                <B>else</B>
+                    l_new_type_str := l_old_type_str
+                <B>end</B>
+                l_new_dtype := l_reflector.<A HREF="../elks/reflector.html#f_dynamic_type_from_string">dynamic_type_from_string</A> (l_new_type_str)
+                <B>if</B> l_new_dtype &gt;= 0 <B>then</B>
+                    <B>if</B> <B>not</B> l_table.<A HREF="../elks/special.html#f_valid_index">valid_index</A> (l_old_dtype) <B>then</B>
+                        l_table := l_table.<A HREF="../elks/special.html#f_aliased_resized_area_with_default">aliased_resized_area_with_default</A> (0, (l_old_dtype + 1).<A HREF="../elks/comparable.html#f_max">max</A> (l_table.<A HREF="../elks/special.html#f_count">count</A> * 2))
+                    <B>end</B>
+                    l_table.<A HREF="../elks/special.html#f_put">put</A> (l_new_dtype, l_old_dtype)
+                <B>else</B>
+                    <A HREF="../ise/sed_session_deserializer.html#f_add_error">add_error</A> (<A HREF="../ise/sed_session_deserializer.html#f_error_factory">Error_factory</A>.<A HREF="../ise/sed_error_factory.html#f_new_missing_type_error">new_missing_type_error</A> (l_old_type_str, l_new_type_str))
+                <B>end</B>
+                i := i + 1
+            <B>end</B>
+            <A HREF="../ise/sed_session_deserializer.html#f_dynamic_type_table">dynamic_type_table</A> := l_table
+            <B>from</B>
+                i := 0
+                nb := l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_compressed_natural_32">read_compressed_natural_32</A>.<A HREF="../elks/natural_32_ref.html#f_to_integer_32">to_integer_32</A>
+            <B>until</B>
+                i = nb
+            <B>loop</B>
+                l_old_dtype := l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_compressed_natural_32">read_compressed_natural_32</A>.<A HREF="../elks/natural_32_ref.html#f_to_integer_32">to_integer_32</A>
+                <B>if</B> l_table.<A HREF="../elks/special.html#f_valid_index">valid_index</A> (l_old_dtype) <B>then</B>
+                    <A HREF="../ise/sed_recoverable_deserializer.html#f_read_attributes">read_attributes</A> (l_table.<A HREF="../elks/special.html#f_item">item</A> (l_old_dtype))
+                <B>else</B>
+                    <A HREF="../ise/sed_session_deserializer.html#f_raise_fatal_error">raise_fatal_error</A> (<A HREF="../ise/sed_session_deserializer.html#f_error_factory">Error_factory</A>.<A HREF="../ise/sed_error_factory.html#f_new_internal_error">new_internal_error</A> ("Cannot read attributes data"))
+                <B>end</B>
+                i := i + 1
+            <B>end</B>
+            <A HREF="../ise/sed_session_deserializer.html#f_read_object_table">read_object_table</A> (a_count)
+        <B>end</B></A>
+
+    <A NAME="f_read_persistent_field_count"><A HREF="../ise/sed_recoverable_deserializer.html#f_read_persistent_field_count">read_persistent_field_count</A> (a_reflected_object: <A HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of fields we are going to read from </FONT>`a_reflected_object'<FONT COLOR="red"> in the the retrieved system.</FONT>
+        <B>local</B>
+            l_dtype: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            l_dtype := a_reflected_object.<A HREF="../elks/reflected_object.html#f_dynamic_type">dynamic_type</A>
+            <B>if</B> <B>attached</B> <A HREF="../ise/sed_recoverable_deserializer.html#f_attributes_mapping">attributes_mapping</A> <B>as</B> l_map <B>and then</B> l_map.<A HREF="../elks/special.html#f_valid_index">valid_index</A> (l_dtype) <B>and then</B> <B>attached</B> l_map.<A HREF="../elks/special.html#f_item">item</A> (l_dtype) <B>as</B> l_entry <B>then</B>
+                <B>Result</B> := l_entry.<A HREF="../elks/special.html#f_count">count</A> - 1
+            <B>else</B>
+                <A HREF="../ise/sed_session_deserializer.html#f_raise_fatal_error">raise_fatal_error</A> (<A HREF="../ise/sed_session_deserializer.html#f_error_factory">Error_factory</A>.<A HREF="../ise/sed_error_factory.html#f_new_internal_error">new_internal_error</A> ("Cannot retrieve stored count"))
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_attributes"><A HREF="../ise/sed_recoverable_deserializer.html#f_read_attributes">read_attributes</A> (a_dtype: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read attribute description for </FONT>`a_dtype'<FONT COLOR="red"> where </FONT>`a_dtype'<FONT COLOR="red"> is a dynamic type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> from the current system.</FONT>
+        <B>local</B>
+            l_deser: <B>like</B> <A HREF="../ise/sed_session_deserializer.html#f_deserializer">deserializer</A>
+            l_reflector: <B>like</B> <A HREF="../ise/sed_session_deserializer.html#f_reflector">reflector</A>
+            l_map: <B>like</B> <A HREF="../ise/sed_recoverable_deserializer.html#f_attributes_map">attributes_map</A>
+            l_mapping: <A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/integer_32.html">INTEGER_32</A>]
+            l_old_name, l_new_name: <A HREF="../elks/string_8.html">STRING_8</A>
+            l_old_dtype, l_dtype: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            i, nb, l_not_founds: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_old_count, l_new_count: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            a: <B>like</B> <A HREF="../ise/sed_recoverable_deserializer.html#f_attributes_mapping">attributes_mapping</A>
+            l_attribute_type: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            l_deser := <A HREF="../ise/sed_session_deserializer.html#f_deserializer">deserializer</A>
+            l_reflector := <A HREF="../ise/sed_session_deserializer.html#f_reflector">reflector</A>
+            l_old_count := l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_compressed_natural_32">read_compressed_natural_32</A>.<A HREF="../elks/natural_32_ref.html#f_to_integer_32">to_integer_32</A>
+            l_new_count := l_reflector.<A HREF="../elks/reflector.html#f_persistent_field_count_of_type">persistent_field_count_of_type</A> (a_dtype)
+            <B>if</B> l_old_count /= l_new_count <B>then</B>
+                <A HREF="../ise/sed_recoverable_deserializer.html#f_associated_mismatch">associated_mismatch</A> (a_dtype).<A HREF="../ise/sed_type_mismatch.html#f_add_attribute_count_mismatch">add_attribute_count_mismatch</A> (l_old_count, l_new_count)
+            <B>end</B>
+            <B>from</B>
+                i := 1
+                l_map := <A HREF="../ise/sed_recoverable_deserializer.html#f_attributes_map">attributes_map</A> (a_dtype)
+                nb := l_old_count + 1
+                <B>create</B> l_mapping.<A HREF="../elks/special.html#f_make_empty">make_empty</A> (nb)
+                l_mapping.<A HREF="../elks/special.html#f_extend">extend</A> (0)
+            <B>until</B>
+                i = nb
+            <B>loop</B>
+                l_old_dtype := l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_compressed_natural_32">read_compressed_natural_32</A>.<A HREF="../elks/natural_32_ref.html#f_to_integer_32">to_integer_32</A>
+                l_dtype := <A HREF="../ise/sed_session_deserializer.html#f_new_dynamic_type_id">new_dynamic_type_id</A> (l_old_dtype)
+                l_old_name := l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_string_8">read_string_8</A>
+                <B>if</B> <B>attached</B> <A HREF="../ise/sed_recoverable_deserializer.html#f_attribute_name_translator">attribute_name_translator</A> <B>as</B> l_translator <B>then</B>
+                    l_new_name := l_translator.<A HREF="../elks/function.html#f_item">item</A> ([l_old_name, a_dtype])
+                <B>else</B>
+                    l_new_name := l_old_name
+                <B>end</B>
+                <B>if</B> l_dtype &gt;= 0 <B>then</B>
+                    <B>if</B> <B>attached</B> l_map.<A HREF="../elks/hash_table.html#f_item">item</A> (l_new_name) <B>as</B> l_item <B>then</B>
+                        l_attribute_type := l_item.dtype
+                        <B>if</B> l_attribute_type /= l_dtype <B>then</B>
+                            <B>if</B> <A HREF="../ise/sed_recoverable_deserializer.html#f_is_conforming_mismatch_allowed">is_conforming_mismatch_allowed</A> <B>then</B>
+                                <B>if</B> <B>not</B> l_reflector.<A HREF="../elks/reflector.html#f_type_conforms_to">type_conforms_to</A> (l_dtype, l_attribute_type) <B>then</B>
+                                    <B>if</B> l_reflector.<A HREF="../elks/reflector.html#f_is_attached_type">is_attached_type</A> (l_attribute_type) <B>and then</B> l_reflector.<A HREF="../elks/reflector.html#f_type_conforms_to">type_conforms_to</A> (l_dtype, l_reflector.<A HREF="../elks/reflector.html#f_detachable_type">detachable_type</A> (l_attribute_type)) <B>then</B>
+                                        <A HREF="../ise/sed_recoverable_deserializer.html#f_associated_mismatch">associated_mismatch</A> (a_dtype).<A HREF="../ise/sed_type_mismatch.html#f_add_void_safe_mismatch">add_void_safe_mismatch</A> (l_dtype, l_attribute_type, l_old_name, l_new_name, i, l_item.position)
+                                    <B>else</B>
+                                        <A HREF="../ise/sed_recoverable_deserializer.html#f_associated_mismatch">associated_mismatch</A> (a_dtype).<A HREF="../ise/sed_type_mismatch.html#f_add_attribute_mismatch">add_attribute_mismatch</A> (l_dtype, l_attribute_type, l_old_name, l_new_name, i, l_item.position)
+                                    <B>end</B>
+                                <B>end</B>
+                            <B>else</B>
+                                <B>if</B> l_reflector.<A HREF="../elks/reflector.html#f_is_attached_type">is_attached_type</A> (l_attribute_type) <B>then</B>
+                                    <B>if</B> l_reflector.<A HREF="../elks/reflector.html#f_detachable_type">detachable_type</A> (l_attribute_type) = l_dtype <B>then</B>
+                                        <A HREF="../ise/sed_recoverable_deserializer.html#f_associated_mismatch">associated_mismatch</A> (a_dtype).<A HREF="../ise/sed_type_mismatch.html#f_add_void_safe_mismatch">add_void_safe_mismatch</A> (l_dtype, l_attribute_type, l_old_name, l_new_name, i, l_item.position)
+                                    <B>else</B>
+                                        <A HREF="../ise/sed_recoverable_deserializer.html#f_associated_mismatch">associated_mismatch</A> (a_dtype).<A HREF="../ise/sed_type_mismatch.html#f_add_attribute_mismatch">add_attribute_mismatch</A> (l_dtype, l_attribute_type, l_old_name, l_new_name, i, l_item.position)
+                                    <B>end</B>
+                                <B>else</B>
+                                    <B>if</B> l_reflector.<A HREF="../elks/reflector.html#f_is_attached_type">is_attached_type</A> (l_dtype) <B>and then</B> l_reflector.<A HREF="../elks/reflector.html#f_detachable_type">detachable_type</A> (l_dtype) = l_attribute_type <B>then</B>
+                                    <B>else</B>
+                                        <A HREF="../ise/sed_recoverable_deserializer.html#f_associated_mismatch">associated_mismatch</A> (a_dtype).<A HREF="../ise/sed_type_mismatch.html#f_add_attribute_mismatch">add_attribute_mismatch</A> (l_dtype, l_attribute_type, l_old_name, l_new_name, i, l_item.position)
+                                    <B>end</B>
+                                <B>end</B>
+                            <B>end</B>
+                        <B>end</B>
+                        l_mapping.<A HREF="../elks/special.html#f_extend">extend</A> (l_item.position)
+                    <B>else</B>
+                        l_not_founds := l_not_founds + 1
+                        <B>if</B> <B>not</B> <A HREF="../ise/sed_recoverable_deserializer.html#f_is_attribute_removal_allowed">is_attribute_removal_allowed</A> <B>then</B>
+                            <A HREF="../ise/sed_recoverable_deserializer.html#f_associated_mismatch">associated_mismatch</A> (a_dtype).<A HREF="../ise/sed_type_mismatch.html#f_add_removed_attribute">add_removed_attribute</A> (l_dtype, l_old_name, l_new_name, i)
+                        <B>end</B>
+                        l_mapping.<A HREF="../elks/special.html#f_extend">extend</A> (-1)
+                    <B>end</B>
+                <B>else</B>
+                    <A HREF="../ise/sed_session_deserializer.html#f_add_error">add_error</A> (<A HREF="../ise/sed_session_deserializer.html#f_error_factory">Error_factory</A>.<A HREF="../ise/sed_error_factory.html#f_new_unknown_attribute_type_error">new_unknown_attribute_type_error</A> (a_dtype, l_new_name))
+                <B>end</B>
+                i := i + 1
+            <B>end</B>
+            <B>if</B> l_old_count - l_not_founds &lt; l_new_count <B>then</B>
+                <A HREF="../ise/sed_recoverable_deserializer.html#f_associated_mismatch">associated_mismatch</A> (a_dtype).<A HREF="../ise/sed_type_mismatch.html#f_add_new_attribute_mismatch">add_new_attribute_mismatch</A> (l_new_count - (l_old_count - l_not_founds))
+            <B>end</B>
+            <B>check</B>
+                <B>attached</B> <A HREF="../ise/sed_recoverable_deserializer.html#f_attributes_mapping">attributes_mapping</A> <B>as</B> l_a
+            <B>then</B>
+                <B>if</B> <B>not</B> l_a.<A HREF="../elks/special.html#f_valid_index">valid_index</A> (a_dtype) <B>then</B>
+                    a := l_a.<A HREF="../elks/special.html#f_aliased_resized_area_with_default">aliased_resized_area_with_default</A> (<B>Void</B>, (a_dtype + 1).<A HREF="../elks/comparable.html#f_max">max</A> (l_a.<A HREF="../elks/special.html#f_count">count</A> * 2))
+                    <A HREF="../ise/sed_recoverable_deserializer.html#f_attributes_mapping">attributes_mapping</A> := a
+                <B>else</B>
+                    a := l_a
+                <B>end</B>
+                a.<A HREF="../elks/special.html#f_put">put</A> (l_mapping, a_dtype)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_attributes_map"><A HREF="../ise/sed_recoverable_deserializer.html#f_attributes_map">attributes_map</A> (a_dtype: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/hash_table.html">HASH_TABLE</A> [<A HREF="../elks/tuple.html">TUPLE</A> [position: <A HREF="../elks/integer_32.html">INTEGER_32</A>; dtype: <A HREF="../elks/integer_32.html">INTEGER_32</A>], <A HREF="../elks/string_8.html">STRING_8</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attribute map for dynamic type </FONT>`a_dtype'<FONT COLOR="red"> which records</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> position and dynamic type for a given attribute name.</FONT>
+        <B>require</B>
+            a_dtype_non_negative: a_dtype &gt;= 0
+        <B>local</B>
+            l_reflector: <B>like</B> <A HREF="../ise/sed_session_deserializer.html#f_reflector">reflector</A>
+            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            l_reflector := <A HREF="../ise/sed_session_deserializer.html#f_reflector">reflector</A>
+            <B>from</B>
+                i := 1
+                nb := l_reflector.<A HREF="../elks/reflector.html#f_field_count_of_type">field_count_of_type</A> (a_dtype)
+                <B>create</B> <B>Result</B>.<A HREF="../elks/hash_table.html#f_make">make</A> (nb)
+                nb := nb + 1
+            <B>until</B>
+                i = nb
+            <B>loop</B>
+                <B>Result</B>.<A HREF="../elks/hash_table.html#f_put">put</A> ([i, l_reflector.<A HREF="../elks/reflector.html#f_field_static_type_of_type">field_static_type_of_type</A> (i, a_dtype)], l_reflector.<A HREF="../elks/reflector.html#f_field_name_of_type">field_name_of_type</A> (i, a_dtype))
+                i := i + 1
+            <B>end</B>
+        <B>ensure</B>
+            attributes_map_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_associated_mismatch"><A HREF="../ise/sed_recoverable_deserializer.html#f_associated_mismatch">associated_mismatch</A> (a_dtype: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../ise/sed_type_mismatch.html">SED_TYPE_MISMATCH</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Associated mismatch for </FONT>`a_dtype'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_dtype_non_negative: a_dtype &gt;= 0
+        <B>do</B>
+            <B>if</B> <B>attached</B> <A HREF="../ise/sed_recoverable_deserializer.html#f_mismatches">mismatches</A>.<A HREF="../elks/hash_table.html#f_item">item</A> (a_dtype) <B>as</B> l_mis <B>then</B>
+                <B>check</B>
+                    valid_mismatch: l_mis.<A HREF="../ise/sed_type_mismatch.html#f_type_id">type_id</A> = a_dtype
+                <B>end</B>
+                <B>Result</B> := l_mis
+            <B>else</B>
+                <B>create</B> <B>Result</B>.<A HREF="../ise/sed_type_mismatch.html#f_make">make</A> (a_dtype)
+                <A HREF="../ise/sed_recoverable_deserializer.html#f_mismatches">mismatches</A>.<A HREF="../elks/hash_table.html#f_put">put</A> (<B>Result</B>, a_dtype)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_has_mismatch"><A HREF="../ise/sed_recoverable_deserializer.html#f_has_mismatch">has_mismatch</A> (a_dtype: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there a mismatch triggered for </FONT>`a_dtype'<FONT COLOR="red">?</FONT>
+        <B>require</B>
+            a_dtype_non_negative: a_dtype &gt;= 0
+        <B>do</B>
+            <B>Result</B> := <A HREF="../ise/sed_recoverable_deserializer.html#f_mismatches">mismatches</A>.<A HREF="../elks/hash_table.html#f_has">has</A> (a_dtype)
+        <B>end</B></A>
+
+    <A NAME="f_decode_objects"><A HREF="../ise/sed_recoverable_deserializer.html#f_decode_objects">decode_objects</A> (a_count: <A HREF="../elks/natural_32.html">NATURAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Decode </FONT>`a_count'<FONT COLOR="red"> object from </FONT><A HREF="../ise/sed_session_deserializer.html#f_deserializer">deserializer</A><FONT COLOR="red"> and store root object in </FONT><A HREF="../ise/sed_session_deserializer.html#f_last_decoded_object">last_decoded_object</A><FONT COLOR="red">.</FONT>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>Precursor</B> (a_count)
+            <B>from</B>
+                <A HREF="../ise/sed_recoverable_deserializer.html#f_mismatched_object">mismatched_object</A>.<A HREF="../elks/arrayed_list.html#f_start">start</A>
+            <B>until</B>
+                <A HREF="../ise/sed_recoverable_deserializer.html#f_mismatched_object">mismatched_object</A>.<A HREF="../elks/list.html#f_after">after</A>
+            <B>loop</B>
+                <A HREF="../ise/sed_recoverable_deserializer.html#f_safe_mismatch_correction">safe_mismatch_correction</A> (<A HREF="../ise/sed_recoverable_deserializer.html#f_mismatched_object">mismatched_object</A>.<A HREF="../elks/arrayed_list.html#f_item">item</A>.object, <A HREF="../ise/sed_recoverable_deserializer.html#f_mismatched_object">mismatched_object</A>.<A HREF="../elks/arrayed_list.html#f_item">item</A>.info)
+                <A HREF="../ise/sed_recoverable_deserializer.html#f_mismatched_object">mismatched_object</A>.<A HREF="../elks/arrayed_list.html#f_forth">forth</A>
+            <B>end</B>
+            <B>if</B> <A HREF="../ise/sed_recoverable_deserializer.html#f_is_checking_data_consistency">is_checking_data_consistency</A> <B>then</B>
+                <B>from</B>
+                    i := 0
+                    nb := <A HREF="../ise/sed_session_deserializer.html#f_object_references">object_references</A>.<A HREF="../elks/special.html#f_upper">upper</A>
+                <B>until</B>
+                    i &gt; nb
+                <B>loop</B>
+                    <B>if</B> <B>attached</B> <A HREF="../ise/sed_session_deserializer.html#f_object_references">object_references</A>.<A HREF="../elks/special.html#f_item">item</A> (i) <B>as</B> l_obj <B>then</B>
+                        <B>if</B> <B>not</B> <A HREF="../ise/sed_recoverable_deserializer.html#f_is_object_valid">is_object_valid</A> (l_obj, <B>True</B>) <B>then</B>
+                            <A HREF="../ise/sed_session_deserializer.html#f_add_error">add_error</A> (<A HREF="../ise/sed_session_deserializer.html#f_error_factory">Error_factory</A>.<A HREF="../ise/sed_error_factory.html#f_new_invalid_object_error">new_invalid_object_error</A> (l_obj))
+                        <B>end</B>
+                    <B>end</B>
+                    i := i + 1
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_safe_mismatch_correction"><A HREF="../ise/sed_recoverable_deserializer.html#f_safe_mismatch_correction">safe_mismatch_correction</A> (an_obj: <A HREF="../elks/any.html">ANY</A>; a_mismatch_information: <A HREF="../elks/mismatch_information.html">MISMATCH_INFORMATION</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Try to apply </FONT>`{MISMATCH_CORRECTOR}.correct_mismatch'<FONT COLOR="red"> to </FONT>`an_obj'<FONT COLOR="red"> using </FONT>`a_mismatch_information'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to solve the mismatch.</FONT>
+        <B>local</B>
+            retried: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            l_check, l_mismatch_called: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            <B>if</B> <B>not</B> retried <B>then</B>
+                <B>if</B> <B>attached</B> {<A HREF="../elks/mismatch_corrector.html">MISMATCH_CORRECTOR</A>} an_obj <B>as</B> l_corrector <B>then</B>
+                    l_mismatch_called := <B>True</B>
+                    l_check := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_check_assert">check_assert</A> (<B>False</B>)
+                    a_mismatch_information.<A HREF="../elks/hash_table.html#f_put">put</A> (an_obj.<A HREF="../elks/any.html#f_generating_type">generating_type</A>.<A HREF="../elks/type.html#f_name">name</A>, {<A HREF="../elks/mismatch_information.html">MISMATCH_INFORMATION</A>}.<A HREF="../elks/mismatch_information.html#f_type_name_key">type_name_key</A>)
+                    <A HREF="../elks/mismatch_corrector.html#f_mismatch_information">Mismatch_information</A>.<A HREF="../elks/hash_table.html#f_copy">copy</A> (a_mismatch_information)
+                    l_corrector.<A HREF="../elks/mismatch_corrector.html#f_correct_mismatch">correct_mismatch</A>
+                    l_check := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_check_assert">check_assert</A> (l_check)
+                    <B>if</B> <B>not</B> <A HREF="../ise/sed_recoverable_deserializer.html#f_is_object_valid">is_object_valid</A> (an_obj, <B>False</B>) <B>then</B>
+                        <A HREF="../ise/sed_session_deserializer.html#f_add_error">add_error</A> (<A HREF="../ise/sed_session_deserializer.html#f_error_factory">Error_factory</A>.<A HREF="../ise/sed_error_factory.html#f_new_invalid_object_error">new_invalid_object_error</A> (an_obj))
+                    <B>end</B>
+                <B>else</B>
+                    <A HREF="../ise/sed_session_deserializer.html#f_add_error">add_error</A> (<A HREF="../ise/sed_session_deserializer.html#f_error_factory">Error_factory</A>.<A HREF="../ise/sed_error_factory.html#f_new_object_mismatch_error">new_object_mismatch_error</A> (an_obj))
+                <B>end</B>
+            <B>else</B>
+                <B>if</B> l_mismatch_called <B>then</B>
+                    l_check := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_check_assert">check_assert</A> (l_check)
+                <B>end</B>
+                <A HREF="../ise/sed_session_deserializer.html#f_add_error">add_error</A> (<A HREF="../ise/sed_session_deserializer.html#f_error_factory">Error_factory</A>.<A HREF="../ise/sed_error_factory.html#f_new_object_mismatch_error">new_object_mismatch_error</A> (an_obj))
+            <B>end</B>
+        <B>rescue</B>
+            retried := <B>True</B>
+            <B>retry</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_object_valid"><A HREF="../ise/sed_recoverable_deserializer.html#f_is_object_valid">is_object_valid</A> (an_obj: <A HREF="../elks/any.html">ANY</A>; a_verify_invariant: <A HREF="../elks/boolean.html">BOOLEAN</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is object content valid, i.e. are all attached attributes really attached?</FONT>
+        <B>local</B>
+            l_reflected_object: <B>like</B> <A HREF="../ise/sed_session_deserializer.html#f_reflected_object">reflected_object</A>
+            l_reflector: <B>like</B> <A HREF="../ise/sed_session_deserializer.html#f_reflector">reflector</A>
+            l_dtype, i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            retried: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            <B>if</B> <B>not</B> retried <B>then</B>
+                <B>from</B>
+                    l_reflected_object := <A HREF="../ise/sed_session_deserializer.html#f_reflected_object">reflected_object</A>
+                    l_reflector := <A HREF="../ise/sed_session_deserializer.html#f_reflector">reflector</A>
+                    l_reflected_object.<A HREF="../elks/reflected_reference_object.html#f_set_object">set_object</A> (an_obj)
+                    l_dtype := l_reflected_object.<A HREF="../elks/reflected_object.html#f_dynamic_type">dynamic_type</A>
+                    i := 1
+                    nb := l_reflected_object.<A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+                    <B>Result</B> := <B>True</B>
+                <B>until</B>
+                    i &gt; nb <B>or</B> <B>not</B> <B>Result</B>
+                <B>loop</B>
+                    <B>if</B> l_reflected_object.<A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_reference_type">reference_type</A> <B>then</B>
+                        <B>Result</B> := <B>not</B> l_reflector.<A HREF="../elks/reflector.html#f_is_attached_type">is_attached_type</A> (l_reflected_object.<A HREF="../elks/reflected_object.html#f_field_static_type">field_static_type</A> (i)) <B>or else</B> l_reflected_object.<A HREF="../elks/reflected_object.html#f_reference_field">reference_field</A> (i) /= <B>Void</B>
+                    <B>end</B>
+                    i := i + 1
+                <B>end</B>
+                <B>if</B> a_verify_invariant <B>then</B>
+                    an_obj.<A HREF="../elks/any.html#f_do_nothing">do_nothing</A>
+                <B>end</B>
+            <B>else</B>
+                <B>Result</B> := <B>False</B>
+            <B>end</B>
+        <B>rescue</B>
+            retried := <B>True</B>
+            <B>retry</B>
+        <B>end</B></A>
+
+    <A NAME="f_decode_normal_object"><A HREF="../ise/sed_recoverable_deserializer.html#f_decode_normal_object">decode_normal_object</A> (a_reflected_object: <A HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Decode an object represented by </FONT>`a_reflected_object'<FONT COLOR="red">.</FONT>
+        <B>local</B>
+            l_deser: <B>like</B> <A HREF="../ise/sed_session_deserializer.html#f_deserializer">deserializer</A>
+            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_dtype, l_exp_dtype, l_new_offset: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_mismatch_info: <A HREF="../ise/sed_type_mismatch.html">SED_TYPE_MISMATCH</A>
+            l_info: <B>detachable</B> <A HREF="../elks/mismatch_information.html">MISMATCH_INFORMATION</A>
+            l_check_for_non_void: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            l_has_mismatch: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            l_field_info: <B>detachable</B> <A HREF="../elks/tuple.html">TUPLE</A> [old_name: <A HREF="../elks/string_8.html">STRING_8</A>; new_name: <A HREF="../elks/string_8.html">STRING_8</A>; old_attribute_type: <A HREF="../elks/integer_32.html">INTEGER_32</A>; new_attribute_type: <A HREF="../elks/integer_32.html">INTEGER_32</A>; old_position: <A HREF="../elks/integer_32.html">INTEGER_32</A>; new_position: <A HREF="../elks/integer_32.html">INTEGER_32</A>; is_changed: <A HREF="../elks/boolean.html">BOOLEAN</A>; is_removed: <A HREF="../elks/boolean.html">BOOLEAN</A>; is_attachment_check_required: <A HREF="../elks/boolean.html">BOOLEAN</A>]
+            l_exp: <A HREF="../elks/reflected_reference_object.html">REFLECTED_REFERENCE_OBJECT</A>
+        <B>do</B>
+            l_dtype := a_reflected_object.<A HREF="../elks/reflected_object.html#f_dynamic_type">dynamic_type</A>
+            <B>if</B> <B>not</B> <A HREF="../ise/sed_recoverable_deserializer.html#f_has_mismatch">has_mismatch</A> (l_dtype) <B>then</B>
+                <B>Precursor</B> (a_reflected_object)
+            <B>else</B>
+                l_mismatch_info := <A HREF="../ise/sed_recoverable_deserializer.html#f_associated_mismatch">associated_mismatch</A> (l_dtype)
+                <B>if</B> l_mismatch_info.<A HREF="../ise/sed_type_mismatch.html#f_has_version_mismatch">has_version_mismatch</A> <B>then</B>
+                    <B>create</B> l_info.<A HREF="../elks/hash_table.html#f_make">make</A> (l_mismatch_info.<A HREF="../ise/sed_type_mismatch.html#f_old_count">old_count</A>)
+                    l_info.<A HREF="../elks/mismatch_information.html#f_set_versions">set_versions</A> (l_mismatch_info.<A HREF="../ise/sed_type_mismatch.html#f_old_version">old_version</A>, l_mismatch_info.<A HREF="../ise/sed_type_mismatch.html#f_new_version">new_version</A>)
+                <B>end</B>
+                l_deser := <A HREF="../ise/sed_session_deserializer.html#f_deserializer">deserializer</A>
+                <B>from</B>
+                    i := 1
+                    nb := <A HREF="../ise/sed_recoverable_deserializer.html#f_read_persistent_field_count">read_persistent_field_count</A> (a_reflected_object) + 1
+                <B>until</B>
+                    i = nb
+                <B>loop</B>
+                    l_field_info := l_mismatch_info.<A HREF="../ise/sed_type_mismatch.html#f_mismatches_by_stored_position">mismatches_by_stored_position</A>.<A HREF="../elks/hash_table.html#f_item">item</A> (i)
+                    <B>if</B> l_field_info /= <B>Void</B> <B>then</B>
+                        l_check_for_non_void := l_field_info.is_attachment_check_required
+                        l_has_mismatch := l_field_info.is_changed <B>or</B> (<B>not</B> <A HREF="../ise/sed_recoverable_deserializer.html#f_is_attribute_removal_allowed">is_attribute_removal_allowed</A> <B>and then</B> l_field_info.is_removed)
+                        <B>if</B> <B>not</B> l_has_mismatch <B>then</B>
+                            l_field_info := <B>Void</B>
+                        <B>elseif</B> l_info = <B>Void</B> <B>then</B>
+                            <B>create</B> l_info.<A HREF="../elks/hash_table.html#f_make">make</A> (l_mismatch_info.<A HREF="../ise/sed_type_mismatch.html#f_old_count">old_count</A>)
+                        <B>end</B>
+                    <B>else</B>
+                        l_check_for_non_void := <B>False</B>
+                        l_has_mismatch := <B>False</B>
+                    <B>end</B>
+                    <B>if</B> l_field_info = <B>Void</B> <B>then</B>
+                        l_new_offset := <A HREF="../ise/sed_recoverable_deserializer.html#f_new_attribute_offset">new_attribute_offset</A> (l_dtype, i)
+                        <B>inspect</B> a_reflected_object.<A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (l_new_offset)
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_boolean_type">boolean_type</A> <B>then</B> 
+                            a_reflected_object.<A HREF="../elks/reflected_object.html#f_set_boolean_field">set_boolean_field</A> (l_new_offset, l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_boolean">read_boolean</A>)
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_character_8_type">character_8_type</A> <B>then</B> 
+                            a_reflected_object.<A HREF="../elks/reflected_object.html#f_set_character_8_field">set_character_8_field</A> (l_new_offset, l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_character_8">read_character_8</A>)
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_character_32_type">character_32_type</A> <B>then</B> 
+                            a_reflected_object.<A HREF="../elks/reflected_object.html#f_set_character_32_field">set_character_32_field</A> (l_new_offset, l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_character_32">read_character_32</A>)
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_natural_8_type">natural_8_type</A> <B>then</B> 
+                            a_reflected_object.<A HREF="../elks/reflected_object.html#f_set_natural_8_field">set_natural_8_field</A> (l_new_offset, l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_natural_8">read_natural_8</A>)
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_natural_16_type">natural_16_type</A> <B>then</B> 
+                            a_reflected_object.<A HREF="../elks/reflected_object.html#f_set_natural_16_field">set_natural_16_field</A> (l_new_offset, l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_natural_16">read_natural_16</A>)
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_natural_32_type">natural_32_type</A> <B>then</B> 
+                            a_reflected_object.<A HREF="../elks/reflected_object.html#f_set_natural_32_field">set_natural_32_field</A> (l_new_offset, l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_natural_32">read_natural_32</A>)
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_natural_64_type">natural_64_type</A> <B>then</B> 
+                            a_reflected_object.<A HREF="../elks/reflected_object.html#f_set_natural_64_field">set_natural_64_field</A> (l_new_offset, l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_natural_64">read_natural_64</A>)
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_integer_8_type">integer_8_type</A> <B>then</B> 
+                            a_reflected_object.<A HREF="../elks/reflected_object.html#f_set_integer_8_field">set_integer_8_field</A> (l_new_offset, l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_integer_8">read_integer_8</A>)
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_integer_16_type">integer_16_type</A> <B>then</B> 
+                            a_reflected_object.<A HREF="../elks/reflected_object.html#f_set_integer_16_field">set_integer_16_field</A> (l_new_offset, l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_integer_16">read_integer_16</A>)
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_integer_32_type">integer_32_type</A> <B>then</B> 
+                            a_reflected_object.<A HREF="../elks/reflected_object.html#f_set_integer_32_field">set_integer_32_field</A> (l_new_offset, l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_integer_32">read_integer_32</A>)
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_integer_64_type">integer_64_type</A> <B>then</B> 
+                            a_reflected_object.<A HREF="../elks/reflected_object.html#f_set_integer_64_field">set_integer_64_field</A> (l_new_offset, l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_integer_64">read_integer_64</A>)
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_real_32_type">real_32_type</A> <B>then</B> 
+                            a_reflected_object.<A HREF="../elks/reflected_object.html#f_set_real_32_field">set_real_32_field</A> (l_new_offset, l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_real_32">read_real_32</A>)
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_real_64_type">real_64_type</A> <B>then</B> 
+                            a_reflected_object.<A HREF="../elks/reflected_object.html#f_set_real_64_field">set_real_64_field</A> (l_new_offset, l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_real_64">read_real_64</A>)
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_pointer_type">pointer_type</A> <B>then</B> 
+                            a_reflected_object.<A HREF="../elks/reflected_object.html#f_set_pointer_field">set_pointer_field</A> (l_new_offset, l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_pointer">read_pointer</A>)
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_reference_type">reference_type</A> <B>then</B> 
+                            <B>if</B> <A HREF="../ise/sed_session_deserializer.html#f_has_reference_with_copy_semantics">has_reference_with_copy_semantics</A> <B>then</B>
+                                <B>if</B> l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_boolean">read_boolean</A> <B>then</B>
+                                    l_exp_dtype := l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_compressed_integer_32">read_compressed_integer_32</A>
+                                    <B>create</B> l_exp.<A HREF="../elks/reflected_reference_object.html#f_make">make</A> (<A HREF="../ise/sed_session_deserializer.html#f_reflector">reflector</A>.<A HREF="../elks/reflector.html#f_new_instance_of">new_instance_of</A> (l_exp_dtype))
+                                    <A HREF="../ise/sed_recoverable_deserializer.html#f_decode_normal_object">decode_normal_object</A> (l_exp)
+                                    a_reflected_object.<A HREF="../elks/reflected_object.html#f_set_reference_field">set_reference_field</A> (l_new_offset, l_exp.<A HREF="../elks/reflected_reference_object.html#f_object">object</A>)
+                                    <B>if</B> l_check_for_non_void <B>then</B>
+                                        l_check_for_non_void := <B>False</B>
+                                    <B>end</B>
+                                <B>else</B>
+                                    a_reflected_object.<A HREF="../elks/reflected_object.html#f_set_reference_field">set_reference_field</A> (l_new_offset, <A HREF="../ise/sed_session_deserializer.html#f_read_reference">read_reference</A>)
+                                <B>end</B>
+                            <B>else</B>
+                                a_reflected_object.<A HREF="../elks/reflected_object.html#f_set_reference_field">set_reference_field</A> (l_new_offset, <A HREF="../ise/sed_session_deserializer.html#f_read_reference">read_reference</A>)
+                            <B>end</B>
+                            <B>if</B> l_check_for_non_void <B>and then</B> a_reflected_object.<A HREF="../elks/reflected_object.html#f_reference_field">reference_field</A> (l_new_offset) = <B>Void</B> <B>then</B>
+                                <B>if</B> l_info = <B>Void</B> <B>then</B>
+                                    <B>create</B> l_info.<A HREF="../elks/hash_table.html#f_make">make</A> (l_mismatch_info.<A HREF="../ise/sed_type_mismatch.html#f_old_count">old_count</A>)
+                                <B>end</B>
+                                l_info.<A HREF="../elks/hash_table.html#f_put">put</A> (<B>Void</B>, a_reflected_object.<A HREF="../elks/reflected_object.html#f_field_name">field_name</A> (l_new_offset))
+                            <B>end</B>
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_expanded_type">expanded_type</A> <B>then</B> 
+                            l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_compressed_integer_32">read_compressed_integer_32</A>.<A HREF="../elks/any.html#f_do_nothing">do_nothing</A>
+                            <A HREF="../ise/sed_recoverable_deserializer.html#f_decode_normal_object">decode_normal_object</A> (a_reflected_object.<A HREF="../elks/reflected_object.html#f_expanded_field">expanded_field</A> (l_new_offset))
+                        <B>else</B>
+                            <B>check</B>
+                                <B>False</B>
+                            <B>end</B>
+                        <B>end</B>
+                    <B>else</B>
+                        <B>if</B> l_info = <B>Void</B> <B>then</B>
+                            <B>create</B> l_info.<A HREF="../elks/hash_table.html#f_make">make</A> (l_mismatch_info.<A HREF="../ise/sed_type_mismatch.html#f_old_count">old_count</A>)
+                        <B>end</B>
+                        <B>inspect</B> <A HREF="../ise/sed_utilities.html#f_abstract_type">abstract_type</A> (l_field_info.old_attribute_type)
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_boolean_type">boolean_type</A> <B>then</B> 
+                            l_info.<A HREF="../elks/hash_table.html#f_put">put</A> (l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_boolean">read_boolean</A>, l_field_info.new_name)
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_character_8_type">character_8_type</A> <B>then</B> 
+                            l_info.<A HREF="../elks/hash_table.html#f_put">put</A> (l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_character_8">read_character_8</A>, l_field_info.new_name)
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_character_32_type">character_32_type</A> <B>then</B> 
+                            l_info.<A HREF="../elks/hash_table.html#f_put">put</A> (l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_character_32">read_character_32</A>, l_field_info.new_name)
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_natural_8_type">natural_8_type</A> <B>then</B> 
+                            l_info.<A HREF="../elks/hash_table.html#f_put">put</A> (l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_natural_8">read_natural_8</A>, l_field_info.new_name)
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_natural_16_type">natural_16_type</A> <B>then</B> 
+                            l_info.<A HREF="../elks/hash_table.html#f_put">put</A> (l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_natural_16">read_natural_16</A>, l_field_info.new_name)
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_natural_32_type">natural_32_type</A> <B>then</B> 
+                            l_info.<A HREF="../elks/hash_table.html#f_put">put</A> (l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_natural_32">read_natural_32</A>, l_field_info.new_name)
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_natural_64_type">natural_64_type</A> <B>then</B> 
+                            l_info.<A HREF="../elks/hash_table.html#f_put">put</A> (l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_natural_64">read_natural_64</A>, l_field_info.new_name)
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_integer_8_type">integer_8_type</A> <B>then</B> 
+                            l_info.<A HREF="../elks/hash_table.html#f_put">put</A> (l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_integer_8">read_integer_8</A>, l_field_info.new_name)
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_integer_16_type">integer_16_type</A> <B>then</B> 
+                            l_info.<A HREF="../elks/hash_table.html#f_put">put</A> (l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_integer_16">read_integer_16</A>, l_field_info.new_name)
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_integer_32_type">integer_32_type</A> <B>then</B> 
+                            l_info.<A HREF="../elks/hash_table.html#f_put">put</A> (l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_integer_32">read_integer_32</A>, l_field_info.new_name)
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_integer_64_type">integer_64_type</A> <B>then</B> 
+                            l_info.<A HREF="../elks/hash_table.html#f_put">put</A> (l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_integer_64">read_integer_64</A>, l_field_info.new_name)
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_real_32_type">real_32_type</A> <B>then</B> 
+                            l_info.<A HREF="../elks/hash_table.html#f_put">put</A> (l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_real_32">read_real_32</A>, l_field_info.new_name)
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_real_64_type">real_64_type</A> <B>then</B> 
+                            l_info.<A HREF="../elks/hash_table.html#f_put">put</A> (l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_real_64">read_real_64</A>, l_field_info.new_name)
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_pointer_type">pointer_type</A> <B>then</B> 
+                            l_info.<A HREF="../elks/hash_table.html#f_put">put</A> (l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_pointer">read_pointer</A>, l_field_info.new_name)
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_reference_type">reference_type</A> <B>then</B> 
+                            <B>if</B> <A HREF="../ise/sed_session_deserializer.html#f_has_reference_with_copy_semantics">has_reference_with_copy_semantics</A> <B>then</B>
+                                <B>if</B> l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_boolean">read_boolean</A> <B>then</B>
+                                    l_exp_dtype := l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_compressed_integer_32">read_compressed_integer_32</A>
+                                    <B>create</B> l_exp.<A HREF="../elks/reflected_reference_object.html#f_make">make</A> (<A HREF="../ise/sed_session_deserializer.html#f_reflector">reflector</A>.<A HREF="../elks/reflector.html#f_new_instance_of">new_instance_of</A> (l_exp_dtype))
+                                    <A HREF="../ise/sed_recoverable_deserializer.html#f_decode_normal_object">decode_normal_object</A> (l_exp)
+                                    l_info.<A HREF="../elks/hash_table.html#f_put">put</A> (l_exp.<A HREF="../elks/reflected_reference_object.html#f_object">object</A>, l_field_info.new_name)
+                                <B>else</B>
+                                    l_info.<A HREF="../elks/hash_table.html#f_put">put</A> (<A HREF="../ise/sed_session_deserializer.html#f_read_reference">read_reference</A>, l_field_info.new_name)
+                                <B>end</B>
+                            <B>else</B>
+                                l_info.<A HREF="../elks/hash_table.html#f_put">put</A> (<A HREF="../ise/sed_session_deserializer.html#f_read_reference">read_reference</A>, l_field_info.new_name)
+                            <B>end</B>
+                        <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_expanded_type">expanded_type</A> <B>then</B> 
+                            l_exp_dtype := l_deser.<A HREF="../ise/sed_reader_writer.html#f_read_compressed_integer_32">read_compressed_integer_32</A>
+                            <B>create</B> l_exp.<A HREF="../elks/reflected_reference_object.html#f_make">make</A> (<A HREF="../ise/sed_session_deserializer.html#f_reflector">reflector</A>.<A HREF="../elks/reflector.html#f_new_instance_of">new_instance_of</A> (l_exp_dtype))
+                            <A HREF="../ise/sed_recoverable_deserializer.html#f_decode_normal_object">decode_normal_object</A> (l_exp)
+                            l_info.<A HREF="../elks/hash_table.html#f_put">put</A> (l_exp.<A HREF="../elks/reflected_reference_object.html#f_object">object</A>, l_field_info.new_name)
+                        <B>else</B>
+                            <B>check</B>
+                                <B>False</B>
+                            <B>end</B>
+                        <B>end</B>
+                    <B>end</B>
+                    i := i + 1
+                <B>end</B>
+            <B>end</B>
+            <B>if</B> l_info /= <B>Void</B> <B>then</B>
+                <A HREF="../ise/sed_recoverable_deserializer.html#f_mismatched_object">mismatched_object</A>.<A HREF="../elks/arrayed_list.html#f_extend">extend</A> ([a_reflected_object.<A HREF="../elks/reflected_object.html#f_object">object</A>, l_info])
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Cleaning</FONT>
+
+    <A NAME="f_clear_internal_data"><A HREF="../ise/sed_recoverable_deserializer.html#f_clear_internal_data">clear_internal_data</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Clear all allocated data</FONT>
+        <B>do</B>
+            <B>Precursor</B> {<A HREF="../ise/sed_basic_deserializer.html">SED_BASIC_DESERIALIZER</A>}
+            <A HREF="../ise/sed_recoverable_deserializer.html#f_attributes_mapping">attributes_mapping</A> := <B>Void</B>
+            <A HREF="../ise/sed_recoverable_deserializer.html#f_mismatches">mismatches</A>.<A HREF="../elks/hash_table.html#f_wipe_out">wipe_out</A>
+            <A HREF="../ise/sed_recoverable_deserializer.html#f_mismatched_object">mismatched_object</A>.<A HREF="../elks/arrayed_list.html#f_wipe_out">wipe_out</A>
+        <B>end</B></A>
+    
+<B>note</B>
+    library: "EiffelBase: Library of reusable components for Eiffel."
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../ise/sed_recoverable_deserializer.html">SED_RECOVERABLE_DESERIALIZER</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sed_recoverable_deserializer_chart.html">Chart</A></TD><TD><A HREF="sed_recoverable_deserializer_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="sed_recoverable_deserializer_flat.html">Flat</A></TD><TD><A HREF="sed_recoverable_deserializer_short.html">Contracts</A></TD><TD><A HREF="sed_recoverable_deserializer_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

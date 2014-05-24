@@ -1,0 +1,705 @@
+<HTML><HEAD>
+<meta name="description" content="War of Raekidion - A network client or server connection A {NODE} is a network class that binds a server to a  port or connects a client to a server and a port."/>
+<meta name="author" content="François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>node Flat</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="node_chart.html">Chart</A></TD><TD><A HREF="node_links.html">Relations</A></TD><TD><A HREF="node.html">Text</A></TD><TD>Flat</TD><TD><A HREF="node_short.html">Contracts</A></TD><TD><A HREF="node_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        War of Raekidion - A network client or server connection
+        A <A HREF="../../raekidion/network/node_flat.html">NODE</A> is a network class that binds a server to a 
+        port or connects a client to a server and a port.
+    ]"
+    author: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+    date: "$Date$"
+    revision: "$Revision$"
+
+<B>class</B> 
+    <A HREF="../../raekidion/network/node_flat.html">NODE</A>
+
+<B>create</B> 
+    <A HREF="../../raekidion/network/node_flat.html#f_make_client">make_client</A>,
+    <A HREF="../../raekidion/network/node_flat.html#f_make_server">make_server</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_default_create"><A HREF="../../elks/any_flat.html#f_default_create">default_create</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process instances of classes with no creation clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_make_client"><A HREF="../../raekidion/network/node_flat.html#f_make_client">make_client</A> (a_address: <A HREF="../../elks/string_8_flat.html">STRING_8</A>; a_port: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize </FONT>`Current'<FONT COLOR="red"> from </FONT>`a_address'<FONT COLOR="red"> and </FONT>`a_port'
+        <B>local</B>
+            l_address: <B>detachable</B> <A HREF="../../network/inet_address_flat.html">INET_ADDRESS</A>
+            l_address_factory: <A HREF="../../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A>
+        <B>do</B>
+            <B>create</B> <A HREF="../../raekidion/network/node_flat.html#f_new_enemies">new_enemies</A>.<A HREF="../../elks/linked_list_flat.html#f_make">make</A>
+            <A HREF="../../raekidion/network/node_flat.html#f_new_player_position">new_player_position</A> := [112, 300]
+            <B>create</B> <A HREF="../../raekidion/network/node_flat.html#f_new_projectiles">new_projectiles</A>.<A HREF="../../elks/linked_list_flat.html#f_make">make</A>
+            <B>create</B> <A HREF="../../raekidion/network/node_flat.html#f_new_collisions">new_collisions</A>.<A HREF="../../elks/linked_list_flat.html#f_make">make</A>
+            <B>create</B> l_address_factory
+            l_address := l_address_factory.<A HREF="../../network/inet_address_factory_flat.html#f_create_from_name">create_from_name</A> (a_address)
+            <B>if</B> <B>attached</B> l_address <B>as</B> la_address <B>then</B>
+                <B>create</B> <A HREF="../../raekidion/network/node_flat.html#f_distant_socket">distant_socket</A>.<A HREF="../../network/network_stream_socket_flat.html#f_make_client_by_address_and_port">make_client_by_address_and_port</A> (l_address, a_port)
+                <B>if</B> <B>attached</B> <A HREF="../../raekidion/network/node_flat.html#f_distant_socket">distant_socket</A> <B>as</B> la_socket <B>then</B>
+                    la_socket.<A HREF="../../network/network_socket_flat.html#f_connect">connect</A>
+                    <B>if</B> <B>not</B> la_socket.<A HREF="../../network/network_socket_flat.html#f_is_connected">is_connected</A> <B>then</B>
+                        <A HREF="../../raekidion/network/node_flat.html#f_connection_error">connection_error</A> := <B>True</B>
+                    <B>end</B>
+                <B>else</B>
+                    <A HREF="../../raekidion/network/node_flat.html#f_connection_error">connection_error</A> := <B>True</B>
+                <B>end</B>
+            <B>else</B>
+                <A HREF="../../raekidion/network/node_flat.html#f_connection_error">connection_error</A> := <B>True</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_make_server"><A HREF="../../raekidion/network/node_flat.html#f_make_server">make_server</A> (a_port: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize </FONT>`Current'<FONT COLOR="red"> from </FONT>`a_port'
+        <B>do</B>
+            <B>create</B> <A HREF="../../raekidion/network/node_flat.html#f_new_enemies">new_enemies</A>.<A HREF="../../elks/linked_list_flat.html#f_make">make</A>
+            <A HREF="../../raekidion/network/node_flat.html#f_new_player_position">new_player_position</A> := [112, 300]
+            <B>create</B> <A HREF="../../raekidion/network/node_flat.html#f_new_projectiles">new_projectiles</A>.<A HREF="../../elks/linked_list_flat.html#f_make">make</A>
+            <B>create</B> <A HREF="../../raekidion/network/node_flat.html#f_new_collisions">new_collisions</A>.<A HREF="../../elks/linked_list_flat.html#f_make">make</A>
+            <B>create</B> <A HREF="../../raekidion/network/node_flat.html#f_local_socket">local_socket</A>.<A HREF="../../network/network_stream_socket_flat.html#f_make_server_by_port">make_server_by_port</A> (a_port)
+            <B>if</B> <B>attached</B> <A HREF="../../raekidion/network/node_flat.html#f_local_socket">local_socket</A> <B>as</B> la_socket <B>then</B>
+                la_socket.<A HREF="../../network/network_stream_socket_flat.html#f_listen">listen</A> (1)
+                la_socket.<A HREF="../../network/network_stream_socket_flat.html#f_accept">accept</A>
+                <A HREF="../../raekidion/network/node_flat.html#f_distant_socket">distant_socket</A> := la_socket.<A HREF="../../abstract/stream_socket_flat.html#f_accepted">accepted</A>
+                <B>if</B> la_socket.<A HREF="../../abstract/socket_flat.html#f_was_error">was_error</A> <B>then</B>
+                    <A HREF="../../raekidion/network/node_flat.html#f_connection_error">connection_error</A> := <B>True</B>
+                <B>end</B>
+            <B>else</B>
+                <A HREF="../../raekidion/network/node_flat.html#f_connection_error">connection_error</A> := <B>True</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_close"><A HREF="../../raekidion/network/node_flat.html#f_close">close</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> <A HREF="../../raekidion/network/node_flat.html#f_distant_socket">distant_socket</A> <B>as</B> la_socket <B>and then</B> <B>not</B> la_socket.<A HREF="../../network/network_socket_flat.html#f_is_closed">is_closed</A> <B>then</B>
+                la_socket.<A HREF="../../abstract/socket_flat.html#f_close">close</A>
+            <B>end</B>
+            <B>if</B> <B>attached</B> <A HREF="../../raekidion/network/node_flat.html#f_local_socket">local_socket</A> <B>as</B> la_socket <B>and then</B> <B>not</B> la_socket.<A HREF="../../network/network_socket_flat.html#f_is_closed">is_closed</A> <B>then</B>
+                la_socket.<A HREF="../../abstract/socket_flat.html#f_close">close</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_distant_socket"><A HREF="../../raekidion/network/node_flat.html#f_distant_socket">distant_socket</A>: <B>detachable</B> <A HREF="../../network/network_stream_socket_flat.html">NETWORK_STREAM_SOCKET</A></A>
+
+    <A NAME="f_generating_type"><A HREF="../../elks/any_flat.html#f_generating_type">generating_type</A>: <A HREF="../../elks/type_flat.html">TYPE</A> [<B>detachable</B> <A HREF="../../raekidion/network/node_flat.html">NODE</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Type of current object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := {<B>detachable</B> <A HREF="../../raekidion/network/node_flat.html">NODE</A>}
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            generating_type_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_generator"><A HREF="../../elks/any_flat.html#f_generator">generator</A>: <A HREF="../../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of current object's generating class</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (base class of the type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            generator_not_void: <B>Result</B> /= <B>Void</B>
+            generator_not_empty: <B>not</B> <B>Result</B>.<A HREF="../../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+
+    <A NAME="f_local_socket"><A HREF="../../raekidion/network/node_flat.html#f_local_socket">local_socket</A>: <B>detachable</B> <A HREF="../../network/network_stream_socket_flat.html">NETWORK_STREAM_SOCKET</A></A>
+
+    <A NAME="f_new_collisions"><A HREF="../../raekidion/network/node_flat.html#f_new_collisions">new_collisions</A>: <A HREF="../../elks/linked_list_flat.html">LINKED_LIST</A> [<A HREF="../../elks/tuple_flat.html">TUPLE</A> [enemy_id: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>; projectile_id: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>]]</A>
+
+    <A NAME="f_new_enemies"><A HREF="../../raekidion/network/node_flat.html#f_new_enemies">new_enemies</A>: <A HREF="../../elks/linked_list_flat.html">LINKED_LIST</A> [<A HREF="../../elks/tuple_flat.html">TUPLE</A> [name: <A HREF="../../elks/string_8_flat.html">STRING_8</A>; x: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>; y: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>; dest_x: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>; dest_y: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>]]</A>
+
+    <A NAME="f_new_player_position"><A HREF="../../raekidion/network/node_flat.html#f_new_player_position">new_player_position</A>: <A HREF="../../elks/tuple_flat.html">TUPLE</A> [x: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>; y: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>]</A>
+
+    <A NAME="f_new_projectiles"><A HREF="../../raekidion/network/node_flat.html#f_new_projectiles">new_projectiles</A>: <A HREF="../../elks/linked_list_flat.html">LINKED_LIST</A> [<A HREF="../../elks/tuple_flat.html">TUPLE</A> [name: <A HREF="../../elks/string_8_flat.html">STRING_8</A>; x: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>; y: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>; angle: <A HREF="../../elks/real_64_flat.html">REAL_64</A>]]</A>
+
+    <A NAME="f_new_score"><A HREF="../../raekidion/network/node_flat.html#f_new_score">new_score</A>: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A></A>
+
+    <A NAME="f_receive_data"><A HREF="../../raekidion/network/node_flat.html#f_receive_data">receive_data</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Fill variables with distant packets' data</FONT>
+        <B>local</B>
+            l_choice: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>
+            l_packet: <B>detachable</B> <A HREF="../../abstract/packet_flat.html">PACKET</A>
+            l_count: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>
+            l_string: <A HREF="../../elks/string_8_flat.html">STRING_8</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../../raekidion/network/node_flat.html#f_connection_error">connection_error</A> <B>then</B>
+                <A HREF="../../raekidion/network/node_flat.html#f_close">close</A>
+            <B>else</B>
+                l_string := ""
+                <B>if</B> <B>attached</B> <A HREF="../../raekidion/network/node_flat.html#f_distant_socket">distant_socket</A> <B>as</B> la_socket <B>then</B>
+                    <B>if</B> la_socket.<A HREF="../../abstract/socket_flat.html#f_is_readable">is_readable</A> <B>and</B> la_socket.<A HREF="../../abstract/socket_flat.html#f_is_open_read">is_open_read</A> <B>then</B>
+                        l_packet := la_socket.<A HREF="../../abstract/socket_flat.html#f_receive">receive</A> (4, 0)
+                        <B>if</B> <B>attached</B> l_packet <B>as</B> la_packet <B>then</B>
+                            l_count := l_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_read_integer_32">read_integer_32</A> (0)
+                        <B>end</B>
+                        l_packet := la_socket.<A HREF="../../abstract/socket_flat.html#f_receive">receive</A> (l_count, 0)
+                        <B>if</B> <B>attached</B> l_packet <B>as</B> la_packet <B>then</B>
+                            l_choice := l_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_read_integer_32">read_integer_32</A> (0)
+                            <B>if</B> l_choice = <A HREF="../../raekidion/network/node_flat.html#f_enemy_packet">Enemy_packet</A> <B>then</B>
+                                <B>from</B>
+                                    l_count := 0
+                                <B>until</B>
+                                    l_count = la_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_read_integer_32">read_integer_32</A> (20)
+                                <B>loop</B>
+                                    l_string.<A HREF="../../elks/string_8_flat.html#f_append_character">append_character</A> (l_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_read_character">read_character</A> (24 + l_count))
+                                    l_count := l_count + 1
+                                <B>end</B>
+                                <A HREF="../../raekidion/network/node_flat.html#f_new_enemies">new_enemies</A>.<A HREF="../../elks/linked_list_flat.html#f_extend">extend</A> (l_string, la_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_read_integer_32">read_integer_32</A> (4), la_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_read_integer_32">read_integer_32</A> (8), la_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_read_integer_32">read_integer_32</A> (12), la_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_read_integer_32">read_integer_32</A> (16))
+                            <B>elseif</B> l_choice = <A HREF="../../raekidion/network/node_flat.html#f_player_packet">Player_packet</A> <B>then</B>
+                                <A HREF="../../raekidion/network/node_flat.html#f_new_player_position">new_player_position</A> := [la_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_read_integer_32">read_integer_32</A> (4), la_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_read_integer_32">read_integer_32</A> (8)]
+                            <B>elseif</B> l_choice = <A HREF="../../raekidion/network/node_flat.html#f_projectile_packet">Projectile_packet</A> <B>then</B>
+                                <B>from</B>
+                                    l_count := 0
+                                <B>until</B>
+                                    l_count = la_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_read_integer_32">read_integer_32</A> (20)
+                                <B>loop</B>
+                                    l_string.<A HREF="../../elks/string_8_flat.html#f_append_character">append_character</A> (l_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_read_character">read_character</A> (24 + l_count))
+                                    l_count := l_count + 1
+                                <B>end</B>
+                                <A HREF="../../raekidion/network/node_flat.html#f_new_projectiles">new_projectiles</A>.<A HREF="../../elks/linked_list_flat.html#f_extend">extend</A> (l_string, la_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_read_integer_32">read_integer_32</A> (4), la_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_read_integer_32">read_integer_32</A> (8), la_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_read_real_64">read_real_64</A> (12))
+                            <B>elseif</B> l_choice = <A HREF="../../raekidion/network/node_flat.html#f_collision_packet">Collision_packet</A> <B>then</B>
+                                <A HREF="../../raekidion/network/node_flat.html#f_new_collisions">new_collisions</A>.<A HREF="../../elks/linked_list_flat.html#f_extend">extend</A> (la_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_read_integer_32">read_integer_32</A> (4), la_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_read_integer_32">read_integer_32</A> (8))
+                            <B>elseif</B> l_choice = <A HREF="../../raekidion/network/node_flat.html#f_score_packet">Score_packet</A> <B>then</B>
+                                <A HREF="../../raekidion/network/node_flat.html#f_new_score">new_score</A> := la_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_read_integer_32">read_integer_32</A> (4)
+                            <B>end</B>
+                        <B>end</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>rescue</B>
+            <A HREF="../../raekidion/network/node_flat.html#f_connection_error">connection_error</A> := <B>True</B>
+            <B>retry</B>
+        <B>end</B></A>
+
+    <A NAME="f_send_collision"><A HREF="../../raekidion/network/node_flat.html#f_send_collision">send_collision</A> (a_enemy_id, a_projectile_id: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Send a packet containing </FONT>`a_enemy_id'<FONT COLOR="red"> and </FONT>`a_projectile'
+        <B>local</B>
+            l_size: <A HREF="../../abstract/packet_flat.html">PACKET</A>
+            l_packet: <A HREF="../../abstract/packet_flat.html">PACKET</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../../raekidion/network/node_flat.html#f_connection_error">connection_error</A> <B>then</B>
+                <A HREF="../../raekidion/network/node_flat.html#f_close">close</A>
+            <B>else</B>
+                <B>create</B> l_size.<A HREF="../../abstract/packet_flat.html#f_make">make</A> (4)
+                l_size.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_put_integer_32">put_integer_32</A> (12, 0)
+                <B>create</B> l_packet.<A HREF="../../abstract/packet_flat.html#f_make">make</A> (12)
+                l_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_put_integer_32">put_integer_32</A> (<A HREF="../../raekidion/network/node_flat.html#f_collision_packet">Collision_packet</A>, 0)
+                l_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_put_integer_32">put_integer_32</A> (a_enemy_id, 4)
+                l_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_put_integer_32">put_integer_32</A> (a_projectile_id, 8)
+                <B>if</B> <B>attached</B> <A HREF="../../raekidion/network/node_flat.html#f_distant_socket">distant_socket</A> <B>as</B> la_socket <B>then</B>
+                    <B>if</B> la_socket.<A HREF="../../abstract/socket_flat.html#f_is_writable">is_writable</A> <B>and</B> la_socket.<A HREF="../../abstract/socket_flat.html#f_is_open_write">is_open_write</A> <B>then</B>
+                        la_socket.<A HREF="../../abstract/socket_flat.html#f_send">send</A> (l_size, 0)
+                        la_socket.<A HREF="../../abstract/socket_flat.html#f_send">send</A> (l_packet, 0)
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>rescue</B>
+            <A HREF="../../raekidion/network/node_flat.html#f_connection_error">connection_error</A> := <B>True</B>
+            <B>retry</B>
+        <B>end</B></A>
+
+    <A NAME="f_send_new_enemy_ship"><A HREF="../../raekidion/network/node_flat.html#f_send_new_enemy_ship">send_new_enemy_ship</A> (a_name: <A HREF="../../elks/string_8_flat.html">STRING_8</A>; a_x, a_y, a_dest_x, a_dest_y: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Send a packet containing </FONT>`a_name'<FONT COLOR="red">, </FONT>`a_x'<FONT COLOR="red">, </FONT>`a_y'<FONT COLOR="red">, </FONT>`a_dest_x'<FONT COLOR="red"> and </FONT>`a_dest_y'
+        <B>local</B>
+            l_count: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>
+            l_size: <A HREF="../../abstract/packet_flat.html">PACKET</A>
+            l_packet: <A HREF="../../abstract/packet_flat.html">PACKET</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../../raekidion/network/node_flat.html#f_connection_error">connection_error</A> <B>then</B>
+                <A HREF="../../raekidion/network/node_flat.html#f_close">close</A>
+            <B>else</B>
+                <B>create</B> l_size.<A HREF="../../abstract/packet_flat.html#f_make">make</A> (4)
+                l_size.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_put_integer_32">put_integer_32</A> (24 + a_name.<A HREF="../../elks/readable_string_8_flat.html#f_count">count</A>, 0)
+                <B>create</B> l_packet.<A HREF="../../abstract/packet_flat.html#f_make">make</A> (24 + a_name.<A HREF="../../elks/readable_string_8_flat.html#f_count">count</A>)
+                l_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_put_integer_32">put_integer_32</A> (<A HREF="../../raekidion/network/node_flat.html#f_enemy_packet">Enemy_packet</A>, 0)
+                l_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_put_integer_32">put_integer_32</A> (a_x, 4)
+                l_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_put_integer_32">put_integer_32</A> (a_y, 8)
+                l_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_put_integer_32">put_integer_32</A> (a_x, 12)
+                l_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_put_integer_32">put_integer_32</A> (a_y, 16)
+                l_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_put_integer_32">put_integer_32</A> (a_name.<A HREF="../../elks/readable_string_8_flat.html#f_count">count</A>, 20)
+                <B>from</B>
+                    l_count := 0
+                <B>until</B>
+                    l_count = a_name.<A HREF="../../elks/readable_string_8_flat.html#f_count">count</A>
+                <B>loop</B>
+                    l_count := l_count + 1
+                    l_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_put_character">put_character</A> (a_name.<A HREF="../../elks/string_8_flat.html#f_at">at</A> (l_count), 24)
+                <B>end</B>
+                <B>if</B> <B>attached</B> <A HREF="../../raekidion/network/node_flat.html#f_distant_socket">distant_socket</A> <B>as</B> la_socket <B>then</B>
+                    <B>if</B> la_socket.<A HREF="../../abstract/socket_flat.html#f_is_writable">is_writable</A> <B>and</B> la_socket.<A HREF="../../abstract/socket_flat.html#f_is_open_write">is_open_write</A> <B>then</B>
+                        la_socket.<A HREF="../../abstract/socket_flat.html#f_send">send</A> (l_size, 0)
+                        la_socket.<A HREF="../../abstract/socket_flat.html#f_send">send</A> (l_packet, 0)
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>rescue</B>
+            <A HREF="../../raekidion/network/node_flat.html#f_connection_error">connection_error</A> := <B>True</B>
+            <B>retry</B>
+        <B>end</B></A>
+
+    <A NAME="f_send_player_position"><A HREF="../../raekidion/network/node_flat.html#f_send_player_position">send_player_position</A> (a_x, a_y: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Send a packet containing </FONT>`a_x'<FONT COLOR="red"> and </FONT>`a_y'
+        <B>local</B>
+            l_size: <A HREF="../../abstract/packet_flat.html">PACKET</A>
+            l_packet: <A HREF="../../abstract/packet_flat.html">PACKET</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../../raekidion/network/node_flat.html#f_connection_error">connection_error</A> <B>then</B>
+                <A HREF="../../raekidion/network/node_flat.html#f_close">close</A>
+            <B>else</B>
+                <B>create</B> l_size.<A HREF="../../abstract/packet_flat.html#f_make">make</A> (4)
+                l_size.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_put_integer_32">put_integer_32</A> (12, 0)
+                <B>create</B> l_packet.<A HREF="../../abstract/packet_flat.html#f_make">make</A> (12)
+                l_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_put_integer_32">put_integer_32</A> (<A HREF="../../raekidion/network/node_flat.html#f_player_packet">Player_packet</A>, 0)
+                l_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_put_integer_32">put_integer_32</A> (a_x, 4)
+                l_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_put_integer_32">put_integer_32</A> (a_y, 8)
+                <B>if</B> <B>attached</B> <A HREF="../../raekidion/network/node_flat.html#f_distant_socket">distant_socket</A> <B>as</B> la_socket <B>then</B>
+                    <B>if</B> la_socket.<A HREF="../../abstract/socket_flat.html#f_is_writable">is_writable</A> <B>and</B> la_socket.<A HREF="../../abstract/socket_flat.html#f_is_open_write">is_open_write</A> <B>then</B>
+                        la_socket.<A HREF="../../abstract/socket_flat.html#f_send">send</A> (l_size, 0)
+                        la_socket.<A HREF="../../abstract/socket_flat.html#f_send">send</A> (l_packet, 0)
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>rescue</B>
+            <A HREF="../../raekidion/network/node_flat.html#f_connection_error">connection_error</A> := <B>True</B>
+            <B>retry</B>
+        <B>end</B></A>
+
+    <A NAME="f_send_projectile"><A HREF="../../raekidion/network/node_flat.html#f_send_projectile">send_projectile</A> (a_name: <A HREF="../../elks/string_8_flat.html">STRING_8</A>; a_x, a_y: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>; a_angle: <A HREF="../../elks/real_64_flat.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Send a packet containing </FONT>`a_name'<FONT COLOR="red">, </FONT>`a_x'<FONT COLOR="red">, </FONT>`a_y'<FONT COLOR="red"> and </FONT>`a_angle'
+        <B>local</B>
+            l_count: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>
+            l_size: <A HREF="../../abstract/packet_flat.html">PACKET</A>
+            l_packet: <A HREF="../../abstract/packet_flat.html">PACKET</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../../raekidion/network/node_flat.html#f_connection_error">connection_error</A> <B>then</B>
+                <A HREF="../../raekidion/network/node_flat.html#f_close">close</A>
+            <B>else</B>
+                <B>create</B> l_size.<A HREF="../../abstract/packet_flat.html#f_make">make</A> (4)
+                l_size.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_put_integer_32">put_integer_32</A> (24 + a_name.<A HREF="../../elks/readable_string_8_flat.html#f_count">count</A>, 0)
+                <B>create</B> l_packet.<A HREF="../../abstract/packet_flat.html#f_make">make</A> (24 + a_name.<A HREF="../../elks/readable_string_8_flat.html#f_count">count</A>)
+                l_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_put_integer_32">put_integer_32</A> (<A HREF="../../raekidion/network/node_flat.html#f_projectile_packet">Projectile_packet</A>, 0)
+                l_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_put_integer_32">put_integer_32</A> (a_x, 4)
+                l_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_put_integer_32">put_integer_32</A> (a_y, 8)
+                l_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_put_real_64">put_real_64</A> (a_angle, 12)
+                l_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_put_integer_32">put_integer_32</A> (a_name.<A HREF="../../elks/readable_string_8_flat.html#f_count">count</A>, 20)
+                <B>from</B>
+                    l_count := 0
+                <B>until</B>
+                    l_count = a_name.<A HREF="../../elks/readable_string_8_flat.html#f_count">count</A>
+                <B>loop</B>
+                    l_count := l_count + 1
+                    l_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_put_character">put_character</A> (a_name.<A HREF="../../elks/string_8_flat.html#f_at">at</A> (l_count), 24)
+                <B>end</B>
+                <B>if</B> <B>attached</B> <A HREF="../../raekidion/network/node_flat.html#f_distant_socket">distant_socket</A> <B>as</B> la_socket <B>then</B>
+                    <B>if</B> la_socket.<A HREF="../../abstract/socket_flat.html#f_is_writable">is_writable</A> <B>and</B> la_socket.<A HREF="../../abstract/socket_flat.html#f_is_open_write">is_open_write</A> <B>then</B>
+                        la_socket.<A HREF="../../abstract/socket_flat.html#f_send">send</A> (l_size, 0)
+                        la_socket.<A HREF="../../abstract/socket_flat.html#f_send">send</A> (l_packet, 0)
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>rescue</B>
+            <A HREF="../../raekidion/network/node_flat.html#f_connection_error">connection_error</A> := <B>True</B>
+            <B>retry</B>
+        <B>end</B></A>
+
+    <A NAME="f_send_score"><A HREF="../../raekidion/network/node_flat.html#f_send_score">send_score</A> (a_score: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Send a packet containing </FONT>`a_score'
+        <B>local</B>
+            l_size: <A HREF="../../abstract/packet_flat.html">PACKET</A>
+            l_packet: <A HREF="../../abstract/packet_flat.html">PACKET</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../../raekidion/network/node_flat.html#f_connection_error">connection_error</A> <B>then</B>
+                <A HREF="../../raekidion/network/node_flat.html#f_close">close</A>
+            <B>else</B>
+                <B>create</B> l_size.<A HREF="../../abstract/packet_flat.html#f_make">make</A> (4)
+                l_size.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_put_integer_32">put_integer_32</A> (8, 0)
+                <B>create</B> l_packet.<A HREF="../../abstract/packet_flat.html#f_make">make</A> (8)
+                l_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_put_integer_32">put_integer_32</A> (<A HREF="../../raekidion/network/node_flat.html#f_score_packet">Score_packet</A>, 0)
+                l_packet.<A HREF="../../abstract/packet_flat.html#f_data">data</A>.<A HREF="../../elks/managed_pointer_flat.html#f_put_integer_32">put_integer_32</A> (a_score, 4)
+                <B>if</B> <B>attached</B> <A HREF="../../raekidion/network/node_flat.html#f_distant_socket">distant_socket</A> <B>as</B> la_socket <B>then</B>
+                    <B>if</B> la_socket.<A HREF="../../abstract/socket_flat.html#f_is_writable">is_writable</A> <B>and</B> la_socket.<A HREF="../../abstract/socket_flat.html#f_is_open_write">is_open_write</A> <B>then</B>
+                        la_socket.<A HREF="../../abstract/socket_flat.html#f_send">send</A> (l_size, 0)
+                        la_socket.<A HREF="../../abstract/socket_flat.html#f_send">send</A> (l_packet, 0)
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>rescue</B>
+            <A HREF="../../raekidion/network/node_flat.html#f_connection_error">connection_error</A> := <B>True</B>
+            <B>retry</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_deep_equal"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_deep_equal">deep_equal</A> (a: <B>detachable</B> <A HREF="../../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            shallow_implies_deep: <A HREF="../../elks/any_flat.html#f_standard_equal">standard_equal</A> (a, b) <B>implies</B> <B>Result</B>
+            both_or_none_void: (a = <B>Void</B>) <B>implies</B> (<B>Result</B> = (b = <B>Void</B>))
+            same_type: (<B>Result</B> <B>and</B> (a /= <B>Void</B>)) <B>implies</B> (b /= <B>Void</B> <B>and then</B> a.<A HREF="../../elks/any_flat.html#f_same_type">same_type</A> (b))
+            symmetric: <B>Result</B> <B>implies</B> <A HREF="../../elks/any_flat.html#f_deep_equal">deep_equal</A> (b, a)
+        <B>end</B></A>
+
+    <A NAME="f_equal"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_equal">equal</A> (a: <B>detachable</B> <A HREF="../../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to objects considered equal?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../../elks/any_flat.html#f_is_equal">is_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../../elks/any_flat.html#f_is_equal">is_equal</A> (b))
+        <B>end</B></A>
+
+    <A NAME="f_is_deep_equal"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (other: <B>attached</B> <A HREF="../../raekidion/network/node_flat.html">NODE</A>): <A HREF="../../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`Current'<FONT COLOR="red"> and </FONT>`other'<FONT COLOR="red"> attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            shallow_implies_deep: <A HREF="../../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../../elks/any_flat.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (<B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_is_equal"><A HREF="../../elks/any_flat.html#f_is_equal">is_equal</A> (other: <B>attached</B> <A HREF="../../raekidion/network/node_flat.html">NODE</A>): <A HREF="../../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object considered</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to current object?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            symmetric: <B>Result</B> <B>implies</B> other ~ <B>Current</B>
+            consistent: <A HREF="../../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+        <B>end</B></A>
+
+    <A NAME="f_standard_equal"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_standard_equal">standard_equal</A> (a: <B>detachable</B> <A HREF="../../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical objects of the same type?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default object comparison criterion.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (b))
+        <B>end</B></A>
+
+    <A NAME="f_standard_is_equal"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other: <B>attached</B> <A HREF="../../raekidion/network/node_flat.html">NODE</A>): <A HREF="../../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object of the same type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as current object, and field-by-field identical to it?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../../elks/any_flat.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_conforms_to"><A HREF="../../elks/any_flat.html#f_conforms_to">conforms_to</A> (other: <A HREF="../../elks/any_flat.html">ANY</A>): <A HREF="../../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does type of current object conform to type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of </FONT>`other'<FONT COLOR="red"> (as per Eiffel: The Language, chapter 13)?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>end</B></A>
+
+    <A NAME="f_same_type"><A HREF="../../elks/any_flat.html#f_same_type">same_type</A> (other: <A HREF="../../elks/any_flat.html">ANY</A>): <A HREF="../../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is type of current object identical to type of </FONT>`other'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (<A HREF="../../elks/any_flat.html#f_conforms_to">conforms_to</A> (other) <B>and</B> other.<A HREF="../../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>Current</B>))
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_clone"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_clone">clone</A> (other: <B>detachable</B> <A HREF="../../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void; otherwise new object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to </FONT>`other'
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> For non-void </FONT>`other'<FONT COLOR="red">, </FONT><A HREF="../../elks/any_flat.html#f_clone">clone</A><FONT COLOR="red"> calls </FONT><A HREF="../../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to change copying/cloning semantics, redefine </FONT><A HREF="../../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../../elks/any_flat.html#f_twin">twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            equal: <B>Result</B> ~ other
+        <B>end</B></A>
+
+    <A NAME="f_copy"><A HREF="../../elks/any_flat.html#f_copy">copy</A> (other: <B>attached</B> <A HREF="../../raekidion/network/node_flat.html">NODE</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update current object using fields of object attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to </FONT>`other'<FONT COLOR="red">, so as to yield equal objects.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../../elks/any_flat.html#f_same_type">same_type</A> (other)
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            is_equal: <B>Current</B> ~ other
+        <B>end</B></A>
+
+    <A NAME="f_deep_clone"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_deep_clone">deep_clone</A> (other: <B>detachable</B> <A HREF="../../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `deep_twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void: otherwise, new object structure</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> recursively duplicated from the one attached to </FONT>`other'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../../elks/any_flat.html#f_deep_twin">deep_twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            deep_equal: <A HREF="../../elks/any_flat.html#f_deep_equal">deep_equal</A> (other, <B>Result</B>)
+        <B>end</B></A>
+
+    <A NAME="f_deep_copy"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_deep_copy">deep_copy</A> (other: <B>attached</B> <A HREF="../../raekidion/network/node_flat.html">NODE</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Effect equivalent to that of:</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">		</FONT><A HREF="../../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red"> (</FONT>`other'<FONT COLOR="red"> . </FONT><A HREF="../../elks/any_flat.html#f_deep_twin">deep_twin</A><FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../../elks/any_flat.html#f_copy">copy</A> (other.<A HREF="../../elks/any_flat.html#f_deep_twin">deep_twin</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            deep_equal: <A HREF="../../elks/any_flat.html#f_deep_equal">deep_equal</A> (<B>Current</B>, other)
+        <B>end</B></A>
+
+    <A NAME="f_deep_twin"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_deep_twin">deep_twin</A>: <B>attached</B> <A HREF="../../raekidion/network/node_flat.html">NODE</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object structure recursively duplicated from Current.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            deep_twin_not_void: <B>Result</B> /= <B>Void</B>
+            deep_equal: <A HREF="../../elks/any_flat.html#f_deep_equal">deep_equal</A> (<B>Current</B>, <B>Result</B>)
+        <B>end</B></A>
+
+    <A NAME="f_standard_clone"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_standard_clone">standard_clone</A> (other: <B>detachable</B> <A HREF="../../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `standard_twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void; otherwise new object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../../elks/any_flat.html#f_standard_twin">standard_twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            equal: <A HREF="../../elks/any_flat.html#f_standard_equal">standard_equal</A> (<B>Result</B>, other)
+        <B>end</B></A>
+
+    <A NAME="f_standard_copy"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_standard_copy">standard_copy</A> (other: <B>attached</B> <A HREF="../../raekidion/network/node_flat.html">NODE</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy every field of </FONT>`other'<FONT COLOR="red"> onto corresponding field</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../../elks/any_flat.html#f_same_type">same_type</A> (other)
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            is_standard_equal: <A HREF="../../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other)
+        <B>end</B></A>
+
+    <A NAME="f_standard_twin"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_standard_twin">standard_twin</A>: <B>attached</B> <A HREF="../../raekidion/network/node_flat.html">NODE</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            standard_twin_not_void: <B>Result</B> /= <B>Void</B>
+            equal: <A HREF="../../elks/any_flat.html#f_standard_equal">standard_equal</A> (<B>Result</B>, <B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_twin"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_twin">twin</A>: <B>attached</B> <A HREF="../../raekidion/network/node_flat.html">NODE</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object equal to </FONT>`Current'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../../elks/any_flat.html#f_twin">twin</A><FONT COLOR="red"> calls </FONT><A HREF="../../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">; to change copying/twinning semantics, redefine </FONT><A HREF="../../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            twin_not_void: <B>Result</B> /= <B>Void</B>
+            is_equal: <B>Result</B> ~ <B>Current</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_as_attached"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_as_attached">as_attached</A>: <B>attached</B> <A HREF="../../raekidion/network/node_flat.html">NODE</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attached version of Current</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Can be used during transitional period to convert</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> non-void-safe classes to void-safe ones.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>Current</B>
+        <B>end</B></A>
+
+    <A NAME="f_default"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_default">default</A>: <B>detachable</B> <A HREF="../../raekidion/network/node_flat.html">NODE</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of object's type</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_default_pointer"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_default_pointer">default_pointer</A>: <A HREF="../../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of type </FONT>`POINTER'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Avoid the need to write </FONT>`p'<FONT COLOR="red">.</FONT><A HREF="../../elks/any_flat.html#f_default">default</A><FONT COLOR="red"> for</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> some </FONT>`p'<FONT COLOR="red"> of type </FONT>`POINTER'<FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_default_rescue"><A HREF="../../elks/any_flat.html#f_default_rescue">default_rescue</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process exception for routines with no Rescue clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_do_nothing"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_do_nothing">do_nothing</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execute a null action.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_collision_packet"><A HREF="../../raekidion/network/node_flat.html#f_collision_packet">Collision_packet</A>: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A> = 4</A>
+
+    <A NAME="f_enemy_packet"><A HREF="../../raekidion/network/node_flat.html#f_enemy_packet">Enemy_packet</A>: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A> = 1</A>
+
+    <A NAME="f_player_packet"><A HREF="../../raekidion/network/node_flat.html#f_player_packet">Player_packet</A>: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A> = 2</A>
+
+    <A NAME="f_projectile_packet"><A HREF="../../raekidion/network/node_flat.html#f_projectile_packet">Projectile_packet</A>: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A> = 3</A>
+
+    <A NAME="f_score_packet"><A HREF="../../raekidion/network/node_flat.html#f_score_packet">Score_packet</A>: <A HREF="../../elks/integer_32_flat.html">INTEGER_32</A> = 5</A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output</FONT>
+
+    <A NAME="f_io"><A HREF="../../elks/any_flat.html#f_io">Io</A>: <A HREF="../../elks/std_files_flat.html">STD_FILES</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Handle to standard file setup</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../../elks/std_files_flat.html#f_set_output_default">set_output_default</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            io_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_out"><A HREF="../../elks/any_flat.html#f_out">out</A>: <A HREF="../../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../../elks/any_flat.html#f_tagged_out">tagged_out</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            out_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_print"><A HREF="../../elks/any_flat.html#f_print">print</A> (o: <B>detachable</B> <A HREF="../../elks/any_flat.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write terse external representation of </FONT>`o'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on standard output.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> o /= <B>Void</B> <B>then</B>
+                <A HREF="../../elks/any_flat.html#f_io">Io</A>.<A HREF="../../elks/std_files_flat.html#f_put_string">put_string</A> (o.<A HREF="../../elks/any_flat.html#f_out">out</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_tagged_out"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_tagged_out">tagged_out</A>: <A HREF="../../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            tagged_out_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Platform</FONT>
+
+    <A NAME="f_operating_environment"><A HREF="../../elks/any_flat.html#f_operating_environment">Operating_environment</A>: <A HREF="../../elks/operating_environment_flat.html">OPERATING_ENVIRONMENT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Objects available from the operating system</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+            operating_environment_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieval</FONT>
+
+    <A NAME="f_internal_correct_mismatch"><B>frozen</B> <A HREF="../../elks/any_flat.html#f_internal_correct_mismatch">internal_correct_mismatch</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Called from runtime to perform a proper dynamic dispatch on </FONT>`correct_mismatch'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> from MISMATCH_CORRECTOR.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            l_msg: <A HREF="../../elks/string_8_flat.html">STRING_8</A>
+            l_exc: <A HREF="../../elks/exceptions_flat.html">EXCEPTIONS</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<A HREF="../../elks/mismatch_corrector_flat.html">MISMATCH_CORRECTOR</A>} <B>Current</B> <B>as</B> l_corrector <B>then</B>
+                l_corrector.<A HREF="../../elks/mismatch_corrector_flat.html#f_correct_mismatch">correct_mismatch</A>
+            <B>else</B>
+                <B>create</B> l_msg.<A HREF="../../elks/readable_string_8_flat.html#f_make_from_string">make_from_string</A> ("Mismatch: ")
+                <B>create</B> l_exc
+                l_msg.<A HREF="../../elks/string_8_flat.html#f_append">append</A> (<A HREF="../../elks/any_flat.html#f_generating_type">generating_type</A>.<A HREF="../../elks/type_flat.html#f_name">name</A>)
+                l_exc.<A HREF="../../elks/exceptions_flat.html#f_raise_retrieval_exception">raise_retrieval_exception</A> (l_msg)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status</FONT>
+
+    <A NAME="f_connection_error"><A HREF="../../raekidion/network/node_flat.html#f_connection_error">connection_error</A>: <A HREF="../../elks/boolean_flat.html">BOOLEAN</A></A>
+    
+<B>invariant</B>
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../../elks/any_flat.html">ANY</A>
+    reflexive_equality: <A HREF="../../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+    reflexive_conformance: <A HREF="../../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>Current</B>)
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../../raekidion/network/node_flat.html">NODE</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="node_chart.html">Chart</A></TD><TD><A HREF="node_links.html">Relations</A></TD><TD><A HREF="node.html">Text</A></TD><TD>Flat</TD><TD><A HREF="node_short.html">Contracts</A></TD><TD><A HREF="node_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

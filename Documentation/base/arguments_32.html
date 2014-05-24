@@ -1,0 +1,404 @@
+<HTML><HEAD>
+<meta name="description" content="Access to command-line arguments. This class  may be used as ancestor by classes needing its facilities."/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>arguments_32 Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="arguments_32_chart.html">Chart</A></TD><TD><A HREF="arguments_32_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="arguments_32_flat.html">Flat</A></TD><TD><A HREF="arguments_32_short.html">Contracts</A></TD><TD><A HREF="arguments_32_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Access to command-line arguments. This class 
+        may be used as ancestor by classes needing its facilities.
+    ]"
+    library: "Free implementation of ELKS library"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2013-05-20 16:15:17 -0700 (Mon, 20 May 2013) $"
+    revision: "$Revision: 92557 $"
+
+<B>class</B> 
+    <A HREF="../elks/arguments_32.html">ARGUMENTS_32</A>
+
+<B>inherit</B>
+    <A HREF="../elks/iterable.html">ITERABLE</A> [<A HREF="../elks/immutable_string_32.html">IMMUTABLE_STRING_32</A>]
+
+<B>create</B> 
+    <A HREF="../elks/any.html#f_default_create">default_create</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_argument"><A HREF="../elks/arguments_32.html#f_argument">argument</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/immutable_string_32.html">IMMUTABLE_STRING_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`i'<FONT COLOR="red">-th argument of command that started system execution</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (the command name if </FONT>`i'<FONT COLOR="red"> = 0).</FONT>
+        <B>require</B>
+            index_large_enough: i &gt;= 0
+            index_small_enough: i &lt;= <A HREF="../elks/arguments_32.html#f_argument_count">argument_count</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/arguments_32.html#f_internal_argument_array">Internal_argument_array</A>.<A HREF="../elks/array.html#f_item">item</A> (i)
+        <B>ensure</B>
+            argument_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_argument_array"><A HREF="../elks/arguments_32.html#f_argument_array">argument_array</A>: <A HREF="../elks/array.html">ARRAY</A> [<A HREF="../elks/immutable_string_32.html">IMMUTABLE_STRING_32</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Array containing command name (position 0) and arguments.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> A new instance at each query.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/arguments_32.html#f_internal_argument_array">Internal_argument_array</A>.<A HREF="../elks/any.html#f_twin">twin</A>
+        <B>ensure</B>
+            argument_array_not_void: <B>Result</B> /= <B>Void</B>
+            argument_array_compare_objects: <B>Result</B>.<A HREF="../elks/container.html#f_object_comparison">object_comparison</A>
+        <B>end</B></A>
+
+    <A NAME="f_command_line"><A HREF="../elks/arguments_32.html#f_command_line">Command_line</A>: <A HREF="../elks/immutable_string_32.html">IMMUTABLE_STRING_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Full command line: </FONT><A HREF="../elks/arguments_32.html#f_command_name">Command_name</A><FONT COLOR="red"> followed by arguments.</FONT>
+        <B>local</B>
+            i: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_result: <A HREF="../elks/string_32.html">STRING_32</A>
+        <B>once</B>
+            <B>create</B> l_result.<A HREF="../elks/readable_string_32.html#f_make">make</A> (<A HREF="../elks/arguments_32.html#f_command_name">Command_name</A>.<A HREF="../elks/readable_string_32.html#f_count">count</A> + <A HREF="../elks/arguments_32.html#f_argument_count">argument_count</A> * 10)
+            <B>from</B>
+                i := 0
+            <B>until</B>
+                i &gt; <A HREF="../elks/arguments_32.html#f_argument_count">argument_count</A>
+            <B>loop</B>
+                l_result.<A HREF="../elks/string_32.html#f_append_character">append_character</A> (' '.<A HREF="../elks/character_8.html#f_to_character_32">to_character_32</A>)
+                l_result.<A HREF="../elks/string_32.html#f_append">append</A> (<A HREF="../elks/arguments_32.html#f_argument">argument</A> (i))
+                i := i + 1
+            <B>end</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/readable_string_32.html#f_make_from_string">make_from_string</A> (l_result)
+        <B>ensure</B>
+            <B>Result</B>.<A HREF="../elks/readable_string_32.html#f_count">count</A> &gt;= <A HREF="../elks/arguments_32.html#f_command_name">Command_name</A>.<A HREF="../elks/readable_string_32.html#f_count">count</A>
+        <B>end</B></A>
+
+    <A NAME="f_command_name"><A HREF="../elks/arguments_32.html#f_command_name">Command_name</A>: <A HREF="../elks/immutable_string_32.html">IMMUTABLE_STRING_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of command that started system execution.</FONT>
+        <B>once</B>
+            <B>Result</B> := <A HREF="../elks/arguments_32.html#f_argument">argument</A> (0)
+        <B>ensure</B>
+            definition: <B>Result</B>.<A HREF="../elks/readable_string_32.html#f_same_string">same_string</A> (<A HREF="../elks/arguments_32.html#f_argument">argument</A> (0))
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access: Cursor</FONT>
+
+    <A NAME="f_new_cursor"><A HREF="../elks/arguments_32.html#f_new_cursor">new_cursor</A>: <A HREF="../elks/iteration_cursor.html">ITERATION_CURSOR</A> [<A HREF="../elks/immutable_string_32.html">IMMUTABLE_STRING_32</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Fresh cursor associated with current structure</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/arguments_32.html#f_internal_argument_array">Internal_argument_array</A>.<A HREF="../elks/readable_indexable.html#f_new_cursor">new_cursor</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_index_of_word_option"><A HREF="../elks/arguments_32.html#f_index_of_word_option">index_of_word_option</A> (opt: <A HREF="../elks/readable_string_general.html">READABLE_STRING_GENERAL</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does command line specify word option </FONT>`opt'<FONT COLOR="red"> and, if so,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> at what position?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If one of the arguments in list of space-separated arguments</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> is </FONT>`Xopt'<FONT COLOR="red">, where </FONT>`X'<FONT COLOR="red"> is the current </FONT><A HREF="../elks/arguments_32.html#f_option_sign">Option_sign</A><FONT COLOR="red">,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> then index of this argument in list;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> else 0.</FONT>
+        <B>require</B>
+            opt_non_void: opt /= <B>Void</B>
+            opt_meaningful: <B>not</B> opt.<A HREF="../elks/readable_string_general.html#f_is_empty">is_empty</A>
+        <B>local</B>
+            i: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                i := 1
+            <B>until</B>
+                i &gt; <A HREF="../elks/arguments_32.html#f_argument_count">argument_count</A> <B>or else</B> <A HREF="../elks/arguments_32.html#f_option_word_equal">option_word_equal</A> (<A HREF="../elks/arguments_32.html#f_internal_argument_array">Internal_argument_array</A>.<A HREF="../elks/array.html#f_item">item</A> (i), opt)
+            <B>loop</B>
+                i := i + 1
+            <B>end</B>
+            <B>if</B> i &lt;= <A HREF="../elks/arguments_32.html#f_argument_count">argument_count</A> <B>then</B>
+                <B>Result</B> := i
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_index_of_beginning_with_word_option"><A HREF="../elks/arguments_32.html#f_index_of_beginning_with_word_option">index_of_beginning_with_word_option</A> (opt: <A HREF="../elks/readable_string_general.html">READABLE_STRING_GENERAL</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does command line specify argument beginning with word</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> option </FONT>`opt'<FONT COLOR="red"> and, if so, at what position?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If one of the arguments in list of space-separated arguments</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> is </FONT>`Xoptxx'<FONT COLOR="red">, where </FONT>`X'<FONT COLOR="red"> is the current </FONT><A HREF="../elks/arguments_32.html#f_option_sign">Option_sign</A><FONT COLOR="red">, 'xx'</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> is arbitrary, possibly empty sequence of characters,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> then index of this argument in list;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> else 0.</FONT>
+        <B>require</B>
+            opt_non_void: opt /= <B>Void</B>
+            opt_meaningful: <B>not</B> opt.<A HREF="../elks/readable_string_general.html#f_is_empty">is_empty</A>
+        <B>local</B>
+            i: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                i := 1
+            <B>until</B>
+                i &gt; <A HREF="../elks/arguments_32.html#f_argument_count">argument_count</A> <B>or else</B> <A HREF="../elks/arguments_32.html#f_option_word_begins_with">option_word_begins_with</A> (<A HREF="../elks/arguments_32.html#f_internal_argument_array">Internal_argument_array</A>.<A HREF="../elks/array.html#f_item">item</A> (i), opt)
+            <B>loop</B>
+                i := i + 1
+            <B>end</B>
+            <B>if</B> i &lt;= <A HREF="../elks/arguments_32.html#f_argument_count">argument_count</A> <B>then</B>
+                <B>Result</B> := i
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_index_of_character_option"><A HREF="../elks/arguments_32.html#f_index_of_character_option">index_of_character_option</A> (o: <A HREF="../elks/character_32.html">CHARACTER_32</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does command line specify character option </FONT>`o'<FONT COLOR="red"> and, if so,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> at what position?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If one of the space-separated arguments is of the form </FONT>`Xxxoyy'<FONT COLOR="red">,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> where </FONT>`X'<FONT COLOR="red"> is the current </FONT><A HREF="../elks/arguments_32.html#f_option_sign">Option_sign</A><FONT COLOR="red">, </FONT>`xx'<FONT COLOR="red"> and </FONT>`yy'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> are arbitrary, possibly empty sequences of characters,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> then index of this argument in list of arguments;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> else 0.</FONT>
+        <B>require</B>
+            o_non_null: o /= '%U'.<A HREF="../elks/character_8.html#f_to_character_32">to_character_32</A>
+        <B>local</B>
+            i: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                i := 1
+            <B>until</B>
+                i &gt; <A HREF="../elks/arguments_32.html#f_argument_count">argument_count</A> <B>or else</B> <A HREF="../elks/arguments_32.html#f_option_character_equal">option_character_equal</A> (<A HREF="../elks/arguments_32.html#f_internal_argument_array">Internal_argument_array</A>.<A HREF="../elks/array.html#f_item">item</A> (i), o)
+            <B>loop</B>
+                i := i + 1
+            <B>end</B>
+            <B>if</B> i &lt;= <A HREF="../elks/arguments_32.html#f_argument_count">argument_count</A> <B>then</B>
+                <B>Result</B> := i
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_separate_character_option_value"><A HREF="../elks/arguments_32.html#f_separate_character_option_value">separate_character_option_value</A> (o: <A HREF="../elks/character_32.html">CHARACTER_32</A>): <B>detachable</B> <A HREF="../elks/immutable_string_32.html">IMMUTABLE_STRING_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The value, if any, specified after character option </FONT>`o'<FONT COLOR="red"> on</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> the command line.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> This is one of the following (where </FONT>`X'<FONT COLOR="red"> is the current</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/arguments_32.html#f_option_sign">Option_sign</A><FONT COLOR="red">, </FONT>`xx'<FONT COLOR="red"> and 'yy' are arbitrary, possibly empty</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> sequences of characters):</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">   </FONT>`val'<FONT COLOR="red"> if command line includes two consecutive arguments</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">	   of the form </FONT>`Xxxoyy'<FONT COLOR="red"> and </FONT>`val'<FONT COLOR="red"> respectively.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">   Empty string if command line includes argument </FONT>`Xxxoyy'<FONT COLOR="red">, which is</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">	   either last argument or followed by argument starting with </FONT>`X'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">   Void if there is no argument of the form </FONT>`Xxxoyy'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            o_non_null: o /= '%U'.<A HREF="../elks/character_8.html#f_to_character_32">to_character_32</A>
+        <B>local</B>
+            p: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            p := <A HREF="../elks/arguments_32.html#f_index_of_character_option">index_of_character_option</A> (o)
+            <B>if</B> p /= 0 <B>then</B>
+                <B>if</B> p = <A HREF="../elks/arguments_32.html#f_argument_count">argument_count</A> <B>or else</B> <A HREF="../elks/arguments_32.html#f_internal_argument_array">Internal_argument_array</A>.<A HREF="../elks/array.html#f_item">item</A> (p + 1).<A HREF="../elks/immutable_string_32.html#f_item">item</A> (1) = <A HREF="../elks/arguments_32.html#f_option_sign">Option_sign</A>.<A HREF="../elks/cell.html#f_item">item</A> <B>then</B>
+                    <B>create</B> <B>Result</B>.<A HREF="../elks/readable_string_general.html#f_make_empty">make_empty</A>
+                <B>else</B>
+                    <B>Result</B> := <A HREF="../elks/arguments_32.html#f_internal_argument_array">Internal_argument_array</A>.<A HREF="../elks/array.html#f_item">item</A> (p + 1)
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_separate_word_option_value"><A HREF="../elks/arguments_32.html#f_separate_word_option_value">separate_word_option_value</A> (opt: <A HREF="../elks/readable_string_general.html">READABLE_STRING_GENERAL</A>): <B>detachable</B> <A HREF="../elks/immutable_string_32.html">IMMUTABLE_STRING_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The value, if any, specified after word option </FONT>`opt'<FONT COLOR="red"> on the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> command line.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> This is one of the following (where </FONT>`X'<FONT COLOR="red"> is the current </FONT><A HREF="../elks/arguments_32.html#f_option_sign">Option_sign</A><FONT COLOR="red">):</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">   </FONT>`val'<FONT COLOR="red"> if command line includes two consecutive arguments</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">	   of the form </FONT>`Xopt'<FONT COLOR="red"> and </FONT>`val'<FONT COLOR="red"> respectively.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">   Empty string if command line includes argument </FONT>`Xopt'<FONT COLOR="red">, which is</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">	   either last argument or followed by argument starting with </FONT>`X'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">   Void if no </FONT>`Xopt'<FONT COLOR="red"> argument.</FONT>
+        <B>require</B>
+            opt_non_void: opt /= <B>Void</B>
+            opt_meaningful: <B>not</B> opt.<A HREF="../elks/readable_string_general.html#f_is_empty">is_empty</A>
+        <B>local</B>
+            p: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            p := <A HREF="../elks/arguments_32.html#f_index_of_word_option">index_of_word_option</A> (opt)
+            <B>if</B> p /= 0 <B>then</B>
+                <B>if</B> p = <A HREF="../elks/arguments_32.html#f_argument_count">argument_count</A> <B>or else</B> <A HREF="../elks/arguments_32.html#f_internal_argument_array">Internal_argument_array</A>.<A HREF="../elks/array.html#f_item">item</A> (p + 1).<A HREF="../elks/immutable_string_32.html#f_item">item</A> (1) = <A HREF="../elks/arguments_32.html#f_option_sign">Option_sign</A>.<A HREF="../elks/cell.html#f_item">item</A> <B>then</B>
+                    <B>create</B> <B>Result</B>.<A HREF="../elks/readable_string_general.html#f_make_empty">make_empty</A>
+                <B>else</B>
+                    <B>Result</B> := <A HREF="../elks/arguments_32.html#f_internal_argument_array">Internal_argument_array</A>.<A HREF="../elks/array.html#f_item">item</A> (p + 1)
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_coalesced_character_option_value"><A HREF="../elks/arguments_32.html#f_coalesced_character_option_value">coalesced_character_option_value</A> (o: <A HREF="../elks/character_32.html">CHARACTER_32</A>): <B>detachable</B> <A HREF="../elks/immutable_string_32.html">IMMUTABLE_STRING_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The value, if any, specified for character option </FONT>`o'<FONT COLOR="red"> on</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> the command line.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Defined as follows (where 'X' is the current 'option_sign' and</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 'xx' is an arbitrary, possibly empty sequence of characters):</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">   </FONT>`val'<FONT COLOR="red"> if command line includes an argument of the form </FONT>`Xxxoval'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">	   (this may be an empty string if argument is just </FONT>`Xxxo'<FONT COLOR="red">).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">   Void otherwise.</FONT>
+        <B>require</B>
+            o_non_null: o /= '%U'.<A HREF="../elks/character_8.html#f_to_character_32">to_character_32</A>
+        <B>local</B>
+            p: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            p := <A HREF="../elks/arguments_32.html#f_index_of_character_option">index_of_character_option</A> (o)
+            <B>if</B> p /= 0 <B>then</B>
+                <B>Result</B> := <A HREF="../elks/arguments_32.html#f_internal_argument_array">Internal_argument_array</A>.<A HREF="../elks/array.html#f_item">item</A> (p)
+                <B>if</B> <A HREF="../elks/arguments_32.html#f_option_sign">Option_sign</A>.<A HREF="../elks/cell.html#f_item">item</A> /= '%U'.<A HREF="../elks/character_8.html#f_to_character_32">to_character_32</A> <B>then</B>
+                    <B>Result</B> := <B>Result</B>.<A HREF="../elks/immutable_string_32.html#f_shared_substring">shared_substring</A> (<B>Result</B>.<A HREF="../elks/readable_string_32.html#f_index_of">index_of</A> (o, 1) + 2, <B>Result</B>.<A HREF="../elks/readable_string_32.html#f_count">count</A>)
+                <B>else</B>
+                    <B>Result</B> := <B>Result</B>.<A HREF="../elks/immutable_string_32.html#f_shared_substring">shared_substring</A> (<B>Result</B>.<A HREF="../elks/readable_string_32.html#f_index_of">index_of</A> (o, 1) + 1, <B>Result</B>.<A HREF="../elks/readable_string_32.html#f_count">count</A>)
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_coalesced_word_option_value"><A HREF="../elks/arguments_32.html#f_coalesced_word_option_value">coalesced_word_option_value</A> (opt: <A HREF="../elks/readable_string_general.html">READABLE_STRING_GENERAL</A>): <B>detachable</B> <A HREF="../elks/immutable_string_32.html">IMMUTABLE_STRING_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The value, if any, specified for word option </FONT>`opt'<FONT COLOR="red"> on the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> command line.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Defined as follows (where X is the current </FONT><A HREF="../elks/arguments_32.html#f_option_sign">Option_sign</A><FONT COLOR="red">):</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">   </FONT>`val'<FONT COLOR="red"> if command line includes an argument of the form </FONT>`Xoptval'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">	   (this may be an empty string if argument is just </FONT>`Xopt'<FONT COLOR="red">).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">   Void otherwise.</FONT>
+        <B>require</B>
+            opt_non_void: opt /= <B>Void</B>
+            opt_meaningful: <B>not</B> opt.<A HREF="../elks/readable_string_general.html#f_is_empty">is_empty</A>
+        <B>local</B>
+            p: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            p := <A HREF="../elks/arguments_32.html#f_index_of_beginning_with_word_option">index_of_beginning_with_word_option</A> (opt)
+            <B>if</B> p /= 0 <B>then</B>
+                <B>Result</B> := <A HREF="../elks/arguments_32.html#f_internal_argument_array">Internal_argument_array</A>.<A HREF="../elks/array.html#f_item">item</A> (p)
+                <B>if</B> <A HREF="../elks/arguments_32.html#f_option_sign">Option_sign</A>.<A HREF="../elks/cell.html#f_item">item</A> /= '%U'.<A HREF="../elks/character_8.html#f_to_character_32">to_character_32</A> <B>then</B>
+                    <B>Result</B> := <B>Result</B>.<A HREF="../elks/immutable_string_32.html#f_shared_substring">shared_substring</A> (opt.<A HREF="../elks/readable_string_general.html#f_count">count</A> + 2, <B>Result</B>.<A HREF="../elks/readable_string_32.html#f_count">count</A>)
+                <B>else</B>
+                    <B>Result</B> := <B>Result</B>.<A HREF="../elks/immutable_string_32.html#f_shared_substring">shared_substring</A> (opt.<A HREF="../elks/readable_string_general.html#f_count">count</A> + 1, <B>Result</B>.<A HREF="../elks/readable_string_32.html#f_count">count</A>)
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_option_sign"><A HREF="../elks/arguments_32.html#f_option_sign">Option_sign</A>: <A HREF="../elks/cell.html">CELL</A> [<A HREF="../elks/character_32.html">CHARACTER_32</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The character used to signal options on the command line.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> This can be '%U' if no sign is necessary for the argument</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to be an option</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default is '-'</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/cell.html#f_put">put</A> ('-'.<A HREF="../elks/character_8.html#f_to_character_32">to_character_32</A>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status setting</FONT>
+
+    <A NAME="f_set_option_sign"><A HREF="../elks/arguments_32.html#f_set_option_sign">set_option_sign</A> (c: <A HREF="../elks/character_32.html">CHARACTER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make </FONT>`c'<FONT COLOR="red"> the option sign.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Use'%U' if no sign is necessary for the argument to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> be an option.</FONT>
+        <B>do</B>
+            <A HREF="../elks/arguments_32.html#f_option_sign">Option_sign</A>.<A HREF="../elks/cell.html#f_put">put</A> (c)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_argument_count"><A HREF="../elks/arguments_32.html#f_argument_count">argument_count</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of arguments given to command that started</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> system execution (command name does not count).</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B>
+            argument_count_positive: <B>Result</B> &gt;= 0
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_option_word_equal"><A HREF="../elks/arguments_32.html#f_option_word_equal">option_word_equal</A> (arg, w: <A HREF="../elks/readable_string_general.html">READABLE_STRING_GENERAL</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`arg'<FONT COLOR="red"> equal to the word option </FONT>`w'<FONT COLOR="red"> in a case sensitive manner?</FONT>
+        <B>require</B>
+            arg_not_void: arg /= <B>Void</B>
+            w_not_void: w /= <B>Void</B>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/arguments_32.html#f_option_sign">Option_sign</A>.<A HREF="../elks/cell.html#f_item">item</A> = '%U'.<A HREF="../elks/character_8.html#f_to_character_32">to_character_32</A> <B>then</B>
+                <B>Result</B> := arg.<A HREF="../elks/readable_string_general.html#f_same_string">same_string</A> (w)
+            <B>elseif</B> <B>not</B> arg.<A HREF="../elks/readable_string_general.html#f_is_empty">is_empty</A> <B>and then</B> arg.<A HREF="../elks/readable_string_general.html#f_item">item</A> (1) = <A HREF="../elks/arguments_32.html#f_option_sign">Option_sign</A>.<A HREF="../elks/cell.html#f_item">item</A> <B>then</B>
+                <B>Result</B> := arg.<A HREF="../elks/readable_string_general.html#f_substring">substring</A> (2, arg.<A HREF="../elks/readable_string_general.html#f_count">count</A>).<A HREF="../elks/readable_string_general.html#f_same_string">same_string</A> (w)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_option_word_begins_with"><A HREF="../elks/arguments_32.html#f_option_word_begins_with">option_word_begins_with</A> (arg, w: <A HREF="../elks/readable_string_general.html">READABLE_STRING_GENERAL</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`arg'<FONT COLOR="red"> begin with the word option </FONT>`w'<FONT COLOR="red"> in a case sensitive manner?</FONT>
+        <B>require</B>
+            arg_not_void: arg /= <B>Void</B>
+            w_not_void: w /= <B>Void</B>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/arguments_32.html#f_option_sign">Option_sign</A>.<A HREF="../elks/cell.html#f_item">item</A> = '%U'.<A HREF="../elks/character_8.html#f_to_character_32">to_character_32</A> <B>and then</B> arg.<A HREF="../elks/readable_string_general.html#f_count">count</A> &gt;= w.<A HREF="../elks/readable_string_general.html#f_count">count</A> <B>then</B>
+                <B>Result</B> := arg.<A HREF="../elks/readable_string_general.html#f_substring">substring</A> (1, w.<A HREF="../elks/readable_string_general.html#f_count">count</A>).<A HREF="../elks/readable_string_general.html#f_same_string">same_string</A> (w)
+            <B>elseif</B> arg.<A HREF="../elks/readable_string_general.html#f_item">item</A> (1) = <A HREF="../elks/arguments_32.html#f_option_sign">Option_sign</A>.<A HREF="../elks/cell.html#f_item">item</A> <B>and then</B> arg.<A HREF="../elks/readable_string_general.html#f_count">count</A> &gt; w.<A HREF="../elks/readable_string_general.html#f_count">count</A> <B>then</B>
+                <B>Result</B> := arg.<A HREF="../elks/readable_string_general.html#f_substring">substring</A> (2, w.<A HREF="../elks/readable_string_general.html#f_count">count</A> + 1).<A HREF="../elks/readable_string_general.html#f_same_string">same_string</A> (w)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_option_character_equal"><A HREF="../elks/arguments_32.html#f_option_character_equal">option_character_equal</A> (arg: <A HREF="../elks/readable_string_general.html">READABLE_STRING_GENERAL</A>; c: <A HREF="../elks/character_32.html">CHARACTER_32</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`arg'<FONT COLOR="red"> contain the character option </FONT>`c'<FONT COLOR="red">?</FONT>
+        <B>require</B>
+            arg_not_void: arg /= <B>Void</B>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/arguments_32.html#f_option_sign">Option_sign</A>.<A HREF="../elks/cell.html#f_item">item</A> = '%U'.<A HREF="../elks/character_8.html#f_to_character_32">to_character_32</A> <B>then</B>
+                <B>Result</B> := arg.<A HREF="../elks/readable_string_general.html#f_has">has</A> (c)
+            <B>elseif</B> arg.<A HREF="../elks/readable_string_general.html#f_item">item</A> (1) = <A HREF="../elks/arguments_32.html#f_option_sign">Option_sign</A>.<A HREF="../elks/cell.html#f_item">item</A> <B>then</B>
+                <B>Result</B> := arg.<A HREF="../elks/readable_string_general.html#f_substring">substring</A> (2, arg.<A HREF="../elks/readable_string_general.html#f_count">count</A>).<A HREF="../elks/readable_string_general.html#f_has">has</A> (c)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_internal_argument_array"><A HREF="../elks/arguments_32.html#f_internal_argument_array">Internal_argument_array</A>: <A HREF="../elks/array.html">ARRAY</A> [<A HREF="../elks/immutable_string_32.html">IMMUTABLE_STRING_32</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Array containing command name (position 0) and arguments.</FONT>
+        <B>local</B>
+            i: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>once</B>
+            <B>from</B>
+                <B>create</B> <B>Result</B>.<A HREF="../elks/array.html#f_make_filled">make_filled</A> (<B>create</B> {<A HREF="../elks/immutable_string_32.html">IMMUTABLE_STRING_32</A>}.<A HREF="../elks/readable_string_general.html#f_make_empty">make_empty</A>, 0, <A HREF="../elks/arguments_32.html#f_argument_count">argument_count</A>)
+                <B>Result</B>.<A HREF="../elks/container.html#f_compare_objects">compare_objects</A>
+            <B>until</B>
+                i &gt; <A HREF="../elks/arguments_32.html#f_argument_count">argument_count</A>
+            <B>loop</B>
+                <B>Result</B>.<A HREF="../elks/array.html#f_put">put</A> (<A HREF="../elks/arguments_32.html#f_i_th_argument_string">i_th_argument_string</A> (i), i)
+                i := i + 1
+            <B>end</B>
+        <B>ensure</B>
+            internal_argument_array_not_void: <B>Result</B> /= <B>Void</B>
+            internal_argument_array_compare_objects: <B>Result</B>.<A HREF="../elks/container.html#f_object_comparison">object_comparison</A>
+        <B>end</B></A>
+
+    <A NAME="f_i_th_argument_string"><A HREF="../elks/arguments_32.html#f_i_th_argument_string">i_th_argument_string</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/immutable_string_32.html">IMMUTABLE_STRING_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Underlying string holding the argument at position </FONT>`i'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            index_large_enough: i &gt;= 0
+            index_small_enough: i &lt;= <A HREF="../elks/arguments_32.html#f_argument_count">argument_count</A>
+        <B>local</B>
+            l_str: <A HREF="../elks/native_string.html">NATIVE_STRING</A>
+            l_ptr: <A HREF="../elks/pointer.html">POINTER</A>
+        <B>do</B>
+            <B>create</B> l_str.<A HREF="../elks/native_string.html#f_make_empty">make_empty</A> (0)
+            l_ptr := <A HREF="../elks/arguments_32.html#f_i_th_argument_pointer">i_th_argument_pointer</A> (i)
+            <B>if</B> l_ptr /= <A HREF="../elks/any.html#f_default_pointer">default_pointer</A> <B>then</B>
+                l_str.<A HREF="../elks/native_string.html#f_set_shared_from_pointer">set_shared_from_pointer</A> (l_ptr)
+                <B>create</B> <B>Result</B>.<A HREF="../elks/readable_string_32.html#f_make_from_string">make_from_string</A> (l_str.<A HREF="../elks/native_string.html#f_string">string</A>)
+            <B>else</B>
+                <B>create</B> <B>Result</B>.<A HREF="../elks/readable_string_general.html#f_make_empty">make_empty</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_i_th_argument_pointer"><A HREF="../elks/arguments_32.html#f_i_th_argument_pointer">i_th_argument_pointer</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/pointer.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Underlying pointer holding the argument at position </FONT>`i'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            index_large_enough: i &gt;= 0
+            index_small_enough: i &lt;= <A HREF="../elks/arguments_32.html#f_argument_count">argument_count</A>
+        <B>external</B>
+            "built_in"
+        <B>end</B></A>
+    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/arguments_32.html">ARGUMENTS_32</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="arguments_32_chart.html">Chart</A></TD><TD><A HREF="arguments_32_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="arguments_32_flat.html">Flat</A></TD><TD><A HREF="arguments_32_short.html">Contracts</A></TD><TD><A HREF="arguments_32_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

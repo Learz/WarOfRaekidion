@@ -1,0 +1,244 @@
+<HTML><HEAD>
+<meta name="description" content="A row returned from executing a SQLite query statement.  Note: Result rows are the same for the same query, meaning they should not be retained by any       client. Upon reciept of a row object any column value of worth should be queried and       retained by the client."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software"/>
+<meta name="license" content="GPL version 2 (see http://www.eiffel.com/licensing/gpl.txt)"/>
+<meta name="licensing_options" content="http://www.eiffel.com/licensing"/>
+<meta name="copying" content="This file is part of Eiffel Software's Eiffel Development Environment.  Eiffel Software's Eiffel Development Environment is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 2 of the License (available at the URL listed under license above).  Eiffel Software's Eiffel Development Environment is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.  You should have received a copy of the GNU General Public License along with Eiffel Software's Eiffel Development Environment; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>sqlite_result_row Contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sqlite_result_row_chart.html">Chart</A></TD><TD><A HREF="sqlite_result_row_links.html">Relations</A></TD><TD><A HREF="sqlite_result_row.html">Text</A></TD><TD><A HREF="sqlite_result_row_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="sqlite_result_row_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        A row returned from executing a SQLite query statement.
+        
+        Note: Result rows are the same for the same query, meaning they should not be retained by any
+              client. Upon reciept of a row object any column value of worth should be queried and
+              retained by the client.
+    ]"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2013-11-07 13:49:24 -0800 (Thu, 07 Nov 2013) $"
+    revision: "$Revision: 93258 $"
+
+<B>class</B> <B>interface</B>
+    <A HREF="../sqlite/sqlite_result_row_short.html">SQLITE_RESULT_ROW</A>
+
+<B>create</B> {<A HREF="../sqlite/sqlite_statement_short.html">SQLITE_STATEMENT</A>, <A HREF="../sqlite/sqlite_statement_iteration_cursor_short.html">SQLITE_STATEMENT_ITERATION_CURSOR</A>}
+    <A HREF="../sqlite/sqlite_result_row_short.html#f_make">make</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_statement"><A HREF="../sqlite/sqlite_result_row_short.html#f_statement">statement</A>: <A HREF="../sqlite/sqlite_statement_short.html">SQLITE_STATEMENT</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Statement used when generating the row.</FONT>
+
+    <A NAME="f_index"><A HREF="../sqlite/sqlite_result_row_short.html#f_index">index</A>: <A HREF="../elks/natural_32_short.html">NATURAL_32</A> <B>assign</B> <A HREF="../sqlite/sqlite_result_row_short.html#f_set_index">set_index</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Row result index (not the row id!)</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_count"><A HREF="../sqlite/sqlite_result_row_short.html#f_count">count</A>: <A HREF="../elks/natural_32_short.html">NATURAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of returned columns in the row.</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_short.html#f_is_interface_usable">is_interface_usable</A>
+            is_connected: <A HREF="../sqlite/sqlite_result_row_short.html#f_is_connected">is_connected</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_is_connected"><A HREF="../sqlite/sqlite_result_row_short.html#f_is_connected">is_connected</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if the results are still connected to the statement.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Disconnection occurs when a statement is disconnected from the database, which can happen</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> if the database is closed.</FONT>
+        <B>ensure</B>
+            is_interface_usable: <B>Result</B> <B>implies</B> <A HREF="../sqlite/sqlite_shared_api_short.html#f_is_interface_usable">is_interface_usable</A>
+            statement_is_connected: <B>Result</B> <B>implies</B> <A HREF="../sqlite/sqlite_result_row_short.html#f_statement">statement</A>.<A HREF="../sqlite/sqlite_statement_short.html#f_is_connected">is_connected</A>
+            statement_mark_equal: <B>Result</B> <B>implies</B> <A HREF="../sqlite/sqlite_result_row_short.html#f_statement">statement</A>.<A HREF="../sqlite/sqlite_statement_short.html#f_mark">mark</A> = <A HREF="../sqlite/sqlite_result_row_short.html#f_statement_mark">statement_mark</A>
+</A>
+    <A NAME="f_is_null"><A HREF="../sqlite/sqlite_result_row_short.html#f_is_null">is_null</A> (a_column: <A HREF="../elks/natural_32_short.html">NATURAL_32</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Determines if a column contains a null value.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_column'<FONT COLOR="red">: The column index.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`Result'<FONT COLOR="red">: True if the column contains a null value; False otherwise.</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_short.html#f_is_interface_usable">is_interface_usable</A>
+            is_connected: <A HREF="../sqlite/sqlite_result_row_short.html#f_is_connected">is_connected</A>
+            a_column_positive: a_column &gt; 0.<A HREF="../elks/integer_32_ref_short.html#f_to_natural_32">to_natural_32</A>
+            a_column_small_enough: a_column &lt;= <A HREF="../sqlite/sqlite_result_row_short.html#f_count">count</A>
+        <B>ensure</B>
+            not_result: <B>not</B> <B>Result</B> <B>implies</B> <A HREF="../sqlite/sqlite_result_row_short.html#f_type">type</A> (a_column) /= {<A HREF="../sqlite/sqlite_type_short.html">SQLITE_TYPE</A>}.<A HREF="../sqlite/sqlite_type_short.html#f_null">null</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Query</FONT>
+
+    <A NAME="f_column_name"><A HREF="../sqlite/sqlite_result_row_short.html#f_column_name">column_name</A> (a_column: <A HREF="../elks/natural_32_short.html">NATURAL_32</A>): <A HREF="../elks/immutable_string_8_short.html">IMMUTABLE_STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieve the name of a column in a statement.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_column'<FONT COLOR="red">: The column index to retrieve a name for.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`Result'<FONT COLOR="red">: A column name, or an</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_short.html#f_is_interface_usable">is_interface_usable</A>
+            is_connected: <A HREF="../sqlite/sqlite_result_row_short.html#f_is_connected">is_connected</A>
+            a_column_positive: a_column &gt; 0.<A HREF="../elks/integer_32_ref_short.html#f_to_natural_32">to_natural_32</A>
+            a_column_small_enough: a_column &lt;= <A HREF="../sqlite/sqlite_result_row_short.html#f_count">count</A>
+        <B>ensure</B>
+            result_attached: <B>attached</B> <B>Result</B>
+</A>
+    <A NAME="f_value"><A HREF="../sqlite/sqlite_result_row_short.html#f_value">value</A> <B>alias</B> "[]" (a_column: <A HREF="../elks/natural_32_short.html">NATURAL_32</A>): <B>detachable</B> <A HREF="../elks/any_short.html">ANY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Fetches a value for the column </FONT>`a_column'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Unlike the specific type functions such as </FONT><A HREF="../sqlite/sqlite_result_row_short.html#f_string_value">string_value</A><FONT COLOR="red">, </FONT><A HREF="../sqlite/sqlite_result_row_short.html#f_real_value">real_value</A><FONT COLOR="red">, ... the result</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> returns an unconverted best match based on the information held in the database and</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> result information.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note: All results are of the highest bit length (64 bit REAL and INTEGER) </FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_column'<FONT COLOR="red">: The column to retrieve the result for.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`Result'<FONT COLOR="red">: The value object, actual object or Void if no result data was found for the column.</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_short.html#f_is_interface_usable">is_interface_usable</A>
+            is_connected: <A HREF="../sqlite/sqlite_result_row_short.html#f_is_connected">is_connected</A>
+            a_column_positive: a_column &gt; 0.<A HREF="../elks/integer_32_ref_short.html#f_to_natural_32">to_natural_32</A>
+            a_column_small_enough: a_column &lt;= <A HREF="../sqlite/sqlite_result_row_short.html#f_count">count</A>
+</A>
+    <A NAME="f_type"><A HREF="../sqlite/sqlite_result_row_short.html#f_type">type</A> (a_column: <A HREF="../elks/natural_32_short.html">NATURAL_32</A>): <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Returns the type of the column.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_column'<FONT COLOR="red">: The column to retrieve the result for.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`Result'<FONT COLOR="red">: A column type as described in </FONT><A HREF="../sqlite/sqlite_type_short.html">SQLITE_TYPE</A>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_short.html#f_is_interface_usable">is_interface_usable</A>
+            is_connected: <A HREF="../sqlite/sqlite_result_row_short.html#f_is_connected">is_connected</A>
+            a_column_positive: a_column &gt; 0.<A HREF="../elks/integer_32_ref_short.html#f_to_natural_32">to_natural_32</A>
+            a_column_small_enough: a_column &lt;= <A HREF="../sqlite/sqlite_result_row_short.html#f_count">count</A>
+        <B>ensure</B>
+            valid_type: (<B>create</B> {<A HREF="../sqlite/sqlite_type_short.html">SQLITE_TYPE</A>}).<A HREF="../sqlite/sqlite_type_short.html#f_is_valid_type">is_valid_type</A> (<B>Result</B>)
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Query: Value affinity</FONT>
+
+    <A NAME="f_blob_value"><A HREF="../sqlite/sqlite_result_row_short.html#f_blob_value">blob_value</A> (a_column: <A HREF="../elks/natural_32_short.html">NATURAL_32</A>): <B>detachable</B> <A HREF="../elks/managed_pointer_short.html">MANAGED_POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieves a blob representation of a column result value.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_column'<FONT COLOR="red">: The column to retrieve the result for.</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_short.html#f_is_interface_usable">is_interface_usable</A>
+            is_connected: <A HREF="../sqlite/sqlite_result_row_short.html#f_is_connected">is_connected</A>
+            a_column_positive: a_column &gt; 0.<A HREF="../elks/integer_32_ref_short.html#f_to_natural_32">to_natural_32</A>
+            a_column_small_enough: a_column &lt;= <A HREF="../sqlite/sqlite_result_row_short.html#f_count">count</A>
+            not_a_column_is_null: <B>not</B> <A HREF="../sqlite/sqlite_result_row_short.html#f_is_null">is_null</A> (a_column)
+</A>
+    <A NAME="f_integer_value"><A HREF="../sqlite/sqlite_result_row_short.html#f_integer_value">integer_value</A> (a_column: <A HREF="../elks/natural_32_short.html">NATURAL_32</A>): <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieves a </FONT><A HREF="../elks/integer_32_short.html">INTEGER_32</A><FONT COLOR="red"> representation of a column result value.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_column'<FONT COLOR="red">: The column to retrieve the result for.</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_short.html#f_is_interface_usable">is_interface_usable</A>
+            is_connected: <A HREF="../sqlite/sqlite_result_row_short.html#f_is_connected">is_connected</A>
+            a_column_positive: a_column &gt; 0.<A HREF="../elks/integer_32_ref_short.html#f_to_natural_32">to_natural_32</A>
+            a_column_small_enough: a_column &lt;= <A HREF="../sqlite/sqlite_result_row_short.html#f_count">count</A>
+            not_a_column_is_null: <B>not</B> <A HREF="../sqlite/sqlite_result_row_short.html#f_is_null">is_null</A> (a_column)
+</A>
+    <A NAME="f_integer_64_value"><A HREF="../sqlite/sqlite_result_row_short.html#f_integer_64_value">integer_64_value</A> (a_column: <A HREF="../elks/natural_32_short.html">NATURAL_32</A>): <A HREF="../elks/integer_64_short.html">INTEGER_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieves a </FONT><A HREF="../elks/integer_64_short.html">INTEGER_64</A><FONT COLOR="red"> representation of a column result value.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_column'<FONT COLOR="red">: The column to retrieve the result for.</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_short.html#f_is_interface_usable">is_interface_usable</A>
+            is_connected: <A HREF="../sqlite/sqlite_result_row_short.html#f_is_connected">is_connected</A>
+            a_column_positive: a_column &gt; 0.<A HREF="../elks/integer_32_ref_short.html#f_to_natural_32">to_natural_32</A>
+            a_column_small_enough: a_column &lt;= <A HREF="../sqlite/sqlite_result_row_short.html#f_count">count</A>
+            not_a_column_is_null: <B>not</B> <A HREF="../sqlite/sqlite_result_row_short.html#f_is_null">is_null</A> (a_column)
+</A>
+    <A NAME="f_string_value"><A HREF="../sqlite/sqlite_result_row_short.html#f_string_value">string_value</A> (a_column: <A HREF="../elks/natural_32_short.html">NATURAL_32</A>): <A HREF="../elks/string_8_short.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieves a </FONT><A HREF="../elks/string_8_short.html">STRING_8</A><FONT COLOR="red"> representation of a column result value.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_column'<FONT COLOR="red">: The column to retrieve the result for.	</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_short.html#f_is_interface_usable">is_interface_usable</A>
+            is_connected: <A HREF="../sqlite/sqlite_result_row_short.html#f_is_connected">is_connected</A>
+            a_column_positive: a_column &gt; 0.<A HREF="../elks/integer_32_ref_short.html#f_to_natural_32">to_natural_32</A>
+            a_column_small_enough: a_column &lt;= <A HREF="../sqlite/sqlite_result_row_short.html#f_count">count</A>
+            not_a_column_is_null: <B>not</B> <A HREF="../sqlite/sqlite_result_row_short.html#f_is_null">is_null</A> (a_column)
+</A>
+    <A NAME="f_real_value"><A HREF="../sqlite/sqlite_result_row_short.html#f_real_value">real_value</A> (a_column: <A HREF="../elks/natural_32_short.html">NATURAL_32</A>): <A HREF="../elks/real_32_short.html">REAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieves a </FONT><A HREF="../elks/real_32_short.html">REAL_32</A><FONT COLOR="red"> representation of a column result value.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_column'<FONT COLOR="red">: The column to retrieve the result for.</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_short.html#f_is_interface_usable">is_interface_usable</A>
+            is_connected: <A HREF="../sqlite/sqlite_result_row_short.html#f_is_connected">is_connected</A>
+            a_column_positive: a_column &gt; 0.<A HREF="../elks/integer_32_ref_short.html#f_to_natural_32">to_natural_32</A>
+            a_column_small_enough: a_column &lt;= <A HREF="../sqlite/sqlite_result_row_short.html#f_count">count</A>
+            not_a_column_is_null: <B>not</B> <A HREF="../sqlite/sqlite_result_row_short.html#f_is_null">is_null</A> (a_column)
+</A>
+    <A NAME="f_real_64_value"><A HREF="../sqlite/sqlite_result_row_short.html#f_real_64_value">real_64_value</A> (a_column: <A HREF="../elks/natural_32_short.html">NATURAL_32</A>): <A HREF="../elks/real_64_short.html">REAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieves a </FONT><A HREF="../elks/real_64_short.html">REAL_64</A><FONT COLOR="red"> representation of a column result value.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_column'<FONT COLOR="red">: The column to retrieve the result for.</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_short.html#f_is_interface_usable">is_interface_usable</A>
+            is_connected: <A HREF="../sqlite/sqlite_result_row_short.html#f_is_connected">is_connected</A>
+            a_column_positive: a_column &gt; 0.<A HREF="../elks/integer_32_ref_short.html#f_to_natural_32">to_natural_32</A>
+            a_column_small_enough: a_column &lt;= <A HREF="../sqlite/sqlite_result_row_short.html#f_count">count</A>
+            not_a_column_is_null: <B>not</B> <A HREF="../sqlite/sqlite_result_row_short.html#f_is_null">is_null</A> (a_column)
+</A>
+    <A NAME="f_is_boolean_value"><A HREF="../sqlite/sqlite_result_row_short.html#f_is_boolean_value">is_boolean_value</A> (a_column: <A HREF="../elks/natural_32_short.html">NATURAL_32</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieves a </FONT><A HREF="../elks/integer_32_short.html">INTEGER_32</A><FONT COLOR="red"> representation of a column result value.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_column'<FONT COLOR="red">: The column to retrieve the result for.</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_short.html#f_is_interface_usable">is_interface_usable</A>
+            is_connected: <A HREF="../sqlite/sqlite_result_row_short.html#f_is_connected">is_connected</A>
+            a_column_positive: a_column &gt; 0.<A HREF="../elks/integer_32_ref_short.html#f_to_natural_32">to_natural_32</A>
+            a_column_small_enough: a_column &lt;= <A HREF="../sqlite/sqlite_result_row_short.html#f_count">count</A>
+            not_a_column_is_null: <B>not</B> <A HREF="../sqlite/sqlite_result_row_short.html#f_is_null">is_null</A> (a_column)
+</A>
+    <A NAME="f_boolean_value"><A HREF="../sqlite/sqlite_result_row_short.html#f_boolean_value">boolean_value</A> (a_column: <A HREF="../elks/natural_32_short.html">NATURAL_32</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieves a </FONT><A HREF="../elks/integer_32_short.html">INTEGER_32</A><FONT COLOR="red"> representation of a column result value.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_column'<FONT COLOR="red">: The column to retrieve the result for.</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_short.html#f_is_interface_usable">is_interface_usable</A>
+            is_connected: <A HREF="../sqlite/sqlite_result_row_short.html#f_is_connected">is_connected</A>
+            a_column_positive: a_column &gt; 0.<A HREF="../elks/integer_32_ref_short.html#f_to_natural_32">to_natural_32</A>
+            a_column_small_enough: a_column &lt;= <A HREF="../sqlite/sqlite_result_row_short.html#f_count">count</A>
+            not_a_column_is_null: <B>not</B> <A HREF="../sqlite/sqlite_result_row_short.html#f_is_null">is_null</A> (a_column)
+</A>    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2013, Eiffel Software"
+    license: "GPL version 2 (see <a href="http://www.eiffel.com/licensing/gpl.txt">http://www.eiffel.com/licensing/gpl.txt</a>)"
+    licensing_options: "<a href="http://www.eiffel.com/licensing">http://www.eiffel.com/licensing</a>"
+    copying: "[
+        This file is part of Eiffel Software's Eiffel Development Environment.
+        
+        Eiffel Software's Eiffel Development Environment is free
+        software; you can redistribute it and/or modify it under
+        the terms of the GNU General Public License as published
+        by the Free Software Foundation, version 2 of the License
+        (available at the URL listed under "license" above).
+        
+        Eiffel Software's Eiffel Development Environment is
+        distributed in the hope that it will be useful, but
+        WITHOUT ANY WARRANTY; without even the implied warranty
+        of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        See the GNU General Public License for more details.
+        
+        You should have received a copy of the GNU General Public
+        License along with Eiffel Software's Eiffel Development
+        Environment; if not, write to the Free Software Foundation,
+        Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+    ]"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../sqlite/sqlite_result_row_short.html">SQLITE_RESULT_ROW</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sqlite_result_row_chart.html">Chart</A></TD><TD><A HREF="sqlite_result_row_links.html">Relations</A></TD><TD><A HREF="sqlite_result_row.html">Text</A></TD><TD><A HREF="sqlite_result_row_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="sqlite_result_row_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

@@ -1,12 +1,12 @@
 note
 	description : "[
-						War of Raekidion - An audio factory
-						An {AUDIO_FACTORY} loads and stores every audio file found in 
-						the game's folders and puts them in a list.
-					]"
+					War of Raekidion - An audio factory
+					An {AUDIO_FACTORY} loads and stores every audio file found in 
+					the game's folders and puts them in a list.
+				]"
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
-	date		: "$Date$"
-	revision	: "$Revision$"
+	date		: "$Date: May 23 2014$"
+	revision	: "$Revision: 1$"
 
 class
 	AUDIO_FACTORY
@@ -199,5 +199,13 @@ invariant
 
 	valid_sounds_volume: sounds_volume >= 0 and sounds_volume <= 128
 		-- Ensure the sounds volume is in a valid format for SDL
+
+note
+	copyright: "[
+				War of Raekidion
+				Copyright (C) 2014 François Allard <binarmorker@gmail.com>
+             		   		   and Marc-Antoine Renaud <legars123456@gmail.com>
+               ]"
+	license:   "GNU General Public License, <http://www.gnu.org/licenses/>"
 
 end

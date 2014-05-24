@@ -1,0 +1,101 @@
+<HTML><HEAD>
+<meta name="description" content="Common exception operations and management."/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>exception_manager Contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="exception_manager_chart.html">Chart</A></TD><TD><A HREF="exception_manager_links.html">Relations</A></TD><TD><A HREF="exception_manager.html">Text</A></TD><TD><A HREF="exception_manager_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="exception_manager_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Common exception operations and management.
+    ]"
+    library: "Free implementation of ELKS library"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2012-05-23 21:13:10 -0700 (Wed, 23 May 2012) $"
+    revision: "$Revision: 91981 $"
+
+<B>class</B> <B>interface</B>
+    <A HREF="../elks/exception_manager_short.html">EXCEPTION_MANAGER</A>
+
+<B>create</B> 
+    <A HREF="../elks/any_short.html#f_default_create">default_create</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_last_exception"><A HREF="../elks/exception_manager_short.html#f_last_exception">last_exception</A>: <B>detachable</B> <A HREF="../elks/exception_short.html">EXCEPTION</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last exception</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Raise</FONT>
+
+    <A NAME="f_raise"><A HREF="../elks/exception_manager_short.html#f_raise">raise</A> (a_exception: <A HREF="../elks/exception_short.html">EXCEPTION</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Raise </FONT>`a_exception'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_exception_not_void: a_exception /= <B>Void</B>
+            a_exception_is_raisable: a_exception.<A HREF="../elks/exception_short.html#f_is_raisable">is_raisable</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status setting</FONT>
+
+    <A NAME="f_ignore"><A HREF="../elks/exception_manager_short.html#f_ignore">ignore</A> (a_exception: <A HREF="../elks/type_short.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/exception_short.html">EXCEPTION</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Ignore type of </FONT>`a_exception'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_exception_not_void: a_exception /= <B>Void</B>
+            is_ignorable: <A HREF="../elks/exception_manager_short.html#f_is_ignorable">is_ignorable</A> (a_exception)
+        <B>ensure</B>
+            is_caught: <A HREF="../elks/exception_manager_short.html#f_is_ignored">is_ignored</A> (a_exception)
+</A>
+    <A NAME="f_catch"><A HREF="../elks/exception_manager_short.html#f_catch">catch</A> (a_exception: <A HREF="../elks/type_short.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/exception_short.html">EXCEPTION</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set type of </FONT>`a_exception'<FONT COLOR="red"> </FONT><A HREF="../elks/exception_manager_short.html#f_is_caught">is_caught</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_exception_not_void: a_exception /= <B>Void</B>
+        <B>ensure</B>
+            is_ignored: <B>not</B> <A HREF="../elks/exception_manager_short.html#f_is_ignored">is_ignored</A> (a_exception)
+</A>
+    <A NAME="f_set_is_ignored"><A HREF="../elks/exception_manager_short.html#f_set_is_ignored">set_is_ignored</A> (a_exception: <A HREF="../elks/type_short.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/exception_short.html">EXCEPTION</A>]; a_ignored: <A HREF="../elks/boolean_short.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set type of </FONT>`a_exception'<FONT COLOR="red"> to be </FONT>`a_ignored'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_exception_not_void: a_exception /= <B>Void</B>
+            a_ignored_implies_is_ignorable: a_ignored <B>implies</B> <A HREF="../elks/exception_manager_short.html#f_is_ignorable">is_ignorable</A> (a_exception)
+        <B>ensure</B>
+            is_ignored_set: <A HREF="../elks/exception_manager_short.html#f_is_ignored">is_ignored</A> (a_exception) = a_ignored
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_is_ignorable"><A HREF="../elks/exception_manager_short.html#f_is_ignorable">is_ignorable</A> (a_exception: <A HREF="../elks/type_short.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/exception_short.html">EXCEPTION</A>]): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If set, type of </FONT>`a_exception'<FONT COLOR="red"> is ignorable.</FONT>
+</A>
+    <A NAME="f_is_raisable"><A HREF="../elks/exception_manager_short.html#f_is_raisable">is_raisable</A> (a_exception: <A HREF="../elks/type_short.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/exception_short.html">EXCEPTION</A>]): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If set, type of </FONT>`a_exception'<FONT COLOR="red"> is raisable.</FONT>
+</A>
+    <A NAME="f_is_ignored"><A HREF="../elks/exception_manager_short.html#f_is_ignored">is_ignored</A> (a_exception: <A HREF="../elks/type_short.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/exception_short.html">EXCEPTION</A>]): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If set, type of </FONT>`a_exception'<FONT COLOR="red"> is not raised.</FONT>
+        <B>ensure</B>
+            not_is_caught: <B>Result</B> = <B>not</B> <A HREF="../elks/exception_manager_short.html#f_is_caught">is_caught</A> (a_exception)
+</A>
+    <A NAME="f_is_caught"><A HREF="../elks/exception_manager_short.html#f_is_caught">is_caught</A> (a_exception: <A HREF="../elks/type_short.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/exception_short.html">EXCEPTION</A>]): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If set, type of </FONT>`a_exception'<FONT COLOR="red"> is raised.</FONT>
+        <B>ensure</B>
+            not_is_ignored: <B>Result</B> = <B>not</B> <A HREF="../elks/exception_manager_short.html#f_is_ignored">is_ignored</A> (a_exception)
+</A>    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/exception_manager_short.html">EXCEPTION_MANAGER</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="exception_manager_chart.html">Chart</A></TD><TD><A HREF="exception_manager_links.html">Relations</A></TD><TD><A HREF="exception_manager.html">Text</A></TD><TD><A HREF="exception_manager_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="exception_manager_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

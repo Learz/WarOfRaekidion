@@ -1,0 +1,363 @@
+<HTML><HEAD>
+<meta name="description" content="A network socket."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2006, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 356 Storke Road, Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>network_socket Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="network_socket_chart.html">Chart</A></TD><TD><A HREF="network_socket_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="network_socket_flat.html">Flat</A></TD><TD><A HREF="network_socket_short.html">Contracts</A></TD><TD><A HREF="network_socket_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "A network socket."
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2011-10-24 16:52:05 -0700 (Mon, 24 Oct 2011) $"
+    revision: "$Revision: 87603 $"
+
+<B>deferred</B> <B>class</B> 
+    <A HREF="../network/network_socket.html">NETWORK_SOCKET</A>
+
+<B>inherit</B>
+    <A HREF="../abstract/socket.html">SOCKET</A>
+        <B>undefine</B>
+            <A HREF="../abstract/socket.html#f_send">send</A>,
+            <A HREF="../abstract/socket.html#f_put_character">put_character</A>,
+            <A HREF="../abstract/socket.html#f_putchar">putchar</A>,
+            <A HREF="../abstract/socket.html#f_put_string">put_string</A>,
+            <A HREF="../abstract/socket.html#f_putstring">putstring</A>,
+            <A HREF="../abstract/socket.html#f_put_integer">put_integer</A>,
+            <A HREF="../abstract/socket.html#f_putint">putint</A>,
+            <A HREF="../abstract/socket.html#f_put_integer_32">put_integer_32</A>,
+            <A HREF="../abstract/socket.html#f_put_integer_8">put_integer_8</A>,
+            <A HREF="../abstract/socket.html#f_put_integer_16">put_integer_16</A>,
+            <A HREF="../abstract/socket.html#f_put_integer_64">put_integer_64</A>,
+            <A HREF="../abstract/socket.html#f_put_natural_8">put_natural_8</A>,
+            <A HREF="../abstract/socket.html#f_put_natural_16">put_natural_16</A>,
+            <A HREF="../abstract/socket.html#f_put_natural">put_natural</A>,
+            <A HREF="../abstract/socket.html#f_put_natural_32">put_natural_32</A>,
+            <A HREF="../abstract/socket.html#f_put_natural_64">put_natural_64</A>,
+            <A HREF="../abstract/socket.html#f_put_boolean">put_boolean</A>,
+            <A HREF="../abstract/socket.html#f_putbool">putbool</A>,
+            <A HREF="../abstract/socket.html#f_put_real">put_real</A>,
+            <A HREF="../abstract/socket.html#f_putreal">putreal</A>,
+            <A HREF="../abstract/socket.html#f_put_double">put_double</A>,
+            <A HREF="../abstract/socket.html#f_putdouble">putdouble</A>,
+            <A HREF="../abstract/socket.html#f_put_managed_pointer">put_managed_pointer</A>,
+            <A HREF="../network/network_socket.html#f_set_blocking">set_blocking</A>,
+            <A HREF="../network/network_socket.html#f_set_non_blocking">set_non_blocking</A>
+        <B>redefine</B>
+            <A HREF="../network/network_socket.html#f_exists">exists</A>,
+            <A HREF="../network/network_socket.html#f_make_socket">make_socket</A>,
+            <A HREF="../network/network_socket.html#f_address_type">address_type</A>,
+            <A HREF="../network/network_socket.html#f_is_valid_peer_address">is_valid_peer_address</A>,
+            <A HREF="../network/network_socket.html#f_connect">connect</A>,
+            <A HREF="../network/network_socket.html#f_is_valid_family">is_valid_family</A>
+        <B>end</B>
+
+<B>feature</B> 
+
+    <A NAME="f_exists"><A HREF="../network/network_socket.html#f_exists">exists</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does socket exist?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../abstract/socket.html#f_descriptor_available">descriptor_available</A> <B>and then</B> (<A HREF="../network/network_socket.html#f_fd">fd</A> &gt; 0 <B>or else</B> <A HREF="../network/network_socket.html#f_fd1">fd1</A> &gt; 0)
+        <B>ensure then</B>
+            definition: <B>Result</B> <B>implies</B> <A HREF="../abstract/socket.html#f_descriptor_available">descriptor_available</A>
+        <B>end</B></A>
+
+    <A NAME="f_close_socket"><A HREF="../network/network_socket.html#f_close_socket">close_socket</A>
+        <B>do</B>
+            <B>if</B> <B>not</B> <A HREF="../network/network_socket.html#f_is_closed">is_closed</A> <B>then</B>
+                <B>if</B> <A HREF="../network/network_socket.html#f_is_created">is_created</A> <B>then</B>
+                    <A HREF="../network/network_socket.html#f_c_close">c_close</A> (<A HREF="../network/network_socket.html#f_fd">fd</A>, <A HREF="../network/network_socket.html#f_fd1">fd1</A>)
+                <B>end</B>
+                <A HREF="../network/network_socket.html#f_is_closed">is_closed</A> := <B>True</B>
+            <B>end</B>
+            <A HREF="../abstract/socket.html#f_descriptor_available">descriptor_available</A> := <B>False</B>
+            <A HREF="../abstract/socket.html#f_is_open_read">is_open_read</A> := <B>False</B>
+            <A HREF="../abstract/socket.html#f_is_open_write">is_open_write</A> := <B>False</B>
+        <B>end</B></A>
+
+    <A NAME="f_descriptor"><A HREF="../network/network_socket.html#f_descriptor">descriptor</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Socket descriptor of current socket</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../network/network_socket.html#f_fd">fd</A>
+        <B>end</B></A>
+
+    <A NAME="f_connect"><A HREF="../network/network_socket.html#f_connect">connect</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Connect socket to peer address.</FONT>
+        <B>local</B>
+            retried: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            <B>if</B> <B>not</B> retried <B>then</B>
+                <A HREF="../network/network_socket.html#f_do_connect">do_connect</A> (<A HREF="../abstract/socket.html#f_peer_address">peer_address</A>)
+                <A HREF="../network/network_socket.html#f_is_connected">is_connected</A> := <B>True</B>
+                <A HREF="../abstract/socket.html#f_is_open_write">is_open_write</A> := <B>True</B>
+                <A HREF="../abstract/socket.html#f_is_open_read">is_open_read</A> := <B>True</B>
+            <B>end</B>
+        <B>rescue</B>
+            <B>if</B> <B>not</B> <A HREF="../elks/exceptions.html#f_assertion_violation">assertion_violation</A> <B>then</B>
+                <A HREF="../network/network_socket.html#f_is_connected">is_connected</A> := <B>False</B>
+                <A HREF="../abstract/socket.html#f_is_open_read">is_open_read</A> := <B>False</B>
+                <A HREF="../abstract/socket.html#f_is_open_write">is_open_write</A> := <B>False</B>
+                retried := <B>True</B>
+                <B>retry</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_bind"><A HREF="../network/network_socket.html#f_bind">bind</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Bind socket to local address in </FONT><A HREF="../abstract/socket.html#f_address">address</A><FONT COLOR="red">.</FONT>
+        <B>local</B>
+            retried: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            <B>if</B> <B>not</B> retried <B>then</B>
+                <A HREF="../network/network_socket.html#f_do_bind">do_bind</A> (<A HREF="../abstract/socket.html#f_address">address</A>)
+                <A HREF="../abstract/socket.html#f_is_open_read">is_open_read</A> := <B>True</B>
+                <A HREF="../network/network_socket.html#f_is_bound">is_bound</A> := <B>True</B>
+            <B>end</B>
+        <B>rescue</B>
+            <B>if</B> <B>not</B> <A HREF="../elks/exceptions.html#f_assertion_violation">assertion_violation</A> <B>then</B>
+                <A HREF="../network/network_socket.html#f_is_bound">is_bound</A> := <B>False</B>
+                <A HREF="../abstract/socket.html#f_is_open_read">is_open_read</A> := <B>False</B>
+                retried := <B>True</B>
+                <B>retry</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_address_type"><A HREF="../network/network_socket.html#f_address_type">address_type</A>: <A HREF="../network/network_socket_address.html">NETWORK_SOCKET_ADDRESS</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Type of </FONT><A HREF="../abstract/socket.html#f_address">address</A><FONT COLOR="red"> and </FONT><A HREF="../abstract/socket.html#f_peer_address">peer_address</A>
+        <B>do</B>
+            <B>check</B>
+                <B>False</B>
+            <B>then</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_closed"><A HREF="../network/network_socket.html#f_is_closed">is_closed</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is socket closed?</FONT>
+
+    <A NAME="f_is_created"><A HREF="../network/network_socket.html#f_is_created">is_created</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+
+    <A NAME="f_is_connected"><A HREF="../network/network_socket.html#f_is_connected">is_connected</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+
+    <A NAME="f_is_bound"><A HREF="../network/network_socket.html#f_is_bound">is_bound</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+
+    <A NAME="f_port"><A HREF="../network/network_socket.html#f_port">port</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Port socket is bound to.</FONT>
+        <B>do</B>
+            <B>if</B> <B>not</B> <A HREF="../network/network_socket.html#f_is_bound">is_bound</A> <B>then</B>
+                <B>Result</B> := -1
+            <B>else</B>
+                <B>Result</B> := <A HREF="../network/network_socket.html#f_internal_port">internal_port</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_reuse_address"><A HREF="../network/network_socket.html#f_reuse_address">reuse_address</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is reuse_address option set?</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../network/network_socket.html#f_exists">exists</A>
+        <B>local</B>
+            reuse: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            reuse := <A HREF="../abstract/socket.html#f_c_get_sock_opt_int">c_get_sock_opt_int</A> (<A HREF="../network/network_socket.html#f_descriptor">descriptor</A>, <A HREF="../abstract/socket_resources.html#f_level_sol_socket">level_sol_socket</A>, <A HREF="../abstract/socket_resources.html#f_so_reuse_addr">so_reuse_addr</A>)
+            <B>Result</B> := reuse /= 0
+        <B>end</B></A>
+
+    <A NAME="f_is_valid_peer_address"><A HREF="../network/network_socket.html#f_is_valid_peer_address">is_valid_peer_address</A> (addr: <B>attached</B> <B>like</B> <A HREF="../abstract/socket.html#f_address">address</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`addr'<FONT COLOR="red"> a valid peer address?</FONT>
+        <B>do</B>
+            <B>Result</B> := (addr.<A HREF="../abstract/socket_address.html#f_family">family</A> = <A HREF="../abstract/socket_resources.html#f_af_inet">af_inet</A> <B>or else</B> addr.<A HREF="../abstract/socket_address.html#f_family">family</A> = <A HREF="../abstract/socket_resources.html#f_af_inet6">af_inet6</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_valid_family"><A HREF="../network/network_socket.html#f_is_valid_family">is_valid_family</A> (addr: <B>attached</B> <B>like</B> <A HREF="../abstract/socket.html#f_address">address</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`addr'<FONT COLOR="red"> the same family as Current?</FONT>
+        <B>do</B>
+            <B>Result</B> := (addr.<A HREF="../abstract/socket_address.html#f_family">family</A> = <A HREF="../abstract/socket_resources.html#f_af_inet">af_inet</A> <B>or else</B> addr.<A HREF="../abstract/socket_address.html#f_family">family</A> = <A HREF="../abstract/socket_resources.html#f_af_inet6">af_inet6</A>)
+        <B>end</B></A>
+
+    <A NAME="f_ready_for_reading"><A HREF="../network/network_socket.html#f_ready_for_reading">ready_for_reading</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is data available for reading from the socket within</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../network/network_socket.html#f_timeout">timeout</A><FONT COLOR="red"> seconds?</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../network/network_socket.html#f_exists">exists</A>
+        <B>local</B>
+            retval: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            retval := <A HREF="../network/network_socket.html#f_c_select_poll_with_timeout">c_select_poll_with_timeout</A> (<A HREF="../network/network_socket.html#f_descriptor">descriptor</A>, <B>True</B>, <A HREF="../network/network_socket.html#f_timeout">timeout</A>)
+            <B>Result</B> := (retval &gt; 0)
+        <B>end</B></A>
+
+    <A NAME="f_ready_for_writing"><A HREF="../network/network_socket.html#f_ready_for_writing">ready_for_writing</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Can data be written to the socket within </FONT><A HREF="../network/network_socket.html#f_timeout">timeout</A><FONT COLOR="red"> seconds?</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../network/network_socket.html#f_exists">exists</A>
+        <B>local</B>
+            retval: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            retval := <A HREF="../network/network_socket.html#f_c_select_poll_with_timeout">c_select_poll_with_timeout</A> (<A HREF="../network/network_socket.html#f_descriptor">descriptor</A>, <B>False</B>, <A HREF="../network/network_socket.html#f_timeout">timeout</A>)
+            <B>Result</B> := (retval &gt; 0)
+        <B>end</B></A>
+
+    <A NAME="f_has_exception_state"><A HREF="../network/network_socket.html#f_has_exception_state">has_exception_state</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is socket in exception state within </FONT><A HREF="../network/network_socket.html#f_timeout">timeout</A><FONT COLOR="red"> seconds?</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../network/network_socket.html#f_exists">exists</A>
+        <B>local</B>
+            retval: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            retval := <A HREF="../network/network_socket.html#f_c_check_exception_with_timeout">c_check_exception_with_timeout</A> (<A HREF="../network/network_socket.html#f_descriptor">descriptor</A>, <A HREF="../network/network_socket.html#f_timeout">timeout</A>)
+            <B>Result</B> := (retval &gt; 0)
+        <B>end</B></A>
+
+    <A NAME="f_timeout"><A HREF="../network/network_socket.html#f_timeout">timeout</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duration of timeout in seconds</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status setting</FONT>
+
+    <A NAME="f_set_reuse_address"><A HREF="../network/network_socket.html#f_set_reuse_address">set_reuse_address</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Turn </FONT><A HREF="../network/network_socket.html#f_reuse_address">reuse_address</A><FONT COLOR="red"> option on.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../network/network_socket.html#f_exists">exists</A>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_c_set_sock_opt_int">c_set_sock_opt_int</A> (<A HREF="../network/network_socket.html#f_descriptor">descriptor</A>, <A HREF="../abstract/socket_resources.html#f_level_sol_socket">level_sol_socket</A>, <A HREF="../abstract/socket_resources.html#f_so_reuse_addr">so_reuse_addr</A>, 1)
+        <B>end</B></A>
+
+    <A NAME="f_do_not_reuse_address"><A HREF="../network/network_socket.html#f_do_not_reuse_address">do_not_reuse_address</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Turn </FONT><A HREF="../network/network_socket.html#f_reuse_address">reuse_address</A><FONT COLOR="red"> option off.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../network/network_socket.html#f_exists">exists</A>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_c_set_sock_opt_int">c_set_sock_opt_int</A> (<A HREF="../network/network_socket.html#f_descriptor">descriptor</A>, <A HREF="../abstract/socket_resources.html#f_level_sol_socket">level_sol_socket</A>, <A HREF="../abstract/socket_resources.html#f_so_reuse_addr">so_reuse_addr</A>, 0)
+        <B>end</B></A>
+
+    <A NAME="f_set_timeout"><A HREF="../network/network_socket.html#f_set_timeout">set_timeout</A> (n: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set timeout to </FONT>`n'<FONT COLOR="red"> seconds.</FONT>
+        <B>require</B>
+            non_negative: n &gt;= 0
+        <B>do</B>
+            <B>if</B> n &gt; 0 <B>then</B>
+                <A HREF="../network/network_socket.html#f_timeout">timeout</A> := n
+            <B>else</B>
+                <A HREF="../network/network_socket.html#f_timeout">timeout</A> := <A HREF="../network/network_socket.html#f_default_timeout">Default_timeout</A>
+            <B>end</B>
+        <B>ensure</B>
+            timeout_set: <A HREF="../network/network_socket.html#f_timeout">timeout</A> = n <B>or</B> <A HREF="../network/network_socket.html#f_timeout">timeout</A> = <A HREF="../network/network_socket.html#f_default_timeout">Default_timeout</A>
+        <B>end</B></A>
+
+    <A NAME="f_set_non_blocking"><A HREF="../network/network_socket.html#f_set_non_blocking">set_non_blocking</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set socket to non-blocking mode.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_c_set_non_blocking">c_set_non_blocking</A> (<A HREF="../network/network_socket.html#f_fd">fd</A>)
+            <B>if</B> <A HREF="../network/network_socket.html#f_fd1">fd1</A> &gt; 0 <B>then</B>
+                <A HREF="../abstract/socket.html#f_c_set_non_blocking">c_set_non_blocking</A> (<A HREF="../network/network_socket.html#f_fd1">fd1</A>)
+            <B>end</B>
+            <A HREF="../abstract/socket.html#f_is_blocking">is_blocking</A> := <B>False</B>
+        <B>end</B></A>
+
+    <A NAME="f_set_blocking"><A HREF="../network/network_socket.html#f_set_blocking">set_blocking</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set socket to blocking mode.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_c_set_blocking">c_set_blocking</A> (<A HREF="../network/network_socket.html#f_fd">fd</A>)
+            <B>if</B> <A HREF="../network/network_socket.html#f_fd1">fd1</A> &gt; 0 <B>then</B>
+                <A HREF="../abstract/socket.html#f_c_set_blocking">c_set_blocking</A> (<A HREF="../network/network_socket.html#f_fd1">fd1</A>)
+            <B>end</B>
+            <A HREF="../abstract/socket.html#f_is_blocking">is_blocking</A> := <B>True</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_make_socket"><A HREF="../network/network_socket.html#f_make_socket">make_socket</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create socket descriptor.</FONT>
+        <B>do</B>
+            <A HREF="../network/network_socket.html#f_do_create">do_create</A>
+            <B>if</B> <A HREF="../network/network_socket.html#f_fd">fd</A> &gt; -1 <B>then</B>
+                <A HREF="../network/network_socket.html#f_is_closed">is_closed</A> := <B>False</B>
+                <A HREF="../abstract/socket.html#f_descriptor_available">descriptor_available</A> := <B>True</B>
+                <A HREF="../network/network_socket.html#f_set_blocking">set_blocking</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_shutdown"><A HREF="../network/network_socket.html#f_shutdown">shutdown</A>
+        <B>do</B>
+            <A HREF="../network/network_socket.html#f_c_shutdown">c_shutdown</A> (<A HREF="../network/network_socket.html#f_fd">fd</A>, <A HREF="../network/network_socket.html#f_fd1">fd1</A>)
+        <B>end</B></A>
+
+    <A NAME="f_fd"><A HREF="../network/network_socket.html#f_fd">fd</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+
+    <A NAME="f_fd1"><A HREF="../network/network_socket.html#f_fd1">fd1</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+
+    <A NAME="f_last_fd"><A HREF="../network/network_socket.html#f_last_fd">last_fd</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+
+    <A NAME="f_internal_port"><A HREF="../network/network_socket.html#f_internal_port">internal_port</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Internal storage for </FONT><A HREF="../network/network_socket.html#f_port">port</A><FONT COLOR="red"> when </FONT><A HREF="../network/network_socket.html#f_is_bound">is_bound</A><FONT COLOR="red">.</FONT>
+
+    <A NAME="f_do_create"><A HREF="../network/network_socket.html#f_do_create">do_create</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_do_connect"><A HREF="../network/network_socket.html#f_do_connect">do_connect</A> (a_peer_address: <B>like</B> <A HREF="../abstract/socket.html#f_peer_address">peer_address</A>)
+        <B>require</B>
+            a_peer_address_attached: a_peer_address /= <B>Void</B>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_do_bind"><A HREF="../network/network_socket.html#f_do_bind">do_bind</A> (a_address: <B>like</B> <A HREF="../abstract/socket.html#f_address">address</A>)
+        <B>require</B>
+            a_address_attached: a_address /= <B>Void</B>
+        <B>deferred</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Constants</FONT>
+
+    <A NAME="f_default_timeout"><A HREF="../network/network_socket.html#f_default_timeout">Default_timeout</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A> = 20</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default timeout duration in seconds</FONT>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Externals</FONT>
+
+    <A NAME="f_c_close"><A HREF="../network/network_socket.html#f_c_close">c_close</A> (an_fd: <A HREF="../elks/integer_32.html">INTEGER_32</A>; an_fd1: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+        <B>external</B>
+            "C"
+        <B>alias</B>
+            "en_socket_close"
+        <B>end</B></A>
+
+    <A NAME="f_c_select_poll_with_timeout"><A HREF="../network/network_socket.html#f_c_select_poll_with_timeout">c_select_poll_with_timeout</A> (an_fd: <A HREF="../elks/integer_32.html">INTEGER_32</A>; is_read_mode: <A HREF="../elks/boolean.html">BOOLEAN</A>; timeout_secs: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>external</B>
+            "C blocking"
+        <B>end</B></A>
+
+    <A NAME="f_c_check_exception_with_timeout"><A HREF="../network/network_socket.html#f_c_check_exception_with_timeout">c_check_exception_with_timeout</A> (an_fd: <A HREF="../elks/integer_32.html">INTEGER_32</A>; timeout_secs: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>external</B>
+            "C blocking"
+        <B>end</B></A>
+
+    <A NAME="f_c_shutdown"><A HREF="../network/network_socket.html#f_c_shutdown">c_shutdown</A> (an_fd: <A HREF="../elks/integer_32.html">INTEGER_32</A>; an_fd1: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+        <B>external</B>
+            "C blocking"
+        <B>alias</B>
+            "en_socket_shutdown"
+        <B>end</B></A>
+    
+<B>invariant</B>
+    timeout_set: <A HREF="../network/network_socket.html#f_timeout">timeout</A> &gt; 0
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2006, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        356 Storke Road, Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../network/network_socket.html">NETWORK_SOCKET</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="network_socket_chart.html">Chart</A></TD><TD><A HREF="network_socket_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="network_socket_flat.html">Flat</A></TD><TD><A HREF="network_socket_short.html">Contracts</A></TD><TD><A HREF="network_socket_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

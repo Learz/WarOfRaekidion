@@ -1,0 +1,223 @@
+<HTML><HEAD>
+<meta name="description" content="Helper functions for supporting statement argument binding."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software"/>
+<meta name="license" content="GPL version 2 (see http://www.eiffel.com/licensing/gpl.txt)"/>
+<meta name="licensing_options" content="http://www.eiffel.com/licensing"/>
+<meta name="copying" content="This file is part of Eiffel Software's Eiffel Development Environment.  Eiffel Software's Eiffel Development Environment is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 2 of the License (available at the URL listed under license above).  Eiffel Software's Eiffel Development Environment is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.  You should have received a copy of the GNU General Public License along with Eiffel Software's Eiffel Development Environment; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>sqlite_binding_helpers Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sqlite_binding_helpers_chart.html">Chart</A></TD><TD><A HREF="sqlite_binding_helpers_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="sqlite_binding_helpers_flat.html">Flat</A></TD><TD><A HREF="sqlite_binding_helpers_short.html">Contracts</A></TD><TD><A HREF="sqlite_binding_helpers_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Helper functions for supporting statement argument binding.
+    ]"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2013-11-07 12:09:47 -0800 (Thu, 07 Nov 2013) $"
+    revision: "$Revision: 93250 $"
+
+<B>class</B> 
+    <A HREF="../sqlite/sqlite_binding_helpers.html">SQLITE_BINDING_HELPERS</A>
+
+<B>create</B> 
+    <A HREF="../elks/any.html#f_default_create">default_create</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_is_valid_argument"><A HREF="../sqlite/sqlite_binding_helpers.html#f_is_valid_argument">is_valid_argument</A> (a_value: <B>detachable</B> <A HREF="../elks/any.html">ANY</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if the value is of an accepted type.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_value'<FONT COLOR="red">: A value to check.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`Result'<FONT COLOR="red">: True if the value type is marshallable; False otherwise.</FONT>
+        <B>local</B>
+            l_type_id: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>Result</B> := <B>not</B> <B>attached</B> a_value <B>or else</B> <B>attached</B> {<A HREF="../elks/readable_string_8.html">READABLE_STRING_8</A>} a_value <B>or else</B> <B>attached</B> {<A HREF="../sqlite/sqlite_bind_arg.html">SQLITE_BIND_ARG</A> [<A HREF="../elks/any.html">ANY</A>]} a_value <B>or else</B> <B>attached</B> {<A HREF="../elks/managed_pointer.html">MANAGED_POINTER</A>} a_value <B>or else</B> (<B>attached</B> {<A HREF="../elks/readable_string_32.html">READABLE_STRING_32</A>} a_value <B>as</B> s32 <B>and then</B> s32.<A HREF="../elks/readable_string_32.html#f_is_valid_as_string_8">is_valid_as_string_8</A>)
+            <B>if</B> <B>not</B> <B>Result</B> <B>and</B> <B>attached</B> a_value <B>then</B>
+                <B>Result</B> := <B>True</B>
+                l_type_id := a_value.<A HREF="../elks/any.html#f_generating_type">generating_type</A>.<A HREF="../elks/type.html#f_type_id">type_id</A>
+                <B>if</B> l_type_id = ({<A HREF="../elks/integer_32.html">INTEGER_32</A>}).<A HREF="../elks/type.html#f_type_id">type_id</A> <B>or</B> l_type_id = ({<A HREF="../elks/boolean.html">BOOLEAN</A>}).<A HREF="../elks/type.html#f_type_id">type_id</A> <B>or</B> l_type_id = ({<A HREF="../elks/natural_32.html">NATURAL_32</A>}).<A HREF="../elks/type.html#f_type_id">type_id</A> <B>or</B> l_type_id = ({<A HREF="../elks/real_32.html">REAL_32</A>}).<A HREF="../elks/type.html#f_type_id">type_id</A> <B>or</B> l_type_id = ({<A HREF="../elks/integer_8.html">INTEGER_8</A>}).<A HREF="../elks/type.html#f_type_id">type_id</A> <B>or</B> l_type_id = ({<A HREF="../elks/integer_16.html">INTEGER_16</A>}).<A HREF="../elks/type.html#f_type_id">type_id</A> <B>or</B> l_type_id = ({<A HREF="../elks/integer_64.html">INTEGER_64</A>}).<A HREF="../elks/type.html#f_type_id">type_id</A> <B>or</B> l_type_id = ({<A HREF="../elks/natural_8.html">NATURAL_8</A>}).<A HREF="../elks/type.html#f_type_id">type_id</A> <B>or</B> l_type_id = ({<A HREF="../elks/natural_16.html">NATURAL_16</A>}).<A HREF="../elks/type.html#f_type_id">type_id</A> <B>or</B> l_type_id = ({<A HREF="../elks/real_64.html">REAL_64</A>}).<A HREF="../elks/type.html#f_type_id">type_id</A> <B>then</B>
+                    <B>check</B>
+                        <B>Result</B>
+                    <B>end</B>
+                <B>elseif</B> <B>attached</B> {<A HREF="../elks/natural_64_ref.html">NATURAL_64_REF</A>} a_value <B>as</B> nat64 <B>then</B>
+                    <B>Result</B> := nat64 &lt;= {<A HREF="../elks/integer_64.html">INTEGER_64</A>}.<A HREF="../elks/integer_64_ref.html#f_max_value">max_value</A>.<A HREF="../elks/integer_64.html#f_as_natural_64">as_natural_64</A>
+                <B>else</B>
+                    <B>Result</B> := <B>False</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_valid_arguments"><A HREF="../sqlite/sqlite_binding_helpers.html#f_is_valid_arguments">is_valid_arguments</A> (a_args: <A HREF="../elks/iterable.html">ITERABLE</A> [<B>detachable</B> <A HREF="../elks/any.html">ANY</A>]): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Determines if an argument tuple is valid.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_args'<FONT COLOR="red">: A tuple of arguments to validate.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`Result'<FONT COLOR="red">: True if the supplied tuple contains valid value for arguments; False otherwise.</FONT>
+        <B>require</B>
+            a_args_attached: <B>attached</B> a_args
+            not_a_args_is_empty: <B>across</B>
+                a_args <B>as</B> ic
+            <B>some</B>
+                <B>True</B>
+            <B>end</B>
+        <B>local</B>
+            n: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_sqlite_limit_variable_number: <B>like</B> <A HREF="../sqlite/sqlite_binding_helpers.html#f_sqlite_limit_variable_number">sqlite_limit_variable_number</A>
+        <B>do</B>
+            l_sqlite_limit_variable_number := <A HREF="../sqlite/sqlite_binding_helpers.html#f_sqlite_limit_variable_number">sqlite_limit_variable_number</A>
+            <B>Result</B> := <B>True</B>
+            <B>across</B>
+                a_args <B>as</B> ic
+            <B>until</B>
+                <B>not</B> <B>Result</B>
+            <B>loop</B>
+                n := n + 1
+                <B>Result</B> := n &lt;= l_sqlite_limit_variable_number <B>and</B> <A HREF="../sqlite/sqlite_binding_helpers.html#f_is_valid_argument">is_valid_argument</A> (ic.<A HREF="../elks/iteration_cursor.html#f_item">item</A>)
+            <B>end</B>
+        <B>ensure</B>
+            a_args_small_enough: <B>Result</B> <B>implies</B> <B>not</B> <A HREF="../sqlite/sqlite_binding_helpers.html#f_is_over_sqlite_limit_variable_number">is_over_sqlite_limit_variable_number</A> (a_args)
+        <B>end</B></A>
+
+    <A NAME="f_is_valid_variable_name"><A HREF="../sqlite/sqlite_binding_helpers.html#f_is_valid_variable_name">is_valid_variable_name</A> (a_var: <A HREF="../elks/readable_string_8.html">READABLE_STRING_8</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Determines if a SQLite variable name is valid.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_var'<FONT COLOR="red">: Name of the variable, including a qualifier.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`Result'<FONT COLOR="red">: True if the variable is a valid SQLite variable; False otherwise</FONT>
+        <B>require</B>
+            a_var_attached: <B>attached</B> a_var
+            not_a_var_is_empty: <B>not</B> a_var.<A HREF="../elks/readable_string_general.html#f_is_empty">is_empty</A>
+        <B>local</B>
+            l_qualifier, c: <A HREF="../elks/character_8.html">CHARACTER_8</A>
+            i_count, i: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_index_str: <A HREF="../elks/readable_string_8.html">READABLE_STRING_8</A>
+        <B>do</B>
+            l_qualifier := a_var [1]
+            <B>if</B> l_qualifier = '?' <B>then</B>
+                i_count := a_var.<A HREF="../elks/readable_string_8.html#f_count">count</A>
+                <B>Result</B> := i_count = 1
+                <B>if</B> <B>not</B> <B>Result</B> <B>then</B>
+                    l_index_str := a_var.<A HREF="../elks/readable_string_8.html#f_substring">substring</A> (2, i_count)
+                    <B>if</B> l_index_str.<A HREF="../elks/readable_string_general.html#f_is_integer_32">is_integer_32</A> <B>then</B>
+                        i := l_index_str.<A HREF="../elks/readable_string_general.html#f_to_integer_32">to_integer_32</A>
+                        <B>Result</B> := i &gt; 0 <B>and</B> i &lt;= <A HREF="../sqlite/sqlite_binding_helpers.html#f_sqlite_limit_variable_number">sqlite_limit_variable_number</A>
+                    <B>end</B>
+                <B>end</B>
+            <B>elseif</B> l_qualifier = ':' <B>or</B> l_qualifier = '@' <B>or</B> l_qualifier = '$' <B>then</B>
+                i_count := a_var.<A HREF="../elks/readable_string_8.html#f_count">count</A>
+                <B>Result</B> := i_count &gt; 1
+                <B>if</B> <B>Result</B> <B>then</B>
+                    <B>from</B>
+                        i := 2
+                    <B>until</B>
+                        i &gt; i_count <B>or</B> <B>not</B> <B>Result</B>
+                    <B>loop</B>
+                        c := a_var [i]
+                        <B>Result</B> := c.<A HREF="../elks/character_8_ref.html#f_is_printable">is_printable</A> <B>and</B> <B>not</B> c.<A HREF="../elks/character_8_ref.html#f_is_space">is_space</A>
+                        i := i + 1
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_over_sqlite_limit_variable_number"><A HREF="../sqlite/sqlite_binding_helpers.html#f_is_over_sqlite_limit_variable_number">is_over_sqlite_limit_variable_number</A> (lst: <A HREF="../elks/iterable.html">ITERABLE</A> [<B>detachable</B> <A HREF="../elks/any.html">ANY</A>]): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Container </FONT>`lst'<FONT COLOR="red"> exceeds the number of accepted variables?</FONT>
+        <B>local</B>
+            i, n: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            n := <A HREF="../sqlite/sqlite_binding_helpers.html#f_sqlite_limit_variable_number">sqlite_limit_variable_number</A>
+            <B>across</B>
+                lst <B>as</B> ic
+            <B>until</B>
+                i &gt; n
+            <B>loop</B>
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_iterable_min_count_or_value"><A HREF="../sqlite/sqlite_binding_helpers.html#f_iterable_min_count_or_value">iterable_min_count_or_value</A> (lst: <A HREF="../elks/iterable.html">ITERABLE</A> [<B>detachable</B> <A HREF="../elks/any.html">ANY</A>]; a_nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Minimum between count of </FONT>`lst'<FONT COLOR="red"> and </FONT>`a_nb'
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<A HREF="../elks/finite.html">FINITE</A> [<B>detachable</B> <A HREF="../elks/any.html">ANY</A>]} lst <B>as</B> l_finite <B>then</B>
+                <B>Result</B> := l_finite.<A HREF="../elks/finite.html#f_count">count</A>.<A HREF="../elks/comparable.html#f_min">min</A> (a_nb)
+            <B>else</B>
+                <B>across</B>
+                    lst <B>as</B> ic
+                <B>until</B>
+                    <B>Result</B> &gt;= a_nb
+                <B>loop</B>
+                    <B>Result</B> := <B>Result</B> + 1
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_iterable_has_count"><A HREF="../sqlite/sqlite_binding_helpers.html#f_iterable_has_count">iterable_has_count</A> (lst: <A HREF="../elks/iterable.html">ITERABLE</A> [<B>detachable</B> <A HREF="../elks/any.html">ANY</A>]; n: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is count of </FONT>`lst'<FONT COLOR="red"> the same as </FONT>`nb'<FONT COLOR="red"> ?</FONT>
+        <B>local</B>
+            i: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<A HREF="../elks/finite.html">FINITE</A> [<B>detachable</B> <A HREF="../elks/any.html">ANY</A>]} lst <B>as</B> l_finite <B>then</B>
+                <B>Result</B> := l_finite.<A HREF="../elks/finite.html#f_count">count</A> = n
+            <B>else</B>
+                <B>across</B>
+                    lst <B>as</B> ic
+                <B>until</B>
+                    i &gt; n
+                <B>loop</B>
+                    i := i + 1
+                <B>end</B>
+                <B>Result</B> := i = n
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Externals</FONT>
+
+    <A NAME="f_sqlite_limit_variable_number"><A HREF="../sqlite/sqlite_binding_helpers.html#f_sqlite_limit_variable_number">sqlite_limit_variable_number</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Upper limit on a numerical id.</FONT>
+        <B>external</B>
+            "C macro use &lt;sqlite3.h&gt;"
+        <B>alias</B>
+            "SQLITE_LIMIT_VARIABLE_NUMBER"
+        <B>end</B></A>
+    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2013, Eiffel Software"
+    license: "GPL version 2 (see <a href="http://www.eiffel.com/licensing/gpl.txt">http://www.eiffel.com/licensing/gpl.txt</a>)"
+    licensing_options: "<a href="http://www.eiffel.com/licensing">http://www.eiffel.com/licensing</a>"
+    copying: "[
+        This file is part of Eiffel Software's Eiffel Development Environment.
+        
+        Eiffel Software's Eiffel Development Environment is free
+        software; you can redistribute it and/or modify it under
+        the terms of the GNU General Public License as published
+        by the Free Software Foundation, version 2 of the License
+        (available at the URL listed under "license" above).
+        
+        Eiffel Software's Eiffel Development Environment is
+        distributed in the hope that it will be useful, but
+        WITHOUT ANY WARRANTY; without even the implied warranty
+        of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        See the GNU General Public License for more details.
+        
+        You should have received a copy of the GNU General Public
+        License along with Eiffel Software's Eiffel Development
+        Environment; if not, write to the Free Software Foundation,
+        Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+    ]"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../sqlite/sqlite_binding_helpers.html">SQLITE_BINDING_HELPERS</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sqlite_binding_helpers_chart.html">Chart</A></TD><TD><A HREF="sqlite_binding_helpers_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="sqlite_binding_helpers_flat.html">Flat</A></TD><TD><A HREF="sqlite_binding_helpers_short.html">Contracts</A></TD><TD><A HREF="sqlite_binding_helpers_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

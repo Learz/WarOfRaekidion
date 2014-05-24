@@ -1,0 +1,245 @@
+<HTML><HEAD>
+<meta name="description" content="Field record"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="library" content="EiffelBase: Library of reusable components for Eiffel."/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>rt_dbg_local_record Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="rt_dbg_local_record_chart.html">Chart</A></TD><TD><A HREF="rt_dbg_local_record_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="rt_dbg_local_record_flat.html">Flat</A></TD><TD><A HREF="rt_dbg_local_record_short.html">Contracts</A></TD><TD><A HREF="rt_dbg_local_record_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Field record"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2013-03-04 14:57:52 -0800 (Mon, 04 Mar 2013) $"
+    revision: "$Revision: 91317 $"
+
+<B>class</B> 
+    <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html">RT_DBG_LOCAL_RECORD</A> [G -&gt; <B>detachable</B> <A HREF="../../elks/any.html">ANY</A>]
+
+<B>inherit</B>
+    <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>
+        <B>redefine</B>
+            <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_debug_output">debug_output</A>
+        <B>end</B>
+
+<B>create</B> 
+    <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_make">make</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_make">make</A> (dep, pos, eif_t: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; t: <B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_rt_type">rt_type</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make local record with index </FONT>`i'<FONT COLOR="red">, type </FONT>`t'<FONT COLOR="red"> an value </FONT>`v'
+        <B>do</B>
+            <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_callstack_depth">callstack_depth</A> := dep
+            <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html#f_position">position</A> := pos
+            <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html#f_type">type</A> := eif_t
+            <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_rt_type">rt_type</A> := t
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> RT internals</FONT>
+
+    <A NAME="f_local_value_at"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_local_value_at">local_value_at</A> (dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_rt_type: <B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_rt_type">rt_type</A>): <B>detachable</B> <A HREF="../../elks/any.html">ANY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Object attached at local position </FONT>`pos'<FONT COLOR="red"> for depth </FONT>`dep'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (directly or through a reference)</FONT>
+        <B>require</B>
+            index_large_enough: pos &gt;= 0
+        <B>local</B>
+            a_loc_type: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>if</B> pos = 0 <B>then</B>
+                a_loc_type := {<A HREF="../../ise/debug_implementation/rt_dbg_internal.html">RT_DBG_INTERNAL</A>}.<A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_rt_dlt_result">rt_dlt_result</A>
+            <B>else</B>
+                a_loc_type := {<A HREF="../../ise/debug_implementation/rt_dbg_internal.html">RT_DBG_INTERNAL</A>}.<A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_rt_dlt_localvar">rt_dlt_localvar</A>
+            <B>end</B>
+            <B>if</B> a_loc_type /= {<A HREF="../../ise/debug_implementation/rt_dbg_internal.html">RT_DBG_INTERNAL</A>}.<A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_rt_dlt_result">rt_dlt_result</A> <B>then</B>
+                <B>Result</B> := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_stack_value_at">stack_value_at</A> (dep, a_loc_type, pos, a_rt_type)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_set_local_value_at"><A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_set_local_value_at">set_local_value_at</A> (dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_rt_type: <B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_rt_type">rt_type</A>; val: <B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_value">value</A>)
+        <B>local</B>
+            a_loc_type: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+            res: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>if</B> pos = 0 <B>then</B>
+                a_loc_type := {<A HREF="../../ise/debug_implementation/rt_dbg_internal.html">RT_DBG_INTERNAL</A>}.<A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_rt_dlt_result">rt_dlt_result</A>
+            <B>else</B>
+                a_loc_type := {<A HREF="../../ise/debug_implementation/rt_dbg_internal.html">RT_DBG_INTERNAL</A>}.<A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_rt_dlt_localvar">rt_dlt_localvar</A>
+            <B>end</B>
+            res := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_set_stack_value_at">set_stack_value_at</A> (dep, a_loc_type, pos, a_rt_type, val)
+            <B>check</B>
+                res = 0
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Properties</FONT>
+
+    <A NAME="f_value"><A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_value">value</A>: <B>detachable</B> G</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Associated value.</FONT>
+
+    <A NAME="f_callstack_depth"><A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_callstack_depth">callstack_depth</A>: <A HREF="../../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Related call stack depth.</FONT>
+
+    <A NAME="f_rt_type"><A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_rt_type">rt_type</A>: <A HREF="../../elks/natural_32.html">NATURAL_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Field type</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_current_value_record"><A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_current_value_record">current_value_record</A>: <B>detachable</B> <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Record for current value</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_object_local_record">object_local_record</A> (<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_callstack_depth">callstack_depth</A>, <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html#f_position">position</A>, <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_rt_type">rt_type</A>)
+        <B>end</B></A>
+
+    <A NAME="f_associated_object"><A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_associated_object">associated_object</A>: <B>detachable</B> <A HREF="../../elks/any.html">ANY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Associated object, if any</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_local_record"><A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_is_local_record">Is_local_record</A>: <A HREF="../../elks/boolean.html">BOOLEAN</A> = <B>True</B></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is local record ?</FONT>
+
+    <A NAME="f_is_same_as"><A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_is_same_as">is_same_as</A> (other: <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>): <A HREF="../../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is Current same as </FONT>`other'<FONT COLOR="red"> ?</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>attached</B> {<B>like</B> <B>Current</B>} other <B>as</B> l_loc <B>and then</B> <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html#f_position">position</A> = l_loc.<A HREF="../../ise/debug_implementation/rt_dbg_value_record.html#f_position">position</A> <B>and then</B> <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_value">value</A> = l_loc.<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_value">value</A>
+        <B>end</B></A>
+
+    <A NAME="f_debug_output"><A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_debug_output">debug_output</A>: <A HREF="../../elks/string_8.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> String that should be displayed in debugger to represent </FONT>`Current'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>Precursor</B> + " (depth=" + <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_callstack_depth">callstack_depth</A>.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + ")"
+        <B>end</B></A>
+
+    <A NAME="f_to_string"><A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_to_string">to_string</A>: <A HREF="../../elks/string_8.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> String representation</FONT>
+        <B>local</B>
+            v: <B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_value">value</A>
+        <B>do</B>
+            v := <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_value">value</A>
+            <B>inspect</B> <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html#f_type">type</A>
+            <B>when</B> {<A HREF="../../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../../elks/reflector_constants.html#f_reference_type">reference_type</A> <B>then</B> 
+                <B>if</B> v /= <B>Void</B> <B>then</B>
+                    <B>Result</B> := ($v).<A HREF="../../elks/pointer_ref.html#f_out">out</A>
+                <B>else</B>
+                    <B>Result</B> := "Void"
+                <B>end</B>
+            <B>when</B> {<A HREF="../../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../../elks/reflector_constants.html#f_expanded_type">expanded_type</A> <B>then</B> 
+                <B>check</B>
+                    value_attached: <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_value">value</A> /= <B>Void</B>
+                <B>end</B>
+                <B>if</B> v /= <B>Void</B> <B>then</B>
+                    <B>Result</B> := ($v).<A HREF="../../elks/pointer_ref.html#f_out">out</A>
+                <B>else</B>
+                    <B>create</B> <B>Result</B>.<A HREF="../../elks/readable_string_general.html#f_make_empty">make_empty</A>
+                <B>end</B>
+            <B>else</B>
+                <B>if</B> v /= <B>Void</B> <B>then</B>
+                    <B>Result</B> := <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_out_value">out_value</A> (v)
+                <B>else</B>
+                    <B>create</B> <B>Result</B>.<A HREF="../../elks/readable_string_general.html#f_make_empty">make_empty</A>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Change properties</FONT>
+
+    <A NAME="f_get_value"><A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_get_value">get_value</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Get </FONT><A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_value">value</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_value">value</A>} <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_local_value_at">local_value_at</A> (<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_callstack_depth">callstack_depth</A>, <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html#f_position">position</A>, <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_rt_type">rt_type</A>) <B>as</B> v <B>then</B>
+                <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_value">value</A> := v
+            <B>else</B>
+                <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_value">value</A> := <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_default_value">default_value</A>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Runtime</FONT>
+
+    <A NAME="f_restore"><A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_restore">restore</A> (val: <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Restore </FONT><A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_value">value</A><FONT COLOR="red"> , and associate </FONT>`val'<FONT COLOR="red"> as </FONT>`backup'
+        <B>do</B>
+            <B>debug</B> ("rt_dbg_replay")
+                <A HREF="../../ise/debug_implementation/rt_extension_common.html#f_dtrace">dtrace</A> (<A HREF="../../elks/any.html#f_generator">generator</A> + ".restore: depth=" + <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_callstack_depth">callstack_depth</A>.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + " #" + <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html#f_position">position</A>.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + "%N")
+            <B>end</B>
+            <B>if</B> <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_is_same_as">is_same_as</A> (val) <B>then</B>
+                <B>debug</B> ("rt_dbg_replay")
+                    <A HREF="../../ise/debug_implementation/rt_extension_common.html#f_dtrace">dtrace</A> (" -&gt; unchanged because same value [" + <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_to_string">to_string</A> + "].%N")
+                <B>end</B>
+            <B>else</B>
+                <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_set_local_from_record">set_local_from_record</A> (<B>Current</B>)
+                <B>debug</B> ("rt_dbg_replay")
+                    <A HREF="../../ise/debug_implementation/rt_extension_common.html#f_dtrace">dtrace</A> (" -&gt; restored: from [" + val.<A HREF="../../ise/debug_implementation/rt_dbg_value_record.html#f_to_string">to_string</A> + "] to [" + <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_to_string">to_string</A> + "] %N")
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_revert"><A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_revert">revert</A> (bak: <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Revert previous change due to Current</FONT>
+        <B>do</B>
+            <B>debug</B> ("rt_dbg_replay")
+                <A HREF="../../ise/debug_implementation/rt_extension_common.html#f_dtrace">dtrace</A> (<A HREF="../../elks/any.html#f_generator">generator</A> + ".revert: depth=" + <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_callstack_depth">callstack_depth</A>.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + " #" + <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html#f_position">position</A>.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + "%N")
+            <B>end</B>
+            <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_set_local_from_record">set_local_from_record</A> (bak)
+            <B>debug</B> ("rt_dbg_replay")
+                <A HREF="../../ise/debug_implementation/rt_extension_common.html#f_dtrace">dtrace</A> (" -&gt; reverted: from [" + <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_to_string">to_string</A> + "] to [" + bak.<A HREF="../../ise/debug_implementation/rt_dbg_value_record.html#f_to_string">to_string</A> + "] %N")
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Internal Implementation</FONT>
+
+    <A NAME="f_set_local_from_record"><A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_set_local_from_record">set_local_from_record</A> (r: <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set object field defined by </FONT>`r'<FONT COLOR="red"> on target </FONT>`obj'
+        <B>require</B>
+            r_attached: r /= <B>Void</B>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html">RT_DBG_LOCAL_RECORD</A> [<B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_value">value</A>]} r <B>as</B> ot_record <B>then</B>
+                <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_set_local_value_at">set_local_value_at</A> (<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_callstack_depth">callstack_depth</A>, <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html#f_position">position</A>, <A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_rt_type">rt_type</A>, ot_record.<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_value">value</A>)
+            <B>else</B>
+                <B>check</B>
+                    should_not_occur: <B>False</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output</FONT>
+
+    <A NAME="f_out_value"><A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_out_value">out_value</A> (v: <B>attached</B> G): <A HREF="../../elks/string_8.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Printable representation of </FONT>`v'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            v_attached: <B>attached</B> v
+        <B>do</B>
+            <B>Result</B> := v.<A HREF="../../elks/any.html#f_out">out</A>
+        <B>ensure</B>
+            result_attached: <B>attached</B> <B>Result</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_default_value"><A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_default_value">default_value</A>: <B>detachable</B> G
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value</FONT>
+        <B>do</B>
+        <B>end</B></A>
+    
+<B>note</B>
+    library: "EiffelBase: Library of reusable components for Eiffel."
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../../ise/debug_implementation/rt_dbg_local_record.html">RT_DBG_LOCAL_RECORD</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="rt_dbg_local_record_chart.html">Chart</A></TD><TD><A HREF="rt_dbg_local_record_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="rt_dbg_local_record_flat.html">Flat</A></TD><TD><A HREF="rt_dbg_local_record_short.html">Contracts</A></TD><TD><A HREF="rt_dbg_local_record_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

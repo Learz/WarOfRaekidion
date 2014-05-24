@@ -1,0 +1,124 @@
+<HTML><HEAD>
+<meta name="description" content="Sequential lists, without commitment to a particular representation"/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="names" content="list, sequence"/>
+<meta name="access" content="index, cursor, membership"/>
+<meta name="contents" content="generic"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>list Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="list_chart.html">Chart</A></TD><TD><A HREF="list_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="list_flat.html">Flat</A></TD><TD><A HREF="list_short.html">Contracts</A></TD><TD><A HREF="list_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Sequential lists, without commitment to a particular representation"
+    library: "Free implementation of ELKS library"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    names: list, sequence
+    access: index, cursor, membership
+    contents: generic
+    date: "$Date: 2012-07-23 14:02:19 -0700 (Mon, 23 Jul 2012) $"
+    revision: "$Revision: 91989 $"
+
+<B>deferred</B> <B>class</B> 
+    <A HREF="../elks/list.html">LIST</A> [G]
+
+<B>inherit</B>
+    <A HREF="../elks/chain.html">CHAIN</A> [G]
+        <B>export</B>
+            {<A HREF="../elks/any.html">ANY</A>} <A HREF="../elks/chain.html#f_remove">remove</A>
+        <B>redefine</B>
+            <A HREF="../elks/list.html#f_forth">forth</A>,
+            <A HREF="../elks/list.html#f_is_equal">is_equal</A>
+        <B>end</B>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_is_equal"><A HREF="../elks/list.html#f_is_equal">is_equal</A> (other: <B>like</B> <B>Current</B>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`other'<FONT COLOR="red"> contain the same elements?</FONT>
+        <B>do</B>
+            <B>if</B> <B>Current</B> = other <B>then</B>
+                <B>Result</B> := <B>True</B>
+            <B>else</B>
+                <B>Result</B> := (<A HREF="../elks/finite.html#f_is_empty">is_empty</A> = other.<A HREF="../elks/finite.html#f_is_empty">is_empty</A>) <B>and</B> (<A HREF="../elks/container.html#f_object_comparison">object_comparison</A> = other.<A HREF="../elks/container.html#f_object_comparison">object_comparison</A>) <B>and</B> (<A HREF="../elks/finite.html#f_count">count</A> = other.<A HREF="../elks/finite.html#f_count">count</A>)
+                <B>if</B> <B>Result</B> <B>and</B> <B>not</B> <A HREF="../elks/finite.html#f_is_empty">is_empty</A> <B>then</B>
+                    <B>if</B> <B>attached</B> {<A HREF="../elks/cursor.html">CURSOR</A>} <A HREF="../elks/cursor_structure.html#f_cursor">cursor</A> <B>as</B> c1 <B>and then</B> <B>attached</B> {<A HREF="../elks/cursor.html">CURSOR</A>} other.<A HREF="../elks/cursor_structure.html#f_cursor">cursor</A> <B>as</B> c2 <B>then</B>
+                        <B>from</B>
+                            <A HREF="../elks/chain.html#f_start">start</A>
+                            other.<A HREF="../elks/chain.html#f_start">start</A>
+                        <B>until</B>
+                            <A HREF="../elks/list.html#f_after">after</A> <B>or</B> <B>not</B> <B>Result</B>
+                        <B>loop</B>
+                            <B>if</B> <A HREF="../elks/container.html#f_object_comparison">object_comparison</A> <B>then</B>
+                                <B>Result</B> := <A HREF="../elks/active.html#f_item">item</A> ~ other.<A HREF="../elks/active.html#f_item">item</A>
+                            <B>else</B>
+                                <B>Result</B> := <A HREF="../elks/active.html#f_item">item</A> = other.<A HREF="../elks/active.html#f_item">item</A>
+                            <B>end</B>
+                            <A HREF="../elks/list.html#f_forth">forth</A>
+                            other.<A HREF="../elks/list.html#f_forth">forth</A>
+                        <B>end</B>
+                        <A HREF="../elks/cursor_structure.html#f_go_to">go_to</A> (c1)
+                        other.<A HREF="../elks/cursor_structure.html#f_go_to">go_to</A> (c2)
+                    <B>else</B>
+                        <B>check</B>
+                            cursors_exist: <B>False</B>
+                        <B>end</B>
+                    <B>end</B>
+                <B>elseif</B> <A HREF="../elks/finite.html#f_is_empty">is_empty</A> <B>and</B> other.<A HREF="../elks/finite.html#f_is_empty">is_empty</A> <B>and</B> <A HREF="../elks/container.html#f_object_comparison">object_comparison</A> = other.<A HREF="../elks/container.html#f_object_comparison">object_comparison</A> <B>then</B>
+                    <B>Result</B> := <B>True</B>
+                <B>end</B>
+            <B>end</B>
+        <B>ensure then</B>
+            indices_unchanged: <A HREF="../elks/linear.html#f_index">index</A> = <B>old</B> <A HREF="../elks/linear.html#f_index">index</A> <B>and</B> other.<A HREF="../elks/linear.html#f_index">index</A> = <B>old</B> other.<A HREF="../elks/linear.html#f_index">index</A>
+            true_implies_same_size: <B>Result</B> <B>implies</B> <A HREF="../elks/finite.html#f_count">count</A> = other.<A HREF="../elks/finite.html#f_count">count</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_after"><A HREF="../elks/list.html#f_after">after</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there no valid cursor position to the right of cursor?</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../elks/linear.html#f_index">index</A> = <A HREF="../elks/finite.html#f_count">count</A> + 1)
+        <B>end</B></A>
+
+    <A NAME="f_before"><A HREF="../elks/list.html#f_before">before</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there no valid cursor position to the left of cursor?</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../elks/linear.html#f_index">index</A> = 0)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Cursor movement</FONT>
+
+    <A NAME="f_forth"><A HREF="../elks/list.html#f_forth">forth</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move to next position; if no next position,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> ensure that </FONT><A HREF="../elks/linear.html#f_exhausted">exhausted</A><FONT COLOR="red"> will be true.</FONT>
+        <B>deferred</B>
+        <B>ensure then</B>
+            moved_forth: <A HREF="../elks/linear.html#f_index">index</A> = <B>old</B> <A HREF="../elks/linear.html#f_index">index</A> + 1
+        <B>end</B></A>
+    
+<B>invariant</B>
+    before_definition: <A HREF="../elks/list.html#f_before">before</A> = (<A HREF="../elks/linear.html#f_index">index</A> = 0)
+    after_definition: <A HREF="../elks/list.html#f_after">after</A> = (<A HREF="../elks/linear.html#f_index">index</A> = <A HREF="../elks/finite.html#f_count">count</A> + 1)
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/list.html">LIST</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="list_chart.html">Chart</A></TD><TD><A HREF="list_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="list_flat.html">Flat</A></TD><TD><A HREF="list_short.html">Contracts</A></TD><TD><A HREF="list_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

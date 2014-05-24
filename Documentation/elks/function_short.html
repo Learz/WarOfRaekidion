@@ -1,0 +1,90 @@
+<HTML><HEAD>
+<meta name="description" content="Objects representing delayed calls to a function, with some arguments possibly still open.  Note: Features are the same as those of ROUTINE, Twith `apply' made effective, and the addition Tof `last_result' and `item'."/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>function Contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="function_chart.html">Chart</A></TD><TD><A HREF="function_links.html">Relations</A></TD><TD><A HREF="function.html">Text</A></TD><TD><A HREF="function_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="function_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Objects representing delayed calls to a function,
+        with some arguments possibly still open.
+        
+        Note: Features are the same as those of ROUTINE,
+        	with <A HREF="../elks/function_short.html#f_apply">apply</A> made effective, and the addition
+        	of <A HREF="../elks/function_short.html#f_last_result">last_result</A> and <A HREF="../elks/function_short.html#f_item">item</A>.
+    ]"
+    library: "Free implementation of ELKS library"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2013-11-13 13:44:48 -0800 (Wed, 13 Nov 2013) $"
+    revision: "$Revision: 93356 $"
+
+<B>class</B> <B>interface</B>
+    <A HREF="../elks/function_short.html">FUNCTION</A> [BASE_TYPE -&gt; <B>detachable</B> <A HREF="../elks/any_short.html">ANY</A>, OPEN_ARGS -&gt; <B>detachable</B> <A HREF="../elks/tuple_short.html">TUPLE</A> <B>create</B> <A HREF="../elks/any_short.html#f_default_create">default_create</A> <B>end</B>, RESULT_TYPE]
+
+<B>create</B> {NONE}
+    <A HREF="../elks/routine_short.html#f_set_rout_disp">set_rout_disp</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_last_result"><A HREF="../elks/function_short.html#f_last_result">last_result</A>: <B>detachable</B> RESULT_TYPE</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Result of last call, if any</FONT>
+
+    <A NAME="f_call"><A HREF="../elks/function_short.html#f_call">call</A> (args: <B>detachable</B> OPEN_ARGS)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Call routine with </FONT>`args'<FONT COLOR="red">.</FONT>
+</A>
+    <A NAME="f_item"><A HREF="../elks/function_short.html#f_item">item</A> <B>alias</B> "()" (args: <B>detachable</B> OPEN_ARGS): RESULT_TYPE
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Result of calling function with </FONT>`args'<FONT COLOR="red"> as operands.</FONT>
+        <B>require</B>
+            valid_operands: <A HREF="../elks/routine_short.html#f_valid_operands">valid_operands</A> (args)
+</A>
+    <A NAME="f_apply"><A HREF="../elks/function_short.html#f_apply">apply</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Call function with </FONT><A HREF="../elks/routine_short.html#f_operands">operands</A><FONT COLOR="red"> as last set.</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_is_equal"><A HREF="../elks/function_short.html#f_is_equal">is_equal</A> (other: <B>like</B> <B>Current</B>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is associated function the same as the one</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> associated with </FONT>`other'<FONT COLOR="red">?</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_copy"><A HREF="../elks/function_short.html#f_copy">copy</A> (other: <B>like</B> <B>Current</B>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Use same function as </FONT>`other'<FONT COLOR="red">.</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removal</FONT>
+
+    <A NAME="f_clear_last_result"><A HREF="../elks/function_short.html#f_clear_last_result">clear_last_result</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Reset content of </FONT><A HREF="../elks/function_short.html#f_last_result">last_result</A><FONT COLOR="red"> to its default value.</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Extended operations</FONT>
+
+    <A NAME="f_flexible_item"><A HREF="../elks/function_short.html#f_flexible_item">flexible_item</A> (a: <B>detachable</B> <A HREF="../elks/tuple_short.html">TUPLE</A>): RESULT_TYPE
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Result of calling function with </FONT>`a'<FONT COLOR="red"> as arguments.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Compared to </FONT><A HREF="../elks/function_short.html#f_item">item</A><FONT COLOR="red"> the type of </FONT>`a'<FONT COLOR="red"> may be different from </FONT>`{OPEN_ARGS}'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            valid_operands: <A HREF="../elks/routine_short.html#f_valid_operands">valid_operands</A> (a)
+</A>    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/function_short.html">FUNCTION</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="function_chart.html">Chart</A></TD><TD><A HREF="function_links.html">Relations</A></TD><TD><A HREF="function.html">Text</A></TD><TD><A HREF="function_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="function_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

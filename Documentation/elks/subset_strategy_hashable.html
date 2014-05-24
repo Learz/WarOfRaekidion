@@ -1,0 +1,186 @@
+<HTML><HEAD>
+<meta name="description" content="Strategies for calculating several features for subsets containing HASHABLEs."/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>subset_strategy_hashable Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="subset_strategy_hashable_chart.html">Chart</A></TD><TD><A HREF="subset_strategy_hashable_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="subset_strategy_hashable_flat.html">Flat</A></TD><TD><A HREF="subset_strategy_hashable_short.html">Contracts</A></TD><TD><A HREF="subset_strategy_hashable_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Strategies for calculating several features for subsets containing
+        HASHABLEs.
+    ]"
+    library: "Free implementation of ELKS library"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2012-07-23 14:02:19 -0700 (Mon, 23 Jul 2012) $"
+    revision: "$Revision: 91989 $"
+
+<B>class</B> 
+    <A HREF="../elks/subset_strategy_hashable.html">SUBSET_STRATEGY_HASHABLE</A> [G]
+
+<B>inherit</B>
+    <A HREF="../elks/subset_strategy.html">SUBSET_STRATEGY</A> [G]
+
+<B>create</B> 
+    <A HREF="../elks/any.html#f_default_create">default_create</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_disjoint"><A HREF="../elks/subset_strategy_hashable.html#f_disjoint">disjoint</A> (set1, set2: <A HREF="../elks/traversable_subset.html">TRAVERSABLE_SUBSET</A> [G]): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`set1'<FONT COLOR="red"> and </FONT>`set2'<FONT COLOR="red"> disjoint?</FONT>
+        <B>local</B>
+            hash: <A HREF="../elks/hash_table.html">HASH_TABLE</A> [G, <A HREF="../elks/integer_32.html">INTEGER_32</A>]
+            c: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>create</B> hash.<A HREF="../elks/hash_table.html#f_make">make</A> (set1.<A HREF="../elks/traversable_subset.html#f_count">count</A> + set2.<A HREF="../elks/traversable_subset.html#f_count">count</A>)
+            <B>if</B> set1.<A HREF="../elks/container.html#f_object_comparison">object_comparison</A> <B>then</B>
+                hash.<A HREF="../elks/container.html#f_compare_objects">compare_objects</A>
+            <B>end</B>
+            <B>from</B>
+                <B>Result</B> := <B>True</B>
+                set1.<A HREF="../elks/traversable_subset.html#f_start">start</A>
+                set2.<A HREF="../elks/traversable_subset.html#f_start">start</A>
+            <B>until</B>
+                <B>not</B> <B>Result</B> <B>or else</B> (set1.<A HREF="../elks/traversable_subset.html#f_after">after</A> <B>and</B> set2.<A HREF="../elks/traversable_subset.html#f_after">after</A>)
+            <B>loop</B>
+                <B>if</B> <B>not</B> set1.<A HREF="../elks/traversable_subset.html#f_after">after</A> <B>then</B>
+                    <B>if</B> <B>attached</B> {<A HREF="../elks/hashable.html">HASHABLE</A>} set1.<A HREF="../elks/traversable_subset.html#f_item">item</A> <B>as</B> h1 <B>then</B>
+                        c := h1.<A HREF="../elks/hashable.html#f_hash_code">hash_code</A>
+                    <B>else</B>
+                        <B>check</B>
+                            hashable_item: <B>False</B>
+                        <B>end</B>
+                    <B>end</B>
+                    <B>Result</B> := <B>not</B> hash.<A HREF="../elks/hash_table.html#f_has">has</A> (c)
+                    <B>if</B> <B>Result</B> <B>then</B>
+                        hash.<A HREF="../elks/hash_table.html#f_put">put</A> (set1.<A HREF="../elks/traversable_subset.html#f_item">item</A>, c)
+                    <B>else</B>
+                        hash.<A HREF="../elks/hash_table.html#f_search">search</A> (c)
+                        <B>check</B>
+                            item_found: hash.<A HREF="../elks/hash_table.html#f_found">found</A>
+                        <B>end</B>
+                        <B>if</B> set1.<A HREF="../elks/container.html#f_object_comparison">object_comparison</A> <B>then</B>
+                            <B>Result</B> := set1.<A HREF="../elks/traversable_subset.html#f_item">item</A> /~ hash.<A HREF="../elks/hash_table.html#f_found_item">found_item</A>
+                        <B>else</B>
+                            <B>Result</B> := set1.<A HREF="../elks/traversable_subset.html#f_item">item</A> /= hash.<A HREF="../elks/hash_table.html#f_found_item">found_item</A>
+                        <B>end</B>
+                    <B>end</B>
+                    set1.<A HREF="../elks/traversable_subset.html#f_forth">forth</A>
+                <B>end</B>
+                <B>if</B> <B>Result</B> <B>and then</B> <B>not</B> set2.<A HREF="../elks/traversable_subset.html#f_after">after</A> <B>then</B>
+                    <B>if</B> <B>attached</B> {<A HREF="../elks/hashable.html">HASHABLE</A>} set2.<A HREF="../elks/traversable_subset.html#f_item">item</A> <B>as</B> h2 <B>then</B>
+                        c := h2.<A HREF="../elks/hashable.html#f_hash_code">hash_code</A>
+                    <B>else</B>
+                        <B>check</B>
+                            hashable_item: <B>False</B>
+                        <B>end</B>
+                    <B>end</B>
+                    hash.<A HREF="../elks/hash_table.html#f_search">search</A> (c)
+                    <B>Result</B> := <B>not</B> hash.<A HREF="../elks/hash_table.html#f_found">found</A>
+                    <B>if</B> <B>Result</B> <B>then</B>
+                        hash.<A HREF="../elks/hash_table.html#f_put">put</A> (set2.<A HREF="../elks/traversable_subset.html#f_item">item</A>, c)
+                    <B>else</B>
+                        <B>if</B> set1.<A HREF="../elks/container.html#f_object_comparison">object_comparison</A> <B>then</B>
+                            <B>Result</B> := set2.<A HREF="../elks/traversable_subset.html#f_item">item</A> /~ hash.<A HREF="../elks/hash_table.html#f_found_item">found_item</A>
+                        <B>else</B>
+                            <B>Result</B> := set2.<A HREF="../elks/traversable_subset.html#f_item">item</A> /= hash.<A HREF="../elks/hash_table.html#f_found_item">found_item</A>
+                        <B>end</B>
+                    <B>end</B>
+                    set2.<A HREF="../elks/traversable_subset.html#f_forth">forth</A>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_symdif"><A HREF="../elks/subset_strategy_hashable.html#f_symdif">symdif</A> (set1, set2: <A HREF="../elks/traversable_subset.html">TRAVERSABLE_SUBSET</A> [G])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove all items of </FONT>`set1'<FONT COLOR="red"> that are also in </FONT>`set2'<FONT COLOR="red">, and add all</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> items of </FONT>`set2'<FONT COLOR="red"> not already present in </FONT>`set1'<FONT COLOR="red">.</FONT>
+        <B>local</B>
+            hash: <A HREF="../elks/hash_table.html">HASH_TABLE</A> [G, <A HREF="../elks/integer_32.html">INTEGER_32</A>]
+            c: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            eq: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            h: <B>detachable</B> G
+        <B>do</B>
+            <B>create</B> hash.<A HREF="../elks/hash_table.html#f_make">make</A> (set1.<A HREF="../elks/traversable_subset.html#f_count">count</A> + set2.<A HREF="../elks/traversable_subset.html#f_count">count</A>)
+            <B>if</B> set1.<A HREF="../elks/container.html#f_object_comparison">object_comparison</A> <B>then</B>
+                hash.<A HREF="../elks/container.html#f_compare_objects">compare_objects</A>
+            <B>end</B>
+            <B>from</B>
+                set1.<A HREF="../elks/traversable_subset.html#f_start">start</A>
+            <B>until</B>
+                set1.<A HREF="../elks/traversable_subset.html#f_after">after</A>
+            <B>loop</B>
+                <B>if</B> <B>attached</B> {<A HREF="../elks/hashable.html">HASHABLE</A>} set1.<A HREF="../elks/traversable_subset.html#f_item">item</A> <B>as</B> h1 <B>then</B>
+                    hash.<A HREF="../elks/hash_table.html#f_put">put</A> (set1.<A HREF="../elks/traversable_subset.html#f_item">item</A>, h1.<A HREF="../elks/hashable.html#f_hash_code">hash_code</A>)
+                <B>else</B>
+                    <B>check</B>
+                        hashable_item: <B>False</B>
+                    <B>end</B>
+                <B>end</B>
+                set1.<A HREF="../elks/traversable_subset.html#f_forth">forth</A>
+            <B>end</B>
+            <B>from</B>
+                set2.<A HREF="../elks/traversable_subset.html#f_start">start</A>
+            <B>until</B>
+                set2.<A HREF="../elks/traversable_subset.html#f_after">after</A>
+            <B>loop</B>
+                <B>if</B> <B>attached</B> {<A HREF="../elks/hashable.html">HASHABLE</A>} set2.<A HREF="../elks/traversable_subset.html#f_item">item</A> <B>as</B> h2 <B>then</B>
+                    c := h2.<A HREF="../elks/hashable.html#f_hash_code">hash_code</A>
+                    hash.<A HREF="../elks/hash_table.html#f_search">search</A> (c)
+                    <B>if</B> hash.<A HREF="../elks/hash_table.html#f_found">found</A> <B>then</B>
+                        <B>if</B> set1.<A HREF="../elks/container.html#f_object_comparison">object_comparison</A> <B>then</B>
+                            eq := set2.<A HREF="../elks/traversable_subset.html#f_item">item</A> ~ hash.<A HREF="../elks/hash_table.html#f_found_item">found_item</A>
+                        <B>else</B>
+                            eq := set2.<A HREF="../elks/traversable_subset.html#f_item">item</A> = hash.<A HREF="../elks/hash_table.html#f_found_item">found_item</A>
+                        <B>end</B>
+                        <B>if</B> eq <B>then</B>
+                            hash.<A HREF="../elks/hash_table.html#f_remove">remove</A> (c)
+                        <B>end</B>
+                    <B>else</B>
+                        hash.<A HREF="../elks/hash_table.html#f_put">put</A> (set2.<A HREF="../elks/traversable_subset.html#f_item">item</A>, c)
+                    <B>end</B>
+                <B>else</B>
+                    <B>check</B>
+                        hashable_item: <B>False</B>
+                    <B>end</B>
+                <B>end</B>
+                set2.<A HREF="../elks/traversable_subset.html#f_forth">forth</A>
+            <B>end</B>
+            set1.<A HREF="../elks/collection.html#f_wipe_out">wipe_out</A>
+            <B>from</B>
+                hash.<A HREF="../elks/hash_table.html#f_start">start</A>
+            <B>until</B>
+                hash.<A HREF="../elks/hash_table.html#f_after">after</A>
+            <B>loop</B>
+                h := hash.<A HREF="../elks/hash_table.html#f_item_for_iteration">item_for_iteration</A>
+                <B>if</B> h /= <B>Void</B> <B>then</B>
+                    set1.<A HREF="../elks/set.html#f_extend">extend</A> (h)
+                <B>end</B>
+                hash.<A HREF="../elks/hash_table.html#f_forth">forth</A>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/subset_strategy_hashable.html">SUBSET_STRATEGY_HASHABLE</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="subset_strategy_hashable_chart.html">Chart</A></TD><TD><A HREF="subset_strategy_hashable_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="subset_strategy_hashable_flat.html">Flat</A></TD><TD><A HREF="subset_strategy_hashable_short.html">Contracts</A></TD><TD><A HREF="subset_strategy_hashable_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

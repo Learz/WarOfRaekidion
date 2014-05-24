@@ -1,0 +1,711 @@
+<HTML><HEAD>
+<meta name="description" content="Common ancestor for object inspection."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>reflected_object Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="reflected_object_chart.html">Chart</A></TD><TD><A HREF="reflected_object_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="reflected_object_flat.html">Flat</A></TD><TD><A HREF="reflected_object_short.html">Contracts</A></TD><TD><A HREF="reflected_object_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Common ancestor for object inspection."
+    date: "$Date: 2013-11-19 13:41:44 -0800 (Tue, 19 Nov 2013) $"
+    revision: "$Revision: 93442 $"
+
+<B>deferred</B> <B>class</B> 
+    <A HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A>
+
+<B>inherit</B>
+    <A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_object"><A HREF="../elks/reflected_object.html#f_object">object</A>: <A HREF="../elks/any.html">ANY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Associated object for Current.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> It might be a copy if Current is expanded.</FONT>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_class_name"><A HREF="../elks/reflected_object.html#f_class_name">class_name</A>: <A HREF="../elks/string_8.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of the class associated with </FONT><A HREF="../elks/reflected_object.html#f_object">object</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_generator_of_type">generator_of_type</A> (<A HREF="../elks/reflected_object.html#f_dynamic_type">dynamic_type</A>)
+        <B>end</B></A>
+
+    <A NAME="f_type_name"><A HREF="../elks/reflected_object.html#f_type_name">type_name</A>: <A HREF="../elks/string_8.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A><FONT COLOR="red">'s generating type (type of which </FONT><A HREF="../elks/reflected_object.html#f_object">object</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> is a direct instance).</FONT>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_generating_type_of_type">generating_type_of_type</A> (<A HREF="../elks/reflected_object.html#f_dynamic_type">dynamic_type</A>)
+        <B>end</B></A>
+
+    <A NAME="f_dynamic_type"><A HREF="../elks/reflected_object.html#f_dynamic_type">dynamic_type</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Dynamic type of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A>
+
+    <A NAME="f_generic_count"><A HREF="../elks/reflected_object.html#f_generic_count">generic_count</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of generic parameter in base type of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_generic_parameter_count">generic_parameter_count</A> (<A HREF="../elks/reflected_object.html#f_dynamic_type">dynamic_type</A>)
+        <B>end</B></A>
+
+    <A NAME="f_generic_dynamic_type"><A HREF="../elks/reflected_object.html#f_generic_dynamic_type">generic_dynamic_type</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Dynamic type of generic parameter of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A><FONT COLOR="red"> at</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> position </FONT>`i'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            object_generic: <A HREF="../elks/reflected_object.html#f_generic_count">generic_count</A> &gt; 0
+            i_valid: i &gt; 0 <B>and</B> i &lt;= <A HREF="../elks/reflected_object.html#f_generic_count">generic_count</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_eif_gen_param_id">eif_gen_param_id</A> (<A HREF="../elks/reflected_object.html#f_dynamic_type">dynamic_type</A>, i)
+        <B>ensure</B>
+            dynamic_type_nonnegative: <B>Result</B> &gt;= 0
+        <B>end</B></A>
+
+    <A NAME="f_field"><A HREF="../elks/reflected_object.html#f_field">field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <B>detachable</B> <A HREF="../elks/any.html">ANY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Object attached to the </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (directly or through a reference)</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Use specific version of </FONT>`xxx_field'<FONT COLOR="red"> to get best performance.</FONT>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            not_special: <B>not</B> <A HREF="../elks/reflected_object.html#f_is_special">is_special</A>
+        <B>do</B>
+            <B>inspect</B> <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i)
+            <B>when</B> <A HREF="../elks/reflector_constants.html#f_integer_8_type">Integer_8_type</A> <B>then</B> 
+                <B>Result</B> := <A HREF="../elks/reflected_object.html#f_integer_8_field">integer_8_field</A> (i)
+            <B>when</B> <A HREF="../elks/reflector_constants.html#f_integer_16_type">Integer_16_type</A> <B>then</B> 
+                <B>Result</B> := <A HREF="../elks/reflected_object.html#f_integer_16_field">integer_16_field</A> (i)
+            <B>when</B> <A HREF="../elks/reflector_constants.html#f_integer_32_type">Integer_32_type</A> <B>then</B> 
+                <B>Result</B> := <A HREF="../elks/reflected_object.html#f_integer_32_field">integer_32_field</A> (i)
+            <B>when</B> <A HREF="../elks/reflector_constants.html#f_integer_64_type">Integer_64_type</A> <B>then</B> 
+                <B>Result</B> := <A HREF="../elks/reflected_object.html#f_integer_64_field">integer_64_field</A> (i)
+            <B>when</B> <A HREF="../elks/reflector_constants.html#f_natural_8_type">Natural_8_type</A> <B>then</B> 
+                <B>Result</B> := <A HREF="../elks/reflected_object.html#f_natural_8_field">natural_8_field</A> (i)
+            <B>when</B> <A HREF="../elks/reflector_constants.html#f_natural_16_type">Natural_16_type</A> <B>then</B> 
+                <B>Result</B> := <A HREF="../elks/reflected_object.html#f_natural_16_field">natural_16_field</A> (i)
+            <B>when</B> <A HREF="../elks/reflector_constants.html#f_natural_32_type">Natural_32_type</A> <B>then</B> 
+                <B>Result</B> := <A HREF="../elks/reflected_object.html#f_natural_32_field">natural_32_field</A> (i)
+            <B>when</B> <A HREF="../elks/reflector_constants.html#f_natural_64_type">Natural_64_type</A> <B>then</B> 
+                <B>Result</B> := <A HREF="../elks/reflected_object.html#f_natural_64_field">natural_64_field</A> (i)
+            <B>when</B> <A HREF="../elks/reflector_constants.html#f_real_32_type">Real_32_type</A> <B>then</B> 
+                <B>Result</B> := <A HREF="../elks/reflected_object.html#f_real_32_field">real_32_field</A> (i)
+            <B>when</B> <A HREF="../elks/reflector_constants.html#f_real_64_type">Real_64_type</A> <B>then</B> 
+                <B>Result</B> := <A HREF="../elks/reflected_object.html#f_real_64_field">real_64_field</A> (i)
+            <B>when</B> <A HREF="../elks/reflector_constants.html#f_character_8_type">Character_8_type</A> <B>then</B> 
+                <B>Result</B> := <A HREF="../elks/reflected_object.html#f_character_8_field">character_8_field</A> (i)
+            <B>when</B> <A HREF="../elks/reflector_constants.html#f_character_32_type">Character_32_type</A> <B>then</B> 
+                <B>Result</B> := <A HREF="../elks/reflected_object.html#f_character_32_field">character_32_field</A> (i)
+            <B>when</B> <A HREF="../elks/reflector_constants.html#f_boolean_type">Boolean_type</A> <B>then</B> 
+                <B>Result</B> := <A HREF="../elks/reflected_object.html#f_boolean_field">boolean_field</A> (i)
+            <B>when</B> <A HREF="../elks/reflector_constants.html#f_pointer_type">Pointer_type</A> <B>then</B> 
+                <B>Result</B> := <A HREF="../elks/reflected_object.html#f_pointer_field">pointer_field</A> (i)
+            <B>when</B> <A HREF="../elks/reflector_constants.html#f_expanded_type">Expanded_type</A>, <A HREF="../elks/reflector_constants.html#f_reference_type">Reference_type</A> <B>then</B> 
+                <B>Result</B> := <A HREF="../elks/reflected_object.html#f_reference_field">reference_field</A> (i)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_reference_field"><A HREF="../elks/reflected_object.html#f_reference_field">reference_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <B>detachable</B> <A HREF="../elks/any.html">ANY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Object attached to the </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (directly or through a reference)</FONT>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            not_special: <B>not</B> <A HREF="../elks/reflected_object.html#f_is_special">is_special</A>
+            reference_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_reference_type">Reference_type</A> <B>or</B> <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_expanded_type">Expanded_type</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_reference_field">reference_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_is_instance_of"><A HREF="../elks/reflected_object.html#f_is_instance_of">is_instance_of</A> (type_id: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT><A HREF="../elks/reflected_object.html#f_object">object</A><FONT COLOR="red"> an instance of type </FONT>`type_id'<FONT COLOR="red">?</FONT>
+        <B>require</B>
+            object_not_void: <A HREF="../elks/reflected_object.html#f_object">object</A> /= <B>Void</B>
+            type_id_nonnegative: type_id &gt;= 0
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_type_conforms_to">type_conforms_to</A> (<A HREF="../elks/reflected_object.html#f_dynamic_type">dynamic_type</A>, type_id)
+        <B>end</B></A>
+
+    <A NAME="f_is_special"><A HREF="../elks/reflected_object.html#f_is_special">is_special</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT><A HREF="../elks/reflected_object.html#f_object">object</A><FONT COLOR="red"> special?</FONT>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_is_special">is_special</A> (<A HREF="../elks/reflected_object.html#f_object_address">object_address</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_special_of_expanded"><A HREF="../elks/reflected_object.html#f_is_special_of_expanded">is_special_of_expanded</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is Current a SPECIAL </FONT><FONT COLOR="red">[XX]</FONT><FONT COLOR="red"> where </FONT>`XX'<FONT COLOR="red"> is a user defined expanded type?</FONT>
+        <B>require</B>
+            is_special: <A HREF="../elks/reflected_object.html#f_is_special">is_special</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_is_special_of_expanded">is_special_of_expanded</A> (<A HREF="../elks/reflected_object.html#f_object_address">object_address</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_special_of_reference"><A HREF="../elks/reflected_object.html#f_is_special_of_reference">is_special_of_reference</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is Current a SPECIAL </FONT><FONT COLOR="red">[XX]</FONT><FONT COLOR="red"> where </FONT>`XX'<FONT COLOR="red"> is a reference type?</FONT>
+        <B>require</B>
+            is_special: <A HREF="../elks/reflected_object.html#f_is_special">is_special</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_is_special_of_reference">is_special_of_reference</A> (<A HREF="../elks/reflected_object.html#f_object_address">object_address</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_expanded"><A HREF="../elks/reflected_object.html#f_is_expanded">is_expanded</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is Current an instance of an expanded type?</FONT>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_is_expanded">is_expanded</A> (<A HREF="../elks/reflected_object.html#f_object_address">object_address</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_tuple"><A HREF="../elks/reflected_object.html#f_is_tuple">is_tuple</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT><A HREF="../elks/reflected_object.html#f_object">object</A><FONT COLOR="red"> a TUPLE?</FONT>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_is_tuple">is_tuple</A> (<A HREF="../elks/reflected_object.html#f_object_address">object_address</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_field_transient"><A HREF="../elks/reflected_object.html#f_is_field_transient">is_field_transient</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A><FONT COLOR="red"> a transient attribute?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> I.e. an attribute that does not need to be stored?</FONT>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_is_field_transient_of_type">is_field_transient_of_type</A> (i, <A HREF="../elks/reflected_object.html#f_dynamic_type">dynamic_type</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_field_statically_expanded"><A HREF="../elks/reflected_object.html#f_is_field_statically_expanded">is_field_statically_expanded</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A><FONT COLOR="red"> a user-defined expanded attribute?</FONT>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_is_field_expanded_of_type">is_field_expanded_of_type</A> (i, <A HREF="../elks/reflected_object.html#f_dynamic_type">dynamic_type</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_copy_semantics_field"><A HREF="../elks/reflected_object.html#f_is_copy_semantics_field">is_copy_semantics_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A><FONT COLOR="red"> a reference with copy-semantics properties?</FONT>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            is_reference_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_reference_type">Reference_type</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_is_copy_semantics_field">is_copy_semantics_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0)
+        <B>end</B></A>
+
+    <A NAME="f_is_special_copy_semantics_item"><A HREF="../elks/reflected_object.html#f_is_special_copy_semantics_item">is_special_copy_semantics_item</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A><FONT COLOR="red"> a reference with copy-semantics properties?</FONT>
+        <B>require</B>
+            is_special: <A HREF="../elks/reflected_object.html#f_is_special">is_special</A>
+            is_special_of_reference: <A HREF="../elks/reflected_object.html#f_is_special_of_reference">is_special_of_reference</A>
+            valid_index: <B>attached</B> {<A HREF="../elks/abstract_special.html">ABSTRACT_SPECIAL</A>} <A HREF="../elks/reflected_object.html#f_object">object</A> <B>as</B> l_spec <B>and then</B> l_spec.<A HREF="../elks/abstract_special.html#f_valid_index">valid_index</A> (i)
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_is_special_copy_semantics_item">is_special_copy_semantics_item</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_field_statically_attached"><A HREF="../elks/reflected_object.html#f_is_field_statically_attached">is_field_statically_attached</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A><FONT COLOR="red"> defined as attached?</FONT>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_is_attached_type">is_attached_type</A> (<A HREF="../elks/reflected_object.html#f_field_static_type">field_static_type</A> (i))
+        <B>end</B></A>
+
+    <A NAME="f_field_conforms_to"><A HREF="../elks/reflected_object.html#f_field_conforms_to">field_conforms_to</A> (a_source_type, a_field_type: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`a_source_type'<FONT COLOR="red"> conform to </FONT>`a_field_type'<FONT COLOR="red">?</FONT>
+        <B>require</B>
+            a_source_type_non_negative: a_source_type &gt;= 0
+            a_field_type_non_negative: a_field_type &gt;= 0
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_type_conforms_to">type_conforms_to</A> (a_source_type, {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_detachable_type">detachable_type</A> (a_field_type))
+        <B>end</B></A>
+
+    <A NAME="f_field_name"><A HREF="../elks/reflected_object.html#f_field_name">field_name</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/string_8.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            not_special: <B>not</B> <A HREF="../elks/reflected_object.html#f_is_special">is_special</A>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/readable_string_8.html#f_make_from_c">make_from_c</A> ({<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_field_name_of_type">field_name_of_type</A> (i, <A HREF="../elks/reflected_object.html#f_dynamic_type">dynamic_type</A>))
+        <B>ensure</B>
+            result_exists: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_field_offset"><A HREF="../elks/reflected_object.html#f_field_offset">field_offset</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Offset of </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            not_special: <B>not</B> <A HREF="../elks/reflected_object.html#f_is_special">is_special</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_field_offset_of_type">field_offset_of_type</A> (i, <A HREF="../elks/reflected_object.html#f_dynamic_type">dynamic_type</A>)
+        <B>end</B></A>
+
+    <A NAME="f_field_type"><A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Abstract type of </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_field_type_of_type">field_type_of_type</A> (i, <A HREF="../elks/reflected_object.html#f_dynamic_type">dynamic_type</A>)
+        <B>ensure</B>
+            field_type_nonnegative: <B>Result</B> &gt;= 0
+        <B>end</B></A>
+
+    <A NAME="f_field_static_type"><A HREF="../elks/reflected_object.html#f_field_static_type">field_static_type</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Static type of declared </FONT>`i'<FONT COLOR="red">-th field of dynamic type </FONT><A HREF="../elks/reflected_object.html#f_dynamic_type">dynamic_type</A>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_field_static_type_of_type">field_static_type_of_type</A> (i, <A HREF="../elks/reflected_object.html#f_dynamic_type">dynamic_type</A>)
+        <B>ensure</B>
+            field_type_nonnegative: <B>Result</B> &gt;= 0
+        <B>end</B></A>
+
+    <A NAME="f_copy_semantics_field"><A HREF="../elks/reflected_object.html#f_copy_semantics_field">copy_semantics_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/reflected_copy_semantics_object.html">REFLECTED_COPY_SEMANTICS_OBJECT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Object attached to the </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (directly or through a reference)</FONT>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            not_special: <B>not</B> <A HREF="../elks/reflected_object.html#f_is_special">is_special</A>
+            reference_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_reference_type">Reference_type</A> <B>and</B> <A HREF="../elks/reflected_object.html#f_is_copy_semantics_field">is_copy_semantics_field</A> (i)
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_special_copy_semantics_item"><A HREF="../elks/reflected_object.html#f_special_copy_semantics_item">special_copy_semantics_item</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/reflected_copy_semantics_object.html">REFLECTED_COPY_SEMANTICS_OBJECT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Object attached to the </FONT>`i'<FONT COLOR="red">th item of special.</FONT>
+        <B>require</B>
+            is_special: <A HREF="../elks/reflected_object.html#f_is_special">is_special</A>
+            is_special_reference: <A HREF="../elks/reflected_object.html#f_is_special_of_reference">is_special_of_reference</A>
+            valid_index: <B>attached</B> {<A HREF="../elks/abstract_special.html">ABSTRACT_SPECIAL</A>} <A HREF="../elks/reflected_object.html#f_object">object</A> <B>as</B> l_spec <B>and then</B> l_spec.<A HREF="../elks/abstract_special.html#f_valid_index">valid_index</A> (i)
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/reflected_copy_semantics_object.html#f_make_special">make_special</A> (<A HREF="../elks/any.html#f_twin">twin</A>, i)
+        <B>end</B></A>
+
+    <A NAME="f_expanded_field"><A HREF="../elks/reflected_object.html#f_expanded_field">expanded_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Object representation of the </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> which is expanded. We provide a wrapper that enables</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> direct editing of the field without duplicating</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> the expanded object.</FONT>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            expanded_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_expanded_type">Expanded_type</A>
+            not_special: <B>not</B> <A HREF="../elks/reflected_object.html#f_is_special">is_special</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_character_8_field"><A HREF="../elks/reflected_object.html#f_character_8_field">character_8_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/character_8.html">CHARACTER_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> CHARACTER_8 value of </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            character_8_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_character_8_type">Character_8_type</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_character_8_field">character_8_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0)
+        <B>end</B></A>
+
+    <A NAME="f_character_32_field"><A HREF="../elks/reflected_object.html#f_character_32_field">character_32_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/character_32.html">CHARACTER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> CHARACTER_32 value of </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            character_32_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_character_32_type">Character_32_type</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_character_32_field">character_32_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0)
+        <B>end</B></A>
+
+    <A NAME="f_boolean_field"><A HREF="../elks/reflected_object.html#f_boolean_field">boolean_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Boolean value of </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            boolean_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_boolean_type">Boolean_type</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_boolean_field">boolean_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0)
+        <B>end</B></A>
+
+    <A NAME="f_natural_8_field"><A HREF="../elks/reflected_object.html#f_natural_8_field">natural_8_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/natural_8.html">NATURAL_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> NATURAL_8 value of </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            natural_8_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_natural_8_type">Natural_8_type</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_natural_8_field">natural_8_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0)
+        <B>end</B></A>
+
+    <A NAME="f_natural_16_field"><A HREF="../elks/reflected_object.html#f_natural_16_field">natural_16_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/natural_16.html">NATURAL_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> NATURAL_16 value of </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            natural_16_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_natural_16_type">Natural_16_type</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_natural_16_field">natural_16_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0)
+        <B>end</B></A>
+
+    <A NAME="f_natural_32_field"><A HREF="../elks/reflected_object.html#f_natural_32_field">natural_32_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/natural_32.html">NATURAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> NATURAL_32 value of </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            natural_32_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_natural_32_type">Natural_32_type</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_natural_32_field">natural_32_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0)
+        <B>end</B></A>
+
+    <A NAME="f_natural_64_field"><A HREF="../elks/reflected_object.html#f_natural_64_field">natural_64_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/natural_64.html">NATURAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> NATURAL_64 value of </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            natural_64_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_natural_64_type">Natural_64_type</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_natural_64_field">natural_64_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0)
+        <B>end</B></A>
+
+    <A NAME="f_integer_8_field"><A HREF="../elks/reflected_object.html#f_integer_8_field">integer_8_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_8.html">INTEGER_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> INTEGER_8 value of </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            integer_8_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_integer_8_type">Integer_8_type</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_integer_8_field">integer_8_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0)
+        <B>end</B></A>
+
+    <A NAME="f_integer_16_field"><A HREF="../elks/reflected_object.html#f_integer_16_field">integer_16_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_16.html">INTEGER_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> INTEGER_16 value of </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            integer_16_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_integer_16_type">Integer_16_type</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_integer_16_field">integer_16_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0)
+        <B>end</B></A>
+
+    <A NAME="f_integer_32_field"><A HREF="../elks/reflected_object.html#f_integer_32_field">integer_32_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> INTEGER_32 value of </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            integer_32_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_integer_32_type">Integer_32_type</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_integer_32_field">integer_32_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0)
+        <B>end</B></A>
+
+    <A NAME="f_integer_64_field"><A HREF="../elks/reflected_object.html#f_integer_64_field">integer_64_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_64.html">INTEGER_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> INTEGER_64 value of </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            integer_64_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_integer_64_type">Integer_64_type</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_integer_64_field">integer_64_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0)
+        <B>end</B></A>
+
+    <A NAME="f_real_32_field"><A HREF="../elks/reflected_object.html#f_real_32_field">real_32_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/real_32.html">REAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Real value of </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            real_32_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_real_32_type">Real_32_type</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_real_32_field">real_32_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0)
+        <B>end</B></A>
+
+    <A NAME="f_pointer_field"><A HREF="../elks/reflected_object.html#f_pointer_field">pointer_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/pointer.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Pointer value of </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            pointer_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_pointer_type">Pointer_type</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_pointer_field">pointer_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0)
+        <B>end</B></A>
+
+    <A NAME="f_real_64_field"><A HREF="../elks/reflected_object.html#f_real_64_field">real_64_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/real_64.html">REAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Double precision value of </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            real_64_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_real_64_type">Real_64_type</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_real_64_field">real_64_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_set_reference_field"><A HREF="../elks/reflected_object.html#f_set_reference_field">set_reference_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>; value: <B>detachable</B> <A HREF="../elks/any.html">ANY</A>)
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            reference_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_reference_type">Reference_type</A>
+            valid_value: <A HREF="../elks/reflected_object.html#f_is_field_statically_attached">is_field_statically_attached</A> (i) <B>implies</B> value /= <B>Void</B>
+            value_conforms_to_field_static_type: value /= <B>Void</B> <B>implies</B> <A HREF="../elks/reflected_object.html#f_field_conforms_to">field_conforms_to</A> (value.<A HREF="../elks/any.html#f_generating_type">generating_type</A>.<A HREF="../elks/type.html#f_type_id">type_id</A>, <A HREF="../elks/reflected_object.html#f_field_static_type">field_static_type</A> (i))
+        <B>do</B>
+            {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_set_reference_field">set_reference_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0, value)
+        <B>end</B></A>
+
+    <A NAME="f_set_real_64_field"><A HREF="../elks/reflected_object.html#f_set_real_64_field">set_real_64_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>; value: <A HREF="../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/reflected_object.html#f_set_double_field">set_double_field</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            real_64_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_real_64_type">Real_64_type</A>
+        <B>do</B>
+            {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_set_real_64_field">set_real_64_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0, value)
+        <B>end</B></A>
+
+    <A NAME="f_set_double_field"><A HREF="../elks/reflected_object.html#f_set_double_field">set_double_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>; value: <A HREF="../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/reflected_object.html#f_set_real_64_field">set_real_64_field</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            real_64_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_real_64_type">Real_64_type</A>
+        <B>do</B>
+            {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_set_real_64_field">set_real_64_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0, value)
+        <B>end</B></A>
+
+    <A NAME="f_set_character_8_field"><A HREF="../elks/reflected_object.html#f_set_character_8_field">set_character_8_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>; value: <A HREF="../elks/character_8.html">CHARACTER_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set character value of </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A><FONT COLOR="red"> to </FONT>`value'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/reflected_object.html#f_set_character_field">set_character_field</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            character_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_character_8_type">Character_8_type</A>
+        <B>do</B>
+            {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_set_character_8_field">set_character_8_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0, value)
+        <B>end</B></A>
+
+    <A NAME="f_set_character_field"><A HREF="../elks/reflected_object.html#f_set_character_field">set_character_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>; value: <A HREF="../elks/character_8.html">CHARACTER_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set character value of </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A><FONT COLOR="red"> to </FONT>`value'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/reflected_object.html#f_set_character_8_field">set_character_8_field</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            character_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_character_8_type">Character_8_type</A>
+        <B>do</B>
+            {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_set_character_8_field">set_character_8_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0, value)
+        <B>end</B></A>
+
+    <A NAME="f_set_character_32_field"><A HREF="../elks/reflected_object.html#f_set_character_32_field">set_character_32_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>; value: <A HREF="../elks/character_32.html">CHARACTER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set character 32 value of </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_object.html#f_object">object</A><FONT COLOR="red"> to </FONT>`value'
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            character_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_character_32_type">Character_32_type</A>
+        <B>do</B>
+            {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_set_character_32_field">set_character_32_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0, value)
+        <B>end</B></A>
+
+    <A NAME="f_set_boolean_field"><A HREF="../elks/reflected_object.html#f_set_boolean_field">set_boolean_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>; value: <A HREF="../elks/boolean.html">BOOLEAN</A>)
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            boolean_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_boolean_type">Boolean_type</A>
+        <B>do</B>
+            {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_set_boolean_field">set_boolean_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0, value)
+        <B>end</B></A>
+
+    <A NAME="f_set_natural_8_field"><A HREF="../elks/reflected_object.html#f_set_natural_8_field">set_natural_8_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>; value: <A HREF="../elks/natural_8.html">NATURAL_8</A>)
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            natural_8_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_natural_8_type">Natural_8_type</A>
+        <B>do</B>
+            {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_set_natural_8_field">set_natural_8_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0, value)
+        <B>end</B></A>
+
+    <A NAME="f_set_natural_16_field"><A HREF="../elks/reflected_object.html#f_set_natural_16_field">set_natural_16_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>; value: <A HREF="../elks/natural_16.html">NATURAL_16</A>)
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            natural_16_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_natural_16_type">Natural_16_type</A>
+        <B>do</B>
+            {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_set_natural_16_field">set_natural_16_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0, value)
+        <B>end</B></A>
+
+    <A NAME="f_set_natural_32_field"><A HREF="../elks/reflected_object.html#f_set_natural_32_field">set_natural_32_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>; value: <A HREF="../elks/natural_32.html">NATURAL_32</A>)
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            natural_32_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_natural_32_type">Natural_32_type</A>
+        <B>do</B>
+            {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_set_natural_32_field">set_natural_32_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0, value)
+        <B>end</B></A>
+
+    <A NAME="f_set_natural_64_field"><A HREF="../elks/reflected_object.html#f_set_natural_64_field">set_natural_64_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>; value: <A HREF="../elks/natural_64.html">NATURAL_64</A>)
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            natural_64_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_natural_64_type">Natural_64_type</A>
+        <B>do</B>
+            {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_set_natural_64_field">set_natural_64_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0, value)
+        <B>end</B></A>
+
+    <A NAME="f_set_integer_8_field"><A HREF="../elks/reflected_object.html#f_set_integer_8_field">set_integer_8_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>; value: <A HREF="../elks/integer_8.html">INTEGER_8</A>)
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            integer_8_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_integer_8_type">Integer_8_type</A>
+        <B>do</B>
+            {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_set_integer_8_field">set_integer_8_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0, value)
+        <B>end</B></A>
+
+    <A NAME="f_set_integer_16_field"><A HREF="../elks/reflected_object.html#f_set_integer_16_field">set_integer_16_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>; value: <A HREF="../elks/integer_16.html">INTEGER_16</A>)
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            integer_16_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_integer_16_type">Integer_16_type</A>
+        <B>do</B>
+            {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_set_integer_16_field">set_integer_16_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0, value)
+        <B>end</B></A>
+
+    <A NAME="f_set_integer_field"><A HREF="../elks/reflected_object.html#f_set_integer_field">set_integer_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>; value: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/reflected_object.html#f_set_integer_32_field">set_integer_32_field</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            integer_32_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_integer_32_type">Integer_32_type</A>
+        <B>do</B>
+            {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_set_integer_32_field">set_integer_32_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0, value)
+        <B>end</B></A>
+
+    <A NAME="f_set_integer_32_field"><A HREF="../elks/reflected_object.html#f_set_integer_32_field">set_integer_32_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>; value: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/reflected_object.html#f_set_integer_field">set_integer_field</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            integer_32_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_integer_32_type">Integer_32_type</A>
+        <B>do</B>
+            {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_set_integer_32_field">set_integer_32_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0, value)
+        <B>end</B></A>
+
+    <A NAME="f_set_integer_64_field"><A HREF="../elks/reflected_object.html#f_set_integer_64_field">set_integer_64_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>; value: <A HREF="../elks/integer_64.html">INTEGER_64</A>)
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            integer_64_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_integer_64_type">Integer_64_type</A>
+        <B>do</B>
+            {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_set_integer_64_field">set_integer_64_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0, value)
+        <B>end</B></A>
+
+    <A NAME="f_set_real_32_field"><A HREF="../elks/reflected_object.html#f_set_real_32_field">set_real_32_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>; value: <A HREF="../elks/real_32.html">REAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/reflected_object.html#f_set_real_field">set_real_field</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            real_32_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_real_32_type">Real_32_type</A>
+        <B>do</B>
+            {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_set_real_32_field">set_real_32_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0, value)
+        <B>end</B></A>
+
+    <A NAME="f_set_real_field"><A HREF="../elks/reflected_object.html#f_set_real_field">set_real_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>; value: <A HREF="../elks/real_32.html">REAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/reflected_object.html#f_set_real_32_field">set_real_32_field</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            real_32_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_real_32_type">Real_32_type</A>
+        <B>do</B>
+            {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_set_real_32_field">set_real_32_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0, value)
+        <B>end</B></A>
+
+    <A NAME="f_set_pointer_field"><A HREF="../elks/reflected_object.html#f_set_pointer_field">set_pointer_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>; value: <A HREF="../elks/pointer.html">POINTER</A>)
+        <B>require</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/reflected_object.html#f_field_count">field_count</A>
+            pointer_field: <A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i) = <A HREF="../elks/reflector_constants.html#f_pointer_type">Pointer_type</A>
+        <B>do</B>
+            {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_set_pointer_field">set_pointer_field</A> (i, <A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, 0, value)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_field_count"><A HREF="../elks/reflected_object.html#f_field_count">field_count</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of logical fields in </FONT><A HREF="../elks/reflected_object.html#f_object">object</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_field_count_of_type">field_count_of_type</A> (<A HREF="../elks/reflected_object.html#f_dynamic_type">dynamic_type</A>)
+        <B>end</B></A>
+
+    <A NAME="f_persistent_field_count"><A HREF="../elks/reflected_object.html#f_persistent_field_count">persistent_field_count</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of logical fields in </FONT><A HREF="../elks/reflected_object.html#f_object">object</A><FONT COLOR="red"> that are not transient.</FONT>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_persistent_field_count_of_type">persistent_field_count_of_type</A> (<A HREF="../elks/reflected_object.html#f_dynamic_type">dynamic_type</A>)
+        <B>ensure</B>
+            count_positive: <B>Result</B> &gt;= 0
+        <B>end</B></A>
+
+    <A NAME="f_physical_size"><A HREF="../elks/reflected_object.html#f_physical_size">physical_size</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Space occupied by </FONT><A HREF="../elks/reflected_object.html#f_object">object</A><FONT COLOR="red"> in bytes</FONT>
+        <B>local</B>
+            l_size: <A HREF="../elks/natural_64.html">NATURAL_64</A>
+        <B>do</B>
+            l_size := <A HREF="../elks/reflected_object.html#f_physical_size_64">physical_size_64</A>
+            <B>Result</B> := l_size.<A HREF="../elks/comparable.html#f_min">min</A> ({<A HREF="../elks/integer_32.html">INTEGER_32</A>}.<A HREF="../elks/integer_32_ref.html#f_max_value">max_value</A>.<A HREF="../elks/integer_32.html#f_as_natural_64">as_natural_64</A>).<A HREF="../elks/natural_64.html#f_as_integer_32">as_integer_32</A>
+        <B>end</B></A>
+
+    <A NAME="f_deep_physical_size"><A HREF="../elks/reflected_object.html#f_deep_physical_size">deep_physical_size</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Space occupied by </FONT><A HREF="../elks/reflected_object.html#f_object">object</A><FONT COLOR="red"> and its children in bytes</FONT>
+        <B>local</B>
+            l_size: <A HREF="../elks/natural_64.html">NATURAL_64</A>
+        <B>do</B>
+            l_size := <A HREF="../elks/reflected_object.html#f_deep_physical_size_64">deep_physical_size_64</A>
+            <B>Result</B> := l_size.<A HREF="../elks/comparable.html#f_min">min</A> ({<A HREF="../elks/integer_32.html">INTEGER_32</A>}.<A HREF="../elks/integer_32_ref.html#f_max_value">max_value</A>.<A HREF="../elks/integer_32.html#f_as_natural_64">as_natural_64</A>).<A HREF="../elks/natural_64.html#f_as_integer_32">as_integer_32</A>
+        <B>end</B></A>
+
+    <A NAME="f_physical_size_64"><A HREF="../elks/reflected_object.html#f_physical_size_64">physical_size_64</A>: <A HREF="../elks/natural_64.html">NATURAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Space occupied by </FONT><A HREF="../elks/reflected_object.html#f_object">object</A><FONT COLOR="red"> in bytes</FONT>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_object_size">object_size</A> (<A HREF="../elks/reflected_object.html#f_object_address">object_address</A>)
+        <B>end</B></A>
+
+    <A NAME="f_deep_physical_size_64"><A HREF="../elks/reflected_object.html#f_deep_physical_size_64">deep_physical_size_64</A>: <A HREF="../elks/natural_64.html">NATURAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Space occupied by </FONT><A HREF="../elks/reflected_object.html#f_object">object</A><FONT COLOR="red"> and its children in bytes</FONT>
+        <B>local</B>
+            l_traverse: <A HREF="../elks/object_graph_breadth_first_traversable.html">OBJECT_GRAPH_BREADTH_FIRST_TRAVERSABLE</A>
+            l_obj: <B>like</B> {<A HREF="../elks/object_graph_breadth_first_traversable.html">OBJECT_GRAPH_BREADTH_FIRST_TRAVERSABLE</A>}.<A HREF="../elks/object_graph_traversable.html#f_visited_objects">visited_objects</A>.<A HREF="../elks/arrayed_list.html#f_item">item</A>
+        <B>do</B>
+            <B>create</B> l_traverse
+            l_traverse.<A HREF="../elks/object_graph_traversable.html#f_set_root_object">set_root_object</A> (<A HREF="../elks/reflected_object.html#f_object">object</A>)
+            l_traverse.<A HREF="../elks/object_graph_traversable.html#f_set_is_skip_transient">set_is_skip_transient</A> (<B>False</B>)
+            l_traverse.<A HREF="../elks/object_graph_traversable.html#f_traverse">traverse</A>
+            <B>if</B> <B>attached</B> l_traverse.<A HREF="../elks/object_graph_traversable.html#f_visited_objects">visited_objects</A> <B>as</B> l_objects <B>then</B>
+                <B>from</B>
+                    l_objects.<A HREF="../elks/arrayed_list.html#f_start">start</A>
+                <B>until</B>
+                    l_objects.<A HREF="../elks/list.html#f_after">after</A>
+                <B>loop</B>
+                    l_obj := l_objects.<A HREF="../elks/arrayed_list.html#f_item">item</A>
+                    <B>Result</B> := <B>Result</B> + {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_object_size">object_size</A> ($l_obj.<A HREF="../elks/pointer_ref.html#f_item">to_pointer</A>)
+                    l_objects.<A HREF="../elks/arrayed_list.html#f_forth">forth</A>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {<A HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_object_address"><A HREF="../elks/reflected_object.html#f_object_address">object_address</A>: <A HREF="../elks/pointer.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Unprotected reference to </FONT><A HREF="../elks/reflected_object.html#f_object">object</A><FONT COLOR="red">.</FONT>
+        <B>deferred</B>
+        <B>end</B></A>
+    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="reflected_object_chart.html">Chart</A></TD><TD><A HREF="reflected_object_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="reflected_object_flat.html">Flat</A></TD><TD><A HREF="reflected_object_short.html">Contracts</A></TD><TD><A HREF="reflected_object_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

@@ -1,0 +1,95 @@
+<HTML><HEAD>
+<meta name="description" content="War of Raekidion - A projectile A {PROJECTILE} is a bullet fired by a ship,  aimed to destroy other ships."/>
+<meta name="author" content="François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>projectile Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="projectile_chart.html">Chart</A></TD><TD><A HREF="projectile_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="projectile_flat.html">Flat</A></TD><TD><A HREF="projectile_short.html">Contracts</A></TD><TD><A HREF="projectile_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        War of Raekidion - A projectile
+        A <A HREF="../../raekidion/game/projectile.html">PROJECTILE</A> is a bullet fired by a ship, 
+        aimed to destroy other ships.
+    ]"
+    author: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+    date: "$Date$"
+    revision: "$Revision$"
+
+<B>class</B> 
+    <A HREF="../../raekidion/game/projectile.html">PROJECTILE</A>
+
+<B>inherit</B>
+    <A HREF="../../raekidion/objects/audio_factory_shared.html">AUDIO_FACTORY_SHARED</A>
+
+    <A HREF="../../raekidion/game/projectile_factory_shared.html">PROJECTILE_FACTORY_SHARED</A>
+
+    <A HREF="../../raekidion/game/entity.html">ENTITY</A>
+        <B>rename</B>
+            <A HREF="../../raekidion/game/entity.html#f_make">make</A> <B>as</B> <A HREF="../../raekidion/game/entity.html#f_make">entity_make</A>,
+            <A HREF="../../raekidion/game/entity.html#f_update">update</A> <B>as</B> <A HREF="../../raekidion/game/entity.html#f_update">entity_update</A>
+        <B>end</B>
+
+<B>create</B> 
+    <A HREF="../../raekidion/game/projectile.html#f_make">make</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../../raekidion/game/projectile.html#f_make">make</A> (a_name: <A HREF="../../elks/string_8.html">STRING_8</A>; a_window: <A HREF="../../raekidion/objects/window.html">WINDOW</A>; a_x, a_y, a_angle: <A HREF="../../elks/real_64.html">REAL_64</A>; a_owner: <A HREF="../../raekidion/game/ship.html">SHIP</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize </FONT>`Current'<FONT COLOR="red"> from </FONT>`a_name'<FONT COLOR="red">, </FONT>`a_window'<FONT COLOR="red">, </FONT>`a_x'<FONT COLOR="red">, </FONT>`a_y'<FONT COLOR="red">, </FONT>`a_angle'<FONT COLOR="red"> and </FONT>`a_owner'
+        <B>do</B>
+            <A HREF="../../raekidion/game/projectile.html#f_projectilefactory">projectilefactory</A> := <A HREF="../../raekidion/game/projectile_factory_shared.html#f_projectile_factory">Projectile_factory</A>
+            <A HREF="../../raekidion/game/projectile.html#f_projectile_properties">projectile_properties</A> := <A HREF="../../raekidion/game/projectile.html#f_projectilefactory">projectilefactory</A>.<A HREF="../../raekidion/game/projectile_factory.html#f_projectile">projectile</A> (a_name)
+            <A HREF="../../raekidion/game/projectile.html#f_owner">owner</A> := a_owner
+            <A HREF="../../raekidion/objects/audio_factory_shared.html#f_play_sound">play_sound</A> (<A HREF="../../raekidion/game/projectile.html#f_projectile_properties">projectile_properties</A>.<A HREF="../../raekidion/game/projectile_properties.html#f_sound">sound</A>, -1)
+            <A HREF="../../raekidion/game/entity.html#f_make">entity_make</A> (<A HREF="../../raekidion/game/projectile.html#f_projectile_properties">projectile_properties</A>.<A HREF="../../raekidion/game/projectile_properties.html#f_filename">filename</A>, a_window, a_x, a_y, 1.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>)
+            <A HREF="../../raekidion/game/projectile.html#f_will_explode">will_explode</A> := <B>True</B>
+            <A HREF="../../raekidion/game/entity.html#f_trajectory">trajectory</A>.<A HREF="../../raekidion/objects/vector.html#f_enable_degree_mode">enable_degree_mode</A>
+            <A HREF="../../raekidion/game/entity.html#f_trajectory">trajectory</A>.<A HREF="../../raekidion/objects/vector.html#f_set_angle_and_force">set_angle_and_force</A> (a_angle, <A HREF="../../raekidion/game/projectile.html#f_projectile_properties">projectile_properties</A>.<A HREF="../../raekidion/game/projectile_properties.html#f_speed">speed</A>)
+        <B>ensure</B>
+            projectile_properties_not_null: <A HREF="../../raekidion/game/projectile.html#f_projectile_properties">projectile_properties</A>.<A HREF="../../raekidion/game/projectile_properties.html#f_name">name</A> /= ""
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status</FONT>
+
+    <A NAME="f_will_explode"><A HREF="../../raekidion/game/projectile.html#f_will_explode">will_explode</A>: <A HREF="../../elks/boolean.html">BOOLEAN</A></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_projectile_properties"><A HREF="../../raekidion/game/projectile.html#f_projectile_properties">projectile_properties</A>: <A HREF="../../raekidion/game/projectile_properties.html">PROJECTILE_PROPERTIES</A></A>
+
+    <A NAME="f_owner"><A HREF="../../raekidion/game/projectile.html#f_owner">owner</A>: <A HREF="../../raekidion/game/ship.html">SHIP</A></A>
+
+    <A NAME="f_update"><A HREF="../../raekidion/game/projectile.html#f_update">update</A> (a_x, a_y: <A HREF="../../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update the enemy on screen from player's </FONT>`a_x'<FONT COLOR="red"> and </FONT>`a_y'
+        <B>local</B>
+            l_vector: <A HREF="../../raekidion/objects/vector.html">VECTOR</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../../raekidion/game/entity.html#f_y">y</A> &lt; - <A HREF="../../raekidion/objects/surface.html#f_height">height</A>.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> <B>or</B> <A HREF="../../raekidion/game/entity.html#f_y">y</A> &gt; <A HREF="../../raekidion/objects/surface.html#f_window">window</A>.<A HREF="../../raekidion/objects/window.html#f_height">height</A> + <A HREF="../../raekidion/objects/surface.html#f_height">height</A>.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> <B>or</B> <A HREF="../../raekidion/game/entity.html#f_x">x</A> &lt; - <A HREF="../../raekidion/objects/surface.html#f_width">width</A>.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> <B>or</B> <A HREF="../../raekidion/game/entity.html#f_x">x</A> &gt; <A HREF="../../raekidion/objects/surface.html#f_window">window</A>.<A HREF="../../raekidion/objects/window.html#f_width">width</A> - 75 + <A HREF="../../raekidion/objects/surface.html#f_width">width</A>.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> <B>then</B>
+                <A HREF="../../raekidion/game/projectile.html#f_will_explode">will_explode</A> := <B>False</B>
+                <A HREF="../../raekidion/objects/surface.html#f_destroy">destroy</A>
+            <B>end</B>
+            <B>if</B> <A HREF="../../raekidion/game/projectile.html#f_projectile_properties">projectile_properties</A>.<A HREF="../../raekidion/game/projectile_properties.html#f_lifetime">lifetime</A> &gt; 0 <B>and then</B> <A HREF="../../raekidion/game/entity.html#f_lifetime">lifetime</A> &gt;= <A HREF="../../raekidion/game/projectile.html#f_projectile_properties">projectile_properties</A>.<A HREF="../../raekidion/game/projectile_properties.html#f_lifetime">lifetime</A> * 100 <B>then</B>
+                <A HREF="../../raekidion/objects/surface.html#f_destroy">destroy</A>
+            <B>end</B>
+            <B>if</B> <A HREF="../../raekidion/game/projectile.html#f_projectile_properties">projectile_properties</A>.<A HREF="../../raekidion/game/projectile_properties.html#f_homing">homing</A> <B>then</B>
+                l_vector := <A HREF="../../raekidion/game/entity.html#f_trajectory">trajectory</A>
+                <A HREF="../../raekidion/game/entity.html#f_trajectory">trajectory</A>.<A HREF="../../raekidion/objects/vector.html#f_set_x_and_y">set_x_and_y</A> (a_x - <A HREF="../../raekidion/game/entity.html#f_x">x</A>, - a_y + <A HREF="../../raekidion/game/entity.html#f_y">y</A>)
+                <A HREF="../../raekidion/game/entity.html#f_trajectory">trajectory</A>.<A HREF="../../raekidion/objects/vector.html#f_set_force">set_force</A> (<A HREF="../../raekidion/game/projectile.html#f_projectile_properties">projectile_properties</A>.<A HREF="../../raekidion/game/projectile_properties.html#f_speed">speed</A>)
+                <A HREF="../../raekidion/game/entity.html#f_trajectory">trajectory</A>.<A HREF="../../raekidion/objects/vector.html#f_plus_vector">plus_vector</A> (l_vector)
+                <A HREF="../../raekidion/game/entity.html#f_trajectory">trajectory</A>.<A HREF="../../raekidion/objects/vector.html#f_set_force">set_force</A> (<A HREF="../../raekidion/game/projectile.html#f_projectile_properties">projectile_properties</A>.<A HREF="../../raekidion/game/projectile_properties.html#f_speed">speed</A>)
+            <B>end</B>
+            <A HREF="../../raekidion/objects/sprite.html#f_angle">angle</A> := <A HREF="../../raekidion/game/entity.html#f_trajectory">trajectory</A>.<A HREF="../../raekidion/objects/vector.html#f_angle">angle</A> - 90.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>
+            <A HREF="../../raekidion/game/entity.html#f_update">entity_update</A>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_projectilefactory"><A HREF="../../raekidion/game/projectile.html#f_projectilefactory">projectilefactory</A>: <A HREF="../../raekidion/game/projectile_factory.html">PROJECTILE_FACTORY</A></A>
+    
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../../raekidion/game/projectile.html">PROJECTILE</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="projectile_chart.html">Chart</A></TD><TD><A HREF="projectile_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="projectile_flat.html">Flat</A></TD><TD><A HREF="projectile_short.html">Contracts</A></TD><TD><A HREF="projectile_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

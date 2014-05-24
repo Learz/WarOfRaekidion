@@ -1,0 +1,1729 @@
+<HTML><HEAD>
+<meta name="description" content="Common ancestors to all STRING classes. Read-only interface."/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>readable_string_general Flat</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="readable_string_general_chart.html">Chart</A></TD><TD><A HREF="readable_string_general_links.html">Relations</A></TD><TD><A HREF="readable_string_general.html">Text</A></TD><TD>Flat</TD><TD><A HREF="readable_string_general_short.html">Contracts</A></TD><TD><A HREF="readable_string_general_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Common ancestors to all STRING classes. Read-only interface."
+    library: "Free implementation of ELKS library"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2013-04-05 02:29:40 -0700 (Fri, 05 Apr 2013) $"
+    revision: "$Revision: 92409 $"
+
+<B>deferred</B> <B>class</B> 
+    <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_default_create"><A HREF="../elks/any_flat.html#f_default_create">default_create</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process instances of classes with no creation clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_make"><A HREF="../elks/readable_string_general_flat.html#f_make">make</A> (n: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+        <B>require</B>
+            non_negative_size: n &gt;= 0
+        <B>deferred</B>
+        <B>ensure</B>
+            empty_string: <A HREF="../elks/readable_string_general_flat.html#f_count">count</A> = 0
+            area_allocated: <A HREF="../elks/readable_string_general_flat.html#f_capacity">capacity</A> &gt;= n
+        <B>end</B></A>
+
+    <A NAME="f_make_empty"><A HREF="../elks/readable_string_general_flat.html#f_make_empty">make_empty</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create empty string.</FONT>
+        <B>do</B>
+            <A HREF="../elks/readable_string_general_flat.html#f_make">make</A> (0)
+        <B>ensure</B>
+            empty: <A HREF="../elks/readable_string_general_flat.html#f_count">count</A> = 0
+            area_allocated: <A HREF="../elks/readable_string_general_flat.html#f_capacity">capacity</A> &gt;= 0
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_case_insensitive_hash_code"><A HREF="../elks/readable_string_general_flat.html#f_case_insensitive_hash_code">case_insensitive_hash_code</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Hash code value of the lower case version of </FONT>`Current'<FONT COLOR="red">.</FONT>
+        <B>local</B>
+            l_props: <B>like</B> <A HREF="../elks/readable_string_general_flat.html#f_character_properties">Character_properties</A>
+            i, nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/readable_string_general_flat.html#f_internal_case_insensitive_hash_code">internal_case_insensitive_hash_code</A>
+            <B>if</B> <B>Result</B> = 0 <B>then</B>
+                <B>from</B>
+                    i := 1
+                    nb := <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>
+                    l_props := <A HREF="../elks/readable_string_general_flat.html#f_character_properties">Character_properties</A>
+                <B>until</B>
+                    i &gt; nb
+                <B>loop</B>
+                    <B>Result</B> := ((<B>Result</B> \\ 8388593) |&lt;&lt; 8) + l_props.<A HREF="../elks/character_property_flat.html#f_to_lower">to_lower</A> (<A HREF="../elks/readable_string_general_flat.html#f_item">item</A> (i)).<A HREF="../elks/character_32_flat.html#f_code">code</A>
+                    i := i + 1
+                <B>end</B>
+                <A HREF="../elks/readable_string_general_flat.html#f_internal_case_insensitive_hash_code">internal_case_insensitive_hash_code</A> := <B>Result</B>
+            <B>end</B>
+        <B>ensure</B>
+            consistent: <B>Result</B> = <A HREF="../elks/readable_string_general_flat.html#f_as_lower">as_lower</A>.<A HREF="../elks/readable_string_general_flat.html#f_hash_code">hash_code</A>
+        <B>end</B></A>
+
+    <A NAME="f_code"><A HREF="../elks/readable_string_general_flat.html#f_code">code</A> (i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/natural_32_flat.html">NATURAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Code at position </FONT>`i'
+        <B>require</B>
+            valid_index: <A HREF="../elks/readable_string_general_flat.html#f_valid_index">valid_index</A> (i)
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_false_constant"><A HREF="../elks/readable_string_general_flat.html#f_false_constant">False_constant</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A> = "false"</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Constant string "false"</FONT>
+
+    <A NAME="f_generating_type"><A HREF="../elks/any_flat.html#f_generating_type">generating_type</A>: <A HREF="../elks/type_flat.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Type of current object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := {<B>detachable</B> <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>}
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            generating_type_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_generator"><A HREF="../elks/any_flat.html#f_generator">generator</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of current object's generating class</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (base class of the type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            generator_not_void: <B>Result</B> /= <B>Void</B>
+            generator_not_empty: <B>not</B> <B>Result</B>.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+
+    <A NAME="f_hash_code"><A HREF="../elks/readable_string_general_flat.html#f_hash_code">hash_code</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Hash code value</FONT>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/readable_string_general_flat.html#f_internal_hash_code">internal_hash_code</A>
+            <B>if</B> <B>Result</B> = 0 <B>then</B>
+                <B>from</B>
+                    i := 1
+                    nb := <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>
+                <B>until</B>
+                    i &gt; nb
+                <B>loop</B>
+                    <B>Result</B> := ((<B>Result</B> \\ 8388593) |&lt;&lt; 8) + <A HREF="../elks/readable_string_general_flat.html#f_item">item</A> (i).<A HREF="../elks/character_32_flat.html#f_code">code</A>
+                    i := i + 1
+                <B>end</B>
+                <A HREF="../elks/readable_string_general_flat.html#f_internal_hash_code">internal_hash_code</A> := <B>Result</B>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/hashable_flat.html">HASHABLE</A>
+            good_hash_value: <B>Result</B> &gt;= 0
+        <B>end</B></A>
+
+    <A NAME="f_index_of"><A HREF="../elks/readable_string_general_flat.html#f_index_of">index_of</A> (c: <B>like</B> <A HREF="../elks/readable_string_general_flat.html#f_item">item</A>; start_index: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Position of first occurrence of </FONT>`c'<FONT COLOR="red"> at or after </FONT>`start_index'<FONT COLOR="red">;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 0 if none.</FONT>
+        <B>require</B>
+            start_large_enough: start_index &gt;= 1
+            start_small_enough: start_index &lt;= <A HREF="../elks/readable_string_general_flat.html#f_count">count</A> + 1
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            nb := <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>
+            <B>if</B> start_index &lt;= nb <B>then</B>
+                <B>from</B>
+                    i := start_index
+                <B>until</B>
+                    i &gt; nb <B>or else</B> <A HREF="../elks/readable_string_general_flat.html#f_item">item</A> (i) = c
+                <B>loop</B>
+                    i := i + 1
+                <B>end</B>
+                <B>if</B> i &lt;= nb <B>then</B>
+                    <B>Result</B> := i
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B>
+            valid_result: <B>Result</B> = 0 <B>or</B> (start_index &lt;= <B>Result</B> <B>and</B> <B>Result</B> &lt;= <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>)
+            zero_if_absent: (<B>Result</B> = 0) = <B>not</B> <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (start_index, <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>).<A HREF="../elks/readable_string_general_flat.html#f_has">has</A> (c)
+            found_if_present: <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (start_index, <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>).<A HREF="../elks/readable_string_general_flat.html#f_has">has</A> (c) <B>implies</B> <A HREF="../elks/readable_string_general_flat.html#f_item">item</A> (<B>Result</B>) = c
+            none_before: <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (start_index, <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>).<A HREF="../elks/readable_string_general_flat.html#f_has">has</A> (c) <B>implies</B> <B>not</B> <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (start_index, <B>Result</B> - 1).<A HREF="../elks/readable_string_general_flat.html#f_has">has</A> (c)
+        <B>end</B></A>
+
+    <A NAME="f_index_of_code"><A HREF="../elks/readable_string_general_flat.html#f_index_of_code">index_of_code</A> (c: <B>like</B> <A HREF="../elks/readable_string_general_flat.html#f_code">code</A>; start_index: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Position of first occurrence of </FONT>`c'<FONT COLOR="red"> at or after </FONT>`start_index'<FONT COLOR="red">;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 0 if none.</FONT>
+        <B>require</B>
+            start_large_enough: start_index &gt;= 1
+            start_small_enough: start_index &lt;= <A HREF="../elks/readable_string_general_flat.html#f_count">count</A> + 1
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            nb := <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>
+            <B>if</B> start_index &lt;= nb <B>then</B>
+                <B>from</B>
+                    i := start_index
+                <B>until</B>
+                    i &gt; nb <B>or else</B> <A HREF="../elks/readable_string_general_flat.html#f_code">code</A> (i) = c
+                <B>loop</B>
+                    i := i + 1
+                <B>end</B>
+                <B>if</B> i &lt;= nb <B>then</B>
+                    <B>Result</B> := i
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B>
+            valid_result: <B>Result</B> = 0 <B>or</B> (start_index &lt;= <B>Result</B> <B>and</B> <B>Result</B> &lt;= <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>)
+            zero_if_absent: (<B>Result</B> = 0) = <B>not</B> <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (start_index, <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>).<A HREF="../elks/readable_string_general_flat.html#f_has_code">has_code</A> (c)
+            found_if_present: <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (start_index, <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>).<A HREF="../elks/readable_string_general_flat.html#f_has_code">has_code</A> (c) <B>implies</B> <A HREF="../elks/readable_string_general_flat.html#f_code">code</A> (<B>Result</B>) = c
+            none_before: <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (start_index, <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>).<A HREF="../elks/readable_string_general_flat.html#f_has_code">has_code</A> (c) <B>implies</B> <B>not</B> <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (start_index, <B>Result</B> - 1).<A HREF="../elks/readable_string_general_flat.html#f_has_code">has_code</A> (c)
+        <B>end</B></A>
+
+    <A NAME="f_item"><A HREF="../elks/readable_string_general_flat.html#f_item">item</A> <B>alias</B> "[]" (i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/character_32_flat.html">CHARACTER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Character at position </FONT>`i'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            valid_index: <A HREF="../elks/readable_string_general_flat.html#f_valid_index">valid_index</A> (i)
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_last_index_of"><A HREF="../elks/readable_string_general_flat.html#f_last_index_of">last_index_of</A> (c: <B>like</B> <A HREF="../elks/readable_string_general_flat.html#f_item">item</A>; start_index_from_end: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Position of last occurrence of </FONT>`c'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 0 if none.</FONT>
+        <B>require</B>
+            start_index_small_enough: start_index_from_end &lt;= <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>
+            start_index_large_enough: start_index_from_end &gt;= 1
+        <B>do</B>
+            <B>from</B>
+                <B>Result</B> := start_index_from_end
+            <B>until</B>
+                <B>Result</B> &lt;= 0 <B>or else</B> <A HREF="../elks/readable_string_general_flat.html#f_item">item</A> (<B>Result</B>) = c
+            <B>loop</B>
+                <B>Result</B> := <B>Result</B> - 1
+            <B>end</B>
+        <B>ensure</B>
+            valid_result: 0 &lt;= <B>Result</B> <B>and</B> <B>Result</B> &lt;= start_index_from_end
+            zero_if_absent: (<B>Result</B> = 0) = <B>not</B> <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (1, start_index_from_end).<A HREF="../elks/readable_string_general_flat.html#f_has">has</A> (c)
+            found_if_present: <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (1, start_index_from_end).<A HREF="../elks/readable_string_general_flat.html#f_has">has</A> (c) <B>implies</B> <A HREF="../elks/readable_string_general_flat.html#f_item">item</A> (<B>Result</B>) = c
+            none_after: <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (1, start_index_from_end).<A HREF="../elks/readable_string_general_flat.html#f_has">has</A> (c) <B>implies</B> <B>not</B> <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (<B>Result</B> + 1, start_index_from_end).<A HREF="../elks/readable_string_general_flat.html#f_has">has</A> (c)
+        <B>end</B></A>
+
+    <A NAME="f_last_index_of_code"><A HREF="../elks/readable_string_general_flat.html#f_last_index_of_code">last_index_of_code</A> (c: <B>like</B> <A HREF="../elks/readable_string_general_flat.html#f_code">code</A>; start_index_from_end: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Position of last occurrence of </FONT>`c'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 0 if none.</FONT>
+        <B>require</B>
+            start_index_small_enough: start_index_from_end &lt;= <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>
+            start_index_large_enough: start_index_from_end &gt;= 1
+        <B>do</B>
+            <B>from</B>
+                <B>Result</B> := start_index_from_end
+            <B>until</B>
+                <B>Result</B> &lt;= 0 <B>or else</B> <A HREF="../elks/readable_string_general_flat.html#f_code">code</A> (<B>Result</B>) = c
+            <B>loop</B>
+                <B>Result</B> := <B>Result</B> - 1
+            <B>end</B>
+        <B>ensure</B>
+            valid_result: 0 &lt;= <B>Result</B> <B>and</B> <B>Result</B> &lt;= start_index_from_end
+            zero_if_absent: (<B>Result</B> = 0) = <B>not</B> <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (1, start_index_from_end).<A HREF="../elks/readable_string_general_flat.html#f_has_code">has_code</A> (c)
+            found_if_present: <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (1, start_index_from_end).<A HREF="../elks/readable_string_general_flat.html#f_has_code">has_code</A> (c) <B>implies</B> <A HREF="../elks/readable_string_general_flat.html#f_code">code</A> (<B>Result</B>) = c
+            none_after: <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (1, start_index_from_end).<A HREF="../elks/readable_string_general_flat.html#f_has_code">has_code</A> (c) <B>implies</B> <B>not</B> <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (<B>Result</B> + 1, start_index_from_end).<A HREF="../elks/readable_string_general_flat.html#f_has_code">has_code</A> (c)
+        <B>end</B></A>
+
+    <A NAME="f_true_constant"><A HREF="../elks/readable_string_general_flat.html#f_true_constant">True_constant</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A> = "true"</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Constant string "true"</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_capacity"><A HREF="../elks/readable_string_general_flat.html#f_capacity">capacity</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of characters allocated in Current</FONT>
+        <B>deferred</B>
+        <B>ensure</B>
+            capacity_non_negative: <B>Result</B> &gt;= 0
+        <B>end</B></A>
+
+    <A NAME="f_count"><A HREF="../elks/readable_string_general_flat.html#f_count">count</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of characters in Current</FONT>
+        <B>deferred</B>
+        <B>ensure</B>
+            count_non_negative: <B>Result</B> &gt;= 0
+        <B>end</B></A>
+
+    <A NAME="f_occurrences"><A HREF="../elks/readable_string_general_flat.html#f_occurrences">occurrences</A> (c: <A HREF="../elks/character_32_flat.html">CHARACTER_32</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of times </FONT>`c'<FONT COLOR="red"> appears in the string</FONT>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            nb := <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>
+            <B>if</B> nb &gt; 0 <B>then</B>
+                <B>from</B>
+                    i := 1
+                <B>until</B>
+                    i &gt; nb
+                <B>loop</B>
+                    <B>if</B> <A HREF="../elks/readable_string_general_flat.html#f_item">item</A> (i) = c <B>then</B>
+                        <B>Result</B> := <B>Result</B> + 1
+                    <B>end</B>
+                    i := i + 1
+                <B>end</B>
+            <B>end</B>
+        <B>ensure then</B>
+            zero_if_empty: <A HREF="../elks/readable_string_general_flat.html#f_count">count</A> = 0 <B>implies</B> <B>Result</B> = 0
+            recurse_if_not_found_at_first_position: (<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> &gt; 0 <B>and then</B> <A HREF="../elks/readable_string_general_flat.html#f_item">item</A> (1) /= c) <B>implies</B> <B>Result</B> = <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (2, <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>).<A HREF="../elks/readable_string_general_flat.html#f_occurrences">occurrences</A> (c)
+            recurse_if_found_at_first_position: (<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> &gt; 0 <B>and then</B> <A HREF="../elks/readable_string_general_flat.html#f_item">item</A> (1) = c) <B>implies</B> <B>Result</B> = 1 + <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (2, <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>).<A HREF="../elks/readable_string_general_flat.html#f_occurrences">occurrences</A> (c)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_deep_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (a, b) <B>implies</B> <B>Result</B>
+            both_or_none_void: (a = <B>Void</B>) <B>implies</B> (<B>Result</B> = (b = <B>Void</B>))
+            same_type: (<B>Result</B> <B>and</B> (a /= <B>Void</B>)) <B>implies</B> (b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_same_type">same_type</A> (b))
+            symmetric: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (b, a)
+        <B>end</B></A>
+
+    <A NAME="f_ends_with"><A HREF="../elks/readable_string_general_flat.html#f_ends_with">ends_with</A> (s: <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does string finish with </FONT>`s'<FONT COLOR="red">?</FONT>
+        <B>require</B>
+            argument_not_void: s /= <B>Void</B>
+        <B>local</B>
+            i, j: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>if</B> <B>Current</B> = s <B>then</B>
+                <B>Result</B> := <B>True</B>
+            <B>else</B>
+                i := s.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A>
+                j := <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>
+                <B>if</B> i &lt;= j <B>then</B>
+                    <B>from</B>
+                        <B>Result</B> := <B>True</B>
+                    <B>until</B>
+                        i = 0
+                    <B>loop</B>
+                        <B>if</B> <A HREF="../elks/readable_string_general_flat.html#f_code">code</A> (j) /= s.<A HREF="../elks/readable_string_general_flat.html#f_code">code</A> (i) <B>then</B>
+                            <B>Result</B> := <B>False</B>
+                            i := 1
+                        <B>end</B>
+                        i := i - 1
+                        j := j - 1
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B>
+            definition: <B>Result</B> = s.<A HREF="../elks/readable_string_general_flat.html#f_same_string">same_string</A> (<A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> - s.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> + 1, <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>))
+        <B>end</B></A>
+
+    <A NAME="f_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_equal">equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to objects considered equal?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_equal">is_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_equal">is_equal</A> (b))
+        <B>end</B></A>
+
+    <A NAME="f_fuzzy_index"><A HREF="../elks/readable_string_general_flat.html#f_fuzzy_index">fuzzy_index</A> (other: <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>; start: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>; fuzz: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Position of first occurrence of </FONT>`other'<FONT COLOR="red"> at or after </FONT>`start'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> with 0..</FONT>`fuzz'<FONT COLOR="red"> mismatches between the string and </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 0 if there are no fuzzy matches</FONT>
+        <B>require</B>
+            other_exists: other /= <B>Void</B>
+            other_not_empty: <B>not</B> other.<A HREF="../elks/readable_string_general_flat.html#f_is_empty">is_empty</A>
+            start_large_enough: start &gt;= 1
+            start_small_enough: start &lt;= <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>
+            acceptable_fuzzy: fuzz &lt;= other.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_has_substring"><A HREF="../elks/readable_string_general_flat.html#f_has_substring">has_substring</A> (other: <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`Current'<FONT COLOR="red"> contain </FONT>`other'<FONT COLOR="red">?</FONT>
+        <B>require</B>
+            other_not_void: other /= <B>Void</B>
+        <B>do</B>
+            <B>if</B> other = <B>Current</B> <B>then</B>
+                <B>Result</B> := <B>True</B>
+            <B>elseif</B> other.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> &lt;= <A HREF="../elks/readable_string_general_flat.html#f_count">count</A> <B>then</B>
+                <B>Result</B> := <A HREF="../elks/readable_string_general_flat.html#f_substring_index">substring_index</A> (other, 1) &gt; 0
+            <B>end</B>
+        <B>ensure</B>
+            false_if_too_small: <A HREF="../elks/readable_string_general_flat.html#f_count">count</A> &lt; other.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> <B>implies</B> <B>not</B> <B>Result</B>
+            true_if_initial: (<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> &gt;= other.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> <B>and then</B> other.<A HREF="../elks/readable_string_general_flat.html#f_same_string">same_string</A> (<A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (1, other.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A>))) <B>implies</B> <B>Result</B>
+            recurse: (<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> &gt;= other.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> <B>and then</B> <B>not</B> other.<A HREF="../elks/readable_string_general_flat.html#f_same_string">same_string</A> (<A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (1, other.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A>))) <B>implies</B> (<B>Result</B> = <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (2, <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>).<A HREF="../elks/readable_string_general_flat.html#f_has_substring">has_substring</A> (other))
+        <B>end</B></A>
+
+    <A NAME="f_is_case_insensitive_equal"><A HREF="../elks/readable_string_general_flat.html#f_is_case_insensitive_equal">is_case_insensitive_equal</A> (other: <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is string made of same character sequence as </FONT>`other'<FONT COLOR="red"> regardless of casing</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (possibly with a different capacity)?</FONT>
+        <B>local</B>
+            nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>if</B> other = <B>Current</B> <B>then</B>
+                <B>Result</B> := <B>True</B>
+            <B>else</B>
+                nb := <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>
+                <B>if</B> nb = other.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> <B>then</B>
+                    <B>Result</B> := nb = 0 <B>or else</B> <A HREF="../elks/readable_string_general_flat.html#f_same_caseless_characters">same_caseless_characters</A> (other, 1, nb, 1)
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B>
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/readable_string_general_flat.html#f_is_case_insensitive_equal">is_case_insensitive_equal</A> (<B>Current</B>)
+            consistent: <B>attached</B> {<B>like</B> <B>Current</B>} other <B>as</B> l_other <B>implies</B> (<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (l_other) <B>implies</B> <B>Result</B>)
+            valid_result: <A HREF="../elks/readable_string_general_flat.html#f_as_lower">as_lower</A> ~ other.<A HREF="../elks/readable_string_general_flat.html#f_as_lower">as_lower</A> <B>implies</B> <B>Result</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_deep_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (other: <B>attached</B> <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`Current'<FONT COLOR="red"> and </FONT>`other'<FONT COLOR="red"> attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (<B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_is_equal"><A HREF="../elks/comparable_flat.html#f_is_equal">is_equal</A> (other: <B>attached</B> <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object of the same type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as current object and identical to it?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/comparable_flat.html">COMPARABLE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>do</B>
+            <B>Result</B> := (<B>not</B> (<B>Current</B> &lt; other) <B>and</B> <B>not</B> (other &lt; <B>Current</B>))
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            symmetric: <B>Result</B> <B>implies</B> other ~ <B>Current</B>
+            consistent: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/comparable_flat.html">COMPARABLE</A>
+            trichotomy: <B>Result</B> = (<B>not</B> (<B>Current</B> &lt; other) <B>and</B> <B>not</B> (other &lt; <B>Current</B>))
+        <B>end</B></A>
+
+    <A NAME="f_is_greater"><A HREF="../elks/comparable_flat.html#f_is_greater">is_greater</A> <B>alias</B> "&gt;" (other: <B>attached</B> <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current object greater than </FONT>`other'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/comparable_flat.html">COMPARABLE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/part_comparable_flat.html">PART_COMPARABLE</A>
+            other_exists: other /= <B>Void</B>
+        <B>do</B>
+            <B>Result</B> := other &lt; <B>Current</B>
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/comparable_flat.html">COMPARABLE</A>
+            definition: <B>Result</B> = (other &lt; <B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_is_greater_equal"><A HREF="../elks/comparable_flat.html#f_is_greater_equal">is_greater_equal</A> <B>alias</B> "&gt;=" (other: <B>attached</B> <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current object greater than or equal to </FONT>`other'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/comparable_flat.html">COMPARABLE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/part_comparable_flat.html">PART_COMPARABLE</A>
+            other_exists: other /= <B>Void</B>
+        <B>do</B>
+            <B>Result</B> := <B>not</B> (<B>Current</B> &lt; other)
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/comparable_flat.html">COMPARABLE</A>
+            definition: <B>Result</B> = (other &lt;= <B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_is_less"><A HREF="../elks/comparable_flat.html#f_is_less">is_less</A> <B>alias</B> "&lt;" (other: <B>attached</B> <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current object less than </FONT>`other'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/comparable_flat.html">COMPARABLE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/part_comparable_flat.html">PART_COMPARABLE</A>
+            other_exists: other /= <B>Void</B>
+        <B>deferred</B>
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/comparable_flat.html">COMPARABLE</A>
+            asymmetric: <B>Result</B> <B>implies</B> <B>not</B> (other &lt; <B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_is_less_equal"><A HREF="../elks/comparable_flat.html#f_is_less_equal">is_less_equal</A> <B>alias</B> "&lt;=" (other: <B>attached</B> <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current object less than or equal to </FONT>`other'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/comparable_flat.html">COMPARABLE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/part_comparable_flat.html">PART_COMPARABLE</A>
+            other_exists: other /= <B>Void</B>
+        <B>do</B>
+            <B>Result</B> := <B>not</B> (other &lt; <B>Current</B>)
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/comparable_flat.html">COMPARABLE</A>
+            definition: <B>Result</B> = ((<B>Current</B> &lt; other) <B>or</B> (<B>Current</B> ~ other))
+        <B>end</B></A>
+
+    <A NAME="f_max"><A HREF="../elks/comparable_flat.html#f_max">max</A> (other: <B>attached</B> <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>): <B>attached</B> <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The greater of current object and </FONT>`other'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/comparable_flat.html">COMPARABLE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/comparable_flat.html">COMPARABLE</A>
+            other_exists: other /= <B>Void</B>
+        <B>do</B>
+            <B>if</B> <B>Current</B> &gt;= other <B>then</B>
+                <B>Result</B> := <B>Current</B>
+            <B>else</B>
+                <B>Result</B> := other
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/comparable_flat.html">COMPARABLE</A>
+            current_if_not_smaller: <B>Current</B> &gt;= other <B>implies</B> <B>Result</B> = <B>Current</B>
+            other_if_smaller: <B>Current</B> &lt; other <B>implies</B> <B>Result</B> = other
+        <B>end</B></A>
+
+    <A NAME="f_min"><A HREF="../elks/comparable_flat.html#f_min">min</A> (other: <B>attached</B> <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>): <B>attached</B> <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The smaller of current object and </FONT>`other'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/comparable_flat.html">COMPARABLE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/comparable_flat.html">COMPARABLE</A>
+            other_exists: other /= <B>Void</B>
+        <B>do</B>
+            <B>if</B> <B>Current</B> &lt;= other <B>then</B>
+                <B>Result</B> := <B>Current</B>
+            <B>else</B>
+                <B>Result</B> := other
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/comparable_flat.html">COMPARABLE</A>
+            current_if_not_greater: <B>Current</B> &lt;= other <B>implies</B> <B>Result</B> = <B>Current</B>
+            other_if_greater: <B>Current</B> &gt; other <B>implies</B> <B>Result</B> = other
+        <B>end</B></A>
+
+    <A NAME="f_same_caseless_characters"><A HREF="../elks/readable_string_general_flat.html#f_same_caseless_characters">same_caseless_characters</A> (other: <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>; start_pos, end_pos, index_pos: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are characters of </FONT>`other'<FONT COLOR="red"> within bounds </FONT>`start_pos'<FONT COLOR="red"> and </FONT>`end_pos'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> caseless identical to characters of current string starting at index </FONT>`index_pos'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            other_not_void: other /= <B>Void</B>
+            valid_start_pos: other.<A HREF="../elks/readable_string_general_flat.html#f_valid_index">valid_index</A> (start_pos)
+            valid_end_pos: other.<A HREF="../elks/readable_string_general_flat.html#f_valid_index">valid_index</A> (end_pos)
+            valid_bounds: (start_pos &lt;= end_pos) <B>or</B> (start_pos = end_pos + 1)
+            valid_index_pos: <A HREF="../elks/readable_string_general_flat.html#f_valid_index">valid_index</A> (index_pos)
+        <B>local</B>
+            i, j, nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            l_prop: <B>like</B> <A HREF="../elks/readable_string_general_flat.html#f_character_properties">Character_properties</A>
+            c1, c2: <B>like</B> <A HREF="../elks/readable_string_general_flat.html#f_item">item</A>
+        <B>do</B>
+            nb := end_pos - start_pos + 1
+            <B>if</B> nb &lt;= <A HREF="../elks/readable_string_general_flat.html#f_count">count</A> - index_pos + 1 <B>then</B>
+                <B>from</B>
+                    l_prop := <A HREF="../elks/readable_string_general_flat.html#f_character_properties">Character_properties</A>
+                    <B>Result</B> := <B>True</B>
+                    i := index_pos
+                    j := start_pos
+                    nb := nb + i
+                <B>variant</B>
+                    increasing_index: nb - i + 1
+                <B>until</B>
+                    i = nb
+                <B>loop</B>
+                    c1 := <A HREF="../elks/readable_string_general_flat.html#f_item">item</A> (i)
+                    c2 := other.<A HREF="../elks/readable_string_general_flat.html#f_item">item</A> (j)
+                    <B>if</B> c1 /= c2 <B>and then</B> l_prop.<A HREF="../elks/character_property_flat.html#f_to_lower">to_lower</A> (c1) /= l_prop.<A HREF="../elks/character_property_flat.html#f_to_lower">to_lower</A> (c2) <B>then</B>
+                        <B>Result</B> := <B>False</B>
+                        i := nb - 1
+                    <B>end</B>
+                    i := i + 1
+                    j := j + 1
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B>
+            same_characters: <B>Result</B> = <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (index_pos, index_pos + end_pos - start_pos).<A HREF="../elks/readable_string_general_flat.html#f_is_case_insensitive_equal">is_case_insensitive_equal</A> (other.<A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (start_pos, end_pos))
+        <B>end</B></A>
+
+    <A NAME="f_same_characters"><A HREF="../elks/readable_string_general_flat.html#f_same_characters">same_characters</A> (other: <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>; start_pos, end_pos, index_pos: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are characters of </FONT>`other'<FONT COLOR="red"> within bounds </FONT>`start_pos'<FONT COLOR="red"> and </FONT>`end_pos'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> identical to characters of current string starting at index </FONT>`index_pos'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            other_not_void: other /= <B>Void</B>
+            valid_start_pos: other.<A HREF="../elks/readable_string_general_flat.html#f_valid_index">valid_index</A> (start_pos)
+            valid_end_pos: other.<A HREF="../elks/readable_string_general_flat.html#f_valid_index">valid_index</A> (end_pos)
+            valid_bounds: (start_pos &lt;= end_pos) <B>or</B> (start_pos = end_pos + 1)
+            valid_index_pos: <A HREF="../elks/readable_string_general_flat.html#f_valid_index">valid_index</A> (index_pos)
+        <B>local</B>
+            i, j, nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            nb := end_pos - start_pos + 1
+            <B>if</B> nb &lt;= <A HREF="../elks/readable_string_general_flat.html#f_count">count</A> - index_pos + 1 <B>then</B>
+                <B>from</B>
+                    <B>Result</B> := <B>True</B>
+                    i := index_pos
+                    j := start_pos
+                    nb := nb + i
+                <B>variant</B>
+                    increasing_index: nb - i + 1
+                <B>until</B>
+                    i = nb
+                <B>loop</B>
+                    <B>if</B> <A HREF="../elks/readable_string_general_flat.html#f_item">item</A> (i) /= other.<A HREF="../elks/readable_string_general_flat.html#f_item">item</A> (j) <B>then</B>
+                        <B>Result</B> := <B>False</B>
+                        i := nb - 1
+                    <B>end</B>
+                    i := i + 1
+                    j := j + 1
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B>
+            same_characters: <B>Result</B> = <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (index_pos, index_pos + end_pos - start_pos).<A HREF="../elks/readable_string_general_flat.html#f_same_string">same_string</A> (other.<A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (start_pos, end_pos))
+        <B>end</B></A>
+
+    <A NAME="f_same_string"><A HREF="../elks/readable_string_general_flat.html#f_same_string">same_string</A> (other: <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`other'<FONT COLOR="red"> represent the same string as </FONT>`Current'<FONT COLOR="red">?</FONT>
+        <B>require</B>
+            other_not_void: other /= <B>Void</B>
+        <B>local</B>
+            nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>if</B> other = <B>Current</B> <B>then</B>
+                <B>Result</B> := <B>True</B>
+            <B>else</B>
+                nb := <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>
+                <B>if</B> nb = other.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> <B>then</B>
+                    <B>Result</B> := nb = 0 <B>or else</B> <A HREF="../elks/readable_string_general_flat.html#f_same_characters">same_characters</A> (other, 1, nb, 1)
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_standard_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical objects of the same type?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default object comparison criterion.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (b))
+        <B>end</B></A>
+
+    <A NAME="f_standard_is_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other: <B>attached</B> <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object of the same type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as current object, and field-by-field identical to it?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_starts_with"><A HREF="../elks/readable_string_general_flat.html#f_starts_with">starts_with</A> (s: <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does string begin with </FONT>`s'<FONT COLOR="red">?</FONT>
+        <B>require</B>
+            argument_not_void: s /= <B>Void</B>
+        <B>local</B>
+            i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>if</B> <B>Current</B> = s <B>then</B>
+                <B>Result</B> := <B>True</B>
+            <B>else</B>
+                i := s.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A>
+                <B>if</B> i &lt;= <A HREF="../elks/readable_string_general_flat.html#f_count">count</A> <B>then</B>
+                    <B>from</B>
+                        <B>Result</B> := <B>True</B>
+                    <B>until</B>
+                        i = 0
+                    <B>loop</B>
+                        <B>if</B> <A HREF="../elks/readable_string_general_flat.html#f_code">code</A> (i) /= s.<A HREF="../elks/readable_string_general_flat.html#f_code">code</A> (i) <B>then</B>
+                            <B>Result</B> := <B>False</B>
+                            i := 1
+                        <B>end</B>
+                        i := i - 1
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B>
+            definition: <B>Result</B> = s.<A HREF="../elks/readable_string_general_flat.html#f_same_string">same_string</A> (<A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (1, s.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A>))
+        <B>end</B></A>
+
+    <A NAME="f_substring_index"><A HREF="../elks/readable_string_general_flat.html#f_substring_index">substring_index</A> (other: <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>; start_index: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Index of first occurrence of other at or after start_index;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 0 if none</FONT>
+        <B>require</B>
+            other_not_void: other /= <B>Void</B>
+            valid_start_index: start_index &gt;= 1 <B>and</B> start_index &lt;= <A HREF="../elks/readable_string_general_flat.html#f_count">count</A> + 1
+        <B>deferred</B>
+        <B>ensure</B>
+            valid_result: <B>Result</B> = 0 <B>or else</B> (start_index &lt;= <B>Result</B> <B>and</B> <B>Result</B> &lt;= <A HREF="../elks/readable_string_general_flat.html#f_count">count</A> - other.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> + 1)
+            zero_if_absent: (<B>Result</B> = 0) = <B>not</B> <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (start_index, <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>).<A HREF="../elks/readable_string_general_flat.html#f_has_substring">has_substring</A> (other)
+            at_this_index: <B>Result</B> &gt;= start_index <B>implies</B> other.<A HREF="../elks/readable_string_general_flat.html#f_same_string">same_string</A> (<A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (<B>Result</B>, <B>Result</B> + other.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> - 1))
+            none_before: <B>Result</B> &gt; start_index <B>implies</B> <B>not</B> <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (start_index, <B>Result</B> + other.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> - 2).<A HREF="../elks/readable_string_general_flat.html#f_has_substring">has_substring</A> (other)
+        <B>end</B></A>
+
+    <A NAME="f_substring_index_in_bounds"><A HREF="../elks/readable_string_general_flat.html#f_substring_index_in_bounds">substring_index_in_bounds</A> (other: <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>; start_pos, end_pos: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Position of first occurrence of </FONT>`other'<FONT COLOR="red"> at or after </FONT>`start_pos'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> and to or before </FONT>`end_pos'<FONT COLOR="red">;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 0 if none.</FONT>
+        <B>require</B>
+            other_nonvoid: other /= <B>Void</B>
+            other_notempty: <B>not</B> other.<A HREF="../elks/readable_string_general_flat.html#f_is_empty">is_empty</A>
+            start_pos_large_enough: start_pos &gt;= 1
+            start_pos_small_enough: start_pos &lt;= <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>
+            end_pos_large_enough: end_pos &gt;= start_pos
+            end_pos_small_enough: end_pos &lt;= <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>
+        <B>deferred</B>
+        <B>ensure</B>
+            correct_place: <B>Result</B> &gt; 0 <B>implies</B> other.<A HREF="../elks/readable_string_general_flat.html#f_same_string">same_string</A> (<A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (<B>Result</B>, <B>Result</B> + other.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> - 1))
+        <B>end</B></A>
+
+    <A NAME="f_three_way_comparison"><A HREF="../elks/comparable_flat.html#f_three_way_comparison">three_way_comparison</A> (other: <B>attached</B> <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If current object equal to </FONT>`other'<FONT COLOR="red">, 0;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> if smaller, -1; if greater, 1</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/comparable_flat.html">COMPARABLE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/comparable_flat.html">COMPARABLE</A>
+            other_exists: other /= <B>Void</B>
+        <B>do</B>
+            <B>if</B> <B>Current</B> &lt; other <B>then</B>
+                <B>Result</B> := -1
+            <B>elseif</B> other &lt; <B>Current</B> <B>then</B>
+                <B>Result</B> := 1
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/comparable_flat.html">COMPARABLE</A>
+            equal_zero: (<B>Result</B> = 0) = (<B>Current</B> ~ other)
+            smaller_negative: (<B>Result</B> = -1) = (<B>Current</B> &lt; other)
+            greater_positive: (<B>Result</B> = 1) = (<B>Current</B> &gt; other)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_conforms_to"><A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (other: <A HREF="../elks/any_flat.html">ANY</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does type of current object conform to type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of </FONT>`other'<FONT COLOR="red"> (as per Eiffel: The Language, chapter 13)?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>end</B></A>
+
+    <A NAME="f_has"><A HREF="../elks/readable_string_general_flat.html#f_has">has</A> (c: <B>like</B> <A HREF="../elks/readable_string_general_flat.html#f_item">item</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does string include </FONT>`c'<FONT COLOR="red">?</FONT>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            nb := <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>
+            <B>if</B> nb &gt; 0 <B>then</B>
+                <B>from</B>
+                    i := 1
+                <B>until</B>
+                    i &gt; nb <B>or else</B> (<A HREF="../elks/readable_string_general_flat.html#f_item">item</A> (i) = c)
+                <B>loop</B>
+                    i := i + 1
+                <B>end</B>
+                <B>Result</B> := (i &lt;= nb)
+            <B>end</B>
+        <B>ensure then</B>
+            false_if_empty: <A HREF="../elks/readable_string_general_flat.html#f_count">count</A> = 0 <B>implies</B> <B>not</B> <B>Result</B>
+            true_if_first: <A HREF="../elks/readable_string_general_flat.html#f_count">count</A> &gt; 0 <B>and then</B> <A HREF="../elks/readable_string_general_flat.html#f_item">item</A> (1) = c <B>implies</B> <B>Result</B>
+            recurse: (<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> &gt; 0 <B>and then</B> <A HREF="../elks/readable_string_general_flat.html#f_item">item</A> (1) /= c) <B>implies</B> (<B>Result</B> = <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (2, <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>).<A HREF="../elks/readable_string_general_flat.html#f_has">has</A> (c))
+        <B>end</B></A>
+
+    <A NAME="f_has_code"><A HREF="../elks/readable_string_general_flat.html#f_has_code">has_code</A> (c: <B>like</B> <A HREF="../elks/readable_string_general_flat.html#f_code">code</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does string include </FONT>`c'<FONT COLOR="red">?</FONT>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            nb := <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>
+            <B>if</B> nb &gt; 0 <B>then</B>
+                <B>from</B>
+                    i := 1
+                <B>until</B>
+                    i &gt; nb <B>or else</B> (<A HREF="../elks/readable_string_general_flat.html#f_code">code</A> (i) = c)
+                <B>loop</B>
+                    i := i + 1
+                <B>end</B>
+                <B>Result</B> := (i &lt;= nb)
+            <B>end</B>
+        <B>ensure then</B>
+            false_if_empty: <A HREF="../elks/readable_string_general_flat.html#f_count">count</A> = 0 <B>implies</B> <B>not</B> <B>Result</B>
+            true_if_first: <A HREF="../elks/readable_string_general_flat.html#f_count">count</A> &gt; 0 <B>and then</B> <A HREF="../elks/readable_string_general_flat.html#f_code">code</A> (1) = c <B>implies</B> <B>Result</B>
+            recurse: (<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> &gt; 0 <B>and then</B> <A HREF="../elks/readable_string_general_flat.html#f_code">code</A> (1) /= c) <B>implies</B> (<B>Result</B> = <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (2, <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>).<A HREF="../elks/readable_string_general_flat.html#f_has_code">has_code</A> (c))
+        <B>end</B></A>
+
+    <A NAME="f_is_boolean"><A HREF="../elks/readable_string_general_flat.html#f_is_boolean">is_boolean</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`Current'<FONT COLOR="red"> represent a BOOLEAN?</FONT>
+        <B>deferred</B>
+        <B>ensure</B>
+            is_boolean: <B>Result</B> = (<A HREF="../elks/readable_string_general_flat.html#f_true_constant">True_constant</A>.<A HREF="../elks/readable_string_general_flat.html#f_same_string">same_string_general</A> (<A HREF="../elks/readable_string_general_flat.html#f_as_lower">as_lower</A>) <B>or</B> <A HREF="../elks/readable_string_general_flat.html#f_false_constant">False_constant</A>.<A HREF="../elks/readable_string_general_flat.html#f_same_string">same_string_general</A> (<A HREF="../elks/readable_string_general_flat.html#f_as_lower">as_lower</A>))
+        <B>end</B></A>
+
+    <A NAME="f_is_double"><A HREF="../elks/readable_string_general_flat.html#f_is_double">is_double</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`Current'<FONT COLOR="red"> represent a REAL_64?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/readable_string_general_flat.html#f_is_real_64">is_real_64</A><FONT COLOR="red">.</FONT>
+        <B>local</B>
+            l_convertor: <B>like</B> <A HREF="../elks/readable_string_general_flat.html#f_ctor_convertor">Ctor_convertor</A>
+        <B>do</B>
+            l_convertor := <A HREF="../elks/readable_string_general_flat.html#f_ctor_convertor">Ctor_convertor</A>
+            l_convertor.<A HREF="../elks/string_to_real_convertor_flat.html#f_parse_string_with_type">parse_string_with_type</A> (<B>Current</B>, {<A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A>}.<A HREF="../elks/numeric_information_flat.html#f_type_double">type_double</A>)
+            <B>Result</B> := l_convertor.<A HREF="../elks/string_to_real_convertor_flat.html#f_is_integral_double">is_integral_double</A>
+        <B>end</B></A>
+
+    <A NAME="f_is_empty"><A HREF="../elks/readable_string_general_flat.html#f_is_empty">is_empty</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is structure empty?</FONT>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_hashable"><A HREF="../elks/hashable_flat.html#f_is_hashable">is_hashable</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May current object be hashed?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (True by default.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/hashable_flat.html">HASHABLE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>True</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_immutable"><A HREF="../elks/readable_string_general_flat.html#f_is_immutable">is_immutable</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Can the character sequence of </FONT>`Current'<FONT COLOR="red"> be not changed?</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>False</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_integer"><A HREF="../elks/readable_string_general_flat.html#f_is_integer">is_integer</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`Current'<FONT COLOR="red"> represent an INTEGER_32?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/readable_string_general_flat.html#f_is_integer_32">is_integer_32</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/readable_string_general_flat.html#f_is_valid_integer_or_natural">is_valid_integer_or_natural</A> ({<A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A>}.<A HREF="../elks/numeric_information_flat.html#f_type_integer_32">type_integer_32</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_integer_16"><A HREF="../elks/readable_string_general_flat.html#f_is_integer_16">is_integer_16</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`Current'<FONT COLOR="red"> represent an INTEGER_16?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/readable_string_general_flat.html#f_is_valid_integer_or_natural">is_valid_integer_or_natural</A> ({<A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A>}.<A HREF="../elks/numeric_information_flat.html#f_type_integer_16">type_integer_16</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_integer_32"><A HREF="../elks/readable_string_general_flat.html#f_is_integer_32">is_integer_32</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`Current'<FONT COLOR="red"> represent an INTEGER_32?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/readable_string_general_flat.html#f_is_integer">is_integer</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/readable_string_general_flat.html#f_is_valid_integer_or_natural">is_valid_integer_or_natural</A> ({<A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A>}.<A HREF="../elks/numeric_information_flat.html#f_type_integer_32">type_integer_32</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_integer_64"><A HREF="../elks/readable_string_general_flat.html#f_is_integer_64">is_integer_64</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`Current'<FONT COLOR="red"> represent an INTEGER_64?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/readable_string_general_flat.html#f_is_valid_integer_or_natural">is_valid_integer_or_natural</A> ({<A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A>}.<A HREF="../elks/numeric_information_flat.html#f_type_integer_64">type_integer_64</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_integer_8"><A HREF="../elks/readable_string_general_flat.html#f_is_integer_8">is_integer_8</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`Current'<FONT COLOR="red"> represent an INTEGER_8?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/readable_string_general_flat.html#f_is_valid_integer_or_natural">is_valid_integer_or_natural</A> ({<A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A>}.<A HREF="../elks/numeric_information_flat.html#f_type_integer_8">type_integer_8</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_natural"><A HREF="../elks/readable_string_general_flat.html#f_is_natural">is_natural</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`Current'<FONT COLOR="red"> represent a NATURAL_32?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/readable_string_general_flat.html#f_is_natural_32">is_natural_32</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/readable_string_general_flat.html#f_is_valid_integer_or_natural">is_valid_integer_or_natural</A> ({<A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A>}.<A HREF="../elks/numeric_information_flat.html#f_type_natural_32">type_natural_32</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_natural_16"><A HREF="../elks/readable_string_general_flat.html#f_is_natural_16">is_natural_16</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`Current'<FONT COLOR="red"> represent a NATURAL_16?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/readable_string_general_flat.html#f_is_valid_integer_or_natural">is_valid_integer_or_natural</A> ({<A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A>}.<A HREF="../elks/numeric_information_flat.html#f_type_natural_16">type_natural_16</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_natural_32"><A HREF="../elks/readable_string_general_flat.html#f_is_natural_32">is_natural_32</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`Current'<FONT COLOR="red"> represent a NATURAL_32?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/readable_string_general_flat.html#f_is_natural">is_natural</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/readable_string_general_flat.html#f_is_valid_integer_or_natural">is_valid_integer_or_natural</A> ({<A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A>}.<A HREF="../elks/numeric_information_flat.html#f_type_natural_32">type_natural_32</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_natural_64"><A HREF="../elks/readable_string_general_flat.html#f_is_natural_64">is_natural_64</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`Current'<FONT COLOR="red"> represent a NATURAL_64?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/readable_string_general_flat.html#f_is_valid_integer_or_natural">is_valid_integer_or_natural</A> ({<A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A>}.<A HREF="../elks/numeric_information_flat.html#f_type_natural_64">type_natural_64</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_natural_8"><A HREF="../elks/readable_string_general_flat.html#f_is_natural_8">is_natural_8</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`Current'<FONT COLOR="red"> represent a NATURAL_8?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/readable_string_general_flat.html#f_is_valid_integer_or_natural">is_valid_integer_or_natural</A> ({<A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A>}.<A HREF="../elks/numeric_information_flat.html#f_type_natural_8">type_natural_8</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_number_sequence"><A HREF="../elks/readable_string_general_flat.html#f_is_number_sequence">is_number_sequence</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`Current'<FONT COLOR="red"> represent a number sequence?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/readable_string_general_flat.html#f_is_valid_integer_or_natural">is_valid_integer_or_natural</A> ({<A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A>}.<A HREF="../elks/numeric_information_flat.html#f_type_no_limitation">type_no_limitation</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_real"><A HREF="../elks/readable_string_general_flat.html#f_is_real">is_real</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`Current'<FONT COLOR="red"> represent a REAL_32?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/readable_string_general_flat.html#f_is_real_32">is_real_32</A><FONT COLOR="red">.</FONT>
+        <B>local</B>
+            l_convertor: <B>like</B> <A HREF="../elks/readable_string_general_flat.html#f_ctor_convertor">Ctor_convertor</A>
+        <B>do</B>
+            l_convertor := <A HREF="../elks/readable_string_general_flat.html#f_ctor_convertor">Ctor_convertor</A>
+            l_convertor.<A HREF="../elks/string_to_real_convertor_flat.html#f_parse_string_with_type">parse_string_with_type</A> (<B>Current</B>, {<A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A>}.<A HREF="../elks/numeric_information_flat.html#f_type_real">type_real</A>)
+            <B>Result</B> := l_convertor.<A HREF="../elks/string_to_real_convertor_flat.html#f_is_integral_real">is_integral_real</A>
+        <B>end</B></A>
+
+    <A NAME="f_is_real_32"><A HREF="../elks/readable_string_general_flat.html#f_is_real_32">is_real_32</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`Current'<FONT COLOR="red"> represent a REAL_32?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/readable_string_general_flat.html#f_is_real">is_real</A><FONT COLOR="red">.</FONT>
+        <B>local</B>
+            l_convertor: <B>like</B> <A HREF="../elks/readable_string_general_flat.html#f_ctor_convertor">Ctor_convertor</A>
+        <B>do</B>
+            l_convertor := <A HREF="../elks/readable_string_general_flat.html#f_ctor_convertor">Ctor_convertor</A>
+            l_convertor.<A HREF="../elks/string_to_real_convertor_flat.html#f_parse_string_with_type">parse_string_with_type</A> (<B>Current</B>, {<A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A>}.<A HREF="../elks/numeric_information_flat.html#f_type_real">type_real</A>)
+            <B>Result</B> := l_convertor.<A HREF="../elks/string_to_real_convertor_flat.html#f_is_integral_real">is_integral_real</A>
+        <B>end</B></A>
+
+    <A NAME="f_is_real_64"><A HREF="../elks/readable_string_general_flat.html#f_is_real_64">is_real_64</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`Current'<FONT COLOR="red"> represent a REAL_64?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/readable_string_general_flat.html#f_is_double">is_double</A><FONT COLOR="red">.</FONT>
+        <B>local</B>
+            l_convertor: <B>like</B> <A HREF="../elks/readable_string_general_flat.html#f_ctor_convertor">Ctor_convertor</A>
+        <B>do</B>
+            l_convertor := <A HREF="../elks/readable_string_general_flat.html#f_ctor_convertor">Ctor_convertor</A>
+            l_convertor.<A HREF="../elks/string_to_real_convertor_flat.html#f_parse_string_with_type">parse_string_with_type</A> (<B>Current</B>, {<A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A>}.<A HREF="../elks/numeric_information_flat.html#f_type_double">type_double</A>)
+            <B>Result</B> := l_convertor.<A HREF="../elks/string_to_real_convertor_flat.html#f_is_integral_double">is_integral_double</A>
+        <B>end</B></A>
+
+    <A NAME="f_is_real_sequence"><A HREF="../elks/readable_string_general_flat.html#f_is_real_sequence">is_real_sequence</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`Current'<FONT COLOR="red"> represent a real sequence?</FONT>
+        <B>local</B>
+            l_convertor: <B>like</B> <A HREF="../elks/readable_string_general_flat.html#f_ctor_convertor">Ctor_convertor</A>
+        <B>do</B>
+            l_convertor := <A HREF="../elks/readable_string_general_flat.html#f_ctor_convertor">Ctor_convertor</A>
+            l_convertor.<A HREF="../elks/string_to_real_convertor_flat.html#f_parse_string_with_type">parse_string_with_type</A> (<B>Current</B>, {<A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A>}.<A HREF="../elks/numeric_information_flat.html#f_type_no_limitation">type_no_limitation</A>)
+            <B>Result</B> := l_convertor.<A HREF="../elks/string_to_real_convertor_flat.html#f_is_integral_double">is_integral_double</A>
+        <B>end</B></A>
+
+    <A NAME="f_is_string_32"><A HREF="../elks/readable_string_general_flat.html#f_is_string_32">is_string_32</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`Current'<FONT COLOR="red"> a sequence of CHARACTER_32?</FONT>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_string_8"><A HREF="../elks/readable_string_general_flat.html#f_is_string_8">is_string_8</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`Current'<FONT COLOR="red"> a sequence of CHARACTER_8?</FONT>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_valid_as_string_8"><A HREF="../elks/readable_string_general_flat.html#f_is_valid_as_string_8">is_valid_as_string_8</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`Current'<FONT COLOR="red"> convertible to a sequence of CHARACTER_8 without information loss?</FONT>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_same_type"><A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other: <A HREF="../elks/any_flat.html">ANY</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is type of current object identical to type of </FONT>`other'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (<A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (other) <B>and</B> other.<A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>Current</B>))
+        <B>end</B></A>
+
+    <A NAME="f_valid_code"><A HREF="../elks/readable_string_general_flat.html#f_valid_code">valid_code</A> (v: <B>like</B> <A HREF="../elks/readable_string_general_flat.html#f_code">code</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`v'<FONT COLOR="red"> a valid code for Current?</FONT>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_valid_index"><A HREF="../elks/readable_string_general_flat.html#f_valid_index">valid_index</A> (i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`i'<FONT COLOR="red"> within the bounds of the string?</FONT>
+        <B>do</B>
+            <B>Result</B> := (i &gt; 0) <B>and</B> (i &lt;= <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>)
+        <B>ensure</B>
+            definition: <B>Result</B> = (1 &lt;= i <B>and</B> i &lt;= <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_plus"><A HREF="../elks/readable_string_general_flat.html#f_plus">plus</A> <B>alias</B> "+" (s: <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>): <B>like</B> <B>Current</B>
+        <B>require</B>
+            argument_not_void: s /= <B>Void</B>
+            compatible_strings: <A HREF="../elks/readable_string_general_flat.html#f_is_string_8">is_string_8</A> <B>implies</B> s.<A HREF="../elks/readable_string_general_flat.html#f_is_valid_as_string_8">is_valid_as_string_8</A>
+        <B>deferred</B>
+        <B>ensure</B>
+            plus_not_void: <B>Result</B> /= <B>Void</B>
+            new_count: <B>Result</B>.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> = <A HREF="../elks/readable_string_general_flat.html#f_count">count</A> + s.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A>
+            initial: <A HREF="../elks/readable_string_general_flat.html#f_elks_checking">Elks_checking</A> <B>implies</B> <B>Result</B>.<A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (1, <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>) ~ <B>Current</B>
+            final: <A HREF="../elks/readable_string_general_flat.html#f_elks_checking">Elks_checking</A> <B>implies</B> <B>Result</B>.<A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> + 1, <A HREF="../elks/readable_string_general_flat.html#f_count">count</A> + s.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A>).<A HREF="../elks/readable_string_general_flat.html#f_same_string">same_string</A> (s)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Conversion</FONT>
+
+    <A NAME="f_as_lower"><A HREF="../elks/readable_string_general_flat.html#f_as_lower">as_lower</A>: <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object with all letters in lower case.</FONT>
+        <B>deferred</B>
+        <B>ensure</B>
+            as_lower_attached: <B>Result</B> /= <B>Void</B>
+            length: <B>Result</B>.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> = <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>
+            anchor: <A HREF="../elks/readable_string_general_flat.html#f_count">count</A> &gt; 0 <B>implies</B> <B>Result</B>.<A HREF="../elks/readable_string_general_flat.html#f_item">item</A> (1) = <A HREF="../elks/readable_string_general_flat.html#f_item">item</A> (1).<A HREF="../elks/character_32_ref_flat.html#f_as_lower">as_lower</A>
+            recurse: <A HREF="../elks/readable_string_general_flat.html#f_count">count</A> &gt; 1 <B>implies</B> <B>Result</B>.<A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (2, <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>) ~ <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (2, <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>).<A HREF="../elks/readable_string_general_flat.html#f_as_lower">as_lower</A>
+        <B>end</B></A>
+
+    <A NAME="f_as_readable_string_32"><A HREF="../elks/readable_string_general_flat.html#f_as_readable_string_32">as_readable_string_32</A>: <A HREF="../elks/readable_string_32_flat.html">READABLE_STRING_32</A>
+        <B>obsolete</B> "Use explicit conversion `to_string_32' instead."
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/readable_string_general_flat.html#f_as_string_32">as_string_32</A>
+        <B>end</B></A>
+
+    <A NAME="f_as_readable_string_8"><A HREF="../elks/readable_string_general_flat.html#f_as_readable_string_8">as_readable_string_8</A>: <A HREF="../elks/readable_string_8_flat.html">READABLE_STRING_8</A>
+        <B>obsolete</B> "Use explicit conversion `to_string_8' instead."
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/readable_string_general_flat.html#f_as_string_8">as_string_8</A>
+        <B>end</B></A>
+
+    <A NAME="f_as_string_32"><A HREF="../elks/readable_string_general_flat.html#f_as_string_32">as_string_32</A>: <A HREF="../elks/string_32_flat.html">STRING_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert </FONT>`Current'<FONT COLOR="red"> as a STRING_32.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/readable_string_general_flat.html#f_to_string_32">to_string_32</A><FONT COLOR="red">.</FONT>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<A HREF="../elks/string_32_flat.html">STRING_32</A>} <B>Current</B> <B>as</B> l_result <B>then</B>
+                <B>Result</B> := l_result
+            <B>else</B>
+                nb := <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>
+                <B>create</B> <B>Result</B>.<A HREF="../elks/readable_string_32_flat.html#f_make">make</A> (nb)
+                <B>Result</B>.<A HREF="../elks/string_32_flat.html#f_set_count">set_count</A> (nb)
+                <B>from</B>
+                    i := 1
+                <B>until</B>
+                    i &gt; nb
+                <B>loop</B>
+                    <B>Result</B>.<A HREF="../elks/string_32_flat.html#f_put_code">put_code</A> (<A HREF="../elks/readable_string_general_flat.html#f_code">code</A> (i), i)
+                    i := i + 1
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B>
+            as_string_32_not_void: <B>Result</B> /= <B>Void</B>
+            identity: (<A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>create</B> {<A HREF="../elks/string_32_flat.html">STRING_32</A>}.<A HREF="../elks/readable_string_general_flat.html#f_make_empty">make_empty</A>) <B>and</B> <B>Result</B> = <B>Current</B>) <B>or</B> (<B>not</B> <A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>create</B> {<A HREF="../elks/string_32_flat.html">STRING_32</A>}.<A HREF="../elks/readable_string_general_flat.html#f_make_empty">make_empty</A>) <B>and</B> <B>Result</B> /= <B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_as_string_32_conversion"><A HREF="../elks/readable_string_general_flat.html#f_as_string_32_conversion">as_string_32_conversion</A>: <A HREF="../elks/string_32_flat.html">STRING_32</A>
+        <B>obsolete</B> "Update target of call to use READABLE_STRING_32 and descendants instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Equivalent to </FONT><A HREF="../elks/readable_string_general_flat.html#f_as_string_32">as_string_32</A><FONT COLOR="red"> with a different name.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> To be used for migrating existing code to Unicode</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> when you get a compiler error but cannot or do not have</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> the time yet to address the source of the string to be</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> a READABLE_STRING_32 or descendants.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/readable_string_general_flat.html#f_as_string_32">as_string_32</A>
+        <B>end</B></A>
+
+    <A NAME="f_as_string_8"><A HREF="../elks/readable_string_general_flat.html#f_as_string_8">as_string_8</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert </FONT>`Current'<FONT COLOR="red"> as a STRING_8. If a code of </FONT>`Current'<FONT COLOR="red"> is</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> not a valid code for a STRING_8 it is replaced with the null</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> character.</FONT>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            l_code: <B>like</B> <A HREF="../elks/readable_string_general_flat.html#f_code">code</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<A HREF="../elks/string_8_flat.html">STRING_8</A>} <B>Current</B> <B>as</B> l_result <B>then</B>
+                <B>Result</B> := l_result
+            <B>else</B>
+                nb := <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>
+                <B>create</B> <B>Result</B>.<A HREF="../elks/readable_string_8_flat.html#f_make">make</A> (nb)
+                <B>Result</B>.<A HREF="../elks/string_8_flat.html#f_set_count">set_count</A> (nb)
+                <B>from</B>
+                    i := 1
+                <B>until</B>
+                    i &gt; nb
+                <B>loop</B>
+                    l_code := <A HREF="../elks/readable_string_general_flat.html#f_code">code</A> (i)
+                    <B>if</B> <B>Result</B>.<A HREF="../elks/readable_string_8_flat.html#f_valid_code">valid_code</A> (l_code) <B>then</B>
+                        <B>Result</B>.<A HREF="../elks/string_8_flat.html#f_put_code">put_code</A> (l_code, i)
+                    <B>else</B>
+                        <B>Result</B>.<A HREF="../elks/string_8_flat.html#f_put_code">put_code</A> (0.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A>, i)
+                    <B>end</B>
+                    i := i + 1
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B>
+            as_string_8_not_void: <B>Result</B> /= <B>Void</B>
+            identity: (<A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> ("") <B>and</B> <B>Result</B> = <B>Current</B>) <B>or</B> (<B>not</B> <A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> ("") <B>and</B> <B>Result</B> /= <B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_as_string_8_conversion"><A HREF="../elks/readable_string_general_flat.html#f_as_string_8_conversion">as_string_8_conversion</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+        <B>obsolete</B> "Update recipient of call to use READABLE_STRING_32 and descendants instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Equivalent to </FONT><A HREF="../elks/readable_string_general_flat.html#f_as_string_8">as_string_8</A><FONT COLOR="red"> with a different name.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> To be used for migrating existing code to Unicode</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> when you get a compiler error but cannot or do not have</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> the time yet to address the target recipient of the string to be</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> a READABLE_STRING_32 or descendants.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/readable_string_general_flat.html#f_as_string_8">as_string_8</A>
+        <B>end</B></A>
+
+    <A NAME="f_as_upper"><A HREF="../elks/readable_string_general_flat.html#f_as_upper">as_upper</A>: <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object with all letters in upper case</FONT>
+        <B>deferred</B>
+        <B>ensure</B>
+            as_upper_attached: <B>Result</B> /= <B>Void</B>
+            length: <B>Result</B>.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> = <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>
+            anchor: <A HREF="../elks/readable_string_general_flat.html#f_count">count</A> &gt; 0 <B>implies</B> <B>Result</B>.<A HREF="../elks/readable_string_general_flat.html#f_item">item</A> (1) = <A HREF="../elks/readable_string_general_flat.html#f_item">item</A> (1).<A HREF="../elks/character_32_ref_flat.html#f_as_upper">as_upper</A>
+            recurse: <A HREF="../elks/readable_string_general_flat.html#f_count">count</A> &gt; 1 <B>implies</B> <B>Result</B>.<A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (2, <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>) ~ <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (2, <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>).<A HREF="../elks/readable_string_general_flat.html#f_as_upper">as_upper</A>
+        <B>end</B></A>
+
+    <A NAME="f_split"><A HREF="../elks/readable_string_general_flat.html#f_split">split</A> (a_separator: <A HREF="../elks/character_32_flat.html">CHARACTER_32</A>): <A HREF="../elks/list_flat.html">LIST</A> [<B>like</B> <B>Current</B>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Split on </FONT>`a_separator'<FONT COLOR="red">.</FONT>
+        <B>local</B>
+            l_list: <A HREF="../elks/arrayed_list_flat.html">ARRAYED_LIST</A> [<B>like</B> <B>Current</B>]
+            part: <B>like</B> <B>Current</B>
+            i, j, c: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            c := <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>
+            <B>create</B> l_list.<A HREF="../elks/arrayed_list_flat.html#f_make">make</A> (c + 1)
+            <B>if</B> c &gt; 0 <B>then</B>
+                <B>from</B>
+                    i := 1
+                <B>until</B>
+                    i &gt; c
+                <B>loop</B>
+                    j := <A HREF="../elks/readable_string_general_flat.html#f_index_of">index_of</A> (a_separator, i)
+                    <B>if</B> j = 0 <B>then</B>
+                        j := c + 1
+                    <B>end</B>
+                    part := <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (i, j - 1)
+                    l_list.<A HREF="../elks/arrayed_list_flat.html#f_extend">extend</A> (part)
+                    i := j + 1
+                <B>end</B>
+                <B>if</B> j = c <B>then</B>
+                    <B>check</B>
+                        last_character_is_a_separator: <A HREF="../elks/readable_string_general_flat.html#f_item">item</A> (j) = a_separator
+                    <B>end</B>
+                    l_list.<A HREF="../elks/arrayed_list_flat.html#f_extend">extend</A> (<A HREF="../elks/readable_string_general_flat.html#f_new_string">new_string</A> (0))
+                <B>end</B>
+            <B>else</B>
+                l_list.<A HREF="../elks/arrayed_list_flat.html#f_extend">extend</A> (<A HREF="../elks/readable_string_general_flat.html#f_new_string">new_string</A> (0))
+            <B>end</B>
+            <B>Result</B> := l_list
+            <B>check</B>
+                l_list.<A HREF="../elks/arrayed_list_flat.html#f_count">count</A> = <A HREF="../elks/readable_string_general_flat.html#f_occurrences">occurrences</A> (a_separator) + 1
+            <B>end</B>
+        <B>ensure</B>
+            <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_to_boolean"><A HREF="../elks/readable_string_general_flat.html#f_to_boolean">to_boolean</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Boolean value;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> "True" yields </FONT>`True'<FONT COLOR="red">, "False" yields </FONT>`False'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (case-insensitive)</FONT>
+        <B>require</B>
+            is_boolean: <A HREF="../elks/readable_string_general_flat.html#f_is_boolean">is_boolean</A>
+        <B>do</B>
+            <B>check</B>
+                <A HREF="../elks/readable_string_general_flat.html#f_true_constant">True_constant</A>.<A HREF="../elks/readable_string_8_flat.html#f_count">count</A> = 4
+            <B>end</B>
+            <B>if</B> <A HREF="../elks/readable_string_general_flat.html#f_count">count</A> = 4 <B>then</B>
+                <B>Result</B> := <B>True</B>
+            <B>end</B>
+        <B>ensure</B>
+            to_boolean: (<B>Result</B> = <A HREF="../elks/readable_string_general_flat.html#f_as_lower">as_lower</A>.<A HREF="../elks/readable_string_general_flat.html#f_same_string">same_string</A> (<A HREF="../elks/readable_string_general_flat.html#f_true_constant">True_constant</A>)) <B>or</B> (<B>not</B> <B>Result</B> = <A HREF="../elks/readable_string_general_flat.html#f_as_lower">as_lower</A>.<A HREF="../elks/readable_string_general_flat.html#f_same_string">same_string</A> (<A HREF="../elks/readable_string_general_flat.html#f_false_constant">False_constant</A>))
+        <B>end</B></A>
+
+    <A NAME="f_to_cil"><B>frozen</B> <A HREF="../elks/readable_string_general_flat.html#f_to_cil">to_cil</A>: <A HREF="../elks/system_string_flat.html">SYSTEM_STRING</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create an instance of SYSTEM_STRING using characters</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of Current between indices </FONT>`1'<FONT COLOR="red"> and </FONT><A HREF="../elks/readable_string_general_flat.html#f_count">count</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            is_dotnet: {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_is_dotnet">is_dotnet</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/readable_string_general_flat.html#f_dotnet_convertor">Dotnet_convertor</A>.<A HREF="../elks/system_string_factory_flat.html#f_from_string_to_system_string">from_string_to_system_string</A> (<B>Current</B>)
+        <B>ensure</B>
+            to_cil_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_to_double"><A HREF="../elks/readable_string_general_flat.html#f_to_double">to_double</A>: <A HREF="../elks/real_64_flat.html">REAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> "Double" value;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> for example, when applied to "123.0", will yield 123.0 (double)</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/readable_string_general_flat.html#f_to_real_64">to_real_64</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            represents_a_double: <A HREF="../elks/readable_string_general_flat.html#f_is_double">is_double</A>
+        <B>local</B>
+            l_convertor: <B>like</B> <A HREF="../elks/readable_string_general_flat.html#f_ctor_convertor">Ctor_convertor</A>
+        <B>do</B>
+            l_convertor := <A HREF="../elks/readable_string_general_flat.html#f_ctor_convertor">Ctor_convertor</A>
+            l_convertor.<A HREF="../elks/string_to_real_convertor_flat.html#f_parse_string_with_type">parse_string_with_type</A> (<B>Current</B>, {<A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A>}.<A HREF="../elks/numeric_information_flat.html#f_type_no_limitation">type_no_limitation</A>)
+            <B>Result</B> := l_convertor.<A HREF="../elks/string_to_real_convertor_flat.html#f_parsed_double">parsed_double</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_integer"><A HREF="../elks/readable_string_general_flat.html#f_to_integer">to_integer</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 32-bit integer value</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/readable_string_general_flat.html#f_to_integer_32">to_integer_32</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            is_integer: <A HREF="../elks/readable_string_general_flat.html#f_is_integer_32">is_integer_32</A>
+        <B>local</B>
+            l_convertor: <B>like</B> <A HREF="../elks/readable_string_general_flat.html#f_ctoi_convertor">Ctoi_convertor</A>
+        <B>do</B>
+            l_convertor := <A HREF="../elks/readable_string_general_flat.html#f_ctoi_convertor">Ctoi_convertor</A>
+            l_convertor.<A HREF="../elks/string_to_integer_convertor_flat.html#f_parse_string_with_type">parse_string_with_type</A> (<B>Current</B>, {<A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A>}.<A HREF="../elks/numeric_information_flat.html#f_type_no_limitation">type_no_limitation</A>)
+            <B>Result</B> := l_convertor.<A HREF="../elks/string_to_integer_convertor_flat.html#f_parsed_integer">parsed_integer</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_integer_16"><A HREF="../elks/readable_string_general_flat.html#f_to_integer_16">to_integer_16</A>: <A HREF="../elks/integer_16_flat.html">INTEGER_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 16-bit integer value</FONT>
+        <B>require</B>
+            is_integer_16: <A HREF="../elks/readable_string_general_flat.html#f_is_integer_16">is_integer_16</A>
+        <B>local</B>
+            l_convertor: <B>like</B> <A HREF="../elks/readable_string_general_flat.html#f_ctoi_convertor">Ctoi_convertor</A>
+        <B>do</B>
+            l_convertor := <A HREF="../elks/readable_string_general_flat.html#f_ctoi_convertor">Ctoi_convertor</A>
+            l_convertor.<A HREF="../elks/string_to_integer_convertor_flat.html#f_parse_string_with_type">parse_string_with_type</A> (<B>Current</B>, {<A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A>}.<A HREF="../elks/numeric_information_flat.html#f_type_no_limitation">type_no_limitation</A>)
+            <B>Result</B> := l_convertor.<A HREF="../elks/string_to_integer_convertor_flat.html#f_parsed_integer_16">parsed_integer_16</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_integer_32"><A HREF="../elks/readable_string_general_flat.html#f_to_integer_32">to_integer_32</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 32-bit integer value</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/readable_string_general_flat.html#f_to_integer">to_integer</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            is_integer: <A HREF="../elks/readable_string_general_flat.html#f_is_integer_32">is_integer_32</A>
+        <B>local</B>
+            l_convertor: <B>like</B> <A HREF="../elks/readable_string_general_flat.html#f_ctoi_convertor">Ctoi_convertor</A>
+        <B>do</B>
+            l_convertor := <A HREF="../elks/readable_string_general_flat.html#f_ctoi_convertor">Ctoi_convertor</A>
+            l_convertor.<A HREF="../elks/string_to_integer_convertor_flat.html#f_parse_string_with_type">parse_string_with_type</A> (<B>Current</B>, {<A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A>}.<A HREF="../elks/numeric_information_flat.html#f_type_no_limitation">type_no_limitation</A>)
+            <B>Result</B> := l_convertor.<A HREF="../elks/string_to_integer_convertor_flat.html#f_parsed_integer">parsed_integer</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_integer_64"><A HREF="../elks/readable_string_general_flat.html#f_to_integer_64">to_integer_64</A>: <A HREF="../elks/integer_64_flat.html">INTEGER_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 64-bit integer value</FONT>
+        <B>require</B>
+            is_integer_64: <A HREF="../elks/readable_string_general_flat.html#f_is_integer_64">is_integer_64</A>
+        <B>local</B>
+            l_convertor: <B>like</B> <A HREF="../elks/readable_string_general_flat.html#f_ctoi_convertor">Ctoi_convertor</A>
+        <B>do</B>
+            l_convertor := <A HREF="../elks/readable_string_general_flat.html#f_ctoi_convertor">Ctoi_convertor</A>
+            l_convertor.<A HREF="../elks/string_to_integer_convertor_flat.html#f_parse_string_with_type">parse_string_with_type</A> (<B>Current</B>, {<A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A>}.<A HREF="../elks/numeric_information_flat.html#f_type_no_limitation">type_no_limitation</A>)
+            <B>Result</B> := l_convertor.<A HREF="../elks/string_to_integer_convertor_flat.html#f_parsed_integer_64">parsed_integer_64</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_integer_8"><A HREF="../elks/readable_string_general_flat.html#f_to_integer_8">to_integer_8</A>: <A HREF="../elks/integer_8_flat.html">INTEGER_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 8-bit integer value</FONT>
+        <B>require</B>
+            is_integer_8: <A HREF="../elks/readable_string_general_flat.html#f_is_integer_8">is_integer_8</A>
+        <B>local</B>
+            l_convertor: <B>like</B> <A HREF="../elks/readable_string_general_flat.html#f_ctoi_convertor">Ctoi_convertor</A>
+        <B>do</B>
+            l_convertor := <A HREF="../elks/readable_string_general_flat.html#f_ctoi_convertor">Ctoi_convertor</A>
+            l_convertor.<A HREF="../elks/string_to_integer_convertor_flat.html#f_parse_string_with_type">parse_string_with_type</A> (<B>Current</B>, {<A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A>}.<A HREF="../elks/numeric_information_flat.html#f_type_no_limitation">type_no_limitation</A>)
+            <B>Result</B> := l_convertor.<A HREF="../elks/string_to_integer_convertor_flat.html#f_parsed_integer_8">parsed_integer_8</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_natural"><A HREF="../elks/readable_string_general_flat.html#f_to_natural">to_natural</A>: <A HREF="../elks/natural_32_flat.html">NATURAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 32-bit natural value</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/readable_string_general_flat.html#f_to_natural_32">to_natural_32</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            is_natural: <A HREF="../elks/readable_string_general_flat.html#f_is_natural_32">is_natural_32</A>
+        <B>local</B>
+            l_convertor: <B>like</B> <A HREF="../elks/readable_string_general_flat.html#f_ctoi_convertor">Ctoi_convertor</A>
+        <B>do</B>
+            l_convertor := <A HREF="../elks/readable_string_general_flat.html#f_ctoi_convertor">Ctoi_convertor</A>
+            l_convertor.<A HREF="../elks/string_to_integer_convertor_flat.html#f_parse_string_with_type">parse_string_with_type</A> (<B>Current</B>, {<A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A>}.<A HREF="../elks/numeric_information_flat.html#f_type_no_limitation">type_no_limitation</A>)
+            <B>Result</B> := l_convertor.<A HREF="../elks/string_to_integer_convertor_flat.html#f_parsed_natural_32">parsed_natural_32</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_natural_16"><A HREF="../elks/readable_string_general_flat.html#f_to_natural_16">to_natural_16</A>: <A HREF="../elks/natural_16_flat.html">NATURAL_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 16-bit natural value</FONT>
+        <B>require</B>
+            is_natural_16: <A HREF="../elks/readable_string_general_flat.html#f_is_natural_16">is_natural_16</A>
+        <B>local</B>
+            l_convertor: <B>like</B> <A HREF="../elks/readable_string_general_flat.html#f_ctoi_convertor">Ctoi_convertor</A>
+        <B>do</B>
+            l_convertor := <A HREF="../elks/readable_string_general_flat.html#f_ctoi_convertor">Ctoi_convertor</A>
+            l_convertor.<A HREF="../elks/string_to_integer_convertor_flat.html#f_parse_string_with_type">parse_string_with_type</A> (<B>Current</B>, {<A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A>}.<A HREF="../elks/numeric_information_flat.html#f_type_no_limitation">type_no_limitation</A>)
+            <B>Result</B> := l_convertor.<A HREF="../elks/string_to_integer_convertor_flat.html#f_parsed_natural_16">parsed_natural_16</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_natural_32"><A HREF="../elks/readable_string_general_flat.html#f_to_natural_32">to_natural_32</A>: <A HREF="../elks/natural_32_flat.html">NATURAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 32-bit natural value</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/readable_string_general_flat.html#f_to_natural">to_natural</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            is_natural: <A HREF="../elks/readable_string_general_flat.html#f_is_natural_32">is_natural_32</A>
+        <B>local</B>
+            l_convertor: <B>like</B> <A HREF="../elks/readable_string_general_flat.html#f_ctoi_convertor">Ctoi_convertor</A>
+        <B>do</B>
+            l_convertor := <A HREF="../elks/readable_string_general_flat.html#f_ctoi_convertor">Ctoi_convertor</A>
+            l_convertor.<A HREF="../elks/string_to_integer_convertor_flat.html#f_parse_string_with_type">parse_string_with_type</A> (<B>Current</B>, {<A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A>}.<A HREF="../elks/numeric_information_flat.html#f_type_no_limitation">type_no_limitation</A>)
+            <B>Result</B> := l_convertor.<A HREF="../elks/string_to_integer_convertor_flat.html#f_parsed_natural_32">parsed_natural_32</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_natural_64"><A HREF="../elks/readable_string_general_flat.html#f_to_natural_64">to_natural_64</A>: <A HREF="../elks/natural_64_flat.html">NATURAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 64-bit natural value</FONT>
+        <B>require</B>
+            is_natural_64: <A HREF="../elks/readable_string_general_flat.html#f_is_natural_64">is_natural_64</A>
+        <B>local</B>
+            l_convertor: <B>like</B> <A HREF="../elks/readable_string_general_flat.html#f_ctoi_convertor">Ctoi_convertor</A>
+        <B>do</B>
+            l_convertor := <A HREF="../elks/readable_string_general_flat.html#f_ctoi_convertor">Ctoi_convertor</A>
+            l_convertor.<A HREF="../elks/string_to_integer_convertor_flat.html#f_parse_string_with_type">parse_string_with_type</A> (<B>Current</B>, {<A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A>}.<A HREF="../elks/numeric_information_flat.html#f_type_no_limitation">type_no_limitation</A>)
+            <B>Result</B> := l_convertor.<A HREF="../elks/string_to_integer_convertor_flat.html#f_parsed_natural_64">parsed_natural_64</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_natural_8"><A HREF="../elks/readable_string_general_flat.html#f_to_natural_8">to_natural_8</A>: <A HREF="../elks/natural_8_flat.html">NATURAL_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 8-bit natural value</FONT>
+        <B>require</B>
+            is_natural_8: <A HREF="../elks/readable_string_general_flat.html#f_is_natural_8">is_natural_8</A>
+        <B>local</B>
+            l_convertor: <B>like</B> <A HREF="../elks/readable_string_general_flat.html#f_ctoi_convertor">Ctoi_convertor</A>
+        <B>do</B>
+            l_convertor := <A HREF="../elks/readable_string_general_flat.html#f_ctoi_convertor">Ctoi_convertor</A>
+            l_convertor.<A HREF="../elks/string_to_integer_convertor_flat.html#f_parse_string_with_type">parse_string_with_type</A> (<B>Current</B>, {<A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A>}.<A HREF="../elks/numeric_information_flat.html#f_type_no_limitation">type_no_limitation</A>)
+            <B>Result</B> := l_convertor.<A HREF="../elks/string_to_integer_convertor_flat.html#f_parsed_natural_8">parsed_natural_8</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_real"><A HREF="../elks/readable_string_general_flat.html#f_to_real">to_real</A>: <A HREF="../elks/real_32_flat.html">REAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Real value;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> for example, when applied to "123.0", will yield 123.0</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/readable_string_general_flat.html#f_to_real_32">to_real_32</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            represents_a_real: <A HREF="../elks/readable_string_general_flat.html#f_is_real">is_real</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/readable_string_general_flat.html#f_to_double">to_double</A>.<A HREF="../elks/real_64_flat.html#f_truncated_to_real">truncated_to_real</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_real_32"><A HREF="../elks/readable_string_general_flat.html#f_to_real_32">to_real_32</A>: <A HREF="../elks/real_32_flat.html">REAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Real value;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> for example, when applied to "123.0", will yield 123.0</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/readable_string_general_flat.html#f_to_real">to_real</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            represents_a_real: <A HREF="../elks/readable_string_general_flat.html#f_is_real">is_real</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/readable_string_general_flat.html#f_to_double">to_double</A>.<A HREF="../elks/real_64_flat.html#f_truncated_to_real">truncated_to_real</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_real_64"><A HREF="../elks/readable_string_general_flat.html#f_to_real_64">to_real_64</A>: <A HREF="../elks/real_64_flat.html">REAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> "Double" value;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> for example, when applied to "123.0", will yield 123.0 (double)</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/readable_string_general_flat.html#f_to_double">to_double</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            represents_a_double: <A HREF="../elks/readable_string_general_flat.html#f_is_double">is_double</A>
+        <B>local</B>
+            l_convertor: <B>like</B> <A HREF="../elks/readable_string_general_flat.html#f_ctor_convertor">Ctor_convertor</A>
+        <B>do</B>
+            l_convertor := <A HREF="../elks/readable_string_general_flat.html#f_ctor_convertor">Ctor_convertor</A>
+            l_convertor.<A HREF="../elks/string_to_real_convertor_flat.html#f_parse_string_with_type">parse_string_with_type</A> (<B>Current</B>, {<A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A>}.<A HREF="../elks/numeric_information_flat.html#f_type_no_limitation">type_no_limitation</A>)
+            <B>Result</B> := l_convertor.<A HREF="../elks/string_to_real_convertor_flat.html#f_parsed_double">parsed_double</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_string_32"><A HREF="../elks/readable_string_general_flat.html#f_to_string_32">to_string_32</A>: <A HREF="../elks/string_32_flat.html">STRING_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert </FONT>`Current'<FONT COLOR="red"> as a STRING_32.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/readable_string_general_flat.html#f_as_string_32">as_string_32</A><FONT COLOR="red">.</FONT>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<A HREF="../elks/string_32_flat.html">STRING_32</A>} <B>Current</B> <B>as</B> l_result <B>then</B>
+                <B>Result</B> := l_result
+            <B>else</B>
+                nb := <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>
+                <B>create</B> <B>Result</B>.<A HREF="../elks/readable_string_32_flat.html#f_make">make</A> (nb)
+                <B>Result</B>.<A HREF="../elks/string_32_flat.html#f_set_count">set_count</A> (nb)
+                <B>from</B>
+                    i := 1
+                <B>until</B>
+                    i &gt; nb
+                <B>loop</B>
+                    <B>Result</B>.<A HREF="../elks/string_32_flat.html#f_put_code">put_code</A> (<A HREF="../elks/readable_string_general_flat.html#f_code">code</A> (i), i)
+                    i := i + 1
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B>
+            as_string_32_not_void: <B>Result</B> /= <B>Void</B>
+            identity: (<A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>create</B> {<A HREF="../elks/string_32_flat.html">STRING_32</A>}.<A HREF="../elks/readable_string_general_flat.html#f_make_empty">make_empty</A>) <B>and</B> <B>Result</B> = <B>Current</B>) <B>or</B> (<B>not</B> <A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>create</B> {<A HREF="../elks/string_32_flat.html">STRING_32</A>}.<A HREF="../elks/readable_string_general_flat.html#f_make_empty">make_empty</A>) <B>and</B> <B>Result</B> /= <B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_to_string_8"><A HREF="../elks/readable_string_general_flat.html#f_to_string_8">to_string_8</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert </FONT>`Current'<FONT COLOR="red"> as a STRING_8.</FONT>
+        <B>require</B>
+            is_valid_as_string_8: <A HREF="../elks/readable_string_general_flat.html#f_is_valid_as_string_8">is_valid_as_string_8</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/readable_string_general_flat.html#f_as_string_8">as_string_8</A>
+        <B>ensure</B>
+            as_string_8_not_void: <B>Result</B> /= <B>Void</B>
+            identity: (<A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> ("") <B>and</B> <B>Result</B> = <B>Current</B>) <B>or</B> (<B>not</B> <A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> ("") <B>and</B> <B>Result</B> /= <B>Current</B>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_clone">clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void; otherwise new object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to </FONT>`other'
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> For non-void </FONT>`other'<FONT COLOR="red">, </FONT><A HREF="../elks/any_flat.html#f_clone">clone</A><FONT COLOR="red"> calls </FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to change copying/cloning semantics, redefine </FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_twin">twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            equal: <B>Result</B> ~ other
+        <B>end</B></A>
+
+    <A NAME="f_deep_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_clone">deep_clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `deep_twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void: otherwise, new object structure</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> recursively duplicated from the one attached to </FONT>`other'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (other, <B>Result</B>)
+        <B>end</B></A>
+
+    <A NAME="f_deep_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>: <B>attached</B> <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object structure recursively duplicated from Current.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_twin_not_void: <B>Result</B> /= <B>Void</B>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (<B>Current</B>, <B>Result</B>)
+        <B>end</B></A>
+
+    <A NAME="f_head"><A HREF="../elks/readable_string_general_flat.html#f_head">head</A> (n: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Prefix, retaining first </FONT>`n'<FONT COLOR="red"> characters (or as many as available).</FONT>
+        <B>require</B>
+            non_negative_argument: n &gt;= 0
+        <B>do</B>
+            <B>if</B> n &gt; <A HREF="../elks/readable_string_general_flat.html#f_count">count</A> <B>then</B>
+                <B>Result</B> := <A HREF="../elks/any_flat.html#f_twin">twin</A>
+            <B>else</B>
+                <B>Result</B> := <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (1, n)
+            <B>end</B>
+        <B>ensure</B>
+            same_count: <A HREF="../elks/readable_string_general_flat.html#f_count">count</A> = <B>old</B> (<A HREF="../elks/readable_string_general_flat.html#f_count">count</A>)
+            new_count: <B>Result</B>.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> = n.<A HREF="../elks/comparable_flat.html#f_min">min</A> (<A HREF="../elks/readable_string_general_flat.html#f_count">count</A>)
+        <B>end</B></A>
+
+    <A NAME="f_standard_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_clone">standard_clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `standard_twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void; otherwise new object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_standard_twin">standard_twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            equal: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (<B>Result</B>, other)
+        <B>end</B></A>
+
+    <A NAME="f_standard_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_twin">standard_twin</A>: <B>attached</B> <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            standard_twin_not_void: <B>Result</B> /= <B>Void</B>
+            equal: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (<B>Result</B>, <B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_substring"><A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (start_index, end_index: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy of substring containing all characters at indices</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> between </FONT>`start_index'<FONT COLOR="red"> and </FONT>`end_index'
+        <B>deferred</B>
+        <B>ensure</B>
+            substring_not_void: <B>Result</B> /= <B>Void</B>
+            substring_count: <B>Result</B>.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> = end_index - start_index + 1 <B>or</B> <B>Result</B>.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> = 0
+            first_code: <B>Result</B>.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> &gt; 0 <B>implies</B> <B>Result</B>.<A HREF="../elks/readable_string_general_flat.html#f_item">item</A> (1) = <A HREF="../elks/readable_string_general_flat.html#f_item">item</A> (start_index)
+            recurse: <B>Result</B>.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> &gt; 0 <B>implies</B> <B>Result</B>.<A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (2, <B>Result</B>.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A>) ~ <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (start_index + 1, end_index)
+        <B>end</B></A>
+
+    <A NAME="f_tail"><A HREF="../elks/readable_string_general_flat.html#f_tail">tail</A> (n: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Suffix, retaining last </FONT>`n'<FONT COLOR="red"> characters (or as many as available).</FONT>
+        <B>require</B>
+            non_negative_argument: n &gt;= 0
+        <B>do</B>
+            <B>if</B> n &gt; <A HREF="../elks/readable_string_general_flat.html#f_count">count</A> <B>then</B>
+                <B>Result</B> := <A HREF="../elks/any_flat.html#f_twin">twin</A>
+            <B>else</B>
+                <B>Result</B> := <A HREF="../elks/readable_string_general_flat.html#f_substring">substring</A> (<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> - n + 1, <A HREF="../elks/readable_string_general_flat.html#f_count">count</A>)
+            <B>end</B>
+        <B>ensure</B>
+            same_count: <A HREF="../elks/readable_string_general_flat.html#f_count">count</A> = <B>old</B> (<A HREF="../elks/readable_string_general_flat.html#f_count">count</A>)
+            new_count: <B>Result</B>.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> = n.<A HREF="../elks/comparable_flat.html#f_min">min</A> (<A HREF="../elks/readable_string_general_flat.html#f_count">count</A>)
+        <B>end</B></A>
+
+    <A NAME="f_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_twin">twin</A>: <B>attached</B> <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object equal to </FONT>`Current'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/any_flat.html#f_twin">twin</A><FONT COLOR="red"> calls </FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">; to change copying/twinning semantics, redefine </FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            twin_not_void: <B>Result</B> /= <B>Void</B>
+            is_equal: <B>Result</B> ~ <B>Current</B>
+        <B>end</B></A>
+    
+<B>feature</B> {<A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_copy"><A HREF="../elks/any_flat.html#f_copy">copy</A> (other: <B>attached</B> <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update current object using fields of object attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to </FONT>`other'<FONT COLOR="red">, so as to yield equal objects.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            is_equal: <B>Current</B> ~ other
+        <B>end</B></A>
+
+    <A NAME="f_deep_copy"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_copy">deep_copy</A> (other: <B>attached</B> <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Effect equivalent to that of:</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">		</FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red"> (</FONT>`other'<FONT COLOR="red"> . </FONT><A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A><FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../elks/any_flat.html#f_copy">copy</A> (other.<A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (<B>Current</B>, other)
+        <B>end</B></A>
+
+    <A NAME="f_standard_copy"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_copy">standard_copy</A> (other: <B>attached</B> <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy every field of </FONT>`other'<FONT COLOR="red"> onto corresponding field</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            is_standard_equal: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_as_attached"><B>frozen</B> <A HREF="../elks/any_flat.html#f_as_attached">as_attached</A>: <B>attached</B> <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attached version of Current</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Can be used during transitional period to convert</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> non-void-safe classes to void-safe ones.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>Current</B>
+        <B>end</B></A>
+
+    <A NAME="f_default"><B>frozen</B> <A HREF="../elks/any_flat.html#f_default">default</A>: <B>detachable</B> <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of object's type</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_default_pointer"><B>frozen</B> <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>: <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of type </FONT>`POINTER'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Avoid the need to write </FONT>`p'<FONT COLOR="red">.</FONT><A HREF="../elks/any_flat.html#f_default">default</A><FONT COLOR="red"> for</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> some </FONT>`p'<FONT COLOR="red"> of type </FONT>`POINTER'<FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_default_rescue"><A HREF="../elks/any_flat.html#f_default_rescue">default_rescue</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process exception for routines with no Rescue clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_do_nothing"><B>frozen</B> <A HREF="../elks/any_flat.html#f_do_nothing">do_nothing</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execute a null action.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_c_string_provider"><A HREF="../elks/readable_string_general_flat.html#f_c_string_provider">C_string_provider</A>: <A HREF="../elks/c_string_flat.html">C_STRING</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> To create Eiffel strings from C string.</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/c_string_flat.html#f_make_empty">make_empty</A> (0)
+        <B>ensure</B>
+            c_string_provider_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_character_properties"><A HREF="../elks/readable_string_general_flat.html#f_character_properties">Character_properties</A>: <A HREF="../elks/character_property_flat.html">CHARACTER_PROPERTY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access to Unicode character properties</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/character_property_flat.html#f_make">make</A>
+        <B>end</B></A>
+
+    <A NAME="f_ctoi_convertor"><A HREF="../elks/readable_string_general_flat.html#f_ctoi_convertor">Ctoi_convertor</A>: <A HREF="../elks/string_to_integer_convertor_flat.html">STRING_TO_INTEGER_CONVERTOR</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convertor used to convert string to integer or natural</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/string_to_integer_convertor_flat.html#f_make">make</A>
+            <B>Result</B>.<A HREF="../elks/string_to_numeric_convertor_flat.html#f_set_leading_separators">set_leading_separators</A> (" ")
+            <B>Result</B>.<A HREF="../elks/string_to_numeric_convertor_flat.html#f_set_trailing_separators">set_trailing_separators</A> (" ")
+            <B>Result</B>.<A HREF="../elks/string_to_numeric_convertor_flat.html#f_set_leading_separators_acceptable">set_leading_separators_acceptable</A> (<B>True</B>)
+            <B>Result</B>.<A HREF="../elks/string_to_numeric_convertor_flat.html#f_set_trailing_separators_acceptable">set_trailing_separators_acceptable</A> (<B>True</B>)
+        <B>ensure</B>
+            ctoi_convertor_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_ctor_convertor"><A HREF="../elks/readable_string_general_flat.html#f_ctor_convertor">Ctor_convertor</A>: <A HREF="../elks/string_to_real_convertor_flat.html">STRING_TO_REAL_CONVERTOR</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convertor used to convert string to real or double</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/string_to_real_convertor_flat.html#f_make">make</A>
+            <B>Result</B>.<A HREF="../elks/string_to_numeric_convertor_flat.html#f_set_leading_separators">set_leading_separators</A> (" ")
+            <B>Result</B>.<A HREF="../elks/string_to_numeric_convertor_flat.html#f_set_trailing_separators">set_trailing_separators</A> (" ")
+            <B>Result</B>.<A HREF="../elks/string_to_numeric_convertor_flat.html#f_set_leading_separators_acceptable">set_leading_separators_acceptable</A> (<B>True</B>)
+            <B>Result</B>.<A HREF="../elks/string_to_numeric_convertor_flat.html#f_set_trailing_separators_acceptable">set_trailing_separators_acceptable</A> (<B>True</B>)
+        <B>ensure</B>
+            ctor_convertor_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_dotnet_convertor"><A HREF="../elks/readable_string_general_flat.html#f_dotnet_convertor">Dotnet_convertor</A>: <A HREF="../elks/system_string_factory_flat.html">SYSTEM_STRING_FACTORY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convertor used to convert from and to SYSTEM_STRING.</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+        <B>ensure</B>
+            dotnet_convertor_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_valid_integer_or_natural"><A HREF="../elks/readable_string_general_flat.html#f_is_valid_integer_or_natural">is_valid_integer_or_natural</A> (type: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`Current'<FONT COLOR="red"> a valid number according to given </FONT>`type'<FONT COLOR="red">?</FONT>
+        <B>local</B>
+            l_convertor: <B>like</B> <A HREF="../elks/readable_string_general_flat.html#f_ctoi_convertor">Ctoi_convertor</A>
+        <B>do</B>
+            l_convertor := <A HREF="../elks/readable_string_general_flat.html#f_ctoi_convertor">Ctoi_convertor</A>
+            l_convertor.<A HREF="../elks/string_to_integer_convertor_flat.html#f_reset">reset</A> (type)
+            l_convertor.<A HREF="../elks/string_to_integer_convertor_flat.html#f_parse_string_with_type">parse_string_with_type</A> (<B>Current</B>, type)
+            <B>Result</B> := l_convertor.<A HREF="../elks/string_to_integer_convertor_flat.html#f_is_integral_integer">is_integral_integer</A>
+        <B>end</B></A>
+
+    <A NAME="f_new_string"><A HREF="../elks/readable_string_general_flat.html#f_new_string">new_string</A> (n: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New instance of current with space for at least </FONT>`n'<FONT COLOR="red"> characters.</FONT>
+        <B>require</B>
+            n_non_negative: n &gt;= 0
+        <B>deferred</B>
+        <B>ensure</B>
+            new_string_not_void: <B>Result</B> /= <B>Void</B>
+            new_string_empty: <B>Result</B>.<A HREF="../elks/readable_string_general_flat.html#f_is_empty">is_empty</A>
+            new_string_area_big_enough: <B>Result</B>.<A HREF="../elks/readable_string_general_flat.html#f_capacity">capacity</A> &gt;= n
+        <B>end</B></A>
+
+    <A NAME="f_string_searcher"><A HREF="../elks/readable_string_general_flat.html#f_string_searcher">string_searcher</A>: <A HREF="../elks/string_searcher_flat.html">STRING_SEARCHER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Facilities to search string in another string.</FONT>
+        <B>deferred</B>
+        <B>ensure</B>
+            string_searcher_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> {<A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_internal_case_insensitive_hash_code"><A HREF="../elks/readable_string_general_flat.html#f_internal_case_insensitive_hash_code">internal_case_insensitive_hash_code</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Cash for </FONT><A HREF="../elks/readable_string_general_flat.html#f_case_insensitive_hash_code">case_insensitive_hash_code</A><FONT COLOR="red">.</FONT>
+
+    <A NAME="f_internal_hash_code"><A HREF="../elks/readable_string_general_flat.html#f_internal_hash_code">internal_hash_code</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Cache for </FONT><A HREF="../elks/readable_string_general_flat.html#f_hash_code">hash_code</A><FONT COLOR="red">.</FONT>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Assertion helper</FONT>
+
+    <A NAME="f_elks_checking"><A HREF="../elks/readable_string_general_flat.html#f_elks_checking">Elks_checking</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A> = <B>False</B></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are ELKS checkings verified? Must be True when changing implementation of STRING_GENERAL or descendant.</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output</FONT>
+
+    <A NAME="f_io"><A HREF="../elks/any_flat.html#f_io">Io</A>: <A HREF="../elks/std_files_flat.html">STD_FILES</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Handle to standard file setup</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../elks/std_files_flat.html#f_set_output_default">set_output_default</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            io_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_out"><A HREF="../elks/any_flat.html#f_out">out</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/any_flat.html#f_tagged_out">tagged_out</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            out_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_print"><A HREF="../elks/any_flat.html#f_print">print</A> (o: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write terse external representation of </FONT>`o'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on standard output.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> o /= <B>Void</B> <B>then</B>
+                <A HREF="../elks/any_flat.html#f_io">Io</A>.<A HREF="../elks/std_files_flat.html#f_put_string">put_string</A> (o.<A HREF="../elks/any_flat.html#f_out">out</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_tagged_out"><B>frozen</B> <A HREF="../elks/any_flat.html#f_tagged_out">tagged_out</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            tagged_out_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Platform</FONT>
+
+    <A NAME="f_operating_environment"><A HREF="../elks/any_flat.html#f_operating_environment">Operating_environment</A>: <A HREF="../elks/operating_environment_flat.html">OPERATING_ENVIRONMENT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Objects available from the operating system</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            operating_environment_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieval</FONT>
+
+    <A NAME="f_internal_correct_mismatch"><B>frozen</B> <A HREF="../elks/any_flat.html#f_internal_correct_mismatch">internal_correct_mismatch</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Called from runtime to perform a proper dynamic dispatch on </FONT>`correct_mismatch'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> from MISMATCH_CORRECTOR.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            l_msg: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            l_exc: <A HREF="../elks/exceptions_flat.html">EXCEPTIONS</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<A HREF="../elks/mismatch_corrector_flat.html">MISMATCH_CORRECTOR</A>} <B>Current</B> <B>as</B> l_corrector <B>then</B>
+                l_corrector.<A HREF="../elks/mismatch_corrector_flat.html#f_correct_mismatch">correct_mismatch</A>
+            <B>else</B>
+                <B>create</B> l_msg.<A HREF="../elks/readable_string_8_flat.html#f_make_from_string">make_from_string</A> ("Mismatch: ")
+                <B>create</B> l_exc
+                l_msg.<A HREF="../elks/string_8_flat.html#f_append">append</A> (<A HREF="../elks/any_flat.html#f_generating_type">generating_type</A>.<A HREF="../elks/type_flat.html#f_name">name</A>)
+                l_exc.<A HREF="../elks/exceptions_flat.html#f_raise_retrieval_exception">raise_retrieval_exception</A> (l_msg)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>invariant</B>
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/comparable_flat.html">COMPARABLE</A>
+    irreflexive_comparison: <B>not</B> (<B>Current</B> &lt; <B>Current</B>)
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+    reflexive_equality: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+    reflexive_conformance: <A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>Current</B>)
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="readable_string_general_chart.html">Chart</A></TD><TD><A HREF="readable_string_general_links.html">Relations</A></TD><TD><A HREF="readable_string_general.html">Text</A></TD><TD>Flat</TD><TD><A HREF="readable_string_general_short.html">Contracts</A></TD><TD><A HREF="readable_string_general_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

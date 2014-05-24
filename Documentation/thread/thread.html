@@ -1,0 +1,229 @@
+<HTML><HEAD>
+<meta name="description" content="Class defining an Eiffel thread."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>thread Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="thread_chart.html">Chart</A></TD><TD><A HREF="thread_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="thread_flat.html">Flat</A></TD><TD><A HREF="thread_short.html">Contracts</A></TD><TD><A HREF="thread_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Class defining an Eiffel thread."
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2013-07-25 18:49:43 -0700 (Thu, 25 Jul 2013) $"
+    revision: "$Revision: 92810 $"
+
+<B>deferred</B> <B>class</B> 
+    <A HREF="../thread/thread.html">THREAD</A>
+
+<B>inherit</B>
+    <A HREF="../thread/thread_control.html">THREAD_CONTROL</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../thread/thread.html#f_make">make</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize Current.</FONT>
+        <B>do</B>
+            <B>create</B> <A HREF="../thread/thread.html#f_launch_mutex">launch_mutex</A>.<A HREF="../thread/mutex.html#f_make">make</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_thread_id"><A HREF="../thread/thread.html#f_thread_id">thread_id</A>: <A HREF="../elks/pointer.html">POINTER</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Thread-id of the current thread object.</FONT>
+
+    <A NAME="f_terminated"><A HREF="../thread/thread.html#f_terminated">terminated</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> True if the thread has terminated.</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_execute"><A HREF="../thread/thread.html#f_execute">execute</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Routine executed when thread is launched.</FONT>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_launch"><B>frozen</B> <A HREF="../thread/thread.html#f_launch">launch</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize a new thread running </FONT><A HREF="../thread/thread.html#f_execute">execute</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../thread/thread.html#f_is_last_launch_successful">is_last_launch_successful</A><FONT COLOR="red"> to True if successful, False otherwise.			</FONT>
+        <B>require</B>
+            thread_capable: {<A HREF="../elks/platform.html">PLATFORM</A>}.<A HREF="../elks/platform.html#f_is_thread_capable">is_thread_capable</A>
+            is_launchable: <A HREF="../thread/thread.html#f_is_launchable">is_launchable</A>
+        <B>do</B>
+            <A HREF="../thread/thread.html#f_launch_with_attributes">launch_with_attributes</A> (<B>create</B> {<A HREF="../thread/thread_attributes.html">THREAD_ATTRIBUTES</A>}.<A HREF="../thread/thread_attributes.html#f_make">make</A>)
+        <B>end</B></A>
+
+    <A NAME="f_launch_with_attributes"><B>frozen</B> <A HREF="../thread/thread.html#f_launch_with_attributes">launch_with_attributes</A> (attr: <A HREF="../thread/thread_attributes.html">THREAD_ATTRIBUTES</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize a new thread running </FONT><A HREF="../thread/thread.html#f_execute">execute</A><FONT COLOR="red">, using attributes.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../thread/thread.html#f_is_last_launch_successful">is_last_launch_successful</A><FONT COLOR="red"> to True if successful, False otherwise.</FONT>
+        <B>require</B>
+            thread_capable: {<A HREF="../elks/platform.html">PLATFORM</A>}.<A HREF="../elks/platform.html#f_is_thread_capable">is_thread_capable</A>
+            is_launchable: <A HREF="../thread/thread.html#f_is_launchable">is_launchable</A>
+        <B>do</B>
+            <A HREF="../thread/thread.html#f_launch_mutex">launch_mutex</A>.<A HREF="../thread/mutex.html#f_lock">lock</A>
+            <B>if</B> <B>not</B> <A HREF="../thread/thread.html#f_is_launchable">is_launchable</A> <B>then</B>
+                <A HREF="../thread/thread.html#f_is_last_launch_successful_cell">Is_last_launch_successful_cell</A>.<A HREF="../elks/cell.html#f_put">put</A> (<B>False</B>)
+            <B>else</B>
+                <A HREF="../thread/thread.html#f_create_thread_with_attr">create_thread_with_attr</A> (<B>Current</B>, $<A HREF="../thread/thread.html#f_thr_main">thr_main</A>, attr.<A HREF="../elks/memory_structure.html#f_item">item</A>)
+                <A HREF="../thread/thread.html#f_thread_id">thread_id</A> := <A HREF="../thread/thread.html#f_last_created_thread">last_created_thread</A>
+                <A HREF="../thread/thread.html#f_is_last_launch_successful_cell">Is_last_launch_successful_cell</A>.<A HREF="../elks/cell.html#f_put">put</A> (<B>True</B>)
+            <B>end</B>
+            <A HREF="../thread/thread.html#f_launch_mutex">launch_mutex</A>.<A HREF="../thread/mutex.html#f_unlock">unlock</A>
+        <B>rescue</B>
+            <A HREF="../thread/thread.html#f_is_last_launch_successful_cell">Is_last_launch_successful_cell</A>.<A HREF="../elks/cell.html#f_put">put</A> (<B>False</B>)
+            <A HREF="../thread/thread.html#f_launch_mutex">launch_mutex</A>.<A HREF="../thread/mutex.html#f_unlock">unlock</A>
+        <B>end</B></A>
+
+    <A NAME="f_exit"><A HREF="../thread/thread.html#f_exit">exit</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Exit calling thread. Must be called from the thread itself.</FONT>
+        <B>require</B>
+            is_exit_supported: <A HREF="../thread/thread.html#f_is_exit_supported">is_exit_supported</A>
+            self: <A HREF="../thread/thread_environment.html#f_current_thread_id">current_thread_id</A> = <A HREF="../thread/thread.html#f_thread_id">thread_id</A>
+        <B>external</B>
+            "C use %"eif_threads.h%""
+        <B>alias</B>
+            "eif_thr_exit"
+        <B>end</B></A>
+
+    <A NAME="f_sleep"><A HREF="../thread/thread.html#f_sleep">sleep</A> (nanoseconds: <A HREF="../elks/integer_64.html">INTEGER_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Suspend thread execution for interval specified in</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`nanoseconds'<FONT COLOR="red"> (1 nanosecond = 10^(-9) second).</FONT>
+        <B>require</B>
+            self: <A HREF="../thread/thread_environment.html#f_current_thread_id">current_thread_id</A> = <A HREF="../thread/thread.html#f_thread_id">thread_id</A>
+            non_negative_nanoseconds: nanoseconds &gt;= 0.<A HREF="../elks/integer_32_ref.html#f_to_integer_64">to_integer_64</A>
+        <B>do</B>
+            (<B>create</B> {<A HREF="../elks/execution_environment.html">EXECUTION_ENVIRONMENT</A>}).<A HREF="../elks/execution_environment.html#f_sleep">sleep</A> (nanoseconds)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_is_exit_supported"><A HREF="../thread/thread.html#f_is_exit_supported">is_exit_supported</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Can </FONT><A HREF="../thread/thread.html#f_exit">exit</A><FONT COLOR="red"> be called?</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>True</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_launchable"><A HREF="../thread/thread.html#f_is_launchable">is_launchable</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Can we launch a new thread?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../thread/thread.html#f_launch_mutex">launch_mutex</A>.<A HREF="../thread/mutex.html#f_is_set">is_set</A> <B>and</B> <A HREF="../thread/thread.html#f_thread_id">thread_id</A> = <A HREF="../elks/any.html#f_default_pointer">default_pointer</A> <B>and</B> <B>not</B> <A HREF="../thread/thread.html#f_terminated">terminated</A>
+        <B>end</B></A>
+
+    <A NAME="f_is_last_launch_successful"><A HREF="../thread/thread.html#f_is_last_launch_successful">is_last_launch_successful</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was the last call to </FONT><A HREF="../thread/thread.html#f_launch">launch</A><FONT COLOR="red"> or </FONT><A HREF="../thread/thread.html#f_launch_with_attributes">launch_with_attributes</A><FONT COLOR="red"> in current thread</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of execution successful?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../thread/thread.html#f_is_last_launch_successful_cell">Is_last_launch_successful_cell</A>.<A HREF="../elks/cell.html#f_item">item</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Synchronization</FONT>
+
+    <A NAME="f_join"><A HREF="../thread/thread.html#f_join">join</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The calling thread waits for the current child thread to terminate.</FONT>
+        <B>do</B>
+            <B>if</B> <B>not</B> <A HREF="../thread/thread.html#f_terminated">terminated</A> <B>then</B>
+                <A HREF="../thread/thread.html#f_thread_wait">thread_wait</A> (<B>Current</B>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_join_with_timeout"><A HREF="../thread/thread.html#f_join_with_timeout">join_with_timeout</A> (a_timeout_ms: <A HREF="../elks/natural_64.html">NATURAL_64</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The calling thread waits for the current child thread to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> terminate for at most </FONT>`a_timeout_ms'<FONT COLOR="red"> milliseconds.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> True if wait terminates within </FONT>`a_timeout_ms'<FONT COLOR="red">, False otherwise.</FONT>
+        <B>do</B>
+            <B>if</B> <A HREF="../thread/thread.html#f_terminated">terminated</A> <B>then</B>
+                <B>Result</B> := <B>True</B>
+            <B>else</B>
+                <B>Result</B> := <A HREF="../thread/thread.html#f_thread_wait_with_timeout">thread_wait_with_timeout</A> (<B>Current</B>, a_timeout_ms)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_thr_main"><B>frozen</B> <A HREF="../thread/thread.html#f_thr_main">thr_main</A> (a_logical_id: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Call thread routine.</FONT>
+        <B>do</B>
+            <A HREF="../thread/thread.html#f_launch_mutex">launch_mutex</A>.<A HREF="../thread/mutex.html#f_lock">lock</A>
+            <A HREF="../thread/thread.html#f_launch_mutex">launch_mutex</A>.<A HREF="../thread/mutex.html#f_unlock">unlock</A>
+            <A HREF="../thread/thread.html#f_execute">execute</A>
+            <A HREF="../thread/thread.html#f_launch_mutex">launch_mutex</A>.<A HREF="../thread/mutex.html#f_lock">lock</A>
+            <A HREF="../thread/thread.html#f_terminated">terminated</A> := <B>True</B>
+            <A HREF="../thread/thread.html#f_thread_id">thread_id</A> := <A HREF="../elks/any.html#f_default_pointer">default_pointer</A>
+            <A HREF="../thread/thread.html#f_launch_mutex">launch_mutex</A>.<A HREF="../thread/mutex.html#f_unlock">unlock</A>
+        <B>rescue</B>
+            <A HREF="../thread/thread.html#f_launch_mutex">launch_mutex</A>.<A HREF="../thread/mutex.html#f_lock">lock</A>
+            <A HREF="../thread/thread.html#f_terminated">terminated</A> := <B>True</B>
+            <A HREF="../thread/thread.html#f_thread_id">thread_id</A> := <A HREF="../elks/any.html#f_default_pointer">default_pointer</A>
+            <A HREF="../thread/thread.html#f_launch_mutex">launch_mutex</A>.<A HREF="../thread/mutex.html#f_unlock">unlock</A>
+        <B>end</B></A>
+
+    <A NAME="f_launch_mutex"><A HREF="../thread/thread.html#f_launch_mutex">launch_mutex</A>: <A HREF="../thread/mutex.html">MUTEX</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Mutex used to ensure that no two threads call </FONT><A HREF="../thread/thread.html#f_launch">launch</A><FONT COLOR="red"> or </FONT><A HREF="../thread/thread.html#f_launch_with_attributes">launch_with_attributes</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on the same object. This ensures the validity of querying </FONT><A HREF="../thread/thread.html#f_thread_id">thread_id</A><FONT COLOR="red"> from</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> the launch routines.</FONT>
+
+    <A NAME="f_is_last_launch_successful_cell"><A HREF="../thread/thread.html#f_is_last_launch_successful_cell">Is_last_launch_successful_cell</A>: <A HREF="../elks/cell.html">CELL</A> [<A HREF="../elks/boolean.html">BOOLEAN</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Internal storage for </FONT><A HREF="../thread/thread.html#f_is_last_launch_successful">is_last_launch_successful</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> It is a once per thread and not an attribute because if you have multiple threads</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> calling </FONT><A HREF="../thread/thread.html#f_launch">launch</A><FONT COLOR="red"> on the same object, one will set it to True, and the other will</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> override the value with False.</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/cell.html#f_put">put</A> (<B>False</B>)
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Externals</FONT>
+
+    <A NAME="f_create_thread_with_attr"><A HREF="../thread/thread.html#f_create_thread_with_attr">create_thread_with_attr</A> (current_obj: <A HREF="../thread/thread.html">THREAD</A>; init_func, attr: <A HREF="../elks/pointer.html">POINTER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize and start thread, after setting its priority</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> and stack size.</FONT>
+        <B>external</B>
+            "C signature (EIF_OBJECT, EIF_PROCEDURE, EIF_POINTER) use %"eif_threads.h%""
+        <B>alias</B>
+            "eif_thr_create_with_attr"
+        <B>end</B></A>
+
+    <A NAME="f_thread_wait"><A HREF="../thread/thread.html#f_thread_wait">thread_wait</A> (term: <A HREF="../thread/thread.html">THREAD</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The calling C thread waits for the current Eiffel thread to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> terminate.</FONT>
+        <B>external</B>
+            "C use %"eif_threads.h%""
+        <B>alias</B>
+            "eif_thr_wait"
+        <B>end</B></A>
+
+    <A NAME="f_thread_wait_with_timeout"><A HREF="../thread/thread.html#f_thread_wait_with_timeout">thread_wait_with_timeout</A> (term: <A HREF="../thread/thread.html">THREAD</A>; a_timeout_ms: <A HREF="../elks/natural_64.html">NATURAL_64</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The calling C thread waits for the current Eiffel thread to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> terminate.</FONT>
+        <B>external</B>
+            "C use %"eif_threads.h%""
+        <B>alias</B>
+            "eif_thr_wait_with_timeout"
+        <B>end</B></A>
+
+    <A NAME="f_last_created_thread"><A HREF="../thread/thread.html#f_last_created_thread">last_created_thread</A>: <A HREF="../elks/pointer.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Returns a pointer to the thread-id of the last created thread.</FONT>
+        <B>external</B>
+            "C use %"eif_threads.h%""
+        <B>alias</B>
+            "eif_thr_last_thread"
+        <B>end</B></A>
+    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../thread/thread.html">THREAD</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="thread_chart.html">Chart</A></TD><TD><A HREF="thread_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="thread_flat.html">Flat</A></TD><TD><A HREF="thread_short.html">Contracts</A></TD><TD><A HREF="thread_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

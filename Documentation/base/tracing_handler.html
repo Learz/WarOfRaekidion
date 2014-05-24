@@ -1,0 +1,119 @@
+<HTML><HEAD>
+<meta name="description" content="TAbstract class to dispatch tracing events to user. Tracing events are dispatched Tby calling `activate' on the TRACING_HANDLER's instance.  TFor each thread being created a copy of the current tracer object will be  Tused for the newly created thread to avoid race condition. It is up to the implementer  Tof the class to ensure proper thread-safety and to properly implement `duplicated' which  Tis by default implemented using `twin'."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="library" content="EiffelBase: Library of reusable components for Eiffel."/>
+<meta name="copyright" content="Copyright (c) 1984-2006, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 356 Storke Road, Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>tracing_handler Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="tracing_handler_chart.html">Chart</A></TD><TD><A HREF="tracing_handler_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="tracing_handler_flat.html">Flat</A></TD><TD><A HREF="tracing_handler_short.html">Contracts</A></TD><TD><A HREF="tracing_handler_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        	Abstract class to dispatch tracing events to user. Tracing events are dispatched
+        	by calling <A HREF="../ise/tracing_handler.html#f_activate">activate</A> on the TRACING_HANDLER's instance.
+         	For each thread being created a copy of the current tracer object will be
+         	used for the newly created thread to avoid race condition. It is up to the implementer
+         	of the class to ensure proper thread-safety and to properly implement <A HREF="../ise/tracing_handler.html#f_duplicated">duplicated</A> which
+         	is by default implemented using <A HREF="../elks/any.html#f_twin">twin</A>.
+    ]"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2013-05-20 16:15:17 -0700 (Mon, 20 May 2013) $"
+    revision: "$Revision: 92557 $"
+
+<B>deferred</B> <B>class</B> 
+    <A HREF="../ise/tracing_handler.html">TRACING_HANDLER</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Tracing</FONT>
+
+    <A NAME="f_trace"><A HREF="../ise/tracing_handler.html#f_trace">trace</A> (a_type_id: <A HREF="../elks/integer_32.html">INTEGER_32</A>; a_c_class_name, a_c_feature_name: <A HREF="../elks/pointer.html">POINTER</A>; a_depth: <A HREF="../elks/integer_32.html">INTEGER_32</A>; a_is_entering: <A HREF="../elks/boolean.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Trigger a trace operation from a feature represented by </FONT>`a_c_feature_name'<FONT COLOR="red"> defined in</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> class </FONT>`a_c_class_name'<FONT COLOR="red"> and applied to an object of type </FONT>`a_type_id'<FONT COLOR="red"> at a call depth </FONT>`a_depth'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If </FONT>`a_is_entering'<FONT COLOR="red"> we are entering the routine, otherwise we are exiting it.			</FONT>
+        <B>require</B>
+            a_type_id_non_negative: a_type_id &gt;= 0
+            a_depth_non_negative: a_depth &gt;= 0
+        <B>deferred</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Tracing</FONT>
+
+    <A NAME="f_activate"><B>frozen</B> <A HREF="../ise/tracing_handler.html#f_activate">activate</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Register </FONT>`Current'<FONT COLOR="red"> to the runtime and for all running threads to handle</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> all the tracing calls.</FONT>
+        <B>require</B>
+            valid_platform: <B>not</B> {<A HREF="../elks/platform.html">PLATFORM</A>}.<A HREF="../elks/platform.html#f_is_dotnet">is_dotnet</A>
+        <B>do</B>
+            <A HREF="../ise/tracing_handler.html#f_c_set_tracer">c_set_tracer</A> ($<B>Current</B>.<A HREF="../elks/pointer_ref.html#f_item">to_pointer</A>, $<A HREF="../ise/tracing_handler.html#f_per_thread_trace">per_thread_trace</A>)
+        <B>end</B></A>
+
+    <A NAME="f_deactivate"><B>frozen</B> <A HREF="../ise/tracing_handler.html#f_deactivate">deactivate</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove runtime tracing for all running threads.</FONT>
+        <B>require</B>
+            valid_platform: <B>not</B> {<A HREF="../elks/platform.html">PLATFORM</A>}.<A HREF="../elks/platform.html#f_is_dotnet">is_dotnet</A>
+        <B>local</B>
+            l_default: <A HREF="../elks/typed_pointer.html">TYPED_POINTER</A> [<A HREF="../ise/tracing_handler.html">TRACING_HANDLER</A>]
+        <B>do</B>
+            <A HREF="../ise/tracing_handler.html#f_c_set_tracer">c_set_tracer</A> (l_default.<A HREF="../elks/pointer_ref.html#f_item">to_pointer</A>, <A HREF="../elks/any.html#f_default_pointer">default_pointer</A>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_duplicated"><A HREF="../ise/tracing_handler.html#f_duplicated">duplicated</A>: <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New duplication of </FONT>`Current'<FONT COLOR="red"> not necessarly equal to </FONT>`Current'<FONT COLOR="red">. This duplicate</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> version is used for each new threads to perform tracing.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/any.html#f_twin">twin</A>
+        <B>ensure</B>
+            duplicated_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_per_thread_trace"><B>frozen</B> <A HREF="../ise/tracing_handler.html#f_per_thread_trace">per_thread_trace</A> (a_type_id: <A HREF="../elks/integer_32.html">INTEGER_32</A>; a_c_class_name, a_c_feature_name: <A HREF="../elks/pointer.html">POINTER</A>; a_depth: <A HREF="../elks/integer_32.html">INTEGER_32</A>; a_is_entering: <A HREF="../elks/boolean.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Thread safe tracing. Each time the runtime triggers a trace event,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> the per thread TRACE_HANDLER will be called avoiding any race condition.</FONT>
+        <B>require</B>
+            a_type_id_non_negative: a_type_id &gt;= 0
+            a_depth_non_negative: a_depth &gt;= 0
+        <B>do</B>
+            <A HREF="../ise/tracing_handler.html#f_per_thread_tracer">Per_thread_tracer</A>.<A HREF="../ise/tracing_handler.html#f_trace">trace</A> (a_type_id, a_c_class_name, a_c_feature_name, a_depth, a_is_entering)
+        <B>end</B></A>
+
+    <A NAME="f_c_set_tracer"><B>frozen</B> <A HREF="../ise/tracing_handler.html#f_c_set_tracer">c_set_tracer</A> (a_tracer: <A HREF="../elks/pointer.html">POINTER</A>; a_fnptr: <A HREF="../elks/pointer.html">POINTER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Register </FONT>`Current'<FONT COLOR="red"> to the runtime to handle all the tracing calls.</FONT>
+        <B>external</B>
+            "C inline use %"eif_eiffel.h%""
+        <B>alias</B>
+            "eif_set_tracer ($a_tracer, $a_fnptr);"
+        <B>end</B></A>
+
+    <A NAME="f_per_thread_tracer"><B>frozen</B> <A HREF="../ise/tracing_handler.html#f_per_thread_tracer">Per_thread_tracer</A>: <A HREF="../ise/tracing_handler.html">TRACING_HANDLER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Per thread instance of Current used</FONT>
+        <B>once</B> ("THREAD")
+            <B>Result</B> := <A HREF="../ise/tracing_handler.html#f_duplicated">duplicated</A>
+        <B>ensure</B>
+            per_thread_tracer_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>note</B>
+    library: "EiffelBase: Library of reusable components for Eiffel."
+    copyright: "Copyright (c) 1984-2006, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        356 Storke Road, Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../ise/tracing_handler.html">TRACING_HANDLER</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="tracing_handler_chart.html">Chart</A></TD><TD><A HREF="tracing_handler_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="tracing_handler_flat.html">Flat</A></TD><TD><A HREF="tracing_handler_short.html">Contracts</A></TD><TD><A HREF="tracing_handler_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

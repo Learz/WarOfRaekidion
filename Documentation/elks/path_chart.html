@@ -1,0 +1,160 @@
+<HTML><HEAD>
+<meta name="description" content="TTTObjects representing a path, i.e. a way to identify a file or a directory for the TTTcurrent underlying platform. A path is made of two components: TTT1 - an optional root which can either be: TTTTa - a drive letter followed by colon on Windows, i.e. C: or C:\ TTTTb - / for UNIX root directory. TTTTc - \ for Windows root directory. TTTTd - \\server\share or \\server\share\ for Microsoft UNC path. TTT2 - a sequence of zero or more names. TTT TTTA path is absolute if it has a root, and on windows if the root is a drive, then it should TTTbe followed by \. Otherwise a path is relative.   TTTValidity TTT======== TTT TTTThe current class will not check the validity of filenames. Check your file TTTsystem for your operating system manual for the list of invalid characters.   TTTWindows consideration TTT===================== TTT TTTWhen the root of a Windows path is a drive, be aware of the following behavior: TTT1 - C:filename.txt refers to the file name filename.txt in the current directory  TTT    on drive C:. TTT2 - C:sub\filename.txt refers to the file name filename.txt in a subdirectory sub TTT    of the current directory on drive C:. TTT3 - C:\sub\filename.txt refers to the file name filename.txt in a subdirectory sub TTT    located at the root of the drive C:. TTT TTTBoth forward and backslashes are accepted, but forward slashes are internally converted TTTto backward slashes whenever they are used to construct a path. TTT TTTOn Windows, there is a limit of 259 characters for a path. If you need to create a larger TTTpath, you can do so by using the following conventions which will let you have paths of TTTabout 32,767 characters: TTT1 - Use \\?\ for non-UNC path and let the rest unchanged. TTT2 - Use \\?\UNC\server\share for UNC path and let the rest unchanged. TTTThe above path cannot be used to specify a relative path. TTT TTTTo know more about Windows paths, read the Naming Files, Paths, and Namespaces TTTdocument located at: TTT  http://msdn.microsoft.com/en-us/library/windows/desktop/aa365247(v=vs.85).aspx   TTTUnicode consideration TTT===================== TTT TTTThe PATH class treats strings as sequence of Unicode characters, i.e. an instance of  TTTa READABLE_STRING_8 or descendant will be treated as if characters in the range TTT128 .. 255 were Unicode code points. TTTThis contrasts to the FILE/DIRECTORY classes where to preserve backward compatibility, those TTTcharacters are treated as is. TTT TTT TTTMixed-encoding consideration TTT============================ TTT TTTMost operating systems have conventions for paths that are incompatible with Unicode. TTTOn UNIX, in a sequence of names, each name is just a null-terminated byte sequence, it TTTdoes not follow any specific encoding. Usually the locale setting enables you to see TTTthe filename the way you expect. TTTOn Windows, the sequence of names is made of null-terminated UTF-16 code unit sequence. Windows TTTdoes not guarantee that the sequence is actually a valid UTF-16 sequence. TTT TTTIn other words, when there is an invalid UTF-8 encoding on UNIX, or an invalid UTF-16 encoding TTTon Windows, the filename is not directly representable as a Unicode string. To make it possible TTTto create and store paths in a textually representable form, the query `name' will create TTTan encoded representation that can be then later used in `make_from_string' to create a PATH TTTequivalent to the original path. The encoding is described in UTF_CONVERTER's note clause TTTand is a fourth variant of the recommended practice for replacement characters in Unicode TTT(see http://www.unicode.org/review/pr-121.html).  TTTTTT TTTImmutability TTT============ TTT TTTInstances of the current class are immutable."/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>path Chart</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD>Chart</TD><TD><A HREF="path_links.html">Relations</A></TD><TD><A HREF="path.html">Text</A></TD><TD><A HREF="path_flat.html">Flat</A></TD><TD><A HREF="path_short.html">Contracts</A></TD><TD><A HREF="path_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>class</B>
+    <A HREF="../elks/path_chart.html">PATH</A>
+
+<B>General</B>
+    cluster: <A HREF="../elks/index.html">elks</A>
+    description: 
+        "Objects representing a path, i.e. a way to identify a file or a directory for the
+        current underlying platform. A path is made of two components:
+        1 - an optional root which can either be:
+        a - a drive letter followed by colon on Windows, i.e. %"C:%" or %"C:\%"
+        b - %"/%" for UNIX root directory.
+        c - %"\%" for Windows root directory.
+        d - %"\\server\share%" or %"\\server\share\%" for Microsoft UNC path.
+        2 - a sequence of zero or more names.
+        
+        A path is absolute if it has a root, and on windows if the root is a drive, then it should
+        be followed by %"\%". Otherwise a path is relative.
+        
+        
+        Validity
+        ========
+        
+        The current class will not check the validity of filenames. Check your file
+        system for your operating system manual for the list of invalid characters.
+        
+        
+        Windows consideration
+        =====================
+        
+        When the root of a Windows path is a drive, be aware of the following behavior:
+        1 - %"C:filename.txt%" refers to the file name %"filename.txt%" in the current directory 
+            on drive %"C:%".
+        2 - %"C:sub\filename.txt%" refers to the file name %"filename.txt%" in a subdirectory %"sub%"
+            of the current directory on drive %"C:%".
+        3 - %"C:\sub\filename.txt%" refers to the file name %"filename.txt%" in a subdirectory %"sub%"
+            located at the root of the drive %"C:%".
+        
+        Both forward and backslashes are accepted, but forward slashes are internally converted
+        to backward slashes whenever they are used to construct a path.
+        
+        On Windows, there is a limit of 259 characters for a path. If you need to create a larger
+        path, you can do so by using the following conventions which will let you have paths of
+        about 32,767 characters:
+        1 - Use \\?\ for non-UNC path and let the rest unchanged.
+        2 - Use \\?\UNC\server\share for UNC path and let the rest unchanged.
+        The above path cannot be used to specify a relative path.
+        
+        To know more about Windows paths, read the %"Naming Files, Paths, and Namespaces%"
+        document located at:
+          <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/aa365247">http://msdn.microsoft.com/en-us/library/windows/desktop/aa365247</a>(v=vs.85).aspx
+        
+        
+        Unicode consideration
+        =====================
+        
+        The PATH class treats strings as sequence of Unicode characters, i.e. an instance of 
+        a READABLE_STRING_8 or descendant will be treated as if characters in the range
+        128 .. 255 were Unicode code points.
+        This contrasts to the FILE/DIRECTORY classes where to preserve backward compatibility, those
+        characters are treated as is.
+        
+        
+        Mixed-encoding consideration
+        ============================
+        
+        Most operating systems have conventions for paths that are incompatible with Unicode.
+        On UNIX, in a sequence of names, each name is just a null-terminated byte sequence, it
+        does not follow any specific encoding. Usually the locale setting enables you to see
+        the filename the way you expect.
+        On Windows, the sequence of names is made of null-terminated UTF-16 code unit sequence. Windows
+        does not guarantee that the sequence is actually a valid UTF-16 sequence.
+        
+        In other words, when there is an invalid UTF-8 encoding on UNIX, or an invalid UTF-16 encoding
+        on Windows, the filename is not directly representable as a Unicode string. To make it possible
+        to create and store paths in a textually representable form, the query `name' will create
+        an encoded representation that can be then later used in `make_from_string' to create a PATH
+        equivalent to the original path. The encoding is described in UTF_CONVERTER's note clause
+        and is a fourth variant of the recommended practice for replacement characters in Unicode
+        (see <a href="http://www.unicode.org/review/pr-121.html">http://www.unicode.org/review/pr-121.html</a>).
+        
+        
+        Immutability
+        ============
+        
+        Instances of the current class are immutable."
+    create: <A HREF="../elks/path.html#f_make_from_pointer">make_from_pointer</A>, <A HREF="../elks/path.html#f_make_from_storage">make_from_storage</A>, <A HREF="../elks/path.html#f_make_from_normalized_storage">make_from_normalized_storage</A>, <A HREF="../elks/path.html#f_make_empty">make_empty</A>, <A HREF="../elks/path.html#f_make_current">make_current</A>, <A HREF="../elks/path.html#f_make_from_string">make_from_string</A>, <A HREF="../elks/path.html#f_make_from_separate">make_from_separate</A>
+
+<B>Ancestors</B>
+    <A HREF="../elks/comparable_chart.html">COMPARABLE</A>*
+    <A HREF="../elks/debug_output_chart.html">DEBUG_OUTPUT</A>*
+    <A HREF="../elks/hashable_chart.html">HASHABLE</A>*
+    <A HREF="../elks/native_string_handler_chart.html">NATIVE_STRING_HANDLER</A>
+
+<B>Queries</B>
+    <A HREF="../elks/path.html#f_absolute_path">absolute_path</A>: <A HREF="../elks/path_chart.html">PATH</A>
+    <A HREF="../elks/path.html#f_absolute_path_in">absolute_path_in</A> (a_current_directory: <A HREF="../elks/path_chart.html">PATH</A>): <A HREF="../elks/path_chart.html">PATH</A>
+    <A HREF="../elks/path.html#f_appended">appended</A> (a_extra: <A HREF="../elks/readable_string_general_chart.html">READABLE_STRING_GENERAL</A>): <A HREF="../elks/path_chart.html">PATH</A>
+    <A HREF="../elks/path.html#f_appended_with_extension">appended_with_extension</A> (a_ext: <A HREF="../elks/readable_string_general_chart.html">READABLE_STRING_GENERAL</A>): <A HREF="../elks/path_chart.html">PATH</A>
+    <A HREF="../elks/path.html#f_canonical_path">canonical_path</A>: <A HREF="../elks/path_chart.html">PATH</A>
+    <A HREF="../elks/path.html#f_components">components</A>: <A HREF="../elks/arrayed_list_chart.html">ARRAYED_LIST</A> [<A HREF="../elks/path_chart.html">PATH</A>]
+    <A HREF="../elks/path.html#f_directory_separator">directory_separator</A>: <A HREF="../elks/character_8_chart.html">CHARACTER_8</A>
+    <A HREF="../elks/path.html#f_entry">entry</A>: <B>detachable</B> <A HREF="../elks/path_chart.html">PATH</A>
+    <A HREF="../elks/path.html#f_extended">extended</A> (a_name: <A HREF="../elks/readable_string_general_chart.html">READABLE_STRING_GENERAL</A>): <A HREF="../elks/path_chart.html">PATH</A>
+    <A HREF="../elks/path.html#f_extended_path">extended_path</A> <B>alias</B> "+" (a_path: <A HREF="../elks/path_chart.html">PATH</A>): <A HREF="../elks/path_chart.html">PATH</A>
+    <A HREF="../elks/path.html#f_extension">extension</A>: <B>detachable</B> <A HREF="../elks/immutable_string_32_chart.html">IMMUTABLE_STRING_32</A>
+    <A HREF="../elks/path.html#f_has_extension">has_extension</A> (a_ext: <A HREF="../elks/readable_string_general_chart.html">READABLE_STRING_GENERAL</A>): <A HREF="../elks/boolean_chart.html">BOOLEAN</A>
+    <A HREF="../elks/path.html#f_has_root">has_root</A>: <A HREF="../elks/boolean_chart.html">BOOLEAN</A>
+    <A HREF="../elks/path.html#f_hash_code">hash_code</A>: <A HREF="../elks/integer_32_chart.html">INTEGER_32</A>
+    <A HREF="../elks/path.html#f_is_absolute">is_absolute</A>: <A HREF="../elks/boolean_chart.html">BOOLEAN</A>
+    <A HREF="../elks/path.html#f_is_case_insensitive_equal">is_case_insensitive_equal</A> (other: <A HREF="../elks/path_chart.html">PATH</A>): <A HREF="../elks/boolean_chart.html">BOOLEAN</A>
+    <A HREF="../elks/path.html#f_is_case_sensitive_equal">is_case_sensitive_equal</A> (other: <A HREF="../elks/path_chart.html">PATH</A>): <A HREF="../elks/boolean_chart.html">BOOLEAN</A>
+    <A HREF="../elks/path.html#f_is_current_symbol">is_current_symbol</A>: <A HREF="../elks/boolean_chart.html">BOOLEAN</A>
+    <A HREF="../elks/path.html#f_is_empty">is_empty</A>: <A HREF="../elks/boolean_chart.html">BOOLEAN</A>
+    <A HREF="../elks/path.html#f_is_equal">is_equal</A> (other: [<B>like</B> <B>Current</B>] <B>attached</B> <A HREF="../elks/path_chart.html">PATH</A>): <A HREF="../elks/boolean_chart.html">BOOLEAN</A>
+    <A HREF="../elks/comparable.html#f_is_greater">is_greater</A> <B>alias</B> "&gt;" (other: [<B>attached</B> <B>like</B> <B>Current</B>] <B>attached</B> <A HREF="../elks/path_chart.html">PATH</A>): <A HREF="../elks/boolean_chart.html">BOOLEAN</A><FONT COLOR="red"> -- (from COMPARABLE)</FONT>
+    <A HREF="../elks/comparable.html#f_is_greater_equal">is_greater_equal</A> <B>alias</B> "&gt;=" (other: [<B>attached</B> <B>like</B> <B>Current</B>] <B>attached</B> <A HREF="../elks/path_chart.html">PATH</A>): <A HREF="../elks/boolean_chart.html">BOOLEAN</A><FONT COLOR="red"> -- (from COMPARABLE)</FONT>
+    <A HREF="../elks/hashable.html#f_is_hashable">is_hashable</A>: <A HREF="../elks/boolean_chart.html">BOOLEAN</A><FONT COLOR="red"> -- (from HASHABLE)</FONT>
+    <A HREF="../elks/path.html#f_is_less">is_less</A> <B>alias</B> "&lt;" (other: [<B>like</B> <B>Current</B>] <B>attached</B> <A HREF="../elks/path_chart.html">PATH</A>): <A HREF="../elks/boolean_chart.html">BOOLEAN</A>
+    <A HREF="../elks/comparable.html#f_is_less_equal">is_less_equal</A> <B>alias</B> "&lt;=" (other: [<B>attached</B> <B>like</B> <B>Current</B>] <B>attached</B> <A HREF="../elks/path_chart.html">PATH</A>): <A HREF="../elks/boolean_chart.html">BOOLEAN</A><FONT COLOR="red"> -- (from COMPARABLE)</FONT>
+    <A HREF="../elks/path.html#f_is_parent_symbol">is_parent_symbol</A>: <A HREF="../elks/boolean_chart.html">BOOLEAN</A>
+    <A HREF="../elks/path.html#f_is_relative">is_relative</A>: <A HREF="../elks/boolean_chart.html">BOOLEAN</A>
+    <A HREF="../elks/path.html#f_is_same_file_as">is_same_file_as</A> (a_path: <A HREF="../elks/path_chart.html">PATH</A>): <A HREF="../elks/boolean_chart.html">BOOLEAN</A>
+    <A HREF="../elks/path.html#f_is_simple">is_simple</A>: <A HREF="../elks/boolean_chart.html">BOOLEAN</A>
+    <A HREF="../elks/comparable.html#f_max">max</A> (other: [<B>attached</B> <B>like</B> <B>Current</B>] <B>attached</B> <A HREF="../elks/path_chart.html">PATH</A>): [<B>attached</B> <B>like</B> <B>Current</B>] <B>attached</B> <A HREF="../elks/path_chart.html">PATH</A><FONT COLOR="red"> -- (from COMPARABLE)</FONT>
+    <A HREF="../elks/comparable.html#f_min">min</A> (other: [<B>attached</B> <B>like</B> <B>Current</B>] <B>attached</B> <A HREF="../elks/path_chart.html">PATH</A>): [<B>attached</B> <B>like</B> <B>Current</B>] <B>attached</B> <A HREF="../elks/path_chart.html">PATH</A><FONT COLOR="red"> -- (from COMPARABLE)</FONT>
+    <A HREF="../elks/path.html#f_name">name</A>: <A HREF="../elks/immutable_string_32_chart.html">IMMUTABLE_STRING_32</A>
+    <A HREF="../elks/path.html#f_native_string">native_string</A>: <A HREF="../elks/native_string_chart.html">NATIVE_STRING</A>
+    <A HREF="../elks/path.html#f_out">out</A>: <A HREF="../elks/string_8_chart.html">STRING_8</A>
+    <A HREF="../elks/path.html#f_parent">parent</A>: <A HREF="../elks/path_chart.html">PATH</A>
+    <A HREF="../elks/path.html#f_root">root</A>: <B>detachable</B> <A HREF="../elks/path_chart.html">PATH</A>
+    <A HREF="../elks/path.html#f_same_as">same_as</A> (other: <B>detachable</B> <A HREF="../elks/path_chart.html">PATH</A>): <A HREF="../elks/boolean_chart.html">BOOLEAN</A>
+    <A HREF="../elks/comparable.html#f_three_way_comparison">three_way_comparison</A> (other: [<B>attached</B> <B>like</B> <B>Current</B>] <B>attached</B> <A HREF="../elks/path_chart.html">PATH</A>): <A HREF="../elks/integer_32_chart.html">INTEGER_32</A><FONT COLOR="red"> -- (from COMPARABLE)</FONT>
+    <A HREF="../elks/path.html#f_unix_separator">Unix_separator</A>: <A HREF="../elks/character_8_chart.html">CHARACTER_8</A>
+    <A HREF="../elks/path.html#f_utf_8_name">utf_8_name</A>: <A HREF="../elks/string_8_chart.html">STRING_8</A>
+    <A HREF="../elks/path.html#f_windows_separator">Windows_separator</A>: <A HREF="../elks/character_8_chart.html">CHARACTER_8</A>
+
+<B>Commands</B>
+    <A HREF="../elks/path.html#f_copy">copy</A> (other: [<B>like</B> <B>Current</B>] <B>attached</B> <A HREF="../elks/path_chart.html">PATH</A>)
+
+<B>Constraints</B>
+    little endian windows
+    even count on windows
+    no forward slash on windows
+
+<TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD>Chart</TD><TD><A HREF="path_links.html">Relations</A></TD><TD><A HREF="path.html">Text</A></TD><TD><A HREF="path_flat.html">Flat</A></TD><TD><A HREF="path_short.html">Contracts</A></TD><TD><A HREF="path_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>

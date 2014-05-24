@@ -1,0 +1,173 @@
+<HTML><HEAD>
+<meta name="description" content="Objects that represents an IP V4 address ..."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>inet4_address Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="inet4_address_chart.html">Chart</A></TD><TD><A HREF="inet4_address_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="inet4_address_flat.html">Flat</A></TD><TD><A HREF="inet4_address_short.html">Contracts</A></TD><TD><A HREF="inet4_address_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Objects that represents an IP V4 address ..."
+    date: "$Date: 2013-05-20 16:15:17 -0700 (Mon, 20 May 2013) $"
+    revision: "$Revision: 92557 $"
+
+<B>class</B> 
+    <A HREF="../network/inet4_address.html">INET4_ADDRESS</A>
+
+<B>inherit</B>
+    <A HREF="../network/inet_address.html">INET_ADDRESS</A>
+
+<B>create</B> 
+    <A HREF="../network/inet4_address.html#f_make_from_host_and_address">make_from_host_and_address</A>
+
+
+<B>create</B> {<A HREF="../network/inet_address_factory.html">INET_ADDRESS_FACTORY</A>}
+    <A HREF="../network/inet4_address.html#f_make_from_host_and_pointer">make_from_host_and_pointer</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Constants</FONT>
+
+    <A NAME="f_inaddrsz"><A HREF="../network/inet4_address.html#f_inaddrsz">Inaddrsz</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A> = 4</A>
+    
+<B>feature</B> {<A HREF="../network/inet_address_factory.html">INET_ADDRESS_FACTORY</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make_from_host_and_address"><A HREF="../network/inet4_address.html#f_make_from_host_and_address">make_from_host_and_address</A> (a_hostname: <B>detachable</B> <A HREF="../elks/string_8.html">STRING_8</A>; an_address: <B>detachable</B> <A HREF="../elks/array.html">ARRAY</A> [<A HREF="../elks/natural_8.html">NATURAL_8</A>])
+        <B>require</B>
+            an_address_count_valid: an_address /= <B>Void</B> <B>implies</B> an_address.<A HREF="../elks/array.html#f_count">count</A> = <A HREF="../network/inet4_address.html#f_inaddrsz">Inaddrsz</A>
+        <B>do</B>
+            <A HREF="../network/inet_address.html#f_internal_host_name">internal_host_name</A> := a_hostname
+            <A HREF="../network/inet_address.html#f_family">family</A> := <A HREF="../network/inet_address.html#f_ipv4">Ipv4</A>
+            <B>if</B> an_address /= <B>Void</B> <B>and then</B> an_address.<A HREF="../elks/array.html#f_count">count</A> = <A HREF="../network/inet4_address.html#f_inaddrsz">Inaddrsz</A> <B>then</B>
+                <A HREF="../network/inet4_address.html#f_the_address">the_address</A> := an_address.<A HREF="../elks/array.html#f_item">item</A> (4).<A HREF="../elks/natural_8_ref.html#f_to_integer_32">to_integer_32</A> &#38; 255
+                <A HREF="../network/inet4_address.html#f_the_address">the_address</A> := <A HREF="../network/inet4_address.html#f_the_address">the_address</A> | ((an_address.<A HREF="../elks/array.html#f_item">item</A> (3).<A HREF="../elks/natural_8_ref.html#f_to_integer_32">to_integer_32</A> |&lt;&lt; 8) &#38; 65280)
+                <A HREF="../network/inet4_address.html#f_the_address">the_address</A> := <A HREF="../network/inet4_address.html#f_the_address">the_address</A> | ((an_address.<A HREF="../elks/array.html#f_item">item</A> (2).<A HREF="../elks/natural_8_ref.html#f_to_integer_32">to_integer_32</A> |&lt;&lt; 16) &#38; 16711680)
+                <A HREF="../network/inet4_address.html#f_the_address">the_address</A> := <A HREF="../network/inet4_address.html#f_the_address">the_address</A> | ((an_address.<A HREF="../elks/array.html#f_item">item</A> (1).<A HREF="../elks/natural_8_ref.html#f_to_integer_32">to_integer_32</A> |&lt;&lt; 24) &#38; 4278190080.<A HREF="../elks/integer_64_ref.html#f_to_integer_32">to_integer_32</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_make_from_host_and_pointer"><A HREF="../network/inet4_address.html#f_make_from_host_and_pointer">make_from_host_and_pointer</A> (a_hostname: <B>detachable</B> <A HREF="../elks/string_8.html">STRING_8</A>; a_pointer: <A HREF="../elks/pointer.html">POINTER</A>)
+        <B>do</B>
+            <A HREF="../network/inet_address.html#f_internal_host_name">internal_host_name</A> := a_hostname
+            <A HREF="../network/inet_address.html#f_family">family</A> := <A HREF="../network/inet_address.html#f_ipv4">Ipv4</A>
+            <B>if</B> a_pointer /= <A HREF="../elks/any.html#f_default_pointer">default_pointer</A> <B>then</B>
+                <A HREF="../network/inet4_address.html#f_the_address">the_address</A> := <A HREF="../network/inet4_address.html#f_c_sockaddr_get_ipv4_address">c_sockaddr_get_ipv4_address</A> (a_pointer)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_host_address"><A HREF="../network/inet4_address.html#f_host_address">host_address</A>: <A HREF="../elks/string_8.html">STRING_8</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../network/inet4_address.html#f_numeric_to_text">numeric_to_text</A> (<A HREF="../network/inet4_address.html#f_raw_address">raw_address</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_multicast_address"><A HREF="../network/inet4_address.html#f_is_multicast_address">is_multicast_address</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../network/inet4_address.html#f_the_address">the_address</A> &#38; 4026531840.<A HREF="../elks/integer_64_ref.html#f_to_integer_32">to_integer_32</A>) = 3758096384.<A HREF="../elks/integer_64_ref.html#f_to_integer_32">to_integer_32</A>
+        <B>end</B></A>
+
+    <A NAME="f_is_any_local_address"><A HREF="../network/inet4_address.html#f_is_any_local_address">is_any_local_address</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../network/inet4_address.html#f_the_address">the_address</A> = 0)
+        <B>end</B></A>
+
+    <A NAME="f_is_loopback_address"><A HREF="../network/inet4_address.html#f_is_loopback_address">is_loopback_address</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            <B>Result</B> := (((<A HREF="../network/inet4_address.html#f_the_address">the_address</A> |&gt;&gt; 24) &#38; 255) = 127)
+        <B>end</B></A>
+
+    <A NAME="f_is_link_local_address"><A HREF="../network/inet4_address.html#f_is_link_local_address">is_link_local_address</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            <B>Result</B> := (((<A HREF="../network/inet4_address.html#f_the_address">the_address</A> |&gt;&gt; 24) &#38; 255) = 169) <B>and</B> (((<A HREF="../network/inet4_address.html#f_the_address">the_address</A> |&gt;&gt; 16) &#38; 255) = 254)
+        <B>end</B></A>
+
+    <A NAME="f_is_site_local_address"><A HREF="../network/inet4_address.html#f_is_site_local_address">is_site_local_address</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            <B>Result</B> := (((<A HREF="../network/inet4_address.html#f_the_address">the_address</A> |&gt;&gt; 24) &#38; 255) = 10) <B>or else</B> ((((<A HREF="../network/inet4_address.html#f_the_address">the_address</A> |&gt;&gt; 24) &#38; 255) = 172) <B>and</B> (((<A HREF="../network/inet4_address.html#f_the_address">the_address</A> |&gt;&gt; 16) &#38; 240) = 16)) <B>or else</B> ((((<A HREF="../network/inet4_address.html#f_the_address">the_address</A> |&gt;&gt; 24) &#38; 255) = 192) <B>and</B> (((<A HREF="../network/inet4_address.html#f_the_address">the_address</A> |&gt;&gt; 16) &#38; 255) = 168))
+        <B>end</B></A>
+
+    <A NAME="f_is_mc_global"><A HREF="../network/inet4_address.html#f_is_mc_global">is_mc_global</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>local</B>
+            byte_1, byte_2, byte_3: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            byte_1 := ((<A HREF="../network/inet4_address.html#f_the_address">the_address</A> |&gt;&gt; 24) &#38; 255)
+            byte_2 := ((<A HREF="../network/inet4_address.html#f_the_address">the_address</A> |&gt;&gt; 16) &#38; 255)
+            byte_3 := ((<A HREF="../network/inet4_address.html#f_the_address">the_address</A> |&gt;&gt; 8) &#38; 255)
+            <B>Result</B> := (byte_1 &gt;= 224 <B>and</B> byte_1 &lt;= 238) <B>and</B> <B>not</B> (byte_1 = 224 <B>and</B> byte_2 = 0 <B>and</B> byte_3 = 0)
+        <B>end</B></A>
+
+    <A NAME="f_is_mc_node_local"><A HREF="../network/inet4_address.html#f_is_mc_node_local">is_mc_node_local</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            <B>Result</B> := <B>False</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_mc_link_local"><A HREF="../network/inet4_address.html#f_is_mc_link_local">is_mc_link_local</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            <B>Result</B> := (((<A HREF="../network/inet4_address.html#f_the_address">the_address</A> |&gt;&gt; 24) &#38; 255) = 224) <B>and</B> (((<A HREF="../network/inet4_address.html#f_the_address">the_address</A> |&gt;&gt; 16) &#38; 255) = 0) <B>and</B> (((<A HREF="../network/inet4_address.html#f_the_address">the_address</A> |&gt;&gt; 8) &#38; 255) = 0)
+        <B>end</B></A>
+
+    <A NAME="f_is_mc_site_local"><A HREF="../network/inet4_address.html#f_is_mc_site_local">is_mc_site_local</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            <B>Result</B> := (((<A HREF="../network/inet4_address.html#f_the_address">the_address</A> |&gt;&gt; 24) &#38; 255) = 239) <B>and</B> (((<A HREF="../network/inet4_address.html#f_the_address">the_address</A> |&gt;&gt; 16) &#38; 255) = 255)
+        <B>end</B></A>
+
+    <A NAME="f_is_mc_org_local"><A HREF="../network/inet4_address.html#f_is_mc_org_local">is_mc_org_local</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            <B>Result</B> := (((<A HREF="../network/inet4_address.html#f_the_address">the_address</A> |&gt;&gt; 24) &#38; 255) = 239) <B>and</B> (((<A HREF="../network/inet4_address.html#f_the_address">the_address</A> |&gt;&gt; 16) &#38; 255) &gt;= 192) <B>and</B> (((<A HREF="../network/inet4_address.html#f_the_address">the_address</A> |&gt;&gt; 16) &#38; 255) &lt;= 195)
+        <B>end</B></A>
+
+    <A NAME="f_raw_address"><A HREF="../network/inet4_address.html#f_raw_address">raw_address</A>: <A HREF="../elks/array.html">ARRAY</A> [<A HREF="../elks/natural_8.html">NATURAL_8</A>]
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/array.html#f_make_filled">make_filled</A> ({<A HREF="../elks/natural_8.html">NATURAL_8</A>} 0, 1, <A HREF="../network/inet4_address.html#f_inaddrsz">Inaddrsz</A>)
+            <B>Result</B>.<A HREF="../elks/array.html#f_put">put</A> (((<A HREF="../network/inet4_address.html#f_the_address">the_address</A> |&gt;&gt; 24) &#38; 255).<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>, 1)
+            <B>Result</B>.<A HREF="../elks/array.html#f_put">put</A> (((<A HREF="../network/inet4_address.html#f_the_address">the_address</A> |&gt;&gt; 16) &#38; 255).<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>, 2)
+            <B>Result</B>.<A HREF="../elks/array.html#f_put">put</A> (((<A HREF="../network/inet4_address.html#f_the_address">the_address</A> |&gt;&gt; 8) &#38; 255).<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>, 3)
+            <B>Result</B>.<A HREF="../elks/array.html#f_put">put</A> ((<A HREF="../network/inet4_address.html#f_the_address">the_address</A> &#38; 255).<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>, 4)
+        <B>end</B></A>
+    
+<B>feature</B> {<A HREF="../network/network_socket_address.html">NETWORK_SOCKET_ADDRESS</A>} 
+
+    <A NAME="f_sockaddr"><A HREF="../network/inet4_address.html#f_sockaddr">sockaddr</A> (a_port: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/managed_pointer.html">MANAGED_POINTER</A>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/managed_pointer.html#f_make">make</A> (<A HREF="../network/inet_address.html#f_sockaddr_size">sockaddr_size</A>)
+            <A HREF="../network/inet4_address.html#f_fill_ipv4">fill_ipv4</A> (<B>Result</B>.<A HREF="../elks/managed_pointer.html#f_item">item</A>, <A HREF="../network/inet4_address.html#f_the_address">the_address</A>, a_port)
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_the_address"><A HREF="../network/inet4_address.html#f_the_address">the_address</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+
+    <A NAME="f_numeric_to_text"><A HREF="../network/inet4_address.html#f_numeric_to_text">numeric_to_text</A> (addr: <A HREF="../elks/array.html">ARRAY</A> [<A HREF="../elks/natural_8.html">NATURAL_8</A>]): <A HREF="../elks/string_8.html">STRING_8</A>
+        <B>require</B>
+            addr /= <B>Void</B> <B>and then</B> addr.<A HREF="../elks/array.html#f_count">count</A> = <A HREF="../network/inet4_address.html#f_inaddrsz">Inaddrsz</A>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/readable_string_general.html#f_make_empty">make_empty</A>
+            <B>Result</B>.<A HREF="../elks/string_8.html#f_append_integer">append_integer</A> (addr.<A HREF="../elks/array.html#f_item">item</A> (1).<A HREF="../elks/natural_8_ref.html#f_to_integer_32">to_integer_32</A>)
+            <B>Result</B>.<A HREF="../elks/string_8.html#f_append_character">append_character</A> ('.')
+            <B>Result</B>.<A HREF="../elks/string_8.html#f_append_integer">append_integer</A> (addr.<A HREF="../elks/array.html#f_item">item</A> (2).<A HREF="../elks/natural_8_ref.html#f_to_integer_32">to_integer_32</A>)
+            <B>Result</B>.<A HREF="../elks/string_8.html#f_append_character">append_character</A> ('.')
+            <B>Result</B>.<A HREF="../elks/string_8.html#f_append_integer">append_integer</A> (addr.<A HREF="../elks/array.html#f_item">item</A> (3).<A HREF="../elks/natural_8_ref.html#f_to_integer_32">to_integer_32</A>)
+            <B>Result</B>.<A HREF="../elks/string_8.html#f_append_character">append_character</A> ('.')
+            <B>Result</B>.<A HREF="../elks/string_8.html#f_append_integer">append_integer</A> (addr.<A HREF="../elks/array.html#f_item">item</A> (4).<A HREF="../elks/natural_8_ref.html#f_to_integer_32">to_integer_32</A>)
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Externals</FONT>
+
+    <A NAME="f_fill_ipv4"><A HREF="../network/inet4_address.html#f_fill_ipv4">fill_ipv4</A> (data_ptr: <A HREF="../elks/pointer.html">POINTER</A>; address: <A HREF="../elks/integer_32.html">INTEGER_32</A>; port: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+        <B>external</B>
+            "C"
+        <B>alias</B>
+            "en_socket_address_fill_ipv4"
+        <B>end</B></A>
+
+    <A NAME="f_c_sockaddr_get_ipv4_address"><A HREF="../network/inet4_address.html#f_c_sockaddr_get_ipv4_address">c_sockaddr_get_ipv4_address</A> (a_pointer: <A HREF="../elks/pointer.html">POINTER</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>external</B>
+            "C"
+        <B>alias</B>
+            "en_sockaddr_get_ipv4_address"
+        <B>end</B></A>
+    
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../network/inet4_address.html">INET4_ADDRESS</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="inet4_address_chart.html">Chart</A></TD><TD><A HREF="inet4_address_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="inet4_address_flat.html">Flat</A></TD><TD><A HREF="inet4_address_short.html">Contracts</A></TD><TD><A HREF="inet4_address_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

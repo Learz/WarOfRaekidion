@@ -1,12 +1,12 @@
 note
 	description : "[
-						War of Raekidion - The options screen
-						The {OPTIONS_SCREEN} allows to change settings about the game such as
-						the screen size, the volume and the difficulty.
-					]"
+					War of Raekidion - The options screen
+					The {OPTIONS_SCREEN} allows to change settings about the game such as
+					the screen size, the volume and the difficulty.
+				]"
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
-	date		: "$Date$"
-	revision	: "$Revision$"
+	date		: "$Date: May 23 2014$"
+	revision	: "$Revision: 1$"
 
 class
 	OPTIONS_SCREEN
@@ -258,5 +258,13 @@ feature {NONE} -- Implementation
 				must_close := true
 			end
 		end
+
+note
+	copyright: "[
+				War of Raekidion
+				Copyright (C) 2014 François Allard <binarmorker@gmail.com>
+             		   		   and Marc-Antoine Renaud <legars123456@gmail.com>
+               ]"
+	license:   "GNU General Public License, <http://www.gnu.org/licenses/>"
 
 end

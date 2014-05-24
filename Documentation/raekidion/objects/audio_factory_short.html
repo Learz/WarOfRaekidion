@@ -1,0 +1,68 @@
+<HTML><HEAD>
+<meta name="description" content="War of Raekidion - An audio factory An {AUDIO_FACTORY} loads and stores every audio file found in  the game's folders and puts them in a list."/>
+<meta name="author" content="François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>audio_factory Contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="audio_factory_chart.html">Chart</A></TD><TD><A HREF="audio_factory_links.html">Relations</A></TD><TD><A HREF="audio_factory.html">Text</A></TD><TD><A HREF="audio_factory_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="audio_factory_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        War of Raekidion - An audio factory
+        An <A HREF="../../raekidion/objects/audio_factory_short.html">AUDIO_FACTORY</A> loads and stores every audio file found in 
+        the game's folders and puts them in a list.
+    ]"
+    author: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+    date: "$Date$"
+    revision: "$Revision$"
+
+<B>class</B> <B>interface</B>
+    <A HREF="../../raekidion/objects/audio_factory_short.html">AUDIO_FACTORY</A>
+
+<B>create</B> 
+    <A HREF="../../raekidion/objects/audio_factory_short.html#f_make">make</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_sounds_volume"><A HREF="../../raekidion/objects/audio_factory_short.html#f_sounds_volume">sounds_volume</A>: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Sounds (all channels) volume, ranging from 0 to 128</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Music volume, ranging from 0 to 128</FONT>
+
+    <A NAME="f_music_volume"><A HREF="../../raekidion/objects/audio_factory_short.html#f_music_volume">music_volume</A>: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A></A>
+
+    <A NAME="f_sound"><A HREF="../../raekidion/objects/audio_factory_short.html#f_sound">sound</A> (a_name: <A HREF="../../elks/string_8_short.html">STRING_8</A>): <A HREF="../../elks/pointer_short.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Find a loaded sound file from </FONT>`a_name'
+</A>
+    <A NAME="f_music"><A HREF="../../raekidion/objects/audio_factory_short.html#f_music">music</A> (a_name: <A HREF="../../elks/string_8_short.html">STRING_8</A>): <A HREF="../../elks/pointer_short.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Find a loaded music file from </FONT>`a_name'
+</A>
+    <A NAME="f_dispose"><A HREF="../../raekidion/objects/audio_factory_short.html#f_dispose">dispose</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Free every sound and music from memory</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_set_music_volume"><A HREF="../../raekidion/objects/audio_factory_short.html#f_set_music_volume">set_music_volume</A> (a_volume: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Change the music channel's volume to </FONT>`a_volume'
+        <B>require</B>
+            valid_volume: a_volume &gt;= 0 <B>and</B> a_volume &lt;= 128
+        <B>ensure</B>
+            volume_set: <A HREF="../../raekidion/objects/audio_factory_short.html#f_music_volume">music_volume</A> = a_volume
+</A>
+    <A NAME="f_set_sounds_volume"><A HREF="../../raekidion/objects/audio_factory_short.html#f_set_sounds_volume">set_sounds_volume</A> (a_volume: <A HREF="../../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Change all sounds channels' volume to </FONT>`a_volume'
+        <B>require</B>
+            valid_channels: {<A HREF="../../raekidion/wrapper/sdl_mixer_short.html">SDL_MIXER</A>}.<A HREF="../../raekidion/wrapper/sdl_mixer_short.html#f_mix_allocatechannels">mix_allocatechannels</A> (16) /= 0
+            valid_volume: a_volume &gt;= 0 <B>and</B> a_volume &lt;= 128
+        <B>ensure</B>
+            volume_set: <A HREF="../../raekidion/objects/audio_factory_short.html#f_sounds_volume">sounds_volume</A> = a_volume
+</A>    
+<B>invariant</B>
+    valid_music_volume: <A HREF="../../raekidion/objects/audio_factory_short.html#f_music_volume">music_volume</A> &gt;= 0 <B>and</B> <A HREF="../../raekidion/objects/audio_factory_short.html#f_music_volume">music_volume</A> &lt;= 128
+    valid_sounds_volume: <A HREF="../../raekidion/objects/audio_factory_short.html#f_sounds_volume">sounds_volume</A> &gt;= 0 <B>and</B> <A HREF="../../raekidion/objects/audio_factory_short.html#f_sounds_volume">sounds_volume</A> &lt;= 128
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../../raekidion/objects/audio_factory_short.html">AUDIO_FACTORY</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="audio_factory_chart.html">Chart</A></TD><TD><A HREF="audio_factory_links.html">Relations</A></TD><TD><A HREF="audio_factory.html">Text</A></TD><TD><A HREF="audio_factory_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="audio_factory_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

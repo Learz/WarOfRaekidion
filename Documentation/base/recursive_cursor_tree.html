@@ -1,0 +1,437 @@
+<HTML><HEAD>
+<meta name="description" content="Cursor trees with a recursive structure"/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="names" content="recursive_cursor_tree, cursor_tree, tree"/>
+<meta name="access" content="cursor, membership"/>
+<meta name="representation" content="recursive"/>
+<meta name="contents" content="generic"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>recursive_cursor_tree Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="recursive_cursor_tree_chart.html">Chart</A></TD><TD><A HREF="recursive_cursor_tree_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="recursive_cursor_tree_flat.html">Flat</A></TD><TD><A HREF="recursive_cursor_tree_short.html">Contracts</A></TD><TD><A HREF="recursive_cursor_tree_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Cursor trees with a recursive structure"
+    library: "Free implementation of ELKS library"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    names: recursive_cursor_tree, cursor_tree, tree
+    access: cursor, membership
+    representation: recursive
+    contents: generic
+    date: "$Date: 2012-07-23 14:02:19 -0700 (Mon, 23 Jul 2012) $"
+    revision: "$Revision: 91989 $"
+
+<B>deferred</B> <B>class</B> 
+    <A HREF="../elks/recursive_cursor_tree.html">RECURSIVE_CURSOR_TREE</A> [G]
+
+<B>inherit</B>
+    <A HREF="../elks/cursor_tree.html">CURSOR_TREE</A> [G]
+        <B>redefine</B>
+            <A HREF="../elks/recursive_cursor_tree.html#f_is_empty">is_empty</A>,
+            <A HREF="../elks/recursive_cursor_tree.html#f_extendible">extendible</A>,
+            <A HREF="../elks/recursive_cursor_tree.html#f_extend">extend</A>
+        <B>end</B>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_item"><A HREF="../elks/recursive_cursor_tree.html#f_item">item</A>: G
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Item at cursor position</FONT>
+        <B>local</B>
+            a: <B>like</B> <A HREF="../elks/recursive_cursor_tree.html#f_active">active</A>
+        <B>do</B>
+            a := <A HREF="../elks/recursive_cursor_tree.html#f_active">active</A>
+            <B>check</B>
+                a_attached: a /= <B>Void</B>
+            <B>end</B>
+            <B>Result</B> := a.<A HREF="../elks/tree.html#f_item">item</A>
+        <B>end</B></A>
+
+    <A NAME="f_cursor"><A HREF="../elks/recursive_cursor_tree.html#f_cursor">cursor</A>: <A HREF="../elks/recursive_tree_cursor.html">RECURSIVE_TREE_CURSOR</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Current cursor position</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/recursive_tree_cursor.html#f_make">make</A> (<A HREF="../elks/recursive_cursor_tree.html#f_active">active</A>, <A HREF="../elks/recursive_cursor_tree.html#f_active_parent">active_parent</A>, <A HREF="../elks/recursive_cursor_tree.html#f_after">after</A>, <A HREF="../elks/recursive_cursor_tree.html#f_before">before</A>, <A HREF="../elks/cursor_tree.html#f_below">below</A>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_arity"><A HREF="../elks/recursive_cursor_tree.html#f_arity">arity</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of children of active node.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If cursor is </FONT><A HREF="../elks/recursive_cursor_tree.html#f_above">above</A><FONT COLOR="red">, 0 if tree is empty, 1 otherwise.</FONT>
+        <B>require else</B>
+            valid_cursor: <B>not</B> <A HREF="../elks/cursor_tree.html#f_off">off</A> <B>or else</B> <A HREF="../elks/recursive_cursor_tree.html#f_above">above</A>
+        <B>local</B>
+            a: <B>like</B> <A HREF="../elks/recursive_cursor_tree.html#f_active">active</A>
+        <B>do</B>
+            a := <A HREF="../elks/recursive_cursor_tree.html#f_active">active</A>
+            <B>if</B> a /= <B>Void</B> <B>then</B>
+                <B>Result</B> := a.<A HREF="../elks/tree.html#f_arity">arity</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_count"><A HREF="../elks/recursive_cursor_tree.html#f_count">count</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of items in the tree</FONT>
+        <B>local</B>
+            pos: <B>like</B> <A HREF="../elks/recursive_cursor_tree.html#f_cursor">cursor</A>
+        <B>do</B>
+            pos := <A HREF="../elks/recursive_cursor_tree.html#f_cursor">cursor</A>
+            <B>from</B>
+                <A HREF="../elks/cursor_tree.html#f_start">start</A>
+            <B>until</B>
+                <A HREF="../elks/cursor_tree.html#f_off">off</A>
+            <B>loop</B>
+                <B>Result</B> := <B>Result</B> + 1
+                <A HREF="../elks/cursor_tree.html#f_preorder_forth">preorder_forth</A>
+            <B>end</B>
+            <A HREF="../elks/recursive_cursor_tree.html#f_go_to">go_to</A> (pos)
+            <A HREF="../elks/recursive_cursor_tree.html#f_corresponding_child">corresponding_child</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_after"><A HREF="../elks/recursive_cursor_tree.html#f_after">after</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there no valid cursor position to the right of cursor?</FONT>
+
+    <A NAME="f_before"><A HREF="../elks/recursive_cursor_tree.html#f_before">before</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there no valid cursor position to the left of cursor?</FONT>
+
+    <A NAME="f_above"><A HREF="../elks/recursive_cursor_tree.html#f_above">above</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there no valid cursor position above cursor?</FONT>
+        <B>do</B>
+            <B>if</B> <B>not</B> <A HREF="../elks/cursor_tree.html#f_below">below</A> <B>then</B>
+                <B>Result</B> := (<A HREF="../elks/recursive_cursor_tree.html#f_active_parent">active_parent</A> = <B>Void</B>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_empty"><A HREF="../elks/recursive_cursor_tree.html#f_is_empty">is_empty</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is the tree empty?</FONT>
+        <B>local</B>
+            a: <B>like</B> <A HREF="../elks/recursive_cursor_tree.html#f_above_node">above_node</A>
+        <B>do</B>
+            a := <A HREF="../elks/recursive_cursor_tree.html#f_above_node">above_node</A>
+            <B>if</B> a /= <B>Void</B> <B>then</B>
+                <B>Result</B> := a.<A HREF="../elks/tree.html#f_arity">arity</A> = 0
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_extendible"><A HREF="../elks/recursive_cursor_tree.html#f_extendible">extendible</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May new items be added on current level?</FONT>
+        <B>do</B>
+            <B>Result</B> := (<B>not</B> <A HREF="../elks/recursive_cursor_tree.html#f_above">above</A>) <B>and</B> (<B>not</B> <A HREF="../elks/recursive_cursor_tree.html#f_is_root">is_root</A>)
+        <B>end</B></A>
+
+    <A NAME="f_isfirst"><A HREF="../elks/recursive_cursor_tree.html#f_isfirst">isfirst</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is cursor on first sibling?</FONT>
+        <B>local</B>
+            a: <B>like</B> <A HREF="../elks/recursive_cursor_tree.html#f_active_parent">active_parent</A>
+        <B>do</B>
+            a := <A HREF="../elks/recursive_cursor_tree.html#f_active_parent">active_parent</A>
+            <B>if</B> <B>not</B> <A HREF="../elks/cursor_tree.html#f_off">off</A> <B>and then</B> a /= <B>Void</B> <B>then</B>
+                <B>Result</B> := a.<A HREF="../elks/tree.html#f_child_isfirst">child_isfirst</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_islast"><A HREF="../elks/recursive_cursor_tree.html#f_islast">islast</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is cursor on last sibling?</FONT>
+        <B>local</B>
+            a: <B>like</B> <A HREF="../elks/recursive_cursor_tree.html#f_active_parent">active_parent</A>
+        <B>do</B>
+            a := <A HREF="../elks/recursive_cursor_tree.html#f_active_parent">active_parent</A>
+            <B>if</B> <B>not</B> <A HREF="../elks/cursor_tree.html#f_off">off</A> <B>and then</B> a /= <B>Void</B> <B>then</B>
+                <B>Result</B> := a.<A HREF="../elks/tree.html#f_child_islast">child_islast</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_root"><A HREF="../elks/recursive_cursor_tree.html#f_is_root">is_root</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is cursor on tree root?</FONT>
+        <B>do</B>
+            <B>if</B> <B>not</B> <A HREF="../elks/cursor_tree.html#f_off">off</A> <B>then</B>
+                <B>Result</B> := (<A HREF="../elks/recursive_cursor_tree.html#f_active_parent">active_parent</A> = <A HREF="../elks/recursive_cursor_tree.html#f_above_node">above_node</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_valid_cursor"><A HREF="../elks/recursive_cursor_tree.html#f_valid_cursor">valid_cursor</A> (p: <A HREF="../elks/cursor.html">CURSOR</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Can the cursor be moved to position </FONT>`p'<FONT COLOR="red">?</FONT>
+        <B>local</B>
+            pos: <B>like</B> <A HREF="../elks/recursive_cursor_tree.html#f_cursor">cursor</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<B>like</B> <A HREF="../elks/recursive_cursor_tree.html#f_cursor">cursor</A>} p <B>as</B> temp <B>then</B>
+                <B>if</B> temp.<A HREF="../elks/recursive_tree_cursor.html#f_active">active</A> = <A HREF="../elks/recursive_cursor_tree.html#f_above_node">above_node</A> <B>or</B> temp.<A HREF="../elks/recursive_tree_cursor.html#f_before">before</A> <B>or</B> temp.<A HREF="../elks/recursive_tree_cursor.html#f_after">after</A> <B>or</B> temp.<A HREF="../elks/recursive_tree_cursor.html#f_below">below</A> <B>then</B>
+                    <B>Result</B> := <B>True</B>
+                <B>else</B>
+                    pos := <A HREF="../elks/recursive_cursor_tree.html#f_cursor">cursor</A>
+                    <B>from</B>
+                        <A HREF="../elks/cursor_tree.html#f_start">start</A>
+                    <B>until</B>
+                        <A HREF="../elks/recursive_cursor_tree.html#f_active">active</A> = temp.<A HREF="../elks/recursive_tree_cursor.html#f_active">active</A> <B>or else</B> <A HREF="../elks/cursor_tree.html#f_off">off</A>
+                    <B>loop</B>
+                        <A HREF="../elks/cursor_tree.html#f_preorder_forth">preorder_forth</A>
+                    <B>end</B>
+                    <B>Result</B> := <B>not</B> <A HREF="../elks/cursor_tree.html#f_off">off</A>
+                    <A HREF="../elks/recursive_cursor_tree.html#f_go_to">go_to</A> (pos)
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Cursor movement</FONT>
+
+    <A NAME="f_back"><A HREF="../elks/recursive_cursor_tree.html#f_back">back</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor one position backward.</FONT>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/cursor_tree.html#f_below">below</A> <B>then</B>
+                <A HREF="../elks/recursive_cursor_tree.html#f_after">after</A> := <B>False</B>
+                <A HREF="../elks/recursive_cursor_tree.html#f_before">before</A> := <B>True</B>
+            <B>elseif</B> <A HREF="../elks/recursive_cursor_tree.html#f_after">after</A> <B>then</B>
+                <A HREF="../elks/recursive_cursor_tree.html#f_after">after</A> := <B>False</B>
+            <B>elseif</B> <A HREF="../elks/recursive_cursor_tree.html#f_isfirst">isfirst</A> <B>then</B>
+                <A HREF="../elks/recursive_cursor_tree.html#f_before">before</A> := <B>True</B>
+            <B>elseif</B> <B>attached</B> <A HREF="../elks/recursive_cursor_tree.html#f_active_parent">active_parent</A> <B>as</B> a <B>then</B>
+                a.<A HREF="../elks/tree.html#f_child_back">child_back</A>
+                <B>check</B>
+                    <B>attached</B> a.<A HREF="../elks/tree.html#f_child">child</A> <B>as</B> c
+                <B>then</B>
+                    <A HREF="../elks/recursive_cursor_tree.html#f_active">active</A> := c
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_forth"><A HREF="../elks/recursive_cursor_tree.html#f_forth">forth</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor one position forward.</FONT>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/cursor_tree.html#f_below">below</A> <B>then</B>
+                <A HREF="../elks/recursive_cursor_tree.html#f_before">before</A> := <B>False</B>
+                <A HREF="../elks/recursive_cursor_tree.html#f_after">after</A> := <B>True</B>
+            <B>elseif</B> <A HREF="../elks/recursive_cursor_tree.html#f_before">before</A> <B>then</B>
+                <A HREF="../elks/recursive_cursor_tree.html#f_before">before</A> := <B>False</B>
+            <B>elseif</B> <A HREF="../elks/recursive_cursor_tree.html#f_islast">islast</A> <B>then</B>
+                <A HREF="../elks/recursive_cursor_tree.html#f_after">after</A> := <B>True</B>
+            <B>elseif</B> <B>attached</B> <A HREF="../elks/recursive_cursor_tree.html#f_active_parent">active_parent</A> <B>as</B> a <B>then</B>
+                a.<A HREF="../elks/tree.html#f_child_forth">child_forth</A>
+                <B>check</B>
+                    <B>attached</B> a.<A HREF="../elks/tree.html#f_child">child</A> <B>as</B> c
+                <B>then</B>
+                    <A HREF="../elks/recursive_cursor_tree.html#f_active">active</A> := c
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_up"><A HREF="../elks/recursive_cursor_tree.html#f_up">up</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor one level upward to parent,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or </FONT><A HREF="../elks/recursive_cursor_tree.html#f_above">above</A><FONT COLOR="red"> if </FONT><A HREF="../elks/recursive_cursor_tree.html#f_is_root">is_root</A><FONT COLOR="red"> holds.</FONT>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/cursor_tree.html#f_below">below</A> <B>then</B>
+                <A HREF="../elks/cursor_tree.html#f_below">below</A> := <B>False</B>
+            <B>else</B>
+                <B>check</B>
+                    <B>attached</B> <A HREF="../elks/recursive_cursor_tree.html#f_active_parent">active_parent</A> <B>as</B> a
+                <B>then</B>
+                    <A HREF="../elks/recursive_cursor_tree.html#f_active">active</A> := a
+                    <A HREF="../elks/recursive_cursor_tree.html#f_active_parent">active_parent</A> := a.<A HREF="../elks/dynamic_tree.html#f_parent">parent</A>
+                <B>end</B>
+                <A HREF="../elks/recursive_cursor_tree.html#f_corresponding_child">corresponding_child</A>
+            <B>end</B>
+            <A HREF="../elks/recursive_cursor_tree.html#f_after">after</A> := <B>False</B>
+            <A HREF="../elks/recursive_cursor_tree.html#f_before">before</A> := <B>False</B>
+        <B>end</B></A>
+
+    <A NAME="f_down"><A HREF="../elks/recursive_cursor_tree.html#f_down">down</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor one level downward:</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to </FONT>`i'<FONT COLOR="red">-th child if there is one,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or </FONT><A HREF="../elks/recursive_cursor_tree.html#f_after">after</A><FONT COLOR="red"> if </FONT>`i'<FONT COLOR="red"> = </FONT><A HREF="../elks/recursive_cursor_tree.html#f_arity">arity</A><FONT COLOR="red"> + 1,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or </FONT><A HREF="../elks/recursive_cursor_tree.html#f_before">before</A><FONT COLOR="red"> if </FONT>`i'<FONT COLOR="red"> = 0.</FONT>
+        <B>local</B>
+            a: <B>like</B> <A HREF="../elks/recursive_cursor_tree.html#f_active">active</A>
+        <B>do</B>
+            <B>if</B> i = 0 <B>then</B>
+                <B>if</B> <A HREF="../elks/recursive_cursor_tree.html#f_arity">arity</A> = 0 <B>then</B>
+                    <A HREF="../elks/cursor_tree.html#f_below">below</A> := <B>True</B>
+                <B>else</B>
+                    a := <A HREF="../elks/recursive_cursor_tree.html#f_active">active</A>
+                    <A HREF="../elks/recursive_cursor_tree.html#f_active_parent">active_parent</A> := a
+                    a.<A HREF="../elks/tree.html#f_child_go_i_th">child_go_i_th</A> (1)
+                    <B>check</B>
+                        <B>attached</B> a.<A HREF="../elks/tree.html#f_child">child</A> <B>as</B> c
+                    <B>then</B>
+                        <A HREF="../elks/recursive_cursor_tree.html#f_active">active</A> := c
+                    <B>end</B>
+                <B>end</B>
+                <A HREF="../elks/recursive_cursor_tree.html#f_before">before</A> := <B>True</B>
+            <B>elseif</B> <A HREF="../elks/recursive_cursor_tree.html#f_above">above</A> <B>or else</B> i &lt;= <A HREF="../elks/recursive_cursor_tree.html#f_arity">arity</A> <B>then</B>
+                a := <A HREF="../elks/recursive_cursor_tree.html#f_active">active</A>
+                <A HREF="../elks/recursive_cursor_tree.html#f_active_parent">active_parent</A> := a
+                a.<A HREF="../elks/tree.html#f_child_go_i_th">child_go_i_th</A> (i)
+                <B>check</B>
+                    <B>attached</B> a.<A HREF="../elks/tree.html#f_child">child</A> <B>as</B> c
+                <B>then</B>
+                    <A HREF="../elks/recursive_cursor_tree.html#f_active">active</A> := c
+                <B>end</B>
+            <B>else</B>
+                <B>if</B> <A HREF="../elks/recursive_cursor_tree.html#f_arity">arity</A> = 0 <B>then</B>
+                    <A HREF="../elks/cursor_tree.html#f_below">below</A> := <B>True</B>
+                <B>else</B>
+                    a := <A HREF="../elks/recursive_cursor_tree.html#f_active">active</A>
+                    <A HREF="../elks/recursive_cursor_tree.html#f_active_parent">active_parent</A> := a
+                    a.<A HREF="../elks/tree.html#f_child_go_i_th">child_go_i_th</A> (<A HREF="../elks/recursive_cursor_tree.html#f_arity">arity</A>)
+                    <B>check</B>
+                        <B>attached</B> a.<A HREF="../elks/tree.html#f_child">child</A> <B>as</B> c
+                    <B>then</B>
+                        <A HREF="../elks/recursive_cursor_tree.html#f_active">active</A> := c
+                    <B>end</B>
+                <B>end</B>
+                <A HREF="../elks/recursive_cursor_tree.html#f_after">after</A> := <B>True</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_go_to"><A HREF="../elks/recursive_cursor_tree.html#f_go_to">go_to</A> (p: <A HREF="../elks/cursor.html">CURSOR</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to position </FONT>`p'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<B>like</B> <A HREF="../elks/recursive_cursor_tree.html#f_cursor">cursor</A>} p <B>as</B> temp <B>then</B>
+                <A HREF="../elks/recursive_cursor_tree.html#f_unchecked_go">unchecked_go</A> (temp)
+            <B>else</B>
+                <B>check</B>
+                    <B>False</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Insert element</FONT>
+
+    <A NAME="f_extend"><A HREF="../elks/recursive_cursor_tree.html#f_extend">extend</A> (v: G)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Add </FONT>`v'<FONT COLOR="red"> after last child.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make </FONT>`v'<FONT COLOR="red"> the </FONT>`first_child'<FONT COLOR="red"> if </FONT><A HREF="../elks/cursor_tree.html#f_below">below</A><FONT COLOR="red"> and place</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> cursor </FONT><A HREF="../elks/recursive_cursor_tree.html#f_before">before</A><FONT COLOR="red">.</FONT>
+        <B>local</B>
+            pos: <A HREF="../elks/cursor.html">CURSOR</A>
+        <B>do</B>
+            pos := <A HREF="../elks/recursive_cursor_tree.html#f_cursor">cursor</A>
+            <A HREF="../elks/cursor_tree.html#f_go_last_child">go_last_child</A>
+            <A HREF="../elks/cursor_tree.html#f_put_right">put_right</A> (v)
+            <A HREF="../elks/recursive_cursor_tree.html#f_go_to">go_to</A> (pos)
+            <B>if</B> <A HREF="../elks/cursor_tree.html#f_below">below</A> <B>then</B>
+                <A HREF="../elks/cursor_tree.html#f_below">below</A> := <B>False</B>
+                <A HREF="../elks/recursive_cursor_tree.html#f_before">before</A> := <B>False</B>
+                <A HREF="../elks/recursive_cursor_tree.html#f_after">after</A> := <B>False</B>
+                <A HREF="../elks/recursive_cursor_tree.html#f_down">down</A> (0)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_replace"><A HREF="../elks/recursive_cursor_tree.html#f_replace">replace</A> (v: G)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Replace current item by </FONT>`v'<FONT COLOR="red">.</FONT>
+        <B>local</B>
+            a: <B>like</B> <A HREF="../elks/recursive_cursor_tree.html#f_active">active</A>
+        <B>do</B>
+            a := <A HREF="../elks/recursive_cursor_tree.html#f_active">active</A>
+            <B>if</B> a /= <B>Void</B> <B>then</B>
+                a.<A HREF="../elks/tree.html#f_replace">replace</A> (v)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removal</FONT>
+
+    <A NAME="f_remove"><A HREF="../elks/recursive_cursor_tree.html#f_remove">remove</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove node at cursor position</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (and consequently the corresponding</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> subtree). Cursor moved up one level.</FONT>
+        <B>do</B>
+            <A HREF="../elks/recursive_cursor_tree.html#f_corresponding_child">corresponding_child</A>
+            <B>check</B>
+                <B>attached</B> <A HREF="../elks/recursive_cursor_tree.html#f_active_parent">active_parent</A> <B>as</B> a
+            <B>then</B>
+                <A HREF="../elks/recursive_cursor_tree.html#f_active">active</A> := a
+                <A HREF="../elks/recursive_cursor_tree.html#f_active_parent">active_parent</A> := a.<A HREF="../elks/dynamic_tree.html#f_parent">parent</A>
+                a.<A HREF="../elks/dynamic_tree.html#f_remove_child">remove_child</A>
+                a.<A HREF="../elks/tree.html#f_child_back">child_back</A>
+            <B>end</B>
+        <B>ensure then</B>
+            not_off_unless_empty: <A HREF="../elks/recursive_cursor_tree.html#f_is_empty">is_empty</A> <B>or else</B> <B>not</B> <A HREF="../elks/cursor_tree.html#f_off">off</A>
+        <B>end</B></A>
+
+    <A NAME="f_wipe_out"><A HREF="../elks/recursive_cursor_tree.html#f_wipe_out">wipe_out</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove all items.</FONT>
+        <B>local</B>
+            a: <B>like</B> <A HREF="../elks/recursive_cursor_tree.html#f_above_node">above_node</A>
+        <B>do</B>
+            <B>if</B> <B>not</B> <A HREF="../elks/recursive_cursor_tree.html#f_is_empty">is_empty</A> <B>then</B>
+                a := <A HREF="../elks/recursive_cursor_tree.html#f_above_node">above_node</A>
+                <B>if</B> a /= <B>Void</B> <B>then</B>
+                    a.<A HREF="../elks/tree.html#f_child_start">child_start</A>
+                    a.<A HREF="../elks/dynamic_tree.html#f_remove_child">remove_child</A>
+                <B>end</B>
+            <B>end</B>
+            <A HREF="../elks/recursive_cursor_tree.html#f_active">active</A> := <A HREF="../elks/recursive_cursor_tree.html#f_above_node">above_node</A>
+            <A HREF="../elks/recursive_cursor_tree.html#f_active_parent">active_parent</A> := <B>Void</B>
+            <A HREF="../elks/recursive_cursor_tree.html#f_after">after</A> := <B>False</B>
+            <A HREF="../elks/recursive_cursor_tree.html#f_before">before</A> := <B>False</B>
+            <A HREF="../elks/cursor_tree.html#f_below">below</A> := <B>False</B>
+        <B>ensure then</B>
+            cursor_above: <A HREF="../elks/recursive_cursor_tree.html#f_above">above</A>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_active"><A HREF="../elks/recursive_cursor_tree.html#f_active">active</A>: <A HREF="../elks/dynamic_tree.html">DYNAMIC_TREE</A> [G]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Current node</FONT>
+
+    <A NAME="f_active_parent"><A HREF="../elks/recursive_cursor_tree.html#f_active_parent">active_parent</A>: <B>detachable</B> <B>like</B> <A HREF="../elks/recursive_cursor_tree.html#f_active">active</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Parent of current node</FONT>
+
+    <A NAME="f_above_node"><A HREF="../elks/recursive_cursor_tree.html#f_above_node">above_node</A>: <B>like</B> <A HREF="../elks/recursive_cursor_tree.html#f_active">active</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Node above root; physical root of tree</FONT>
+
+    <A NAME="f_corresponding_child"><A HREF="../elks/recursive_cursor_tree.html#f_corresponding_child">corresponding_child</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make </FONT><A HREF="../elks/recursive_cursor_tree.html#f_active">active</A><FONT COLOR="red"> the current child of </FONT><A HREF="../elks/recursive_cursor_tree.html#f_active_parent">active_parent</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            active_exists: <A HREF="../elks/recursive_cursor_tree.html#f_active">active</A> /= <B>Void</B>
+        <B>local</B>
+            a: <B>like</B> <A HREF="../elks/recursive_cursor_tree.html#f_active_parent">active_parent</A>
+        <B>do</B>
+            a := <A HREF="../elks/recursive_cursor_tree.html#f_active_parent">active_parent</A>
+            <B>if</B> a /= <B>Void</B> <B>then</B>
+                a.<A HREF="../elks/dynamic_tree.html#f_set_child">set_child</A> (<A HREF="../elks/recursive_cursor_tree.html#f_active">active</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_unchecked_go"><A HREF="../elks/recursive_cursor_tree.html#f_unchecked_go">unchecked_go</A> (p: <B>like</B> <A HREF="../elks/recursive_cursor_tree.html#f_cursor">cursor</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make an attempt to move cursor</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to position </FONT>`p'<FONT COLOR="red">, without checking</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> whether </FONT>`p'<FONT COLOR="red"> is a valid cursor position</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or not.</FONT>
+        <B>do</B>
+            <A HREF="../elks/recursive_cursor_tree.html#f_active_parent">active_parent</A> := p.<A HREF="../elks/recursive_tree_cursor.html#f_active_parent">active_parent</A>
+            <B>check</B>
+                <B>attached</B> p.<A HREF="../elks/recursive_tree_cursor.html#f_active">active</A> <B>as</B> a
+            <B>then</B>
+                <A HREF="../elks/recursive_cursor_tree.html#f_active">active</A> := a
+            <B>end</B>
+            <A HREF="../elks/recursive_cursor_tree.html#f_corresponding_child">corresponding_child</A>
+            <A HREF="../elks/recursive_cursor_tree.html#f_after">after</A> := p.<A HREF="../elks/recursive_tree_cursor.html#f_after">after</A>
+            <A HREF="../elks/recursive_cursor_tree.html#f_before">before</A> := p.<A HREF="../elks/recursive_tree_cursor.html#f_before">before</A>
+            <A HREF="../elks/cursor_tree.html#f_below">below</A> := p.<A HREF="../elks/recursive_tree_cursor.html#f_below">below</A>
+        <B>end</B></A>
+    
+<B>invariant</B>
+    coherency: <B>not</B> <A HREF="../elks/recursive_cursor_tree.html#f_above">above</A> <B>implies</B> (<B>attached</B> <A HREF="../elks/recursive_cursor_tree.html#f_active_parent">active_parent</A> <B>as</B> a <B>and then</B> a.<A HREF="../elks/tree.html#f_child">child</A> = <A HREF="../elks/recursive_cursor_tree.html#f_active">active</A>)
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/recursive_cursor_tree.html">RECURSIVE_CURSOR_TREE</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="recursive_cursor_tree_chart.html">Chart</A></TD><TD><A HREF="recursive_cursor_tree_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="recursive_cursor_tree_flat.html">Flat</A></TD><TD><A HREF="recursive_cursor_tree_short.html">Contracts</A></TD><TD><A HREF="recursive_cursor_tree_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

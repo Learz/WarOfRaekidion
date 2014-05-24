@@ -1,0 +1,110 @@
+<HTML><HEAD>
+<meta name="description" content="A data packet for sending and receiving on a socket."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2006, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 356 Storke Road, Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>packet Contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="packet_chart.html">Chart</A></TD><TD><A HREF="packet_links.html">Relations</A></TD><TD><A HREF="packet.html">Text</A></TD><TD><A HREF="packet_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="packet_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "A data packet for sending and receiving on a socket."
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2010-01-06 13:46:03 -0800 (Wed, 06 Jan 2010) $"
+    revision: "$Revision: 82000 $"
+
+<B>class</B> <B>interface</B>
+    <A HREF="../abstract/packet_short.html">PACKET</A>
+
+<B>create</B> 
+    <A HREF="../abstract/packet_short.html#f_make">make</A>,
+    <A HREF="../abstract/packet_short.html#f_make_from_managed_pointer">make_from_managed_pointer</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../abstract/packet_short.html#f_make">make</A> (size: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create a packet.</FONT>
+        <B>require</B>
+            valid_size: size &gt;= 0
+</A>
+    <A NAME="f_make_from_managed_pointer"><A HREF="../abstract/packet_short.html#f_make_from_managed_pointer">make_from_managed_pointer</A> (a_data: <B>like</B> <A HREF="../abstract/packet_short.html#f_data">data</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create packet from </FONT>`a_data'<FONT COLOR="red"> memory stream.</FONT>
+        <B>require</B>
+            a_data_not_void: a_data /= <B>Void</B>
+        <B>ensure</B>
+            data_set: <A HREF="../abstract/packet_short.html#f_data">data</A> = a_data
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_count"><A HREF="../abstract/packet_short.html#f_count">count</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of elements in packet</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_element"><A HREF="../abstract/packet_short.html#f_element">element</A> <B>alias</B> "[]" (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/character_8_short.html">CHARACTER_8</A> <B>assign</B> <A HREF="../abstract/packet_short.html#f_put_element">put_element</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Entry at index </FONT>`i'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/packet_short.html">PACKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/packet_short.html#f_at">at</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            valid_position: <A HREF="../abstract/packet_short.html#f_valid_position">valid_position</A> (i)
+</A>
+    <A NAME="f_at"><A HREF="../abstract/packet_short.html#f_at">at</A> <B>alias</B> "@" (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/character_8_short.html">CHARACTER_8</A> <B>assign</B> <A HREF="../abstract/packet_short.html#f_put_element">put_element</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Entry at index </FONT>`i'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/packet_short.html">PACKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/packet_short.html#f_element">element</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            valid_position: <A HREF="../abstract/packet_short.html#f_valid_position">valid_position</A> (i)
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_valid_position"><A HREF="../abstract/packet_short.html#f_valid_position">valid_position</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`i'<FONT COLOR="red"> within the bounds of Current?</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_put_element"><A HREF="../abstract/packet_short.html#f_put_element">put_element</A> (v: <A HREF="../elks/character_8_short.html">CHARACTER_8</A>; i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Replace </FONT>`i'<FONT COLOR="red">-th entry by </FONT>`v'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            valid_position: <A HREF="../abstract/packet_short.html#f_valid_position">valid_position</A> (i)
+        <B>ensure</B>
+            inserted: <A HREF="../abstract/packet_short.html#f_element">element</A> (i) = v
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_is_equal"><A HREF="../abstract/packet_short.html#f_is_equal">is_equal</A> (other: <B>like</B> <B>Current</B>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current packet equal to </FONT>`other'<FONT COLOR="red">?</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_copy"><A HREF="../abstract/packet_short.html#f_copy">copy</A> (other: <B>like</B> <B>Current</B>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Reinitialize by copying characters of </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (This is also used by </FONT><A HREF="../elks/any_short.html#f_clone">clone</A><FONT COLOR="red">)</FONT>
+        <B>ensure then</B>
+            size_valid: <A HREF="../abstract/packet_short.html#f_count">count</A> = other.<A HREF="../abstract/packet_short.html#f_count">count</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Storage</FONT>
+
+    <A NAME="f_data"><A HREF="../abstract/packet_short.html#f_data">data</A>: <A HREF="../elks/managed_pointer_short.html">MANAGED_POINTER</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Place holder</FONT>
+    
+<B>invariant</B>
+    data_not_equal_void: <A HREF="../abstract/packet_short.html#f_data">data</A> /= <B>Void</B>
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2006, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        356 Storke Road, Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../abstract/packet_short.html">PACKET</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="packet_chart.html">Chart</A></TD><TD><A HREF="packet_links.html">Relations</A></TD><TD><A HREF="packet.html">Text</A></TD><TD><A HREF="packet_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="packet_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

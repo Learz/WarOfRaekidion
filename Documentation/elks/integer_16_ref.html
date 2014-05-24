@@ -1,0 +1,649 @@
+<HTML><HEAD>
+<meta name="description" content="References to objects containing an integer value coded on 16 bits"/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>integer_16_ref Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="integer_16_ref_chart.html">Chart</A></TD><TD><A HREF="integer_16_ref_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="integer_16_ref_flat.html">Flat</A></TD><TD><A HREF="integer_16_ref_short.html">Contracts</A></TD><TD><A HREF="integer_16_ref_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "References to objects containing an integer value coded on 16 bits"
+    library: "Free implementation of ELKS library"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2012-05-23 21:13:10 -0700 (Wed, 23 May 2012) $"
+    revision: "$Revision: 91981 $"
+
+<B>class</B> 
+    <A HREF="../elks/integer_16_ref.html">INTEGER_16_REF</A>
+
+<B>inherit</B>
+    <A HREF="../elks/numeric.html">NUMERIC</A>
+        <B>rename</B>
+            <A HREF="../elks/numeric.html#f_quotient">quotient</A> <B>as</B> <A HREF="../elks/integer_16_ref.html#f_integer_quotient">integer_quotient</A> <B>alias</B> "//"
+        <B>redefine</B>
+            <A HREF="../elks/integer_16_ref.html#f_out">out</A>,
+            <A HREF="../elks/integer_16_ref.html#f_is_equal">is_equal</A>
+        <B>end</B>
+
+    <A HREF="../elks/comparable.html">COMPARABLE</A>
+        <B>redefine</B>
+            <A HREF="../elks/integer_16_ref.html#f_out">out</A>,
+            <A HREF="../elks/integer_16_ref.html#f_is_equal">is_equal</A>
+        <B>end</B>
+
+    <A HREF="../elks/hashable.html">HASHABLE</A>
+        <B>redefine</B>
+            <A HREF="../elks/integer_16_ref.html#f_is_hashable">is_hashable</A>,
+            <A HREF="../elks/integer_16_ref.html#f_out">out</A>,
+            <A HREF="../elks/integer_16_ref.html#f_is_equal">is_equal</A>
+        <B>end</B>
+
+<B>create</B> 
+    <A HREF="../elks/any.html#f_default_create">default_create</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_item"><A HREF="../elks/integer_16_ref.html#f_item">item</A>: <A HREF="../elks/integer_16.html">INTEGER_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Integer value</FONT>
+</A>
+
+    <A NAME="f_hash_code"><A HREF="../elks/integer_16_ref.html#f_hash_code">hash_code</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Hash code value</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16_ref.html#f_to_integer">to_integer</A>.<A HREF="../elks/integer_32_ref.html#f_hash_code">hash_code</A>
+        <B>end</B></A>
+
+    <A NAME="f_sign"><A HREF="../elks/integer_16_ref.html#f_sign">sign</A>: <A HREF="../elks/integer_16.html">INTEGER_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Sign value (0, -1 or 1)</FONT>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/integer_16_ref.html#f_item">item</A> &gt; 0.<A HREF="../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A> <B>then</B>
+                <B>Result</B> := 1.<A HREF="../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A>
+            <B>elseif</B> <A HREF="../elks/integer_16_ref.html#f_item">item</A> &lt; 0.<A HREF="../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A> <B>then</B>
+                <B>Result</B> := -1.<A HREF="../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A>
+            <B>end</B>
+        <B>ensure</B>
+            three_way: <B>Result</B>.<A HREF="../elks/integer_16_ref.html#f_to_integer_32">to_integer_32</A> = <A HREF="../elks/comparable.html#f_three_way_comparison">three_way_comparison</A> (<A HREF="../elks/integer_16_ref.html#f_zero">zero</A>)
+        <B>end</B></A>
+
+    <A NAME="f_one"><A HREF="../elks/integer_16_ref.html#f_one">one</A>: <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Neutral element for "*" and "/"</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../elks/integer_16_ref.html#f_set_item">set_item</A> (1.<A HREF="../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A>)
+        <B>end</B></A>
+
+    <A NAME="f_zero"><A HREF="../elks/integer_16_ref.html#f_zero">zero</A>: <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Neutral element for "+" and "-"</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../elks/integer_16_ref.html#f_set_item">set_item</A> (0.<A HREF="../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A>)
+        <B>end</B></A>
+
+    <A NAME="f_ascii_char"><A HREF="../elks/integer_16_ref.html#f_ascii_char">ascii_char</A>: <A HREF="../elks/character_8.html">CHARACTER_8</A>
+        <B>obsolete</B> "Use to_character_8 instead"
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Returns corresponding ASCII character to </FONT><A HREF="../elks/integer_16_ref.html#f_item">item</A><FONT COLOR="red"> value.</FONT>
+        <B>require</B>
+            valid_character_code: <A HREF="../elks/integer_16_ref.html#f_is_valid_character_8_code">is_valid_character_8_code</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16.html#f_to_character_8">to_character_8</A>
+        <B>end</B></A>
+
+    <A NAME="f_min_value"><A HREF="../elks/integer_16_ref.html#f_min_value">Min_value</A>: <A HREF="../elks/integer_16.html">INTEGER_16</A> = -32768</A>
+
+    <A NAME="f_max_value"><A HREF="../elks/integer_16_ref.html#f_max_value">Max_value</A>: <A HREF="../elks/integer_16.html">INTEGER_16</A> = 32767</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Minimum and Maximum value hold in </FONT><A HREF="../elks/integer_16_ref.html#f_item">item</A><FONT COLOR="red">.</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_is_less"><A HREF="../elks/integer_16_ref.html#f_is_less">is_less</A> <B>alias</B> "&lt;" (other: <B>like</B> <B>Current</B>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current integer less than </FONT>`other'<FONT COLOR="red">?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_item">item</A> &lt; other.<A HREF="../elks/integer_16_ref.html#f_item">item</A>
+        <B>end</B></A>
+
+    <A NAME="f_is_equal"><A HREF="../elks/integer_16_ref.html#f_is_equal">is_equal</A> (other: <B>like</B> <B>Current</B>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object of the same type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as current object and identical to it?</FONT>
+        <B>do</B>
+            <B>Result</B> := other.<A HREF="../elks/integer_16_ref.html#f_item">item</A> = <A HREF="../elks/integer_16_ref.html#f_item">item</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_set_item"><A HREF="../elks/integer_16_ref.html#f_set_item">set_item</A> (i: <A HREF="../elks/integer_16.html">INTEGER_16</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make </FONT>`i'<FONT COLOR="red"> the </FONT><A HREF="../elks/integer_16_ref.html#f_item">item</A><FONT COLOR="red"> value.</FONT>
+        <B>do</B>
+            <A HREF="../elks/integer_16_ref.html#f_item">item</A> := i
+        <B>ensure</B>
+            item_set: <A HREF="../elks/integer_16_ref.html#f_item">item</A> = i
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_divisible"><A HREF="../elks/integer_16_ref.html#f_divisible">divisible</A> (other: <B>like</B> <B>Current</B>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May current object be divided by </FONT>`other'<FONT COLOR="red">?</FONT>
+        <B>do</B>
+            <B>Result</B> := other.<A HREF="../elks/integer_16_ref.html#f_item">item</A> /= 0.<A HREF="../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A>
+        <B>ensure then</B>
+            value: <B>Result</B> = (other.<A HREF="../elks/integer_16_ref.html#f_item">item</A> /= 0.<A HREF="../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A>)
+        <B>end</B></A>
+
+    <A NAME="f_exponentiable"><A HREF="../elks/integer_16_ref.html#f_exponentiable">exponentiable</A> (other: <A HREF="../elks/numeric.html">NUMERIC</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May current object be elevated to the power </FONT>`other'<FONT COLOR="red">?</FONT>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<A HREF="../elks/integer_32_ref.html">INTEGER_32_REF</A>} other <B>as</B> integer_value <B>then</B>
+                <B>Result</B> := integer_value.<A HREF="../elks/integer_32_ref.html#f_item">item</A> &gt;= 0 <B>or</B> <A HREF="../elks/integer_16_ref.html#f_item">item</A> /= 0.<A HREF="../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A>
+            <B>elseif</B> <B>attached</B> {<A HREF="../elks/real_32_ref.html">REAL_32_REF</A>} other <B>as</B> real_value <B>then</B>
+                <B>Result</B> := real_value.<A HREF="../elks/real_32_ref.html#f_item">item</A> &gt;= 0.0.<A HREF="../elks/real_64.html#f_truncated_to_real">truncated_to_real</A> <B>or</B> <A HREF="../elks/integer_16_ref.html#f_item">item</A> /= 0.<A HREF="../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A>
+            <B>elseif</B> <B>attached</B> {<A HREF="../elks/real_64_ref.html">REAL_64_REF</A>} other <B>as</B> double_value <B>then</B>
+                <B>Result</B> := double_value.<A HREF="../elks/real_64_ref.html#f_item">item</A> &gt;= 0.0 <B>or</B> <A HREF="../elks/integer_16_ref.html#f_item">item</A> /= 0.<A HREF="../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A>
+            <B>end</B>
+        <B>ensure then</B>
+            safe_values: ((other.<A HREF="../elks/any.html#f_conforms_to">conforms_to</A> (0) <B>and</B> <A HREF="../elks/integer_16_ref.html#f_item">item</A> /= 0.<A HREF="../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A>) <B>or</B> (other.<A HREF="../elks/any.html#f_conforms_to">conforms_to</A> (0.0) <B>and</B> <A HREF="../elks/integer_16_ref.html#f_item">item</A> &gt; 0.<A HREF="../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A>)) <B>implies</B> <B>Result</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_hashable"><A HREF="../elks/integer_16_ref.html#f_is_hashable">is_hashable</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May current object be hashed?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (True if it is not its type's default.)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_item">item</A> /= 0.<A HREF="../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A>
+        <B>end</B></A>
+
+    <A NAME="f_is_valid_character_code"><A HREF="../elks/integer_16_ref.html#f_is_valid_character_code">is_valid_character_code</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>obsolete</B> "Use `is_valid_character_8_code' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does current object represent a CHARACTER_8?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_is_valid_character_8_code">is_valid_character_8_code</A>
+        <B>end</B></A>
+
+    <A NAME="f_is_valid_character_8_code"><A HREF="../elks/integer_16_ref.html#f_is_valid_character_8_code">is_valid_character_8_code</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does current object represent a CHARACTER_8?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16_ref.html#f_to_integer_32">to_integer_32</A> &gt;= {<A HREF="../elks/character_8.html">CHARACTER_8</A>}.<A HREF="../elks/character_8_ref.html#f_min_value">min_value</A> <B>and</B> <A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16_ref.html#f_to_integer_32">to_integer_32</A> &lt;= {<A HREF="../elks/character_8.html">CHARACTER_8</A>}.<A HREF="../elks/character_8_ref.html#f_max_value">max_value</A>
+        <B>ensure</B>
+            in_bounds: <B>Result</B> = (<A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16_ref.html#f_to_integer_32">to_integer_32</A> &gt;= {<A HREF="../elks/character_8.html">CHARACTER_8</A>}.<A HREF="../elks/character_8_ref.html#f_min_value">min_value</A> <B>and</B> <A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16_ref.html#f_to_integer_32">to_integer_32</A> &lt;= {<A HREF="../elks/character_8.html">CHARACTER_8</A>}.<A HREF="../elks/character_8_ref.html#f_max_value">max_value</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_valid_character_32_code"><A HREF="../elks/integer_16_ref.html#f_is_valid_character_32_code">is_valid_character_32_code</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does current object represent a CHARACTER_32?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_item">item</A> &gt;= 0.<A HREF="../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A>
+        <B>ensure</B>
+            in_bounds: <B>Result</B> = (<A HREF="../elks/integer_16_ref.html#f_item">item</A> &gt;= 0.<A HREF="../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A> <B>and</B> <A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16_ref.html#f_to_natural_32">to_natural_32</A> &gt;= {<A HREF="../elks/character_32.html">CHARACTER_32</A>}.<A HREF="../elks/character_32_ref.html#f_min_value">min_value</A> <B>and</B> <A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16_ref.html#f_to_natural_32">to_natural_32</A> &lt;= {<A HREF="../elks/character_32.html">CHARACTER_32</A>}.<A HREF="../elks/character_32_ref.html#f_max_value">max_value</A>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_abs"><A HREF="../elks/integer_16_ref.html#f_abs">abs</A>: <A HREF="../elks/integer_16.html">INTEGER_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Absolute value</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_abs_ref">abs_ref</A>.<A HREF="../elks/integer_16_ref.html#f_item">item</A>
+        <B>ensure</B>
+            non_negative: <B>Result</B> &gt;= 0.<A HREF="../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A>
+            same_absolute_value: (<B>Result</B> = <A HREF="../elks/integer_16_ref.html#f_item">item</A>) <B>or</B> (<B>Result</B> = - <A HREF="../elks/integer_16_ref.html#f_item">item</A>)
+        <B>end</B></A>
+
+    <A NAME="f_plus"><A HREF="../elks/integer_16_ref.html#f_plus">plus</A> <B>alias</B> "+" (other: <B>like</B> <B>Current</B>): <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Sum with </FONT>`other'
+        <B>do</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../elks/integer_16_ref.html#f_set_item">set_item</A> (<A HREF="../elks/integer_16_ref.html#f_item">item</A> + other.<A HREF="../elks/integer_16_ref.html#f_item">item</A>)
+        <B>end</B></A>
+
+    <A NAME="f_minus"><A HREF="../elks/integer_16_ref.html#f_minus">minus</A> <B>alias</B> "-" (other: <B>like</B> <B>Current</B>): <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Result of subtracting </FONT>`other'
+        <B>do</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../elks/integer_16_ref.html#f_set_item">set_item</A> (<A HREF="../elks/integer_16_ref.html#f_item">item</A> - other.<A HREF="../elks/integer_16_ref.html#f_item">item</A>)
+        <B>end</B></A>
+
+    <A NAME="f_product"><A HREF="../elks/integer_16_ref.html#f_product">product</A> <B>alias</B> "*" (other: <B>like</B> <B>Current</B>): <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Product by </FONT>`other'
+        <B>do</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../elks/integer_16_ref.html#f_set_item">set_item</A> (<A HREF="../elks/integer_16_ref.html#f_item">item</A> * other.<A HREF="../elks/integer_16_ref.html#f_item">item</A>)
+        <B>end</B></A>
+
+    <A NAME="f_quotient"><A HREF="../elks/integer_16_ref.html#f_quotient">quotient</A> <B>alias</B> "/" (other: <B>like</B> <B>Current</B>): <A HREF="../elks/real_64.html">REAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Division by </FONT>`other'
+        <B>require</B>
+            other_exists: other /= <B>Void</B>
+            good_divisor: <A HREF="../elks/integer_16_ref.html#f_divisible">divisible</A> (other)
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_item">item</A> / other.<A HREF="../elks/integer_16_ref.html#f_item">item</A>
+        <B>end</B></A>
+
+    <A NAME="f_identity"><A HREF="../elks/integer_16_ref.html#f_identity">identity</A> <B>alias</B> "+": <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Unary plus</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../elks/integer_16_ref.html#f_set_item">set_item</A> (+ <A HREF="../elks/integer_16_ref.html#f_item">item</A>)
+        <B>end</B></A>
+
+    <A NAME="f_opposite"><A HREF="../elks/integer_16_ref.html#f_opposite">opposite</A> <B>alias</B> "-": <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Unary minus</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../elks/integer_16_ref.html#f_set_item">set_item</A> (- <A HREF="../elks/integer_16_ref.html#f_item">item</A>)
+        <B>end</B></A>
+
+    <A NAME="f_integer_quotient"><A HREF="../elks/integer_16_ref.html#f_integer_quotient">integer_quotient</A> <B>alias</B> "//" (other: <B>like</B> <B>Current</B>): <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Integer division of Current by </FONT>`other'
+        <B>do</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../elks/integer_16_ref.html#f_set_item">set_item</A> (<A HREF="../elks/integer_16_ref.html#f_item">item</A> // other.<A HREF="../elks/integer_16_ref.html#f_item">item</A>)
+        <B>end</B></A>
+
+    <A NAME="f_integer_remainder"><A HREF="../elks/integer_16_ref.html#f_integer_remainder">integer_remainder</A> <B>alias</B> "\\" (other: <B>like</B> <B>Current</B>): <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remainder of the integer division of Current by </FONT>`other'
+        <B>require</B>
+            other_exists: other /= <B>Void</B>
+            good_divisor: <A HREF="../elks/integer_16_ref.html#f_divisible">divisible</A> (other)
+        <B>do</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../elks/integer_16_ref.html#f_set_item">set_item</A> (<A HREF="../elks/integer_16_ref.html#f_item">item</A> \\ other.<A HREF="../elks/integer_16_ref.html#f_item">item</A>)
+        <B>ensure</B>
+            result_exists: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_power"><A HREF="../elks/integer_16_ref.html#f_power">power</A> <B>alias</B> "^" (other: <A HREF="../elks/real_64.html">REAL_64</A>): <A HREF="../elks/real_64.html">REAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Integer power of Current by </FONT>`other'
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_item">item</A> ^ other
+        <B>end</B></A>
+
+    <A NAME="f_interval"><A HREF="../elks/integer_16_ref.html#f_interval">interval</A> <B>alias</B> "|..|" (other: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_interval.html">INTEGER_INTERVAL</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Interval from current element to </FONT>`other'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (empty if </FONT>`other'<FONT COLOR="red"> less than current integer)</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/integer_interval.html#f_make">make</A> (<A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16_ref.html#f_to_integer_32">to_integer_32</A>, other)
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Conversion</FONT>
+
+    <A NAME="f_make_from_reference"><A HREF="../elks/integer_16_ref.html#f_make_from_reference">make_from_reference</A> (v: <A HREF="../elks/integer_16_ref.html">INTEGER_16_REF</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize </FONT>`Current'<FONT COLOR="red"> with </FONT>`v.item'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            v_not_void: v /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../elks/integer_16_ref.html#f_set_item">set_item</A> (v.<A HREF="../elks/integer_16_ref.html#f_item">item</A>)
+        <B>ensure</B>
+            item_set: <A HREF="../elks/integer_16_ref.html#f_item">item</A> = v.<A HREF="../elks/integer_16_ref.html#f_item">item</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Conversion</FONT>
+
+    <A NAME="f_to_reference"><A HREF="../elks/integer_16_ref.html#f_to_reference">to_reference</A>: <A HREF="../elks/integer_16_ref.html">INTEGER_16_REF</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Associated reference of Current</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../elks/integer_16_ref.html#f_set_item">set_item</A> (<A HREF="../elks/integer_16_ref.html#f_item">item</A>)
+        <B>ensure</B>
+            to_reference_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_to_boolean"><B>frozen</B> <A HREF="../elks/integer_16_ref.html#f_to_boolean">to_boolean</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> True if not </FONT><A HREF="../elks/integer_16_ref.html#f_zero">zero</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_item">item</A> /= 0.<A HREF="../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A>
+        <B>end</B></A>
+
+    <A NAME="f_as_natural_8"><A HREF="../elks/integer_16_ref.html#f_as_natural_8">as_natural_8</A>: <A HREF="../elks/natural_8.html">NATURAL_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert </FONT><A HREF="../elks/integer_16_ref.html#f_item">item</A><FONT COLOR="red"> into an NATURAL_8 value.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16.html#f_as_natural_8">as_natural_8</A>
+        <B>end</B></A>
+
+    <A NAME="f_as_natural_16"><A HREF="../elks/integer_16_ref.html#f_as_natural_16">as_natural_16</A>: <A HREF="../elks/natural_16.html">NATURAL_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert </FONT><A HREF="../elks/integer_16_ref.html#f_item">item</A><FONT COLOR="red"> into an NATURAL_16 value.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16.html#f_as_natural_16">as_natural_16</A>
+        <B>end</B></A>
+
+    <A NAME="f_as_natural_32"><A HREF="../elks/integer_16_ref.html#f_as_natural_32">as_natural_32</A>: <A HREF="../elks/natural_32.html">NATURAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert </FONT><A HREF="../elks/integer_16_ref.html#f_item">item</A><FONT COLOR="red"> into an NATURAL_32 value.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16.html#f_as_natural_32">as_natural_32</A>
+        <B>end</B></A>
+
+    <A NAME="f_as_natural_64"><A HREF="../elks/integer_16_ref.html#f_as_natural_64">as_natural_64</A>: <A HREF="../elks/natural_64.html">NATURAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert </FONT><A HREF="../elks/integer_16_ref.html#f_item">item</A><FONT COLOR="red"> into an NATURAL_64 value.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16.html#f_as_natural_64">as_natural_64</A>
+        <B>end</B></A>
+
+    <A NAME="f_as_integer_8"><A HREF="../elks/integer_16_ref.html#f_as_integer_8">as_integer_8</A>: <A HREF="../elks/integer_8.html">INTEGER_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert </FONT><A HREF="../elks/integer_16_ref.html#f_item">item</A><FONT COLOR="red"> into an INTEGER_8 value.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16.html#f_as_integer_8">as_integer_8</A>
+        <B>end</B></A>
+
+    <A NAME="f_as_integer_16"><A HREF="../elks/integer_16_ref.html#f_as_integer_16">as_integer_16</A>: <A HREF="../elks/integer_16.html">INTEGER_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert </FONT><A HREF="../elks/integer_16_ref.html#f_item">item</A><FONT COLOR="red"> into an INTEGER_16 value.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16.html#f_as_integer_16">as_integer_16</A>
+        <B>end</B></A>
+
+    <A NAME="f_as_integer_32"><A HREF="../elks/integer_16_ref.html#f_as_integer_32">as_integer_32</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert </FONT><A HREF="../elks/integer_16_ref.html#f_item">item</A><FONT COLOR="red"> into an INTEGER_32 value.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16.html#f_as_integer_32">as_integer_32</A>
+        <B>end</B></A>
+
+    <A NAME="f_as_integer_64"><A HREF="../elks/integer_16_ref.html#f_as_integer_64">as_integer_64</A>: <A HREF="../elks/integer_64.html">INTEGER_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert </FONT><A HREF="../elks/integer_16_ref.html#f_item">item</A><FONT COLOR="red"> into an INTEGER_64 value.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16.html#f_as_integer_64">as_integer_64</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_natural_8"><B>frozen</B> <A HREF="../elks/integer_16_ref.html#f_to_natural_8">to_natural_8</A>: <A HREF="../elks/natural_8.html">NATURAL_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert </FONT><A HREF="../elks/integer_16_ref.html#f_item">item</A><FONT COLOR="red"> into an NATURAL_8 value.</FONT>
+        <B>require</B>
+            item_non_negative: <A HREF="../elks/integer_16_ref.html#f_item">item</A> &gt;= 0.<A HREF="../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A>
+            not_too_big: <A HREF="../elks/integer_16_ref.html#f_item">item</A> &lt;= {<A HREF="../elks/natural_8.html">NATURAL_8</A>}.<A HREF="../elks/natural_8_ref.html#f_max_value">max_value</A>.<A HREF="../elks/natural_8_ref.html#f_to_integer_16">to_integer_16</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_as_natural_8">as_natural_8</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_natural_16"><B>frozen</B> <A HREF="../elks/integer_16_ref.html#f_to_natural_16">to_natural_16</A>: <A HREF="../elks/natural_16.html">NATURAL_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert </FONT><A HREF="../elks/integer_16_ref.html#f_item">item</A><FONT COLOR="red"> into an NATURAL_16 value.</FONT>
+        <B>require</B>
+            item_non_negative: <A HREF="../elks/integer_16_ref.html#f_item">item</A> &gt;= 0.<A HREF="../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_as_natural_16">as_natural_16</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_natural_32"><B>frozen</B> <A HREF="../elks/integer_16_ref.html#f_to_natural_32">to_natural_32</A>: <A HREF="../elks/natural_32.html">NATURAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert </FONT><A HREF="../elks/integer_16_ref.html#f_item">item</A><FONT COLOR="red"> into an NATURAL_32 value.</FONT>
+        <B>require</B>
+            item_non_negative: <A HREF="../elks/integer_16_ref.html#f_item">item</A> &gt;= 0.<A HREF="../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_as_natural_32">as_natural_32</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_natural_64"><B>frozen</B> <A HREF="../elks/integer_16_ref.html#f_to_natural_64">to_natural_64</A>: <A HREF="../elks/natural_64.html">NATURAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert </FONT><A HREF="../elks/integer_16_ref.html#f_item">item</A><FONT COLOR="red"> into an NATURAL_64 value.</FONT>
+        <B>require</B>
+            item_non_negative: <A HREF="../elks/integer_16_ref.html#f_item">item</A> &gt;= 0.<A HREF="../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_as_natural_64">as_natural_64</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_integer_8"><B>frozen</B> <A HREF="../elks/integer_16_ref.html#f_to_integer_8">to_integer_8</A>: <A HREF="../elks/integer_8.html">INTEGER_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert </FONT><A HREF="../elks/integer_16_ref.html#f_item">item</A><FONT COLOR="red"> into an INTEGER_8 value.</FONT>
+        <B>require</B>
+            not_too_small: <A HREF="../elks/integer_16_ref.html#f_item">item</A> &gt;= {<A HREF="../elks/integer_8.html">INTEGER_8</A>}.<A HREF="../elks/integer_8_ref.html#f_min_value">min_value</A>.<A HREF="../elks/integer_8_ref.html#f_to_integer_16">to_integer_16</A>
+            not_too_big: <A HREF="../elks/integer_16_ref.html#f_item">item</A> &lt;= {<A HREF="../elks/integer_8.html">INTEGER_8</A>}.<A HREF="../elks/integer_8_ref.html#f_max_value">max_value</A>.<A HREF="../elks/integer_8_ref.html#f_to_integer_16">to_integer_16</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_as_integer_8">as_integer_8</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_integer"><B>frozen</B> <A HREF="../elks/integer_16_ref.html#f_to_integer">to_integer</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert </FONT><A HREF="../elks/integer_16_ref.html#f_item">item</A><FONT COLOR="red"> into an INTEGER_32 value.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/integer_16_ref.html">INTEGER_16_REF</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/integer_16_ref.html#f_to_integer_32">to_integer_32</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_as_integer_32">as_integer_32</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_integer_32"><B>frozen</B> <A HREF="../elks/integer_16_ref.html#f_to_integer_32">to_integer_32</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert </FONT><A HREF="../elks/integer_16_ref.html#f_item">item</A><FONT COLOR="red"> into an INTEGER_32 value.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/integer_16_ref.html">INTEGER_16_REF</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/integer_16_ref.html#f_to_integer">to_integer</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_as_integer_32">as_integer_32</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_integer_16"><B>frozen</B> <A HREF="../elks/integer_16_ref.html#f_to_integer_16">to_integer_16</A>: <A HREF="../elks/integer_16.html">INTEGER_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Return </FONT><A HREF="../elks/integer_16_ref.html#f_item">item</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_item">item</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_integer_64"><B>frozen</B> <A HREF="../elks/integer_16_ref.html#f_to_integer_64">to_integer_64</A>: <A HREF="../elks/integer_64.html">INTEGER_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert </FONT><A HREF="../elks/integer_16_ref.html#f_item">item</A><FONT COLOR="red"> into an INTEGER_64 value.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_as_integer_64">as_integer_64</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_real"><A HREF="../elks/integer_16_ref.html#f_to_real">to_real</A>: <A HREF="../elks/real_32.html">REAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert </FONT><A HREF="../elks/integer_16_ref.html#f_item">item</A><FONT COLOR="red"> into a REAL_32</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16.html#f_to_real">to_real</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_double"><A HREF="../elks/integer_16_ref.html#f_to_double">to_double</A>: <A HREF="../elks/real_64.html">REAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert </FONT><A HREF="../elks/integer_16_ref.html#f_item">item</A><FONT COLOR="red"> into a REAL_64</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16.html#f_to_double">to_double</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_hex_string"><A HREF="../elks/integer_16_ref.html#f_to_hex_string">to_hex_string</A>: <A HREF="../elks/string_8.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert </FONT><A HREF="../elks/integer_16_ref.html#f_item">item</A><FONT COLOR="red"> into an hexadecimal string.</FONT>
+        <B>local</B>
+            i, val: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            a_digit: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                i := (<B>create</B> {<A HREF="../elks/platform.html">PLATFORM</A>}).<A HREF="../elks/platform.html#f_integer_16_bits">Integer_16_bits</A> // 4
+                <B>create</B> <B>Result</B>.<A HREF="../elks/readable_string_8.html#f_make">make</A> (i)
+                <B>Result</B>.<A HREF="../elks/string_8.html#f_fill_blank">fill_blank</A>
+                val := <A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16_ref.html#f_to_integer_32">to_integer_32</A>
+            <B>until</B>
+                i = 0
+            <B>loop</B>
+                a_digit := (val &#38; 15)
+                <B>Result</B>.<A HREF="../elks/string_8.html#f_put">put</A> (a_digit.<A HREF="../elks/integer_32_ref.html#f_to_hex_character">to_hex_character</A>, i)
+                val := val |&gt;&gt; 4
+                i := i - 1
+            <B>end</B>
+        <B>ensure</B>
+            result_not_void: <B>Result</B> /= <B>Void</B>
+            result_valid_count: <B>Result</B>.<A HREF="../elks/readable_string_8.html#f_count">count</A> = (<B>create</B> {<A HREF="../elks/platform.html">PLATFORM</A>}).<A HREF="../elks/platform.html#f_integer_16_bits">Integer_16_bits</A> // 4
+        <B>end</B></A>
+
+    <A NAME="f_to_hex_character"><A HREF="../elks/integer_16_ref.html#f_to_hex_character">to_hex_character</A>: <A HREF="../elks/character_8.html">CHARACTER_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert </FONT><A HREF="../elks/integer_16_ref.html#f_item">item</A><FONT COLOR="red"> into an hexadecimal character.</FONT>
+        <B>require</B>
+            in_bounds: 0 &lt;= <A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16_ref.html#f_to_integer_32">to_integer_32</A> <B>and</B> <A HREF="../elks/integer_16_ref.html#f_item">item</A> &lt;= 15.<A HREF="../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A>
+        <B>local</B>
+            tmp: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            tmp := <A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16_ref.html#f_to_integer_32">to_integer_32</A>
+            <B>if</B> tmp &lt;= 9 <B>then</B>
+                <B>Result</B> := (tmp + ('0').<A HREF="../elks/character_8.html#f_code">code</A>).<A HREF="../elks/integer_32.html#f_to_character_8">to_character_8</A>
+            <B>else</B>
+                <B>Result</B> := (('A').<A HREF="../elks/character_8.html#f_code">code</A> + (tmp - 10)).<A HREF="../elks/integer_32.html#f_to_character_8">to_character_8</A>
+            <B>end</B>
+        <B>ensure</B>
+            valid_character: ("0123456789ABCDEF").<A HREF="../elks/readable_string_8.html#f_has">has</A> (<B>Result</B>)
+        <B>end</B></A>
+
+    <A NAME="f_to_character"><A HREF="../elks/integer_16_ref.html#f_to_character">to_character</A>: <A HREF="../elks/character_8.html">CHARACTER_8</A>
+        <B>obsolete</B> "Use `to_character_8' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Returns corresponding ASCII character to </FONT><A HREF="../elks/integer_16_ref.html#f_item">item</A><FONT COLOR="red"> value.</FONT>
+        <B>require</B>
+            valid_character: <A HREF="../elks/integer_16_ref.html#f_is_valid_character_8_code">is_valid_character_8_code</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16.html#f_to_character_8">to_character_8</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_character_8"><A HREF="../elks/integer_16_ref.html#f_to_character_8">to_character_8</A>: <A HREF="../elks/character_8.html">CHARACTER_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Associated character in 8 bit version.</FONT>
+        <B>require</B>
+            valid_character: <A HREF="../elks/integer_16_ref.html#f_is_valid_character_8_code">is_valid_character_8_code</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16.html#f_to_character_8">to_character_8</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_character_32"><A HREF="../elks/integer_16_ref.html#f_to_character_32">to_character_32</A>: <A HREF="../elks/character_32.html">CHARACTER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Associated character in 32 bit version.</FONT>
+        <B>require</B>
+            valid_character: <A HREF="../elks/integer_16_ref.html#f_is_valid_character_32_code">is_valid_character_32_code</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16.html#f_to_character_32">to_character_32</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Bit operations</FONT>
+
+    <A NAME="f_bit_and"><A HREF="../elks/integer_16_ref.html#f_bit_and">bit_and</A> <B>alias</B> "&#38;" (i: <B>like</B> <B>Current</B>): <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Bitwise and between Current' and </FONT>`i'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            i_not_void: i /= <B>Void</B>
+        <B>do</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../elks/integer_16_ref.html#f_set_item">set_item</A> (<A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16.html#f_bit_and">bit_and</A> (i.<A HREF="../elks/integer_16_ref.html#f_item">item</A>))
+        <B>ensure</B>
+            bitwise_and_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_bit_or"><A HREF="../elks/integer_16_ref.html#f_bit_or">bit_or</A> <B>alias</B> "|" (i: <B>like</B> <B>Current</B>): <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Bitwise or between Current' and </FONT>`i'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            i_not_void: i /= <B>Void</B>
+        <B>do</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../elks/integer_16_ref.html#f_set_item">set_item</A> (<A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16.html#f_bit_or">bit_or</A> (i.<A HREF="../elks/integer_16_ref.html#f_item">item</A>))
+        <B>ensure</B>
+            bitwise_or_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_bit_xor"><A HREF="../elks/integer_16_ref.html#f_bit_xor">bit_xor</A> (i: <B>like</B> <B>Current</B>): <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Bitwise xor between Current' and </FONT>`i'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            i_not_void: i /= <B>Void</B>
+        <B>do</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../elks/integer_16_ref.html#f_set_item">set_item</A> (<A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16.html#f_bit_xor">bit_xor</A> (i.<A HREF="../elks/integer_16_ref.html#f_item">item</A>))
+        <B>ensure</B>
+            bitwise_xor_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_bit_not"><A HREF="../elks/integer_16_ref.html#f_bit_not">bit_not</A>: <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> One's complement of Current.</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../elks/integer_16_ref.html#f_set_item">set_item</A> (<A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16.html#f_bit_not">bit_not</A>)
+        <B>ensure</B>
+            bit_not_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_bit_shift"><B>frozen</B> <A HREF="../elks/integer_16_ref.html#f_bit_shift">bit_shift</A> (n: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_16.html">INTEGER_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Shift Current from </FONT>`n'<FONT COLOR="red"> position to right if </FONT>`n'<FONT COLOR="red"> positive,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to left otherwise.</FONT>
+        <B>require</B>
+            n_less_or_equal_to_16: n &lt;= 16
+            n_greater_or_equal_to_minus_16: n &gt;= -16
+        <B>do</B>
+            <B>if</B> n &gt; 0 <B>then</B>
+                <B>Result</B> := <B>create</B> {<A HREF="../elks/integer_16.html">INTEGER_16</A>}.<A HREF="../elks/integer_16_ref.html#f_make_from_reference">make_from_reference</A> (<A HREF="../elks/integer_16_ref.html#f_bit_shift_right">bit_shift_right</A> (n))
+            <B>else</B>
+                <B>Result</B> := <B>create</B> {<A HREF="../elks/integer_16.html">INTEGER_16</A>}.<A HREF="../elks/integer_16_ref.html#f_make_from_reference">make_from_reference</A> (<A HREF="../elks/integer_16_ref.html#f_bit_shift_left">bit_shift_left</A> (- n))
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_bit_shift_left"><A HREF="../elks/integer_16_ref.html#f_bit_shift_left">bit_shift_left</A> <B>alias</B> "|&lt;&lt;" (n: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Shift Current from </FONT>`n'<FONT COLOR="red"> position to left.</FONT>
+        <B>require</B>
+            n_nonnegative: n &gt;= 0
+            n_less_or_equal_to_16: n &lt;= 16
+        <B>do</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../elks/integer_16_ref.html#f_set_item">set_item</A> (<A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16.html#f_bit_shift_left">bit_shift_left</A> (n))
+        <B>ensure</B>
+            bit_shift_left_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_bit_shift_right"><A HREF="../elks/integer_16_ref.html#f_bit_shift_right">bit_shift_right</A> <B>alias</B> "|&gt;&gt;" (n: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Shift Current from </FONT>`n'<FONT COLOR="red"> position to right.</FONT>
+        <B>require</B>
+            n_nonnegative: n &gt;= 0
+            n_less_or_equal_to_16: n &lt;= 16
+        <B>do</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../elks/integer_16_ref.html#f_set_item">set_item</A> (<A HREF="../elks/integer_16_ref.html#f_item">item</A>.<A HREF="../elks/integer_16.html#f_bit_shift_right">bit_shift_right</A> (n))
+        <B>ensure</B>
+            bit_shift_right_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_bit_test"><B>frozen</B> <A HREF="../elks/integer_16_ref.html#f_bit_test">bit_test</A> (n: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Test </FONT>`n'<FONT COLOR="red">-th position of Current.</FONT>
+        <B>require</B>
+            n_nonnegative: n &gt;= 0
+            n_less_than_16: n &lt; 16
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_item">item</A> &#38; ((1).<A HREF="../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A> |&lt;&lt; n) /= 0.<A HREF="../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A>
+        <B>end</B></A>
+
+    <A NAME="f_set_bit"><B>frozen</B> <A HREF="../elks/integer_16_ref.html#f_set_bit">set_bit</A> (b: <A HREF="../elks/boolean.html">BOOLEAN</A>; n: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_16.html">INTEGER_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy of current with </FONT>`n'<FONT COLOR="red">-th position</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> set to 1 if </FONT>`b'<FONT COLOR="red">, 0 otherwise.</FONT>
+        <B>require</B>
+            n_nonnegative: n &gt;= 0
+            n_less_than_16: n &lt; 16
+        <B>do</B>
+            <B>if</B> b <B>then</B>
+                <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_item">item</A> | ((1).<A HREF="../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A> |&lt;&lt; n)
+            <B>else</B>
+                <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_item">item</A> &#38; ((1).<A HREF="../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A> |&lt;&lt; n).<A HREF="../elks/integer_16.html#f_bit_not">bit_not</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_set_bit_with_mask"><B>frozen</B> <A HREF="../elks/integer_16_ref.html#f_set_bit_with_mask">set_bit_with_mask</A> (b: <A HREF="../elks/boolean.html">BOOLEAN</A>; m: <A HREF="../elks/integer_16.html">INTEGER_16</A>): <A HREF="../elks/integer_16.html">INTEGER_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy of current with all 1 bits of m set to 1</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> if </FONT>`b'<FONT COLOR="red">, 0 otherwise.</FONT>
+        <B>do</B>
+            <B>if</B> b <B>then</B>
+                <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_item">item</A> | m
+            <B>else</B>
+                <B>Result</B> := <A HREF="../elks/integer_16_ref.html#f_item">item</A> &#38; m.<A HREF="../elks/integer_16.html#f_bit_not">bit_not</A>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output</FONT>
+
+    <A NAME="f_out"><A HREF="../elks/integer_16_ref.html#f_out">out</A>: <A HREF="../elks/string_8.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Printable representation of integer value</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/readable_string_8.html#f_make">make</A> (6)
+            <B>Result</B>.<A HREF="../elks/string_8.html#f_append_integer_16">append_integer_16</A> (<A HREF="../elks/integer_16_ref.html#f_item">item</A>)
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_abs_ref"><A HREF="../elks/integer_16_ref.html#f_abs_ref">abs_ref</A>: <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Absolute value</FONT>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/integer_16_ref.html#f_item">item</A> &gt;= 0.<A HREF="../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A> <B>then</B>
+                <B>Result</B> := <B>Current</B>
+            <B>else</B>
+                <B>Result</B> := - <B>Current</B>
+            <B>end</B>
+        <B>ensure</B>
+            result_exists: <B>Result</B> /= <B>Void</B>
+            same_absolute_value: (<B>Result</B> ~ <B>Current</B>) <B>or</B> (<B>Result</B> ~ - <B>Current</B>)
+        <B>end</B></A>
+    
+<B>invariant</B>
+    sign_times_abs: <A HREF="../elks/integer_16_ref.html#f_sign">sign</A> * <A HREF="../elks/integer_16_ref.html#f_abs">abs</A> = <A HREF="../elks/integer_16_ref.html#f_item">item</A>
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/integer_16_ref.html">INTEGER_16_REF</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="integer_16_ref_chart.html">Chart</A></TD><TD><A HREF="integer_16_ref_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="integer_16_ref_flat.html">Flat</A></TD><TD><A HREF="integer_16_ref_short.html">Contracts</A></TD><TD><A HREF="integer_16_ref_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

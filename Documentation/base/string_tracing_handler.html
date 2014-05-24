@@ -1,0 +1,94 @@
+<HTML><HEAD>
+<meta name="description" content="Abstract class to dispatch tracing events to user using TYPE and STRING data."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="library" content="EiffelBase: Library of reusable components for Eiffel."/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>string_tracing_handler Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="string_tracing_handler_chart.html">Chart</A></TD><TD><A HREF="string_tracing_handler_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="string_tracing_handler_flat.html">Flat</A></TD><TD><A HREF="string_tracing_handler_short.html">Contracts</A></TD><TD><A HREF="string_tracing_handler_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Abstract class to dispatch tracing events to user using TYPE and STRING data."
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2013-05-20 16:15:17 -0700 (Mon, 20 May 2013) $"
+    revision: "$Revision: 92557 $"
+
+<B>deferred</B> <B>class</B> 
+    <A HREF="../ise/string_tracing_handler.html">STRING_TRACING_HANDLER</A>
+
+<B>inherit</B>
+    <A HREF="../ise/tracing_handler.html">TRACING_HANDLER</A>
+        <B>rename</B>
+            <A HREF="../ise/tracing_handler.html#f_trace">trace</A> <B>as</B> <A HREF="../ise/string_tracing_handler.html#f_internal_trace">internal_trace</A>
+        <B>end</B>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Tracing</FONT>
+
+    <A NAME="f_trace"><A HREF="../ise/string_tracing_handler.html#f_trace">trace</A> (a_type: <A HREF="../elks/type.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/any.html">ANY</A>]; a_class_name, a_feature_name: <B>detachable</B> <A HREF="../elks/string_8.html">STRING_8</A>; a_depth: <A HREF="../elks/integer_32.html">INTEGER_32</A>; a_is_entering: <A HREF="../elks/boolean.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Trigger a trace operation from a feature represented by </FONT>`a_feature_name'<FONT COLOR="red"> defined in</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> class </FONT>`a_class_name'<FONT COLOR="red"> and applied to an object of type </FONT>`a_type'<FONT COLOR="red"> at a call depth </FONT>`a_depth'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If </FONT>`a_is_entering'<FONT COLOR="red"> we are entering the routine, otherwise we are exiting it.			</FONT>
+        <B>require</B>
+            a_depth_non_negative: a_depth &gt;= 0
+        <B>deferred</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_internal_trace"><B>frozen</B> <A HREF="../ise/string_tracing_handler.html#f_internal_trace">internal_trace</A> (a_type_id: <A HREF="../elks/integer_32.html">INTEGER_32</A>; a_c_class_name, a_c_feature_name: <A HREF="../elks/pointer.html">POINTER</A>; a_depth: <A HREF="../elks/integer_32.html">INTEGER_32</A>; a_is_entering: <A HREF="../elks/boolean.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert arguments </FONT>`a_c_class_name'<FONT COLOR="red"> and </FONT>`a_c_feature_name'<FONT COLOR="red"> to STRINGs and execute </FONT><A HREF="../ise/string_tracing_handler.html#f_trace">trace</A><FONT COLOR="red">.</FONT>
+        <B>local</B>
+            l_class_name: <A HREF="../elks/string_8.html">STRING_8</A>
+            l_type: <A HREF="../elks/type.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/any.html">ANY</A>]
+            l_buffer: <B>like</B> <A HREF="../ise/string_tracing_handler.html#f_c_buffer">C_buffer</A>
+        <B>do</B>
+            l_type := <A HREF="../ise/string_tracing_handler.html#f_internal">Internal</A>.<A HREF="../elks/reflector.html#f_type_of_type">type_of_type</A> (a_type_id)
+            <B>if</B> a_c_class_name /= <A HREF="../elks/any.html#f_default_pointer">default_pointer</A> <B>and</B> a_c_feature_name /= <A HREF="../elks/any.html#f_default_pointer">default_pointer</A> <B>then</B>
+                l_buffer := <A HREF="../ise/string_tracing_handler.html#f_c_buffer">C_buffer</A>
+                l_buffer.<A HREF="../elks/c_string.html#f_set_shared_from_pointer">set_shared_from_pointer</A> (a_c_class_name)
+                l_class_name := l_buffer.<A HREF="../elks/c_string.html#f_string">string</A>
+                l_buffer.<A HREF="../elks/c_string.html#f_set_shared_from_pointer">set_shared_from_pointer</A> (a_c_feature_name)
+                <A HREF="../ise/string_tracing_handler.html#f_trace">trace</A> (l_type, l_class_name, l_buffer.<A HREF="../elks/c_string.html#f_string">string</A>, a_depth, a_is_entering)
+            <B>else</B>
+                <A HREF="../ise/string_tracing_handler.html#f_trace">trace</A> (l_type, <B>Void</B>, <B>Void</B>, a_depth, a_is_entering)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_internal"><A HREF="../ise/string_tracing_handler.html#f_internal">Internal</A>: <A HREF="../elks/reflector.html">REFLECTOR</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Quick access to features of INTERNAL</FONT>
+        <B>once</B> ("THREAD")
+            <B>create</B> <B>Result</B>
+        <B>ensure</B>
+            internal_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_c_buffer"><A HREF="../ise/string_tracing_handler.html#f_c_buffer">C_buffer</A>: <A HREF="../elks/c_string.html">C_STRING</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Buffer to convert C strings to Eiffel strings</FONT>
+        <B>once</B> ("THREAD")
+            <B>create</B> <B>Result</B>.<A HREF="../elks/c_string.html#f_make_empty">make_empty</A> (0)
+        <B>ensure</B>
+            c_buffer_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>note</B>
+    library: "EiffelBase: Library of reusable components for Eiffel."
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../ise/string_tracing_handler.html">STRING_TRACING_HANDLER</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="string_tracing_handler_chart.html">Chart</A></TD><TD><A HREF="string_tracing_handler_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="string_tracing_handler_flat.html">Flat</A></TD><TD><A HREF="string_tracing_handler_short.html">Contracts</A></TD><TD><A HREF="string_tracing_handler_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

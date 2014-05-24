@@ -1,0 +1,337 @@
+<HTML><HEAD>
+<meta name="description" content="Serialize and deserialize objects to and from SED_READER_WRITER instances."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="library" content="EiffelBase: Library of reusable components for Eiffel."/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>sed_storable_facilities Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sed_storable_facilities_chart.html">Chart</A></TD><TD><A HREF="sed_storable_facilities_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="sed_storable_facilities_flat.html">Flat</A></TD><TD><A HREF="sed_storable_facilities_short.html">Contracts</A></TD><TD><A HREF="sed_storable_facilities_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Serialize and deserialize objects to and from SED_READER_WRITER instances."
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2013-04-18 14:19:16 -0700 (Thu, 18 Apr 2013) $"
+    revision: "$Revision: 92457 $"
+
+<B>class</B> 
+    <A HREF="../ise/sed_storable_facilities.html">SED_STORABLE_FACILITIES</A>
+
+<B>create</B> 
+    <A HREF="../elks/any.html#f_default_create">default_create</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Serialization routines</FONT>
+
+    <A NAME="f_session_store"><A HREF="../ise/sed_storable_facilities.html#f_session_store">session_store</A> (an_object: <A HREF="../elks/any.html">ANY</A>; a_writer: <A HREF="../ise/sed_reader_writer.html">SED_READER_WRITER</A>; a_optimized_for_retrieval: <A HREF="../elks/boolean.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Serialization of </FONT>`an_object'<FONT COLOR="red"> using </FONT>`a_writer'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Object stored can only be retrieved during current program execution.</FONT>
+        <B>require</B>
+            an_object_not_void: an_object /= <B>Void</B>
+            a_writer_not_void: a_writer /= <B>Void</B>
+            a_writer_ready: a_writer.<A HREF="../ise/sed_reader_writer.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>local</B>
+            l_serializer: <A HREF="../ise/sed_session_serializer.html">SED_SESSION_SERIALIZER</A>
+        <B>do</B>
+            l_serializer := <A HREF="../ise/sed_storable_facilities.html#f_session_serializer">session_serializer</A> (a_writer)
+            a_writer.<A HREF="../ise/sed_reader_writer.html#f_write_header">write_header</A>
+            a_writer.<A HREF="../ise/sed_reader_writer.html#f_write_natural_32">write_natural_32</A> (<A HREF="../ise/sed_storable_facilities.html#f_eiffel_session_store">Eiffel_session_store</A>)
+            l_serializer.<A HREF="../ise/sed_session_serializer.html#f_set_root_object">set_root_object</A> (an_object)
+            l_serializer.<A HREF="../ise/sed_session_serializer.html#f_encode">encode</A>
+            a_writer.<A HREF="../ise/sed_reader_writer.html#f_write_footer">write_footer</A>
+        <B>end</B></A>
+
+    <A NAME="f_basic_store"><A HREF="../ise/sed_storable_facilities.html#f_basic_store">basic_store</A> (an_object: <A HREF="../elks/any.html">ANY</A>; a_writer: <A HREF="../ise/sed_reader_writer.html">SED_READER_WRITER</A>; a_optimized_for_retrieval: <A HREF="../elks/boolean.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Serialization of </FONT>`an_object'<FONT COLOR="red"> using </FONT>`a_writer'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Object stored can only be retrieved by execution of same program executable.</FONT>
+        <B>require</B>
+            an_object_not_void: an_object /= <B>Void</B>
+            a_writer_not_void: a_writer /= <B>Void</B>
+            a_writer_ready: a_writer.<A HREF="../ise/sed_reader_writer.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>local</B>
+            l_serializer: <A HREF="../ise/sed_basic_serializer.html">SED_BASIC_SERIALIZER</A>
+        <B>do</B>
+            l_serializer := <A HREF="../ise/sed_storable_facilities.html#f_basic_serializer">basic_serializer</A> (a_writer)
+            a_writer.<A HREF="../ise/sed_reader_writer.html#f_write_header">write_header</A>
+            a_writer.<A HREF="../ise/sed_reader_writer.html#f_write_natural_32">write_natural_32</A> (<A HREF="../ise/sed_storable_facilities.html#f_eiffel_basic_store">Eiffel_basic_store</A>)
+            l_serializer.<A HREF="../ise/sed_session_serializer.html#f_set_root_object">set_root_object</A> (an_object)
+            l_serializer.<A HREF="../ise/sed_session_serializer.html#f_encode">encode</A>
+            a_writer.<A HREF="../ise/sed_reader_writer.html#f_write_footer">write_footer</A>
+        <B>end</B></A>
+
+    <A NAME="f_independent_store"><A HREF="../ise/sed_storable_facilities.html#f_independent_store">independent_store</A> (an_object: <A HREF="../elks/any.html">ANY</A>; a_writer: <A HREF="../ise/sed_reader_writer.html">SED_READER_WRITER</A>; a_optimized_for_retrieval: <A HREF="../elks/boolean.html">BOOLEAN</A>)
+        <B>obsolete</B> "Use `store' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Serialization of </FONT>`an_object'<FONT COLOR="red"> using </FONT>`a_writer'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Object stored can only be retrieved by programs having the same set of types.</FONT>
+        <B>require</B>
+            an_object_not_void: an_object /= <B>Void</B>
+            a_writer_not_void: a_writer /= <B>Void</B>
+            a_writer_ready: a_writer.<A HREF="../ise/sed_reader_writer.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>local</B>
+            l_serializer: <A HREF="../ise/sed_recoverable_serializer.html">SED_RECOVERABLE_SERIALIZER</A>
+        <B>do</B>
+            l_serializer := <A HREF="../ise/sed_storable_facilities.html#f_recoverable_serializer">recoverable_serializer</A> (a_writer)
+            a_writer.<A HREF="../ise/sed_reader_writer.html#f_write_header">write_header</A>
+            a_writer.<A HREF="../ise/sed_reader_writer.html#f_write_natural_32">write_natural_32</A> (<A HREF="../ise/sed_storable_facilities.html#f_eiffel_recoverable_store">Eiffel_recoverable_store</A>)
+            l_serializer.<A HREF="../ise/sed_session_serializer.html#f_set_root_object">set_root_object</A> (an_object)
+            l_serializer.<A HREF="../ise/sed_session_serializer.html#f_encode">encode</A>
+            a_writer.<A HREF="../ise/sed_reader_writer.html#f_write_footer">write_footer</A>
+        <B>end</B></A>
+
+    <A NAME="f_store"><A HREF="../ise/sed_storable_facilities.html#f_store">store</A> (an_object: <A HREF="../elks/any.html">ANY</A>; a_writer: <A HREF="../ise/sed_reader_writer.html">SED_READER_WRITER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Serialization of </FONT>`an_object'<FONT COLOR="red"> using </FONT>`a_writer'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Object stored can only be retrieved by programs having the same set of types.</FONT>
+        <B>require</B>
+            an_object_not_void: an_object /= <B>Void</B>
+            a_writer_not_void: a_writer /= <B>Void</B>
+            a_writer_ready: a_writer.<A HREF="../ise/sed_reader_writer.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>local</B>
+            l_serializer: <A HREF="../ise/sed_recoverable_serializer.html">SED_RECOVERABLE_SERIALIZER</A>
+        <B>do</B>
+            l_serializer := <A HREF="../ise/sed_storable_facilities.html#f_recoverable_serializer">recoverable_serializer</A> (a_writer)
+            a_writer.<A HREF="../ise/sed_reader_writer.html#f_write_header">write_header</A>
+            a_writer.<A HREF="../ise/sed_reader_writer.html#f_write_natural_32">write_natural_32</A> (<A HREF="../ise/sed_storable_facilities.html#f_eiffel_recoverable_store">Eiffel_recoverable_store</A>)
+            l_serializer.<A HREF="../ise/sed_session_serializer.html#f_set_root_object">set_root_object</A> (an_object)
+            l_serializer.<A HREF="../ise/sed_session_serializer.html#f_encode">encode</A>
+            a_writer.<A HREF="../ise/sed_reader_writer.html#f_write_footer">write_footer</A>
+        <B>end</B></A>
+
+    <A NAME="f_retrieved"><A HREF="../ise/sed_storable_facilities.html#f_retrieved">retrieved</A> (a_reader: <A HREF="../ise/sed_reader_writer.html">SED_READER_WRITER</A>; a_is_gc_enabled: <A HREF="../elks/boolean.html">BOOLEAN</A>): <B>detachable</B> <A HREF="../elks/any.html">ANY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Deserialization of object from </FONT>`a_reader'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Garbage collection will be enabled if </FONT>`a_is_gc_enabled'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_reader_not_void: a_reader /= <B>Void</B>
+            a_reader_ready: a_reader.<A HREF="../ise/sed_reader_writer.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>local</B>
+            l_deserializer: <B>detachable</B> <A HREF="../ise/sed_session_deserializer.html">SED_SESSION_DESERIALIZER</A>
+        <B>do</B>
+            a_reader.<A HREF="../ise/sed_reader_writer.html#f_read_header">read_header</A>
+            <B>inspect</B> a_reader.<A HREF="../ise/sed_reader_writer.html#f_read_natural_32">read_natural_32</A>
+            <B>when</B> <A HREF="../ise/sed_storable_facilities.html#f_eiffel_session_store">Eiffel_session_store</A> <B>then</B> 
+                l_deserializer := <A HREF="../ise/sed_storable_facilities.html#f_session_deserializer">session_deserializer</A> (a_reader)
+            <B>when</B> <A HREF="../ise/sed_storable_facilities.html#f_eiffel_basic_store">Eiffel_basic_store</A> <B>then</B> 
+                l_deserializer := <A HREF="../ise/sed_storable_facilities.html#f_basic_deserializer">basic_deserializer</A> (a_reader)
+            <B>when</B> <A HREF="../ise/sed_storable_facilities.html#f_eiffel_independent_store">Eiffel_independent_store</A> <B>then</B> 
+                l_deserializer := <A HREF="../ise/sed_storable_facilities.html#f_independent_deserializer">independent_deserializer</A> (a_reader)
+            <B>when</B> <A HREF="../ise/sed_storable_facilities.html#f_eiffel_recoverable_store">Eiffel_recoverable_store</A> <B>then</B> 
+                l_deserializer := <A HREF="../ise/sed_storable_facilities.html#f_recoverable_deserializer">recoverable_deserializer</A> (a_reader)
+            <B>else</B>
+            <B>end</B>
+            <B>if</B> l_deserializer /= <B>Void</B> <B>then</B>
+                l_deserializer.<A HREF="../ise/sed_session_deserializer.html#f_decode">decode</A> (a_is_gc_enabled)
+                <A HREF="../ise/sed_storable_facilities.html#f_retrieved_errors">retrieved_errors</A> := l_deserializer.<A HREF="../ise/sed_session_deserializer.html#f_errors">errors</A>
+                <B>if</B> <B>not</B> l_deserializer.<A HREF="../ise/sed_session_deserializer.html#f_has_error">has_error</A> <B>then</B>
+                    <B>Result</B> := l_deserializer.<A HREF="../ise/sed_session_deserializer.html#f_last_decoded_object">last_decoded_object</A>
+                    a_reader.<A HREF="../ise/sed_reader_writer.html#f_read_footer">read_footer</A>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_retrieved_error"><A HREF="../ise/sed_storable_facilities.html#f_retrieved_error">retrieved_error</A>: <B>detachable</B> <A HREF="../ise/sed_error.html">SED_ERROR</A>
+        <B>obsolete</B> "Use `retrieved_errors' directly."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Error set from last call to </FONT><A HREF="../ise/sed_storable_facilities.html#f_retrieved">retrieved</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>if</B> <B>attached</B> <A HREF="../ise/sed_storable_facilities.html#f_retrieved_errors">retrieved_errors</A> <B>as</B> l_errors <B>and then</B> <B>not</B> l_errors.<A HREF="../elks/finite.html#f_is_empty">is_empty</A> <B>then</B>
+                <B>Result</B> := l_errors.<A HREF="../elks/arrayed_list.html#f_last">last</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_retrieved_errors"><A HREF="../ise/sed_storable_facilities.html#f_retrieved_errors">retrieved_errors</A>: <B>detachable</B> <A HREF="../elks/arrayed_list.html">ARRAYED_LIST</A> [<A HREF="../ise/sed_error.html">SED_ERROR</A>]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Errors set from last call to </FONT><A HREF="../ise/sed_storable_facilities.html#f_retrieved">retrieved</A><FONT COLOR="red">.		</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Storable type</FONT>
+
+    <A NAME="f_eiffel_session_store"><A HREF="../ise/sed_storable_facilities.html#f_eiffel_session_store">Eiffel_session_store</A>: <A HREF="../elks/natural_32.html">NATURAL_32</A> = 1</A>
+
+    <A NAME="f_eiffel_basic_store"><A HREF="../ise/sed_storable_facilities.html#f_eiffel_basic_store">Eiffel_basic_store</A>: <A HREF="../elks/natural_32.html">NATURAL_32</A> = 2</A>
+
+    <A NAME="f_eiffel_independent_store"><A HREF="../ise/sed_storable_facilities.html#f_eiffel_independent_store">Eiffel_independent_store</A>: <A HREF="../elks/natural_32.html">NATURAL_32</A> = 3</A>
+
+    <A NAME="f_eiffel_recoverable_store"><A HREF="../ise/sed_storable_facilities.html#f_eiffel_recoverable_store">Eiffel_recoverable_store</A>: <A HREF="../elks/natural_32.html">NATURAL_32</A> = 4</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Various type of storable mechanism.</FONT>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_session_deserializer"><A HREF="../ise/sed_storable_facilities.html#f_session_deserializer">session_deserializer</A> (a_reader: <A HREF="../ise/sed_reader_writer.html">SED_READER_WRITER</A>): <A HREF="../ise/sed_session_deserializer.html">SED_SESSION_DESERIALIZER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New instance of </FONT>`session'<FONT COLOR="red"> based on </FONT>`a_reader'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_reader_not_void: a_reader /= <B>Void</B>
+            a_reader_ready: a_reader.<A HREF="../ise/sed_reader_writer.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../ise/sed_storable_facilities.html#f_internal_session_deserializer">Internal_session_deserializer</A> (a_reader)
+            <B>Result</B>.<A HREF="../ise/sed_session_deserializer.html#f_set_deserializer">set_deserializer</A> (a_reader)
+        <B>ensure</B>
+            session_deserializer_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_basic_deserializer"><A HREF="../ise/sed_storable_facilities.html#f_basic_deserializer">basic_deserializer</A> (a_reader: <A HREF="../ise/sed_reader_writer.html">SED_READER_WRITER</A>): <A HREF="../ise/sed_basic_deserializer.html">SED_BASIC_DESERIALIZER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New instance of </FONT>`session'<FONT COLOR="red"> based on </FONT>`a_reader'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_reader_not_void: a_reader /= <B>Void</B>
+            a_reader_ready: a_reader.<A HREF="../ise/sed_reader_writer.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../ise/sed_storable_facilities.html#f_internal_basic_deserializer">Internal_basic_deserializer</A> (a_reader)
+            <B>Result</B>.<A HREF="../ise/sed_session_deserializer.html#f_set_deserializer">set_deserializer</A> (a_reader)
+        <B>ensure</B>
+            basic_deserializer_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_recoverable_deserializer"><A HREF="../ise/sed_storable_facilities.html#f_recoverable_deserializer">recoverable_deserializer</A> (a_reader: <A HREF="../ise/sed_reader_writer.html">SED_READER_WRITER</A>): <A HREF="../ise/sed_recoverable_deserializer.html">SED_RECOVERABLE_DESERIALIZER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New instance of </FONT>`session'<FONT COLOR="red"> based on </FONT>`a_reader'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_reader_not_void: a_reader /= <B>Void</B>
+            a_reader_ready: a_reader.<A HREF="../ise/sed_reader_writer.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../ise/sed_storable_facilities.html#f_internal_recoverable_deserializer">Internal_recoverable_deserializer</A> (a_reader)
+            <B>Result</B>.<A HREF="../ise/sed_session_deserializer.html#f_set_deserializer">set_deserializer</A> (a_reader)
+        <B>ensure</B>
+            recoverable_deserializer_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_session_serializer"><A HREF="../ise/sed_storable_facilities.html#f_session_serializer">session_serializer</A> (a_writer: <A HREF="../ise/sed_reader_writer.html">SED_READER_WRITER</A>): <A HREF="../ise/sed_session_serializer.html">SED_SESSION_SERIALIZER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New instance of </FONT>`session'<FONT COLOR="red"> based on </FONT>`a_writer'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_writer_not_void: a_writer /= <B>Void</B>
+            a_writer_ready: a_writer.<A HREF="../ise/sed_reader_writer.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../ise/sed_storable_facilities.html#f_internal_session_serializer">Internal_session_serializer</A> (a_writer)
+            <B>Result</B>.<A HREF="../ise/sed_session_serializer.html#f_set_serializer">set_serializer</A> (a_writer)
+        <B>ensure</B>
+            session_serializer_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_basic_serializer"><A HREF="../ise/sed_storable_facilities.html#f_basic_serializer">basic_serializer</A> (a_writer: <A HREF="../ise/sed_reader_writer.html">SED_READER_WRITER</A>): <A HREF="../ise/sed_basic_serializer.html">SED_BASIC_SERIALIZER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New instance of </FONT>`session'<FONT COLOR="red"> based on </FONT>`a_writer'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_writer_not_void: a_writer /= <B>Void</B>
+            a_writer_ready: a_writer.<A HREF="../ise/sed_reader_writer.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../ise/sed_storable_facilities.html#f_internal_basic_serializer">Internal_basic_serializer</A> (a_writer)
+            <B>Result</B>.<A HREF="../ise/sed_session_serializer.html#f_set_serializer">set_serializer</A> (a_writer)
+        <B>ensure</B>
+            basic_serializer_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_recoverable_serializer"><A HREF="../ise/sed_storable_facilities.html#f_recoverable_serializer">recoverable_serializer</A> (a_writer: <A HREF="../ise/sed_reader_writer.html">SED_READER_WRITER</A>): <A HREF="../ise/sed_recoverable_serializer.html">SED_RECOVERABLE_SERIALIZER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New instance of </FONT>`session'<FONT COLOR="red"> based on </FONT>`a_writer'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_writer_not_void: a_writer /= <B>Void</B>
+            a_writer_ready: a_writer.<A HREF="../ise/sed_reader_writer.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../ise/sed_storable_facilities.html#f_internal_recoverable_serializer">Internal_recoverable_serializer</A> (a_writer)
+            <B>Result</B>.<A HREF="../ise/sed_session_serializer.html#f_set_serializer">set_serializer</A> (a_writer)
+        <B>ensure</B>
+            independent_serializer_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Data</FONT>
+
+    <A NAME="f_internal_session_deserializer"><A HREF="../ise/sed_storable_facilities.html#f_internal_session_deserializer">Internal_session_deserializer</A> (a_reader: <A HREF="../ise/sed_reader_writer.html">SED_READER_WRITER</A>): <A HREF="../ise/sed_session_deserializer.html">SED_SESSION_DESERIALIZER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New instance of </FONT>`session'<FONT COLOR="red"> based on </FONT>`a_reader'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_reader_not_void: a_reader /= <B>Void</B>
+            a_reader_ready: a_reader.<A HREF="../ise/sed_reader_writer.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>once</B>
+            <B>create</B> <B>Result</B>.<A HREF="../ise/sed_session_deserializer.html#f_make">make</A> (a_reader)
+        <B>ensure</B>
+            session_deserializer_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_internal_basic_deserializer"><A HREF="../ise/sed_storable_facilities.html#f_internal_basic_deserializer">Internal_basic_deserializer</A> (a_reader: <A HREF="../ise/sed_reader_writer.html">SED_READER_WRITER</A>): <A HREF="../ise/sed_basic_deserializer.html">SED_BASIC_DESERIALIZER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New instance of </FONT>`session'<FONT COLOR="red"> based on </FONT>`a_reader'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_reader_not_void: a_reader /= <B>Void</B>
+            a_reader_ready: a_reader.<A HREF="../ise/sed_reader_writer.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>once</B>
+            <B>create</B> <B>Result</B>.<A HREF="../ise/sed_session_deserializer.html#f_make">make</A> (a_reader)
+        <B>ensure</B>
+            basic_deserializer_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_independent_deserializer"><A HREF="../ise/sed_storable_facilities.html#f_independent_deserializer">independent_deserializer</A> (a_reader: <A HREF="../ise/sed_reader_writer.html">SED_READER_WRITER</A>): <A HREF="../ise/sed_independent_deserializer.html">SED_INDEPENDENT_DESERIALIZER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New instance of </FONT>`session'<FONT COLOR="red"> based on </FONT>`a_reader'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_reader_not_void: a_reader /= <B>Void</B>
+            a_reader_ready: a_reader.<A HREF="../ise/sed_reader_writer.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../ise/sed_storable_facilities.html#f_internal_independent_deserializer">Internal_independent_deserializer</A> (a_reader)
+            <B>Result</B>.<A HREF="../ise/sed_session_deserializer.html#f_set_deserializer">set_deserializer</A> (a_reader)
+        <B>ensure</B>
+            independent_deserializer_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_internal_independent_deserializer"><A HREF="../ise/sed_storable_facilities.html#f_internal_independent_deserializer">Internal_independent_deserializer</A> (a_reader: <A HREF="../ise/sed_reader_writer.html">SED_READER_WRITER</A>): <A HREF="../ise/sed_independent_deserializer.html">SED_INDEPENDENT_DESERIALIZER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New instance of </FONT>`session'<FONT COLOR="red"> based on </FONT>`a_reader'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_reader_not_void: a_reader /= <B>Void</B>
+            a_reader_ready: a_reader.<A HREF="../ise/sed_reader_writer.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>once</B>
+            <B>create</B> <B>Result</B>.<A HREF="../ise/sed_session_deserializer.html#f_make">make</A> (a_reader)
+        <B>ensure</B>
+            independent_deserializer_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_internal_recoverable_deserializer"><A HREF="../ise/sed_storable_facilities.html#f_internal_recoverable_deserializer">Internal_recoverable_deserializer</A> (a_reader: <A HREF="../ise/sed_reader_writer.html">SED_READER_WRITER</A>): <A HREF="../ise/sed_recoverable_deserializer.html">SED_RECOVERABLE_DESERIALIZER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New instance of </FONT>`session'<FONT COLOR="red"> based on </FONT>`a_reader'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_reader_not_void: a_reader /= <B>Void</B>
+            a_reader_ready: a_reader.<A HREF="../ise/sed_reader_writer.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>once</B>
+            <B>create</B> <B>Result</B>.<A HREF="../ise/sed_recoverable_deserializer.html#f_make">make</A> (a_reader)
+        <B>ensure</B>
+            recoverable_deserializer_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_internal_session_serializer"><A HREF="../ise/sed_storable_facilities.html#f_internal_session_serializer">Internal_session_serializer</A> (a_writer: <A HREF="../ise/sed_reader_writer.html">SED_READER_WRITER</A>): <A HREF="../ise/sed_session_serializer.html">SED_SESSION_SERIALIZER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New instance of </FONT>`session'<FONT COLOR="red"> based on </FONT>`a_writer'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_writer_not_void: a_writer /= <B>Void</B>
+            a_writer_ready: a_writer.<A HREF="../ise/sed_reader_writer.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>once</B>
+            <B>create</B> <B>Result</B>.<A HREF="../ise/sed_session_serializer.html#f_make">make</A> (a_writer)
+        <B>ensure</B>
+            session_serializer_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_internal_basic_serializer"><A HREF="../ise/sed_storable_facilities.html#f_internal_basic_serializer">Internal_basic_serializer</A> (a_writer: <A HREF="../ise/sed_reader_writer.html">SED_READER_WRITER</A>): <A HREF="../ise/sed_basic_serializer.html">SED_BASIC_SERIALIZER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New instance of </FONT>`session'<FONT COLOR="red"> based on </FONT>`a_writer'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_writer_not_void: a_writer /= <B>Void</B>
+            a_writer_ready: a_writer.<A HREF="../ise/sed_reader_writer.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>once</B>
+            <B>create</B> <B>Result</B>.<A HREF="../ise/sed_session_serializer.html#f_make">make</A> (a_writer)
+        <B>ensure</B>
+            basic_serializer_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_internal_recoverable_serializer"><A HREF="../ise/sed_storable_facilities.html#f_internal_recoverable_serializer">Internal_recoverable_serializer</A> (a_writer: <A HREF="../ise/sed_reader_writer.html">SED_READER_WRITER</A>): <A HREF="../ise/sed_recoverable_serializer.html">SED_RECOVERABLE_SERIALIZER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New instance of </FONT>`session'<FONT COLOR="red"> based on </FONT>`a_writer'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_writer_not_void: a_writer /= <B>Void</B>
+            a_writer_ready: a_writer.<A HREF="../ise/sed_reader_writer.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>once</B>
+            <B>create</B> <B>Result</B>.<A HREF="../ise/sed_session_serializer.html#f_make">make</A> (a_writer)
+        <B>ensure</B>
+            internal_recoverable_serializer_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>note</B>
+    library: "EiffelBase: Library of reusable components for Eiffel."
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../ise/sed_storable_facilities.html">SED_STORABLE_FACILITIES</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sed_storable_facilities_chart.html">Chart</A></TD><TD><A HREF="sed_storable_facilities_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="sed_storable_facilities_flat.html">Flat</A></TD><TD><A HREF="sed_storable_facilities_short.html">Contracts</A></TD><TD><A HREF="sed_storable_facilities_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

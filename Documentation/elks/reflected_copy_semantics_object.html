@@ -1,0 +1,164 @@
+<HTML><HEAD>
+<meta name="description" content="Accessor to an object with copy semantics. Useful to manipulate fields of an object, or an expanded field of an object without causing any copying."/>
+<meta name="implementation_details" content="The GC might be moving objects, some of the routines are actually builtin."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>reflected_copy_semantics_object Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="reflected_copy_semantics_object_chart.html">Chart</A></TD><TD><A HREF="reflected_copy_semantics_object_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="reflected_copy_semantics_object_flat.html">Flat</A></TD><TD><A HREF="reflected_copy_semantics_object_short.html">Contracts</A></TD><TD><A HREF="reflected_copy_semantics_object_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Accessor to an object with copy semantics. Useful to manipulate fields of an object, or
+        an expanded field of an object without causing any copying.
+    ]"
+    implementation_details: "[
+        The GC might be moving objects, some of the routines are actually builtin.
+    ]"
+    date: "$Date: 2013-11-19 13:41:44 -0800 (Tue, 19 Nov 2013) $"
+    revision: "$Revision: 93442 $"
+
+<B>class</B> 
+    <A HREF="../elks/reflected_copy_semantics_object.html">REFLECTED_COPY_SEMANTICS_OBJECT</A>
+
+<B>inherit</B>
+    <A HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A>
+
+    <A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>
+
+<B>create</B> {<A HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A>}
+    <A HREF="../elks/reflected_copy_semantics_object.html#f_make">make</A>,
+    <A HREF="../elks/reflected_copy_semantics_object.html#f_make_special">make_special</A>
+
+
+<B>create</B> {<A HREF="../elks/reflected_copy_semantics_object.html">REFLECTED_COPY_SEMANTICS_OBJECT</A>}
+    <A HREF="../elks/reflected_copy_semantics_object.html#f_make_recursive">make_recursive</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../elks/reflected_copy_semantics_object.html#f_make">make</A> (a_enclosing_object: <A HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A>; i: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Setup a proxy to copy semantics field located at the </FONT>`i'<FONT COLOR="red">-th field of </FONT>`a_enclosing_object'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            i_th_field_is_expanded: a_enclosing_object.<A HREF="../elks/reflected_object.html#f_is_copy_semantics_field">is_copy_semantics_field</A> (i)
+        <B>do</B>
+            <A HREF="../elks/reflected_copy_semantics_object.html#f_referring_object">referring_object</A> := a_enclosing_object
+            <A HREF="../elks/reflected_copy_semantics_object.html#f_referring_physical_offset">referring_physical_offset</A> := a_enclosing_object.<A HREF="../elks/reflected_object.html#f_field_offset">field_offset</A> (i)
+            <A HREF="../elks/reflected_copy_semantics_object.html#f_physical_offset">physical_offset</A> := 0
+            <A HREF="../elks/reflected_object.html#f_dynamic_type">dynamic_type</A> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_dynamic_type_at_offset">dynamic_type_at_offset</A> (<A HREF="../elks/reflected_copy_semantics_object.html#f_object_address">object_address</A>, 0)
+        <B>ensure</B>
+            enclosing_object_set: <A HREF="../elks/reflected_copy_semantics_object.html#f_referring_object">referring_object</A> = a_enclosing_object
+        <B>end</B></A>
+
+    <A NAME="f_make_special"><A HREF="../elks/reflected_copy_semantics_object.html#f_make_special">make_special</A> (a_enclosing_object: <A HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A>; i: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Setup a proxy to copy semantics item located at the </FONT>`i'<FONT COLOR="red">-th position of special represented by </FONT>`a_enclosing_object'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_enclosing_object_is_special: a_enclosing_object.<A HREF="../elks/reflected_object.html#f_is_special">is_special</A>
+            a_enclosing_object_is_special_reference: a_enclosing_object.<A HREF="../elks/reflected_object.html#f_is_special_of_reference">is_special_of_reference</A>
+            valid_index: <B>attached</B> {<A HREF="../elks/abstract_special.html">ABSTRACT_SPECIAL</A>} a_enclosing_object.<A HREF="../elks/reflected_object.html#f_object">object</A> <B>as</B> l_spec <B>and then</B> l_spec.<A HREF="../elks/abstract_special.html#f_valid_index">valid_index</A> (i)
+            i_th_field_is_expanded: a_enclosing_object.<A HREF="../elks/reflected_object.html#f_is_special_copy_semantics_item">is_special_copy_semantics_item</A> (i)
+        <B>do</B>
+            <A HREF="../elks/reflected_copy_semantics_object.html#f_referring_object">referring_object</A> := a_enclosing_object
+            <A HREF="../elks/reflected_copy_semantics_object.html#f_referring_physical_offset">referring_physical_offset</A> := i * {<A HREF="../elks/platform.html">PLATFORM</A>}.<A HREF="../elks/platform.html#f_pointer_bytes">pointer_bytes</A>
+            <A HREF="../elks/reflected_copy_semantics_object.html#f_physical_offset">physical_offset</A> := 0
+            <A HREF="../elks/reflected_object.html#f_dynamic_type">dynamic_type</A> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_dynamic_type_at_offset">dynamic_type_at_offset</A> (<A HREF="../elks/reflected_copy_semantics_object.html#f_object_address">object_address</A>, 0)
+        <B>ensure</B>
+            enclosing_object_set: <A HREF="../elks/reflected_copy_semantics_object.html#f_referring_object">referring_object</A> = a_enclosing_object
+        <B>end</B></A>
+
+    <A NAME="f_make_recursive"><A HREF="../elks/reflected_copy_semantics_object.html#f_make_recursive">make_recursive</A> (a_enclosing_object: <A HREF="../elks/reflected_copy_semantics_object.html">REFLECTED_COPY_SEMANTICS_OBJECT</A>; i: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Setup a proxy to copy semantics field located at the </FONT>`i'<FONT COLOR="red">-th field of </FONT>`a_enclosing_object'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            i_th_field_is_expanded: a_enclosing_object.<A HREF="../elks/reflected_object.html#f_is_copy_semantics_field">is_copy_semantics_field</A> (i) <B>or</B> a_enclosing_object.<A HREF="../elks/reflected_object.html#f_is_field_statically_expanded">is_field_statically_expanded</A> (i)
+        <B>do</B>
+            <B>if</B> a_enclosing_object.<A HREF="../elks/reflected_object.html#f_is_field_statically_expanded">is_field_statically_expanded</A> (i) <B>then</B>
+                <A HREF="../elks/reflected_copy_semantics_object.html#f_referring_object">referring_object</A> := a_enclosing_object.<A HREF="../elks/reflected_copy_semantics_object.html#f_referring_object">referring_object</A>
+                <A HREF="../elks/reflected_copy_semantics_object.html#f_referring_physical_offset">referring_physical_offset</A> := a_enclosing_object.<A HREF="../elks/reflected_copy_semantics_object.html#f_referring_physical_offset">referring_physical_offset</A>
+                <A HREF="../elks/reflected_copy_semantics_object.html#f_physical_offset">physical_offset</A> := a_enclosing_object.<A HREF="../elks/reflected_copy_semantics_object.html#f_physical_offset">physical_offset</A> + a_enclosing_object.<A HREF="../elks/reflected_object.html#f_field_offset">field_offset</A> (i)
+                <A HREF="../elks/reflected_object.html#f_dynamic_type">dynamic_type</A> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_dynamic_type_at_offset">dynamic_type_at_offset</A> (<A HREF="../elks/reflected_copy_semantics_object.html#f_object_address">object_address</A>, 0)
+            <B>else</B>
+                <A HREF="../elks/reflected_copy_semantics_object.html#f_referring_object">referring_object</A> := a_enclosing_object
+                <A HREF="../elks/reflected_copy_semantics_object.html#f_referring_physical_offset">referring_physical_offset</A> := a_enclosing_object.<A HREF="../elks/reflected_object.html#f_field_offset">field_offset</A> (i)
+                <A HREF="../elks/reflected_copy_semantics_object.html#f_physical_offset">physical_offset</A> := 0
+                <A HREF="../elks/reflected_object.html#f_dynamic_type">dynamic_type</A> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_dynamic_type_at_offset">dynamic_type_at_offset</A> (<A HREF="../elks/reflected_copy_semantics_object.html#f_object_address">object_address</A>, 0)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_object"><A HREF="../elks/reflected_copy_semantics_object.html#f_object">object</A>: <A HREF="../elks/any.html">ANY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Associated object for Current.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> It might be a copy if Current is expanded.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/reflected_copy_semantics_object.html#f_object_from_address">object_from_address</A> (<A HREF="../elks/reflected_copy_semantics_object.html#f_object_address">object_address</A>)
+        <B>end</B></A>
+
+    <A NAME="f_physical_offset"><A HREF="../elks/reflected_copy_semantics_object.html#f_physical_offset">physical_offset</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Actual offset of </FONT><A HREF="../elks/reflected_copy_semantics_object.html#f_object">object</A><FONT COLOR="red"> in </FONT>`referring_object + referring_physical_offset'<FONT COLOR="red">.</FONT>
+
+    <A NAME="f_copy_semantics_field"><A HREF="../elks/reflected_copy_semantics_object.html#f_copy_semantics_field">copy_semantics_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/reflected_copy_semantics_object.html">REFLECTED_COPY_SEMANTICS_OBJECT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Object attached to the </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_copy_semantics_object.html#f_object">object</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (directly or through a reference)</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/reflected_copy_semantics_object.html#f_make_recursive">make_recursive</A> (<B>Current</B>, i)
+        <B>end</B></A>
+
+    <A NAME="f_expanded_field"><A HREF="../elks/reflected_copy_semantics_object.html#f_expanded_field">expanded_field</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/reflected_copy_semantics_object.html">REFLECTED_COPY_SEMANTICS_OBJECT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Object representation of the </FONT>`i'<FONT COLOR="red">-th field of </FONT><A HREF="../elks/reflected_copy_semantics_object.html#f_object">object</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> which is expanded. We provide a wrapper that enables</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> direct editing of the field without duplicating</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> the expanded object.</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/reflected_copy_semantics_object.html#f_make_recursive">make_recursive</A> (<B>Current</B>, i)
+        <B>end</B></A>
+    
+<B>feature</B> {<A HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_object_address"><A HREF="../elks/reflected_copy_semantics_object.html#f_object_address">object_address</A>: <A HREF="../elks/pointer.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Unprotected reference to </FONT><A HREF="../elks/reflected_copy_semantics_object.html#f_object">object</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/reflected_copy_semantics_object.html#f_dereference">dereference</A> (<A HREF="../elks/reflected_copy_semantics_object.html#f_referring_object">referring_object</A>.<A HREF="../elks/reflected_object.html#f_object_address">object_address</A>, <A HREF="../elks/reflected_copy_semantics_object.html#f_referring_physical_offset">referring_physical_offset</A>) + <A HREF="../elks/reflected_copy_semantics_object.html#f_physical_offset">physical_offset</A>
+        <B>end</B></A>
+    
+<B>feature</B> {<A HREF="../elks/reflected_copy_semantics_object.html">REFLECTED_COPY_SEMANTICS_OBJECT</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_referring_object"><A HREF="../elks/reflected_copy_semantics_object.html#f_referring_object">referring_object</A>: <A HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Enclosing object containing </FONT><A HREF="../elks/reflected_copy_semantics_object.html#f_object">object</A><FONT COLOR="red"> or a reference to `object.</FONT>
+
+    <A NAME="f_referring_physical_offset"><A HREF="../elks/reflected_copy_semantics_object.html#f_referring_physical_offset">referring_physical_offset</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Actual offset in bytes of </FONT><A HREF="../elks/reflected_copy_semantics_object.html#f_object">object</A><FONT COLOR="red"> in </FONT><A HREF="../elks/reflected_copy_semantics_object.html#f_referring_object">referring_object</A><FONT COLOR="red">.</FONT>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_dereference"><A HREF="../elks/reflected_copy_semantics_object.html#f_dereference">dereference</A> (ptr: <A HREF="../elks/pointer.html">POINTER</A>; offset: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/pointer.html">POINTER</A>
+        <B>external</B>
+            "C inline use %"eif_built_in.h%""
+        <B>alias</B>
+            "return *(EIF_REFERENCE *) eif_obj_at($ptr, $offset);"
+        <B>end</B></A>
+
+    <A NAME="f_object_from_address"><A HREF="../elks/reflected_copy_semantics_object.html#f_object_from_address">object_from_address</A> (ptr: <A HREF="../elks/pointer.html">POINTER</A>): <A HREF="../elks/any.html">ANY</A>
+        <B>external</B>
+            "C inline use %"eif_built_in.h%""
+        <B>alias</B>
+            "return (EIF_REFERENCE) $ptr;"
+        <B>end</B></A>
+    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/reflected_copy_semantics_object.html">REFLECTED_COPY_SEMANTICS_OBJECT</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="reflected_copy_semantics_object_chart.html">Chart</A></TD><TD><A HREF="reflected_copy_semantics_object_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="reflected_copy_semantics_object_flat.html">Flat</A></TD><TD><A HREF="reflected_copy_semantics_object_short.html">Contracts</A></TD><TD><A HREF="reflected_copy_semantics_object_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

@@ -1,0 +1,69 @@
+<HTML><HEAD>
+<meta name="description" content="War of Raekidion - A powerup A {POWERUP} is similar to a projectile in its behavior,  but it does not cause damage and is not provided by a factory."/>
+<meta name="author" content="François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>powerup Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="powerup_chart.html">Chart</A></TD><TD><A HREF="powerup_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="powerup_flat.html">Flat</A></TD><TD><A HREF="powerup_short.html">Contracts</A></TD><TD><A HREF="powerup_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        War of Raekidion - A powerup
+        A <A HREF="../../raekidion/game/powerup.html">POWERUP</A> is similar to a projectile in its behavior, 
+        but it does not cause damage and is not provided by a factory.
+    ]"
+    author: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+    date: "$Date$"
+    revision: "$Revision$"
+
+<B>class</B> 
+    <A HREF="../../raekidion/game/powerup.html">POWERUP</A>
+
+<B>inherit</B>
+    <A HREF="../../raekidion/game/entity.html">ENTITY</A>
+        <B>rename</B>
+            <A HREF="../../raekidion/game/entity.html#f_update">update</A> <B>as</B> <A HREF="../../raekidion/game/entity.html#f_update">entity_update</A>
+        <B>redefine</B>
+            <A HREF="../../raekidion/game/powerup.html#f_make">make</A>
+        <B>end</B>
+
+<B>create</B> 
+    <A HREF="../../raekidion/game/powerup.html#f_make">make</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../../raekidion/game/powerup.html#f_make">make</A> (a_name: <A HREF="../../elks/string_8.html">STRING_8</A>; a_window: <A HREF="../../raekidion/objects/window.html">WINDOW</A>; a_x, a_y: <A HREF="../../elks/real_64.html">REAL_64</A>; a_health: <A HREF="../../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize </FONT>`Current'<FONT COLOR="red"> from </FONT>`a_name'<FONT COLOR="red">, </FONT>`a_window'<FONT COLOR="red">, </FONT>`a_x'<FONT COLOR="red">, </FONT>`a_y'<FONT COLOR="red"> and </FONT>`a_health'
+        <B>do</B>
+            <B>Precursor</B> {<A HREF="../../raekidion/game/entity.html">ENTITY</A>} (a_name, a_window, a_x, a_y, 1.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>)
+            <A HREF="../../raekidion/game/entity.html#f_trajectory">trajectory</A>.<A HREF="../../raekidion/objects/vector.html#f_enable_degree_mode">enable_degree_mode</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_update"><A HREF="../../raekidion/game/powerup.html#f_update">update</A> (a_x, a_y: <A HREF="../../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update the enemy on screen from player's </FONT>`a_x'<FONT COLOR="red"> and </FONT>`a_y'
+        <B>do</B>
+            <B>if</B> <A HREF="../../raekidion/game/entity.html#f_y">y</A> &lt; - <A HREF="../../raekidion/objects/surface.html#f_height">height</A>.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> <B>or</B> <A HREF="../../raekidion/game/entity.html#f_y">y</A> &gt; (<A HREF="../../raekidion/objects/surface.html#f_window">window</A>.<A HREF="../../raekidion/objects/window.html#f_height">height</A> + <A HREF="../../raekidion/objects/surface.html#f_height">height</A>).<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> <B>or</B> <A HREF="../../raekidion/game/entity.html#f_x">x</A> &lt; - <A HREF="../../raekidion/objects/surface.html#f_width">width</A>.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> <B>or</B> <A HREF="../../raekidion/game/entity.html#f_x">x</A> &gt; (<A HREF="../../raekidion/objects/surface.html#f_window">window</A>.<A HREF="../../raekidion/objects/window.html#f_width">width</A> + <A HREF="../../raekidion/objects/surface.html#f_width">width</A>).<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> <B>then</B>
+                <A HREF="../../raekidion/objects/surface.html#f_destroy">destroy</A>
+            <B>end</B>
+            <B>if</B> <A HREF="../../raekidion/game/entity.html#f_trajectory">trajectory</A>.<A HREF="../../raekidion/objects/vector.html#f_force">force</A> = 0.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> <B>or</B> <A HREF="../../raekidion/game/powerup.html#f_previous_force">previous_force</A> = 0.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> <B>then</B>
+                <A HREF="../../raekidion/game/powerup.html#f_previous_force">previous_force</A> := 1.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>
+            <B>else</B>
+                <A HREF="../../raekidion/game/powerup.html#f_previous_force">previous_force</A> := <A HREF="../../raekidion/game/entity.html#f_trajectory">trajectory</A>.<A HREF="../../raekidion/objects/vector.html#f_force">force</A>
+            <B>end</B>
+            <A HREF="../../raekidion/game/entity.html#f_trajectory">trajectory</A>.<A HREF="../../raekidion/objects/vector.html#f_set_x_and_y">set_x_and_y</A> (a_x - <A HREF="../../raekidion/game/entity.html#f_x">x</A>, - a_y + <A HREF="../../raekidion/game/entity.html#f_y">y</A>)
+            <A HREF="../../raekidion/game/entity.html#f_trajectory">trajectory</A>.<A HREF="../../raekidion/objects/vector.html#f_set_force">set_force</A> (<A HREF="../../raekidion/game/powerup.html#f_previous_force">previous_force</A> * 1.05)
+            <A HREF="../../raekidion/game/entity.html#f_update">entity_update</A>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_previous_force"><A HREF="../../raekidion/game/powerup.html#f_previous_force">previous_force</A>: <A HREF="../../elks/real_64.html">REAL_64</A></A>
+    
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../../raekidion/game/powerup.html">POWERUP</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="powerup_chart.html">Chart</A></TD><TD><A HREF="powerup_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="powerup_flat.html">Flat</A></TD><TD><A HREF="powerup_short.html">Contracts</A></TD><TD><A HREF="powerup_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

@@ -1,0 +1,127 @@
+<HTML><HEAD>
+<meta name="description" content="Core wrapping of the SQLite library.  This class is no indended for pulic use and is used by the internals of the SQLite Eiffel library. Please use the higher level classes such as {SQLITE_DATABASE}."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2011, Eiffel Software"/>
+<meta name="license" content="GPL version 2 (see http://www.eiffel.com/licensing/gpl.txt)"/>
+<meta name="licensing_options" content="http://www.eiffel.com/licensing"/>
+<meta name="copying" content="This file is part of Eiffel Software's Eiffel Development Environment.  Eiffel Software's Eiffel Development Environment is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 2 of the License (available at the URL listed under license above).  Eiffel Software's Eiffel Development Environment is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.  You should have received a copy of the GNU General Public License along with Eiffel Software's Eiffel Development Environment; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>sqlite_api Contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sqlite_api_chart.html">Chart</A></TD><TD><A HREF="sqlite_api_links.html">Relations</A></TD><TD><A HREF="sqlite_api.html">Text</A></TD><TD><A HREF="sqlite_api_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="sqlite_api_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Core wrapping of the SQLite library.
+        
+        This class is no indended for pulic use and is used by the internals of the SQLite Eiffel
+        library. Please use the higher level classes such as <A HREF="../sqlite/sqlite_database_short.html">SQLITE_DATABASE</A>.
+    ]"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2011-10-27 07:42:15 -0700 (Thu, 27 Oct 2011) $"
+    revision: "$Revision: 87635 $"
+
+<B>class</B> <B>interface</B>
+    <A HREF="../sqlite/sqlite_api_short.html">SQLITE_API</A>
+
+<B>create</B> 
+    <A HREF="../sqlite/sqlite_api_short.html#f_make">make</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_version"><A HREF="../sqlite/sqlite_api_short.html#f_version">Version</A>: <A HREF="../elks/immutable_string_8_short.html">IMMUTABLE_STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Version of the sqlite3 library represented as a string.</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_api_short.html#f_is_interface_usable">is_interface_usable</A>
+        <B>ensure</B>
+            result_attached: <B>Result</B> /= <B>Void</B>
+            not_result_is_empty: <B>not</B> <B>Result</B>.<A HREF="../elks/immutable_string_8_short.html#f_is_empty">is_empty</A>
+</A>
+    <A NAME="f_version_number"><A HREF="../sqlite/sqlite_api_short.html#f_version_number">Version_number</A>: <A HREF="../elks/natural_32_short.html">NATURAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Flat version number of the sqlite library.</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_api_short.html#f_is_interface_usable">is_interface_usable</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_set_threading_mode"><A HREF="../sqlite/sqlite_api_short.html#f_set_threading_mode">set_threading_mode</A> (a_mode: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Sets the threading mode.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_mode'<FONT COLOR="red">: The threading mode to set.</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_api_short.html#f_is_interface_usable">is_interface_usable</A>
+            not_is_initialized: <B>not</B> <A HREF="../sqlite/sqlite_api_short.html#f_is_initialized">is_initialized</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_is_interface_usable"><A HREF="../sqlite/sqlite_api_short.html#f_is_interface_usable">is_interface_usable</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Determines if the interface is usable.</FONT>
+        <B>ensure</B>
+            is_initialized: <B>Result</B> <B>implies</B> <A HREF="../sqlite/sqlite_api_short.html#f_is_initialized">is_initialized</A>
+</A>
+    <A NAME="f_is_initialized"><A HREF="../sqlite/sqlite_api_short.html#f_is_initialized">is_initialized</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if the library has been initialized correctly and is ready for use.</FONT>
+        <B>ensure</B>
+            initialization_count_positive: <B>Result</B> <B>implies</B> <A HREF="../sqlite/sqlite_api_short.html#f_initialization_count">Initialization_count</A>.<A HREF="../elks/cell_short.html#f_item">item</A> &gt; 0
+</A>
+    <A NAME="f_is_thread_safe"><A HREF="../sqlite/sqlite_api_short.html#f_is_thread_safe">is_thread_safe</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+        <B>ensure then</B>
+            is_thread_capable: <B>Result</B> <B>implies</B> {<A HREF="../elks/platform_short.html">PLATFORM</A>}.<A HREF="../elks/platform_short.html#f_is_thread_capable">is_thread_capable</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report: SQL</FONT>
+
+    <A NAME="f_is_complete_statement"><A HREF="../sqlite/sqlite_api_short.html#f_is_complete_statement">is_complete_statement</A> (a_sql: <A HREF="../elks/readable_string_8_short.html">READABLE_STRING_8</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Determines if an SQLite SQL statement is complete.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note: This does not parse the SQL statement for syntax validity, only checks for completion.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">       The function is useful for command-line tools where input is required.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_sql'<FONT COLOR="red">: An SQL statement.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`Result'<FONT COLOR="red">: True if the statement is complete; False otherwise.</FONT>
+        <B>require</B>
+            is_interface_usable: <A HREF="../sqlite/sqlite_api_short.html#f_is_interface_usable">is_interface_usable</A>
+            a_sql_attached: <B>attached</B> a_sql
+            not_a_sql_is_empty: <B>not</B> a_sql.<A HREF="../elks/readable_string_general_short.html#f_is_empty">is_empty</A>
+</A>    
+<B>invariant</B>
+    initialization_count_not_negative: <A HREF="../sqlite/sqlite_api_short.html#f_initialization_count">Initialization_count</A>.<A HREF="../elks/cell_short.html#f_item">item</A> &gt;= 0
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2011, Eiffel Software"
+    license: "GPL version 2 (see <a href="http://www.eiffel.com/licensing/gpl.txt">http://www.eiffel.com/licensing/gpl.txt</a>)"
+    licensing_options: "<a href="http://www.eiffel.com/licensing">http://www.eiffel.com/licensing</a>"
+    copying: "[
+        This file is part of Eiffel Software's Eiffel Development Environment.
+        
+        Eiffel Software's Eiffel Development Environment is free
+        software; you can redistribute it and/or modify it under
+        the terms of the GNU General Public License as published
+        by the Free Software Foundation, version 2 of the License
+        (available at the URL listed under "license" above).
+        
+        Eiffel Software's Eiffel Development Environment is
+        distributed in the hope that it will be useful, but
+        WITHOUT ANY WARRANTY; without even the implied warranty
+        of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        See the GNU General Public License for more details.
+        
+        You should have received a copy of the GNU General Public
+        License along with Eiffel Software's Eiffel Development
+        Environment; if not, write to the Free Software Foundation,
+        Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+    ]"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../sqlite/sqlite_api_short.html">SQLITE_API</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sqlite_api_chart.html">Chart</A></TD><TD><A HREF="sqlite_api_links.html">Relations</A></TD><TD><A HREF="sqlite_api.html">Text</A></TD><TD><A HREF="sqlite_api_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="sqlite_api_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

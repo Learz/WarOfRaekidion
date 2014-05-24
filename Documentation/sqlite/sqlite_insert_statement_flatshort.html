@@ -1,0 +1,543 @@
+<HTML><HEAD>
+<meta name="description" content="A statement class specific to processing INSERT statements."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2009, Eiffel Software"/>
+<meta name="license" content="GPL version 2 (see http://www.eiffel.com/licensing/gpl.txt)"/>
+<meta name="licensing_options" content="http://www.eiffel.com/licensing"/>
+<meta name="copying" content="This file is part of Eiffel Software's Eiffel Development Environment.  Eiffel Software's Eiffel Development Environment is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 2 of the License (available at the URL listed under license above).  Eiffel Software's Eiffel Development Environment is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.  You should have received a copy of the GNU General Public License along with Eiffel Software's Eiffel Development Environment; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>sqlite_insert_statement Flat contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sqlite_insert_statement_chart.html">Chart</A></TD><TD><A HREF="sqlite_insert_statement_links.html">Relations</A></TD><TD><A HREF="sqlite_insert_statement.html">Text</A></TD><TD><A HREF="sqlite_insert_statement_flat.html">Flat</A></TD><TD><A HREF="sqlite_insert_statement_short.html">Contracts</A></TD><TD>Flat contracts</TD></TR></TABLE><B>note</B>
+    description: "[
+        A statement class specific to processing INSERT statements.
+    ]"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2010-03-22 11:42:30 -0700 (Mon, 22 Mar 2010) $"
+    revision: "$Revision: 82641 $"
+
+<B>class</B> <B>interface</B>
+    <A HREF="../sqlite/sqlite_insert_statement_flatshort.html">SQLITE_INSERT_STATEMENT</A>
+
+<B>create</B> 
+    <A NAME="f_make"><A HREF="../sqlite/sqlite_statement_flatshort.html#f_make">make</A> (a_statement: <A HREF="../elks/readable_string_8_flatshort.html">READABLE_STRING_8</A>; a_db: <A HREF="../sqlite/sqlite_database_flatshort.html">SQLITE_DATABASE</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initializes a SQL statement for a database.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_statement'<FONT COLOR="red">: SQL statement to compile.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_db'<FONT COLOR="red">: A database to compile the statement with.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A>
+            is_sqlite_available: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_sqlite_available">Is_sqlite_available</A>
+            a_statement_attached: <B>attached</B> a_statement
+            not_a_statement_is_empty: <B>not</B> a_statement.<A HREF="../elks/readable_string_general_flatshort.html#f_is_empty">is_empty</A>
+            a_db_attached: <B>attached</B> a_db
+            a_db_is_accessible: a_db.<A HREF="../sqlite/sqlite_database_flatshort.html#f_is_accessible">is_accessible</A>
+            a_db_is_readable: a_db.<A HREF="../sqlite/sqlite_database_flatshort.html#f_is_readable">is_readable</A>
+            a_statement_is_complete: a_db.<A HREF="../sqlite/sqlite_database_flatshort.html#f_is_complete_statement">is_complete_statement</A> (a_statement)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A>
+            string_set: <A HREF="../sqlite/sqlite_statement_flatshort.html#f_string">string</A>.<A HREF="../elks/readable_string_8_flatshort.html#f_same_string">same_string</A> (a_statement)
+            statement_string_attached: <B>attached</B> <A HREF="../sqlite/sqlite_statement_flatshort.html#f_statement_string">statement_string</A>
+            not_statement_string_is_empty: <B>not</B> <A HREF="../sqlite/sqlite_statement_flatshort.html#f_statement_string">statement_string</A>.<A HREF="../elks/immutable_string_8_flatshort.html#f_is_empty">is_empty</A>
+            database_set: <A HREF="../sqlite/sqlite_statement_flatshort.html#f_database">database</A> = a_db
+</A>
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_database"><A HREF="../sqlite/sqlite_statement_flatshort.html#f_database">database</A>: <A HREF="../sqlite/sqlite_database_flatshort.html">SQLITE_DATABASE</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Database to execute the SQL statement on.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_generating_type"><A HREF="../elks/any_flatshort.html#f_generating_type">generating_type</A>: <A HREF="../elks/type_flatshort.html">TYPE</A> [<B>detachable</B> <A HREF="../sqlite/sqlite_insert_statement_flatshort.html">SQLITE_INSERT_STATEMENT</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Type of current object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            generating_type_not_void: <B>Result</B> /= <B>Void</B>
+</A>
+    <A NAME="f_generator"><A HREF="../elks/any_flatshort.html#f_generator">generator</A>: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of current object's generating class</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (base class of the type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            generator_not_void: <B>Result</B> /= <B>Void</B>
+            generator_not_empty: <B>not</B> <B>Result</B>.<A HREF="../elks/finite_flatshort.html#f_is_empty">is_empty</A>
+</A>
+    <A NAME="f_next_statement"><A HREF="../sqlite/sqlite_statement_flatshort.html#f_next_statement">next_statement</A>: <B>detachable</B> <A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Next statement in the chain, when the supplied SQLite statement contained multiple SQLite</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> statements.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_statement_string"><A HREF="../sqlite/sqlite_statement_flatshort.html#f_statement_string">statement_string</A>: <A HREF="../elks/immutable_string_8_flatshort.html">IMMUTABLE_STRING_8</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The actual compiled database string.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> This may not be the same as </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html#f_string">string</A><FONT COLOR="red"> because statements string can be composed of</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of multiple statements. After compilation this will contain a single statement.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_string"><A HREF="../sqlite/sqlite_statement_flatshort.html#f_string">string</A>: <A HREF="../elks/immutable_string_8_flatshort.html">IMMUTABLE_STRING_8</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The full statement string passed during initialization.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May contain multiple SQLite statements.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A><FONT COLOR="red">)</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_arguments_count"><A HREF="../sqlite/sqlite_statement_flatshort.html#f_arguments_count">arguments_count</A>: <A HREF="../elks/natural_32_flatshort.html">NATURAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of arguments required to be bound to execute the statement.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_changes_count"><A HREF="../sqlite/sqlite_statement_flatshort.html#f_changes_count">changes_count</A>: <A HREF="../elks/natural_32_flatshort.html">NATURAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The number of changes executing this statement caused</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_last_row_id"><A HREF="../sqlite/sqlite_insert_statement_flatshort.html#f_last_row_id">last_row_id</A>: <A HREF="../elks/integer_64_flatshort.html">INTEGER_64</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last inserted row</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_deep_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flatshort.html#f_standard_equal">standard_equal</A> (a, b) <B>implies</B> <B>Result</B>
+            both_or_none_void: (a = <B>Void</B>) <B>implies</B> (<B>Result</B> = (b = <B>Void</B>))
+            same_type: (<B>Result</B> <B>and</B> (a /= <B>Void</B>)) <B>implies</B> (b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (b))
+            symmetric: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A> (b, a)
+</A>
+    <A NAME="f_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_equal">equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to objects considered equal?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flatshort.html#f_is_equal">is_equal</A> (b))
+</A>
+    <A NAME="f_is_deep_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_is_deep_equal">is_deep_equal</A> (other: <B>attached</B> <A HREF="../sqlite/sqlite_insert_statement_flatshort.html">SQLITE_INSERT_STATEMENT</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`Current'<FONT COLOR="red"> and </FONT>`other'<FONT COLOR="red"> attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flatshort.html#f_is_deep_equal">is_deep_equal</A> (<B>Current</B>)
+</A>
+    <A NAME="f_is_equal"><A HREF="../elks/any_flatshort.html#f_is_equal">is_equal</A> (other: <B>attached</B> <A HREF="../sqlite/sqlite_insert_statement_flatshort.html">SQLITE_INSERT_STATEMENT</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object considered</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to current object?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            symmetric: <B>Result</B> <B>implies</B> other ~ <B>Current</B>
+            consistent: <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+</A>
+    <A NAME="f_standard_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_standard_equal">standard_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical objects of the same type?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default object comparison criterion.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (b))
+</A>
+    <A NAME="f_standard_is_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (other: <B>attached</B> <A HREF="../sqlite/sqlite_insert_statement_flatshort.html">SQLITE_INSERT_STATEMENT</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object of the same type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as current object, and field-by-field identical to it?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_conforms_to"><A HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A> (other: <A HREF="../elks/any_flatshort.html">ANY</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does type of current object conform to type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of </FONT>`other'<FONT COLOR="red"> (as per Eiffel: The Language, chapter 13)?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+</A>
+    <A NAME="f_has_arguments"><A HREF="../sqlite/sqlite_statement_flatshort.html#f_has_arguments">has_arguments</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if the statement has required arguments to execute.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A>
+            has_arguments: <B>Result</B> = (<A HREF="../sqlite/sqlite_statement_flatshort.html#f_arguments_count">arguments_count</A> &gt; 0.<A HREF="../elks/integer_32_ref_flatshort.html#f_to_natural_32">to_natural_32</A>)
+</A>
+    <A NAME="f_has_error"><A HREF="../sqlite/sqlite_statement_flatshort.html#f_has_error">has_error</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if an error occurred during the last operation.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A>
+            last_exception_attached: <B>Result</B> <B>implies</B> <A HREF="../sqlite/sqlite_statement_flatshort.html#f_last_exception">last_exception</A> /= <B>Void</B>
+</A>
+    <A NAME="f_is_accessible"><A HREF="../sqlite/sqlite_statement_flatshort.html#f_is_accessible">is_accessible</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if the statement is accessible on the current thread.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A>
+            true_result: <B>not</B> {<A HREF="../elks/platform_flatshort.html">PLATFORM</A>}.<A HREF="../elks/platform_flatshort.html#f_is_thread_capable">is_thread_capable</A> <B>implies</B> (<B>Result</B> <B>and</B> <A HREF="../sqlite/sqlite_statement_flatshort.html#f_database">database</A>.<A HREF="../sqlite/sqlite_database_flatshort.html#f_is_accessible">is_accessible</A>)
+            same_internal_thread_id: (<B>Result</B> <B>and</B> {<A HREF="../elks/platform_flatshort.html">PLATFORM</A>}.<A HREF="../elks/platform_flatshort.html#f_is_thread_capable">is_thread_capable</A>) <B>implies</B> <A HREF="../sqlite/sqlite_statement_flatshort.html#f_internal_thread_id">internal_thread_id</A> = <A HREF="../sqlite/sqlite_statement_flatshort.html#f_get_current_thread_id">get_current_thread_id</A>.<A HREF="../elks/pointer_flatshort.html#f_to_integer_32">to_integer_32</A>
+</A>
+    <A NAME="f_is_compiled"><A HREF="../sqlite/sqlite_statement_flatshort.html#f_is_compiled">is_compiled</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if the statement was successfully compiled, and if it is compiled with the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> associated database </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html#f_database">database</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A>
+            not_internal_stmt_is_null: <B>Result</B> <B>implies</B> <A HREF="../sqlite/sqlite_statement_flatshort.html#f_internal_stmt">internal_stmt</A> /= <A HREF="../elks/any_flatshort.html#f_default_pointer">default_pointer</A>
+</A>
+    <A NAME="f_is_connected"><A HREF="../sqlite/sqlite_statement_flatshort.html#f_is_connected">is_connected</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if the statement is still connected to a database.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Disconnection occurs when a database connection is closed. Even when reopen the statement</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> will still remain disconnected. Use </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html#f_ensure_connected">ensure_connected</A><FONT COLOR="red"> to attempt to reconnect to the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> associated database.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A>
+            not_internal_stmt_is_null: <B>Result</B> <B>implies</B> (<A HREF="../sqlite/sqlite_statement_flatshort.html#f_is_compiled">is_compiled</A> <B>and then</B> <A HREF="../sqlite/sqlite_statement_flatshort.html#f_internal_db">internal_db</A> = <A HREF="../sqlite/sqlite_statement_flatshort.html#f_database">database</A>.<A HREF="../sqlite/sqlite_database_flatshort.html#f_internal_db">internal_db</A>)
+</A>
+    <A NAME="f_is_executing"><A HREF="../sqlite/sqlite_statement_flatshort.html#f_is_executing">is_executing</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if the statement is currently be executed.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_is_interface_usable"><A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_interface_usable">is_interface_usable</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Determines if the interface is usable.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_shared_api_flatshort.html">SQLITE_SHARED_API</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_shared_api_flatshort.html">SQLITE_SHARED_API</A>
+            sqlite_api_is_interface_usable: <B>Result</B> <B>implies</B> <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_sqlite_api">Sqlite_api</A>.<A HREF="../sqlite/sqlite_api_flatshort.html#f_is_interface_usable">is_interface_usable</A>
+</A>
+    <A NAME="f_is_over_sqlite_limit_variable_number"><A HREF="../sqlite/sqlite_binding_helpers_flatshort.html#f_is_over_sqlite_limit_variable_number">is_over_sqlite_limit_variable_number</A> (lst: <A HREF="../elks/iterable_flatshort.html">ITERABLE</A> [<B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>]): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Container </FONT>`lst'<FONT COLOR="red"> exceeds the number of accepted variables?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_binding_helpers_flatshort.html">SQLITE_BINDING_HELPERS</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_is_sqlite_available"><A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_sqlite_available">Is_sqlite_available</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if the sqlite API is available for use.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_shared_api_flatshort.html">SQLITE_SHARED_API</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_shared_api_flatshort.html">SQLITE_SHARED_API</A>
+            sqlite_api_is_interface_usable: <B>Result</B> <B>implies</B> <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_sqlite_api">Sqlite_api</A>.<A HREF="../sqlite/sqlite_api_flatshort.html#f_is_interface_usable">is_interface_usable</A>
+</A>
+    <A NAME="f_is_valid_argument"><A HREF="../sqlite/sqlite_binding_helpers_flatshort.html#f_is_valid_argument">is_valid_argument</A> (a_value: <B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if the value is of an accepted type.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_value'<FONT COLOR="red">: A value to check.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`Result'<FONT COLOR="red">: True if the value type is marshallable; False otherwise.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_binding_helpers_flatshort.html">SQLITE_BINDING_HELPERS</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_is_valid_arguments"><A HREF="../sqlite/sqlite_binding_helpers_flatshort.html#f_is_valid_arguments">is_valid_arguments</A> (a_args: <A HREF="../elks/iterable_flatshort.html">ITERABLE</A> [<B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>]): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Determines if an argument tuple is valid.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_args'<FONT COLOR="red">: A tuple of arguments to validate.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`Result'<FONT COLOR="red">: True if the supplied tuple contains valid value for arguments; False otherwise.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_binding_helpers_flatshort.html">SQLITE_BINDING_HELPERS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_binding_helpers_flatshort.html">SQLITE_BINDING_HELPERS</A>
+            a_args_attached: <B>attached</B> a_args
+            not_a_args_is_empty: <B>across</B>
+                a_args <B>as</B> ic
+            <B>some</B>
+                <B>True</B>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_binding_helpers_flatshort.html">SQLITE_BINDING_HELPERS</A>
+            a_args_small_enough: <B>Result</B> <B>implies</B> <B>not</B> <A HREF="../sqlite/sqlite_binding_helpers_flatshort.html#f_is_over_sqlite_limit_variable_number">is_over_sqlite_limit_variable_number</A> (a_args)
+</A>
+    <A NAME="f_is_valid_variable_name"><A HREF="../sqlite/sqlite_binding_helpers_flatshort.html#f_is_valid_variable_name">is_valid_variable_name</A> (a_var: <A HREF="../elks/readable_string_8_flatshort.html">READABLE_STRING_8</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Determines if a SQLite variable name is valid.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_var'<FONT COLOR="red">: Name of the variable, including a qualifier.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`Result'<FONT COLOR="red">: True if the variable is a valid SQLite variable; False otherwise</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_binding_helpers_flatshort.html">SQLITE_BINDING_HELPERS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_binding_helpers_flatshort.html">SQLITE_BINDING_HELPERS</A>
+            a_var_attached: <B>attached</B> a_var
+            not_a_var_is_empty: <B>not</B> a_var.<A HREF="../elks/readable_string_general_flatshort.html#f_is_empty">is_empty</A>
+</A>
+    <A NAME="f_iterable_has_count"><A HREF="../sqlite/sqlite_binding_helpers_flatshort.html#f_iterable_has_count">iterable_has_count</A> (lst: <A HREF="../elks/iterable_flatshort.html">ITERABLE</A> [<B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>]; n: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is count of </FONT>`lst'<FONT COLOR="red"> the same as </FONT>`nb'<FONT COLOR="red"> ?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_binding_helpers_flatshort.html">SQLITE_BINDING_HELPERS</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_iterable_min_count_or_value"><A HREF="../sqlite/sqlite_binding_helpers_flatshort.html#f_iterable_min_count_or_value">iterable_min_count_or_value</A> (lst: <A HREF="../elks/iterable_flatshort.html">ITERABLE</A> [<B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>]; a_nb: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>): <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Minimum between count of </FONT>`lst'<FONT COLOR="red"> and </FONT>`a_nb'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_binding_helpers_flatshort.html">SQLITE_BINDING_HELPERS</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_same_type"><A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other: <A HREF="../elks/any_flatshort.html">ANY</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is type of current object identical to type of </FONT>`other'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            definition: <B>Result</B> = (<A HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A> (other) <B>and</B> other.<A HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A> (<B>Current</B>))
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_copy"><A HREF="../elks/any_flatshort.html#f_copy">copy</A> (other: <B>attached</B> <A HREF="../sqlite/sqlite_insert_statement_flatshort.html">SQLITE_INSERT_STATEMENT</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update current object using fields of object attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to </FONT>`other'<FONT COLOR="red">, so as to yield equal objects.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            is_equal: <B>Current</B> ~ other
+</A>
+    <A NAME="f_deep_copy"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_deep_copy">deep_copy</A> (other: <B>attached</B> <A HREF="../sqlite/sqlite_insert_statement_flatshort.html">SQLITE_INSERT_STATEMENT</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Effect equivalent to that of:</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">		</FONT><A HREF="../elks/any_flatshort.html#f_copy">copy</A><FONT COLOR="red"> (</FONT>`other'<FONT COLOR="red"> . </FONT><A HREF="../elks/any_flatshort.html#f_deep_twin">deep_twin</A><FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            deep_equal: <A HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A> (<B>Current</B>, other)
+</A>
+    <A NAME="f_deep_twin"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_deep_twin">deep_twin</A>: <B>attached</B> <A HREF="../sqlite/sqlite_insert_statement_flatshort.html">SQLITE_INSERT_STATEMENT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object structure recursively duplicated from Current.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            deep_twin_not_void: <B>Result</B> /= <B>Void</B>
+            deep_equal: <A HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A> (<B>Current</B>, <B>Result</B>)
+</A>
+    <A NAME="f_standard_copy"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_standard_copy">standard_copy</A> (other: <B>attached</B> <A HREF="../sqlite/sqlite_insert_statement_flatshort.html">SQLITE_INSERT_STATEMENT</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy every field of </FONT>`other'<FONT COLOR="red"> onto corresponding field</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            is_standard_equal: <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (other)
+</A>
+    <A NAME="f_standard_twin"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_standard_twin">standard_twin</A>: <B>attached</B> <A HREF="../sqlite/sqlite_insert_statement_flatshort.html">SQLITE_INSERT_STATEMENT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            standard_twin_not_void: <B>Result</B> /= <B>Void</B>
+            equal: <A HREF="../elks/any_flatshort.html#f_standard_equal">standard_equal</A> (<B>Result</B>, <B>Current</B>)
+</A>
+    <A NAME="f_twin"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_twin">twin</A>: <B>attached</B> <A HREF="../sqlite/sqlite_insert_statement_flatshort.html">SQLITE_INSERT_STATEMENT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object equal to </FONT>`Current'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/any_flatshort.html#f_twin">twin</A><FONT COLOR="red"> calls </FONT><A HREF="../elks/any_flatshort.html#f_copy">copy</A><FONT COLOR="red">; to change copying/twinning semantics, redefine </FONT><A HREF="../elks/any_flatshort.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            twin_not_void: <B>Result</B> /= <B>Void</B>
+            is_equal: <B>Result</B> ~ <B>Current</B>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_abort"><A HREF="../sqlite/sqlite_statement_flatshort.html#f_abort">abort</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Aborts an executing statement.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note: Unlike most of the routines, this can be called from another thread.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A>
+            is_sqlite_available: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_sqlite_available">Is_sqlite_available</A>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_interface_usable">is_interface_usable</A>
+            is_executing: <A HREF="../sqlite/sqlite_statement_flatshort.html#f_is_accessible">is_accessible</A> <B>implies</B> <A HREF="../sqlite/sqlite_statement_flatshort.html#f_is_executing">is_executing</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A>
+            is_abort_requested: <A HREF="../sqlite/sqlite_statement_flatshort.html#f_is_abort_requested">is_abort_requested</A>
+</A>
+    <A NAME="f_as_attached"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_as_attached">as_attached</A>: <B>attached</B> <A HREF="../sqlite/sqlite_insert_statement_flatshort.html">SQLITE_INSERT_STATEMENT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attached version of Current</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Can be used during transitional period to convert</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> non-void-safe classes to void-safe ones.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_default"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_default">default</A>: <B>detachable</B> <A HREF="../sqlite/sqlite_insert_statement_flatshort.html">SQLITE_INSERT_STATEMENT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of object's type</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_default_pointer"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_default_pointer">default_pointer</A>: <A HREF="../elks/pointer_flatshort.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of type </FONT>`POINTER'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Avoid the need to write </FONT>`p'<FONT COLOR="red">.</FONT><A HREF="../elks/any_flatshort.html#f_default">default</A><FONT COLOR="red"> for</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> some </FONT>`p'<FONT COLOR="red"> of type </FONT>`POINTER'<FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_default_rescue"><A HREF="../elks/any_flatshort.html#f_default_rescue">default_rescue</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process exception for routines with no Rescue clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_do_nothing"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_do_nothing">do_nothing</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execute a null action.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_ensure_connected"><A HREF="../sqlite/sqlite_statement_flatshort.html#f_ensure_connected">ensure_connected</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attempts to ensure a statement is connected to the associated database.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note: This helper routine can be used prior to executing the statement to ensure the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">       statement is compiled for use with the associated database. Statements become</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">       disconnected when the assoicated database is closed. Even when reopening the database</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">       a reconnection must be made.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">       Calling this routine will not reopen the database!</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">       Reconnection is not guarenteed!</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A>
+            is_sqlite_available: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_sqlite_available">Is_sqlite_available</A>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_interface_usable">is_interface_usable</A>
+            is_accessible: <A HREF="../sqlite/sqlite_statement_flatshort.html#f_is_accessible">is_accessible</A>
+            database_is_accessible: <A HREF="../sqlite/sqlite_statement_flatshort.html#f_database">database</A>.<A HREF="../sqlite/sqlite_database_flatshort.html#f_is_accessible">is_accessible</A>
+            database_is_readable: <A HREF="../sqlite/sqlite_statement_flatshort.html#f_database">database</A>.<A HREF="../sqlite/sqlite_database_flatshort.html#f_is_readable">is_readable</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A>
+            mark_increased: (<B>not</B> <B>old</B> <A HREF="../sqlite/sqlite_statement_flatshort.html#f_is_connected">is_connected</A>) <B>implies</B> (<A HREF="../sqlite/sqlite_statement_flatshort.html#f_mark">mark</A> &gt; <B>old</B> <A HREF="../sqlite/sqlite_statement_flatshort.html#f_mark">mark</A>)
+</A>
+    <A NAME="f_execute"><B>frozen</B> <A HREF="../sqlite/sqlite_modify_statement_flatshort.html#f_execute">execute</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Executes the SQLite modification statement.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_modify_statement_flatshort.html">SQLITE_MODIFY_STATEMENT</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_modify_statement_flatshort.html">SQLITE_MODIFY_STATEMENT</A>
+            is_sqlite_available: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_sqlite_available">Is_sqlite_available</A>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_flatshort.html#f_is_interface_usable">is_interface_usable</A>
+            not_is_executing: <B>not</B> <A HREF="../sqlite/sqlite_statement_flatshort.html#f_is_executing">is_executing</A>
+            is_accessible: <A HREF="../sqlite/sqlite_statement_flatshort.html#f_is_accessible">is_accessible</A>
+            database_is_writable: <A HREF="../sqlite/sqlite_statement_flatshort.html#f_database">database</A>.<A HREF="../sqlite/sqlite_database_flatshort.html#f_is_writable">is_writable</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_modify_statement_flatshort.html">SQLITE_MODIFY_STATEMENT</A>
+            not_is_executing: <B>not</B> <A HREF="../sqlite/sqlite_statement_flatshort.html#f_is_executing">is_executing</A>
+</A>
+    <A NAME="f_execute_with_arguments"><B>frozen</B> <A HREF="../sqlite/sqlite_modify_statement_flatshort.html#f_execute_with_arguments">execute_with_arguments</A> (a_arguments: <A HREF="../elks/iterable_flatshort.html">ITERABLE</A> [<B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Executes the SQLite modification statement with bound set of arguments.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_arguments'<FONT COLOR="red">: The bound arguments to call the SQLite query statement with.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                Valid arguments are those that descent </FONT><A HREF="../sqlite/sqlite_bind_arg_flatshort.html">SQLITE_BIND_ARG</A><FONT COLOR="red"> or</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                </FONT><A HREF="../elks/readable_string_8_flatshort.html">READABLE_STRING_8</A><FONT COLOR="red">, or of type {INTEGER_*}, {NATURAL_*} (with the expection</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                of </FONT><A HREF="../elks/natural_64_flatshort.html">NATURAL_64</A><FONT COLOR="red">), or </FONT><A HREF="../elks/managed_pointer_flatshort.html">MANAGED_POINTER</A><FONT COLOR="red"> (for blobs).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                Note: If *not* using </FONT><A HREF="../sqlite/sqlite_bind_arg_flatshort.html">SQLITE_BIND_ARG</A><FONT COLOR="red">, the SQLite statement should use ?NNN</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                      arguments and not named arguments.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                      see </FONT><FONT COLOR="red">http://sqlite.org/c3ref/bind_blob.html</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_modify_statement_flatshort.html">SQLITE_MODIFY_STATEMENT</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_modify_statement_flatshort.html">SQLITE_MODIFY_STATEMENT</A>
+            is_compiled: <A HREF="../sqlite/sqlite_statement_flatshort.html#f_is_compiled">is_compiled</A>
+            is_connected: <A HREF="../sqlite/sqlite_statement_flatshort.html#f_is_connected">is_connected</A>
+            not_is_executing: <B>not</B> <A HREF="../sqlite/sqlite_statement_flatshort.html#f_is_executing">is_executing</A>
+            is_accessible: <A HREF="../sqlite/sqlite_statement_flatshort.html#f_is_accessible">is_accessible</A>
+            database_is_writable: <A HREF="../sqlite/sqlite_statement_flatshort.html#f_database">database</A>.<A HREF="../sqlite/sqlite_database_flatshort.html#f_is_writable">is_writable</A>
+            has_arguments: <A HREF="../sqlite/sqlite_statement_flatshort.html#f_has_arguments">has_arguments</A>
+            a_arguments_attached: <B>attached</B> a_arguments
+            a_arguments_count_correct: <A HREF="../sqlite/sqlite_binding_helpers_flatshort.html#f_iterable_has_count">iterable_has_count</A> (a_arguments, <A HREF="../sqlite/sqlite_statement_flatshort.html#f_arguments_count">arguments_count</A>.<A HREF="../elks/natural_32_flatshort.html#f_as_integer_32">as_integer_32</A>)
+            a_arguments_is_valid_arguments: <A HREF="../sqlite/sqlite_binding_helpers_flatshort.html#f_is_valid_arguments">is_valid_arguments</A> (a_arguments)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_modify_statement_flatshort.html">SQLITE_MODIFY_STATEMENT</A>
+            not_is_executing: <B>not</B> <A HREF="../sqlite/sqlite_statement_flatshort.html#f_is_executing">is_executing</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access: Cursor</FONT>
+
+    <A NAME="f_execute_new"><A HREF="../sqlite/sqlite_statement_flatshort.html#f_execute_new">execute_new</A>: <A HREF="../sqlite/sqlite_statement_iteration_cursor_flatshort.html">SQLITE_STATEMENT_ITERATION_CURSOR</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execute the SQLite statement.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A>
+            is_compiled: <A HREF="../sqlite/sqlite_statement_flatshort.html#f_is_compiled">is_compiled</A>
+            is_connected: <A HREF="../sqlite/sqlite_statement_flatshort.html#f_is_connected">is_connected</A>
+            not_is_executing: <B>not</B> <A HREF="../sqlite/sqlite_statement_flatshort.html#f_is_executing">is_executing</A>
+            is_accessible: <A HREF="../sqlite/sqlite_statement_flatshort.html#f_is_accessible">is_accessible</A>
+            not_has_arguments: <B>not</B> <A HREF="../sqlite/sqlite_statement_flatshort.html#f_has_arguments">has_arguments</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A>
+            result_attached: <B>attached</B> <B>Result</B>
+</A>
+    <A NAME="f_execute_new_with_arguments"><A HREF="../sqlite/sqlite_statement_flatshort.html#f_execute_new_with_arguments">execute_new_with_arguments</A> (a_arguments: <A HREF="../elks/iterable_flatshort.html">ITERABLE</A> [<B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>]): <A HREF="../sqlite/sqlite_statement_iteration_cursor_flatshort.html">SQLITE_STATEMENT_ITERATION_CURSOR</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Executes the SQLite statement with bound set of arguments.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_arguments'<FONT COLOR="red">: The bound arguments to call the SQLite query statement with.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                Valid arguments are those that descent </FONT><A HREF="../sqlite/sqlite_bind_arg_flatshort.html">SQLITE_BIND_ARG</A><FONT COLOR="red"> or</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                </FONT><A HREF="../elks/readable_string_8_flatshort.html">READABLE_STRING_8</A><FONT COLOR="red">, or of type {INTEGER_*}, {NATURAL_*} (with the expection</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                of </FONT><A HREF="../elks/natural_64_flatshort.html">NATURAL_64</A><FONT COLOR="red">), or </FONT><A HREF="../elks/managed_pointer_flatshort.html">MANAGED_POINTER</A><FONT COLOR="red"> (for blobs).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                Note: If *not* using </FONT><A HREF="../sqlite/sqlite_bind_arg_flatshort.html">SQLITE_BIND_ARG</A><FONT COLOR="red">, the SQLite statement should use ?NNN</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                      arguments and not named arguments.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                      see </FONT><FONT COLOR="red">http://sqlite.org/c3ref/bind_blob.html</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A>
+            is_compiled: <A HREF="../sqlite/sqlite_statement_flatshort.html#f_is_compiled">is_compiled</A>
+            is_connected: <A HREF="../sqlite/sqlite_statement_flatshort.html#f_is_connected">is_connected</A>
+            not_is_executing: <B>not</B> <A HREF="../sqlite/sqlite_statement_flatshort.html#f_is_executing">is_executing</A>
+            is_accessible: <A HREF="../sqlite/sqlite_statement_flatshort.html#f_is_accessible">is_accessible</A>
+            has_arguments: <A HREF="../sqlite/sqlite_statement_flatshort.html#f_has_arguments">has_arguments</A>
+            a_arguments_attached: <B>attached</B> a_arguments
+            a_arguments_is_valid_arguments: <A HREF="../sqlite/sqlite_binding_helpers_flatshort.html#f_is_valid_arguments">is_valid_arguments</A> (a_arguments)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A>
+            result_attached: <B>attached</B> <B>Result</B>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access: Error handling</FONT>
+
+    <A NAME="f_last_exception"><A HREF="../sqlite/sqlite_statement_flatshort.html#f_last_exception">last_exception</A>: <B>detachable</B> <A HREF="../sqlite/sqlite_exception_flatshort.html">SQLITE_EXCEPTION</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last occurring error, set during compilation.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A><FONT COLOR="red">)</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output</FONT>
+
+    <A NAME="f_io"><A HREF="../elks/any_flatshort.html#f_io">Io</A>: <A HREF="../elks/std_files_flatshort.html">STD_FILES</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Handle to standard file setup</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            io_not_void: <B>Result</B> /= <B>Void</B>
+</A>
+    <A NAME="f_out"><A HREF="../elks/any_flatshort.html#f_out">out</A>: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            out_not_void: <B>Result</B> /= <B>Void</B>
+</A>
+    <A NAME="f_print"><A HREF="../elks/any_flatshort.html#f_print">print</A> (o: <B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write terse external representation of </FONT>`o'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on standard output.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_tagged_out"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_tagged_out">tagged_out</A>: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            tagged_out_not_void: <B>Result</B> /= <B>Void</B>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Platform</FONT>
+
+    <A NAME="f_operating_environment"><A HREF="../elks/any_flatshort.html#f_operating_environment">Operating_environment</A>: <A HREF="../elks/operating_environment_flatshort.html">OPERATING_ENVIRONMENT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Objects available from the operating system</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            operating_environment_not_void: <B>Result</B> /= <B>Void</B>
+</A>    
+<B>invariant</B>
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_statement_flatshort.html">SQLITE_STATEMENT</A>
+    database_attached: <B>attached</B> <A HREF="../sqlite/sqlite_statement_flatshort.html#f_database">database</A>
+    statement_attached: <B>attached</B> <A HREF="../sqlite/sqlite_statement_flatshort.html#f_statement_string">statement_string</A>
+    not_statement_is_empty: <B>not</B> <A HREF="../sqlite/sqlite_statement_flatshort.html#f_statement_string">statement_string</A>.<A HREF="../elks/immutable_string_8_flatshort.html#f_is_empty">is_empty</A>
+    string_attached: <B>attached</B> <A HREF="../sqlite/sqlite_statement_flatshort.html#f_string">string</A>
+    not_string_is_empty: <B>not</B> <A HREF="../sqlite/sqlite_statement_flatshort.html#f_string">string</A>.<A HREF="../elks/immutable_string_8_flatshort.html#f_is_empty">is_empty</A>
+    not_internal_db_is_null: <A HREF="../sqlite/sqlite_statement_flatshort.html#f_internal_stmt">internal_stmt</A> /= <A HREF="../elks/any_flatshort.html#f_default_pointer">default_pointer</A> <B>implies</B> <A HREF="../sqlite/sqlite_statement_flatshort.html#f_internal_db">internal_db</A> /= <A HREF="../elks/any_flatshort.html#f_default_pointer">default_pointer</A>
+    internal_db_is_null: <A HREF="../sqlite/sqlite_statement_flatshort.html#f_internal_stmt">internal_stmt</A> = <A HREF="../elks/any_flatshort.html#f_default_pointer">default_pointer</A> <B>implies</B> <A HREF="../sqlite/sqlite_statement_flatshort.html#f_internal_db">internal_db</A> = <A HREF="../elks/any_flatshort.html#f_default_pointer">default_pointer</A>
+    internal_thread_id_set: {<A HREF="../elks/platform_flatshort.html">PLATFORM</A>}.<A HREF="../elks/platform_flatshort.html#f_is_thread_capable">is_thread_capable</A> <B>implies</B> <A HREF="../sqlite/sqlite_statement_flatshort.html#f_internal_thread_id">internal_thread_id</A> /= 0
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+    reflexive_equality: <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+    reflexive_conformance: <A HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A> (<B>Current</B>)
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2009, Eiffel Software"
+    license: "GPL version 2 (see <a href="http://www.eiffel.com/licensing/gpl.txt">http://www.eiffel.com/licensing/gpl.txt</a>)"
+    licensing_options: "<a href="http://www.eiffel.com/licensing">http://www.eiffel.com/licensing</a>"
+    copying: "[
+        This file is part of Eiffel Software's Eiffel Development Environment.
+        
+        Eiffel Software's Eiffel Development Environment is free
+        software; you can redistribute it and/or modify it under
+        the terms of the GNU General Public License as published
+        by the Free Software Foundation, version 2 of the License
+        (available at the URL listed under "license" above).
+        
+        Eiffel Software's Eiffel Development Environment is
+        distributed in the hope that it will be useful, but
+        WITHOUT ANY WARRANTY; without even the implied warranty
+        of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        See the GNU General Public License for more details.
+        
+        You should have received a copy of the GNU General Public
+        License along with Eiffel Software's Eiffel Development
+        Environment; if not, write to the Free Software Foundation,
+        Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+    ]"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../sqlite/sqlite_insert_statement_flatshort.html">SQLITE_INSERT_STATEMENT</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sqlite_insert_statement_chart.html">Chart</A></TD><TD><A HREF="sqlite_insert_statement_links.html">Relations</A></TD><TD><A HREF="sqlite_insert_statement.html">Text</A></TD><TD><A HREF="sqlite_insert_statement_flat.html">Flat</A></TD><TD><A HREF="sqlite_insert_statement_short.html">Contracts</A></TD><TD>Flat contracts</TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

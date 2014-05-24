@@ -1,0 +1,1163 @@
+<HTML><HEAD>
+<meta name="description" content="Contiguous integer interval that calls an action sequence when it changes."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class, event, action, linked, list"/>
+<meta name="library" content="EiffelBase: Library of reusable components for Eiffel."/>
+<meta name="copyright" content="Copyright (c) 1984-2008, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 356 Storke Road, Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>active_integer_interval Flat</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="active_integer_interval_chart.html">Chart</A></TD><TD><A HREF="active_integer_interval_links.html">Relations</A></TD><TD><A HREF="active_integer_interval.html">Text</A></TD><TD>Flat</TD><TD><A HREF="active_integer_interval_short.html">Contracts</A></TD><TD><A HREF="active_integer_interval_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Contiguous integer interval that calls an action sequence
+        when it changes.
+    ]"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    keywords: "event, action, linked, list"
+    date: "$Date: 2009-07-12 08:09:17 -0700 (Sun, 12 Jul 2009) $"
+    revision: "$Revision: 79742 $"
+
+<B>class</B> 
+    <A HREF="../ise/active_integer_interval_flat.html">ACTIVE_INTEGER_INTERVAL</A>
+
+<B>create</B> 
+    <A HREF="../elks/integer_interval_flat.html#f_make">make</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_adapt"><A HREF="../ise/active_integer_interval_flat.html#f_adapt">adapt</A> (other: <A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Reset to be the same interval as </FONT>`other'<FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+            other_not_void: other /= <B>Void</B>
+        <B>do</B>
+            <B>Precursor</B> (other)
+            <A HREF="../ise/active_integer_interval_flat.html#f_on_change">on_change</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+            same_lower: <A HREF="../elks/integer_interval_flat.html#f_lower">lower</A> = other.<A HREF="../elks/integer_interval_flat.html#f_lower">lower</A>
+            same_upper: <A HREF="../elks/integer_interval_flat.html#f_upper">upper</A> = other.<A HREF="../elks/integer_interval_flat.html#f_upper">upper</A>
+            same_lower_defined: <A HREF="../elks/integer_interval_flat.html#f_lower_defined">lower_defined</A> = other.<A HREF="../elks/integer_interval_flat.html#f_lower_defined">lower_defined</A>
+            same_upper_defined: <A HREF="../elks/integer_interval_flat.html#f_upper_defined">upper_defined</A> = other.<A HREF="../elks/integer_interval_flat.html#f_upper_defined">upper_defined</A>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_default_create"><A HREF="../elks/any_flat.html#f_default_create">default_create</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process instances of classes with no creation clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_make"><A HREF="../elks/integer_interval_flat.html#f_make">make</A> (min_index, max_index: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set up interval to have bounds </FONT>`min_index'<FONT COLOR="red"> and</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`max_index'<FONT COLOR="red"> (empty if </FONT>`min_index'<FONT COLOR="red"> &gt; </FONT>`max_index'<FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <A HREF="../elks/integer_interval_flat.html#f_lower_defined">lower_defined</A> := <B>True</B>
+            <A HREF="../elks/integer_interval_flat.html#f_upper_defined">upper_defined</A> := <B>True</B>
+            <B>if</B> min_index &lt;= max_index <B>then</B>
+                <A HREF="../elks/integer_interval_flat.html#f_lower_internal">lower_internal</A> := min_index
+                <A HREF="../elks/integer_interval_flat.html#f_upper_internal">upper_internal</A> := max_index
+            <B>else</B>
+                <A HREF="../elks/integer_interval_flat.html#f_lower_internal">lower_internal</A> := 1
+                <A HREF="../elks/integer_interval_flat.html#f_upper_internal">upper_internal</A> := 0
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+            lower_defined: <A HREF="../elks/integer_interval_flat.html#f_lower_defined">lower_defined</A>
+            upper_defined: <A HREF="../elks/integer_interval_flat.html#f_upper_defined">upper_defined</A>
+            set_if_non_empty: (min_index &lt;= max_index) <B>implies</B> ((<A HREF="../elks/integer_interval_flat.html#f_lower">lower</A> = min_index) <B>and</B> (<A HREF="../elks/integer_interval_flat.html#f_upper">upper</A> = max_index))
+            empty_if_not_in_order: (min_index &gt; max_index) <B>implies</B> <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_at"><A HREF="../elks/integer_interval_flat.html#f_at">at</A> <B>alias</B> "@" (i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Entry at index </FONT>`i'<FONT COLOR="red">, if in index interval</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/integer_interval_flat.html#f_item">item</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/table_flat.html">TABLE</A>
+            valid_key: <A HREF="../elks/integer_interval_flat.html#f_valid_index">valid_index</A> (i)
+        <B>do</B>
+            <B>Result</B> := i
+        <B>end</B></A>
+
+    <A NAME="f_generating_type"><A HREF="../elks/any_flat.html#f_generating_type">generating_type</A>: <A HREF="../elks/type_flat.html">TYPE</A> [<B>detachable</B> <A HREF="../ise/active_integer_interval_flat.html">ACTIVE_INTEGER_INTERVAL</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Type of current object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := {<B>detachable</B> <A HREF="../ise/active_integer_interval_flat.html">ACTIVE_INTEGER_INTERVAL</A>}
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            generating_type_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_generator"><A HREF="../elks/any_flat.html#f_generator">generator</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of current object's generating class</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (base class of the type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            generator_not_void: <B>Result</B> /= <B>Void</B>
+            generator_not_empty: <B>not</B> <B>Result</B>.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+
+    <A NAME="f_has"><A HREF="../elks/integer_interval_flat.html#f_has">has</A> (v: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`v'<FONT COLOR="red"> appear in interval?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/integer_interval_flat.html#f_valid_index">valid_index</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/container_flat.html">CONTAINER</A>
+            <B>True</B>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../elks/integer_interval_flat.html#f_upper_defined">upper_defined</A> <B>implies</B> v &lt;= <A HREF="../elks/integer_interval_flat.html#f_upper">upper</A>) <B>and</B> (<A HREF="../elks/integer_interval_flat.html#f_lower_defined">lower_defined</A> <B>implies</B> v &gt;= <A HREF="../elks/integer_interval_flat.html#f_lower">lower</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/container_flat.html">CONTAINER</A>
+            not_found_in_empty: <B>Result</B> <B>implies</B> <B>not</B> <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+            iff_within_bounds: <B>Result</B> = ((<A HREF="../elks/integer_interval_flat.html#f_upper_defined">upper_defined</A> <B>implies</B> v &lt;= <A HREF="../elks/integer_interval_flat.html#f_upper">upper</A>) <B>and</B> (<A HREF="../elks/integer_interval_flat.html#f_lower_defined">lower_defined</A> <B>implies</B> v &gt;= <A HREF="../elks/integer_interval_flat.html#f_lower">lower</A>))
+        <B>end</B></A>
+
+    <A NAME="f_item"><A HREF="../elks/integer_interval_flat.html#f_item">item</A> <B>alias</B> "[]" (i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Entry at index </FONT>`i'<FONT COLOR="red">, if in index interval</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/integer_interval_flat.html#f_at">at</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/table_flat.html">TABLE</A>
+            valid_key: <A HREF="../elks/integer_interval_flat.html#f_valid_index">valid_index</A> (i)
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/readable_indexable_flat.html">READABLE_INDEXABLE</A>
+            valid_index: <A HREF="../elks/integer_interval_flat.html#f_valid_index">valid_index</A> (i)
+        <B>do</B>
+            <B>Result</B> := i
+        <B>end</B></A>
+
+    <A NAME="f_lower"><A HREF="../elks/integer_interval_flat.html#f_lower">lower</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Smallest value in interval</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+            lower_defined: <A HREF="../elks/integer_interval_flat.html#f_lower_defined">lower_defined</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_interval_flat.html#f_lower_internal">lower_internal</A>
+        <B>end</B></A>
+
+    <A NAME="f_lower_defined"><A HREF="../elks/integer_interval_flat.html#f_lower_defined">lower_defined</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there a lower bound?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_new_cursor"><A HREF="../elks/readable_indexable_flat.html#f_new_cursor">new_cursor</A>: <A HREF="../elks/indexable_iteration_cursor_flat.html">INDEXABLE_ITERATION_CURSOR</A> [<A HREF="../elks/integer_32_flat.html">INTEGER_32</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Fresh cursor associated with current structure</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/readable_indexable_flat.html">READABLE_INDEXABLE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/indexable_iteration_cursor_flat.html#f_make">make</A> (<B>Current</B>)
+            <B>Result</B>.<A HREF="../elks/indexable_iteration_cursor_flat.html#f_start">start</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/iterable_flat.html">ITERABLE</A>
+            result_attached: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_upper"><A HREF="../elks/integer_interval_flat.html#f_upper">upper</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Largest value in interval</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+            upper_defined: <A HREF="../elks/integer_interval_flat.html#f_upper_defined">upper_defined</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_interval_flat.html#f_upper_internal">upper_internal</A>
+        <B>end</B></A>
+
+    <A NAME="f_upper_defined"><A HREF="../elks/integer_interval_flat.html#f_upper_defined">upper_defined</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there an upper bound?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_valid_index"><A HREF="../elks/integer_interval_flat.html#f_valid_index">valid_index</A> (v: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`v'<FONT COLOR="red"> appear in interval?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/integer_interval_flat.html#f_has">has</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/readable_indexable_flat.html">READABLE_INDEXABLE</A>
+            <B>True</B>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/table_flat.html">TABLE</A>
+            <B>True</B>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../elks/integer_interval_flat.html#f_upper_defined">upper_defined</A> <B>implies</B> v &lt;= <A HREF="../elks/integer_interval_flat.html#f_upper">upper</A>) <B>and</B> (<A HREF="../elks/integer_interval_flat.html#f_lower_defined">lower_defined</A> <B>implies</B> v &gt;= <A HREF="../elks/integer_interval_flat.html#f_lower">lower</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/readable_indexable_flat.html">READABLE_INDEXABLE</A>
+            only_if_in_index_set: <B>Result</B> <B>implies</B> ((v &gt;= <A HREF="../elks/integer_interval_flat.html#f_index_set">index_set</A>.<A HREF="../elks/integer_interval_flat.html#f_lower">lower</A>) <B>and</B> (v &lt;= <A HREF="../elks/integer_interval_flat.html#f_index_set">index_set</A>.<A HREF="../elks/integer_interval_flat.html#f_upper">upper</A>))
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+            iff_within_bounds: <B>Result</B> = ((<A HREF="../elks/integer_interval_flat.html#f_upper_defined">upper_defined</A> <B>implies</B> v &lt;= <A HREF="../elks/integer_interval_flat.html#f_upper">upper</A>) <B>and</B> (<A HREF="../elks/integer_interval_flat.html#f_lower_defined">lower_defined</A> <B>implies</B> v &gt;= <A HREF="../elks/integer_interval_flat.html#f_lower">lower</A>))
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_additional_space"><A HREF="../elks/resizable_flat.html#f_additional_space">additional_space</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Proposed number of additional items</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/resizable_flat.html">RESIZABLE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../elks/integer_interval_flat.html#f_capacity">capacity</A> // 2).<A HREF="../elks/comparable_flat.html#f_max">max</A> (<A HREF="../elks/resizable_flat.html#f_minimal_increase">Minimal_increase</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/resizable_flat.html">RESIZABLE</A>
+            at_least_one: <B>Result</B> &gt;= 1
+        <B>end</B></A>
+
+    <A NAME="f_capacity"><A HREF="../elks/integer_interval_flat.html#f_capacity">capacity</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Maximum number of items in interval</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (here the same thing as </FONT><A HREF="../elks/integer_interval_flat.html#f_count">count</A><FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>check</B>
+                terminal: <A HREF="../elks/integer_interval_flat.html#f_upper_defined">upper_defined</A> <B>and</B> <A HREF="../elks/integer_interval_flat.html#f_lower_defined">lower_defined</A>
+            <B>end</B>
+            <B>Result</B> := <A HREF="../elks/integer_interval_flat.html#f_count">count</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/bounded_flat.html">BOUNDED</A>
+            capacity_non_negative: <B>Result</B> &gt;= 0
+        <B>end</B></A>
+
+    <A NAME="f_count"><A HREF="../elks/integer_interval_flat.html#f_count">count</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of items in interval</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/finite_flat.html">FINITE</A>
+            <B>True</B>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/set_flat.html">SET</A>
+            <B>True</B>
+        <B>do</B>
+            <B>check</B>
+                finite: <A HREF="../elks/integer_interval_flat.html#f_upper_defined">upper_defined</A> <B>and</B> <A HREF="../elks/integer_interval_flat.html#f_lower_defined">lower_defined</A>
+            <B>end</B>
+            <B>if</B> <A HREF="../elks/integer_interval_flat.html#f_upper_defined">upper_defined</A> <B>and</B> <A HREF="../elks/integer_interval_flat.html#f_lower_defined">lower_defined</A> <B>then</B>
+                <B>Result</B> := <A HREF="../elks/integer_interval_flat.html#f_upper">upper</A> - <A HREF="../elks/integer_interval_flat.html#f_lower">lower</A> + 1
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/finite_flat.html">FINITE</A>
+            count_non_negative: <B>Result</B> &gt;= 0
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+            definition: <B>Result</B> = <A HREF="../elks/integer_interval_flat.html#f_upper">upper</A> - <A HREF="../elks/integer_interval_flat.html#f_lower">lower</A> + 1
+        <B>end</B></A>
+
+    <A NAME="f_growth_percentage"><A HREF="../elks/resizable_flat.html#f_growth_percentage">Growth_percentage</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 50</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Percentage by which structure will grow automatically</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/resizable_flat.html">RESIZABLE</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_index_set"><A HREF="../elks/integer_interval_flat.html#f_index_set">index_set</A>: <A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Range of acceptable indexes</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (here: the interval itself)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/readable_indexable_flat.html">READABLE_INDEXABLE</A>
+            <B>True</B>
+        <B>do</B>
+            <B>Result</B> := <B>Current</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/readable_indexable_flat.html">READABLE_INDEXABLE</A>
+            not_void: <B>Result</B> /= <B>Void</B>
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+            index_set_is_range: <B>Result</B> ~ <B>Current</B>
+        <B>end</B></A>
+
+    <A NAME="f_minimal_increase"><A HREF="../elks/resizable_flat.html#f_minimal_increase">Minimal_increase</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 5</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Minimal number of additional items</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/resizable_flat.html">RESIZABLE</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_occurrences"><A HREF="../elks/integer_interval_flat.html#f_occurrences">occurrences</A> (v: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of times </FONT>`v'<FONT COLOR="red"> appears in structure</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/bag_flat.html">BAG</A>
+            <B>True</B>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/integer_interval_flat.html#f_has">has</A> (v) <B>then</B>
+                <B>Result</B> := 1
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/bag_flat.html">BAG</A>
+            non_negative_occurrences: <B>Result</B> &gt;= 0
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+            one_iff_in_bounds: <B>Result</B> = 1 <B>implies</B> <A HREF="../elks/integer_interval_flat.html#f_has">has</A> (v)
+            zero_otherwise: <B>Result</B> /= 1 <B>implies</B> <B>Result</B> = 0
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_deep_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (a, b) <B>implies</B> <B>Result</B>
+            both_or_none_void: (a = <B>Void</B>) <B>implies</B> (<B>Result</B> = (b = <B>Void</B>))
+            same_type: (<B>Result</B> <B>and</B> (a /= <B>Void</B>)) <B>implies</B> (b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_same_type">same_type</A> (b))
+            symmetric: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (b, a)
+        <B>end</B></A>
+
+    <A NAME="f_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_equal">equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to objects considered equal?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_equal">is_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_equal">is_equal</A> (b))
+        <B>end</B></A>
+
+    <A NAME="f_is_deep_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (other: <B>attached</B> <A HREF="../ise/active_integer_interval_flat.html">ACTIVE_INTEGER_INTERVAL</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`Current'<FONT COLOR="red"> and </FONT>`other'<FONT COLOR="red"> attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (<B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_is_equal"><A HREF="../elks/integer_interval_flat.html#f_is_equal">is_equal</A> (other: <B>attached</B> <A HREF="../ise/active_integer_interval_flat.html">ACTIVE_INTEGER_INTERVAL</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is array made of the same items as </FONT>`other'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../elks/integer_interval_flat.html#f_lower_defined">lower_defined</A> <B>implies</B> (other.<A HREF="../elks/integer_interval_flat.html#f_lower_defined">lower_defined</A> <B>and</B> <A HREF="../elks/integer_interval_flat.html#f_lower">lower</A> = other.<A HREF="../elks/integer_interval_flat.html#f_lower">lower</A>)) <B>and</B> (<A HREF="../elks/integer_interval_flat.html#f_upper_defined">upper_defined</A> <B>implies</B> (other.<A HREF="../elks/integer_interval_flat.html#f_upper_defined">upper_defined</A> <B>and</B> <A HREF="../elks/integer_interval_flat.html#f_upper">upper</A> = other.<A HREF="../elks/integer_interval_flat.html#f_upper">upper</A>))
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            symmetric: <B>Result</B> <B>implies</B> other ~ <B>Current</B>
+            consistent: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+            iff_same_bounds: <B>Result</B> = ((<A HREF="../elks/integer_interval_flat.html#f_lower_defined">lower_defined</A> <B>implies</B> (other.<A HREF="../elks/integer_interval_flat.html#f_lower_defined">lower_defined</A> <B>and</B> <A HREF="../elks/integer_interval_flat.html#f_lower">lower</A> = other.<A HREF="../elks/integer_interval_flat.html#f_lower">lower</A>)) <B>and</B> (<A HREF="../elks/integer_interval_flat.html#f_upper_defined">upper_defined</A> <B>implies</B> (other.<A HREF="../elks/integer_interval_flat.html#f_upper_defined">upper_defined</A> <B>and</B> <A HREF="../elks/integer_interval_flat.html#f_upper">upper</A> = other.<A HREF="../elks/integer_interval_flat.html#f_upper">upper</A>)))
+        <B>end</B></A>
+
+    <A NAME="f_standard_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical objects of the same type?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default object comparison criterion.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (b))
+        <B>end</B></A>
+
+    <A NAME="f_standard_is_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other: <B>attached</B> <A HREF="../ise/active_integer_interval_flat.html">ACTIVE_INTEGER_INTERVAL</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object of the same type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as current object, and field-by-field identical to it?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_all_cleared"><A HREF="../elks/integer_interval_flat.html#f_all_cleared">all_cleared</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are all items set to default values?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := ((<A HREF="../elks/integer_interval_flat.html#f_lower">lower</A> = 0) <B>and</B> (<A HREF="../elks/integer_interval_flat.html#f_upper">upper</A> = 0))
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+            iff_at_zero: <B>Result</B> = ((<A HREF="../elks/integer_interval_flat.html#f_lower">lower</A> = 0) <B>and</B> (<A HREF="../elks/integer_interval_flat.html#f_upper">upper</A> = 0))
+        <B>end</B></A>
+
+    <A NAME="f_conforms_to"><A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (other: <A HREF="../elks/any_flat.html">ANY</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does type of current object conform to type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of </FONT>`other'<FONT COLOR="red"> (as per Eiffel: The Language, chapter 13)?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>end</B></A>
+
+    <A NAME="f_empty"><A HREF="../elks/container_flat.html#f_empty">empty</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+        <B>obsolete</B> "ELKS 2000: Use `is_empty' instead"
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there no element?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/container_flat.html">CONTAINER</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+
+    <A NAME="f_extendible"><A HREF="../elks/integer_interval_flat.html#f_extendible">extendible</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May new items be added?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Answer: yes</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>True</B>
+        <B>end</B></A>
+
+    <A NAME="f_full"><A HREF="../elks/bounded_flat.html#f_full">full</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is structure full?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/bounded_flat.html">BOUNDED</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../elks/integer_interval_flat.html#f_count">count</A> = <A HREF="../elks/integer_interval_flat.html#f_capacity">capacity</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_empty"><A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is structure empty?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/finite_flat.html">FINITE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/container_flat.html">CONTAINER</A>
+            <B>True</B>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../elks/integer_interval_flat.html#f_count">count</A> = 0)
+        <B>end</B></A>
+
+    <A NAME="f_is_inserted"><A HREF="../elks/collection_flat.html#f_is_inserted">is_inserted</A> (v: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Has </FONT>`v'<FONT COLOR="red"> been inserted by the most recent insertion?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (By default, the value returned is equivalent to calling </FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`has (v)'<FONT COLOR="red">. However, descendants might be able to provide more</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> efficient implementations.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/collection_flat.html">COLLECTION</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/integer_interval_flat.html#f_has">has</A> (v)
+        <B>end</B></A>
+
+    <A NAME="f_object_comparison"><A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Must search operations use </FONT><A HREF="../elks/any_flat.html#f_equal">equal</A><FONT COLOR="red"> rather than </FONT>`='
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> for comparing references? (Default: no, use </FONT>`='<FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/container_flat.html">CONTAINER</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_prunable"><A HREF="../elks/integer_interval_flat.html#f_prunable">prunable</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May individual items be removed?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Answer: no</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>False</B>
+        <B>end</B></A>
+
+    <A NAME="f_resizable"><A HREF="../elks/resizable_flat.html#f_resizable">resizable</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May </FONT><A HREF="../elks/integer_interval_flat.html#f_capacity">capacity</A><FONT COLOR="red"> be changed? (Answer: yes.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/resizable_flat.html">RESIZABLE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>True</B>
+        <B>end</B></A>
+
+    <A NAME="f_same_type"><A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other: <A HREF="../elks/any_flat.html">ANY</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is type of current object identical to type of </FONT>`other'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (<A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (other) <B>and</B> other.<A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>Current</B>))
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status setting</FONT>
+
+    <A NAME="f_compare_objects"><A HREF="../elks/container_flat.html#f_compare_objects">compare_objects</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Ensure that future search operations will use </FONT><A HREF="../elks/any_flat.html#f_equal">equal</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> rather than </FONT>`='<FONT COLOR="red"> for comparing references.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/container_flat.html">CONTAINER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/container_flat.html">CONTAINER</A>
+            changeable_comparison_criterion: <A HREF="../elks/set_flat.html#f_changeable_comparison_criterion">changeable_comparison_criterion</A>
+        <B>do</B>
+            <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A> := <B>True</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/container_flat.html">CONTAINER</A>
+            <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A>
+        <B>end</B></A>
+
+    <A NAME="f_compare_references"><A HREF="../elks/container_flat.html#f_compare_references">compare_references</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Ensure that future search operations will use </FONT>`='
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> rather than </FONT><A HREF="../elks/any_flat.html#f_equal">equal</A><FONT COLOR="red"> for comparing references.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/container_flat.html">CONTAINER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/container_flat.html">CONTAINER</A>
+            changeable_comparison_criterion: <A HREF="../elks/set_flat.html#f_changeable_comparison_criterion">changeable_comparison_criterion</A>
+        <B>do</B>
+            <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A> := <B>False</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/container_flat.html">CONTAINER</A>
+            reference_comparison: <B>not</B> <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_extend"><A HREF="../ise/active_integer_interval_flat.html#f_extend">extend</A> (v: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make sure that interval goes all the way</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to </FONT>`v'<FONT COLOR="red"> (up or down).</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flat.html">COLLECTION</A>
+            extendible: <A HREF="../elks/integer_interval_flat.html#f_extendible">extendible</A>
+        <B>do</B>
+            <A HREF="../ise/active_integer_interval_flat.html#f_put">put</A> (v)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flat.html">COLLECTION</A>
+            item_inserted: <A HREF="../elks/collection_flat.html#f_is_inserted">is_inserted</A> (v)
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/set_flat.html">SET</A>
+            in_set_already: <B>old</B> <A HREF="../elks/integer_interval_flat.html#f_has">has</A> (v) <B>implies</B> (<A HREF="../elks/integer_interval_flat.html#f_count">count</A> = <B>old</B> <A HREF="../elks/integer_interval_flat.html#f_count">count</A>)
+            added_to_set: <B>not</B> <B>old</B> <A HREF="../elks/integer_interval_flat.html#f_has">has</A> (v) <B>implies</B> (<A HREF="../elks/integer_interval_flat.html#f_count">count</A> = <B>old</B> <A HREF="../elks/integer_interval_flat.html#f_count">count</A> + 1)
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+            extended_down: <A HREF="../elks/integer_interval_flat.html#f_lower">lower</A> = (<B>old</B> <A HREF="../elks/integer_interval_flat.html#f_lower">lower</A>).<A HREF="../elks/comparable_flat.html#f_min">min</A> (v)
+            extended_up: <A HREF="../elks/integer_interval_flat.html#f_upper">upper</A> = (<B>old</B> <A HREF="../elks/integer_interval_flat.html#f_upper">upper</A>).<A HREF="../elks/comparable_flat.html#f_max">max</A> (v)
+        <B>end</B></A>
+
+    <A NAME="f_fill"><A HREF="../elks/collection_flat.html#f_fill">fill</A> (other: <A HREF="../elks/container_flat.html">CONTAINER</A> [<A HREF="../elks/integer_32_flat.html">INTEGER_32</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Fill with as many items of </FONT>`other'<FONT COLOR="red"> as possible.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The representations of </FONT>`other'<FONT COLOR="red"> and current structure</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> need not be the same.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/collection_flat.html">COLLECTION</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flat.html">COLLECTION</A>
+            other_not_void: other /= <B>Void</B>
+            extendible: <A HREF="../elks/integer_interval_flat.html#f_extendible">extendible</A>
+        <B>local</B>
+            lin_rep: <A HREF="../elks/linear_flat.html">LINEAR</A> [<A HREF="../elks/integer_32_flat.html">INTEGER_32</A>]
+        <B>do</B>
+            lin_rep := other.<A HREF="../elks/container_flat.html#f_linear_representation">linear_representation</A>
+            <B>from</B>
+                lin_rep.<A HREF="../elks/traversable_flat.html#f_start">start</A>
+            <B>until</B>
+                <B>not</B> <A HREF="../elks/integer_interval_flat.html#f_extendible">extendible</A> <B>or else</B> lin_rep.<A HREF="../elks/linear_flat.html#f_off">off</A>
+            <B>loop</B>
+                <A HREF="../ise/active_integer_interval_flat.html#f_extend">extend</A> (lin_rep.<A HREF="../elks/traversable_flat.html#f_item">item</A>)
+                lin_rep.<A HREF="../elks/linear_flat.html#f_forth">forth</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_put"><A HREF="../ise/active_integer_interval_flat.html#f_put">put</A> (v: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make sure that interval goes all the way</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to </FONT>`v'<FONT COLOR="red"> (up or down).</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flat.html">COLLECTION</A>
+            extendible: <A HREF="../elks/integer_interval_flat.html#f_extendible">extendible</A>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+            <B>True</B>
+        <B>local</B>
+            l_change: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+        <B>do</B>
+            l_change := v &lt; <A HREF="../elks/integer_interval_flat.html#f_lower_internal">lower_internal</A> <B>or else</B> v &gt; <A HREF="../elks/integer_interval_flat.html#f_upper_internal">upper_internal</A>
+            <B>Precursor</B> (v)
+            <B>if</B> l_change <B>then</B>
+                <A HREF="../ise/active_integer_interval_flat.html#f_on_change">on_change</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flat.html">COLLECTION</A>
+            item_inserted: <A HREF="../elks/collection_flat.html#f_is_inserted">is_inserted</A> (v)
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/set_flat.html">SET</A>
+            in_set_already: <B>old</B> <A HREF="../elks/integer_interval_flat.html#f_has">has</A> (v) <B>implies</B> (<A HREF="../elks/integer_interval_flat.html#f_count">count</A> = <B>old</B> <A HREF="../elks/integer_interval_flat.html#f_count">count</A>)
+            added_to_set: <B>not</B> <B>old</B> <A HREF="../elks/integer_interval_flat.html#f_has">has</A> (v) <B>implies</B> (<A HREF="../elks/integer_interval_flat.html#f_count">count</A> = <B>old</B> <A HREF="../elks/integer_interval_flat.html#f_count">count</A> + 1)
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+            extended_down: <A HREF="../elks/integer_interval_flat.html#f_lower">lower</A> = (<B>old</B> <A HREF="../elks/integer_interval_flat.html#f_lower">lower</A>).<A HREF="../elks/comparable_flat.html#f_min">min</A> (v)
+            extended_up: <A HREF="../elks/integer_interval_flat.html#f_upper">upper</A> = (<B>old</B> <A HREF="../elks/integer_interval_flat.html#f_upper">upper</A>).<A HREF="../elks/comparable_flat.html#f_max">max</A> (v)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removal</FONT>
+
+    <A NAME="f_changeable_comparison_criterion"><A HREF="../elks/set_flat.html#f_changeable_comparison_criterion">changeable_comparison_criterion</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May </FONT><A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A><FONT COLOR="red"> be changed?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Answer: only if set empty; otherwise insertions might</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> introduce duplicates, destroying the set property.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/set_flat.html">SET</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/container_flat.html">CONTAINER</A>
+            <B>True</B>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/set_flat.html">SET</A>
+            only_on_empty: <B>Result</B> = <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+
+    <A NAME="f_prune_all"><A HREF="../elks/collection_flat.html#f_prune_all">prune_all</A> (v: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove all occurrences of </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Reference or object equality,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> based on </FONT><A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A><FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/collection_flat.html">COLLECTION</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flat.html">COLLECTION</A>
+            prunable: <A HREF="../elks/integer_interval_flat.html#f_prunable">prunable</A>
+        <B>do</B>
+            <B>from</B>
+            <B>until</B>
+                <B>not</B> <A HREF="../elks/integer_interval_flat.html#f_has">has</A> (v)
+            <B>loop</B>
+                <A HREF="../elks/integer_interval_flat.html#f_prune">prune</A> (v)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flat.html">COLLECTION</A>
+            no_more_occurrences: <B>not</B> <A HREF="../elks/integer_interval_flat.html#f_has">has</A> (v)
+        <B>end</B></A>
+
+    <A NAME="f_wipe_out"><A HREF="../elks/integer_interval_flat.html#f_wipe_out">wipe_out</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove all items.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flat.html">COLLECTION</A>
+            prunable: <A HREF="../elks/integer_interval_flat.html#f_prunable">prunable</A>
+        <B>do</B>
+            <A HREF="../elks/integer_interval_flat.html#f_lower_defined">lower_defined</A> := <B>True</B>
+            <A HREF="../elks/integer_interval_flat.html#f_upper_defined">upper_defined</A> := <B>True</B>
+            <A HREF="../elks/integer_interval_flat.html#f_lower_internal">lower_internal</A> := 1
+            <A HREF="../elks/integer_interval_flat.html#f_upper_internal">upper_internal</A> := 0
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flat.html">COLLECTION</A>
+            wiped_out: <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Resizing</FONT>
+
+    <A NAME="f_automatic_grow"><A HREF="../elks/resizable_flat.html#f_automatic_grow">automatic_grow</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Change the capacity to accommodate at least</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/resizable_flat.html#f_growth_percentage">Growth_percentage</A><FONT COLOR="red"> more items.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/resizable_flat.html">RESIZABLE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/resizable_flat.html">RESIZABLE</A>
+            resizable: <A HREF="../elks/resizable_flat.html#f_resizable">resizable</A>
+        <B>do</B>
+            <A HREF="../elks/integer_interval_flat.html#f_grow">grow</A> (<A HREF="../elks/integer_interval_flat.html#f_capacity">capacity</A> + <A HREF="../elks/resizable_flat.html#f_additional_space">additional_space</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/resizable_flat.html">RESIZABLE</A>
+            increased_capacity: <A HREF="../elks/integer_interval_flat.html#f_capacity">capacity</A> &gt;= <B>old</B> <A HREF="../elks/integer_interval_flat.html#f_capacity">capacity</A> + <B>old</B> <A HREF="../elks/resizable_flat.html#f_additional_space">additional_space</A>
+        <B>end</B></A>
+
+    <A NAME="f_grow"><A HREF="../elks/integer_interval_flat.html#f_grow">grow</A> (i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Ensure that capacity is at least </FONT>`i'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/resizable_flat.html">RESIZABLE</A>
+            resizable: <A HREF="../elks/resizable_flat.html#f_resizable">resizable</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/integer_interval_flat.html#f_capacity">capacity</A> &lt; i <B>then</B>
+                <A HREF="../ise/active_integer_interval_flat.html#f_resize">resize</A> (<A HREF="../elks/integer_interval_flat.html#f_lower">lower</A>, <A HREF="../elks/integer_interval_flat.html#f_lower">lower</A> + i - 1)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/resizable_flat.html">RESIZABLE</A>
+            new_capacity: <A HREF="../elks/integer_interval_flat.html#f_capacity">capacity</A> &gt;= i
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+            no_loss_from_bottom: <A HREF="../elks/integer_interval_flat.html#f_lower">lower</A> &lt;= <B>old</B> <A HREF="../elks/integer_interval_flat.html#f_lower">lower</A>
+            no_loss_from_top: <A HREF="../elks/integer_interval_flat.html#f_upper">upper</A> &gt;= <B>old</B> <A HREF="../elks/integer_interval_flat.html#f_upper">upper</A>
+        <B>end</B></A>
+
+    <A NAME="f_resize"><A HREF="../ise/active_integer_interval_flat.html#f_resize">resize</A> (min_index, max_index: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Rearrange interval to go from at most</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`min_index'<FONT COLOR="red"> to at least </FONT>`max_index'<FONT COLOR="red">,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> encompassing previous bounds.</FONT>
+        <B>local</B>
+            l_change: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+        <B>do</B>
+            l_change := <A HREF="../elks/integer_interval_flat.html#f_lower_internal">lower_internal</A> /= min_index <B>or else</B> <A HREF="../elks/integer_interval_flat.html#f_upper_internal">upper_internal</A> /= max_index
+            <B>Precursor</B> (min_index, max_index)
+            <B>if</B> l_change <B>then</B>
+                <A HREF="../ise/active_integer_interval_flat.html#f_on_change">on_change</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_resize_exactly"><A HREF="../ise/active_integer_interval_flat.html#f_resize_exactly">resize_exactly</A> (min_index, max_index: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Rearrange interval to go from</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`min_index'<FONT COLOR="red"> to </FONT>`max_index'<FONT COLOR="red">.</FONT>
+        <B>local</B>
+            l_change: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+        <B>do</B>
+            l_change := <A HREF="../elks/integer_interval_flat.html#f_lower_internal">lower_internal</A> /= min_index <B>or else</B> <A HREF="../elks/integer_interval_flat.html#f_upper_internal">upper_internal</A> /= max_index
+            <B>Precursor</B> (min_index, max_index)
+            <B>if</B> l_change <B>then</B>
+                <A HREF="../ise/active_integer_interval_flat.html#f_on_change">on_change</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_trim"><A HREF="../elks/integer_interval_flat.html#f_trim">trim</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Decrease </FONT><A HREF="../elks/integer_interval_flat.html#f_capacity">capacity</A><FONT COLOR="red"> to the minimum value.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Apply to reduce allocated storage.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>check</B>
+                minimal_capacity: <A HREF="../elks/integer_interval_flat.html#f_capacity">capacity</A> = <A HREF="../elks/integer_interval_flat.html#f_count">count</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/resizable_flat.html">RESIZABLE</A>
+            same_count: <A HREF="../elks/integer_interval_flat.html#f_count">count</A> = <B>old</B> <A HREF="../elks/integer_interval_flat.html#f_count">count</A>
+            minimal_capacity: <A HREF="../elks/integer_interval_flat.html#f_capacity">capacity</A> = <A HREF="../elks/integer_interval_flat.html#f_count">count</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Conversion</FONT>
+
+    <A NAME="f_as_array"><A HREF="../elks/integer_interval_flat.html#f_as_array">as_array</A>: <A HREF="../elks/array_flat.html">ARRAY</A> [<A HREF="../elks/integer_32_flat.html">INTEGER_32</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Plain array containing interval's items</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+            finite: <A HREF="../elks/integer_interval_flat.html#f_upper_defined">upper_defined</A> <B>and</B> <A HREF="../elks/integer_interval_flat.html#f_lower_defined">lower_defined</A>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                i := <A HREF="../elks/integer_interval_flat.html#f_lower">lower</A>
+                nb := <A HREF="../elks/integer_interval_flat.html#f_upper">upper</A>
+                <B>create</B> <B>Result</B>.<A HREF="../elks/array_flat.html#f_make_filled">make_filled</A> (0, i, nb)
+            <B>until</B>
+                i &gt; nb
+            <B>loop</B>
+                <B>Result</B>.<A HREF="../elks/array_flat.html#f_put">put</A> (i, i)
+                i := i + 1
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+            same_lower: <B>Result</B>.<A HREF="../elks/array_flat.html#f_lower">lower</A> = <A HREF="../elks/integer_interval_flat.html#f_lower">lower</A>
+            same_upper: <B>Result</B>.<A HREF="../elks/array_flat.html#f_upper">upper</A> = <A HREF="../elks/integer_interval_flat.html#f_upper">upper</A>
+        <B>end</B></A>
+
+    <A NAME="f_linear_representation"><A HREF="../elks/integer_interval_flat.html#f_linear_representation">linear_representation</A>: <A HREF="../elks/linear_flat.html">LINEAR</A> [<A HREF="../elks/integer_32_flat.html">INTEGER_32</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Representation as a linear structure</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>check</B>
+                terminal: <A HREF="../elks/integer_interval_flat.html#f_upper_defined">upper_defined</A> <B>and</B> <A HREF="../elks/integer_interval_flat.html#f_lower_defined">lower_defined</A>
+            <B>end</B>
+            <B>Result</B> := <A HREF="../elks/integer_interval_flat.html#f_as_array">as_array</A>.<A HREF="../elks/array_flat.html#f_linear_representation">linear_representation</A>
+        <B>end</B></A>
+
+    <A NAME="f_to_c"><A HREF="../elks/integer_interval_flat.html#f_to_c">to_c</A>: <A HREF="../elks/any_flat.html">ANY</A>
+        <B>obsolete</B> "No replacement"
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Address of actual sequence of values,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> for passing to external (non-Eiffel) routines.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>check</B>
+                <B>False</B>
+            <B>end</B>
+            <B>Result</B> := <B>Current</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_clone">clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void; otherwise new object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to </FONT>`other'
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> For non-void </FONT>`other'<FONT COLOR="red">, </FONT><A HREF="../elks/any_flat.html#f_clone">clone</A><FONT COLOR="red"> calls </FONT><A HREF="../ise/active_integer_interval_flat.html#f_copy">copy</A><FONT COLOR="red">;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to change copying/cloning semantics, redefine </FONT><A HREF="../ise/active_integer_interval_flat.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_twin">twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            equal: <B>Result</B> ~ other
+        <B>end</B></A>
+
+    <A NAME="f_copy"><A HREF="../ise/active_integer_interval_flat.html#f_copy">copy</A> (other: <B>like</B> <B>Current</B>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Reset to be the same interval as </FONT>`other'<FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+        <B>do</B>
+            <B>if</B> other /= <B>Current</B> <B>then</B>
+                <B>Precursor</B> (other)
+                <A HREF="../ise/active_integer_interval_flat.html#f_on_change">on_change</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            is_equal: <B>Current</B> ~ other
+        <B>end</B></A>
+
+    <A NAME="f_deep_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_clone">deep_clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `deep_twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void: otherwise, new object structure</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> recursively duplicated from the one attached to </FONT>`other'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (other, <B>Result</B>)
+        <B>end</B></A>
+
+    <A NAME="f_deep_copy"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_copy">deep_copy</A> (other: <B>attached</B> <A HREF="../ise/active_integer_interval_flat.html">ACTIVE_INTEGER_INTERVAL</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Effect equivalent to that of:</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">		</FONT><A HREF="../ise/active_integer_interval_flat.html#f_copy">copy</A><FONT COLOR="red"> (</FONT>`other'<FONT COLOR="red"> . </FONT><A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A><FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../ise/active_integer_interval_flat.html#f_copy">copy</A> (other.<A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (<B>Current</B>, other)
+        <B>end</B></A>
+
+    <A NAME="f_deep_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>: <B>attached</B> <A HREF="../ise/active_integer_interval_flat.html">ACTIVE_INTEGER_INTERVAL</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object structure recursively duplicated from Current.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_twin_not_void: <B>Result</B> /= <B>Void</B>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (<B>Current</B>, <B>Result</B>)
+        <B>end</B></A>
+
+    <A NAME="f_standard_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_clone">standard_clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `standard_twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void; otherwise new object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_standard_twin">standard_twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            equal: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (<B>Result</B>, other)
+        <B>end</B></A>
+
+    <A NAME="f_standard_copy"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_copy">standard_copy</A> (other: <B>attached</B> <A HREF="../ise/active_integer_interval_flat.html">ACTIVE_INTEGER_INTERVAL</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy every field of </FONT>`other'<FONT COLOR="red"> onto corresponding field</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            is_standard_equal: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other)
+        <B>end</B></A>
+
+    <A NAME="f_standard_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_twin">standard_twin</A>: <B>attached</B> <A HREF="../ise/active_integer_interval_flat.html">ACTIVE_INTEGER_INTERVAL</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            standard_twin_not_void: <B>Result</B> /= <B>Void</B>
+            equal: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (<B>Result</B>, <B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_subinterval"><A HREF="../elks/integer_interval_flat.html#f_subinterval">subinterval</A> (start_pos, end_pos: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <B>attached</B> <A HREF="../ise/active_integer_interval_flat.html">ACTIVE_INTEGER_INTERVAL</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Interval made of items of current array within</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> bounds </FONT>`start_pos'<FONT COLOR="red"> and </FONT>`end_pos'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/integer_interval_flat.html#f_make">make</A> (start_pos, end_pos)
+        <B>end</B></A>
+
+    <A NAME="f_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_twin">twin</A>: <B>attached</B> <A HREF="../ise/active_integer_interval_flat.html">ACTIVE_INTEGER_INTERVAL</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object equal to </FONT>`Current'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/any_flat.html#f_twin">twin</A><FONT COLOR="red"> calls </FONT><A HREF="../ise/active_integer_interval_flat.html#f_copy">copy</A><FONT COLOR="red">; to change copying/twinning semantics, redefine </FONT><A HREF="../ise/active_integer_interval_flat.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            twin_not_void: <B>Result</B> /= <B>Void</B>
+            is_equal: <B>Result</B> ~ <B>Current</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_as_attached"><B>frozen</B> <A HREF="../elks/any_flat.html#f_as_attached">as_attached</A>: <B>attached</B> <A HREF="../ise/active_integer_interval_flat.html">ACTIVE_INTEGER_INTERVAL</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attached version of Current</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Can be used during transitional period to convert</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> non-void-safe classes to void-safe ones.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>Current</B>
+        <B>end</B></A>
+
+    <A NAME="f_default"><B>frozen</B> <A HREF="../elks/any_flat.html#f_default">default</A>: <B>detachable</B> <A HREF="../ise/active_integer_interval_flat.html">ACTIVE_INTEGER_INTERVAL</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of object's type</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_default_pointer"><B>frozen</B> <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>: <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of type </FONT>`POINTER'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Avoid the need to write </FONT>`p'<FONT COLOR="red">.</FONT><A HREF="../elks/any_flat.html#f_default">default</A><FONT COLOR="red"> for</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> some </FONT>`p'<FONT COLOR="red"> of type </FONT>`POINTER'<FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_default_rescue"><A HREF="../elks/any_flat.html#f_default_rescue">default_rescue</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process exception for routines with no Rescue clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_do_nothing"><B>frozen</B> <A HREF="../elks/any_flat.html#f_do_nothing">do_nothing</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execute a null action.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Inapplicable</FONT>
+
+    <A NAME="f_bag_put"><A HREF="../elks/table_flat.html#f_bag_put">bag_put</A> (v: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Ensure that structure includes </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/table_flat.html">TABLE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flat.html">COLLECTION</A>
+            extendible: <A HREF="../elks/integer_interval_flat.html#f_extendible">extendible</A>
+        <B>do</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flat.html">COLLECTION</A>
+            item_inserted: <A HREF="../elks/collection_flat.html#f_is_inserted">is_inserted</A> (v)
+        <B>end</B></A>
+
+    <A NAME="f_indexable_put"><A HREF="../elks/integer_interval_flat.html#f_indexable_put">indexable_put</A> (v: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>; k: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Associate value </FONT>`v'<FONT COLOR="red"> with key </FONT>`k'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Not applicable here.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/table_flat.html">TABLE</A>
+            valid_key: <A HREF="../elks/integer_interval_flat.html#f_valid_index">valid_index</A> (k)
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/table_flat.html">TABLE</A>
+            valid_key: <A HREF="../elks/integer_interval_flat.html#f_valid_index">valid_index</A> (k)
+        <B>do</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/table_flat.html">TABLE</A>
+            inserted: <A HREF="../elks/integer_interval_flat.html#f_item">item</A> (k) = v
+        <B>end</B></A>
+
+    <A NAME="f_prune"><A HREF="../elks/integer_interval_flat.html#f_prune">prune</A> (v: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove one occurrence of </FONT>`v'<FONT COLOR="red"> if any.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Not applicable here.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flat.html">COLLECTION</A>
+            prunable: <A HREF="../elks/integer_interval_flat.html#f_prunable">prunable</A>
+        <B>do</B>
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/set_flat.html">SET</A>
+            removed_count_change: <B>old</B> <A HREF="../elks/integer_interval_flat.html#f_has">has</A> (v) <B>implies</B> (<A HREF="../elks/integer_interval_flat.html#f_count">count</A> = <B>old</B> <A HREF="../elks/integer_interval_flat.html#f_count">count</A> - 1)
+            not_removed_no_count_change: <B>not</B> <B>old</B> <A HREF="../elks/integer_interval_flat.html#f_has">has</A> (v) <B>implies</B> (<A HREF="../elks/integer_interval_flat.html#f_count">count</A> = <B>old</B> <A HREF="../elks/integer_interval_flat.html#f_count">count</A>)
+            item_deleted: <B>not</B> <A HREF="../elks/integer_interval_flat.html#f_has">has</A> (v)
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_on_change"><A HREF="../ise/active_integer_interval_flat.html#f_on_change">on_change</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Called when interval changes.</FONT>
+        <B>local</B>
+            a: <B>detachable</B> <A HREF="../ise/action_sequence_flat.html">ACTION_SEQUENCE</A> [<A HREF="../elks/tuple_flat.html">TUPLE</A>]
+        <B>do</B>
+            a := <A HREF="../ise/active_integer_interval_flat.html#f_opo_change_actions">opo_change_actions</A>
+            <B>if</B> a /= <B>Void</B> <B>then</B>
+                a.<A HREF="../ise/action_sequence_flat.html#f_call">call</A> (<B>Void</B>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_opo_change_actions"><A HREF="../ise/active_integer_interval_flat.html#f_opo_change_actions">opo_change_actions</A>: <B>detachable</B> <A HREF="../ise/action_sequence_flat.html">ACTION_SEQUENCE</A> [<A HREF="../elks/tuple_flat.html">TUPLE</A>]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Once per object implementation for </FONT><A HREF="../ise/active_integer_interval_flat.html#f_change_actions">change_actions</A>
+    
+<B>feature</B> {<A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_lower_internal"><A HREF="../elks/integer_interval_flat.html#f_lower_internal">lower_internal</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> See `lower`.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_upper_internal"><A HREF="../elks/integer_interval_flat.html#f_upper_internal">upper_internal</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> See `upper`.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Event handling</FONT>
+
+    <A NAME="f_change_actions"><A HREF="../ise/active_integer_interval_flat.html#f_change_actions">change_actions</A>: <A HREF="../ise/action_sequence_flat.html">ACTION_SEQUENCE</A> [<A HREF="../elks/tuple_flat.html">TUPLE</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Actions performed when interval changes.</FONT>
+        <B>local</B>
+            r: <B>detachable</B> <A HREF="../ise/action_sequence_flat.html">ACTION_SEQUENCE</A> [<A HREF="../elks/tuple_flat.html">TUPLE</A>]
+        <B>do</B>
+            r := <A HREF="../ise/active_integer_interval_flat.html#f_opo_change_actions">opo_change_actions</A>
+            <B>if</B> r = <B>Void</B> <B>then</B>
+                <B>create</B> r
+                <A HREF="../ise/active_integer_interval_flat.html#f_opo_change_actions">opo_change_actions</A> := r
+            <B>end</B>
+            <B>Result</B> := r
+        <B>ensure</B>
+            not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Iteration</FONT>
+
+    <A NAME="f_do_all"><A HREF="../elks/integer_interval_flat.html#f_do_all">do_all</A> (action: <A HREF="../elks/procedure_flat.html">PROCEDURE</A> [<A HREF="../elks/any_flat.html">ANY</A>, <A HREF="../elks/tuple_flat.html">TUPLE</A> [<A HREF="../elks/integer_32_flat.html">INTEGER_32</A>]])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Apply </FONT>`action'<FONT COLOR="red"> to every item of current interval.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+            action_exists: action /= <B>Void</B>
+            finite: <A HREF="../elks/integer_interval_flat.html#f_upper_defined">upper_defined</A> <B>and</B> <A HREF="../elks/integer_interval_flat.html#f_lower_defined">lower_defined</A>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                i := <A HREF="../elks/integer_interval_flat.html#f_lower">lower</A>
+                nb := <A HREF="../elks/integer_interval_flat.html#f_upper">upper</A>
+            <B>until</B>
+                i &gt; nb
+            <B>loop</B>
+                action.<A HREF="../elks/procedure_flat.html#f_call">call</A> ([i])
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_exists"><A HREF="../elks/integer_interval_flat.html#f_exists">exists</A> (condition: <A HREF="../elks/function_flat.html">FUNCTION</A> [<A HREF="../elks/any_flat.html">ANY</A>, <A HREF="../elks/tuple_flat.html">TUPLE</A> [<A HREF="../elks/integer_32_flat.html">INTEGER_32</A>], <A HREF="../elks/boolean_flat.html">BOOLEAN</A>]): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does at least one of  interval's values</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> satisfy </FONT>`condition'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+            finite: <A HREF="../elks/integer_interval_flat.html#f_upper_defined">upper_defined</A> <B>and</B> <A HREF="../elks/integer_interval_flat.html#f_lower_defined">lower_defined</A>
+            condition_not_void: condition /= <B>Void</B>
+        <B>local</B>
+            i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                i := <A HREF="../elks/integer_interval_flat.html#f_lower">lower</A>
+            <B>until</B>
+                i &gt; <A HREF="../elks/integer_interval_flat.html#f_upper">upper</A> <B>or else</B> condition.<A HREF="../elks/function_flat.html#f_item">item</A> ([i])
+            <B>loop</B>
+                i := i + 1
+            <B>end</B>
+            <B>Result</B> := (i &lt;= <A HREF="../elks/integer_interval_flat.html#f_upper">upper</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+            consistent_with_count: <B>Result</B> = (<A HREF="../elks/integer_interval_flat.html#f_hold_count">hold_count</A> (condition) &gt; 0)
+        <B>end</B></A>
+
+    <A NAME="f_exists1"><A HREF="../elks/integer_interval_flat.html#f_exists1">exists1</A> (condition: <A HREF="../elks/function_flat.html">FUNCTION</A> [<A HREF="../elks/any_flat.html">ANY</A>, <A HREF="../elks/tuple_flat.html">TUPLE</A> [<A HREF="../elks/integer_32_flat.html">INTEGER_32</A>], <A HREF="../elks/boolean_flat.html">BOOLEAN</A>]): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does exactly one of  interval's values</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> satisfy </FONT>`condition'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+            finite: <A HREF="../elks/integer_interval_flat.html#f_upper_defined">upper_defined</A> <B>and</B> <A HREF="../elks/integer_interval_flat.html#f_lower_defined">lower_defined</A>
+            condition_not_void: condition /= <B>Void</B>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../elks/integer_interval_flat.html#f_hold_count">hold_count</A> (condition) = 1)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+            consistent_with_count: <B>Result</B> = (<A HREF="../elks/integer_interval_flat.html#f_hold_count">hold_count</A> (condition) = 1)
+        <B>end</B></A>
+
+    <A NAME="f_for_all"><A HREF="../elks/integer_interval_flat.html#f_for_all">for_all</A> (condition: <A HREF="../elks/function_flat.html">FUNCTION</A> [<A HREF="../elks/any_flat.html">ANY</A>, <A HREF="../elks/tuple_flat.html">TUPLE</A> [<A HREF="../elks/integer_32_flat.html">INTEGER_32</A>], <A HREF="../elks/boolean_flat.html">BOOLEAN</A>]): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do all interval's values satisfy </FONT>`condition'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+            finite: <A HREF="../elks/integer_interval_flat.html#f_upper_defined">upper_defined</A> <B>and</B> <A HREF="../elks/integer_interval_flat.html#f_lower_defined">lower_defined</A>
+            condition_not_void: condition /= <B>Void</B>
+        <B>local</B>
+            i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                <B>Result</B> := <B>True</B>
+                i := <A HREF="../elks/integer_interval_flat.html#f_lower">lower</A>
+            <B>until</B>
+                (i &gt; <A HREF="../elks/integer_interval_flat.html#f_upper">upper</A>) <B>or else</B> (<B>not</B> condition.<A HREF="../elks/function_flat.html#f_item">item</A> ([i]))
+            <B>loop</B>
+                i := i + 1
+            <B>end</B>
+            <B>Result</B> := (i &gt; <A HREF="../elks/integer_interval_flat.html#f_upper">upper</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+            consistent_with_count: <B>Result</B> = (<A HREF="../elks/integer_interval_flat.html#f_hold_count">hold_count</A> (condition) = <A HREF="../elks/integer_interval_flat.html#f_count">count</A>)
+        <B>end</B></A>
+
+    <A NAME="f_hold_count"><A HREF="../elks/integer_interval_flat.html#f_hold_count">hold_count</A> (condition: <A HREF="../elks/function_flat.html">FUNCTION</A> [<A HREF="../elks/any_flat.html">ANY</A>, <A HREF="../elks/tuple_flat.html">TUPLE</A> [<A HREF="../elks/integer_32_flat.html">INTEGER_32</A>], <A HREF="../elks/boolean_flat.html">BOOLEAN</A>]): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of  interval's values that</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> satisfy </FONT>`condition'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+            finite: <A HREF="../elks/integer_interval_flat.html#f_upper_defined">upper_defined</A> <B>and</B> <A HREF="../elks/integer_interval_flat.html#f_lower_defined">lower_defined</A>
+            condition_not_void: condition /= <B>Void</B>
+        <B>local</B>
+            i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                i := <A HREF="../elks/integer_interval_flat.html#f_lower">lower</A>
+            <B>until</B>
+                i &gt; <A HREF="../elks/integer_interval_flat.html#f_upper">upper</A>
+            <B>loop</B>
+                <B>if</B> condition.<A HREF="../elks/function_flat.html#f_item">item</A> ([i]) <B>then</B>
+                    <B>Result</B> := <B>Result</B> + 1
+                <B>end</B>
+                i := i + 1
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+            non_negative: <B>Result</B> &gt;= 0
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output</FONT>
+
+    <A NAME="f_io"><A HREF="../elks/any_flat.html#f_io">Io</A>: <A HREF="../elks/std_files_flat.html">STD_FILES</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Handle to standard file setup</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../elks/std_files_flat.html#f_set_output_default">set_output_default</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            io_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_out"><A HREF="../elks/any_flat.html#f_out">out</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/any_flat.html#f_tagged_out">tagged_out</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            out_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_print"><A HREF="../elks/any_flat.html#f_print">print</A> (o: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write terse external representation of </FONT>`o'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on standard output.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> o /= <B>Void</B> <B>then</B>
+                <A HREF="../elks/any_flat.html#f_io">Io</A>.<A HREF="../elks/std_files_flat.html#f_put_string">put_string</A> (o.<A HREF="../elks/any_flat.html#f_out">out</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_tagged_out"><B>frozen</B> <A HREF="../elks/any_flat.html#f_tagged_out">tagged_out</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            tagged_out_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Platform</FONT>
+
+    <A NAME="f_operating_environment"><A HREF="../elks/any_flat.html#f_operating_environment">Operating_environment</A>: <A HREF="../elks/operating_environment_flat.html">OPERATING_ENVIRONMENT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Objects available from the operating system</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            operating_environment_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieval</FONT>
+
+    <A NAME="f_internal_correct_mismatch"><B>frozen</B> <A HREF="../elks/any_flat.html#f_internal_correct_mismatch">internal_correct_mismatch</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Called from runtime to perform a proper dynamic dispatch on </FONT>`correct_mismatch'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> from MISMATCH_CORRECTOR.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            l_msg: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            l_exc: <A HREF="../elks/exceptions_flat.html">EXCEPTIONS</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<A HREF="../elks/mismatch_corrector_flat.html">MISMATCH_CORRECTOR</A>} <B>Current</B> <B>as</B> l_corrector <B>then</B>
+                l_corrector.<A HREF="../elks/mismatch_corrector_flat.html#f_correct_mismatch">correct_mismatch</A>
+            <B>else</B>
+                <B>create</B> l_msg.<A HREF="../elks/readable_string_8_flat.html#f_make_from_string">make_from_string</A> ("Mismatch: ")
+                <B>create</B> l_exc
+                l_msg.<A HREF="../elks/string_8_flat.html#f_append">append</A> (<A HREF="../elks/any_flat.html#f_generating_type">generating_type</A>.<A HREF="../elks/type_flat.html#f_name">name</A>)
+                l_exc.<A HREF="../elks/exceptions_flat.html#f_raise_retrieval_exception">raise_retrieval_exception</A> (l_msg)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>invariant</B>
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+    count_definition: <A HREF="../elks/integer_interval_flat.html#f_upper_defined">upper_defined</A> <B>and</B> <A HREF="../elks/integer_interval_flat.html#f_lower_defined">lower_defined</A> <B>implies</B> <A HREF="../elks/integer_interval_flat.html#f_count">count</A> = <A HREF="../elks/integer_interval_flat.html#f_upper">upper</A> - <A HREF="../elks/integer_interval_flat.html#f_lower">lower</A> + 1
+    index_set_is_range: <A HREF="../elks/integer_interval_flat.html#f_index_set">index_set</A> ~ <B>Current</B>
+    not_infinite: <A HREF="../elks/integer_interval_flat.html#f_upper_defined">upper_defined</A> <B>and</B> <A HREF="../elks/integer_interval_flat.html#f_lower_defined">lower_defined</A>
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/resizable_flat.html">RESIZABLE</A>
+    increase_by_at_least_one: <A HREF="../elks/resizable_flat.html#f_minimal_increase">Minimal_increase</A> &gt;= 1
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/bounded_flat.html">BOUNDED</A>
+    valid_count: <A HREF="../elks/integer_interval_flat.html#f_count">count</A> &lt;= <A HREF="../elks/integer_interval_flat.html#f_capacity">capacity</A>
+    full_definition: <A HREF="../elks/bounded_flat.html#f_full">full</A> = (<A HREF="../elks/integer_interval_flat.html#f_count">count</A> = <A HREF="../elks/integer_interval_flat.html#f_capacity">capacity</A>)
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/finite_flat.html">FINITE</A>
+    empty_definition: <A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> = (<A HREF="../elks/integer_interval_flat.html#f_count">count</A> = 0)
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+    reflexive_equality: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+    reflexive_conformance: <A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>Current</B>)
+
+<B>note</B>
+    library: "EiffelBase: Library of reusable components for Eiffel."
+    copyright: "Copyright (c) 1984-2008, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        356 Storke Road, Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../ise/active_integer_interval_flat.html">ACTIVE_INTEGER_INTERVAL</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="active_integer_interval_chart.html">Chart</A></TD><TD><A HREF="active_integer_interval_links.html">Relations</A></TD><TD><A HREF="active_integer_interval.html">Text</A></TD><TD>Flat</TD><TD><A HREF="active_integer_interval_short.html">Contracts</A></TD><TD><A HREF="active_integer_interval_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

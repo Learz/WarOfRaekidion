@@ -1,0 +1,1916 @@
+<HTML><HEAD>
+<meta name="description" content="An SQLite statement associated with a database connection.  Note: If a database connection is closed the statement can no longer be used. In some cases,       when a connection is reopened the statement will recompile itself for use with the new       connection. However, this is not guarenteed to work. As such, please use caution when       caching statements when database connections are open and closed."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software"/>
+<meta name="license" content="GPL version 2 (see http://www.eiffel.com/licensing/gpl.txt)"/>
+<meta name="licensing_options" content="http://www.eiffel.com/licensing"/>
+<meta name="copying" content="This file is part of Eiffel Software's Eiffel Development Environment.  Eiffel Software's Eiffel Development Environment is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 2 of the License (available at the URL listed under license above).  Eiffel Software's Eiffel Development Environment is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.  You should have received a copy of the GNU General Public License along with Eiffel Software's Eiffel Development Environment; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>sqlite_statement Flat</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sqlite_statement_chart.html">Chart</A></TD><TD><A HREF="sqlite_statement_links.html">Relations</A></TD><TD><A HREF="sqlite_statement.html">Text</A></TD><TD>Flat</TD><TD><A HREF="sqlite_statement_short.html">Contracts</A></TD><TD><A HREF="sqlite_statement_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        An SQLite statement associated with a database connection.
+        
+        Note: If a database connection is closed the statement can no longer be used. In some cases,
+              when a connection is reopened the statement will recompile itself for use with the new
+              connection. However, this is not guarenteed to work. As such, please use caution when
+              caching statements when database connections are open and closed.
+    ]"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2013-11-07 12:09:47 -0800 (Thu, 07 Nov 2013) $"
+    revision: "$Revision: 93250 $"
+
+<B>class</B> 
+    <A HREF="../sqlite/sqlite_statement_flat.html">SQLITE_STATEMENT</A>
+
+<B>create</B> 
+    <A HREF="../sqlite/sqlite_statement_flat.html#f_make">make</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_default_create"><A HREF="../elks/any_flat.html#f_default_create">default_create</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process instances of classes with no creation clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_make"><A HREF="../sqlite/sqlite_statement_flat.html#f_make">make</A> (a_statement: <A HREF="../elks/readable_string_8_flat.html">READABLE_STRING_8</A>; a_db: <A HREF="../sqlite/sqlite_database_flat.html">SQLITE_DATABASE</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initializes a SQL statement for a database.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_statement'<FONT COLOR="red">: SQL statement to compile.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_db'<FONT COLOR="red">: A database to compile the statement with.</FONT>
+        <B>require</B>
+            is_sqlite_available: <A HREF="../sqlite/sqlite_shared_api_flat.html#f_is_sqlite_available">Is_sqlite_available</A>
+            a_statement_attached: <B>attached</B> a_statement
+            not_a_statement_is_empty: <B>not</B> a_statement.<A HREF="../elks/readable_string_general_flat.html#f_is_empty">is_empty</A>
+            a_db_attached: <B>attached</B> a_db
+            a_db_is_accessible: a_db.<A HREF="../sqlite/sqlite_database_flat.html#f_is_accessible">is_accessible</A>
+            a_db_is_readable: a_db.<A HREF="../sqlite/sqlite_database_flat.html#f_is_readable">is_readable</A>
+            a_statement_is_complete: a_db.<A HREF="../sqlite/sqlite_database_flat.html#f_is_complete_statement">is_complete_statement</A> (a_statement)
+        <B>do</B>
+            <B>create</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_statement_string">statement_string</A>.<A HREF="../elks/readable_string_8_flat.html#f_make_from_string">make_from_string</A> (a_statement)
+            <B>create</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_string">string</A>.<A HREF="../elks/readable_string_8_flat.html#f_make_from_string">make_from_string</A> (a_statement)
+            <A HREF="../sqlite/sqlite_statement_flat.html#f_database">database</A> := a_db
+            <B>if</B> {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_is_thread_capable">is_thread_capable</A> <B>then</B>
+                <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_thread_id">internal_thread_id</A> := <A HREF="../sqlite/sqlite_statement_flat.html#f_get_current_thread_id">get_current_thread_id</A>.<A HREF="../elks/pointer_flat.html#f_to_integer_32">to_integer_32</A>
+            <B>end</B>
+            <A HREF="../sqlite/sqlite_statement_flat.html#f_compile">compile</A>
+        <B>ensure</B>
+            string_set: <A HREF="../sqlite/sqlite_statement_flat.html#f_string">string</A>.<A HREF="../elks/readable_string_8_flat.html#f_same_string">same_string</A> (a_statement)
+            statement_string_attached: <B>attached</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_statement_string">statement_string</A>
+            not_statement_string_is_empty: <B>not</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_statement_string">statement_string</A>.<A HREF="../elks/immutable_string_8_flat.html#f_is_empty">is_empty</A>
+            database_set: <A HREF="../sqlite/sqlite_statement_flat.html#f_database">database</A> = a_db
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_database"><A HREF="../sqlite/sqlite_statement_flat.html#f_database">database</A>: <A HREF="../sqlite/sqlite_database_flat.html">SQLITE_DATABASE</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Database to execute the SQL statement on.</FONT>
+
+    <A NAME="f_generating_type"><A HREF="../elks/any_flat.html#f_generating_type">generating_type</A>: <A HREF="../elks/type_flat.html">TYPE</A> [<B>detachable</B> <A HREF="../sqlite/sqlite_statement_flat.html">SQLITE_STATEMENT</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Type of current object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := {<B>detachable</B> <A HREF="../sqlite/sqlite_statement_flat.html">SQLITE_STATEMENT</A>}
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            generating_type_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_generator"><A HREF="../elks/any_flat.html#f_generator">generator</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of current object's generating class</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (base class of the type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            generator_not_void: <B>Result</B> /= <B>Void</B>
+            generator_not_empty: <B>not</B> <B>Result</B>.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+
+    <A NAME="f_next_statement"><A HREF="../sqlite/sqlite_statement_flat.html#f_next_statement">next_statement</A>: <B>detachable</B> <A HREF="../sqlite/sqlite_statement_flat.html">SQLITE_STATEMENT</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Next statement in the chain, when the supplied SQLite statement contained multiple SQLite</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> statements.</FONT>
+
+    <A NAME="f_statement_string"><A HREF="../sqlite/sqlite_statement_flat.html#f_statement_string">statement_string</A>: <A HREF="../elks/immutable_string_8_flat.html">IMMUTABLE_STRING_8</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The actual compiled database string.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> This may not be the same as </FONT><A HREF="../sqlite/sqlite_statement_flat.html#f_string">string</A><FONT COLOR="red"> because statements string can be composed of</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of multiple statements. After compilation this will contain a single statement.</FONT>
+
+    <A NAME="f_string"><A HREF="../sqlite/sqlite_statement_flat.html#f_string">string</A>: <A HREF="../elks/immutable_string_8_flat.html">IMMUTABLE_STRING_8</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The full statement string passed during initialization.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May contain multiple SQLite statements.</FONT>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_compile_statement_string"><A HREF="../sqlite/sqlite_statement_flat.html#f_compile_statement_string">compile_statement_string</A>: <A HREF="../elks/readable_string_8_flat.html">READABLE_STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The statement used to compile with, which may be a modified version of </FONT>`statement'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../sqlite/sqlite_statement_flat.html#f_statement_string">statement_string</A>
+        <B>ensure</B>
+            result_attached: <B>attached</B> <B>Result</B>
+            not_result_is_empty: <B>not</B> <B>Result</B>.<A HREF="../elks/readable_string_general_flat.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+
+    <A NAME="f_default_bind_arg"><A HREF="../sqlite/sqlite_bind_arg_marshaller_flat.html#f_default_bind_arg">Default_bind_arg</A>: <A HREF="../sqlite/sqlite_bind_arg_flat.html">SQLITE_BIND_ARG</A> [<A HREF="../elks/any_flat.html">ANY</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default binding argument for array creation (Void-Safe mode).</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_bind_arg_marshaller_flat.html">SQLITE_BIND_ARG_MARSHALLER</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> {<A HREF="../sqlite/sqlite_null_arg_flat.html">SQLITE_NULL_ARG</A>} <B>Result</B>.<A HREF="../sqlite/sqlite_null_arg_flat.html#f_make">make</A> ("?1")
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_bind_arg_marshaller_flat.html">SQLITE_BIND_ARG_MARSHALLER</A>
+            result_attached: <B>attached</B> <B>Result</B>
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_column_count"><A HREF="../sqlite/sqlite_statement_externals_flat.html#f_sqlite3_column_count">sqlite3_column_count</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_stmt: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_statement_externals_flat.html">SQLITE_STATEMENT_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_statement_externals_flat.html">SQLITE_STATEMENT_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_stmt_is_null: a_stmt /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_column_count">c_sqlite3_column_count</A> (a_stmt)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_db_handle"><A HREF="../sqlite/sqlite_statement_externals_flat.html#f_sqlite3_db_handle">sqlite3_db_handle</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_stmt: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_statement_externals_flat.html">SQLITE_STATEMENT_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_statement_externals_flat.html">SQLITE_STATEMENT_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_stmt_is_null: a_stmt /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_db_handle">c_sqlite3_db_handle</A> (a_stmt)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite_api"><A HREF="../sqlite/sqlite_shared_api_flat.html#f_sqlite_api">Sqlite_api</A>: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Shared access to the SQLite API.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_shared_api_flat.html">SQLITE_SHARED_API</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>.<A HREF="../sqlite/sqlite_api_flat.html#f_make">make</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_arguments_count"><A HREF="../sqlite/sqlite_statement_flat.html#f_arguments_count">arguments_count</A>: <A HREF="../elks/natural_32_flat.html">NATURAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of arguments required to be bound to execute the statement.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../sqlite/sqlite_statement_externals_flat.html#f_sqlite3_bind_parameter_count">sqlite3_bind_parameter_count</A> (<A HREF="../sqlite/sqlite_shared_api_flat.html#f_sqlite_api">Sqlite_api</A>, <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_stmt">internal_stmt</A>).<A HREF="../elks/integer_32_flat.html#f_as_natural_32">as_natural_32</A>
+        <B>end</B></A>
+
+    <A NAME="f_changes_count"><A HREF="../sqlite/sqlite_statement_flat.html#f_changes_count">changes_count</A>: <A HREF="../elks/natural_32_flat.html">NATURAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The number of changes executing this statement caused</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_changes_count">internal_changes_count</A>
+            <B>if</B> <B>attached</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_next_statement">next_statement</A> <B>as</B> l_next <B>then</B>
+                <B>Result</B> := <B>Result</B> + l_next.<A HREF="../sqlite/sqlite_statement_flat.html#f_changes_count">changes_count</A>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {<A HREF="../sqlite/sqlite_result_row_flat.html">SQLITE_RESULT_ROW</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_mark"><A HREF="../sqlite/sqlite_statement_flat.html#f_mark">mark</A>: <A HREF="../elks/natural_32_flat.html">NATURAL_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The edition mark of the statement.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> A new mark is generated for each execution of recompilation.</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_deep_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (a, b) <B>implies</B> <B>Result</B>
+            both_or_none_void: (a = <B>Void</B>) <B>implies</B> (<B>Result</B> = (b = <B>Void</B>))
+            same_type: (<B>Result</B> <B>and</B> (a /= <B>Void</B>)) <B>implies</B> (b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_same_type">same_type</A> (b))
+            symmetric: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (b, a)
+        <B>end</B></A>
+
+    <A NAME="f_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_equal">equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to objects considered equal?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_equal">is_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_equal">is_equal</A> (b))
+        <B>end</B></A>
+
+    <A NAME="f_is_deep_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (other: <B>attached</B> <A HREF="../sqlite/sqlite_statement_flat.html">SQLITE_STATEMENT</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`Current'<FONT COLOR="red"> and </FONT>`other'<FONT COLOR="red"> attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (<B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_is_equal"><A HREF="../elks/any_flat.html#f_is_equal">is_equal</A> (other: <B>attached</B> <A HREF="../sqlite/sqlite_statement_flat.html">SQLITE_STATEMENT</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object considered</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to current object?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            symmetric: <B>Result</B> <B>implies</B> other ~ <B>Current</B>
+            consistent: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+        <B>end</B></A>
+
+    <A NAME="f_standard_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical objects of the same type?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default object comparison criterion.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (b))
+        <B>end</B></A>
+
+    <A NAME="f_standard_is_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other: <B>attached</B> <A HREF="../sqlite/sqlite_statement_flat.html">SQLITE_STATEMENT</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object of the same type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as current object, and field-by-field identical to it?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_conforms_to"><A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (other: <A HREF="../elks/any_flat.html">ANY</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does type of current object conform to type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of </FONT>`other'<FONT COLOR="red"> (as per Eiffel: The Language, chapter 13)?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>end</B></A>
+
+    <A NAME="f_has_arguments"><A HREF="../sqlite/sqlite_statement_flat.html#f_has_arguments">has_arguments</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if the statement has required arguments to execute.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../sqlite/sqlite_statement_flat.html#f_arguments_count">arguments_count</A> &gt; 0.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A>
+        <B>ensure</B>
+            has_arguments: <B>Result</B> = (<A HREF="../sqlite/sqlite_statement_flat.html#f_arguments_count">arguments_count</A> &gt; 0.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A>)
+        <B>end</B></A>
+
+    <A NAME="f_has_error"><A HREF="../sqlite/sqlite_statement_flat.html#f_has_error">has_error</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if an error occurred during the last operation.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../sqlite/sqlite_statement_flat.html#f_last_exception">last_exception</A> /= <B>Void</B>
+        <B>ensure</B>
+            last_exception_attached: <B>Result</B> <B>implies</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_last_exception">last_exception</A> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_accessible"><A HREF="../sqlite/sqlite_statement_flat.html#f_is_accessible">is_accessible</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if the statement is accessible on the current thread.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../sqlite/sqlite_shared_api_flat.html#f_is_interface_usable">is_interface_usable</A> <B>and then</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_database">database</A>.<A HREF="../sqlite/sqlite_database_flat.html#f_is_accessible">is_accessible</A>
+            <B>if</B> <B>Result</B> <B>then</B>
+                <B>if</B> {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_is_thread_capable">is_thread_capable</A> <B>then</B>
+                    <B>Result</B> := <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_thread_id">internal_thread_id</A> = <A HREF="../sqlite/sqlite_statement_flat.html#f_get_current_thread_id">get_current_thread_id</A>.<A HREF="../elks/pointer_flat.html#f_to_integer_32">to_integer_32</A>
+                <B>else</B>
+                    <B>Result</B> := <B>True</B>
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B>
+            true_result: <B>not</B> {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_is_thread_capable">is_thread_capable</A> <B>implies</B> (<B>Result</B> <B>and</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_database">database</A>.<A HREF="../sqlite/sqlite_database_flat.html#f_is_accessible">is_accessible</A>)
+            same_internal_thread_id: (<B>Result</B> <B>and</B> {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_is_thread_capable">is_thread_capable</A>) <B>implies</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_thread_id">internal_thread_id</A> = <A HREF="../sqlite/sqlite_statement_flat.html#f_get_current_thread_id">get_current_thread_id</A>.<A HREF="../elks/pointer_flat.html#f_to_integer_32">to_integer_32</A>
+        <B>end</B></A>
+
+    <A NAME="f_is_compiled"><A HREF="../sqlite/sqlite_statement_flat.html#f_is_compiled">is_compiled</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if the statement was successfully compiled, and if it is compiled with the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> associated database </FONT><A HREF="../sqlite/sqlite_statement_flat.html#f_database">database</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_stmt">internal_stmt</A> /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>ensure</B>
+            not_internal_stmt_is_null: <B>Result</B> <B>implies</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_stmt">internal_stmt</A> /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>end</B></A>
+
+    <A NAME="f_is_connected"><A HREF="../sqlite/sqlite_statement_flat.html#f_is_connected">is_connected</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if the statement is still connected to a database.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Disconnection occurs when a database connection is closed. Even when reopen the statement</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> will still remain disconnected. Use </FONT><A HREF="../sqlite/sqlite_statement_flat.html#f_ensure_connected">ensure_connected</A><FONT COLOR="red"> to attempt to reconnect to the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> associated database.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../sqlite/sqlite_statement_flat.html#f_is_compiled">is_compiled</A> <B>and then</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_db">internal_db</A> = <A HREF="../sqlite/sqlite_statement_flat.html#f_database">database</A>.<A HREF="../sqlite/sqlite_database_flat.html#f_internal_db">internal_db</A>
+        <B>ensure</B>
+            not_internal_stmt_is_null: <B>Result</B> <B>implies</B> (<A HREF="../sqlite/sqlite_statement_flat.html#f_is_compiled">is_compiled</A> <B>and then</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_db">internal_db</A> = <A HREF="../sqlite/sqlite_statement_flat.html#f_database">database</A>.<A HREF="../sqlite/sqlite_database_flat.html#f_internal_db">internal_db</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_executing"><A HREF="../sqlite/sqlite_statement_flat.html#f_is_executing">is_executing</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if the statement is currently be executed.</FONT>
+
+    <A NAME="f_is_interface_usable"><A HREF="../sqlite/sqlite_shared_api_flat.html#f_is_interface_usable">is_interface_usable</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Determines if the interface is usable.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_shared_api_flat.html">SQLITE_SHARED_API</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../sqlite/sqlite_shared_api_flat.html#f_sqlite_api">Sqlite_api</A>.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_shared_api_flat.html">SQLITE_SHARED_API</A>
+            sqlite_api_is_interface_usable: <B>Result</B> <B>implies</B> <A HREF="../sqlite/sqlite_shared_api_flat.html#f_sqlite_api">Sqlite_api</A>.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+        <B>end</B></A>
+
+    <A NAME="f_is_over_sqlite_limit_variable_number"><A HREF="../sqlite/sqlite_binding_helpers_flat.html#f_is_over_sqlite_limit_variable_number">is_over_sqlite_limit_variable_number</A> (lst: <A HREF="../elks/iterable_flat.html">ITERABLE</A> [<B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>]): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Container </FONT>`lst'<FONT COLOR="red"> exceeds the number of accepted variables?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_binding_helpers_flat.html">SQLITE_BINDING_HELPERS</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            i, n: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            n := <A HREF="../sqlite/sqlite_binding_helpers_flat.html#f_sqlite_limit_variable_number">sqlite_limit_variable_number</A>
+            <B>across</B>
+                lst <B>as</B> ic
+            <B>until</B>
+                i &gt; n
+            <B>loop</B>
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_sqlite_available"><A HREF="../sqlite/sqlite_shared_api_flat.html#f_is_sqlite_available">Is_sqlite_available</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if the sqlite API is available for use.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_shared_api_flat.html">SQLITE_SHARED_API</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>Result</B> := <A HREF="../sqlite/sqlite_shared_api_flat.html#f_sqlite_api">Sqlite_api</A>.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_shared_api_flat.html">SQLITE_SHARED_API</A>
+            sqlite_api_is_interface_usable: <B>Result</B> <B>implies</B> <A HREF="../sqlite/sqlite_shared_api_flat.html#f_sqlite_api">Sqlite_api</A>.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+        <B>end</B></A>
+
+    <A NAME="f_is_valid_argument"><A HREF="../sqlite/sqlite_binding_helpers_flat.html#f_is_valid_argument">is_valid_argument</A> (a_value: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if the value is of an accepted type.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_value'<FONT COLOR="red">: A value to check.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`Result'<FONT COLOR="red">: True if the value type is marshallable; False otherwise.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_binding_helpers_flat.html">SQLITE_BINDING_HELPERS</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            l_type_id: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>Result</B> := <B>not</B> <B>attached</B> a_value <B>or else</B> <B>attached</B> {<A HREF="../elks/readable_string_8_flat.html">READABLE_STRING_8</A>} a_value <B>or else</B> <B>attached</B> {<A HREF="../sqlite/sqlite_bind_arg_flat.html">SQLITE_BIND_ARG</A> [<A HREF="../elks/any_flat.html">ANY</A>]} a_value <B>or else</B> <B>attached</B> {<A HREF="../elks/managed_pointer_flat.html">MANAGED_POINTER</A>} a_value <B>or else</B> (<B>attached</B> {<A HREF="../elks/readable_string_32_flat.html">READABLE_STRING_32</A>} a_value <B>as</B> s32 <B>and then</B> s32.<A HREF="../elks/readable_string_32_flat.html#f_is_valid_as_string_8">is_valid_as_string_8</A>)
+            <B>if</B> <B>not</B> <B>Result</B> <B>and</B> <B>attached</B> a_value <B>then</B>
+                <B>Result</B> := <B>True</B>
+                l_type_id := a_value.<A HREF="../elks/any_flat.html#f_generating_type">generating_type</A>.<A HREF="../elks/type_flat.html#f_type_id">type_id</A>
+                <B>if</B> l_type_id = ({<A HREF="../elks/integer_32_flat.html">INTEGER_32</A>}).<A HREF="../elks/type_flat.html#f_type_id">type_id</A> <B>or</B> l_type_id = ({<A HREF="../elks/boolean_flat.html">BOOLEAN</A>}).<A HREF="../elks/type_flat.html#f_type_id">type_id</A> <B>or</B> l_type_id = ({<A HREF="../elks/natural_32_flat.html">NATURAL_32</A>}).<A HREF="../elks/type_flat.html#f_type_id">type_id</A> <B>or</B> l_type_id = ({<A HREF="../elks/real_32_flat.html">REAL_32</A>}).<A HREF="../elks/type_flat.html#f_type_id">type_id</A> <B>or</B> l_type_id = ({<A HREF="../elks/integer_8_flat.html">INTEGER_8</A>}).<A HREF="../elks/type_flat.html#f_type_id">type_id</A> <B>or</B> l_type_id = ({<A HREF="../elks/integer_16_flat.html">INTEGER_16</A>}).<A HREF="../elks/type_flat.html#f_type_id">type_id</A> <B>or</B> l_type_id = ({<A HREF="../elks/integer_64_flat.html">INTEGER_64</A>}).<A HREF="../elks/type_flat.html#f_type_id">type_id</A> <B>or</B> l_type_id = ({<A HREF="../elks/natural_8_flat.html">NATURAL_8</A>}).<A HREF="../elks/type_flat.html#f_type_id">type_id</A> <B>or</B> l_type_id = ({<A HREF="../elks/natural_16_flat.html">NATURAL_16</A>}).<A HREF="../elks/type_flat.html#f_type_id">type_id</A> <B>or</B> l_type_id = ({<A HREF="../elks/real_64_flat.html">REAL_64</A>}).<A HREF="../elks/type_flat.html#f_type_id">type_id</A> <B>then</B>
+                    <B>check</B>
+                        <B>Result</B>
+                    <B>end</B>
+                <B>elseif</B> <B>attached</B> {<A HREF="../elks/natural_64_ref_flat.html">NATURAL_64_REF</A>} a_value <B>as</B> nat64 <B>then</B>
+                    <B>Result</B> := nat64 &lt;= {<A HREF="../elks/integer_64_flat.html">INTEGER_64</A>}.<A HREF="../elks/integer_64_ref_flat.html#f_max_value">max_value</A>.<A HREF="../elks/integer_64_flat.html#f_as_natural_64">as_natural_64</A>
+                <B>else</B>
+                    <B>Result</B> := <B>False</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_valid_arguments"><A HREF="../sqlite/sqlite_binding_helpers_flat.html#f_is_valid_arguments">is_valid_arguments</A> (a_args: <A HREF="../elks/iterable_flat.html">ITERABLE</A> [<B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>]): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Determines if an argument tuple is valid.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_args'<FONT COLOR="red">: A tuple of arguments to validate.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`Result'<FONT COLOR="red">: True if the supplied tuple contains valid value for arguments; False otherwise.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_binding_helpers_flat.html">SQLITE_BINDING_HELPERS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_binding_helpers_flat.html">SQLITE_BINDING_HELPERS</A>
+            a_args_attached: <B>attached</B> a_args
+            not_a_args_is_empty: <B>across</B>
+                a_args <B>as</B> ic
+            <B>some</B>
+                <B>True</B>
+            <B>end</B>
+        <B>local</B>
+            n: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            l_sqlite_limit_variable_number: <B>like</B> <A HREF="../sqlite/sqlite_binding_helpers_flat.html#f_sqlite_limit_variable_number">sqlite_limit_variable_number</A>
+        <B>do</B>
+            l_sqlite_limit_variable_number := <A HREF="../sqlite/sqlite_binding_helpers_flat.html#f_sqlite_limit_variable_number">sqlite_limit_variable_number</A>
+            <B>Result</B> := <B>True</B>
+            <B>across</B>
+                a_args <B>as</B> ic
+            <B>until</B>
+                <B>not</B> <B>Result</B>
+            <B>loop</B>
+                n := n + 1
+                <B>Result</B> := n &lt;= l_sqlite_limit_variable_number <B>and</B> <A HREF="../sqlite/sqlite_binding_helpers_flat.html#f_is_valid_argument">is_valid_argument</A> (ic.<A HREF="../elks/iteration_cursor_flat.html#f_item">item</A>)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_binding_helpers_flat.html">SQLITE_BINDING_HELPERS</A>
+            a_args_small_enough: <B>Result</B> <B>implies</B> <B>not</B> <A HREF="../sqlite/sqlite_binding_helpers_flat.html#f_is_over_sqlite_limit_variable_number">is_over_sqlite_limit_variable_number</A> (a_args)
+        <B>end</B></A>
+
+    <A NAME="f_is_valid_variable_name"><A HREF="../sqlite/sqlite_binding_helpers_flat.html#f_is_valid_variable_name">is_valid_variable_name</A> (a_var: <A HREF="../elks/readable_string_8_flat.html">READABLE_STRING_8</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Determines if a SQLite variable name is valid.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_var'<FONT COLOR="red">: Name of the variable, including a qualifier.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`Result'<FONT COLOR="red">: True if the variable is a valid SQLite variable; False otherwise</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_binding_helpers_flat.html">SQLITE_BINDING_HELPERS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_binding_helpers_flat.html">SQLITE_BINDING_HELPERS</A>
+            a_var_attached: <B>attached</B> a_var
+            not_a_var_is_empty: <B>not</B> a_var.<A HREF="../elks/readable_string_general_flat.html#f_is_empty">is_empty</A>
+        <B>local</B>
+            l_qualifier, c: <A HREF="../elks/character_8_flat.html">CHARACTER_8</A>
+            i_count, i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            l_index_str: <A HREF="../elks/readable_string_8_flat.html">READABLE_STRING_8</A>
+        <B>do</B>
+            l_qualifier := a_var [1]
+            <B>if</B> l_qualifier = '?' <B>then</B>
+                i_count := a_var.<A HREF="../elks/readable_string_8_flat.html#f_count">count</A>
+                <B>Result</B> := i_count = 1
+                <B>if</B> <B>not</B> <B>Result</B> <B>then</B>
+                    l_index_str := a_var.<A HREF="../elks/readable_string_8_flat.html#f_substring">substring</A> (2, i_count)
+                    <B>if</B> l_index_str.<A HREF="../elks/readable_string_general_flat.html#f_is_integer_32">is_integer_32</A> <B>then</B>
+                        i := l_index_str.<A HREF="../elks/readable_string_general_flat.html#f_to_integer_32">to_integer_32</A>
+                        <B>Result</B> := i &gt; 0 <B>and</B> i &lt;= <A HREF="../sqlite/sqlite_binding_helpers_flat.html#f_sqlite_limit_variable_number">sqlite_limit_variable_number</A>
+                    <B>end</B>
+                <B>end</B>
+            <B>elseif</B> l_qualifier = ':' <B>or</B> l_qualifier = '@' <B>or</B> l_qualifier = '$' <B>then</B>
+                i_count := a_var.<A HREF="../elks/readable_string_8_flat.html#f_count">count</A>
+                <B>Result</B> := i_count &gt; 1
+                <B>if</B> <B>Result</B> <B>then</B>
+                    <B>from</B>
+                        i := 2
+                    <B>until</B>
+                        i &gt; i_count <B>or</B> <B>not</B> <B>Result</B>
+                    <B>loop</B>
+                        c := a_var [i]
+                        <B>Result</B> := c.<A HREF="../elks/character_8_ref_flat.html#f_is_printable">is_printable</A> <B>and</B> <B>not</B> c.<A HREF="../elks/character_8_ref_flat.html#f_is_space">is_space</A>
+                        i := i + 1
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_iterable_has_count"><A HREF="../sqlite/sqlite_binding_helpers_flat.html#f_iterable_has_count">iterable_has_count</A> (lst: <A HREF="../elks/iterable_flat.html">ITERABLE</A> [<B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>]; n: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is count of </FONT>`lst'<FONT COLOR="red"> the same as </FONT>`nb'<FONT COLOR="red"> ?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_binding_helpers_flat.html">SQLITE_BINDING_HELPERS</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<A HREF="../elks/finite_flat.html">FINITE</A> [<B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>]} lst <B>as</B> l_finite <B>then</B>
+                <B>Result</B> := l_finite.<A HREF="../elks/finite_flat.html#f_count">count</A> = n
+            <B>else</B>
+                <B>across</B>
+                    lst <B>as</B> ic
+                <B>until</B>
+                    i &gt; n
+                <B>loop</B>
+                    i := i + 1
+                <B>end</B>
+                <B>Result</B> := i = n
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_iterable_min_count_or_value"><A HREF="../sqlite/sqlite_binding_helpers_flat.html#f_iterable_min_count_or_value">iterable_min_count_or_value</A> (lst: <A HREF="../elks/iterable_flat.html">ITERABLE</A> [<B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>]; a_nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Minimum between count of </FONT>`lst'<FONT COLOR="red"> and </FONT>`a_nb'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_binding_helpers_flat.html">SQLITE_BINDING_HELPERS</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<A HREF="../elks/finite_flat.html">FINITE</A> [<B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>]} lst <B>as</B> l_finite <B>then</B>
+                <B>Result</B> := l_finite.<A HREF="../elks/finite_flat.html#f_count">count</A>.<A HREF="../elks/comparable_flat.html#f_min">min</A> (a_nb)
+            <B>else</B>
+                <B>across</B>
+                    lst <B>as</B> ic
+                <B>until</B>
+                    <B>Result</B> &gt;= a_nb
+                <B>loop</B>
+                    <B>Result</B> := <B>Result</B> + 1
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_same_type"><A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other: <A HREF="../elks/any_flat.html">ANY</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is type of current object identical to type of </FONT>`other'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (<A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (other) <B>and</B> other.<A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>Current</B>))
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_is_abort_requested"><A HREF="../sqlite/sqlite_statement_flat.html#f_is_abort_requested">is_abort_requested</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if an abort is requested for the currently executed statement.</FONT>
+
+    <A NAME="f_is_in_final_collect"><A HREF="../elks/disposable_flat.html#f_is_in_final_collect">is_in_final_collect</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is GC currently performing final collection</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> after execution of current program?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Safe to use in </FONT><A HREF="../sqlite/sqlite_statement_flat.html#f_dispose">dispose</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/disposable_flat.html">DISPOSABLE</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C inline use %"eif_memory.h%""
+        <B>alias</B>
+            "return eif_is_in_final_collect;"
+        <B>end</B></A>
+
+    <A NAME="f_is_value_marshalled"><A HREF="../sqlite/sqlite_bind_arg_marshaller_flat.html#f_is_value_marshalled">is_value_marshalled</A> (a_value: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if the value has already been marshalled (is of a </FONT><A HREF="../sqlite/sqlite_bind_arg_flat.html">SQLITE_BIND_ARG</A><FONT COLOR="red"> type.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_value'<FONT COLOR="red">: A value to check.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`Result'<FONT COLOR="red">: True if no marshalling needs to be perform; False otherwise.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_bind_arg_marshaller_flat.html">SQLITE_BIND_ARG_MARSHALLER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_bind_arg_marshaller_flat.html">SQLITE_BIND_ARG_MARSHALLER</A>
+            a_value_is_valid_value_type: <A HREF="../sqlite/sqlite_binding_helpers_flat.html#f_is_valid_argument">is_valid_argument</A> (a_value)
+        <B>do</B>
+            <B>Result</B> := <B>attached</B> {<A HREF="../sqlite/sqlite_bind_arg_flat.html">SQLITE_BIND_ARG</A> [<A HREF="../elks/any_flat.html">ANY</A>]} a_value
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_bind_arg_marshaller_flat.html">SQLITE_BIND_ARG_MARSHALLER</A>
+            a_value_is_bind_arg: <B>Result</B> <B>implies</B> <B>attached</B> {<A HREF="../sqlite/sqlite_bind_arg_flat.html">SQLITE_BIND_ARG</A> [<A HREF="../elks/any_flat.html">ANY</A>]} a_value
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_clone">clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void; otherwise new object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to </FONT>`other'
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> For non-void </FONT>`other'<FONT COLOR="red">, </FONT><A HREF="../elks/any_flat.html#f_clone">clone</A><FONT COLOR="red"> calls </FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to change copying/cloning semantics, redefine </FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_twin">twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            equal: <B>Result</B> ~ other
+        <B>end</B></A>
+
+    <A NAME="f_copy"><A HREF="../elks/any_flat.html#f_copy">copy</A> (other: <B>attached</B> <A HREF="../sqlite/sqlite_statement_flat.html">SQLITE_STATEMENT</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update current object using fields of object attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to </FONT>`other'<FONT COLOR="red">, so as to yield equal objects.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            is_equal: <B>Current</B> ~ other
+        <B>end</B></A>
+
+    <A NAME="f_deep_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_clone">deep_clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `deep_twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void: otherwise, new object structure</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> recursively duplicated from the one attached to </FONT>`other'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (other, <B>Result</B>)
+        <B>end</B></A>
+
+    <A NAME="f_deep_copy"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_copy">deep_copy</A> (other: <B>attached</B> <A HREF="../sqlite/sqlite_statement_flat.html">SQLITE_STATEMENT</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Effect equivalent to that of:</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">		</FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red"> (</FONT>`other'<FONT COLOR="red"> . </FONT><A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A><FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../elks/any_flat.html#f_copy">copy</A> (other.<A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (<B>Current</B>, other)
+        <B>end</B></A>
+
+    <A NAME="f_deep_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>: <B>attached</B> <A HREF="../sqlite/sqlite_statement_flat.html">SQLITE_STATEMENT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object structure recursively duplicated from Current.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_twin_not_void: <B>Result</B> /= <B>Void</B>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (<B>Current</B>, <B>Result</B>)
+        <B>end</B></A>
+
+    <A NAME="f_standard_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_clone">standard_clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `standard_twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void; otherwise new object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_standard_twin">standard_twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            equal: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (<B>Result</B>, other)
+        <B>end</B></A>
+
+    <A NAME="f_standard_copy"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_copy">standard_copy</A> (other: <B>attached</B> <A HREF="../sqlite/sqlite_statement_flat.html">SQLITE_STATEMENT</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy every field of </FONT>`other'<FONT COLOR="red"> onto corresponding field</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            is_standard_equal: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other)
+        <B>end</B></A>
+
+    <A NAME="f_standard_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_twin">standard_twin</A>: <B>attached</B> <A HREF="../sqlite/sqlite_statement_flat.html">SQLITE_STATEMENT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            standard_twin_not_void: <B>Result</B> /= <B>Void</B>
+            equal: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (<B>Result</B>, <B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_twin">twin</A>: <B>attached</B> <A HREF="../sqlite/sqlite_statement_flat.html">SQLITE_STATEMENT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object equal to </FONT>`Current'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/any_flat.html#f_twin">twin</A><FONT COLOR="red"> calls </FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">; to change copying/twinning semantics, redefine </FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            twin_not_void: <B>Result</B> /= <B>Void</B>
+            is_equal: <B>Result</B> ~ <B>Current</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_abort"><A HREF="../sqlite/sqlite_statement_flat.html#f_abort">abort</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Aborts an executing statement.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note: Unlike most of the routines, this can be called from another thread.</FONT>
+        <B>require</B>
+            is_sqlite_available: <A HREF="../sqlite/sqlite_shared_api_flat.html#f_is_sqlite_available">Is_sqlite_available</A>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            is_executing: <A HREF="../sqlite/sqlite_statement_flat.html#f_is_accessible">is_accessible</A> <B>implies</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_is_executing">is_executing</A>
+        <B>do</B>
+            <A HREF="../sqlite/sqlite_statement_flat.html#f_is_abort_requested">is_abort_requested</A> := <B>True</B>
+            <B>if</B> <B>attached</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_next_statement">next_statement</A> <B>as</B> l_next <B>then</B>
+                l_next.<A HREF="../sqlite/sqlite_statement_flat.html#f_abort">abort</A>
+            <B>end</B>
+        <B>ensure</B>
+            is_abort_requested: <A HREF="../sqlite/sqlite_statement_flat.html#f_is_abort_requested">is_abort_requested</A>
+        <B>end</B></A>
+
+    <A NAME="f_as_attached"><B>frozen</B> <A HREF="../elks/any_flat.html#f_as_attached">as_attached</A>: <B>attached</B> <A HREF="../sqlite/sqlite_statement_flat.html">SQLITE_STATEMENT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attached version of Current</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Can be used during transitional period to convert</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> non-void-safe classes to void-safe ones.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>Current</B>
+        <B>end</B></A>
+
+    <A NAME="f_default"><B>frozen</B> <A HREF="../elks/any_flat.html#f_default">default</A>: <B>detachable</B> <A HREF="../sqlite/sqlite_statement_flat.html">SQLITE_STATEMENT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of object's type</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_default_pointer"><B>frozen</B> <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>: <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of type </FONT>`POINTER'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Avoid the need to write </FONT>`p'<FONT COLOR="red">.</FONT><A HREF="../elks/any_flat.html#f_default">default</A><FONT COLOR="red"> for</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> some </FONT>`p'<FONT COLOR="red"> of type </FONT>`POINTER'<FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_default_rescue"><A HREF="../elks/any_flat.html#f_default_rescue">default_rescue</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process exception for routines with no Rescue clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_do_nothing"><B>frozen</B> <A HREF="../elks/any_flat.html#f_do_nothing">do_nothing</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execute a null action.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_ensure_connected"><A HREF="../sqlite/sqlite_statement_flat.html#f_ensure_connected">ensure_connected</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attempts to ensure a statement is connected to the associated database.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note: This helper routine can be used prior to executing the statement to ensure the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">       statement is compiled for use with the associated database. Statements become</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">       disconnected when the assoicated database is closed. Even when reopening the database</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">       a reconnection must be made.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">       Calling this routine will not reopen the database!</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">       Reconnection is not guarenteed!</FONT>
+        <B>require</B>
+            is_sqlite_available: <A HREF="../sqlite/sqlite_shared_api_flat.html#f_is_sqlite_available">Is_sqlite_available</A>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            is_accessible: <A HREF="../sqlite/sqlite_statement_flat.html#f_is_accessible">is_accessible</A>
+            database_is_accessible: <A HREF="../sqlite/sqlite_statement_flat.html#f_database">database</A>.<A HREF="../sqlite/sqlite_database_flat.html#f_is_accessible">is_accessible</A>
+            database_is_readable: <A HREF="../sqlite/sqlite_statement_flat.html#f_database">database</A>.<A HREF="../sqlite/sqlite_database_flat.html#f_is_readable">is_readable</A>
+        <B>do</B>
+            <B>if</B> <B>not</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_is_connected">is_connected</A> <B>then</B>
+                <A HREF="../sqlite/sqlite_statement_flat.html#f_reset_compilation_data">reset_compilation_data</A>
+                <A HREF="../sqlite/sqlite_statement_flat.html#f_compile">compile</A>
+            <B>end</B>
+            <B>if</B> <B>attached</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_next_statement">next_statement</A> <B>as</B> l_next <B>then</B>
+                l_next.<A HREF="../sqlite/sqlite_statement_flat.html#f_ensure_connected">ensure_connected</A>
+            <B>end</B>
+        <B>ensure</B>
+            mark_increased: (<B>not</B> <B>old</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_is_connected">is_connected</A>) <B>implies</B> (<A HREF="../sqlite/sqlite_statement_flat.html#f_mark">mark</A> &gt; <B>old</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_mark">mark</A>)
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_sqlite3_bind_null"><A HREF="../sqlite/sqlite_statement_externals_flat.html#f_sqlite3_bind_null">sqlite3_bind_null</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_stmt: <A HREF="../elks/pointer_flat.html">POINTER</A>; a_index: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_statement_externals_flat.html">SQLITE_STATEMENT_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_statement_externals_flat.html">SQLITE_STATEMENT_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_stmt_is_null: a_stmt /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+            a_index_positive: a_index &gt; 0
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_bind_null">c_sqlite3_bind_null</A> (a_stmt, a_index)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_bind_parameter_count"><A HREF="../sqlite/sqlite_statement_externals_flat.html#f_sqlite3_bind_parameter_count">sqlite3_bind_parameter_count</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_stmt: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_statement_externals_flat.html">SQLITE_STATEMENT_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_statement_externals_flat.html">SQLITE_STATEMENT_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_stmt_is_null: a_stmt /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_bind_parameter_count">c_sqlite3_bind_parameter_count</A> (a_stmt)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_bind_parameter_index"><A HREF="../sqlite/sqlite_statement_externals_flat.html#f_sqlite3_bind_parameter_index">sqlite3_bind_parameter_index</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_stmt: <A HREF="../elks/pointer_flat.html">POINTER</A>; a_variable: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_statement_externals_flat.html">SQLITE_STATEMENT_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_statement_externals_flat.html">SQLITE_STATEMENT_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_stmt_is_null: a_stmt /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+            not_a_variable_is_null: a_variable /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_bind_parameter_index">c_sqlite3_bind_parameter_index</A> (a_stmt, a_variable)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_bind_parameter_name"><A HREF="../sqlite/sqlite_statement_externals_flat.html#f_sqlite3_bind_parameter_name">sqlite3_bind_parameter_name</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_stmt: <A HREF="../elks/pointer_flat.html">POINTER</A>; a_index: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_statement_externals_flat.html">SQLITE_STATEMENT_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_statement_externals_flat.html">SQLITE_STATEMENT_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_stmt_is_null: a_stmt /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+            a_index_positive: a_index &gt; 0
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_bind_parameter_name">c_sqlite3_bind_parameter_name</A> (a_stmt, a_index)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_busy_timeout"><A HREF="../sqlite/sqlite_database_externals_flat.html#f_sqlite3_busy_timeout">sqlite3_busy_timeout</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_db: <A HREF="../elks/pointer_flat.html">POINTER</A>; a_ms: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_db_is_null: a_db /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+            a_ms_non_negative: a_ms &gt;= 0
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_busy_timeout">c_sqlite3_busy_timeout</A> (a_db, a_ms)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_clear_bindings"><A HREF="../sqlite/sqlite_statement_externals_flat.html#f_sqlite3_clear_bindings">sqlite3_clear_bindings</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_stmt: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_statement_externals_flat.html">SQLITE_STATEMENT_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_statement_externals_flat.html">SQLITE_STATEMENT_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_stmt_is_null: a_stmt /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_clear_bindings">c_sqlite3_clear_bindings</A> (a_stmt)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_close"><A HREF="../sqlite/sqlite_database_externals_flat.html#f_sqlite3_close">sqlite3_close</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_db: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_db_is_null: a_db /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_close">c_sqlite3_close</A> (a_db)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_extended_result_codes"><A HREF="../sqlite/sqlite_database_externals_flat.html#f_sqlite3_extended_result_codes">sqlite3_extended_result_codes</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_db: <A HREF="../elks/pointer_flat.html">POINTER</A>; a_onoff: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_db_is_null: a_db /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_extended_result_codes">c_sqlite3_extended_result_codes</A> (a_db, a_onoff)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_finalize"><A HREF="../sqlite/sqlite_statement_externals_flat.html#f_sqlite3_finalize">sqlite3_finalize</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_stmt: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_statement_externals_flat.html">SQLITE_STATEMENT_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_statement_externals_flat.html">SQLITE_STATEMENT_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_stmt_is_null: a_stmt /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_finalize">c_sqlite3_finalize</A> (a_stmt)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_interrupt"><A HREF="../sqlite/sqlite_database_externals_flat.html#f_sqlite3_interrupt">sqlite3_interrupt</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_db: <A HREF="../elks/pointer_flat.html">POINTER</A>)
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_db_is_null: a_db /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_interrupt">c_sqlite3_interrupt</A> (a_db)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_next_stmt"><A HREF="../sqlite/sqlite_database_externals_flat.html#f_sqlite3_next_stmt">sqlite3_next_stmt</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_db: <A HREF="../elks/pointer_flat.html">POINTER</A>; a_stmt: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_db_is_null: a_db /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_next_stmt">c_sqlite3_next_stmt</A> (a_db, a_stmt)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_open_v2"><A HREF="../sqlite/sqlite_database_externals_flat.html#f_sqlite3_open_v2">sqlite3_open_v2</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_file_name: <A HREF="../elks/pointer_flat.html">POINTER</A>; a_db: <A HREF="../elks/typed_pointer_flat.html">TYPED_POINTER</A> [<A HREF="../elks/pointer_flat.html">POINTER</A>]; a_flags: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>; a_vfs: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_file_name_is_null: a_file_name /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+            not_a_db_is_null: a_db.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A> /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_open_v2">c_sqlite3_open_v2</A> (a_file_name, a_db, a_flags, a_vfs)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_prepare_v2"><A HREF="../sqlite/sqlite_statement_externals_flat.html#f_sqlite3_prepare_v2">sqlite3_prepare_v2</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_db: <A HREF="../elks/pointer_flat.html">POINTER</A>; a_statement: <A HREF="../elks/pointer_flat.html">POINTER</A>; a_bytes: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>; a_hnd: <A HREF="../elks/typed_pointer_flat.html">TYPED_POINTER</A> [<A HREF="../elks/pointer_flat.html">POINTER</A>]; a_tail: <A HREF="../elks/typed_pointer_flat.html">TYPED_POINTER</A> [<A HREF="../elks/pointer_flat.html">POINTER</A>]): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_statement_externals_flat.html">SQLITE_STATEMENT_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_statement_externals_flat.html">SQLITE_STATEMENT_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_db_is_null: a_db /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+            not_a_statement_is_null: a_statement /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+            a_bytes_positive: a_bytes &gt; 0
+            not_a_hnd_is_null: a_hnd.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A> /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_prepare_v2">c_sqlite3_prepare_v2</A> (a_db, a_statement, a_bytes, a_hnd, a_tail)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_reset"><A HREF="../sqlite/sqlite_statement_externals_flat.html#f_sqlite3_reset">sqlite3_reset</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_stmt: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_statement_externals_flat.html">SQLITE_STATEMENT_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_statement_externals_flat.html">SQLITE_STATEMENT_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_stmt_is_null: a_stmt /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_reset">c_sqlite3_reset</A> (a_stmt)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_step"><A HREF="../sqlite/sqlite_statement_externals_flat.html#f_sqlite3_step">sqlite3_step</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_stmt: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_statement_externals_flat.html">SQLITE_STATEMENT_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_statement_externals_flat.html">SQLITE_STATEMENT_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_stmt_is_null: a_stmt /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_step">c_sqlite3_step</A> (a_stmt)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite_raise_on_failure"><A HREF="../sqlite/sqlite_helpers_flat.html#f_sqlite_raise_on_failure">sqlite_raise_on_failure</A> (a_code: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Raises an sqlite exception (</FONT><A HREF="../sqlite/sqlite_exception_flat.html">SQLITE_EXCEPTION</A><FONT COLOR="red">) in the event of an error.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_code'<FONT COLOR="red">: A result code.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_helpers_flat.html">SQLITE_HELPERS</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            l_exception: <B>like</B> <A HREF="../sqlite/sqlite_helpers_flat.html#f_sqlite_exception">sqlite_exception</A>
+        <B>do</B>
+            <B>if</B> <B>not</B> <A HREF="../sqlite/sqlite_helpers_flat.html#f_sqlite_success">sqlite_success</A> (a_code) <B>then</B>
+                l_exception := <A HREF="../sqlite/sqlite_helpers_flat.html#f_sqlite_exception">sqlite_exception</A> (a_code, <B>Void</B>)
+                <B>if</B> <B>attached</B> l_exception <B>then</B>
+                    l_exception.<A HREF="../elks/exception_flat.html#f_raise">raise</A>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {<A HREF="../sqlite/sqlite_internals_flat.html">SQLITE_INTERNALS</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_internal_changes_count"><A HREF="../sqlite/sqlite_statement_flat.html#f_internal_changes_count">internal_changes_count</A>: <A HREF="../elks/natural_32_flat.html">NATURAL_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Mutable version of </FONT><A HREF="../sqlite/sqlite_statement_flat.html#f_changes_count">changes_count</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note: Do not use directly!</FONT>
+
+    <A NAME="f_internal_db"><A HREF="../sqlite/sqlite_statement_flat.html#f_internal_db">internal_db</A>: <A HREF="../elks/pointer_flat.html">POINTER</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The pointer to the database connection when the statement was compiled.</FONT>
+
+    <A NAME="f_internal_stmt"><A HREF="../sqlite/sqlite_statement_flat.html#f_internal_stmt">internal_stmt</A>: <A HREF="../elks/pointer_flat.html">POINTER</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Pointer to the compiled statement</FONT>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_internal_thread_id"><A HREF="../sqlite/sqlite_statement_flat.html#f_internal_thread_id">internal_thread_id</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The thread the database was connected using.</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access: Cursor</FONT>
+
+    <A NAME="f_execute_new"><A HREF="../sqlite/sqlite_statement_flat.html#f_execute_new">execute_new</A>: <A HREF="../sqlite/sqlite_statement_iteration_cursor_flat.html">SQLITE_STATEMENT_ITERATION_CURSOR</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execute the SQLite statement.</FONT>
+        <B>require</B>
+            is_compiled: <A HREF="../sqlite/sqlite_statement_flat.html#f_is_compiled">is_compiled</A>
+            is_connected: <A HREF="../sqlite/sqlite_statement_flat.html#f_is_connected">is_connected</A>
+            not_is_executing: <B>not</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_is_executing">is_executing</A>
+            is_accessible: <A HREF="../sqlite/sqlite_statement_flat.html#f_is_accessible">is_accessible</A>
+            not_has_arguments: <B>not</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_has_arguments">has_arguments</A>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../sqlite/sqlite_statement_iteration_cursor_flat.html#f_make">make</A> (<B>Current</B>)
+        <B>ensure</B>
+            result_attached: <B>attached</B> <B>Result</B>
+        <B>end</B></A>
+
+    <A NAME="f_execute_new_with_arguments"><A HREF="../sqlite/sqlite_statement_flat.html#f_execute_new_with_arguments">execute_new_with_arguments</A> (a_arguments: <A HREF="../elks/iterable_flat.html">ITERABLE</A> [<B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>]): <A HREF="../sqlite/sqlite_statement_iteration_cursor_flat.html">SQLITE_STATEMENT_ITERATION_CURSOR</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Executes the SQLite statement with bound set of arguments.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_arguments'<FONT COLOR="red">: The bound arguments to call the SQLite query statement with.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                Valid arguments are those that descent </FONT><A HREF="../sqlite/sqlite_bind_arg_flat.html">SQLITE_BIND_ARG</A><FONT COLOR="red"> or</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                </FONT><A HREF="../elks/readable_string_8_flat.html">READABLE_STRING_8</A><FONT COLOR="red">, or of type {INTEGER_*}, {NATURAL_*} (with the expection</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                of </FONT><A HREF="../elks/natural_64_flat.html">NATURAL_64</A><FONT COLOR="red">), or </FONT><A HREF="../elks/managed_pointer_flat.html">MANAGED_POINTER</A><FONT COLOR="red"> (for blobs).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                Note: If *not* using </FONT><A HREF="../sqlite/sqlite_bind_arg_flat.html">SQLITE_BIND_ARG</A><FONT COLOR="red">, the SQLite statement should use ?NNN</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                      arguments and not named arguments.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                      see </FONT><FONT COLOR="red">http://sqlite.org/c3ref/bind_blob.html</FONT>
+        <B>require</B>
+            is_compiled: <A HREF="../sqlite/sqlite_statement_flat.html#f_is_compiled">is_compiled</A>
+            is_connected: <A HREF="../sqlite/sqlite_statement_flat.html#f_is_connected">is_connected</A>
+            not_is_executing: <B>not</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_is_executing">is_executing</A>
+            is_accessible: <A HREF="../sqlite/sqlite_statement_flat.html#f_is_accessible">is_accessible</A>
+            has_arguments: <A HREF="../sqlite/sqlite_statement_flat.html#f_has_arguments">has_arguments</A>
+            a_arguments_attached: <B>attached</B> a_arguments
+            a_arguments_is_valid_arguments: <A HREF="../sqlite/sqlite_binding_helpers_flat.html#f_is_valid_arguments">is_valid_arguments</A> (a_arguments)
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../sqlite/sqlite_statement_iteration_cursor_flat.html#f_make_with_bindings">make_with_bindings</A> (<B>Current</B>, <A HREF="../sqlite/sqlite_bind_arg_marshaller_flat.html#f_new_binding_argument_array">new_binding_argument_array</A> (a_arguments))
+        <B>ensure</B>
+            result_attached: <B>attached</B> <B>Result</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access: Error handling</FONT>
+
+    <A NAME="f_last_exception"><A HREF="../sqlite/sqlite_statement_flat.html#f_last_exception">last_exception</A>: <B>detachable</B> <A HREF="../sqlite/sqlite_exception_flat.html">SQLITE_EXCEPTION</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last occurring error, set during compilation.</FONT>
+    
+<B>feature</B> {<A HREF="../sqlite/sqlite_statement_iteration_cursor_flat.html">SQLITE_STATEMENT_ITERATION_CURSOR</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Action handlers</FONT>
+
+    <A NAME="f_on_after_executed"><A HREF="../sqlite/sqlite_statement_flat.html#f_on_after_executed">on_after_executed</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Called after a statement has been executed, successfully or not.</FONT>
+        <B>require</B>
+            is_sqlite_available: <A HREF="../sqlite/sqlite_shared_api_flat.html#f_is_sqlite_available">Is_sqlite_available</A>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            is_accessible: <A HREF="../sqlite/sqlite_statement_flat.html#f_is_accessible">is_accessible</A>
+        <B>do</B>
+            <A HREF="../sqlite/sqlite_statement_flat.html#f_is_executing">is_executing</A> := <B>False</B>
+        <B>ensure</B>
+            not_is_executing: <B>not</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_is_executing">is_executing</A>
+        <B>end</B></A>
+
+    <A NAME="f_on_before_execute"><A HREF="../sqlite/sqlite_statement_flat.html#f_on_before_execute">on_before_execute</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Called before a statement has been executed.</FONT>
+        <B>require</B>
+            is_sqlite_available: <A HREF="../sqlite/sqlite_shared_api_flat.html#f_is_sqlite_available">Is_sqlite_available</A>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            is_connected: <A HREF="../sqlite/sqlite_statement_flat.html#f_is_connected">is_connected</A>
+            not_has_error: <B>not</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_has_error">has_error</A>
+            is_accessible: <A HREF="../sqlite/sqlite_statement_flat.html#f_is_accessible">is_accessible</A>
+            database_is_readable: <A HREF="../sqlite/sqlite_statement_flat.html#f_database">database</A>.<A HREF="../sqlite/sqlite_database_flat.html#f_is_readable">is_readable</A>
+        <B>do</B>
+            <A HREF="../sqlite/sqlite_statement_flat.html#f_is_executing">is_executing</A> := <B>True</B>
+        <B>ensure</B>
+            is_executing: <A HREF="../sqlite/sqlite_statement_flat.html#f_is_executing">is_executing</A>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations: Compilation</FONT>
+
+    <A NAME="f_compile"><A HREF="../sqlite/sqlite_statement_flat.html#f_compile">compile</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Compiles the current statement.</FONT>
+        <B>require</B>
+            is_sqlite_available: <A HREF="../sqlite/sqlite_shared_api_flat.html#f_is_sqlite_available">Is_sqlite_available</A>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_is_connected: <B>not</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_is_connected">is_connected</A>
+            not_has_error: <B>not</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_has_error">has_error</A>
+            database_is_readable: <A HREF="../sqlite/sqlite_statement_flat.html#f_database">database</A>.<A HREF="../sqlite/sqlite_database_flat.html#f_is_readable">is_readable</A>
+            database: <A HREF="../sqlite/sqlite_statement_flat.html#f_database">database</A>.<A HREF="../sqlite/sqlite_database_flat.html#f_is_readable">is_readable</A>
+        <B>local</B>
+            l_db: <B>like</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_database">database</A>
+            l_string: <A HREF="../elks/c_string_flat.html">C_STRING</A>
+            l_next_string: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            l_next_statement: <A HREF="../sqlite/sqlite_statement_flat.html">SQLITE_STATEMENT</A>
+            l_stmt_handle: <A HREF="../elks/pointer_flat.html">POINTER</A>
+            l_internal_db: <A HREF="../elks/pointer_flat.html">POINTER</A>
+            l_tail: <A HREF="../elks/pointer_flat.html">POINTER</A>
+            l_locked: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            l_result: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>create</B> l_string.<A HREF="../elks/c_string_flat.html#f_make">make</A> (<A HREF="../sqlite/sqlite_statement_flat.html#f_compile_statement_string">compile_statement_string</A>)
+            l_db := <A HREF="../sqlite/sqlite_statement_flat.html#f_database">database</A>
+            l_db.<A HREF="../sqlite/sqlite_database_flat.html#f_lock">lock</A>
+            l_locked := <B>True</B>
+            l_internal_db := l_db.<A HREF="../sqlite/sqlite_database_flat.html#f_internal_db">internal_db</A>
+            l_result := <A HREF="../sqlite/sqlite_statement_externals_flat.html#f_sqlite3_prepare_v2">sqlite3_prepare_v2</A> (<A HREF="../sqlite/sqlite_shared_api_flat.html#f_sqlite_api">Sqlite_api</A>, l_internal_db, l_string.<A HREF="../elks/c_string_flat.html#f_item">item</A>, l_string.<A HREF="../elks/c_string_flat.html#f_count">count</A> + 1, $l_stmt_handle, $l_tail)
+            <B>if</B> l_stmt_handle /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A> <B>then</B>
+                <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_stmt">internal_stmt</A> := l_stmt_handle
+                <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_db">internal_db</A> := l_internal_db
+                <A HREF="../sqlite/sqlite_statement_flat.html#f_last_exception">last_exception</A> := <B>Void</B>
+                <B>if</B> l_tail /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A> <B>then</B>
+                    <B>check</B>
+                        next_statement_detached: <B>not</B> <B>attached</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_next_statement">next_statement</A>
+                    <B>end</B>
+                    <B>create</B> l_string.<A HREF="../elks/c_string_flat.html#f_make_shared_from_pointer">make_shared_from_pointer</A> (l_tail)
+                    l_next_string := l_string.<A HREF="../elks/c_string_flat.html#f_string">string</A>
+                    <B>if</B> <B>not</B> l_next_string.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>then</B>
+                        <B>create</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_statement_string">statement_string</A>.<A HREF="../elks/readable_string_8_flat.html#f_make_from_string">make_from_string</A> (<A HREF="../sqlite/sqlite_statement_flat.html#f_statement_string">statement_string</A>.<A HREF="../elks/immutable_string_8_flat.html#f_substring">substring</A> (1, <A HREF="../sqlite/sqlite_statement_flat.html#f_statement_string">statement_string</A>.<A HREF="../elks/readable_string_8_flat.html#f_count">count</A> - l_next_string.<A HREF="../elks/readable_string_8_flat.html#f_count">count</A>))
+                        l_next_string.<A HREF="../elks/string_8_flat.html#f_prune_all_leading">prune_all_leading</A> (';')
+                        l_next_string.<A HREF="../elks/string_8_flat.html#f_left_adjust">left_adjust</A>
+                        <B>if</B> <B>not</B> l_next_string.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>then</B>
+                            <B>create</B> l_next_statement.<A HREF="../sqlite/sqlite_statement_flat.html#f_make">make</A> (l_next_string, l_db)
+                            <B>if</B> l_next_statement.<A HREF="../sqlite/sqlite_statement_flat.html#f_has_error">has_error</A> <B>then</B>
+                                <A HREF="../sqlite/sqlite_statement_flat.html#f_reset_compilation_data">reset_compilation_data</A>
+                                <A HREF="../sqlite/sqlite_statement_flat.html#f_last_exception">last_exception</A> := l_next_statement.<A HREF="../sqlite/sqlite_statement_flat.html#f_last_exception">last_exception</A>
+                            <B>else</B>
+                                <A HREF="../sqlite/sqlite_statement_flat.html#f_next_statement">next_statement</A> := l_next_statement
+                            <B>end</B>
+                        <B>end</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>else</B>
+                <A HREF="../sqlite/sqlite_statement_flat.html#f_reset_compilation_data">reset_compilation_data</A>
+                <B>if</B> <A HREF="../sqlite/sqlite_helpers_flat.html#f_sqlite_success">sqlite_success</A> (l_result) <B>then</B>
+                    <A HREF="../sqlite/sqlite_statement_flat.html#f_last_exception">last_exception</A> := <A HREF="../sqlite/sqlite_helpers_flat.html#f_sqlite_exception">sqlite_exception</A> ({<A HREF="../sqlite/sqlite_result_code_flat.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code_flat.html#f_e_misuse">e_misuse</A>, "no statement: syntax error")
+                <B>else</B>
+                    <A HREF="../sqlite/sqlite_statement_flat.html#f_last_exception">last_exception</A> := l_db.<A HREF="../sqlite/sqlite_database_flat.html#f_last_exception">last_exception</A>
+                <B>end</B>
+            <B>end</B>
+            l_locked := <B>False</B>
+            l_db.<A HREF="../sqlite/sqlite_database_flat.html#f_unlock">unlock</A>
+        <B>ensure</B>
+            not_internal_db_is_null: <A HREF="../sqlite/sqlite_statement_flat.html#f_is_compiled">is_compiled</A> <B>implies</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_db">internal_db</A> /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+            internal_db_is_null: <B>not</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_is_compiled">is_compiled</A> <B>implies</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_db">internal_db</A> = <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+            last_exception_attached: <B>not</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_is_compiled">is_compiled</A> <B>implies</B> <B>attached</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_last_exception">last_exception</A>
+            last_exception_attached: <A HREF="../sqlite/sqlite_statement_flat.html#f_is_compiled">is_compiled</A> <B>implies</B> <B>not</B> <B>attached</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_last_exception">last_exception</A>
+        <B>rescue</B>
+            <B>if</B> l_locked <B>then</B>
+                l_locked := <B>False</B>
+                <A HREF="../sqlite/sqlite_statement_flat.html#f_database">database</A>.<A HREF="../sqlite/sqlite_database_flat.html#f_unlock">unlock</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_reset_compilation_data"><A HREF="../sqlite/sqlite_statement_flat.html#f_reset_compilation_data">reset_compilation_data</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Clears any cached information related to the preperation/compilation of the statement</FONT>
+        <B>do</B>
+            <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_stmt">internal_stmt</A> := <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+            <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_db">internal_db</A> := <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+            <A HREF="../sqlite/sqlite_statement_flat.html#f_reset">reset</A>
+            <A HREF="../sqlite/sqlite_statement_flat.html#f_mark">mark</A> := <A HREF="../sqlite/sqlite_statement_flat.html#f_mark">mark</A> + 1.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A>
+        <B>ensure</B>
+            not_is_compiled: <B>not</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_is_compiled">is_compiled</A>
+            not_is_connected: <B>not</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_is_connected">is_connected</A>
+            not_is_abort_requested: <B>not</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_is_abort_requested">is_abort_requested</A>
+            internal_changes_count_reset: <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_changes_count">internal_changes_count</A> = 0.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A>
+            last_exception_detached: <B>not</B> <B>attached</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_last_exception">last_exception</A>
+            mark_increased: <A HREF="../sqlite/sqlite_statement_flat.html#f_mark">mark</A> &gt; <B>old</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_mark">mark</A>
+            not_has_error: <B>not</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_has_error">has_error</A>
+        <B>end</B></A>
+    
+<B>feature</B> {<A HREF="../sqlite/sqlite_statement_flat.html">SQLITE_STATEMENT</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations: Execution</FONT>
+
+    <A NAME="f_execute_internal"><A HREF="../sqlite/sqlite_statement_flat.html#f_execute_internal">execute_internal</A> (a_callback: <B>detachable</B> <A HREF="../elks/function_flat.html">FUNCTION</A> [<A HREF="../elks/any_flat.html">ANY</A>, <A HREF="../elks/tuple_flat.html">TUPLE</A> [row: <A HREF="../sqlite/sqlite_result_row_flat.html">SQLITE_RESULT_ROW</A>], <A HREF="../elks/boolean_flat.html">BOOLEAN</A>]; a_bindings: <B>detachable</B> <A HREF="../elks/array_flat.html">ARRAY</A> [<A HREF="../sqlite/sqlite_bind_arg_flat.html">SQLITE_BIND_ARG</A> [<A HREF="../elks/any_flat.html">ANY</A>]])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Performs execution of the SQLite statement with a callback routine for each returned result row.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_callback'<FONT COLOR="red">: A callback routine accepting a result row as its argument.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">               Return True from the function to abort further calls when there is more result data.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_bindings'<FONT COLOR="red">: An array or binding arguments, or Void if the statement does not require any arguments.</FONT>
+        <B>require</B>
+            is_sqlite_available: <A HREF="../sqlite/sqlite_shared_api_flat.html#f_is_sqlite_available">Is_sqlite_available</A>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            is_compiled: <A HREF="../sqlite/sqlite_statement_flat.html#f_is_compiled">is_compiled</A>
+            is_connected: <A HREF="../sqlite/sqlite_statement_flat.html#f_is_connected">is_connected</A>
+            not_is_executing: <B>not</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_is_executing">is_executing</A>
+            is_accessible: <A HREF="../sqlite/sqlite_statement_flat.html#f_is_accessible">is_accessible</A>
+            database_is_readable: <A HREF="../sqlite/sqlite_statement_flat.html#f_database">database</A>.<A HREF="../sqlite/sqlite_database_flat.html#f_is_readable">is_readable</A>
+            a_bindings_attached: <A HREF="../sqlite/sqlite_statement_flat.html#f_has_arguments">has_arguments</A> <B>implies</B> <B>attached</B> a_bindings
+            a_bindings_count_big_enough: <B>not</B> <B>attached</B> a_bindings <B>or else</B> a_bindings.<A HREF="../elks/array_flat.html#f_count">count</A>.<A HREF="../elks/integer_32_flat.html#f_as_natural_32">as_natural_32</A> = <A HREF="../sqlite/sqlite_statement_flat.html#f_arguments_count">arguments_count</A>
+        <B>local</B>
+            l_api: <B>like</B> <A HREF="../sqlite/sqlite_shared_api_flat.html#f_sqlite_api">Sqlite_api</A>
+            l_stmt: <B>like</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_stmt">internal_stmt</A>
+            l_db: <B>detachable</B> <B>like</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_database">database</A>
+            l_exception: <B>detachable</B> <A HREF="../sqlite/sqlite_exception_flat.html">SQLITE_EXCEPTION</A>
+            l_result: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            l_done: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            l_locked: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            l_row: <A HREF="../sqlite/sqlite_result_row_flat.html">SQLITE_RESULT_ROW</A>
+            i_upper, i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            l_arg_variable: <A HREF="../elks/immutable_string_8_flat.html">IMMUTABLE_STRING_8</A>
+            l_arg_id: <A HREF="../elks/c_string_flat.html">C_STRING</A>
+            l_arg_index: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            l_total_count: <A HREF="../elks/natural_32_flat.html">NATURAL_32</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> a_bindings <B>as</B> l_bindings <B>then</B>
+                <B>from</B>
+                    i := l_bindings.<A HREF="../elks/array_flat.html#f_lower">lower</A>
+                    i_upper := l_bindings.<A HREF="../elks/array_flat.html#f_upper">upper</A>
+                <B>until</B>
+                    i &gt; i_upper
+                <B>loop</B>
+                    <B>if</B> <B>attached</B> l_bindings [i] <B>as</B> l_arg <B>then</B>
+                        l_arg_variable := l_arg.<A HREF="../sqlite/sqlite_bind_arg_flat.html#f_variable">variable</A>
+                        <B>create</B> l_arg_id.<A HREF="../elks/c_string_flat.html#f_make">make</A> (l_arg_variable)
+                        l_arg_index := <A HREF="../sqlite/sqlite_statement_externals_flat.html#f_sqlite3_bind_parameter_index">sqlite3_bind_parameter_index</A> (<A HREF="../sqlite/sqlite_shared_api_flat.html#f_sqlite_api">Sqlite_api</A>, <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_stmt">internal_stmt</A>, l_arg_id.<A HREF="../elks/c_string_flat.html#f_item">item</A>)
+                        <B>if</B> l_arg_index = 0 <B>and then</B> l_arg_variable [1] = '?' <B>then</B>
+                            l_arg_variable := l_arg_variable.<A HREF="../elks/immutable_string_8_flat.html#f_substring">substring</A> (2, l_arg_variable.<A HREF="../elks/readable_string_8_flat.html#f_count">count</A>)
+                            <B>if</B> l_arg_variable.<A HREF="../elks/readable_string_general_flat.html#f_is_integer_32">is_integer_32</A> <B>then</B>
+                                l_arg_index := l_arg_variable.<A HREF="../elks/readable_string_general_flat.html#f_to_integer_32">to_integer_32</A>
+                            <B>else</B>
+                                <B>check</B>
+                                    should_never_happen: <B>False</B>
+                                <B>end</B>
+                            <B>end</B>
+                        <B>end</B>
+                        <B>if</B> l_arg_index &gt; 0 <B>then</B>
+                            l_arg.<A HREF="../sqlite/sqlite_bind_arg_flat.html#f_bind_to_statement">bind_to_statement</A> (<B>Current</B>, l_arg_index)
+                        <B>end</B>
+                    <B>end</B>
+                    i := i + 1
+                <B>end</B>
+            <B>end</B>
+            <A HREF="../sqlite/sqlite_statement_flat.html#f_mark">mark</A> := <A HREF="../sqlite/sqlite_statement_flat.html#f_mark">mark</A> + 1.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A>
+            l_api := <A HREF="../sqlite/sqlite_shared_api_flat.html#f_sqlite_api">Sqlite_api</A>
+            l_stmt := <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_stmt">internal_stmt</A>
+            l_db := <A HREF="../sqlite/sqlite_statement_flat.html#f_database">database</A>
+            <A HREF="../sqlite/sqlite_statement_flat.html#f_reset_all">reset_all</A>
+            <A HREF="../sqlite/sqlite_statement_flat.html#f_is_executing">is_executing</A> := <B>True</B>
+            <A HREF="../sqlite/sqlite_statement_flat.html#f_on_before_execute">on_before_execute</A>
+            l_db.<A HREF="../sqlite/sqlite_database_flat.html#f_lock">lock</A>
+            l_locked := <B>True</B>
+            l_total_count := l_db.<A HREF="../sqlite/sqlite_database_flat.html#f_total_changes_count">total_changes_count</A>
+            <B>from</B>
+                <B>create</B> l_row.<A HREF="../sqlite/sqlite_result_row_flat.html#f_make">make</A> (<B>Current</B>)
+                l_result := <A HREF="../sqlite/sqlite_statement_externals_flat.html#f_sqlite3_step">sqlite3_step</A> (l_api, l_stmt)
+                l_done := l_result = {<A HREF="../sqlite/sqlite_result_code_flat.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code_flat.html#f_done">done</A>
+            <B>until</B>
+                <B>not</B> <A HREF="../sqlite/sqlite_helpers_flat.html#f_sqlite_success">sqlite_success</A> (l_result) <B>or</B> l_done
+            <B>loop</B>
+                l_db.<A HREF="../sqlite/sqlite_database_flat.html#f_unlock">unlock</A>
+                l_locked := <B>False</B>
+                <B>if</B> <B>attached</B> a_callback <B>then</B>
+                    l_row.<A HREF="../sqlite/sqlite_result_row_flat.html#f_index">index</A> := l_row.<A HREF="../sqlite/sqlite_result_row_flat.html#f_index">index</A> + 1.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A>
+                    <A HREF="../sqlite/sqlite_statement_flat.html#f_is_abort_requested">is_abort_requested</A> := a_callback.<A HREF="../elks/function_flat.html#f_item">item</A> ([l_row]) <B>or</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_is_abort_requested">is_abort_requested</A>
+                <B>end</B>
+                <B>if</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_is_connected">is_connected</A> <B>then</B>
+                    l_db.<A HREF="../sqlite/sqlite_database_flat.html#f_lock">lock</A>
+                    l_locked := <B>True</B>
+                    l_done := <A HREF="../sqlite/sqlite_statement_flat.html#f_is_abort_requested">is_abort_requested</A>
+                    <B>if</B> l_done <B>then</B>
+                        l_db.<A HREF="../sqlite/sqlite_database_flat.html#f_abort">abort</A>
+                    <B>else</B>
+                        l_done := l_result /= {<A HREF="../sqlite/sqlite_result_code_flat.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code_flat.html#f_row">row</A>
+                        <B>if</B> <B>not</B> l_done <B>then</B>
+                            l_result := <A HREF="../sqlite/sqlite_statement_externals_flat.html#f_sqlite3_step">sqlite3_step</A> (l_api, l_stmt)
+                            l_done := l_result = {<A HREF="../sqlite/sqlite_result_code_flat.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code_flat.html#f_done">done</A>
+                        <B>end</B>
+                    <B>end</B>
+                <B>else</B>
+                    l_done := <B>True</B>
+                <B>end</B>
+            <B>end</B>
+            <B>if</B> <B>not</B> <A HREF="../sqlite/sqlite_helpers_flat.html#f_sqlite_success">sqlite_success</A> (l_result) <B>then</B>
+                <B>if</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_is_connected">is_connected</A> <B>then</B>
+                    l_exception := l_db.<A HREF="../sqlite/sqlite_database_flat.html#f_last_exception">last_exception</A>
+                    <B>if</B> l_locked <B>then</B>
+                        l_locked := <B>False</B>
+                        l_db.<A HREF="../sqlite/sqlite_database_flat.html#f_unlock">unlock</A>
+                    <B>end</B>
+                <B>end</B>
+                <B>if</B> <B>not</B> <B>attached</B> l_exception <B>then</B>
+                    l_exception := <A HREF="../sqlite/sqlite_helpers_flat.html#f_sqlite_exception">sqlite_exception</A> (l_result, <B>Void</B>)
+                <B>end</B>
+                <A HREF="../sqlite/sqlite_statement_flat.html#f_last_exception">last_exception</A> := l_exception
+                <A HREF="../sqlite/sqlite_statement_flat.html#f_on_after_executed">on_after_executed</A>
+                l_exception.<A HREF="../elks/exception_flat.html#f_raise">raise</A>
+            <B>else</B>
+                <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_changes_count">internal_changes_count</A> := l_db.<A HREF="../sqlite/sqlite_database_flat.html#f_total_changes_count">total_changes_count</A> - l_total_count
+                <B>if</B> l_locked <B>then</B>
+                    l_locked := <B>False</B>
+                    l_db.<A HREF="../sqlite/sqlite_database_flat.html#f_unlock">unlock</A>
+                <B>end</B>
+                <B>if</B> <B>attached</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_next_statement">next_statement</A> <B>as</B> l_next <B>then</B>
+                    l_next.<A HREF="../sqlite/sqlite_statement_flat.html#f_execute_internal">execute_internal</A> (a_callback, a_bindings)
+                <B>end</B>
+                <A HREF="../sqlite/sqlite_statement_flat.html#f_on_after_executed">on_after_executed</A>
+            <B>end</B>
+            <A HREF="../sqlite/sqlite_statement_flat.html#f_is_executing">is_executing</A> := <B>False</B>
+            l_result := <A HREF="../sqlite/sqlite_statement_externals_flat.html#f_sqlite3_reset">sqlite3_reset</A> (l_api, l_stmt)
+            <B>check</B>
+                success: <A HREF="../sqlite/sqlite_helpers_flat.html#f_sqlite_success">sqlite_success</A> (l_result)
+            <B>end</B>
+            <B>if</B> <B>attached</B> a_bindings <B>then</B>
+                l_result := <A HREF="../sqlite/sqlite_statement_externals_flat.html#f_sqlite3_clear_bindings">sqlite3_clear_bindings</A> (l_api, l_stmt)
+                <B>check</B>
+                    success: <A HREF="../sqlite/sqlite_helpers_flat.html#f_sqlite_success">sqlite_success</A> (l_result)
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B>
+            not_is_executing: <B>not</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_is_executing">is_executing</A>
+            mark_increased: <A HREF="../sqlite/sqlite_statement_flat.html#f_mark">mark</A> &gt; <B>old</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_mark">mark</A>
+        <B>rescue</B>
+            <B>if</B> l_locked <B>then</B>
+                <B>check</B>
+                    l_db_attached: <B>attached</B> l_db
+                <B>end</B>
+                l_locked := <B>False</B>
+                l_db.<A HREF="../sqlite/sqlite_database_flat.html#f_unlock">unlock</A>
+            <B>end</B>
+            <B>if</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_is_executing">is_executing</A> <B>then</B>
+                <A HREF="../sqlite/sqlite_statement_flat.html#f_is_executing">is_executing</A> := <B>False</B>
+                <A HREF="../sqlite/sqlite_statement_externals_flat.html#f_sqlite3_reset">sqlite3_reset</A> (<A HREF="../sqlite/sqlite_shared_api_flat.html#f_sqlite_api">Sqlite_api</A>, <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_stmt">internal_stmt</A>).<A HREF="../elks/any_flat.html#f_do_nothing">do_nothing</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_reset"><A HREF="../sqlite/sqlite_statement_flat.html#f_reset">reset</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Resets any cached information from the last execution.</FONT>
+        <B>require</B>
+            not_is_executing: <B>not</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_is_executing">is_executing</A>
+        <B>do</B>
+            <A HREF="../sqlite/sqlite_statement_flat.html#f_is_abort_requested">is_abort_requested</A> := <B>False</B>
+            <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_changes_count">internal_changes_count</A> := 0.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A>
+            <A HREF="../sqlite/sqlite_statement_flat.html#f_last_exception">last_exception</A> := <B>Void</B>
+        <B>ensure</B>
+            not_is_abort_requested: <B>not</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_is_abort_requested">is_abort_requested</A>
+            internal_changes_count_reset: <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_changes_count">internal_changes_count</A> = 0.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A>
+            last_exception_detached: <B>not</B> <B>attached</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_last_exception">last_exception</A>
+            not_has_error: <B>not</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_has_error">has_error</A>
+        <B>end</B></A>
+
+    <A NAME="f_reset_all"><A HREF="../sqlite/sqlite_statement_flat.html#f_reset_all">reset_all</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Resets any cached information from the last execution for all statements.</FONT>
+        <B>require</B>
+            not_is_executing: <B>not</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_is_executing">is_executing</A>
+        <B>do</B>
+            <A HREF="../sqlite/sqlite_statement_flat.html#f_reset">reset</A>
+            <B>if</B> <B>attached</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_next_statement">next_statement</A> <B>as</B> l_next <B>then</B>
+                l_next.<A HREF="../sqlite/sqlite_statement_flat.html#f_reset_all">reset_all</A>
+            <B>end</B>
+        <B>ensure</B>
+            not_is_abort_requested: <B>not</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_is_abort_requested">is_abort_requested</A>
+            internal_changes_count_reset: <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_changes_count">internal_changes_count</A> = 0.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A>
+            last_exception_detached: <B>not</B> <B>attached</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_last_exception">last_exception</A>
+            not_has_error: <B>not</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_has_error">has_error</A>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations: Threading</FONT>
+
+    <A NAME="f_sqlite3_db_mutex"><A HREF="../sqlite/sqlite_database_externals_flat.html#f_sqlite3_db_mutex">sqlite3_db_mutex</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_db: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_db_is_null: a_db /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_db_mutex">c_sqlite3_db_mutex</A> (a_db)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_mutex_enter"><A HREF="../sqlite/sqlite_database_externals_flat.html#f_sqlite3_mutex_enter">sqlite3_mutex_enter</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_mutex: <A HREF="../elks/pointer_flat.html">POINTER</A>)
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_mutex_is_null: a_mutex /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_mutex_enter">c_sqlite3_mutex_enter</A> (a_mutex)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_mutex_leave"><A HREF="../sqlite/sqlite_database_externals_flat.html#f_sqlite3_mutex_leave">sqlite3_mutex_leave</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_mutex: <A HREF="../elks/pointer_flat.html">POINTER</A>)
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_mutex_is_null: a_mutex /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_mutex_leave">c_sqlite3_mutex_leave</A> (a_mutex)
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Callbacks</FONT>
+
+    <A NAME="f_sqlite3_busy_handler"><A HREF="../sqlite/sqlite_database_externals_flat.html#f_sqlite3_busy_handler">sqlite3_busy_handler</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_db: <A HREF="../elks/pointer_flat.html">POINTER</A>; a_cb_data: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_db_is_null: a_db /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_busy_handler">c_sqlite3_busy_handler</A> (a_db, <A HREF="../sqlite/sqlite_database_externals_flat.html#f_c_sqlite3_busy_callback">c_sqlite3_busy_callback</A>, a_cb_data)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_commit_hook"><A HREF="../sqlite/sqlite_database_externals_flat.html#f_sqlite3_commit_hook">sqlite3_commit_hook</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_db: <A HREF="../elks/pointer_flat.html">POINTER</A>; a_cb_data: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_db_is_null: a_db /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_commit_hook">c_sqlite3_commit_hook</A> (a_db, <A HREF="../sqlite/sqlite_database_externals_flat.html#f_c_sqlite3_commit_callback">c_sqlite3_commit_callback</A>, a_cb_data)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_progress_handler"><A HREF="../sqlite/sqlite_database_externals_flat.html#f_sqlite3_progress_handler">sqlite3_progress_handler</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_db: <A HREF="../elks/pointer_flat.html">POINTER</A>; a_flags: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>; a_cb_data: <A HREF="../elks/pointer_flat.html">POINTER</A>)
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_db_is_null: a_db /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_progress_handler">c_sqlite3_progress_handler</A> (a_db, a_flags, <A HREF="../sqlite/sqlite_database_externals_flat.html#f_c_sqlite3_busy_callback">c_sqlite3_busy_callback</A>, a_cb_data)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_rollback_hook"><A HREF="../sqlite/sqlite_database_externals_flat.html#f_sqlite3_rollback_hook">sqlite3_rollback_hook</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_db: <A HREF="../elks/pointer_flat.html">POINTER</A>; a_cb_data: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_db_is_null: a_db /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_rollback_hook">c_sqlite3_rollback_hook</A> (a_db, <A HREF="../sqlite/sqlite_database_externals_flat.html#f_c_sqlite3_rollback_callback">c_sqlite3_rollback_callback</A>, a_cb_data)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_update_hook"><A HREF="../sqlite/sqlite_database_externals_flat.html#f_sqlite3_update_hook">sqlite3_update_hook</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_db: <A HREF="../elks/pointer_flat.html">POINTER</A>; a_cb_data: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_db_is_null: a_db /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_update_hook">c_sqlite3_update_hook</A> (a_db, <A HREF="../sqlite/sqlite_database_externals_flat.html#f_c_sqlite3_update_callback">c_sqlite3_update_callback</A>, a_cb_data)
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Clean up</FONT>
+
+    <A NAME="f_dispose"><A HREF="../sqlite/sqlite_statement_flat.html#f_dispose">dispose</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Action to be executed just before garbage collection</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> reclaims an object.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Effect it in descendants to perform specific dispose</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> actions. Those actions should only take care of freeing</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> external resources; they should not perform remote calls</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on other objects since these may also be dead and reclaimed.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/disposable_flat.html">DISPOSABLE</A>
+            <B>True</B>
+        <B>local</B>
+            l_stmt: <B>like</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_stmt">internal_stmt</A>
+            l_db: <B>like</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_db">internal_db</A>
+            l_api: <B>like</B> <A HREF="../sqlite/sqlite_shared_api_flat.html#f_sqlite_api">Sqlite_api</A>
+            l_result: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>if</B> <B>not</B> <A HREF="../elks/disposable_flat.html#f_is_in_final_collect">is_in_final_collect</A> <B>then</B>
+                l_stmt := <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_stmt">internal_stmt</A>
+                <B>if</B> l_stmt /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A> <B>and then</B> <A HREF="../sqlite/sqlite_shared_api_flat.html#f_is_sqlite_available">Is_sqlite_available</A> <B>then</B>
+                    l_api := <A HREF="../sqlite/sqlite_shared_api_flat.html#f_sqlite_api">Sqlite_api</A>
+                    l_db := <A HREF="../sqlite/sqlite_statement_externals_flat.html#f_sqlite3_db_handle">sqlite3_db_handle</A> (l_api, l_stmt)
+                    <B>if</B> l_db /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A> <B>then</B>
+                        <B>if</B> l_db = <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_db">internal_db</A> <B>then</B>
+                            l_result := <A HREF="../sqlite/sqlite_statement_externals_flat.html#f_sqlite3_finalize">sqlite3_finalize</A> (l_api, l_stmt)
+                            <B>if</B> (l_result &#38; {<A HREF="../sqlite/sqlite_result_code_flat.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code_flat.html#f_mask">mask</A>) = {<A HREF="../sqlite/sqlite_result_code_flat.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code_flat.html#f_e_misuse">e_misuse</A> <B>then</B>
+                                <B>check</B>
+                                    is_closed: <A HREF="../sqlite/sqlite_statement_flat.html#f_database">database</A>.<A HREF="../sqlite/sqlite_database_flat.html#f_is_closed">is_closed</A>
+                                <B>end</B>
+                            <B>else</B>
+                                <B>check</B>
+                                    succeess: <A HREF="../sqlite/sqlite_helpers_flat.html#f_sqlite_success">sqlite_success</A> (l_result)
+                                <B>end</B>
+                            <B>end</B>
+                        <B>else</B>
+                            <B>check</B>
+                                <B>False</B>
+                            <B>end</B>
+                        <B>end</B>
+                    <B>end</B>
+                <B>end</B>
+                <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_stmt">internal_stmt</A> := <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+                <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_db">internal_db</A> := <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+            <B>end</B>
+        <B>ensure then</B>
+            not_is_compiled: <B>not</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_is_compiled">is_compiled</A>
+            not_is_connected: <B>not</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_is_connected">is_connected</A>
+            internal_stmt_is_null: <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_stmt">internal_stmt</A> = <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+            internal_db_is_null: <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_db">internal_db</A> = <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Externals</FONT>
+
+    <A NAME="f_get_current_thread_id"><A HREF="../sqlite/sqlite_statement_flat.html#f_get_current_thread_id">get_current_thread_id</A>: <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Returns a pointer to the thread-id of the thread.</FONT>
+        <B>require</B>
+            is_thread_capable: {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_is_thread_capable">is_thread_capable</A>
+        <B>external</B>
+            "C use %"eif_threads.h%""
+        <B>alias</B>
+            "eif_thr_thread_id"
+        <B>end</B></A>
+
+    <A NAME="f_sqlite_limit_variable_number"><A HREF="../sqlite/sqlite_binding_helpers_flat.html#f_sqlite_limit_variable_number">sqlite_limit_variable_number</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Upper limit on a numerical id.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_binding_helpers_flat.html">SQLITE_BINDING_HELPERS</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C macro use &lt;sqlite3.h&gt;"
+        <B>alias</B>
+            "SQLITE_LIMIT_VARIABLE_NUMBER"
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Externals: Eiffel callbacks</FONT>
+
+    <A NAME="f_c_sqlite3_busy_callback"><A HREF="../sqlite/sqlite_database_externals_flat.html#f_c_sqlite3_busy_callback">c_sqlite3_busy_callback</A>: <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C inline use %"esqlite.h%""
+        <B>alias</B>
+            "return c_esqlite3_busy_callback"
+        <B>end</B></A>
+
+    <A NAME="f_c_sqlite3_commit_callback"><A HREF="../sqlite/sqlite_database_externals_flat.html#f_c_sqlite3_commit_callback">c_sqlite3_commit_callback</A>: <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C inline use %"esqlite.h%""
+        <B>alias</B>
+            "return c_esqlite3_commit_callback"
+        <B>end</B></A>
+
+    <A NAME="f_c_sqlite3_progress_callback"><A HREF="../sqlite/sqlite_database_externals_flat.html#f_c_sqlite3_progress_callback">c_sqlite3_progress_callback</A>: <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C inline use %"esqlite.h%""
+        <B>alias</B>
+            "return c_esqlite3_progress_callback"
+        <B>end</B></A>
+
+    <A NAME="f_c_sqlite3_rollback_callback"><A HREF="../sqlite/sqlite_database_externals_flat.html#f_c_sqlite3_rollback_callback">c_sqlite3_rollback_callback</A>: <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C inline use %"esqlite.h%""
+        <B>alias</B>
+            "return c_esqlite3_rollback_callback"
+        <B>end</B></A>
+
+    <A NAME="f_c_sqlite3_update_callback"><A HREF="../sqlite/sqlite_database_externals_flat.html#f_c_sqlite3_update_callback">c_sqlite3_update_callback</A>: <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C inline use %"esqlite.h%""
+        <B>alias</B>
+            "return c_esqlite3_update_callback"
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Externals: Macros</FONT>
+
+    <A NAME="f_sqlite_open_create"><A HREF="../sqlite/sqlite_database_externals_flat.html#f_sqlite_open_create">sqlite_open_create</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C macro use &lt;sqlite3.h&gt;"
+        <B>alias</B>
+            "SQLITE_OPEN_CREATE"
+        <B>end</B></A>
+
+    <A NAME="f_sqlite_open_fullmutex"><A HREF="../sqlite/sqlite_database_externals_flat.html#f_sqlite_open_fullmutex">sqlite_open_fullmutex</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C macro use &lt;sqlite3.h&gt;"
+        <B>alias</B>
+            "SQLITE_OPEN_FULLMUTEX"
+        <B>end</B></A>
+
+    <A NAME="f_sqlite_open_nomutex"><A HREF="../sqlite/sqlite_database_externals_flat.html#f_sqlite_open_nomutex">sqlite_open_nomutex</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C macro use &lt;sqlite3.h&gt;"
+        <B>alias</B>
+            "SQLITE_OPEN_NOMUTEX"
+        <B>end</B></A>
+
+    <A NAME="f_sqlite_open_readonly"><A HREF="../sqlite/sqlite_database_externals_flat.html#f_sqlite_open_readonly">sqlite_open_readonly</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C macro use &lt;sqlite3.h&gt;"
+        <B>alias</B>
+            "SQLITE_OPEN_READONLY"
+        <B>end</B></A>
+
+    <A NAME="f_sqlite_open_readwrite"><A HREF="../sqlite/sqlite_database_externals_flat.html#f_sqlite_open_readwrite">sqlite_open_readwrite</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C macro use &lt;sqlite3.h&gt;"
+        <B>alias</B>
+            "SQLITE_OPEN_READWRITE"
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measure</FONT>
+
+    <A NAME="f_sqlite3_changes"><A HREF="../sqlite/sqlite_database_externals_flat.html#f_sqlite3_changes">sqlite3_changes</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_db: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_db_is_null: a_db /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_changes">c_sqlite3_changes</A> (a_db)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_total_changes"><A HREF="../sqlite/sqlite_database_externals_flat.html#f_sqlite3_total_changes">sqlite3_total_changes</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_db: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_db_is_null: a_db /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_total_changes">c_sqlite3_total_changes</A> (a_db)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output</FONT>
+
+    <A NAME="f_io"><A HREF="../elks/any_flat.html#f_io">Io</A>: <A HREF="../elks/std_files_flat.html">STD_FILES</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Handle to standard file setup</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../elks/std_files_flat.html#f_set_output_default">set_output_default</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            io_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_out"><A HREF="../elks/any_flat.html#f_out">out</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/any_flat.html#f_tagged_out">tagged_out</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            out_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_print"><A HREF="../elks/any_flat.html#f_print">print</A> (o: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write terse external representation of </FONT>`o'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on standard output.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> o /= <B>Void</B> <B>then</B>
+                <A HREF="../elks/any_flat.html#f_io">Io</A>.<A HREF="../elks/std_files_flat.html#f_put_string">put_string</A> (o.<A HREF="../elks/any_flat.html#f_out">out</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_tagged_out"><B>frozen</B> <A HREF="../elks/any_flat.html#f_tagged_out">tagged_out</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            tagged_out_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Platform</FONT>
+
+    <A NAME="f_operating_environment"><A HREF="../elks/any_flat.html#f_operating_environment">Operating_environment</A>: <A HREF="../elks/operating_environment_flat.html">OPERATING_ENVIRONMENT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Objects available from the operating system</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            operating_environment_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Query</FONT>
+
+    <A NAME="f_new_binding_argument"><A HREF="../sqlite/sqlite_bind_arg_marshaller_flat.html#f_new_binding_argument">new_binding_argument</A> (a_value: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; a_var: <A HREF="../elks/readable_string_8_flat.html">READABLE_STRING_8</A>): <A HREF="../sqlite/sqlite_bind_arg_flat.html">SQLITE_BIND_ARG</A> [<A HREF="../elks/any_flat.html">ANY</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Creates a new SQLite bind argument for us with executing SQLite statements containing arguments.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_value'<FONT COLOR="red">: A value to create a binding argument for.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`Result'<FONT COLOR="red">: A bound argument, or </FONT>`a_value'<FONT COLOR="red"> if the argument is already a binding argument.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_bind_arg_marshaller_flat.html">SQLITE_BIND_ARG_MARSHALLER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_bind_arg_marshaller_flat.html">SQLITE_BIND_ARG_MARSHALLER</A>
+            a_value_is_valid_argument: <A HREF="../sqlite/sqlite_binding_helpers_flat.html#f_is_valid_argument">is_valid_argument</A> (a_value)
+            a_var_attached: <B>attached</B> a_var
+            not_a_var_is_empty: <B>not</B> a_var.<A HREF="../elks/readable_string_general_flat.html#f_is_empty">is_empty</A>
+            a_var_is_valid_variable_name: <A HREF="../sqlite/sqlite_binding_helpers_flat.html#f_is_valid_variable_name">is_valid_variable_name</A> (a_var)
+        <B>local</B>
+            l_scalar_result: <B>detachable</B> <A HREF="../sqlite/sqlite_bind_arg_flat.html">SQLITE_BIND_ARG</A> [<A HREF="../elks/any_flat.html">ANY</A>]
+            l_type_id: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> a_value <B>then</B>
+                <B>if</B> <B>attached</B> {<A HREF="../sqlite/sqlite_bind_arg_flat.html">SQLITE_BIND_ARG</A> [<A HREF="../elks/any_flat.html">ANY</A>]} a_value <B>as</B> l_result <B>then</B>
+                    <B>Result</B> := l_result
+                <B>elseif</B> <B>attached</B> {<A HREF="../elks/readable_string_8_flat.html">READABLE_STRING_8</A>} a_value <B>as</B> l_value <B>then</B>
+                    <B>create</B> {<A HREF="../sqlite/sqlite_string_arg_flat.html">SQLITE_STRING_ARG</A>} <B>Result</B>.<A HREF="../sqlite/sqlite_bind_arg_flat.html#f_make">make</A> (a_var, l_value)
+                <B>elseif</B> <B>attached</B> {<A HREF="../elks/readable_string_32_flat.html">READABLE_STRING_32</A>} a_value <B>as</B> l_s32 <B>then</B>
+                    <B>if</B> l_s32.<A HREF="../elks/readable_string_32_flat.html#f_is_valid_as_string_8">is_valid_as_string_8</A> <B>then</B>
+                        <B>create</B> {<A HREF="../sqlite/sqlite_string_arg_flat.html">SQLITE_STRING_ARG</A>} <B>Result</B>.<A HREF="../sqlite/sqlite_bind_arg_flat.html#f_make">make</A> (a_var, l_s32.<A HREF="../elks/readable_string_general_flat.html#f_as_string_8">as_string_8</A>)
+                    <B>else</B>
+                        <B>check</B>
+                            unsupported_value_for_type_string_32: <B>False</B>
+                        <B>end</B>
+                        <B>create</B> {<A HREF="../sqlite/sqlite_null_arg_flat.html">SQLITE_NULL_ARG</A>} <B>Result</B>.<A HREF="../sqlite/sqlite_null_arg_flat.html#f_make">make</A> (a_var)
+                    <B>end</B>
+                <B>elseif</B> <B>attached</B> {<A HREF="../elks/managed_pointer_flat.html">MANAGED_POINTER</A>} a_value <B>as</B> l_value <B>then</B>
+                    <B>create</B> {<A HREF="../sqlite/sqlite_blob_arg_flat.html">SQLITE_BLOB_ARG</A>} <B>Result</B>.<A HREF="../sqlite/sqlite_bind_arg_flat.html#f_make">make</A> (a_var, l_value)
+                <B>else</B>
+                    l_type_id := a_value.<A HREF="../elks/any_flat.html#f_generating_type">generating_type</A>.<A HREF="../elks/type_flat.html#f_type_id">type_id</A>
+                    <B>if</B> l_type_id = ({<A HREF="../elks/integer_8_flat.html">INTEGER_8</A>}).<A HREF="../elks/type_flat.html#f_type_id">type_id</A> <B>then</B>
+                        <B>if</B> <B>attached</B> {<A HREF="../elks/integer_8_ref_flat.html">INTEGER_8_REF</A>} a_value <B>as</B> l_value <B>then</B>
+                            <B>create</B> {<A HREF="../sqlite/sqlite_integer_arg_flat.html">SQLITE_INTEGER_ARG</A>} l_scalar_result.<A HREF="../sqlite/sqlite_bind_arg_flat.html#f_make">make</A> (a_var, l_value.<A HREF="../elks/integer_8_ref_flat.html#f_item">item</A>.<A HREF="../elks/integer_8_ref_flat.html#f_to_integer_64">to_integer_64</A>)
+                        <B>end</B>
+                    <B>elseif</B> l_type_id = ({<A HREF="../elks/integer_16_flat.html">INTEGER_16</A>}).<A HREF="../elks/type_flat.html#f_type_id">type_id</A> <B>then</B>
+                        <B>if</B> <B>attached</B> {<A HREF="../elks/integer_16_ref_flat.html">INTEGER_16_REF</A>} a_value <B>as</B> l_value <B>then</B>
+                            <B>create</B> {<A HREF="../sqlite/sqlite_integer_arg_flat.html">SQLITE_INTEGER_ARG</A>} l_scalar_result.<A HREF="../sqlite/sqlite_bind_arg_flat.html#f_make">make</A> (a_var, l_value.<A HREF="../elks/integer_16_ref_flat.html#f_item">item</A>.<A HREF="../elks/integer_16_ref_flat.html#f_to_integer_64">to_integer_64</A>)
+                        <B>end</B>
+                    <B>elseif</B> l_type_id = ({<A HREF="../elks/integer_32_flat.html">INTEGER_32</A>}).<A HREF="../elks/type_flat.html#f_type_id">type_id</A> <B>then</B>
+                        <B>if</B> <B>attached</B> {<A HREF="../elks/integer_32_ref_flat.html">INTEGER_32_REF</A>} a_value <B>as</B> l_value <B>then</B>
+                            <B>create</B> {<A HREF="../sqlite/sqlite_integer_arg_flat.html">SQLITE_INTEGER_ARG</A>} l_scalar_result.<A HREF="../sqlite/sqlite_bind_arg_flat.html#f_make">make</A> (a_var, l_value.<A HREF="../elks/integer_32_ref_flat.html#f_item">item</A>.<A HREF="../elks/integer_32_ref_flat.html#f_to_integer_64">to_integer_64</A>)
+                        <B>end</B>
+                    <B>elseif</B> l_type_id = ({<A HREF="../elks/integer_64_flat.html">INTEGER_64</A>}).<A HREF="../elks/type_flat.html#f_type_id">type_id</A> <B>then</B>
+                        <B>if</B> <B>attached</B> {<A HREF="../elks/integer_64_ref_flat.html">INTEGER_64_REF</A>} a_value <B>as</B> l_value <B>then</B>
+                            <B>create</B> {<A HREF="../sqlite/sqlite_integer_arg_flat.html">SQLITE_INTEGER_ARG</A>} l_scalar_result.<A HREF="../sqlite/sqlite_bind_arg_flat.html#f_make">make</A> (a_var, l_value.<A HREF="../elks/integer_64_ref_flat.html#f_item">item</A>)
+                        <B>end</B>
+                    <B>elseif</B> l_type_id = ({<A HREF="../elks/natural_8_flat.html">NATURAL_8</A>}).<A HREF="../elks/type_flat.html#f_type_id">type_id</A> <B>then</B>
+                        <B>if</B> <B>attached</B> {<A HREF="../elks/natural_8_ref_flat.html">NATURAL_8_REF</A>} a_value <B>as</B> l_value <B>then</B>
+                            <B>create</B> {<A HREF="../sqlite/sqlite_integer_arg_flat.html">SQLITE_INTEGER_ARG</A>} l_scalar_result.<A HREF="../sqlite/sqlite_bind_arg_flat.html#f_make">make</A> (a_var, l_value.<A HREF="../elks/natural_8_ref_flat.html#f_item">item</A>.<A HREF="../elks/natural_8_flat.html#f_as_integer_32">as_integer_32</A>.<A HREF="../elks/integer_32_ref_flat.html#f_to_integer_64">to_integer_64</A>)
+                        <B>end</B>
+                    <B>elseif</B> l_type_id = ({<A HREF="../elks/natural_16_flat.html">NATURAL_16</A>}).<A HREF="../elks/type_flat.html#f_type_id">type_id</A> <B>then</B>
+                        <B>if</B> <B>attached</B> {<A HREF="../elks/natural_16_ref_flat.html">NATURAL_16_REF</A>} a_value <B>as</B> l_value <B>then</B>
+                            <B>create</B> {<A HREF="../sqlite/sqlite_integer_arg_flat.html">SQLITE_INTEGER_ARG</A>} l_scalar_result.<A HREF="../sqlite/sqlite_bind_arg_flat.html#f_make">make</A> (a_var, l_value.<A HREF="../elks/natural_16_ref_flat.html#f_item">item</A>.<A HREF="../elks/natural_16_flat.html#f_as_integer_32">as_integer_32</A>.<A HREF="../elks/integer_32_ref_flat.html#f_to_integer_64">to_integer_64</A>)
+                        <B>end</B>
+                    <B>elseif</B> l_type_id = ({<A HREF="../elks/natural_32_flat.html">NATURAL_32</A>}).<A HREF="../elks/type_flat.html#f_type_id">type_id</A> <B>then</B>
+                        <B>if</B> <B>attached</B> {<A HREF="../elks/natural_32_ref_flat.html">NATURAL_32_REF</A>} a_value <B>as</B> l_value <B>then</B>
+                            <B>if</B> l_value &lt;= {<A HREF="../elks/integer_32_flat.html">INTEGER_32</A>}.<A HREF="../elks/integer_32_ref_flat.html#f_max_value">max_value</A>.<A HREF="../elks/integer_32_flat.html#f_as_natural_32">as_natural_32</A> <B>then</B>
+                                <B>create</B> {<A HREF="../sqlite/sqlite_integer_arg_flat.html">SQLITE_INTEGER_ARG</A>} l_scalar_result.<A HREF="../sqlite/sqlite_bind_arg_flat.html#f_make">make</A> (a_var, l_value.<A HREF="../elks/natural_32_ref_flat.html#f_item">item</A>.<A HREF="../elks/natural_32_flat.html#f_as_integer_32">as_integer_32</A>.<A HREF="../elks/integer_32_ref_flat.html#f_to_integer_64">to_integer_64</A>)
+                            <B>else</B>
+                                <B>create</B> {<A HREF="../sqlite/sqlite_integer_arg_flat.html">SQLITE_INTEGER_ARG</A>} l_scalar_result.<A HREF="../sqlite/sqlite_bind_arg_flat.html#f_make">make</A> (a_var, l_value.<A HREF="../elks/natural_32_ref_flat.html#f_item">item</A>.<A HREF="../elks/natural_32_flat.html#f_as_integer_64">as_integer_64</A>)
+                            <B>end</B>
+                        <B>end</B>
+                    <B>elseif</B> l_type_id = ({<A HREF="../elks/natural_64_flat.html">NATURAL_64</A>}).<A HREF="../elks/type_flat.html#f_type_id">type_id</A> <B>then</B>
+                        <B>if</B> <B>attached</B> {<A HREF="../elks/natural_64_ref_flat.html">NATURAL_64_REF</A>} a_value <B>as</B> l_value <B>then</B>
+                            <B>if</B> l_value &lt;= {<A HREF="../elks/integer_32_flat.html">INTEGER_32</A>}.<A HREF="../elks/integer_32_ref_flat.html#f_max_value">max_value</A>.<A HREF="../elks/integer_32_flat.html#f_as_natural_64">as_natural_64</A> <B>then</B>
+                                <B>create</B> {<A HREF="../sqlite/sqlite_integer_arg_flat.html">SQLITE_INTEGER_ARG</A>} l_scalar_result.<A HREF="../sqlite/sqlite_bind_arg_flat.html#f_make">make</A> (a_var, l_value.<A HREF="../elks/natural_64_ref_flat.html#f_item">item</A>.<A HREF="../elks/natural_64_flat.html#f_as_integer_32">as_integer_32</A>.<A HREF="../elks/integer_32_ref_flat.html#f_to_integer_64">to_integer_64</A>)
+                            <B>elseif</B> l_value &lt;= {<A HREF="../elks/integer_64_flat.html">INTEGER_64</A>}.<A HREF="../elks/integer_64_ref_flat.html#f_max_value">max_value</A>.<A HREF="../elks/integer_64_flat.html#f_as_natural_64">as_natural_64</A> <B>then</B>
+                                <B>create</B> {<A HREF="../sqlite/sqlite_integer_arg_flat.html">SQLITE_INTEGER_ARG</A>} l_scalar_result.<A HREF="../sqlite/sqlite_bind_arg_flat.html#f_make">make</A> (a_var, l_value.<A HREF="../elks/natural_64_ref_flat.html#f_item">item</A>.<A HREF="../elks/natural_64_flat.html#f_as_integer_64">as_integer_64</A>)
+                            <B>else</B>
+                                <B>check</B>
+                                    unsupported_value_for_type_natural_64: <B>False</B>
+                                <B>end</B>
+                                <B>create</B> {<A HREF="../sqlite/sqlite_integer_arg_flat.html">SQLITE_INTEGER_ARG</A>} <B>Result</B>.<A HREF="../sqlite/sqlite_bind_arg_flat.html#f_make">make</A> (a_var, 0.<A HREF="../elks/integer_32_ref_flat.html#f_to_integer_64">to_integer_64</A>)
+                            <B>end</B>
+                        <B>end</B>
+                    <B>elseif</B> l_type_id = ({<A HREF="../elks/real_32_flat.html">REAL_32</A>}).<A HREF="../elks/type_flat.html#f_type_id">type_id</A> <B>then</B>
+                        <B>if</B> <B>attached</B> {<A HREF="../elks/real_32_ref_flat.html">REAL_32_REF</A>} a_value <B>as</B> l_value <B>then</B>
+                            <B>create</B> {<A HREF="../sqlite/sqlite_double_arg_flat.html">SQLITE_DOUBLE_ARG</A>} l_scalar_result.<A HREF="../sqlite/sqlite_bind_arg_flat.html#f_make">make</A> (a_var, l_value.<A HREF="../elks/real_32_ref_flat.html#f_item">item</A>.<A HREF="../elks/real_32_flat.html#f_to_double">to_double</A>)
+                        <B>end</B>
+                    <B>elseif</B> l_type_id = ({<A HREF="../elks/real_64_flat.html">REAL_64</A>}).<A HREF="../elks/type_flat.html#f_type_id">type_id</A> <B>then</B>
+                        <B>if</B> <B>attached</B> {<A HREF="../elks/real_64_ref_flat.html">REAL_64_REF</A>} a_value <B>as</B> l_value <B>then</B>
+                            <B>create</B> {<A HREF="../sqlite/sqlite_double_arg_flat.html">SQLITE_DOUBLE_ARG</A>} l_scalar_result.<A HREF="../sqlite/sqlite_bind_arg_flat.html#f_make">make</A> (a_var, l_value.<A HREF="../elks/real_64_ref_flat.html#f_item">item</A>)
+                        <B>end</B>
+                    <B>elseif</B> l_type_id = ({<A HREF="../elks/boolean_flat.html">BOOLEAN</A>}).<A HREF="../elks/type_flat.html#f_type_id">type_id</A> <B>then</B>
+                        <B>if</B> <B>attached</B> {<A HREF="../elks/boolean_ref_flat.html">BOOLEAN_REF</A>} a_value <B>as</B> l_value <B>then</B>
+                            <B>create</B> {<A HREF="../sqlite/sqlite_boolean_arg_flat.html">SQLITE_BOOLEAN_ARG</A>} l_scalar_result.<A HREF="../sqlite/sqlite_bind_arg_flat.html#f_make">make</A> (a_var, l_value.<A HREF="../elks/boolean_ref_flat.html#f_item">item</A>)
+                        <B>end</B>
+                    <B>else</B>
+                        <B>check</B>
+                            unsupported_type: <B>False</B>
+                        <B>end</B>
+                        <B>create</B> {<A HREF="../sqlite/sqlite_null_arg_flat.html">SQLITE_NULL_ARG</A>} <B>Result</B>.<A HREF="../sqlite/sqlite_null_arg_flat.html#f_make">make</A> (a_var)
+                    <B>end</B>
+                    <B>check</B>
+                        l_scalar_result_attached: <B>attached</B> l_scalar_result
+                    <B>then</B>
+                        <B>Result</B> := l_scalar_result
+                    <B>end</B>
+                <B>end</B>
+            <B>else</B>
+                <B>create</B> {<A HREF="../sqlite/sqlite_null_arg_flat.html">SQLITE_NULL_ARG</A>} <B>Result</B>.<A HREF="../sqlite/sqlite_null_arg_flat.html#f_make">make</A> (a_var)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_bind_arg_marshaller_flat.html">SQLITE_BIND_ARG_MARSHALLER</A>
+            result_attached: <B>attached</B> <B>Result</B>
+            result_is_value_marshalled: <A HREF="../sqlite/sqlite_bind_arg_marshaller_flat.html#f_is_value_marshalled">is_value_marshalled</A> (<B>Result</B>)
+        <B>end</B></A>
+
+    <A NAME="f_new_binding_argument_array"><A HREF="../sqlite/sqlite_bind_arg_marshaller_flat.html#f_new_binding_argument_array">new_binding_argument_array</A> (a_args: <A HREF="../elks/iterable_flat.html">ITERABLE</A> [<B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>]): <A HREF="../elks/array_flat.html">ARRAY</A> [<A HREF="../sqlite/sqlite_bind_arg_flat.html">SQLITE_BIND_ARG</A> [<A HREF="../elks/any_flat.html">ANY</A>]]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Creates a new argument array from a tuple of values.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_args'<FONT COLOR="red">: Arguments to create a new array for.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`Result'<FONT COLOR="red">: Argument array to use with processing</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_bind_arg_marshaller_flat.html">SQLITE_BIND_ARG_MARSHALLER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_bind_arg_marshaller_flat.html">SQLITE_BIND_ARG_MARSHALLER</A>
+            a_args_attached: <B>attached</B> a_args
+            not_a_args_is_empty: <B>across</B>
+                a_args <B>as</B> ic
+            <B>some</B>
+                <B>True</B>
+            <B>end</B>
+            a_args_is_valid_arguments: <A HREF="../sqlite/sqlite_binding_helpers_flat.html#f_is_valid_arguments">is_valid_arguments</A> (a_args)
+        <B>local</B>
+            i_count, i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            l_arg: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>
+            l_var: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+        <B>do</B>
+            i_count := <A HREF="../sqlite/sqlite_binding_helpers_flat.html#f_iterable_min_count_or_value">iterable_min_count_or_value</A> (a_args, <A HREF="../sqlite/sqlite_binding_helpers_flat.html#f_sqlite_limit_variable_number">sqlite_limit_variable_number</A>)
+            <B>create</B> <B>Result</B>.<A HREF="../elks/array_flat.html#f_make_filled">make_filled</A> (<A HREF="../sqlite/sqlite_bind_arg_marshaller_flat.html#f_default_bind_arg">Default_bind_arg</A>, 1, i_count)
+            i := 1
+            <B>across</B>
+                a_args <B>as</B> ic
+            <B>until</B>
+                i &gt; i_count
+            <B>loop</B>
+                l_arg := ic.<A HREF="../elks/iteration_cursor_flat.html#f_item">item</A>
+                <B>if</B> <B>attached</B> {<A HREF="../sqlite/sqlite_bind_arg_flat.html">SQLITE_BIND_ARG</A> [<A HREF="../elks/any_flat.html">ANY</A>]} l_arg <B>as</B> l_bind_arg <B>then</B>
+                    <B>Result</B> [i] := l_bind_arg
+                <B>else</B>
+                    <B>create</B> l_var.<A HREF="../elks/readable_string_8_flat.html#f_make">make</A> (3)
+                    l_var.<A HREF="../elks/string_8_flat.html#f_append_character">append_character</A> ('?')
+                    l_var.<A HREF="../elks/string_8_flat.html#f_append_integer">append_integer</A> (i)
+                    <B>Result</B> [i] := <A HREF="../sqlite/sqlite_bind_arg_marshaller_flat.html#f_new_binding_argument">new_binding_argument</A> (l_arg, l_var)
+                <B>end</B>
+                i := i + 1
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_bind_arg_marshaller_flat.html">SQLITE_BIND_ARG_MARSHALLER</A>
+            result_attached: <B>attached</B> <B>Result</B>
+            result_count_matches: <A HREF="../sqlite/sqlite_binding_helpers_flat.html#f_iterable_has_count">iterable_has_count</A> (a_args, <B>Result</B>.<A HREF="../elks/array_flat.html#f_count">count</A>)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_column_name"><A HREF="../sqlite/sqlite_statement_externals_flat.html#f_sqlite3_column_name">sqlite3_column_name</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_stmt: <A HREF="../elks/pointer_flat.html">POINTER</A>; a_column: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_statement_externals_flat.html">SQLITE_STATEMENT_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_statement_externals_flat.html">SQLITE_STATEMENT_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_stmt_is_null: a_stmt /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+            a_column_non_negative: a_column &gt;= 0
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_column_name">c_sqlite3_column_name</A> (a_stmt, a_column)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite_exception"><B>frozen</B> <A HREF="../sqlite/sqlite_helpers_flat.html#f_sqlite_exception">sqlite_exception</A> (a_code: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>; a_message: <B>detachable</B> <A HREF="../elks/readable_string_8_flat.html">READABLE_STRING_8</A>): <A HREF="../sqlite/sqlite_exception_flat.html">SQLITE_EXCEPTION</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieves an exception object based on the exception error code and message.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_code'<FONT COLOR="red">: A non-successful result code.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_message'<FONT COLOR="red">: An optional exception message. NOt supplying an error message will generated a</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">              default error message.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_helpers_flat.html">SQLITE_HELPERS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_helpers_flat.html">SQLITE_HELPERS</A>
+            not_a_code_sqlite_success: <B>not</B> <A HREF="../sqlite/sqlite_helpers_flat.html#f_sqlite_success">sqlite_success</A> (a_code)
+            not_a_message_is_empty: <B>attached</B> a_message <B>implies</B> <B>not</B> a_message.<A HREF="../elks/readable_string_general_flat.html#f_is_empty">is_empty</A>
+        <B>do</B>
+            <B>if</B> (a_code &#38; {<A HREF="../sqlite/sqlite_result_code_flat.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code_flat.html#f_e_io_err">e_io_err</A>) = {<A HREF="../sqlite/sqlite_result_code_flat.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code_flat.html#f_e_io_err">e_io_err</A> <B>then</B>
+                <B>if</B> <B>attached</B> a_message <B>then</B>
+                    <B>create</B> {<A HREF="../sqlite/sqlite_io_exception_flat.html">SQLITE_IO_EXCEPTION</A>} <B>Result</B>.<A HREF="../sqlite/sqlite_exception_flat.html#f_make_with_message">make_with_message</A> (a_code, a_message)
+                <B>else</B>
+                    <B>create</B> {<A HREF="../sqlite/sqlite_io_exception_flat.html">SQLITE_IO_EXCEPTION</A>} <B>Result</B>.<A HREF="../sqlite/sqlite_exception_flat.html#f_make">make</A> (a_code)
+                <B>end</B>
+            <B>else</B>
+                <B>if</B> <B>attached</B> a_message <B>then</B>
+                    <B>create</B> <B>Result</B>.<A HREF="../sqlite/sqlite_exception_flat.html#f_make_with_message">make_with_message</A> (a_code, a_message)
+                <B>else</B>
+                    <B>create</B> <B>Result</B>.<A HREF="../sqlite/sqlite_exception_flat.html#f_make">make</A> (a_code)
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_sqlite_success"><B>frozen</B> <A HREF="../sqlite/sqlite_helpers_flat.html#f_sqlite_success">sqlite_success</A> (a_code: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates if a result was a success or failure.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_code'<FONT COLOR="red">: A result code.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`Result'<FONT COLOR="red">: True if the result code was a successful code; False for all errors codes.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_helpers_flat.html">SQLITE_HELPERS</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := ({<A HREF="../sqlite/sqlite_result_code_flat.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code_flat.html#f_failure_mask">failure_mask</A> &#38; a_code) = 0 <B>or else</B> a_code = {<A HREF="../sqlite/sqlite_result_code_flat.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code_flat.html#f_row">row</A> <B>or</B> a_code = {<A HREF="../sqlite/sqlite_result_code_flat.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code_flat.html#f_done">done</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_helpers_flat.html">SQLITE_HELPERS</A>
+            result_is_ok: <B>Result</B> <B>implies</B> (({<A HREF="../sqlite/sqlite_result_code_flat.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code_flat.html#f_failure_mask">failure_mask</A> &#38; a_code) = 0 <B>or else</B> a_code = {<A HREF="../sqlite/sqlite_result_code_flat.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code_flat.html#f_row">row</A> <B>or</B> a_code = {<A HREF="../sqlite/sqlite_result_code_flat.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code_flat.html#f_done">done</A>)
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Query: Error handling</FONT>
+
+    <A NAME="f_sqlite3_errcode"><A HREF="../sqlite/sqlite_database_externals_flat.html#f_sqlite3_errcode">sqlite3_errcode</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_db: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_db_is_null: a_db /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_errcode">c_sqlite3_errcode</A> (a_db)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_errmsg"><A HREF="../sqlite/sqlite_database_externals_flat.html#f_sqlite3_errmsg">sqlite3_errmsg</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_db: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_db_is_null: a_db /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_errmsg">c_sqlite3_errmsg</A> (a_db)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_extended_errcode"><A HREF="../sqlite/sqlite_database_externals_flat.html#f_sqlite3_extended_errcode">sqlite3_extended_errcode</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_db: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_db_is_null: a_db /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_extended_errcode">c_sqlite3_extended_errcode</A> (a_db)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_last_insert_rowid"><A HREF="../sqlite/sqlite_database_externals_flat.html#f_sqlite3_last_insert_rowid">sqlite3_last_insert_rowid</A> (a_api: <A HREF="../sqlite/sqlite_api_flat.html">SQLITE_API</A>; a_db: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/integer_64_flat.html">INTEGER_64</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../sqlite/sqlite_database_externals_flat.html">SQLITE_DATABASE_EXTERNALS</A>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api_flat.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_db_is_null: a_db /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals_flat.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals_flat.html#f_c_sqlite3_last_insert_rowid">c_sqlite3_last_insert_rowid</A> (a_db)
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieval</FONT>
+
+    <A NAME="f_internal_correct_mismatch"><B>frozen</B> <A HREF="../elks/any_flat.html#f_internal_correct_mismatch">internal_correct_mismatch</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Called from runtime to perform a proper dynamic dispatch on </FONT>`correct_mismatch'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> from MISMATCH_CORRECTOR.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            l_msg: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            l_exc: <A HREF="../elks/exceptions_flat.html">EXCEPTIONS</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<A HREF="../elks/mismatch_corrector_flat.html">MISMATCH_CORRECTOR</A>} <B>Current</B> <B>as</B> l_corrector <B>then</B>
+                l_corrector.<A HREF="../elks/mismatch_corrector_flat.html#f_correct_mismatch">correct_mismatch</A>
+            <B>else</B>
+                <B>create</B> l_msg.<A HREF="../elks/readable_string_8_flat.html#f_make_from_string">make_from_string</A> ("Mismatch: ")
+                <B>create</B> l_exc
+                l_msg.<A HREF="../elks/string_8_flat.html#f_append">append</A> (<A HREF="../elks/any_flat.html#f_generating_type">generating_type</A>.<A HREF="../elks/type_flat.html#f_name">name</A>)
+                l_exc.<A HREF="../elks/exceptions_flat.html#f_raise_retrieval_exception">raise_retrieval_exception</A> (l_msg)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>invariant</B>
+    database_attached: <B>attached</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_database">database</A>
+    statement_attached: <B>attached</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_statement_string">statement_string</A>
+    not_statement_is_empty: <B>not</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_statement_string">statement_string</A>.<A HREF="../elks/immutable_string_8_flat.html#f_is_empty">is_empty</A>
+    string_attached: <B>attached</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_string">string</A>
+    not_string_is_empty: <B>not</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_string">string</A>.<A HREF="../elks/immutable_string_8_flat.html#f_is_empty">is_empty</A>
+    not_internal_db_is_null: <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_stmt">internal_stmt</A> /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A> <B>implies</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_db">internal_db</A> /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+    internal_db_is_null: <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_stmt">internal_stmt</A> = <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A> <B>implies</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_db">internal_db</A> = <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+    internal_thread_id_set: {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_is_thread_capable">is_thread_capable</A> <B>implies</B> <A HREF="../sqlite/sqlite_statement_flat.html#f_internal_thread_id">internal_thread_id</A> /= 0
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+    reflexive_equality: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+    reflexive_conformance: <A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>Current</B>)
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2013, Eiffel Software"
+    license: "GPL version 2 (see <a href="http://www.eiffel.com/licensing/gpl.txt">http://www.eiffel.com/licensing/gpl.txt</a>)"
+    licensing_options: "<a href="http://www.eiffel.com/licensing">http://www.eiffel.com/licensing</a>"
+    copying: "[
+        This file is part of Eiffel Software's Eiffel Development Environment.
+        
+        Eiffel Software's Eiffel Development Environment is free
+        software; you can redistribute it and/or modify it under
+        the terms of the GNU General Public License as published
+        by the Free Software Foundation, version 2 of the License
+        (available at the URL listed under "license" above).
+        
+        Eiffel Software's Eiffel Development Environment is
+        distributed in the hope that it will be useful, but
+        WITHOUT ANY WARRANTY; without even the implied warranty
+        of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        See the GNU General Public License for more details.
+        
+        You should have received a copy of the GNU General Public
+        License along with Eiffel Software's Eiffel Development
+        Environment; if not, write to the Free Software Foundation,
+        Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+    ]"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../sqlite/sqlite_statement_flat.html">SQLITE_STATEMENT</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sqlite_statement_chart.html">Chart</A></TD><TD><A HREF="sqlite_statement_links.html">Relations</A></TD><TD><A HREF="sqlite_statement.html">Text</A></TD><TD>Flat</TD><TD><A HREF="sqlite_statement_short.html">Contracts</A></TD><TD><A HREF="sqlite_statement_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

@@ -1,0 +1,485 @@
+<HTML><HEAD>
+<meta name="description" content="A sequence of actions to be performed on `call'"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="instructions" content="Use features inherited from LIST to add/remove actions. An action is a procedure of ANY class that takes EVENT_DATA. When `call' is called the actions in the list will be executed in order stating at `first'. An action may call `abort' which will cause `call' to stop executing actions in the sequence. (Until the next call to `call'). Descendants may redefine `initialize' to arrange for `call' to be called by an event source. Use `block', `pause', `flush' and `resume' to change the behavior of `call'. eg.  birthday_data: TUPLE [INTEGER, STRING] -- (age, name)  birthday_actions: ACTION_SEQUENCE [like birthday_data]  create birthday_actions.make (birthday, <<age,name>>)  send_card (age: INTEGER, name, from: STRING) is ...  buy_gift (age: INTEGER, name, gift, from: STRING) is ...  birthday_actions.extend (agent send_card (?, ?, Sam)  birthday_actions.extend (agent buy_gift (?, ?, Wine, Sam)  birthday_actions.call ([35, Julia])  causes call to: send_card (35, Julia, Sam)                  buy_gift (35, Julia, Wine, Sam)"/>
+<meta name="keywords" content="Eiffel class, event, action"/>
+<meta name="library" content="EiffelBase: Library of reusable components for Eiffel."/>
+<meta name="copyright" content="Copyright (c) 1984-2009, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 356 Storke Road, Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>action_sequence Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="action_sequence_chart.html">Chart</A></TD><TD><A HREF="action_sequence_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="action_sequence_flat.html">Flat</A></TD><TD><A HREF="action_sequence_short.html">Contracts</A></TD><TD><A HREF="action_sequence_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "A sequence of actions to be performed on <A HREF="../ise/action_sequence.html#f_call">call</A>"
+    legal: "See notice at end of class."
+    instructions: "[
+        Use features inherited from LIST to add/remove actions.
+        An action is a procedure of ANY class that takes EVENT_DATA.
+        When <A HREF="../ise/action_sequence.html#f_call">call</A> is called the actions in the list will be executed
+        in order stating at <A HREF="../elks/arrayed_list.html#f_first">first</A>.
+        An action may call <A HREF="../ise/action_sequence.html#f_abort">abort</A> which will cause <A HREF="../ise/action_sequence.html#f_call">call</A> to stop executing
+        actions in the sequence. (Until the next call to <A HREF="../ise/action_sequence.html#f_call">call</A>).
+        Descendants may redefine `initialize' to arrange for <A HREF="../ise/action_sequence.html#f_call">call</A> to
+        be called by an event source.
+        Use <A HREF="../ise/action_sequence.html#f_block">block</A>, <A HREF="../ise/action_sequence.html#f_pause">pause</A>, <A HREF="../ise/action_sequence.html#f_flush">flush</A> and <A HREF="../ise/action_sequence.html#f_resume">resume</A> to change the behavior
+        of <A HREF="../ise/action_sequence.html#f_call">call</A>.
+        eg.
+         birthday_data: TUPLE [INTEGER, STRING] -- (age, name)
+         birthday_actions: ACTION_SEQUENCE [like birthday_data]
+         create birthday_actions.make ("birthday", &lt;&lt;"age","name"&gt;&gt;)
+         send_card (age: INTEGER, name, from: STRING) is ...
+         buy_gift (age: INTEGER, name, gift, from: STRING) is ...
+         birthday_actions.extend (agent send_card (?, ?, "Sam")
+         birthday_actions.extend (agent buy_gift (?, ?, "Wine", "Sam")
+         birthday_actions.call ([35, "Julia"])
+         causes call to: send_card (35, "Julia", "Sam")
+                         buy_gift (35, "Julia", "Wine", "Sam")
+    ]"
+    status: "See notice at end of class."
+    keywords: "event, action"
+    date: "$Date: 2011-10-17 18:54:58 -0700 (Mon, 17 Oct 2011) $"
+    revision: "$Revision: 87492 $"
+
+<B>class</B> 
+    <A HREF="../ise/action_sequence.html">ACTION_SEQUENCE</A> [EVENT_DATA -&gt; <B>detachable</B> <A HREF="../elks/tuple.html">TUPLE</A> <B>create</B> <A HREF="../elks/any.html#f_default_create">default_create</A> <B>end</B>]
+
+<B>inherit</B>
+    <A HREF="../ise/interactive_list.html">INTERACTIVE_LIST</A> [<A HREF="../elks/procedure.html">PROCEDURE</A> [<A HREF="../elks/any.html">ANY</A>, EVENT_DATA]]
+        <B>rename</B>
+            <A HREF="../elks/arrayed_list.html#f_make">make</A> <B>as</B> <A HREF="../elks/arrayed_list.html#f_make">arrayed_list_make</A>
+        <B>redefine</B>
+            <A HREF="../ise/action_sequence.html#f_default_create">default_create</A>,
+            <A HREF="../ise/action_sequence.html#f_on_item_added_at">on_item_added_at</A>,
+            <A HREF="../ise/action_sequence.html#f_on_item_removed_at">on_item_removed_at</A>,
+            <A HREF="../ise/action_sequence.html#f_prune">prune</A>
+        <B>end</B>
+
+<B>create</B> 
+    <A HREF="../ise/action_sequence.html#f_default_create">default_create</A>,
+    <A HREF="../ise/action_sequence.html#f_make">make</A>
+
+
+<B>create</B> {<A HREF="../ise/action_sequence.html">ACTION_SEQUENCE</A>}
+    <A HREF="../elks/arrayed_list.html#f_make">arrayed_list_make</A>,
+    <A HREF="../elks/arrayed_list.html#f_make_filled">make_filled</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_default_create"><A HREF="../ise/action_sequence.html#f_default_create">default_create</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Begin in </FONT><A HREF="../ise/action_sequence.html#f_normal_state">Normal_state</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/arrayed_list.html#f_make">arrayed_list_make</A> (0)
+            <A HREF="../ise/action_sequence.html#f_state">state</A> := <A HREF="../ise/action_sequence.html#f_normal_state">Normal_state</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Miscellaneous</FONT>
+
+    <A NAME="f_on_item_added_at"><A HREF="../ise/action_sequence.html#f_on_item_added_at">on_item_added_at</A> (an_item: <B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>; item_index: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`an_item'<FONT COLOR="red"> has just been added at index </FONT>`item_index'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/arrayed_list.html#f_count">count</A> = 1 <B>and</B> <A HREF="../ise/action_sequence.html#f_not_empty_actions_internal">not_empty_actions_internal</A> /= <B>Void</B> <B>then</B>
+                <A HREF="../ise/action_sequence.html#f_call_action_list">call_action_list</A> (<A HREF="../ise/action_sequence.html#f_not_empty_actions">not_empty_actions</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_on_item_removed_at"><A HREF="../ise/action_sequence.html#f_on_item_removed_at">on_item_removed_at</A> (an_item: <B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>; item_index: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`an_item'<FONT COLOR="red"> has just been removed from index </FONT>`item_index'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/arrayed_list.html#f_count">count</A> = 0 <B>and</B> <A HREF="../ise/action_sequence.html#f_empty_actions_internal">empty_actions_internal</A> /= <B>Void</B> <B>then</B>
+                <A HREF="../ise/action_sequence.html#f_call_action_list">call_action_list</A> (<A HREF="../ise/action_sequence.html#f_empty_actions">empty_actions</A>)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_call"><A HREF="../ise/action_sequence.html#f_call">call</A> (event_data: <B>detachable</B> EVENT_DATA)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Call each procedure in order unless </FONT>`is_blocked'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If </FONT>`is_paused'<FONT COLOR="red"> delay execution until </FONT><A HREF="../ise/action_sequence.html#f_resume">resume</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Stop at current point in list on </FONT><A HREF="../ise/action_sequence.html#f_abort">abort</A><FONT COLOR="red">.</FONT>
+        <B>local</B>
+            l_routines_snapshot: <A HREF="../elks/special.html">SPECIAL</A> [<B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>]
+            l_count: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_action: <B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>
+            l_kamikazes: <A HREF="../elks/special.html">SPECIAL</A> [<B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>]
+            l_kamikazes_internal: <B>like</B> <A HREF="../ise/action_sequence.html#f_kamikazes_internal">kamikazes_internal</A>
+            l_is_aborted_stack: <B>like</B> <A HREF="../ise/action_sequence.html#f_is_aborted_stack">is_aborted_stack</A>
+            i: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/arrayed_list.html#f_count">count</A> &gt; 0 <B>then</B>
+                <B>create</B> l_routines_snapshot.<A HREF="../elks/special.html#f_make_empty">make_empty</A> (<A HREF="../elks/arrayed_list.html#f_count">count</A>)
+                l_routines_snapshot.<A HREF="../elks/special.html#f_copy_data">copy_data</A> (<A HREF="../elks/arrayed_list.html#f_area">area</A>, 0, 0, <A HREF="../elks/arrayed_list.html#f_count">count</A>)
+                l_kamikazes_internal := <A HREF="../ise/action_sequence.html#f_kamikazes_internal">kamikazes_internal</A>
+                <B>if</B> l_kamikazes_internal /= <B>Void</B> <B>and then</B> <B>not</B> l_kamikazes_internal.<A HREF="../elks/finite.html#f_is_empty">is_empty</A> <B>then</B>
+                    <B>from</B>
+                        l_kamikazes := l_kamikazes_internal.<A HREF="../elks/arrayed_list.html#f_area">area</A>
+                        l_count := l_kamikazes_internal.<A HREF="../elks/arrayed_list.html#f_count">count</A>
+                        i := 0
+                    <B>until</B>
+                        i = l_count
+                    <B>loop</B>
+                        <A HREF="../ise/interactive_list.html#f_prune_all">prune_all</A> (l_kamikazes @ i)
+                        i := i + 1
+                    <B>end</B>
+                    l_kamikazes_internal.<A HREF="../elks/arrayed_list.html#f_wipe_out">wipe_out</A>
+                <B>end</B>
+                <B>inspect</B> <A HREF="../ise/action_sequence.html#f_state">state</A>
+                <B>when</B> <A HREF="../ise/action_sequence.html#f_normal_state">Normal_state</A> <B>then</B> 
+                    <B>from</B>
+                        l_is_aborted_stack := <A HREF="../ise/action_sequence.html#f_is_aborted_stack">is_aborted_stack</A>
+                        l_is_aborted_stack.<A HREF="../elks/linked_stack.html#f_extend">extend</A> (<B>False</B>)
+                        l_count := l_routines_snapshot.<A HREF="../elks/special.html#f_count">count</A>
+                        i := 0
+                    <B>variant</B>
+                        l_count - i
+                    <B>until</B>
+                        i = l_count <B>or</B> l_is_aborted_stack.<A HREF="../elks/linked_stack.html#f_item">item</A>
+                    <B>loop</B>
+                        l_action := l_routines_snapshot @ i
+                        <B>if</B> l_action /= <B>Void</B> <B>then</B>
+                            l_action.<A HREF="../elks/procedure.html#f_call">call</A> (event_data)
+                        <B>end</B>
+                        i := i + 1
+                    <B>end</B>
+                    l_is_aborted_stack.<A HREF="../elks/linked_stack.html#f_remove">remove</A>
+                <B>when</B> <A HREF="../ise/action_sequence.html#f_paused_state">Paused_state</A> <B>then</B> 
+                    <A HREF="../ise/action_sequence.html#f_call_buffer">call_buffer</A>.<A HREF="../elks/linked_queue.html#f_extend">extend</A> (event_data)
+                <B>when</B> <A HREF="../ise/action_sequence.html#f_blocked_state">Blocked_state</A> <B>then</B> 
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B>
+            is_aborted_stack_unchanged: (<B>old</B> <A HREF="../ise/action_sequence.html#f_is_aborted_stack">is_aborted_stack</A>) ~ <A HREF="../ise/action_sequence.html#f_is_aborted_stack">is_aborted_stack</A>
+        <B>end</B></A>
+
+    <A NAME="f_extend_kamikaze"><A HREF="../ise/action_sequence.html#f_extend_kamikaze">extend_kamikaze</A> (an_item: <B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Extend </FONT>`an_item'<FONT COLOR="red"> and remove it again after it is called.</FONT>
+        <B>do</B>
+            <A HREF="../ise/interactive_list.html#f_extend">extend</A> (an_item)
+            <A HREF="../ise/action_sequence.html#f_prune_when_called">prune_when_called</A> (an_item)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_name"><A HREF="../ise/action_sequence.html#f_name">name</A>: <B>detachable</B> <A HREF="../elks/string_8.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Textual description.</FONT>
+        <B>local</B>
+            i: <B>like</B> <A HREF="../ise/action_sequence.html#f_name_internal">name_internal</A>
+        <B>do</B>
+            i := <A HREF="../ise/action_sequence.html#f_name_internal">name_internal</A>
+            <B>if</B> i /= <B>Void</B> <B>then</B>
+                <B>Result</B> := i.<A HREF="../elks/any.html#f_twin">twin</A>
+            <B>end</B>
+        <B>ensure</B>
+            equal_to_name_internal: <B>Result</B> ~ <A HREF="../ise/action_sequence.html#f_name_internal">name_internal</A>
+        <B>end</B></A>
+
+    <A NAME="f_event_data_names"><A HREF="../ise/action_sequence.html#f_event_data_names">event_data_names</A>: <B>detachable</B> <A HREF="../elks/array.html">ARRAY</A> [<A HREF="../elks/string_8.html">STRING_8</A>]
+        <B>obsolete</B> "Not implemented. To be removed"
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Textual description of each event datum.</FONT>
+        <B>local</B>
+            i: <B>like</B> <A HREF="../ise/action_sequence.html#f_event_data_names_internal">event_data_names_internal</A>
+        <B>do</B>
+            i := <A HREF="../ise/action_sequence.html#f_event_data_names_internal">event_data_names_internal</A>
+            <B>if</B> i /= <B>Void</B> <B>then</B>
+                <B>Result</B> := i.<A HREF="../elks/any.html#f_deep_twin">deep_twin</A>
+            <B>end</B>
+        <B>ensure</B>
+            equal_to_event_data_names_internal: <A HREF="../elks/any.html#f_deep_equal">deep_equal</A> (<B>Result</B>, <A HREF="../ise/action_sequence.html#f_event_data_names_internal">event_data_names_internal</A>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status setting</FONT>
+
+    <A NAME="f_abort"><A HREF="../ise/action_sequence.html#f_abort">abort</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Abort the current </FONT><A HREF="../ise/action_sequence.html#f_call">call</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (The current item.call will be completed.)</FONT>
+        <B>require</B>
+            call_is_underway: <A HREF="../ise/action_sequence.html#f_call_is_underway">call_is_underway</A>
+        <B>do</B>
+            <A HREF="../ise/action_sequence.html#f_is_aborted_stack">is_aborted_stack</A>.<A HREF="../elks/linked_list.html#f_replace">replace</A> (<B>True</B>)
+        <B>ensure</B>
+            is_aborted_set: <A HREF="../ise/action_sequence.html#f_is_aborted_stack">is_aborted_stack</A>.<A HREF="../elks/linked_stack.html#f_item">item</A>
+        <B>end</B></A>
+
+    <A NAME="f_block"><A HREF="../ise/action_sequence.html#f_block">block</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Ignore subsequent </FONT><A HREF="../ise/action_sequence.html#f_call">call</A><FONT COLOR="red">s.</FONT>
+        <B>do</B>
+            <A HREF="../ise/action_sequence.html#f_state">state</A> := <A HREF="../ise/action_sequence.html#f_blocked_state">Blocked_state</A>
+        <B>ensure</B>
+            blocked_state: <A HREF="../ise/action_sequence.html#f_state">state</A> = <A HREF="../ise/action_sequence.html#f_blocked_state">Blocked_state</A>
+        <B>end</B></A>
+
+    <A NAME="f_pause"><A HREF="../ise/action_sequence.html#f_pause">pause</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Buffer subsequent </FONT><A HREF="../ise/action_sequence.html#f_call">call</A><FONT COLOR="red">s for later execution.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If </FONT>`is_blocked'<FONT COLOR="red"> calls will simply be ignored.</FONT>
+        <B>do</B>
+            <A HREF="../ise/action_sequence.html#f_state">state</A> := <A HREF="../ise/action_sequence.html#f_paused_state">Paused_state</A>
+        <B>ensure</B>
+            paused_state: <A HREF="../ise/action_sequence.html#f_state">state</A> = <A HREF="../ise/action_sequence.html#f_paused_state">Paused_state</A>
+        <B>end</B></A>
+
+    <A NAME="f_resume"><A HREF="../ise/action_sequence.html#f_resume">resume</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Used after </FONT><A HREF="../ise/action_sequence.html#f_block">block</A><FONT COLOR="red"> or </FONT><A HREF="../ise/action_sequence.html#f_pause">pause</A><FONT COLOR="red"> to resume normal </FONT><A HREF="../ise/action_sequence.html#f_call">call</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> execution.  Executes any buffered </FONT><A HREF="../ise/action_sequence.html#f_call">call</A><FONT COLOR="red">s.</FONT>
+        <B>local</B>
+            l_call_buffer: <B>like</B> <A HREF="../ise/action_sequence.html#f_call_buffer">call_buffer</A>
+        <B>do</B>
+            <A HREF="../ise/action_sequence.html#f_state">state</A> := <A HREF="../ise/action_sequence.html#f_normal_state">Normal_state</A>
+            <B>from</B>
+                l_call_buffer := <A HREF="../ise/action_sequence.html#f_call_buffer">call_buffer</A>
+            <B>until</B>
+                l_call_buffer.<A HREF="../elks/finite.html#f_is_empty">is_empty</A>
+            <B>loop</B>
+                <A HREF="../ise/action_sequence.html#f_call">call</A> (l_call_buffer.<A HREF="../elks/linked_queue.html#f_item">item</A>)
+                l_call_buffer.<A HREF="../elks/linked_list.html#f_remove_left">remove</A>
+            <B>end</B>
+        <B>ensure</B>
+            normal_state: <A HREF="../ise/action_sequence.html#f_state">state</A> = <A HREF="../ise/action_sequence.html#f_normal_state">Normal_state</A>
+        <B>end</B></A>
+
+    <A NAME="f_flush"><A HREF="../ise/action_sequence.html#f_flush">flush</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Discard any buffered </FONT><A HREF="../ise/action_sequence.html#f_call">call</A><FONT COLOR="red">s.</FONT>
+        <B>do</B>
+            <A HREF="../ise/action_sequence.html#f_call_buffer">call_buffer</A>.<A HREF="../elks/linked_list.html#f_wipe_out">wipe_out</A>
+        <B>ensure</B>
+            call_buffer_empty: <A HREF="../ise/action_sequence.html#f_call_buffer">call_buffer</A>.<A HREF="../elks/finite.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_state"><A HREF="../ise/action_sequence.html#f_state">state</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> One of </FONT><A HREF="../ise/action_sequence.html#f_normal_state">Normal_state</A><FONT COLOR="red"> </FONT><A HREF="../ise/action_sequence.html#f_paused_state">Paused_state</A><FONT COLOR="red"> or </FONT><A HREF="../ise/action_sequence.html#f_blocked_state">Blocked_state</A>
+
+    <A NAME="f_normal_state"><A HREF="../ise/action_sequence.html#f_normal_state">Normal_state</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A> = 1</A>
+
+    <A NAME="f_paused_state"><A HREF="../ise/action_sequence.html#f_paused_state">Paused_state</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A> = 2</A>
+
+    <A NAME="f_blocked_state"><A HREF="../ise/action_sequence.html#f_blocked_state">Blocked_state</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A> = 3</A>
+
+    <A NAME="f_call_is_underway"><A HREF="../ise/action_sequence.html#f_call_is_underway">call_is_underway</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT><A HREF="../ise/action_sequence.html#f_call">call</A><FONT COLOR="red"> currently being executed?</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>not</B> <A HREF="../ise/action_sequence.html#f_is_aborted_stack">is_aborted_stack</A>.<A HREF="../elks/finite.html#f_is_empty">is_empty</A>
+        <B>ensure</B>
+            <B>Result</B> = <B>not</B> <A HREF="../ise/action_sequence.html#f_is_aborted_stack">is_aborted_stack</A>.<A HREF="../elks/finite.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removal</FONT>
+
+    <A NAME="f_prune"><A HREF="../ise/action_sequence.html#f_prune">prune</A> (v: <B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove first occurrence of </FONT>`v'<FONT COLOR="red">, if any,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> after cursor position.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to right neighbor.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (or </FONT><A HREF="../elks/list.html#f_after">after</A><FONT COLOR="red"> if no right neighbor or </FONT>`v'<FONT COLOR="red"> does not occur)</FONT>
+        <B>local</B>
+            l_compare_objects: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            l_kamikazes: <B>like</B> <A HREF="../ise/action_sequence.html#f_kamikazes_internal">kamikazes_internal</A>
+        <B>do</B>
+            <B>Precursor</B> (v)
+            l_kamikazes := <A HREF="../ise/action_sequence.html#f_kamikazes_internal">kamikazes_internal</A>
+            <B>if</B> l_kamikazes /= <B>Void</B> <B>then</B>
+                <B>if</B> <A HREF="../elks/container.html#f_object_comparison">object_comparison</A> <B>then</B>
+                    l_compare_objects := l_kamikazes.<A HREF="../elks/container.html#f_object_comparison">object_comparison</A>
+                    l_kamikazes.<A HREF="../elks/container.html#f_compare_objects">compare_objects</A>
+                    l_kamikazes.<A HREF="../elks/arrayed_list.html#f_start">start</A>
+                    l_kamikazes.<A HREF="../elks/arrayed_list.html#f_prune">prune</A> (v)
+                    <B>if</B> <B>not</B> l_compare_objects <B>then</B>
+                        l_kamikazes.<A HREF="../elks/container.html#f_compare_references">compare_references</A>
+                    <B>end</B>
+                <B>else</B>
+                    l_kamikazes.<A HREF="../elks/arrayed_list.html#f_prune">prune</A> (v)
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_prune_when_called"><A HREF="../ise/action_sequence.html#f_prune_when_called">prune_when_called</A> (an_action: <B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove </FONT>`an_action'<FONT COLOR="red"> after the next time it is called.</FONT>
+        <B>require</B>
+            <A HREF="../elks/arrayed_list.html#f_has">has</A> (an_action)
+        <B>do</B>
+            <A HREF="../ise/action_sequence.html#f_kamikazes">kamikazes</A>.<A HREF="../elks/arrayed_list.html#f_extend">extend</A> (an_action)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element status</FONT>
+
+    <A NAME="f_has_kamikaze_action"><A HREF="../ise/action_sequence.html#f_has_kamikaze_action">has_kamikaze_action</A> (an_action: <B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Return True is </FONT>`an_action'<FONT COLOR="red"> is found and will be pruned when called.</FONT>
+        <B>require</B>
+            <A HREF="../elks/arrayed_list.html#f_has">has</A> (an_action)
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/arrayed_list.html#f_has">has</A> (an_action) <B>and then</B> <A HREF="../ise/action_sequence.html#f_kamikazes">kamikazes</A>.<A HREF="../elks/arrayed_list.html#f_has">has</A> (an_action)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Event handling</FONT>
+
+    <A NAME="f_not_empty_actions"><A HREF="../ise/action_sequence.html#f_not_empty_actions">not_empty_actions</A>: <A HREF="../elks/arrayed_list.html">ARRAYED_LIST</A> [<A HREF="../elks/procedure.html">PROCEDURE</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A>]]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Actions to be performed on transition from </FONT><A HREF="../elks/finite.html#f_is_empty">is_empty</A><FONT COLOR="red"> to not </FONT><A HREF="../elks/finite.html#f_is_empty">is_empty</A><FONT COLOR="red">.</FONT>
+        <B>local</B>
+            r: <B>like</B> <A HREF="../ise/action_sequence.html#f_not_empty_actions_internal">not_empty_actions_internal</A>
+        <B>do</B>
+            r := <A HREF="../ise/action_sequence.html#f_not_empty_actions_internal">not_empty_actions_internal</A>
+            <B>if</B> r = <B>Void</B> <B>then</B>
+                <B>create</B> r.<A HREF="../elks/arrayed_list.html#f_make">make</A> (0)
+                <A HREF="../ise/action_sequence.html#f_not_empty_actions_internal">not_empty_actions_internal</A> := r
+            <B>end</B>
+            <B>Result</B> := r
+        <B>end</B></A>
+
+    <A NAME="f_empty_actions"><A HREF="../ise/action_sequence.html#f_empty_actions">empty_actions</A>: <A HREF="../elks/arrayed_list.html">ARRAYED_LIST</A> [<A HREF="../elks/procedure.html">PROCEDURE</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A>]]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Actions to be performed on transition from not </FONT><A HREF="../elks/finite.html#f_is_empty">is_empty</A><FONT COLOR="red"> to </FONT><A HREF="../elks/finite.html#f_is_empty">is_empty</A><FONT COLOR="red">.</FONT>
+        <B>local</B>
+            r: <B>like</B> <A HREF="../ise/action_sequence.html#f_empty_actions_internal">empty_actions_internal</A>
+        <B>do</B>
+            r := <A HREF="../ise/action_sequence.html#f_empty_actions_internal">empty_actions_internal</A>
+            <B>if</B> r = <B>Void</B> <B>then</B>
+                <B>create</B> r.<A HREF="../elks/arrayed_list.html#f_make">make</A> (0)
+                <A HREF="../ise/action_sequence.html#f_empty_actions_internal">empty_actions_internal</A> := r
+            <B>end</B>
+            <B>Result</B> := r
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_call_action_list"><A HREF="../ise/action_sequence.html#f_call_action_list">call_action_list</A> (actions: <A HREF="../elks/arrayed_list.html">ARRAYED_LIST</A> [<A HREF="../elks/procedure.html">PROCEDURE</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A>]])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Call each action in </FONT>`actions'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            actions_not_void: actions /= <B>Void</B>
+        <B>local</B>
+            snapshot: <B>like</B> actions
+            i: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>if</B> <B>not</B> actions.<A HREF="../elks/finite.html#f_is_empty">is_empty</A> <B>then</B>
+                snapshot := actions.<A HREF="../elks/any.html#f_twin">twin</A>
+                <B>from</B>
+                    i := 1
+                <B>until</B>
+                    i &gt; snapshot.<A HREF="../elks/arrayed_list.html#f_count">count</A>
+                <B>loop</B>
+                    <B>if</B> snapshot @ i /= <B>Void</B> <B>then</B>
+                        snapshot.<A HREF="../elks/arrayed_list.html#f_i_th">i_th</A> (i).<A HREF="../elks/procedure.html#f_call">call</A> (<B>Void</B>)
+                    <B>end</B>
+                    i := i + 1
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_aborted_stack"><A HREF="../ise/action_sequence.html#f_is_aborted_stack">is_aborted_stack</A>: <A HREF="../elks/linked_stack.html">LINKED_STACK</A> [<A HREF="../elks/boolean.html">BOOLEAN</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/arrayed_list.html#f_item">item</A><FONT COLOR="red"> holds abort status of</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> innermost of possibly recursive </FONT><A HREF="../ise/action_sequence.html#f_call">call</A><FONT COLOR="red">s.</FONT>
+        <B>local</B>
+            r: <B>like</B> <A HREF="../ise/action_sequence.html#f_is_aborted_stack_internal">is_aborted_stack_internal</A>
+        <B>do</B>
+            r := <A HREF="../ise/action_sequence.html#f_is_aborted_stack_internal">is_aborted_stack_internal</A>
+            <B>if</B> r = <B>Void</B> <B>then</B>
+                <B>create</B> r.<A HREF="../elks/linked_list.html#f_make">make</A>
+                <A HREF="../ise/action_sequence.html#f_is_aborted_stack_internal">is_aborted_stack_internal</A> := r
+            <B>end</B>
+            <B>Result</B> := r
+        <B>end</B></A>
+
+    <A NAME="f_is_aborted_stack_internal"><A HREF="../ise/action_sequence.html#f_is_aborted_stack_internal">is_aborted_stack_internal</A>: <B>detachable</B> <B>like</B> <A HREF="../ise/action_sequence.html#f_is_aborted_stack">is_aborted_stack</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Internal storage for </FONT><A HREF="../ise/action_sequence.html#f_is_aborted_stack">is_aborted_stack</A><FONT COLOR="red">.</FONT>
+
+    <A NAME="f_call_buffer"><A HREF="../ise/action_sequence.html#f_call_buffer">call_buffer</A>: <A HREF="../elks/linked_queue.html">LINKED_QUEUE</A> [<B>detachable</B> EVENT_DATA]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Holds calls made while </FONT>`is_paused'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to be executed on </FONT><A HREF="../ise/action_sequence.html#f_resume">resume</A><FONT COLOR="red">.</FONT>
+        <B>local</B>
+            r: <B>like</B> <A HREF="../ise/action_sequence.html#f_call_buffer_internal">call_buffer_internal</A>
+        <B>do</B>
+            r := <A HREF="../ise/action_sequence.html#f_call_buffer_internal">call_buffer_internal</A>
+            <B>if</B> r = <B>Void</B> <B>then</B>
+                <B>create</B> r.<A HREF="../elks/linked_queue.html#f_make">make</A>
+                <A HREF="../ise/action_sequence.html#f_call_buffer_internal">call_buffer_internal</A> := r
+            <B>end</B>
+            <B>Result</B> := r
+        <B>end</B></A>
+
+    <A NAME="f_call_buffer_internal"><A HREF="../ise/action_sequence.html#f_call_buffer_internal">call_buffer_internal</A>: <B>detachable</B> <B>like</B> <A HREF="../ise/action_sequence.html#f_call_buffer">call_buffer</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Internal storage for </FONT><A HREF="../ise/action_sequence.html#f_call_buffer">call_buffer</A><FONT COLOR="red">.</FONT>
+
+    <A NAME="f_name_internal"><A HREF="../ise/action_sequence.html#f_name_internal">name_internal</A>: <B>detachable</B> <A HREF="../elks/string_8.html">STRING_8</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> See name.</FONT>
+
+    <A NAME="f_event_data_names_internal"><A HREF="../ise/action_sequence.html#f_event_data_names_internal">event_data_names_internal</A>: <B>detachable</B> <A HREF="../elks/array.html">ARRAY</A> [<A HREF="../elks/string_8.html">STRING_8</A>]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> See event_data_names.</FONT>
+
+    <A NAME="f_dummy_event_data_internal"><A HREF="../ise/action_sequence.html#f_dummy_event_data_internal">dummy_event_data_internal</A>: <B>detachable</B> EVENT_DATA</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> See dummy_event_data.</FONT>
+
+    <A NAME="f_kamikazes"><A HREF="../ise/action_sequence.html#f_kamikazes">kamikazes</A>: <A HREF="../elks/arrayed_list.html">ARRAYED_LIST</A> [<B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Used by </FONT><A HREF="../ise/action_sequence.html#f_prune_when_called">prune_when_called</A><FONT COLOR="red">.</FONT>
+        <B>local</B>
+            r: <B>detachable</B> <A HREF="../elks/arrayed_list.html">ARRAYED_LIST</A> [<B>like</B> <A HREF="../elks/arrayed_list.html#f_item">item</A>]
+        <B>do</B>
+            r := <A HREF="../ise/action_sequence.html#f_kamikazes_internal">kamikazes_internal</A>
+            <B>if</B> r = <B>Void</B> <B>then</B>
+                <B>create</B> r.<A HREF="../elks/arrayed_list.html#f_make">make</A> (0)
+                <A HREF="../ise/action_sequence.html#f_kamikazes_internal">kamikazes_internal</A> := r
+            <B>end</B>
+            <B>Result</B> := r
+        <B>end</B></A>
+
+    <A NAME="f_kamikazes_internal"><A HREF="../ise/action_sequence.html#f_kamikazes_internal">kamikazes_internal</A>: <B>detachable</B> <B>like</B> <A HREF="../ise/action_sequence.html#f_kamikazes">kamikazes</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Internal storage for </FONT><A HREF="../ise/action_sequence.html#f_kamikazes">kamikazes</A><FONT COLOR="red">.</FONT>
+
+    <A NAME="f_not_empty_actions_internal"><A HREF="../ise/action_sequence.html#f_not_empty_actions_internal">not_empty_actions_internal</A>: <B>detachable</B> <B>like</B> <A HREF="../ise/action_sequence.html#f_not_empty_actions">not_empty_actions</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Internal storage for </FONT><A HREF="../ise/action_sequence.html#f_not_empty_actions">not_empty_actions</A><FONT COLOR="red">.</FONT>
+
+    <A NAME="f_empty_actions_internal"><A HREF="../ise/action_sequence.html#f_empty_actions_internal">empty_actions_internal</A>: <B>detachable</B> <B>like</B> <A HREF="../ise/action_sequence.html#f_empty_actions">empty_actions</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Internal storage for </FONT><A HREF="../ise/action_sequence.html#f_empty_actions">empty_actions</A><FONT COLOR="red">.</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Obsolete</FONT>
+
+    <A NAME="f_make"><A HREF="../ise/action_sequence.html#f_make">make</A>
+        <B>obsolete</B> "use default_create"
+        <B>do</B>
+            <A HREF="../ise/action_sequence.html#f_default_create">default_create</A>
+        <B>end</B></A>
+
+    <A NAME="f_set_source_connection_agent"><A HREF="../ise/action_sequence.html#f_set_source_connection_agent">set_source_connection_agent</A> (a_source_connection_agent: <A HREF="../elks/procedure.html">PROCEDURE</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A>])
+        <B>obsolete</B> "use not_empty_actions"
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT>`a_source_connection_agent'<FONT COLOR="red"> that will connect sequence to an</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> actual event source. The agent will be called when the first action is</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> added to the sequence. If there are already actions in the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> sequence the agent is called immediately.</FONT>
+        <B>do</B>
+            <A HREF="../ise/action_sequence.html#f_not_empty_actions">not_empty_actions</A>.<A HREF="../elks/arrayed_list.html#f_extend">extend</A> (a_source_connection_agent)
+            <B>if</B> <B>not</B> <A HREF="../elks/finite.html#f_is_empty">is_empty</A> <B>then</B>
+                a_source_connection_agent.<A HREF="../elks/procedure.html#f_call">call</A> (<B>Void</B>)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_new_filled_list"><A HREF="../ise/action_sequence.html#f_new_filled_list">new_filled_list</A> (n: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New list with </FONT>`n'<FONT COLOR="red"> elements.</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/arrayed_list.html#f_make_filled">make_filled</A> (n)
+        <B>end</B></A>
+    
+<B>invariant</B>
+    is_aborted_stack_not_void: <A HREF="../ise/action_sequence.html#f_is_aborted_stack">is_aborted_stack</A> /= <B>Void</B>
+    call_buffer_not_void: <A HREF="../ise/action_sequence.html#f_call_buffer">call_buffer</A> /= <B>Void</B>
+    valid_state: <A HREF="../ise/action_sequence.html#f_state">state</A> = <A HREF="../ise/action_sequence.html#f_normal_state">Normal_state</A> <B>or</B> <A HREF="../ise/action_sequence.html#f_state">state</A> = <A HREF="../ise/action_sequence.html#f_paused_state">Paused_state</A> <B>or</B> <A HREF="../ise/action_sequence.html#f_state">state</A> = <A HREF="../ise/action_sequence.html#f_blocked_state">Blocked_state</A>
+    call_buffer_consistent: <A HREF="../ise/action_sequence.html#f_state">state</A> = <A HREF="../ise/action_sequence.html#f_normal_state">Normal_state</A> <B>implies</B> <A HREF="../ise/action_sequence.html#f_call_buffer">call_buffer</A>.<A HREF="../elks/finite.html#f_is_empty">is_empty</A>
+    not_empty_actions_not_void: <A HREF="../ise/action_sequence.html#f_not_empty_actions">not_empty_actions</A> /= <B>Void</B>
+    empty_actions_not_void: <A HREF="../ise/action_sequence.html#f_empty_actions">empty_actions</A> /= <B>Void</B>
+
+<B>note</B>
+    library: "EiffelBase: Library of reusable components for Eiffel."
+    copyright: "Copyright (c) 1984-2009, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        356 Storke Road, Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../ise/action_sequence.html">ACTION_SEQUENCE</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="action_sequence_chart.html">Chart</A></TD><TD><A HREF="action_sequence_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="action_sequence_flat.html">Flat</A></TD><TD><A HREF="action_sequence_short.html">Contracts</A></TD><TD><A HREF="action_sequence_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

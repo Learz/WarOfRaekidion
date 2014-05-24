@@ -1,0 +1,377 @@
+<HTML><HEAD>
+<meta name="description" content="TTTObjects representing a path, i.e. a way to identify a file or a directory for the TTTcurrent underlying platform. A path is made of two components: TTT1 - an optional root which can either be: TTTTa - a drive letter followed by colon on Windows, i.e. C: or C:\ TTTTb - / for UNIX root directory. TTTTc - \ for Windows root directory. TTTTd - \\server\share or \\server\share\ for Microsoft UNC path. TTT2 - a sequence of zero or more names. TTT TTTA path is absolute if it has a root, and on windows if the root is a drive, then it should TTTbe followed by \. Otherwise a path is relative.   TTTValidity TTT======== TTT TTTThe current class will not check the validity of filenames. Check your file TTTsystem for your operating system manual for the list of invalid characters.   TTTWindows consideration TTT===================== TTT TTTWhen the root of a Windows path is a drive, be aware of the following behavior: TTT1 - C:filename.txt refers to the file name filename.txt in the current directory  TTT    on drive C:. TTT2 - C:sub\filename.txt refers to the file name filename.txt in a subdirectory sub TTT    of the current directory on drive C:. TTT3 - C:\sub\filename.txt refers to the file name filename.txt in a subdirectory sub TTT    located at the root of the drive C:. TTT TTTBoth forward and backslashes are accepted, but forward slashes are internally converted TTTto backward slashes whenever they are used to construct a path. TTT TTTOn Windows, there is a limit of 259 characters for a path. If you need to create a larger TTTpath, you can do so by using the following conventions which will let you have paths of TTTabout 32,767 characters: TTT1 - Use \\?\ for non-UNC path and let the rest unchanged. TTT2 - Use \\?\UNC\server\share for UNC path and let the rest unchanged. TTTThe above path cannot be used to specify a relative path. TTT TTTTo know more about Windows paths, read the Naming Files, Paths, and Namespaces TTTdocument located at: TTT  http://msdn.microsoft.com/en-us/library/windows/desktop/aa365247(v=vs.85).aspx   TTTUnicode consideration TTT===================== TTT TTTThe PATH class treats strings as sequence of Unicode characters, i.e. an instance of  TTTa READABLE_STRING_8 or descendant will be treated as if characters in the range TTT128 .. 255 were Unicode code points. TTTThis contrasts to the FILE/DIRECTORY classes where to preserve backward compatibility, those TTTcharacters are treated as is. TTT TTT TTTMixed-encoding consideration TTT============================ TTT TTTMost operating systems have conventions for paths that are incompatible with Unicode. TTTOn UNIX, in a sequence of names, each name is just a null-terminated byte sequence, it TTTdoes not follow any specific encoding. Usually the locale setting enables you to see TTTthe filename the way you expect. TTTOn Windows, the sequence of names is made of null-terminated UTF-16 code unit sequence. Windows TTTdoes not guarantee that the sequence is actually a valid UTF-16 sequence. TTT TTTIn other words, when there is an invalid UTF-8 encoding on UNIX, or an invalid UTF-16 encoding TTTon Windows, the filename is not directly representable as a Unicode string. To make it possible TTTto create and store paths in a textually representable form, the query `name' will create TTTan encoded representation that can be then later used in `make_from_string' to create a PATH TTTequivalent to the original path. The encoding is described in UTF_CONVERTER's note clause TTTand is a fourth variant of the recommended practice for replacement characters in Unicode TTT(see http://www.unicode.org/review/pr-121.html).  TTTTTT TTTImmutability TTT============ TTT TTTInstances of the current class are immutable."/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>path Contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="path_chart.html">Chart</A></TD><TD><A HREF="path_links.html">Relations</A></TD><TD><A HREF="path.html">Text</A></TD><TD><A HREF="path_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="path_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        			Objects representing a path, i.e. a way to identify a file or a directory for the
+        			current underlying platform. A path is made of two components:
+        			1 - an optional root which can either be:
+        				a - a drive letter followed by colon on Windows, i.e. "C:" or "C:\"
+        				b - "/" for UNIX root directory.
+        				c - "\" for Windows root directory.
+        				d - "\\server\share" or "\\server\share\" for Microsoft UNC path.
+        			2 - a sequence of zero or more names.
+        			
+        			A path is absolute if it has a root, and on windows if the root is a drive, then it should
+        			be followed by "\". Otherwise a path is relative.
+        
+        
+        			Validity
+        			========
+        			
+        			The current class will not check the validity of filenames. Check your file
+        			system for your operating system manual for the list of invalid characters.
+        
+        
+        			Windows consideration
+        			=====================
+        			
+        			When the root of a Windows path is a drive, be aware of the following behavior:
+        			1 - "C:filename.txt" refers to the file name "filename.txt" in the current directory 
+        			    on drive "C:".
+        			2 - "C:sub\filename.txt" refers to the file name "filename.txt" in a subdirectory "sub"
+        			    of the current directory on drive "C:".
+        			3 - "C:\sub\filename.txt" refers to the file name "filename.txt" in a subdirectory "sub"
+        			    located at the root of the drive "C:".
+        			
+        			Both forward and backslashes are accepted, but forward slashes are internally converted
+        			to backward slashes whenever they are used to construct a path.
+        			
+        			On Windows, there is a limit of 259 characters for a path. If you need to create a larger
+        			path, you can do so by using the following conventions which will let you have paths of
+        			about 32,767 characters:
+        			1 - Use \\?\ for non-UNC path and let the rest unchanged.
+        			2 - Use \\?\UNC\server\share for UNC path and let the rest unchanged.
+        			The above path cannot be used to specify a relative path.
+        			
+        			To know more about Windows paths, read the "Naming Files, Paths, and Namespaces"
+        			document located at:
+        			  <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/aa365247">http://msdn.microsoft.com/en-us/library/windows/desktop/aa365247</a>(v=vs.85).aspx
+        
+        
+        			Unicode consideration
+        			=====================
+        			
+        			The PATH class treats strings as sequence of Unicode characters, i.e. an instance of 
+        			a READABLE_STRING_8 or descendant will be treated as if characters in the range
+        			128 .. 255 were Unicode code points.
+        			This contrasts to the FILE/DIRECTORY classes where to preserve backward compatibility, those
+        			characters are treated as is.
+        			
+        			
+        			Mixed-encoding consideration
+        			============================
+        			
+        			Most operating systems have conventions for paths that are incompatible with Unicode.
+        			On UNIX, in a sequence of names, each name is just a null-terminated byte sequence, it
+        			does not follow any specific encoding. Usually the locale setting enables you to see
+        			the filename the way you expect.
+        			On Windows, the sequence of names is made of null-terminated UTF-16 code unit sequence. Windows
+        			does not guarantee that the sequence is actually a valid UTF-16 sequence.
+        			
+        			In other words, when there is an invalid UTF-8 encoding on UNIX, or an invalid UTF-16 encoding
+        			on Windows, the filename is not directly representable as a Unicode string. To make it possible
+        			to create and store paths in a textually representable form, the query <A HREF="../elks/path_short.html#f_name">name</A> will create
+        			an encoded representation that can be then later used in <A HREF="../elks/path_short.html#f_make_from_string">make_from_string</A> to create a PATH
+        			equivalent to the original path. The encoding is described in UTF_CONVERTER's note clause
+        			and is a fourth variant of the recommended practice for replacement characters in Unicode
+        			(see <a href="http://www.unicode.org/review/pr-121.html">http://www.unicode.org/review/pr-121.html</a>).
+        
+        						
+        			Immutability
+        			============
+        			
+        			Instances of the current class are immutable.
+    ]"
+    library: "Free implementation of ELKS library"
+    status: "See notice at end of class."
+    date: "$Date: 2013-05-21 17:58:33 -0700 (Tue, 21 May 2013) $"
+    revision: "$Revision: 92569 $"
+
+<B>class</B> <B>interface</B>
+    <A HREF="../elks/path_short.html">PATH</A>
+
+<B>create</B> {<A HREF="../elks/native_string_handler_short.html">NATIVE_STRING_HANDLER</A>}
+    <A HREF="../elks/path_short.html#f_make_from_pointer">make_from_pointer</A>
+
+
+<B>create</B> {<A HREF="../elks/path_short.html">PATH</A>}
+    <A HREF="../elks/path_short.html#f_make_from_storage">make_from_storage</A>,
+    <A HREF="../elks/path_short.html#f_make_from_normalized_storage">make_from_normalized_storage</A>
+
+
+<B>create</B> 
+    <A HREF="../elks/path_short.html#f_make_empty">make_empty</A>,
+    <A HREF="../elks/path_short.html#f_make_current">make_current</A>,
+    <A HREF="../elks/path_short.html#f_make_from_string">make_from_string</A>,
+    <A HREF="../elks/path_short.html#f_make_from_separate">make_from_separate</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_is_current_symbol"><A HREF="../elks/path_short.html#f_is_current_symbol">is_current_symbol</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is Current a representation of "."?</FONT>
+</A>
+    <A NAME="f_is_parent_symbol"><A HREF="../elks/path_short.html#f_is_parent_symbol">is_parent_symbol</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is Current Representation of ".."?</FONT>
+</A>
+    <A NAME="f_has_root"><A HREF="../elks/path_short.html#f_has_root">has_root</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does current have a root?</FONT>
+        <B>ensure</B>
+            defintion: <B>Result</B> <B>implies</B> <B>not</B> <A HREF="../elks/path_short.html#f_is_empty">is_empty</A>
+</A>
+    <A NAME="f_is_empty"><A HREF="../elks/path_short.html#f_is_empty">is_empty</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current empty, i.e. no root and no sequence of names?</FONT>
+</A>
+    <A NAME="f_is_relative"><A HREF="../elks/path_short.html#f_is_relative">is_relative</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current path relative?</FONT>
+</A>
+    <A NAME="f_is_absolute"><A HREF="../elks/path_short.html#f_is_absolute">is_absolute</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current path absolute?</FONT>
+</A>
+    <A NAME="f_is_simple"><A HREF="../elks/path_short.html#f_is_simple">is_simple</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current path made of only one name and no root?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> I.e. readme.txt, usr or the empty path.</FONT>
+</A>
+    <A NAME="f_is_same_file_as"><A HREF="../elks/path_short.html#f_is_same_file_as">is_same_file_as</A> (a_path: <A HREF="../elks/path_short.html">PATH</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`Current'<FONT COLOR="red"> and </FONT>`a_path'<FONT COLOR="red"> points to the same file on disk? It is different from path equality</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as it will take into account symbolic links.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If </FONT>`Current'<FONT COLOR="red"> or/and </FONT>`a_path'<FONT COLOR="red"> do not exists, it will yield false, otherwise it will compare</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> the file at the file system level.</FONT>
+        <B>require</B>
+            a_path_not_void: a_path /= <B>Void</B>
+</A>
+    <A NAME="f_has_extension"><A HREF="../elks/path_short.html#f_has_extension">has_extension</A> (a_ext: <A HREF="../elks/readable_string_general_short.html">READABLE_STRING_GENERAL</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`Current'<FONT COLOR="red"> has an extension </FONT>`a_ext'<FONT COLOR="red"> compared in a case insensitive manner?</FONT>
+        <B>require</B>
+            a_ext_not_void: a_ext /= <B>Void</B>
+            a_ext_not_empty: <B>not</B> a_ext.<A HREF="../elks/readable_string_general_short.html#f_is_empty">is_empty</A>
+            a_ext_has_no_dot: <B>not</B> a_ext.<A HREF="../elks/readable_string_general_short.html#f_has">has</A> ('.'.<A HREF="../elks/character_8_short.html#f_to_character_32">to_character_32</A>)
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_root"><A HREF="../elks/path_short.html#f_root">root</A>: <B>detachable</B> <A HREF="../elks/path_short.html">PATH</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Root if any of current path.</FONT>
+        <B>ensure</B>
+            has_root_implies_not_void: <A HREF="../elks/path_short.html#f_has_root">has_root</A> <B>implies</B> <B>Result</B> /= <B>Void</B>
+</A>
+    <A NAME="f_parent"><A HREF="../elks/path_short.html#f_parent">parent</A>: <A HREF="../elks/path_short.html">PATH</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Parent directory if any, otherwise current working path.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The parent of a path consists of </FONT><A HREF="../elks/path_short.html#f_root">root</A><FONT COLOR="red"> if any, and of each</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> simple names in the current sequence except for the last.</FONT>
+</A>
+    <A NAME="f_entry"><A HREF="../elks/path_short.html#f_entry">entry</A>: <B>detachable</B> <A HREF="../elks/path_short.html">PATH</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of file or directory denoted by Current if any.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> This is the last name in the current sequence.</FONT>
+        <B>ensure</B>
+            not_empty: <B>Result</B> /= <B>Void</B> <B>implies</B> <B>not</B> <B>Result</B>.<A HREF="../elks/path_short.html#f_is_empty">is_empty</A>
+</A>
+    <A NAME="f_extension"><A HREF="../elks/path_short.html#f_extension">extension</A>: <B>detachable</B> <A HREF="../elks/immutable_string_32_short.html">IMMUTABLE_STRING_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Extension if any of current entry.</FONT>
+        <B>ensure</B>
+            not_empty: <B>attached</B> <B>Result</B> <B>implies</B> <B>not</B> <B>Result</B>.<A HREF="../elks/immutable_string_32_short.html#f_is_empty">is_empty</A>
+            no_dot: <B>attached</B> <B>Result</B> <B>implies</B> <B>not</B> <B>Result</B>.<A HREF="../elks/readable_string_32_short.html#f_has">has</A> ('.'.<A HREF="../elks/character_8_short.html#f_to_character_32">to_character_32</A>)
+</A>
+    <A NAME="f_components"><A HREF="../elks/path_short.html#f_components">components</A>: <A HREF="../elks/arrayed_list_short.html">ARRAYED_LIST</A> [<A HREF="../elks/path_short.html">PATH</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Sequence of simple paths making up Current, including </FONT><A HREF="../elks/path_short.html#f_root">root</A><FONT COLOR="red"> if any.</FONT>
+</A>
+    <A NAME="f_absolute_path"><A HREF="../elks/path_short.html#f_absolute_path">absolute_path</A>: <A HREF="../elks/path_short.html">PATH</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Absolute path of Current.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If Current is already absolute, then return Current.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If Current is empty, then return the current working directory.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Otherwise resolve the path in a platform specific way:</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> * On UNIX, resolve against the current working directory</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> * On Windows:</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">    a) if current has a drive letter which is not followed by "\"</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">       resolve against the current working directory for that drive letter,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">       otherwise resolve against the current working directory.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">    b) if current path starts with "\", not a double "\\", then resolve</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">       against the root of the current working directory (i.e. a drive</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">       letter "C:\" or a UNC path "\\server\share\".)</FONT>
+</A>
+    <A NAME="f_absolute_path_in"><A HREF="../elks/path_short.html#f_absolute_path_in">absolute_path_in</A> (a_current_directory: <A HREF="../elks/path_short.html">PATH</A>): <A HREF="../elks/path_short.html">PATH</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Absolute path of Current in the context of </FONT>`a_current_directory'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If Current is already absolute, then return Current.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If Current is empty, then return </FONT>`a_current_directory'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Otherwise resolve the path in a platform specific way:</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> * On UNIX, resolve against </FONT>`a_current_directory'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> * On Windows:</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">    a) if current has a drive letter which is not followed by "\"</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">       resolve against </FONT>`a_current_directory'<FONT COLOR="red"> for that drive letter,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">       otherwise resolve against </FONT>`a_current_directory'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">    b) if current path starts with "\", not a double "\\", then resolve</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">       against the root of `a_current_directory; (i.e. a drive</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">       letter "C:\" or a UNC path "\\server\share\".)</FONT>
+        <B>require</B>
+            a_current_directory_not_void: a_current_directory /= <B>Void</B>
+            a_current_directory_absolute: a_current_directory.<A HREF="../elks/path_short.html#f_is_absolute">is_absolute</A>
+        <B>ensure</B>
+            has_root: <B>Result</B>.<A HREF="../elks/path_short.html#f_has_root">has_root</A>
+</A>
+    <A NAME="f_canonical_path"><A HREF="../elks/path_short.html#f_canonical_path">canonical_path</A>: <A HREF="../elks/path_short.html">PATH</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Canonical path of Current.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Similar to </FONT><A HREF="../elks/path_short.html#f_absolute_path">absolute_path</A><FONT COLOR="red"> except that sequences containing "." or ".." are</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> resolved.</FONT>
+</A>
+    <A NAME="f_hash_code"><A HREF="../elks/path_short.html#f_hash_code">hash_code</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Hash code value</FONT>
+</A>
+    <A NAME="f_native_string"><A HREF="../elks/path_short.html#f_native_string">native_string</A>: <A HREF="../elks/native_string_short.html">NATIVE_STRING</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert current into an instance of NATIVE_STRING</FONT>
+        <B>ensure</B>
+            set: <B>Result</B>.<A HREF="../elks/native_string_short.html#f_raw_string">raw_string</A>.<A HREF="../elks/readable_string_8_short.html#f_same_string">same_string</A> (<A HREF="../elks/path_short.html#f_storage">storage</A>)
+</A>
+    <A NAME="f_unix_separator"><A HREF="../elks/path_short.html#f_unix_separator">Unix_separator</A>: <A HREF="../elks/character_8_short.html">CHARACTER_8</A> = '/'</A>
+
+    <A NAME="f_windows_separator"><A HREF="../elks/path_short.html#f_windows_separator">Windows_separator</A>: <A HREF="../elks/character_8_short.html">CHARACTER_8</A> = '\'</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Platform specific directory separator.</FONT>
+
+    <A NAME="f_directory_separator"><A HREF="../elks/path_short.html#f_directory_separator">directory_separator</A>: <A HREF="../elks/character_8_short.html">CHARACTER_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default directory separator for the current platform.</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status setting</FONT>
+
+    <A NAME="f_extended"><A HREF="../elks/path_short.html#f_extended">extended</A> (a_name: <A HREF="../elks/readable_string_general_short.html">READABLE_STRING_GENERAL</A>): <A HREF="../elks/path_short.html">PATH</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New path instance of current extended with path </FONT>`a_name'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If current is not empty, then </FONT>`a_name'<FONT COLOR="red"> cannot have a root.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> A directory separator is added between two entries except</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 1 - </FONT>`a_name'<FONT COLOR="red"> starts with a directory separator (i.e. it has a root)</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 2 - if current is empty or is just a root.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note that </FONT>`a_name'<FONT COLOR="red"> can be an encoding of a mixed-encoding simple name and it will</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> be decoded accordingly (see note clause for the class for more details.)</FONT>
+        <B>require</B>
+            a_name_not_void: a_name /= <B>Void</B>
+            a_name_not_empty: <B>not</B> a_name.<A HREF="../elks/readable_string_general_short.html#f_is_empty">is_empty</A>
+            a_name_has_no_root: <B>not</B> <A HREF="../elks/path_short.html#f_is_empty">is_empty</A> <B>implies</B> <B>not</B> (<B>create</B> {<A HREF="../elks/path_short.html">PATH</A>}.<A HREF="../elks/path_short.html#f_make_from_string">make_from_string</A> (a_name)).<A HREF="../elks/path_short.html#f_has_root">has_root</A>
+        <B>ensure</B>
+            associated_path_of_name: <B>attached</B> (<B>create</B> {<A HREF="../elks/path_short.html">PATH</A>}.<A HREF="../elks/path_short.html#f_make_from_string">make_from_string</A> (a_name)) <B>as</B> l_path
+            not_empty: <B>not</B> <B>Result</B>.<A HREF="../elks/path_short.html#f_is_empty">is_empty</A>
+            extended_with_only_empty_or_root: (<A HREF="../elks/path_short.html#f_same_as">same_as</A> (<A HREF="../elks/path_short.html#f_root">root</A>) <B>or</B> <A HREF="../elks/path_short.html#f_is_empty">is_empty</A>) <B>implies</B> <B>Result</B>.<A HREF="../elks/path_short.html#f_name">name</A>.<A HREF="../elks/readable_string_32_short.html#f_same_string">same_string</A> (<A HREF="../elks/path_short.html#f_name">name</A> + l_path.<A HREF="../elks/path_short.html#f_name">name</A>)
+            extended_with_more_than_root_or_not_empty: (<B>not</B> <A HREF="../elks/path_short.html#f_same_as">same_as</A> (<A HREF="../elks/path_short.html#f_root">root</A>) <B>and</B> <B>not</B> <A HREF="../elks/path_short.html#f_is_empty">is_empty</A>) <B>implies</B> <B>Result</B>.<A HREF="../elks/path_short.html#f_name">name</A>.<A HREF="../elks/readable_string_32_short.html#f_same_string">same_string</A> (<A HREF="../elks/path_short.html#f_name">name</A> + <A HREF="../elks/path_short.html#f_directory_separator_string">Directory_separator_string</A> + l_path.<A HREF="../elks/path_short.html#f_name">name</A>)
+</A>
+    <A NAME="f_extended_path"><A HREF="../elks/path_short.html#f_extended_path">extended_path</A> <B>alias</B> "+" (a_path: <A HREF="../elks/path_short.html">PATH</A>): <A HREF="../elks/path_short.html">PATH</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New path instance of current extended with path </FONT>`a_path'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If current is not empty, then </FONT>`a_path'<FONT COLOR="red"> cannot have a root.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> A directory separator is added between two entries except</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 1 - </FONT>`a_path'<FONT COLOR="red"> starts with a directory separator (i.e. it has a root)</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 2 - if current is empty or is just a root.</FONT>
+        <B>require</B>
+            a_path_not_void: a_path /= <B>Void</B>
+            a_path_not_empty: <B>not</B> a_path.<A HREF="../elks/path_short.html#f_is_empty">is_empty</A>
+            a_path_has_no_root: <B>not</B> <A HREF="../elks/path_short.html#f_is_empty">is_empty</A> <B>implies</B> <B>not</B> a_path.<A HREF="../elks/path_short.html#f_has_root">has_root</A>
+        <B>ensure</B>
+            not_empty: <B>not</B> <B>Result</B>.<A HREF="../elks/path_short.html#f_is_empty">is_empty</A>
+            extended_with_only_empty_or_root: (<A HREF="../elks/path_short.html#f_same_as">same_as</A> (<A HREF="../elks/path_short.html#f_root">root</A>) <B>or</B> <A HREF="../elks/path_short.html#f_is_empty">is_empty</A>) <B>implies</B> <B>Result</B>.<A HREF="../elks/path_short.html#f_name">name</A>.<A HREF="../elks/readable_string_32_short.html#f_same_string">same_string</A> (<A HREF="../elks/path_short.html#f_name">name</A> + a_path.<A HREF="../elks/path_short.html#f_name">name</A>)
+            extended_with_more_than_root_or_not_empty: (<B>not</B> <A HREF="../elks/path_short.html#f_same_as">same_as</A> (<A HREF="../elks/path_short.html#f_root">root</A>) <B>and</B> <B>not</B> <A HREF="../elks/path_short.html#f_is_empty">is_empty</A>) <B>implies</B> <B>Result</B>.<A HREF="../elks/path_short.html#f_name">name</A>.<A HREF="../elks/readable_string_32_short.html#f_same_string">same_string</A> (<A HREF="../elks/path_short.html#f_name">name</A> + <A HREF="../elks/path_short.html#f_directory_separator_string">Directory_separator_string</A> + a_path.<A HREF="../elks/path_short.html#f_name">name</A>)
+</A>
+    <A NAME="f_appended"><A HREF="../elks/path_short.html#f_appended">appended</A> (a_extra: <A HREF="../elks/readable_string_general_short.html">READABLE_STRING_GENERAL</A>): <A HREF="../elks/path_short.html">PATH</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New path instance of current where </FONT><A HREF="../elks/path_short.html#f_entry">entry</A><FONT COLOR="red"> is appended with </FONT>`a_extra'<FONT COLOR="red"> without</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> adding a directory separator.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> For example if Current path is "C:" and </FONT>`a_path'<FONT COLOR="red"> is "path\file.txt", it will yield</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> "C:path\file.txt".</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note that </FONT>`a_extra'<FONT COLOR="red"> can be an encoding of a mixed-encoding simple name and it will</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> be decoded accordingly (see note clause for the class for more details.)</FONT>
+        <B>require</B>
+            a_extra_not_void: a_extra /= <B>Void</B>
+            a_extra_not_empty: <B>not</B> a_extra.<A HREF="../elks/readable_string_general_short.html#f_is_empty">is_empty</A>
+        <B>ensure</B>
+            not_empty: <B>not</B> <B>Result</B>.<A HREF="../elks/path_short.html#f_is_empty">is_empty</A>
+            appended: <B>Result</B>.<A HREF="../elks/path_short.html#f_name">name</A>.<A HREF="../elks/readable_string_32_short.html#f_same_string">same_string</A> (<A HREF="../elks/path_short.html#f_name">name</A> + (<B>create</B> {<A HREF="../elks/path_short.html">PATH</A>}.<A HREF="../elks/path_short.html#f_make_from_string">make_from_string</A> (a_extra)).<A HREF="../elks/path_short.html#f_name">name</A>)
+</A>
+    <A NAME="f_appended_with_extension"><A HREF="../elks/path_short.html#f_appended_with_extension">appended_with_extension</A> (a_ext: <A HREF="../elks/readable_string_general_short.html">READABLE_STRING_GENERAL</A>): <A HREF="../elks/path_short.html">PATH</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New path instance of current where </FONT><A HREF="../elks/path_short.html#f_entry">entry</A><FONT COLOR="red"> is extended with a dot followed by </FONT>`a_ext'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If Current already has a dot, no dot is added.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note that </FONT>`a_ext'<FONT COLOR="red"> can be an encoding of a mixed-encoding simple name and it will</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> be decoded accordingly (see note clause for the class for more details.)</FONT>
+        <B>require</B>
+            a_ext_not_void: a_ext /= <B>Void</B>
+            a_ext_not_empty: <B>not</B> a_ext.<A HREF="../elks/readable_string_general_short.html#f_is_empty">is_empty</A>
+            a_ext_has_no_dot: <B>not</B> a_ext.<A HREF="../elks/readable_string_general_short.html#f_has">has</A> ('.'.<A HREF="../elks/character_8_short.html#f_to_character_32">to_character_32</A>)
+            a_ext_has_no_directory_separator: <B>not</B> a_ext.<A HREF="../elks/readable_string_general_short.html#f_has">has</A> (<A HREF="../elks/path_short.html#f_windows_separator">Windows_separator</A>.<A HREF="../elks/character_8_short.html#f_to_character_32">to_character_32</A>) <B>and</B> <B>not</B> a_ext.<A HREF="../elks/readable_string_general_short.html#f_has">has</A> (<A HREF="../elks/path_short.html#f_unix_separator">Unix_separator</A>.<A HREF="../elks/character_8_short.html#f_to_character_32">to_character_32</A>)
+            has_entry: <A HREF="../elks/path_short.html#f_entry">entry</A> /= <B>Void</B>
+        <B>ensure</B>
+            not_empty: <B>not</B> <B>Result</B>.<A HREF="../elks/path_short.html#f_is_empty">is_empty</A>
+            extension_set: <B>attached</B> <B>Result</B>.<A HREF="../elks/path_short.html#f_extension">extension</A> <B>as</B> l_ext <B>and then</B> l_ext.<A HREF="../elks/readable_string_general_short.html#f_same_string">same_string_general</A> (a_ext)
+            components_stable: <B>Result</B>.<A HREF="../elks/path_short.html#f_components">components</A>.<A HREF="../elks/arrayed_list_short.html#f_count">count</A> = <A HREF="../elks/path_short.html#f_components">components</A>.<A HREF="../elks/arrayed_list_short.html#f_count">count</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_same_as"><A HREF="../elks/path_short.html#f_same_as">same_as</A> (other: <B>detachable</B> <A HREF="../elks/path_short.html">PATH</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is Current the same path as </FONT>`other'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note that no canonicalization is being performed to compare paths,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> paths are compared using the OS-specific convention for letter case.</FONT>
+</A>
+    <A NAME="f_is_less"><A HREF="../elks/path_short.html#f_is_less">is_less</A> <B>alias</B> "&lt;" (other: <B>like</B> <B>Current</B>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current object less than </FONT>`other'<FONT COLOR="red">?</FONT>
+</A>
+    <A NAME="f_is_equal"><A HREF="../elks/path_short.html#f_is_equal">is_equal</A> (other: <B>like</B> <B>Current</B>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object considered</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to current object?</FONT>
+</A>
+    <A NAME="f_is_case_sensitive_equal"><A HREF="../elks/path_short.html#f_is_case_sensitive_equal">is_case_sensitive_equal</A> (other: <A HREF="../elks/path_short.html">PATH</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Compare path and paying attention to case.</FONT>
+        <B>require</B>
+            other_not_void: other /= <B>Void</B>
+</A>
+    <A NAME="f_is_case_insensitive_equal"><A HREF="../elks/path_short.html#f_is_case_insensitive_equal">is_case_insensitive_equal</A> (other: <A HREF="../elks/path_short.html">PATH</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Compare path without paying attention to case. If the path is containing some mixed-encoding</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> we might ignore many characters when doing the case comparison.</FONT>
+        <B>require</B>
+            other_not_void: other /= <B>Void</B>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_copy"><A HREF="../elks/path_short.html#f_copy">copy</A> (other: <B>like</B> <B>Current</B>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update current object using fields of object attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to </FONT>`other'<FONT COLOR="red">, so as to yield equal objects.</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output</FONT>
+
+    <A NAME="f_out"><A HREF="../elks/path_short.html#f_out">out</A>: <A HREF="../elks/string_8_short.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> ASCII representation of the underlying filename if representable,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> otherwise a UTF-8 encoded version.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Use </FONT><A HREF="../elks/path_short.html#f_utf_8_name">utf_8_name</A><FONT COLOR="red"> to have a printable representation whose format is not going</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to be changed in the future.</FONT>
+</A>
+    <A NAME="f_utf_8_name"><A HREF="../elks/path_short.html#f_utf_8_name">utf_8_name</A>: <A HREF="../elks/string_8_short.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> UTF-8 representation of the underlying filename.</FONT>
+</A>
+    <A NAME="f_name"><A HREF="../elks/path_short.html#f_name">name</A>: <A HREF="../elks/immutable_string_32_short.html">IMMUTABLE_STRING_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If current is representable in Unicode, the Unicode representation.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Otherwise all non-valid sequences for the current platform in the path are escaped</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as mentioned in the note clause of the class.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> To ensure roundtrip, you cannot use </FONT><A HREF="../elks/path_short.html#f_name">name</A><FONT COLOR="red"> directly to create a </FONT>`FILE'<FONT COLOR="red">, you have to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> create a </FONT>`PATH'<FONT COLOR="red"> instance using </FONT><A HREF="../elks/path_short.html#f_make_from_string">make_from_string</A><FONT COLOR="red"> before passing it to the creation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> procedure of </FONT>`FILE'<FONT COLOR="red"> taking an instance of </FONT>`PATH'<FONT COLOR="red">.</FONT>
+        <B>ensure</B>
+            roundtrip: <A HREF="../elks/path_short.html#f_same_as">same_as</A> (<B>create</B> {<A HREF="../elks/path_short.html">PATH</A>}.<A HREF="../elks/path_short.html#f_make_from_string">make_from_string</A> (<B>Result</B>))
+</A>    
+<B>invariant</B>
+    little_endian_windows: {<A HREF="../elks/platform_short.html">PLATFORM</A>}.<A HREF="../elks/platform_short.html#f_is_windows">is_windows</A> <B>implies</B> <A HREF="../elks/path_short.html#f_platform">Platform</A>.<A HREF="../elks/platform_short.html#f_is_little_endian">Is_little_endian</A>
+    even_count_on_windows: {<A HREF="../elks/platform_short.html">PLATFORM</A>}.<A HREF="../elks/platform_short.html#f_is_windows">is_windows</A> <B>implies</B> <A HREF="../elks/path_short.html#f_storage">storage</A>.<A HREF="../elks/readable_string_8_short.html#f_count">count</A> \\ <A HREF="../elks/path_short.html#f_unit_size">unit_size</A> = 0
+    no_forward_slash_on_windows: {<A HREF="../elks/platform_short.html">PLATFORM</A>}.<A HREF="../elks/platform_short.html#f_is_windows">is_windows</A> <B>implies</B> <B>not</B> <A HREF="../elks/path_short.html#f_storage">storage</A>.<A HREF="../elks/readable_string_general_short.html#f_has_substring">has_substring</A> ("/%U")
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/path_short.html">PATH</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="path_chart.html">Chart</A></TD><TD><A HREF="path_links.html">Relations</A></TD><TD><A HREF="path.html">Text</A></TD><TD><A HREF="path_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="path_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

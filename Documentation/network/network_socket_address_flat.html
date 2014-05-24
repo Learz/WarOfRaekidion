@@ -1,0 +1,1979 @@
+<HTML><HEAD>
+<meta name="description" content="A network socket address."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2006, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 356 Storke Road, Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>network_socket_address Flat</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="network_socket_address_chart.html">Chart</A></TD><TD><A HREF="network_socket_address_links.html">Relations</A></TD><TD><A HREF="network_socket_address.html">Text</A></TD><TD>Flat</TD><TD><A HREF="network_socket_address_short.html">Contracts</A></TD><TD><A HREF="network_socket_address_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "A network socket address."
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2009-05-11 16:41:15 -0700 (Mon, 11 May 2009) $"
+    revision: "$Revision: 78626 $"
+
+<B>class</B> 
+    <A HREF="../network/network_socket_address_flat.html">NETWORK_SOCKET_ADDRESS</A>
+
+<B>create</B> 
+    <A HREF="../network/network_socket_address_flat.html#f_make_from_hostname_and_port">make_from_hostname_and_port</A>,
+    <A HREF="../network/network_socket_address_flat.html#f_make_from_address_and_port">make_from_address_and_port</A>,
+    <A HREF="../network/network_socket_address_flat.html#f_make_any_local">make_any_local</A>,
+    <A HREF="../network/network_socket_address_flat.html#f_make_localhost">make_localhost</A>,
+    <A HREF="../network/network_socket_address_flat.html#f_make_loopback">make_loopback</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make_any_local"><A HREF="../network/network_socket_address_flat.html#f_make_any_local">make_any_local</A> (a_port: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+        <B>local</B>
+            addr: <A HREF="../network/inet_address_flat.html">INET_ADDRESS</A>
+        <B>do</B>
+            addr := <A HREF="../network/inet_address_factory_flat.html#f_create_any_local">create_any_local</A>
+            <A HREF="../abstract/socket_address_flat.html#f_socket_address">socket_address</A> := addr.<A HREF="../network/inet_address_flat.html#f_sockaddr">sockaddr</A> (a_port)
+        <B>ensure</B>
+            <A HREF="../abstract/socket_address_flat.html#f_socket_address">socket_address</A> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_make_from_address_and_port"><A HREF="../network/network_socket_address_flat.html#f_make_from_address_and_port">make_from_address_and_port</A> (an_address: <A HREF="../network/inet_address_flat.html">INET_ADDRESS</A>; a_port: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+        <B>require</B>
+            valid_address: an_address /= <B>Void</B>
+            valid_port: a_port &gt;= 0 <B>and then</B> a_port &lt;= 65535
+        <B>do</B>
+            <A HREF="../abstract/socket_address_flat.html#f_socket_address">socket_address</A> := an_address.<A HREF="../network/inet_address_flat.html#f_sockaddr">sockaddr</A> (a_port)
+        <B>ensure</B>
+            <A HREF="../abstract/socket_address_flat.html#f_socket_address">socket_address</A> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_make_from_hostname_and_port"><A HREF="../network/network_socket_address_flat.html#f_make_from_hostname_and_port">make_from_hostname_and_port</A> (a_hostname: <A HREF="../elks/string_8_flat.html">STRING_8</A>; a_port: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+        <B>require</B>
+            non_void_hostname: a_hostname /= <B>Void</B>
+            valid_port: a_port &gt;= 0 <B>and then</B> a_port &lt;= 65535
+        <B>local</B>
+            addr: <B>detachable</B> <A HREF="../network/inet_address_flat.html">INET_ADDRESS</A>
+            l_socket_address: <B>like</B> <A HREF="../abstract/socket_address_flat.html#f_socket_address">socket_address</A>
+        <B>do</B>
+            addr := <A HREF="../network/inet_address_factory_flat.html#f_create_from_name">create_from_name</A> (a_hostname)
+            <B>if</B> addr /= <B>Void</B> <B>then</B>
+                l_socket_address := addr.<A HREF="../network/inet_address_flat.html#f_sockaddr">sockaddr</A> (a_port)
+            <B>else</B>
+                <B>create</B> l_socket_address.<A HREF="../elks/managed_pointer_flat.html#f_make">make</A> (<A HREF="../network/network_socket_address_flat.html#f_address_size">address_size</A>)
+            <B>end</B>
+            <A HREF="../abstract/socket_address_flat.html#f_socket_address">socket_address</A> := l_socket_address
+        <B>ensure</B>
+            <A HREF="../abstract/socket_address_flat.html#f_socket_address">socket_address</A> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_make_localhost"><A HREF="../network/network_socket_address_flat.html#f_make_localhost">make_localhost</A> (a_port: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+        <B>local</B>
+            addr: <A HREF="../network/inet_address_flat.html">INET_ADDRESS</A>
+        <B>do</B>
+            addr := <A HREF="../network/inet_address_factory_flat.html#f_create_localhost">create_localhost</A>
+            <A HREF="../abstract/socket_address_flat.html#f_socket_address">socket_address</A> := addr.<A HREF="../network/inet_address_flat.html#f_sockaddr">sockaddr</A> (a_port)
+        <B>end</B></A>
+
+    <A NAME="f_make_loopback"><A HREF="../network/network_socket_address_flat.html#f_make_loopback">make_loopback</A> (a_port: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+        <B>local</B>
+            addr: <A HREF="../network/inet_address_flat.html">INET_ADDRESS</A>
+        <B>do</B>
+            addr := <A HREF="../network/inet_address_factory_flat.html#f_create_loopback">create_loopback</A>
+            <A HREF="../abstract/socket_address_flat.html#f_socket_address">socket_address</A> := addr.<A HREF="../network/inet_address_flat.html#f_sockaddr">sockaddr</A> (a_port)
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_default_create"><A HREF="../elks/any_flat.html#f_default_create">default_create</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process instances of classes with no creation clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_is_ipv4_stack_preferred"><B>frozen</B> <A HREF="../network/inet_properties_flat.html#f_is_ipv4_stack_preferred">is_ipv4_stack_preferred</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../network/inet_properties_flat.html">INET_PROPERTIES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>alias</B>
+            "en_get_prefer_ipv4"
+        <B>end</B></A>
+
+    <A NAME="f_is_ipv6_available"><B>frozen</B> <A HREF="../network/inet_properties_flat.html#f_is_ipv6_available">is_ipv6_available</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../network/inet_properties_flat.html">INET_PROPERTIES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>alias</B>
+            "en_ipv6_available"
+        <B>end</B></A>
+
+    <A NAME="f_set_ipv4_stack_preferred"><B>frozen</B> <A HREF="../network/inet_properties_flat.html#f_set_ipv4_stack_preferred">set_ipv4_stack_preferred</A> (preference: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../network/inet_properties_flat.html">INET_PROPERTIES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>alias</B>
+            "en_set_prefer_ipv4"
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_generating_type"><A HREF="../elks/any_flat.html#f_generating_type">generating_type</A>: <A HREF="../elks/type_flat.html">TYPE</A> [<B>detachable</B> <A HREF="../network/network_socket_address_flat.html">NETWORK_SOCKET_ADDRESS</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Type of current object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := {<B>detachable</B> <A HREF="../network/network_socket_address_flat.html">NETWORK_SOCKET_ADDRESS</A>}
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            generating_type_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_generator"><A HREF="../elks/any_flat.html#f_generator">generator</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of current object's generating class</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (base class of the type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            generator_not_void: <B>Result</B> /= <B>Void</B>
+            generator_not_empty: <B>not</B> <B>Result</B>.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+
+    <A NAME="f_socket_address"><A HREF="../abstract/socket_address_flat.html#f_socket_address">socket_address</A>: <A HREF="../elks/managed_pointer_flat.html">MANAGED_POINTER</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Hold data.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_address_flat.html">SOCKET_ADDRESS</A><FONT COLOR="red">)</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_count"><A HREF="../abstract/socket_address_flat.html#f_count">count</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Size of address</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_address_flat.html">SOCKET_ADDRESS</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../abstract/socket_address_flat.html#f_socket_address">socket_address</A>.<A HREF="../elks/managed_pointer_flat.html#f_count">count</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_deep_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (a, b) <B>implies</B> <B>Result</B>
+            both_or_none_void: (a = <B>Void</B>) <B>implies</B> (<B>Result</B> = (b = <B>Void</B>))
+            same_type: (<B>Result</B> <B>and</B> (a /= <B>Void</B>)) <B>implies</B> (b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_same_type">same_type</A> (b))
+            symmetric: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (b, a)
+        <B>end</B></A>
+
+    <A NAME="f_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_equal">equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to objects considered equal?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_equal">is_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_equal">is_equal</A> (b))
+        <B>end</B></A>
+
+    <A NAME="f_is_deep_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (other: <B>attached</B> <A HREF="../network/network_socket_address_flat.html">NETWORK_SOCKET_ADDRESS</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`Current'<FONT COLOR="red"> and </FONT>`other'<FONT COLOR="red"> attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (<B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_is_equal"><A HREF="../abstract/socket_address_flat.html#f_is_equal">is_equal</A> (other: <B>attached</B> <A HREF="../network/network_socket_address_flat.html">NETWORK_SOCKET_ADDRESS</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current address equal to </FONT>`other'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_address_flat.html">SOCKET_ADDRESS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../abstract/socket_address_flat.html#f_socket_address">socket_address</A>.<A HREF="../elks/managed_pointer_flat.html#f_is_equal">is_equal</A> (other.<A HREF="../abstract/socket_address_flat.html#f_socket_address">socket_address</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            symmetric: <B>Result</B> <B>implies</B> other ~ <B>Current</B>
+            consistent: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+        <B>end</B></A>
+
+    <A NAME="f_standard_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical objects of the same type?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default object comparison criterion.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (b))
+        <B>end</B></A>
+
+    <A NAME="f_standard_is_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other: <B>attached</B> <A HREF="../network/network_socket_address_flat.html">NETWORK_SOCKET_ADDRESS</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object of the same type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as current object, and field-by-field identical to it?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_address_in_use"><A HREF="../abstract/socket_resources_flat.html#f_address_in_use">address_in_use</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Address is in use by another socket.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../abstract/socket_resources_flat.html#f_error_number">error_number</A> = <A HREF="../abstract/socket_resources_flat.html#f_busy_address">busy_address</A>)
+        <B>end</B></A>
+
+    <A NAME="f_address_not_readable"><A HREF="../abstract/socket_resources_flat.html#f_address_not_readable">address_not_readable</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Unreadable address</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../abstract/socket_resources_flat.html#f_error_number">error_number</A> = <A HREF="../abstract/socket_resources_flat.html#f_unreadable">unreadable</A>)
+        <B>end</B></A>
+
+    <A NAME="f_already_bound"><A HREF="../abstract/socket_resources_flat.html#f_already_bound">already_bound</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Socket has already been bound.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../abstract/socket_resources_flat.html#f_error_number">error_number</A> = <A HREF="../abstract/socket_resources_flat.html#f_bound_address">bound_address</A>)
+        <B>end</B></A>
+
+    <A NAME="f_bad_socket_handle"><A HREF="../abstract/socket_resources_flat.html#f_bad_socket_handle">bad_socket_handle</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Socket descriptor is bad.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../abstract/socket_resources_flat.html#f_error_number">error_number</A> = <A HREF="../abstract/socket_resources_flat.html#f_bad_socket">bad_socket</A>)
+        <B>end</B></A>
+
+    <A NAME="f_conforms_to"><A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (other: <A HREF="../elks/any_flat.html">ANY</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does type of current object conform to type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of </FONT>`other'<FONT COLOR="red"> (as per Eiffel: The Language, chapter 13)?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>end</B></A>
+
+    <A NAME="f_connect_in_progress"><A HREF="../abstract/socket_resources_flat.html#f_connect_in_progress">connect_in_progress</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Call to connect returned on a non-blocking socket.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../abstract/socket_resources_flat.html#f_error_number">error_number</A> = <A HREF="../abstract/socket_resources_flat.html#f_c_einprogress">c_einprogress</A>)
+        <B>end</B></A>
+
+    <A NAME="f_connection_refused"><A HREF="../abstract/socket_resources_flat.html#f_connection_refused">connection_refused</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Connection is refused (possibly due to security).</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../abstract/socket_resources_flat.html#f_error_number">error_number</A> = <A HREF="../abstract/socket_resources_flat.html#f_connect_refused">connect_refused</A>)
+        <B>end</B></A>
+
+    <A NAME="f_dtable_full"><A HREF="../abstract/socket_resources_flat.html#f_dtable_full">dtable_full</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Descriptor table is full</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../abstract/socket_resources_flat.html#f_error_number">error_number</A> = <A HREF="../abstract/socket_resources_flat.html#f_table_full">table_full</A>)
+        <B>end</B></A>
+
+    <A NAME="f_error"><A HREF="../abstract/socket_resources_flat.html#f_error">error</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output a related error message.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> <A HREF="../abstract/socket_resources_flat.html#f_address_not_readable">address_not_readable</A> <B>then</B>
+                <B>Result</B> := "Address not readable"
+            <B>elseif</B> <A HREF="../abstract/socket_resources_flat.html#f_socket_ok">socket_ok</A> <B>then</B>
+                <B>Result</B> := "Socket Ok"
+            <B>elseif</B> <A HREF="../abstract/socket_resources_flat.html#f_protected_address">protected_address</A> <B>then</B>
+                <B>Result</B> := "Address protected"
+            <B>elseif</B> <A HREF="../abstract/socket_resources_flat.html#f_already_bound">already_bound</A> <B>then</B>
+                <B>Result</B> := "Address already bound"
+            <B>elseif</B> <A HREF="../abstract/socket_resources_flat.html#f_address_in_use">address_in_use</A> <B>then</B>
+                <B>Result</B> := "Address in use"
+            <B>elseif</B> <A HREF="../abstract/socket_resources_flat.html#f_invalid_address">invalid_address</A> <B>then</B>
+                <B>Result</B> := "Address not available"
+            <B>elseif</B> <A HREF="../abstract/socket_resources_flat.html#f_invalid_socket_handle">invalid_socket_handle</A> <B>then</B>
+                <B>Result</B> := "Address is a file"
+            <B>elseif</B> <A HREF="../abstract/socket_resources_flat.html#f_bad_socket_handle">bad_socket_handle</A> <B>then</B>
+                <B>Result</B> := "Socket invalid"
+            <B>elseif</B> <A HREF="../abstract/socket_resources_flat.html#f_socket_family_not_supported">socket_family_not_supported</A> <B>then</B>
+                <B>Result</B> := "family not supported"
+            <B>elseif</B> <A HREF="../abstract/socket_resources_flat.html#f_no_permission">no_permission</A> <B>then</B>
+                <B>Result</B> := "No permission"
+            <B>elseif</B> <A HREF="../abstract/socket_resources_flat.html#f_no_buffers">no_buffers</A> <B>then</B>
+                <B>Result</B> := "No buffers"
+            <B>elseif</B> <A HREF="../abstract/socket_resources_flat.html#f_dtable_full">dtable_full</A> <B>then</B>
+                <B>Result</B> := "Descriptor table full"
+            <B>elseif</B> <A HREF="../abstract/socket_resources_flat.html#f_not_connected">not_connected</A> <B>then</B>
+                <B>Result</B> := "Not connected"
+            <B>elseif</B> <A HREF="../abstract/socket_resources_flat.html#f_protocol_not_supported">protocol_not_supported</A> <B>then</B>
+                <B>Result</B> := "Protocol not supported"
+            <B>elseif</B> <A HREF="../abstract/socket_resources_flat.html#f_socket_would_block">socket_would_block</A> <B>then</B>
+                <B>Result</B> := "Socket would block"
+            <B>elseif</B> <A HREF="../abstract/socket_resources_flat.html#f_socket_in_use">socket_in_use</A> <B>then</B>
+                <B>Result</B> := "Socket in use"
+            <B>elseif</B> <A HREF="../abstract/socket_resources_flat.html#f_expired_socket">expired_socket</A> <B>then</B>
+                <B>Result</B> := "Socket expired"
+            <B>elseif</B> <A HREF="../abstract/socket_resources_flat.html#f_connection_refused">connection_refused</A> <B>then</B>
+                <B>Result</B> := "Connection refused"
+            <B>elseif</B> <A HREF="../abstract/socket_resources_flat.html#f_network">network</A> <B>then</B>
+                <B>Result</B> := "No network"
+            <B>elseif</B> <A HREF="../abstract/socket_resources_flat.html#f_zero_option">zero_option</A> <B>then</B>
+                <B>Result</B> := "Not an option"
+            <B>elseif</B> <A HREF="../abstract/socket_resources_flat.html#f_connect_in_progress">connect_in_progress</A> <B>then</B>
+                <B>Result</B> := "Connection in progress"
+            <B>else</B>
+                <B>Result</B> := "Unknown error : " + <A HREF="../abstract/socket_resources_flat.html#f_c_errorno">c_errorno</A>.<A HREF="../elks/integer_32_ref_flat.html#f_out">out</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_error_number"><A HREF="../abstract/socket_resources_flat.html#f_error_number">error_number</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Returned error number</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../abstract/socket_resources_flat.html#f_c_errorno">c_errorno</A>
+        <B>end</B></A>
+
+    <A NAME="f_expired_socket"><A HREF="../abstract/socket_resources_flat.html#f_expired_socket">expired_socket</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Socket connection has expired.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../abstract/socket_resources_flat.html#f_error_number">error_number</A> = <A HREF="../abstract/socket_resources_flat.html#f_socket_expire">socket_expire</A>)
+        <B>end</B></A>
+
+    <A NAME="f_family"><A HREF="../abstract/socket_address_flat.html#f_family">family</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Get the socket family of socket address.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_address_flat.html">SOCKET_ADDRESS</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../network/network_socket_address_flat.html#f_get_sock_family">get_sock_family</A> (<A HREF="../abstract/socket_address_flat.html#f_socket_address">socket_address</A>.<A HREF="../elks/managed_pointer_flat.html#f_item">item</A>)
+        <B>end</B></A>
+
+    <A NAME="f_host_address"><A HREF="../network/network_socket_address_flat.html#f_host_address">host_address</A>: <A HREF="../network/inet_address_flat.html">INET_ADDRESS</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Host address of address</FONT>
+        <B>local</B>
+            l_address: <B>detachable</B> <A HREF="../network/inet_address_flat.html">INET_ADDRESS</A>
+        <B>do</B>
+            l_address := <A HREF="../network/inet_address_factory_flat.html#f_create_from_sockaddr">create_from_sockaddr</A> (<A HREF="../abstract/socket_address_flat.html#f_socket_address">socket_address</A>.<A HREF="../elks/managed_pointer_flat.html#f_item">item</A>)
+            <B>check</B>
+                l_address_attached: l_address /= <B>Void</B>
+            <B>end</B>
+            <B>Result</B> := l_address
+        <B>end</B></A>
+
+    <A NAME="f_invalid_address"><A HREF="../abstract/socket_resources_flat.html#f_invalid_address">invalid_address</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Address is not valid.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../abstract/socket_resources_flat.html#f_error_number">error_number</A> = <A HREF="../abstract/socket_resources_flat.html#f_error_address">error_address</A>)
+        <B>end</B></A>
+
+    <A NAME="f_invalid_socket_handle"><A HREF="../abstract/socket_resources_flat.html#f_invalid_socket_handle">invalid_socket_handle</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Socket descriptor is not valid.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../abstract/socket_resources_flat.html#f_error_number">error_number</A> = <A HREF="../abstract/socket_resources_flat.html#f_no_socket">no_socket</A>)
+        <B>end</B></A>
+
+    <A NAME="f_network"><A HREF="../abstract/socket_resources_flat.html#f_network">network</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Socket failed due to network problems.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../abstract/socket_resources_flat.html#f_error_number">error_number</A> = <A HREF="../abstract/socket_resources_flat.html#f_no_network">no_network</A>)
+        <B>end</B></A>
+
+    <A NAME="f_no_buffers"><A HREF="../abstract/socket_resources_flat.html#f_no_buffers">no_buffers</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> No more buffers available</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../abstract/socket_resources_flat.html#f_error_number">error_number</A> = <A HREF="../abstract/socket_resources_flat.html#f_no_buffs">no_buffs</A>)
+        <B>end</B></A>
+
+    <A NAME="f_no_permission"><A HREF="../abstract/socket_resources_flat.html#f_no_permission">no_permission</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> No permission is given to user for this socket.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../abstract/socket_resources_flat.html#f_error_number">error_number</A> = <A HREF="../abstract/socket_resources_flat.html#f_c_permission">c_permission</A>)
+        <B>end</B></A>
+
+    <A NAME="f_not_connected"><A HREF="../abstract/socket_resources_flat.html#f_not_connected">not_connected</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Socket is not connect.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../abstract/socket_resources_flat.html#f_error_number">error_number</A> = <A HREF="../abstract/socket_resources_flat.html#f_no_connect">no_connect</A>)
+        <B>end</B></A>
+
+    <A NAME="f_port"><A HREF="../network/network_socket_address_flat.html#f_port">port</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Port number</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../network/network_socket_address_flat.html#f_get_sock_port">get_sock_port</A> (<A HREF="../abstract/socket_address_flat.html#f_socket_address">socket_address</A>.<A HREF="../elks/managed_pointer_flat.html#f_item">item</A>)
+        <B>end</B></A>
+
+    <A NAME="f_protected_address"><A HREF="../abstract/socket_resources_flat.html#f_protected_address">protected_address</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> No access to this address is allowed.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../abstract/socket_resources_flat.html#f_error_number">error_number</A> = <A HREF="../abstract/socket_resources_flat.html#f_no_access">no_access</A>)
+        <B>end</B></A>
+
+    <A NAME="f_protocol_not_supported"><A HREF="../abstract/socket_resources_flat.html#f_protocol_not_supported">protocol_not_supported</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Protocol is not supported on this platform.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../abstract/socket_resources_flat.html#f_error_number">error_number</A> = <A HREF="../abstract/socket_resources_flat.html#f_proto_no_support">proto_no_support</A>)
+        <B>end</B></A>
+
+    <A NAME="f_same_type"><A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other: <A HREF="../elks/any_flat.html">ANY</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is type of current object identical to type of </FONT>`other'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (<A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (other) <B>and</B> other.<A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>Current</B>))
+        <B>end</B></A>
+
+    <A NAME="f_socket_family_not_supported"><A HREF="../abstract/socket_resources_flat.html#f_socket_family_not_supported">socket_family_not_supported</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Requested family is not supported.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../abstract/socket_resources_flat.html#f_error_number">error_number</A> = <A HREF="../abstract/socket_resources_flat.html#f_family_no_support">family_no_support</A>)
+        <B>end</B></A>
+
+    <A NAME="f_socket_in_use"><A HREF="../abstract/socket_resources_flat.html#f_socket_in_use">socket_in_use</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Socket is already in use.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../abstract/socket_resources_flat.html#f_error_number">error_number</A> = <A HREF="../abstract/socket_resources_flat.html#f_in_use">in_use</A>)
+        <B>end</B></A>
+
+    <A NAME="f_socket_ok"><A HREF="../abstract/socket_resources_flat.html#f_socket_ok">socket_ok</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> No error</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../abstract/socket_resources_flat.html#f_error_number">error_number</A> = 0)
+        <B>end</B></A>
+
+    <A NAME="f_socket_would_block"><A HREF="../abstract/socket_resources_flat.html#f_socket_would_block">socket_would_block</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Call to read, write, etc would have blocked.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../abstract/socket_resources_flat.html#f_error_number">error_number</A> = <A HREF="../abstract/socket_resources_flat.html#f_would_block">would_block</A>)
+        <B>end</B></A>
+
+    <A NAME="f_zero_option"><A HREF="../abstract/socket_resources_flat.html#f_zero_option">zero_option</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> No options provided</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../abstract/socket_resources_flat.html#f_error_number">error_number</A> = <A HREF="../abstract/socket_resources_flat.html#f_no_option">no_option</A>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status setting</FONT>
+
+    <A NAME="f_set_family"><A HREF="../abstract/socket_address_flat.html#f_set_family">set_family</A> (f: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set socket address family to </FONT>`f'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_address_flat.html">SOCKET_ADDRESS</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <A HREF="../network/network_socket_address_flat.html#f_set_sock_family">set_sock_family</A> (<A HREF="../abstract/socket_address_flat.html#f_socket_address">socket_address</A>.<A HREF="../elks/managed_pointer_flat.html#f_item">item</A>, f)
+        <B>end</B></A>
+
+    <A NAME="f_set_host_address"><A HREF="../network/network_socket_address_flat.html#f_set_host_address">set_host_address</A> (a_host_address: <A HREF="../network/inet_address_flat.html">INET_ADDRESS</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set host address to </FONT>`a_host_address'
+        <B>do</B>
+            <A HREF="../network/network_socket_address_flat.html#f_make_from_address_and_port">make_from_address_and_port</A> (a_host_address, <A HREF="../network/network_socket_address_flat.html#f_port">port</A>)
+        <B>end</B></A>
+
+    <A NAME="f_set_port"><A HREF="../network/network_socket_address_flat.html#f_set_port">set_port</A> (p: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set port to </FONT>`p'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../network/network_socket_address_flat.html#f_set_sock_port">set_sock_port</A> (<A HREF="../abstract/socket_address_flat.html#f_socket_address">socket_address</A>.<A HREF="../elks/managed_pointer_flat.html#f_item">item</A>, p)
+        <B>end</B></A>
+
+    <A NAME="f_set_port_from_name"><A HREF="../network/network_socket_address_flat.html#f_set_port_from_name">set_port_from_name</A> (a_name, protocol: <A HREF="../elks/string_8_flat.html">STRING_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set port number using </FONT>`a_name'<FONT COLOR="red"> and </FONT>`protocol'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to refer into the (local) services file.</FONT>
+        <B>local</B>
+            ext1, ext: <A HREF="../elks/c_string_flat.html">C_STRING</A>
+            return: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>create</B> ext1.<A HREF="../elks/c_string_flat.html#f_make">make</A> (a_name)
+            <B>create</B> ext.<A HREF="../elks/c_string_flat.html#f_make">make</A> (protocol)
+            return := <A HREF="../network/network_socket_address_flat.html#f_get_servent_port">get_servent_port</A> (ext1.<A HREF="../elks/c_string_flat.html#f_item">item</A>, ext.<A HREF="../elks/c_string_flat.html#f_item">item</A>)
+            <A HREF="../network/network_socket_address_flat.html#f_set_port">set_port</A> (return)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_clone">clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void; otherwise new object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to </FONT>`other'
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> For non-void </FONT>`other'<FONT COLOR="red">, </FONT><A HREF="../elks/any_flat.html#f_clone">clone</A><FONT COLOR="red"> calls </FONT><A HREF="../abstract/socket_address_flat.html#f_copy">copy</A><FONT COLOR="red">;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to change copying/cloning semantics, redefine </FONT><A HREF="../abstract/socket_address_flat.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_twin">twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            equal: <B>Result</B> ~ other
+        <B>end</B></A>
+
+    <A NAME="f_copy"><A HREF="../abstract/socket_address_flat.html#f_copy">copy</A> (other: <B>attached</B> <A HREF="../network/network_socket_address_flat.html">NETWORK_SOCKET_ADDRESS</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Reinitialize by copying characters of </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (This is also used by </FONT><A HREF="../elks/any_flat.html#f_clone">clone</A><FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_address_flat.html">SOCKET_ADDRESS</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+        <B>do</B>
+            <B>if</B> other /= <B>Current</B> <B>then</B>
+                <A HREF="../elks/any_flat.html#f_standard_copy">standard_copy</A> (other)
+                <A HREF="../abstract/socket_address_flat.html#f_socket_address">socket_address</A> := other.<A HREF="../abstract/socket_address_flat.html#f_socket_address">socket_address</A>.<A HREF="../elks/any_flat.html#f_twin">twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            is_equal: <B>Current</B> ~ other
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../abstract/socket_address_flat.html">SOCKET_ADDRESS</A>
+            new_result_count: <A HREF="../abstract/socket_address_flat.html#f_count">count</A> = other.<A HREF="../abstract/socket_address_flat.html#f_count">count</A> <B>or else</B> <A HREF="../abstract/socket_address_flat.html#f_count">count</A> = <A HREF="../network/network_socket_address_flat.html#f_address_size">address_size</A>
+        <B>end</B></A>
+
+    <A NAME="f_deep_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_clone">deep_clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `deep_twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void: otherwise, new object structure</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> recursively duplicated from the one attached to </FONT>`other'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (other, <B>Result</B>)
+        <B>end</B></A>
+
+    <A NAME="f_deep_copy"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_copy">deep_copy</A> (other: <B>attached</B> <A HREF="../network/network_socket_address_flat.html">NETWORK_SOCKET_ADDRESS</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Effect equivalent to that of:</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">		</FONT><A HREF="../abstract/socket_address_flat.html#f_copy">copy</A><FONT COLOR="red"> (</FONT>`other'<FONT COLOR="red"> . </FONT><A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A><FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../abstract/socket_address_flat.html#f_copy">copy</A> (other.<A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (<B>Current</B>, other)
+        <B>end</B></A>
+
+    <A NAME="f_deep_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>: <B>attached</B> <A HREF="../network/network_socket_address_flat.html">NETWORK_SOCKET_ADDRESS</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object structure recursively duplicated from Current.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_twin_not_void: <B>Result</B> /= <B>Void</B>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (<B>Current</B>, <B>Result</B>)
+        <B>end</B></A>
+
+    <A NAME="f_standard_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_clone">standard_clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `standard_twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void; otherwise new object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_standard_twin">standard_twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            equal: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (<B>Result</B>, other)
+        <B>end</B></A>
+
+    <A NAME="f_standard_copy"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_copy">standard_copy</A> (other: <B>attached</B> <A HREF="../network/network_socket_address_flat.html">NETWORK_SOCKET_ADDRESS</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy every field of </FONT>`other'<FONT COLOR="red"> onto corresponding field</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            is_standard_equal: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other)
+        <B>end</B></A>
+
+    <A NAME="f_standard_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_twin">standard_twin</A>: <B>attached</B> <A HREF="../network/network_socket_address_flat.html">NETWORK_SOCKET_ADDRESS</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            standard_twin_not_void: <B>Result</B> /= <B>Void</B>
+            equal: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (<B>Result</B>, <B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_twin">twin</A>: <B>attached</B> <A HREF="../network/network_socket_address_flat.html">NETWORK_SOCKET_ADDRESS</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object equal to </FONT>`Current'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/any_flat.html#f_twin">twin</A><FONT COLOR="red"> calls </FONT><A HREF="../abstract/socket_address_flat.html#f_copy">copy</A><FONT COLOR="red">; to change copying/twinning semantics, redefine </FONT><A HREF="../abstract/socket_address_flat.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            twin_not_void: <B>Result</B> /= <B>Void</B>
+            is_equal: <B>Result</B> ~ <B>Current</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_as_attached"><B>frozen</B> <A HREF="../elks/any_flat.html#f_as_attached">as_attached</A>: <B>attached</B> <A HREF="../network/network_socket_address_flat.html">NETWORK_SOCKET_ADDRESS</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attached version of Current</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Can be used during transitional period to convert</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> non-void-safe classes to void-safe ones.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>Current</B>
+        <B>end</B></A>
+
+    <A NAME="f_default"><B>frozen</B> <A HREF="../elks/any_flat.html#f_default">default</A>: <B>detachable</B> <A HREF="../network/network_socket_address_flat.html">NETWORK_SOCKET_ADDRESS</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of object's type</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_default_pointer"><B>frozen</B> <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>: <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of type </FONT>`POINTER'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Avoid the need to write </FONT>`p'<FONT COLOR="red">.</FONT><A HREF="../elks/any_flat.html#f_default">default</A><FONT COLOR="red"> for</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> some </FONT>`p'<FONT COLOR="red"> of type </FONT>`POINTER'<FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_default_rescue"><A HREF="../elks/any_flat.html#f_default_rescue">default_rescue</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process exception for routines with no Rescue clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_do_nothing"><B>frozen</B> <A HREF="../elks/any_flat.html#f_do_nothing">do_nothing</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execute a null action.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_check_numeric_zone"><A HREF="../network/inet_address_factory_flat.html#f_check_numeric_zone">check_numeric_zone</A> (s: <A HREF="../elks/string_8_flat.html">STRING_8</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            percent: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            slen: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            c: <A HREF="../elks/character_8_flat.html">CHARACTER_8</A>
+            done: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+        <B>do</B>
+            percent := s.<A HREF="../elks/readable_string_8_flat.html#f_index_of">index_of</A> ('%%', 1)
+            slen := s.<A HREF="../elks/readable_string_8_flat.html#f_count">count</A>
+            <B>if</B> percent = 0 <B>then</B>
+                <B>Result</B> := -1
+            <B>else</B>
+                <B>from</B>
+                    i := percent + 1
+                    done := <B>False</B>
+                <B>until</B>
+                    done <B>or else</B> i &gt; slen
+                <B>loop</B>
+                    c := s.<A HREF="../elks/string_8_flat.html#f_item">item</A> (i)
+                    <B>if</B> c = ']' <B>then</B>
+                        <B>if</B> i = percent + 1 <B>then</B>
+                            <B>Result</B> := -1
+                        <B>end</B>
+                        done := <B>True</B>
+                    <B>elseif</B> <B>not</B> c.<A HREF="../elks/character_8_ref_flat.html#f_is_digit">is_digit</A> <B>then</B>
+                        <B>Result</B> := -1
+                        done := <B>True</B>
+                    <B>else</B>
+                        <B>Result</B> := (<B>Result</B> * 10) + (c.<A HREF="../elks/character_8_flat.html#f_code">code</A> - ('0').<A HREF="../elks/character_8_flat.html#f_code">code</A>)
+                    <B>end</B>
+                    i := i + 1
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_convert_from_ipv4_mappedd_address"><A HREF="../network/inet_address_factory_flat.html#f_convert_from_ipv4_mappedd_address">convert_from_ipv4_mappedd_address</A> (addr: <A HREF="../elks/array_flat.html">ARRAY</A> [<A HREF="../elks/natural_8_flat.html">NATURAL_8</A>]): <B>detachable</B> <A HREF="../elks/array_flat.html">ARRAY</A> [<A HREF="../elks/natural_8_flat.html">NATURAL_8</A>]
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../network/inet_address_factory_flat.html#f_is_ipv4_mapped_address">is_ipv4_mapped_address</A> (addr) <B>then</B>
+                <B>create</B> <B>Result</B>.<A HREF="../elks/array_flat.html#f_make_filled">make_filled</A> ({<A HREF="../elks/natural_8_flat.html">NATURAL_8</A>} 0, 1, {<A HREF="../network/inet4_address_flat.html">INET4_ADDRESS</A>}.<A HREF="../network/inet4_address_flat.html#f_inaddrsz">inaddrsz</A>)
+                <B>from</B>
+                    i := 1
+                <B>until</B>
+                    i &gt; {<A HREF="../network/inet4_address_flat.html">INET4_ADDRESS</A>}.<A HREF="../network/inet4_address_flat.html#f_inaddrsz">inaddrsz</A>
+                <B>loop</B>
+                    <B>Result</B>.<A HREF="../elks/array_flat.html#f_put">put</A> (addr.<A HREF="../elks/array_flat.html#f_item">item</A> (i + 12), i)
+                    i := i + 1
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A>
+            valid_array: <B>Result</B> /= <B>Void</B> <B>implies</B> <B>Result</B>.<A HREF="../elks/array_flat.html#f_count">count</A> = {<A HREF="../network/inet4_address_flat.html">INET4_ADDRESS</A>}.<A HREF="../network/inet4_address_flat.html#f_inaddrsz">inaddrsz</A>
+        <B>end</B></A>
+
+    <A NAME="f_dot_count"><A HREF="../network/inet_address_factory_flat.html#f_dot_count">dot_count</A> (src: <A HREF="../elks/string_8_flat.html">STRING_8</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Returns the number of dot ('.') characters found in the given string</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A>
+            valid_src: src /= <B>Void</B>
+        <B>local</B>
+            index: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                index := src.<A HREF="../elks/readable_string_8_flat.html#f_index_of">index_of</A> ('.', 1)
+            <B>until</B>
+                index = 0
+            <B>loop</B>
+                <B>Result</B> := <B>Result</B> + 1
+                <B>if</B> index &lt; src.<A HREF="../elks/readable_string_8_flat.html#f_count">count</A> <B>then</B>
+                    index := src.<A HREF="../elks/readable_string_8_flat.html#f_index_of">index_of</A> ('.', index + 1)
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_get_all_by_name"><A HREF="../network/inet_address_factory_flat.html#f_get_all_by_name">get_all_by_name</A> (a_host: <A HREF="../elks/string_8_flat.html">STRING_8</A>): <B>detachable</B> <A HREF="../elks/arrayed_list_flat.html">ARRAYED_LIST</A> [<A HREF="../network/inet_address_flat.html">INET_ADDRESS</A>]
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            ipv6_expected: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            host: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            addr_array: <B>detachable</B> <A HREF="../elks/array_flat.html">ARRAY</A> [<A HREF="../elks/natural_8_flat.html">NATURAL_8</A>]
+            addr: <A HREF="../network/inet_address_flat.html">INET_ADDRESS</A>
+            numeric_zone: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            iface_name: <B>detachable</B> <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            pos: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            failed: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+        <B>do</B>
+            host := a_host
+            numeric_zone := -1
+            <B>if</B> host = <B>Void</B> <B>or else</B> host.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>then</B>
+                <B>create</B> <B>Result</B>.<A HREF="../elks/arrayed_list_flat.html#f_make">make</A> (1)
+                <B>Result</B>.<A HREF="../elks/arrayed_list_flat.html#f_extend">extend</A> (<A HREF="../network/inet_address_factory_flat.html#f_impl">Impl</A>.<A HREF="../network/inet_address_impl_flat.html#f_loopback_address">loopback_address</A>)
+            <B>else</B>
+                failed := <B>False</B>
+                <B>if</B> host.<A HREF="../elks/string_8_flat.html#f_item">item</A> (1) = '[' <B>then</B>
+                    <B>if</B> host.<A HREF="../elks/readable_string_8_flat.html#f_count">count</A> &gt; 2 <B>and then</B> host.<A HREF="../elks/string_8_flat.html#f_item">item</A> (host.<A HREF="../elks/readable_string_8_flat.html#f_count">count</A>) = ']' <B>then</B>
+                        host := host.<A HREF="../elks/string_8_flat.html#f_substring">substring</A> (2, host.<A HREF="../elks/readable_string_8_flat.html#f_count">count</A> - 1)
+                        ipv6_expected := <B>True</B>
+                    <B>else</B>
+                        failed := <B>True</B>
+                    <B>end</B>
+                <B>end</B>
+                <B>if</B> <B>not</B> failed <B>then</B>
+                    <B>if</B> host.<A HREF="../elks/string_8_flat.html#f_item">item</A> (1).<A HREF="../elks/character_8_ref_flat.html#f_is_hexa_digit">is_hexa_digit</A> <B>or else</B> host.<A HREF="../elks/string_8_flat.html#f_item">item</A> (1) = ':' <B>then</B>
+                        addr_array := <A HREF="../network/inet_address_factory_flat.html#f_text_to_numeric_format_v4">text_to_numeric_format_v4</A> (host)
+                        <B>if</B> addr_array = <B>Void</B> <B>then</B>
+                            pos := host.<A HREF="../elks/readable_string_8_flat.html#f_index_of">index_of</A> ('%%', 1)
+                            <B>if</B> pos /= 0 <B>then</B>
+                                numeric_zone := <A HREF="../network/inet_address_factory_flat.html#f_check_numeric_zone">check_numeric_zone</A> (host)
+                                <B>if</B> numeric_zone = -1 <B>then</B>
+                                    iface_name := host.<A HREF="../elks/string_8_flat.html#f_substring">substring</A> (pos + 1, host.<A HREF="../elks/readable_string_8_flat.html#f_count">count</A>)
+                                <B>end</B>
+                            <B>end</B>
+                            addr_array := <A HREF="../network/inet_address_factory_flat.html#f_text_to_numeric_format_v6">text_to_numeric_format_v6</A> (host)
+                        <B>elseif</B> ipv6_expected <B>then</B>
+                            failed := <B>True</B>
+                        <B>end</B>
+                        <B>if</B> <B>not</B> failed <B>then</B>
+                            <B>if</B> addr_array /= <B>Void</B> <B>then</B>
+                                <B>create</B> <B>Result</B>.<A HREF="../elks/arrayed_list_flat.html#f_make">make</A> (1)
+                                <B>if</B> addr_array.<A HREF="../elks/array_flat.html#f_count">count</A> = {<A HREF="../network/inet4_address_flat.html">INET4_ADDRESS</A>}.<A HREF="../network/inet4_address_flat.html#f_inaddrsz">inaddrsz</A> <B>then</B>
+                                    <B>create</B> {<A HREF="../network/inet4_address_flat.html">INET4_ADDRESS</A>} addr.<A HREF="../network/inet4_address_flat.html#f_make_from_host_and_address">make_from_host_and_address</A> (<B>Void</B>, addr_array)
+                                <B>else</B>
+                                    <B>if</B> iface_name /= <B>Void</B> <B>then</B>
+                                        <B>create</B> {<A HREF="../network/inet6_address_flat.html">INET6_ADDRESS</A>} addr.<A HREF="../network/inet6_address_flat.html#f_make_from_host_and_address_and_interface_name">make_from_host_and_address_and_interface_name</A> (<B>Void</B>, addr_array, iface_name)
+                                    <B>else</B>
+                                        <B>create</B> {<A HREF="../network/inet6_address_flat.html">INET6_ADDRESS</A>} addr.<A HREF="../network/inet6_address_flat.html#f_make_from_host_and_address_and_scope">make_from_host_and_address_and_scope</A> (<B>Void</B>, addr_array, numeric_zone)
+                                    <B>end</B>
+                                <B>end</B>
+                                <B>Result</B>.<A HREF="../elks/arrayed_list_flat.html#f_extend">extend</A> (addr)
+                            <B>end</B>
+                        <B>end</B>
+                    <B>elseif</B> ipv6_expected <B>then</B>
+                        failed := <B>True</B>
+                        <B>Result</B> := <B>Void</B>
+                    <B>end</B>
+                    <B>if</B> <B>Result</B> = <B>Void</B> <B>and then</B> <B>not</B> failed <B>then</B>
+                        <B>Result</B> := <A HREF="../network/inet_address_factory_flat.html#f_get_all_by_name_0">get_all_by_name_0</A> (host)
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_get_all_by_name_0"><A HREF="../network/inet_address_factory_flat.html#f_get_all_by_name_0">get_all_by_name_0</A> (host: <A HREF="../elks/string_8_flat.html">STRING_8</A>): <B>detachable</B> <A HREF="../elks/arrayed_list_flat.html">ARRAYED_LIST</A> [<A HREF="../network/inet_address_flat.html">INET_ADDRESS</A>]
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            ai: <B>detachable</B> <A HREF="../network/addrinfo_flat.html">ADDRINFO</A>
+            ia: <A HREF="../network/inet_address_flat.html">INET_ADDRESS</A>
+            l_family: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            ai := <A HREF="../network/inet_address_factory_flat.html#f_getaddrinfo">getaddrinfo</A> (host)
+            <B>if</B> ai /= <B>Void</B> <B>then</B>
+                <B>create</B> <B>Result</B>.<A HREF="../elks/arrayed_list_flat.html#f_make">make</A> (1)
+                <B>from</B>
+                <B>until</B>
+                    ai = <B>Void</B>
+                <B>loop</B>
+                    l_family := ai.<A HREF="../network/addrinfo_flat.html#f_family">family</A>
+                    <B>if</B> l_family = ai.<A HREF="../network/addrinfo_flat.html#f_af_inet">af_inet</A> <B>then</B>
+                        <B>create</B> {<A HREF="../network/inet4_address_flat.html">INET4_ADDRESS</A>} ia.<A HREF="../network/inet4_address_flat.html#f_make_from_host_and_pointer">make_from_host_and_pointer</A> (host, ai.<A HREF="../network/addrinfo_flat.html#f_addr">addr</A>)
+                        <B>Result</B>.<A HREF="../elks/arrayed_list_flat.html#f_extend">extend</A> (ia)
+                    <B>elseif</B> l_family = ai.<A HREF="../network/addrinfo_flat.html#f_af_inet6">af_inet6</A> <B>then</B>
+                        <B>if</B> <A HREF="../network/inet_properties_flat.html#f_is_ipv6_available">is_ipv6_available</A> <B>then</B>
+                            <B>create</B> {<A HREF="../network/inet6_address_flat.html">INET6_ADDRESS</A>} ia.<A HREF="../network/inet6_address_flat.html#f_make_from_host_and_pointer">make_from_host_and_pointer</A> (host, ai.<A HREF="../network/addrinfo_flat.html#f_addr">addr</A>)
+                            <B>Result</B>.<A HREF="../elks/arrayed_list_flat.html#f_extend">extend</A> (ia)
+                        <B>end</B>
+                    <B>end</B>
+                    ai := ai.<A HREF="../network/addrinfo_flat.html#f_next">next</A>
+                <B>end</B>
+                <B>if</B> <B>Result</B>.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>then</B>
+                    <B>Result</B> := <B>Void</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_getaddrinfo"><A HREF="../network/inet_address_factory_flat.html#f_getaddrinfo">getaddrinfo</A> (host: <A HREF="../elks/string_8_flat.html">STRING_8</A>): <B>detachable</B> <A HREF="../network/addrinfo_flat.html">ADDRINFO</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            ext: <A HREF="../elks/c_string_flat.html">C_STRING</A>
+            p: <A HREF="../elks/pointer_flat.html">POINTER</A>
+        <B>do</B>
+            <B>create</B> ext.<A HREF="../elks/c_string_flat.html#f_make">make</A> (host)
+            p := <A HREF="../network/inet_address_factory_flat.html#f_c_getaddrinfo">c_getaddrinfo</A> (ext.<A HREF="../elks/c_string_flat.html#f_item">item</A>)
+            <B>if</B> p /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A> <B>then</B>
+                <B>create</B> {<A HREF="../network/addrinfo_1_flat.html">ADDRINFO_1</A>} <B>Result</B>.<A HREF="../network/external_object_flat.html#f_make_from_external">make_from_external</A> (p)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_hex_character_to_integer"><A HREF="../network/inet_address_factory_flat.html#f_hex_character_to_integer">hex_character_to_integer</A> (c: <A HREF="../elks/character_8_flat.html">CHARACTER_8</A>): <A HREF="../elks/natural_8_flat.html">NATURAL_8</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> c &gt;= '0' <B>and then</B> c &lt;= '9' <B>then</B>
+                <B>Result</B> := (c.<A HREF="../elks/character_8_flat.html#f_code">code</A> - ('0').<A HREF="../elks/character_8_flat.html#f_code">code</A>).<A HREF="../elks/integer_32_flat.html#f_as_natural_8">as_natural_8</A>
+            <B>elseif</B> c &gt;= 'a' <B>and then</B> c &lt;= 'f' <B>then</B>
+                <B>Result</B> := (c.<A HREF="../elks/character_8_flat.html#f_code">code</A> - ('a').<A HREF="../elks/character_8_flat.html#f_code">code</A>).<A HREF="../elks/integer_32_flat.html#f_as_natural_8">as_natural_8</A> + 10.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A>
+            <B>elseif</B> c &gt;= 'A' <B>and then</B> c &lt;= 'F' <B>then</B>
+                <B>Result</B> := (c.<A HREF="../elks/character_8_flat.html#f_code">code</A> - ('A').<A HREF="../elks/character_8_flat.html#f_code">code</A>).<A HREF="../elks/integer_32_flat.html#f_as_natural_8">as_natural_8</A> + 10.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_impl"><A HREF="../network/inet_address_factory_flat.html#f_impl">Impl</A>: <A HREF="../network/inet_address_impl_flat.html">INET_ADDRESS_IMPL</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>if</B> <A HREF="../network/inet_properties_flat.html#f_is_ipv6_available">is_ipv6_available</A> <B>then</B>
+                <B>create</B> {<A HREF="../network/inet_address_impl_v6_flat.html">INET_ADDRESS_IMPL_V6</A>} <B>Result</B>
+            <B>else</B>
+                <B>create</B> {<A HREF="../network/inet_address_impl_v4_flat.html">INET_ADDRESS_IMPL_V4</A>} <B>Result</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_int16sz"><A HREF="../network/inet_address_factory_flat.html#f_int16sz">Int16sz</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 2</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_is_ipv4_mapped_address"><A HREF="../network/inet_address_factory_flat.html#f_is_ipv4_mapped_address">is_ipv4_mapped_address</A> (addr: <A HREF="../elks/array_flat.html">ARRAY</A> [<A HREF="../elks/natural_8_flat.html">NATURAL_8</A>]): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A>
+            valid_addr: addr /= <B>Void</B>
+        <B>do</B>
+            <B>if</B> addr.<A HREF="../elks/array_flat.html#f_count">count</A> = {<A HREF="../network/inet6_address_flat.html">INET6_ADDRESS</A>}.<A HREF="../network/inet6_address_flat.html#f_inaddrsz">inaddrsz</A> <B>then</B>
+                <B>Result</B> := ((addr [1] = 0.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A>) <B>and then</B> (addr [2] = 0.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A>) <B>and then</B> (addr [3] = 0.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A>) <B>and then</B> (addr [4] = 0.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A>) <B>and then</B> (addr [5] = 0.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A>) <B>and then</B> (addr [6] = 0.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A>) <B>and then</B> (addr [7] = 0.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A>) <B>and then</B> (addr [8] = 0.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A>) <B>and then</B> (addr [9] = 0.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A>) <B>and then</B> (addr [10] = 0.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A>) <B>and then</B> (addr [11] = 255.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A>) <B>and then</B> (addr [12] = 255.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A>))
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_split"><A HREF="../network/inet_address_factory_flat.html#f_split">split</A> (src: <A HREF="../elks/string_8_flat.html">STRING_8</A>; delimiter: <A HREF="../elks/character_8_flat.html">CHARACTER_8</A>): <A HREF="../elks/arrayed_list_flat.html">ARRAYED_LIST</A> [<A HREF="../elks/string_8_flat.html">STRING_8</A>]
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A>
+            valid_src: src /= <B>Void</B>
+        <B>local</B>
+            i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            token: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/arrayed_list_flat.html#f_make">make</A> (10)
+            <B>if</B> <B>not</B> src.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>then</B>
+                <B>from</B>
+                    i := 1
+                    <B>create</B> token.<A HREF="../elks/readable_string_general_flat.html#f_make_empty">make_empty</A>
+                <B>until</B>
+                    i &gt; src.<A HREF="../elks/readable_string_8_flat.html#f_count">count</A>
+                <B>loop</B>
+                    <B>if</B> src.<A HREF="../elks/string_8_flat.html#f_item">item</A> (i) = delimiter <B>then</B>
+                        <B>Result</B>.<A HREF="../elks/arrayed_list_flat.html#f_extend">extend</A> (token)
+                        <B>create</B> token.<A HREF="../elks/readable_string_general_flat.html#f_make_empty">make_empty</A>
+                    <B>elseif</B> i = src.<A HREF="../elks/readable_string_8_flat.html#f_count">count</A> <B>then</B>
+                        token.<A HREF="../elks/string_8_flat.html#f_extend">extend</A> (src.<A HREF="../elks/string_8_flat.html#f_item">item</A> (i))
+                        <B>Result</B>.<A HREF="../elks/arrayed_list_flat.html#f_extend">extend</A> (token)
+                    <B>else</B>
+                        token.<A HREF="../elks/string_8_flat.html#f_extend">extend</A> (src.<A HREF="../elks/string_8_flat.html#f_item">item</A> (i))
+                    <B>end</B>
+                    i := i + 1
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_text_to_numeric_format_v4"><A HREF="../network/inet_address_factory_flat.html#f_text_to_numeric_format_v4">text_to_numeric_format_v4</A> (src: <A HREF="../elks/string_8_flat.html">STRING_8</A>): <B>detachable</B> <A HREF="../elks/array_flat.html">ARRAY</A> [<A HREF="../elks/natural_8_flat.html">NATURAL_8</A>]
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A>
+            valid_src: src /= <B>Void</B>
+        <B>local</B>
+            splitted: <A HREF="../elks/arrayed_list_flat.html">ARRAYED_LIST</A> [<A HREF="../elks/string_8_flat.html">STRING_8</A>]
+            val: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>if</B> <B>not</B> src.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>then</B>
+                <B>create</B> <B>Result</B>.<A HREF="../elks/array_flat.html#f_make_filled">make_filled</A> ({<A HREF="../elks/natural_8_flat.html">NATURAL_8</A>} 0, 1, {<A HREF="../network/inet4_address_flat.html">INET4_ADDRESS</A>}.<A HREF="../network/inet4_address_flat.html#f_inaddrsz">inaddrsz</A>)
+                splitted := <A HREF="../network/inet_address_factory_flat.html#f_split">split</A> (src, '.')
+                <B>inspect</B> splitted.<A HREF="../elks/arrayed_list_flat.html#f_count">count</A>
+                <B>when</B> 1 <B>then</B> 
+                    <B>if</B> splitted.<A HREF="../elks/arrayed_list_flat.html#f_i_th">i_th</A> (1).<A HREF="../elks/readable_string_general_flat.html#f_is_integer_32">is_integer_32</A> <B>then</B>
+                        val := splitted.<A HREF="../elks/arrayed_list_flat.html#f_i_th">i_th</A> (1).<A HREF="../elks/readable_string_general_flat.html#f_to_integer_32">to_integer_32</A>
+                        <B>if</B> val &gt;= 0 <B>and then</B> val &lt;= 4294967295.<A HREF="../elks/integer_64_ref_flat.html#f_to_integer_32">to_integer_32</A> <B>then</B>
+                            <B>Result</B>.<A HREF="../elks/array_flat.html#f_put">put</A> (((val |&gt;&gt; 24) &#38; 255).<A HREF="../elks/integer_32_flat.html#f_as_natural_8">as_natural_8</A>, 1)
+                            <B>Result</B>.<A HREF="../elks/array_flat.html#f_put">put</A> ((((val &#38; 16777215) |&gt;&gt; 16) &#38; 255).<A HREF="../elks/integer_32_flat.html#f_as_natural_8">as_natural_8</A>, 2)
+                            <B>Result</B>.<A HREF="../elks/array_flat.html#f_put">put</A> ((((val &#38; 65535) |&gt;&gt; 8) &#38; 255).<A HREF="../elks/integer_32_flat.html#f_as_natural_8">as_natural_8</A>, 3)
+                            <B>Result</B>.<A HREF="../elks/array_flat.html#f_put">put</A> ((val &#38; 255).<A HREF="../elks/integer_32_flat.html#f_as_natural_8">as_natural_8</A>, 4)
+                        <B>else</B>
+                            <B>Result</B> := <B>Void</B>
+                        <B>end</B>
+                    <B>else</B>
+                        <B>Result</B> := <B>Void</B>
+                    <B>end</B>
+                <B>when</B> 2 <B>then</B> 
+                    <B>if</B> splitted.<A HREF="../elks/arrayed_list_flat.html#f_i_th">i_th</A> (1).<A HREF="../elks/readable_string_general_flat.html#f_is_integer_32">is_integer_32</A> <B>then</B>
+                        val := splitted.<A HREF="../elks/arrayed_list_flat.html#f_i_th">i_th</A> (1).<A HREF="../elks/readable_string_general_flat.html#f_to_integer_32">to_integer_32</A>
+                        <B>if</B> val &gt;= 0 <B>and then</B> val &lt;= 255 <B>then</B>
+                            <B>Result</B>.<A HREF="../elks/array_flat.html#f_put">put</A> ((val &#38; 255).<A HREF="../elks/integer_32_flat.html#f_as_natural_8">as_natural_8</A>, 1)
+                            <B>if</B> splitted.<A HREF="../elks/arrayed_list_flat.html#f_i_th">i_th</A> (2).<A HREF="../elks/readable_string_general_flat.html#f_is_integer_32">is_integer_32</A> <B>then</B>
+                                val := splitted.<A HREF="../elks/arrayed_list_flat.html#f_i_th">i_th</A> (2).<A HREF="../elks/readable_string_general_flat.html#f_to_integer_32">to_integer_32</A>
+                                <B>if</B> val &gt;= 0 <B>and then</B> val &lt;= 4294967295.<A HREF="../elks/integer_64_ref_flat.html#f_to_integer_32">to_integer_32</A> <B>then</B>
+                                    <B>Result</B>.<A HREF="../elks/array_flat.html#f_put">put</A> (((val |&gt;&gt; 16) &#38; 255).<A HREF="../elks/integer_32_flat.html#f_as_natural_8">as_natural_8</A>, 2)
+                                    <B>Result</B>.<A HREF="../elks/array_flat.html#f_put">put</A> ((((val &#38; 65535) |&gt;&gt; 8) &#38; 255).<A HREF="../elks/integer_32_flat.html#f_as_natural_8">as_natural_8</A>, 3)
+                                    <B>Result</B>.<A HREF="../elks/array_flat.html#f_put">put</A> ((val &#38; 255).<A HREF="../elks/integer_32_flat.html#f_as_natural_8">as_natural_8</A>, 4)
+                                <B>else</B>
+                                    <B>Result</B> := <B>Void</B>
+                                <B>end</B>
+                            <B>else</B>
+                                <B>Result</B> := <B>Void</B>
+                            <B>end</B>
+                        <B>end</B>
+                    <B>else</B>
+                        <B>Result</B> := <B>Void</B>
+                    <B>end</B>
+                <B>when</B> 3 <B>then</B> 
+                    <B>from</B>
+                        i := 1
+                    <B>until</B>
+                        i &gt; 2 <B>or else</B> <B>Result</B> = <B>Void</B>
+                    <B>loop</B>
+                        <B>if</B> splitted.<A HREF="../elks/arrayed_list_flat.html#f_i_th">i_th</A> (i).<A HREF="../elks/readable_string_general_flat.html#f_is_integer_32">is_integer_32</A> <B>then</B>
+                            val := splitted.<A HREF="../elks/arrayed_list_flat.html#f_i_th">i_th</A> (i).<A HREF="../elks/readable_string_general_flat.html#f_to_integer_32">to_integer_32</A>
+                            <B>if</B> val &gt;= 0 <B>and then</B> val &lt;= 255 <B>then</B>
+                                <B>Result</B>.<A HREF="../elks/array_flat.html#f_put">put</A> ((val &#38; 255).<A HREF="../elks/integer_32_flat.html#f_as_natural_8">as_natural_8</A>, i)
+                            <B>else</B>
+                                <B>Result</B> := <B>Void</B>
+                            <B>end</B>
+                        <B>else</B>
+                            <B>Result</B> := <B>Void</B>
+                        <B>end</B>
+                        i := i + 1
+                    <B>end</B>
+                    <B>if</B> splitted.<A HREF="../elks/arrayed_list_flat.html#f_i_th">i_th</A> (3).<A HREF="../elks/readable_string_general_flat.html#f_is_integer_32">is_integer_32</A> <B>then</B>
+                        val := splitted.<A HREF="../elks/arrayed_list_flat.html#f_i_th">i_th</A> (3).<A HREF="../elks/readable_string_general_flat.html#f_to_integer_32">to_integer_32</A>
+                        <B>if</B> val &gt;= 0 <B>and then</B> val &lt;= 65535 <B>then</B>
+                            <B>check</B>
+                                result_attached: <B>Result</B> /= <B>Void</B>
+                            <B>end</B>
+                            <B>Result</B>.<A HREF="../elks/array_flat.html#f_put">put</A> (((val |&gt;&gt; 8) &#38; 255).<A HREF="../elks/integer_32_flat.html#f_as_natural_8">as_natural_8</A>, 3)
+                            <B>Result</B>.<A HREF="../elks/array_flat.html#f_put">put</A> ((val &#38; 255).<A HREF="../elks/integer_32_flat.html#f_as_natural_8">as_natural_8</A>, 4)
+                        <B>else</B>
+                            <B>Result</B> := <B>Void</B>
+                        <B>end</B>
+                    <B>else</B>
+                        <B>Result</B> := <B>Void</B>
+                    <B>end</B>
+                <B>when</B> 4 <B>then</B> 
+                    <B>from</B>
+                        i := 1
+                    <B>until</B>
+                        i &gt; 4 <B>or else</B> <B>Result</B> = <B>Void</B>
+                    <B>loop</B>
+                        <B>if</B> splitted.<A HREF="../elks/arrayed_list_flat.html#f_i_th">i_th</A> (i).<A HREF="../elks/readable_string_general_flat.html#f_is_integer_32">is_integer_32</A> <B>then</B>
+                            val := splitted.<A HREF="../elks/arrayed_list_flat.html#f_i_th">i_th</A> (i).<A HREF="../elks/readable_string_general_flat.html#f_to_integer_32">to_integer_32</A>
+                            <B>if</B> val &gt;= 0 <B>and then</B> val &lt;= 255 <B>then</B>
+                                <B>Result</B>.<A HREF="../elks/array_flat.html#f_put">put</A> ((val &#38; 255).<A HREF="../elks/integer_32_flat.html#f_as_natural_8">as_natural_8</A>, i)
+                            <B>else</B>
+                                <B>Result</B> := <B>Void</B>
+                            <B>end</B>
+                        <B>else</B>
+                            <B>Result</B> := <B>Void</B>
+                        <B>end</B>
+                        i := i + 1
+                    <B>end</B>
+                <B>else</B>
+                    <B>Result</B> := <B>Void</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_text_to_numeric_format_v6"><A HREF="../network/inet_address_factory_flat.html#f_text_to_numeric_format_v6">text_to_numeric_format_v6</A> (src: <A HREF="../elks/string_8_flat.html">STRING_8</A>): <B>detachable</B> <A HREF="../elks/array_flat.html">ARRAY</A> [<A HREF="../elks/natural_8_flat.html">NATURAL_8</A>]
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A>
+            valid_src: src /= <B>Void</B>
+        <B>local</B>
+            percent_position: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            length: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            i, j, k, n, curtok, colon_position: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            saw_xdigit: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            val: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            ch: <A HREF="../elks/character_8_flat.html">CHARACTER_8</A>
+            ia4: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            v4addr: <B>detachable</B> <A HREF="../elks/array_flat.html">ARRAY</A> [<A HREF="../elks/natural_8_flat.html">NATURAL_8</A>]
+            done: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            new_result: <B>detachable</B> <A HREF="../elks/array_flat.html">ARRAY</A> [<A HREF="../elks/natural_8_flat.html">NATURAL_8</A>]
+        <B>do</B>
+            <B>if</B> src.<A HREF="../elks/readable_string_8_flat.html#f_count">count</A> &gt;= 2 <B>then</B>
+                length := src.<A HREF="../elks/readable_string_8_flat.html#f_count">count</A>
+                percent_position := src.<A HREF="../elks/readable_string_8_flat.html#f_index_of">index_of</A> ('%%', 1)
+                <B>if</B> percent_position &lt; length <B>then</B>
+                    <B>create</B> <B>Result</B>.<A HREF="../elks/array_flat.html#f_make_filled">make_filled</A> ({<A HREF="../elks/natural_8_flat.html">NATURAL_8</A>} 0, 1, {<A HREF="../network/inet6_address_flat.html">INET6_ADDRESS</A>}.<A HREF="../network/inet6_address_flat.html#f_inaddrsz">inaddrsz</A>)
+                    <B>if</B> percent_position /= 0 <B>then</B>
+                        length := percent_position - 1
+                    <B>end</B>
+                    i := 1
+                    j := 1
+                    colon_position := -1
+                    <B>if</B> src.<A HREF="../elks/string_8_flat.html#f_item">item</A> (i) = ':' <B>then</B>
+                        i := i + 1
+                        <B>if</B> src.<A HREF="../elks/string_8_flat.html#f_item">item</A> (i) /= ':' <B>then</B>
+                            <B>Result</B> := <B>Void</B>
+                        <B>end</B>
+                    <B>end</B>
+                    <B>if</B> <B>Result</B> /= <B>Void</B> <B>then</B>
+                        curtok := i
+                        saw_xdigit := <B>False</B>
+                        val := 0
+                        <B>from</B>
+                            done := <B>False</B>
+                        <B>until</B>
+                            done <B>or else</B> <B>Result</B> = <B>Void</B> <B>or else</B> i &gt; length
+                        <B>loop</B>
+                            ch := src.<A HREF="../elks/string_8_flat.html#f_item">item</A> (i)
+                            i := i + 1
+                            <B>if</B> ch.<A HREF="../elks/character_8_ref_flat.html#f_is_hexa_digit">is_hexa_digit</A> <B>then</B>
+                                val := val |&lt;&lt; 4
+                                val := val | <A HREF="../network/inet_address_factory_flat.html#f_hex_character_to_integer">hex_character_to_integer</A> (ch).<A HREF="../elks/natural_8_ref_flat.html#f_to_integer_32">to_integer_32</A>
+                                <B>if</B> val &gt; 65535 <B>then</B>
+                                    <B>Result</B> := <B>Void</B>
+                                <B>else</B>
+                                    saw_xdigit := <B>True</B>
+                                <B>end</B>
+                            <B>elseif</B> ch = ':' <B>then</B>
+                                curtok := i
+                                <B>if</B> <B>not</B> saw_xdigit <B>then</B>
+                                    <B>if</B> colon_position /= -1 <B>then</B>
+                                        <B>Result</B> := <B>Void</B>
+                                    <B>else</B>
+                                        colon_position := j
+                                    <B>end</B>
+                                <B>elseif</B> i &gt; length <B>then</B>
+                                    <B>Result</B> := <B>Void</B>
+                                <B>else</B>
+                                    <B>if</B> j + <A HREF="../network/inet_address_factory_flat.html#f_int16sz">Int16sz</A> &gt; {<A HREF="../network/inet6_address_flat.html">INET6_ADDRESS</A>}.<A HREF="../network/inet6_address_flat.html#f_inaddrsz">inaddrsz</A> + 1 <B>then</B>
+                                        <B>Result</B> := <B>Void</B>
+                                    <B>else</B>
+                                        <B>Result</B>.<A HREF="../elks/array_flat.html#f_put">put</A> (((val |&gt;&gt; 8) &#38; 255).<A HREF="../elks/integer_32_flat.html#f_as_natural_8">as_natural_8</A>, j)
+                                        j := j + 1
+                                        <B>Result</B>.<A HREF="../elks/array_flat.html#f_put">put</A> ((val &#38; 255).<A HREF="../elks/integer_32_flat.html#f_as_natural_8">as_natural_8</A>, j)
+                                        j := j + 1
+                                        saw_xdigit := <B>False</B>
+                                        val := 0
+                                    <B>end</B>
+                                <B>end</B>
+                            <B>elseif</B> ch = '.' <B>and then</B> ((j + {<A HREF="../network/inet4_address_flat.html">INET4_ADDRESS</A>}.<A HREF="../network/inet4_address_flat.html#f_inaddrsz">inaddrsz</A>) &lt;= {<A HREF="../network/inet6_address_flat.html">INET6_ADDRESS</A>}.<A HREF="../network/inet6_address_flat.html#f_inaddrsz">inaddrsz</A> + 1) <B>then</B>
+                                ia4 := src.<A HREF="../elks/string_8_flat.html#f_substring">substring</A> (curtok, length)
+                                <B>if</B> <A HREF="../network/inet_address_factory_flat.html#f_dot_count">dot_count</A> (ia4) /= 3 <B>then</B>
+                                    <B>Result</B> := <B>Void</B>
+                                <B>else</B>
+                                    v4addr := <A HREF="../network/inet_address_factory_flat.html#f_text_to_numeric_format_v4">text_to_numeric_format_v4</A> (ia4)
+                                    <B>if</B> v4addr = <B>Void</B> <B>then</B>
+                                        <B>Result</B> := <B>Void</B>
+                                    <B>else</B>
+                                        <B>from</B>
+                                            k := 1
+                                        <B>until</B>
+                                            k &gt; {<A HREF="../network/inet4_address_flat.html">INET4_ADDRESS</A>}.<A HREF="../network/inet4_address_flat.html#f_inaddrsz">inaddrsz</A>
+                                        <B>loop</B>
+                                            <B>Result</B>.<A HREF="../elks/array_flat.html#f_put">put</A> (v4addr.<A HREF="../elks/array_flat.html#f_item">item</A> (k), j)
+                                            j := j + 1
+                                            k := k + 1
+                                        <B>end</B>
+                                        saw_xdigit := <B>False</B>
+                                        done := <B>True</B>
+                                    <B>end</B>
+                                <B>end</B>
+                            <B>else</B>
+                                <B>Result</B> := <B>Void</B>
+                            <B>end</B>
+                        <B>end</B>
+                        <B>if</B> <B>Result</B> /= <B>Void</B> <B>then</B>
+                            <B>if</B> saw_xdigit <B>then</B>
+                                <B>if</B> j + <A HREF="../network/inet_address_factory_flat.html#f_int16sz">Int16sz</A> &gt; {<A HREF="../network/inet6_address_flat.html">INET6_ADDRESS</A>}.<A HREF="../network/inet6_address_flat.html#f_inaddrsz">inaddrsz</A> + 1 <B>then</B>
+                                    <B>Result</B> := <B>Void</B>
+                                <B>else</B>
+                                    <B>Result</B>.<A HREF="../elks/array_flat.html#f_put">put</A> (((val |&gt;&gt; 8) &#38; 255).<A HREF="../elks/integer_32_flat.html#f_as_natural_8">as_natural_8</A>, j)
+                                    j := j + 1
+                                    <B>Result</B>.<A HREF="../elks/array_flat.html#f_put">put</A> ((val &#38; 255).<A HREF="../elks/integer_32_flat.html#f_as_natural_8">as_natural_8</A>, j)
+                                    j := j + 1
+                                <B>end</B>
+                            <B>end</B>
+                        <B>end</B>
+                        <B>if</B> <B>Result</B> /= <B>Void</B> <B>then</B>
+                            <B>if</B> colon_position /= -1 <B>then</B>
+                                n := j - colon_position
+                                <B>if</B> j = {<A HREF="../network/inet6_address_flat.html">INET6_ADDRESS</A>}.<A HREF="../network/inet6_address_flat.html#f_inaddrsz">inaddrsz</A> + 1 <B>then</B>
+                                    <B>Result</B> := <B>Void</B>
+                                <B>else</B>
+                                    <B>from</B>
+                                        i := 0
+                                    <B>until</B>
+                                        i &gt;= n
+                                    <B>loop</B>
+                                        <B>Result</B>.<A HREF="../elks/array_flat.html#f_put">put</A> (<B>Result</B>.<A HREF="../elks/array_flat.html#f_item">item</A> (colon_position + n - i - 1), {<A HREF="../network/inet6_address_flat.html">INET6_ADDRESS</A>}.<A HREF="../network/inet6_address_flat.html#f_inaddrsz">inaddrsz</A> - i)
+                                        <B>Result</B>.<A HREF="../elks/array_flat.html#f_put">put</A> (0.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A>, colon_position + n - i - 1)
+                                        i := i + 1
+                                    <B>end</B>
+                                    j := {<A HREF="../network/inet6_address_flat.html">INET6_ADDRESS</A>}.<A HREF="../network/inet6_address_flat.html#f_inaddrsz">inaddrsz</A> + 1
+                                <B>end</B>
+                            <B>end</B>
+                            <B>if</B> j /= {<A HREF="../network/inet6_address_flat.html">INET6_ADDRESS</A>}.<A HREF="../network/inet6_address_flat.html#f_inaddrsz">inaddrsz</A> + 1 <B>then</B>
+                                <B>Result</B> := <B>Void</B>
+                            <B>else</B>
+                                <B>check</B>
+                                    result_attached: <B>Result</B> /= <B>Void</B>
+                                <B>end</B>
+                                new_result := <A HREF="../network/inet_address_factory_flat.html#f_convert_from_ipv4_mappedd_address">convert_from_ipv4_mappedd_address</A> (<B>Result</B>)
+                                <B>if</B> new_result /= <B>Void</B> <B>then</B>
+                                    <B>Result</B> := new_result
+                                <B>end</B>
+                            <B>end</B>
+                        <B>end</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} 
+
+    <A NAME="f_create_any_local"><A HREF="../network/inet_address_factory_flat.html#f_create_any_local">create_any_local</A>: <A HREF="../network/inet_address_flat.html">INET_ADDRESS</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Address that allows connection from any host.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../network/inet_address_factory_flat.html#f_impl">Impl</A>.<A HREF="../network/inet_address_impl_flat.html#f_any_local_address">any_local_address</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A>
+            create_any_local_attached: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_create_from_address"><A HREF="../network/inet_address_factory_flat.html#f_create_from_address">create_from_address</A> (address: <A HREF="../elks/array_flat.html">ARRAY</A> [<A HREF="../elks/natural_8_flat.html">NATURAL_8</A>]): <B>detachable</B> <A HREF="../network/inet_address_flat.html">INET_ADDRESS</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A>
+            valid_address: address /= <B>Void</B>
+        <B>local</B>
+            new_addr: <B>detachable</B> <A HREF="../elks/array_flat.html">ARRAY</A> [<A HREF="../elks/natural_8_flat.html">NATURAL_8</A>]
+        <B>do</B>
+            <B>if</B> address.<A HREF="../elks/array_flat.html#f_count">count</A> = {<A HREF="../network/inet4_address_flat.html">INET4_ADDRESS</A>}.<A HREF="../network/inet4_address_flat.html#f_inaddrsz">inaddrsz</A> <B>then</B>
+                <B>create</B> {<A HREF="../network/inet4_address_flat.html">INET4_ADDRESS</A>} <B>Result</B>.<A HREF="../network/inet4_address_flat.html#f_make_from_host_and_address">make_from_host_and_address</A> (<B>Void</B>, address)
+            <B>elseif</B> address.<A HREF="../elks/array_flat.html#f_count">count</A> = {<A HREF="../network/inet6_address_flat.html">INET6_ADDRESS</A>}.<A HREF="../network/inet6_address_flat.html#f_inaddrsz">inaddrsz</A> <B>then</B>
+                new_addr := <A HREF="../network/inet_address_factory_flat.html#f_convert_from_ipv4_mappedd_address">convert_from_ipv4_mappedd_address</A> (address)
+                <B>if</B> new_addr /= <B>Void</B> <B>then</B>
+                    <B>create</B> {<A HREF="../network/inet4_address_flat.html">INET4_ADDRESS</A>} <B>Result</B>.<A HREF="../network/inet4_address_flat.html#f_make_from_host_and_address">make_from_host_and_address</A> (<B>Void</B>, new_addr)
+                <B>else</B>
+                    <B>create</B> {<A HREF="../network/inet6_address_flat.html">INET6_ADDRESS</A>} <B>Result</B>.<A HREF="../network/inet6_address_flat.html#f_make_from_host_and_address">make_from_host_and_address</A> (<B>Void</B>, address)
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_create_from_name"><A HREF="../network/inet_address_factory_flat.html#f_create_from_name">create_from_name</A> (hostname: <A HREF="../elks/string_8_flat.html">STRING_8</A>): <B>detachable</B> <A HREF="../network/inet_address_flat.html">INET_ADDRESS</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> <B>attached</B> <A HREF="../network/inet_address_factory_flat.html#f_get_all_by_name">get_all_by_name</A> (hostname) <B>as</B> r <B>and then</B> <B>not</B> r.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>then</B>
+                <B>Result</B> := r.<A HREF="../elks/arrayed_list_flat.html#f_first">first</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_create_from_sockaddr"><A HREF="../network/inet_address_factory_flat.html#f_create_from_sockaddr">create_from_sockaddr</A> (sockaddr: <A HREF="../elks/pointer_flat.html">POINTER</A>): <B>detachable</B> <A HREF="../network/inet_address_flat.html">INET_ADDRESS</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A>
+            valid_sockaddr: sockaddr /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>local</B>
+            family: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            family := <A HREF="../network/network_socket_address_flat.html#f_get_sock_family">get_sock_family</A> (sockaddr)
+            <B>if</B> family = <A HREF="../abstract/socket_resources_flat.html#f_af_inet">af_inet</A> <B>then</B>
+                <B>create</B> {<A HREF="../network/inet4_address_flat.html">INET4_ADDRESS</A>} <B>Result</B>.<A HREF="../network/inet4_address_flat.html#f_make_from_host_and_pointer">make_from_host_and_pointer</A> (<B>Void</B>, sockaddr)
+            <B>elseif</B> family = <A HREF="../abstract/socket_resources_flat.html#f_af_inet6">af_inet6</A> <B>then</B>
+                <B>create</B> {<A HREF="../network/inet6_address_flat.html">INET6_ADDRESS</A>} <B>Result</B>.<A HREF="../network/inet6_address_flat.html#f_make_from_host_and_pointer">make_from_host_and_pointer</A> (<B>Void</B>, sockaddr)
+                <B>if</B> <A HREF="../network/inet_address_factory_flat.html#f_is_ipv4_mapped_address">is_ipv4_mapped_address</A> (<B>Result</B>.<A HREF="../network/inet_address_flat.html#f_raw_address">raw_address</A>) <B>then</B>
+                    <B>create</B> {<A HREF="../network/inet4_address_flat.html">INET4_ADDRESS</A>} <B>Result</B>.<A HREF="../network/inet4_address_flat.html#f_make_from_host_and_address">make_from_host_and_address</A> (<B>Void</B>, <A HREF="../network/inet_address_factory_flat.html#f_convert_from_ipv4_mappedd_address">convert_from_ipv4_mappedd_address</A> (<B>Result</B>.<A HREF="../network/inet_address_flat.html#f_raw_address">raw_address</A>))
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_create_localhost"><A HREF="../network/inet_address_factory_flat.html#f_create_localhost">create_localhost</A>: <A HREF="../network/inet_address_flat.html">INET_ADDRESS</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            localhostname: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            l_result: <B>detachable</B> <A HREF="../network/inet_address_flat.html">INET_ADDRESS</A>
+        <B>do</B>
+            localhostname := <A HREF="../network/inet_address_factory_flat.html#f_impl">Impl</A>.<A HREF="../network/inet_address_impl_flat.html#f_local_host_name">local_host_name</A>
+            l_result := <A HREF="../network/inet_address_factory_flat.html#f_create_from_name">create_from_name</A> (localhostname)
+            <B>check</B>
+                l_result_attached: l_result /= <B>Void</B>
+            <B>end</B>
+            <B>Result</B> := l_result
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A>
+            create_localhost_attached: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_create_loopback"><A HREF="../network/inet_address_factory_flat.html#f_create_loopback">create_loopback</A>: <A HREF="../network/inet_address_flat.html">INET_ADDRESS</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Loopback address.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../network/inet_address_factory_flat.html#f_impl">Impl</A>.<A HREF="../network/inet_address_impl_flat.html#f_loopback_address">loopback_address</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A>
+            create_any_localhost_attached: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT>
+
+    <A NAME="f_is_valid_host"><A HREF="../network/network_socket_address_flat.html#f_is_valid_host">is_valid_host</A> (hostname: <A HREF="../elks/string_8_flat.html">STRING_8</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+        <B>require</B>
+            hostname_not_void: hostname /= <B>Void</B>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../network/inet_address_factory_flat.html#f_create_from_name">create_from_name</A> (hostname) /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> External</FONT>
+
+    <A NAME="f_address_size"><A HREF="../network/network_socket_address_flat.html#f_address_size">address_size</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Size of address in bytes.</FONT>
+        <B>external</B>
+            "C"
+        <B>alias</B>
+            "inet_address_size"
+        <B>end</B></A>
+
+    <A NAME="f_get_servent_port"><A HREF="../network/network_socket_address_flat.html#f_get_servent_port">get_servent_port</A> (name, proto: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Get the services entry using </FONT>`name'<FONT COLOR="red"> and </FONT>`proto'
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_get_sock_data"><A HREF="../abstract/socket_address_flat.html#f_get_sock_data">get_sock_data</A> (address: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Get data portion of socket address.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_address_flat.html">SOCKET_ADDRESS</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_get_sock_family"><A HREF="../network/network_socket_address_flat.html#f_get_sock_family">get_sock_family</A> (address: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Get the family from the address structure.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A>
+            <B>True</B>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../abstract/socket_address_flat.html">SOCKET_ADDRESS</A>
+            <B>True</B>
+        <B>external</B>
+            "C"
+        <B>alias</B>
+            "en_sockaddr_get_family"
+        <B>end</B></A>
+
+    <A NAME="f_get_sock_port"><A HREF="../network/network_socket_address_flat.html#f_get_sock_port">get_sock_port</A> (address: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Get the port from the address structure.</FONT>
+        <B>external</B>
+            "C"
+        <B>alias</B>
+            "en_sockaddr_get_port"
+        <B>end</B></A>
+
+    <A NAME="f_set_sock_data"><A HREF="../abstract/socket_address_flat.html#f_set_sock_data">set_sock_data</A> (address: <A HREF="../elks/pointer_flat.html">POINTER</A>; dat: <A HREF="../elks/pointer_flat.html">POINTER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set data area of socket address.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_address_flat.html">SOCKET_ADDRESS</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_set_sock_family"><A HREF="../network/network_socket_address_flat.html#f_set_sock_family">set_sock_family</A> (address: <A HREF="../elks/pointer_flat.html">POINTER</A>; a_family: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set the family in the address structure.</FONT>
+        <B>external</B>
+            "C"
+        <B>alias</B>
+            "en_sockaddr_set_family"
+        <B>end</B></A>
+
+    <A NAME="f_set_sock_port"><A HREF="../network/network_socket_address_flat.html#f_set_sock_port">set_sock_port</A> (address: <A HREF="../elks/pointer_flat.html">POINTER</A>; a_port: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set the port in the address structure.</FONT>
+        <B>external</B>
+            "C"
+        <B>alias</B>
+            "en_sockaddr_set_port"
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Externals</FONT>
+
+    <A NAME="f_c_getaddrinfo"><A HREF="../network/inet_address_factory_flat.html#f_c_getaddrinfo">c_getaddrinfo</A> (hostname: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../network/inet_address_factory_flat.html">INET_ADDRESS_FACTORY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>alias</B>
+            "en_getaddrinfo"
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Externals: constants for fcnlt calls</FONT>
+
+    <A NAME="f_c_fasync"><A HREF="../abstract/socket_resources_flat.html#f_c_fasync">c_fasync</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> C constant FASYNC</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_c_fgetfl"><A HREF="../abstract/socket_resources_flat.html#f_c_fgetfl">c_fgetfl</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> C constant FGETFL</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_c_fgetown"><A HREF="../abstract/socket_resources_flat.html#f_c_fgetown">c_fgetown</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> C constant FGETOWN</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_c_fndelay"><A HREF="../abstract/socket_resources_flat.html#f_c_fndelay">c_fndelay</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> C constant FNDELAY</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_c_fsetfl"><A HREF="../abstract/socket_resources_flat.html#f_c_fsetfl">c_fsetfl</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> C constant FSETFL</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_c_fsetown"><A HREF="../abstract/socket_resources_flat.html#f_c_fsetown">c_fsetown</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> C constant FSETOWN</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Externals: error messages</FONT>
+
+    <A NAME="f_bad_socket"><A HREF="../abstract/socket_resources_flat.html#f_bad_socket">bad_socket</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Socket descriptor is bad.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_bound_address"><A HREF="../abstract/socket_resources_flat.html#f_bound_address">bound_address</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Socket has already been bound.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_busy_address"><A HREF="../abstract/socket_resources_flat.html#f_busy_address">busy_address</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Address is in use by another socket.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_c_einprogress"><A HREF="../abstract/socket_resources_flat.html#f_c_einprogress">c_einprogress</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Call to connect returned on a non-blocking socket.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_c_errorno"><A HREF="../abstract/socket_resources_flat.html#f_c_errorno">c_errorno</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> C error number</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_c_permission"><A HREF="../abstract/socket_resources_flat.html#f_c_permission">c_permission</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> No permission is given to user for this socket.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_c_reset_error"><A HREF="../abstract/socket_resources_flat.html#f_c_reset_error">c_reset_error</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Reset C error number.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_connect_refused"><A HREF="../abstract/socket_resources_flat.html#f_connect_refused">connect_refused</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Connection is refused (possibly due to security).</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_error_address"><A HREF="../abstract/socket_resources_flat.html#f_error_address">error_address</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Address is not valid.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_family_no_support"><A HREF="../abstract/socket_resources_flat.html#f_family_no_support">family_no_support</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Family is not supported on this machine.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_in_use"><A HREF="../abstract/socket_resources_flat.html#f_in_use">in_use</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Socket is already in use.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_no_access"><A HREF="../abstract/socket_resources_flat.html#f_no_access">no_access</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> No access to this address is allowed.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_no_buffs"><A HREF="../abstract/socket_resources_flat.html#f_no_buffs">no_buffs</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> No buffer is available.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_no_connect"><A HREF="../abstract/socket_resources_flat.html#f_no_connect">no_connect</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Socket is not connect.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_no_network"><A HREF="../abstract/socket_resources_flat.html#f_no_network">no_network</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Socket failed due to network problems.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_no_option"><A HREF="../abstract/socket_resources_flat.html#f_no_option">no_option</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> No options provided</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_no_socket"><A HREF="../abstract/socket_resources_flat.html#f_no_socket">no_socket</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Socket descriptor is not valid.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_proto_no_support"><A HREF="../abstract/socket_resources_flat.html#f_proto_no_support">proto_no_support</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Protocol is not supported on this machine.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_socket_expire"><A HREF="../abstract/socket_resources_flat.html#f_socket_expire">socket_expire</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Socket connection has expired.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_table_full"><A HREF="../abstract/socket_resources_flat.html#f_table_full">table_full</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Descriptor table is full.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_unreadable"><A HREF="../abstract/socket_resources_flat.html#f_unreadable">unreadable</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Unreadable address</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_would_block"><A HREF="../abstract/socket_resources_flat.html#f_would_block">would_block</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Call to read, write, etc would have blocked.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Externals: flags for send, sendto recv and recvfrom socket calls</FONT>
+
+    <A NAME="f_c_msgdontroute"><A HREF="../abstract/socket_resources_flat.html#f_c_msgdontroute">c_msgdontroute</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do not route message</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_c_oobmsg"><A HREF="../abstract/socket_resources_flat.html#f_c_oobmsg">c_oobmsg</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Out of bound message</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_c_peekmsg"><A HREF="../abstract/socket_resources_flat.html#f_c_peekmsg">c_peekmsg</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Peek message</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Externals: socket families</FONT>
+
+    <A NAME="f_af_inet"><A HREF="../abstract/socket_resources_flat.html#f_af_inet">af_inet</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Network (internet) socket family</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_af_inet6"><A HREF="../abstract/socket_resources_flat.html#f_af_inet6">af_inet6</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Network (internet) socket family</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_af_ns"><A HREF="../abstract/socket_resources_flat.html#f_af_ns">af_ns</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Xerox Network System socket family.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_af_unix"><A HREF="../abstract/socket_resources_flat.html#f_af_unix">af_unix</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Unix socket family</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Externals: socket option levels</FONT>
+
+    <A NAME="f_level_iproto_ip"><A HREF="../abstract/socket_resources_flat.html#f_level_iproto_ip">level_iproto_ip</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> IPPROTO_IP level of options</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_level_iproto_tcp"><A HREF="../abstract/socket_resources_flat.html#f_level_iproto_tcp">level_iproto_tcp</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> IP_PROTO_TCP level of options</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_level_nsproto_pe"><A HREF="../abstract/socket_resources_flat.html#f_level_nsproto_pe">level_nsproto_pe</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> NS_PROTO_PE level of options</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_level_nsproto_raw"><A HREF="../abstract/socket_resources_flat.html#f_level_nsproto_raw">level_nsproto_raw</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> NS_PROTO_RAW level of options</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_level_nsproto_spp"><A HREF="../abstract/socket_resources_flat.html#f_level_nsproto_spp">level_nsproto_spp</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> NS_PROTO_SPP level of options</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_level_sol_socket"><A HREF="../abstract/socket_resources_flat.html#f_level_sol_socket">level_sol_socket</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> SOL_SOCKET level of options</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Externals: socket option names</FONT>
+
+    <A NAME="f_ipoptions"><A HREF="../abstract/socket_resources_flat.html#f_ipoptions">ipoptions</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> IP_OPTIONS option name</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_so_allpackets"><A HREF="../abstract/socket_resources_flat.html#f_so_allpackets">so_allpackets</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> SO_ALL_PACKETS option name</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_so_defaultheaders"><A HREF="../abstract/socket_resources_flat.html#f_so_defaultheaders">so_defaultheaders</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> SO_DEFAULT_HEADERS option name</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_so_dont_route"><A HREF="../abstract/socket_resources_flat.html#f_so_dont_route">so_dont_route</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> SO_DONTROUTE option name</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_so_headerson_input"><A HREF="../abstract/socket_resources_flat.html#f_so_headerson_input">so_headerson_input</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> SO_HEADERS_ON_INPUT option name</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_so_headerson_output"><A HREF="../abstract/socket_resources_flat.html#f_so_headerson_output">so_headerson_output</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> SO_HEADERS_ON_OUTPUT option name</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_so_keep_alive"><A HREF="../abstract/socket_resources_flat.html#f_so_keep_alive">so_keep_alive</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> SO_KEEPALIVE option name</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_so_lastheader"><A HREF="../abstract/socket_resources_flat.html#f_so_lastheader">so_lastheader</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> SO_LAST_HEADER option name</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_so_nsiproute"><A HREF="../abstract/socket_resources_flat.html#f_so_nsiproute">so_nsiproute</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> SO_NSIP_ROUTE option name</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_so_oob_inline"><A HREF="../abstract/socket_resources_flat.html#f_so_oob_inline">so_oob_inline</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> SO_OOBINLINE option name</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_so_rcv_buf"><A HREF="../abstract/socket_resources_flat.html#f_so_rcv_buf">so_rcv_buf</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> SO_RCVBUF option name</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_so_rcv_lowat"><A HREF="../abstract/socket_resources_flat.html#f_so_rcv_lowat">so_rcv_lowat</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> SO_RCVLOWAT option name</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_so_rcv_timeo"><A HREF="../abstract/socket_resources_flat.html#f_so_rcv_timeo">so_rcv_timeo</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> SO_RCVTIMEO option name</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_so_reuse_addr"><A HREF="../abstract/socket_resources_flat.html#f_so_reuse_addr">so_reuse_addr</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> SO_REUSEADDR option name</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_so_snd_buf"><A HREF="../abstract/socket_resources_flat.html#f_so_snd_buf">so_snd_buf</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> SO_SNDBUF option name</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_so_snd_lowat"><A HREF="../abstract/socket_resources_flat.html#f_so_snd_lowat">so_snd_lowat</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> SO_SNDLOWAT option name</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_so_snd_timeo"><A HREF="../abstract/socket_resources_flat.html#f_so_snd_timeo">so_snd_timeo</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> SO_SNDTIMEO option name</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_so_use_loopback"><A HREF="../abstract/socket_resources_flat.html#f_so_use_loopback">so_use_loopback</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> SO_USELOOPBACK option name</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_sobroadcast"><A HREF="../abstract/socket_resources_flat.html#f_sobroadcast">sobroadcast</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> SO_BROADCAST option name</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_sodebug"><A HREF="../abstract/socket_resources_flat.html#f_sodebug">sodebug</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> SO_DEBUG option name</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_soerror"><A HREF="../abstract/socket_resources_flat.html#f_soerror">soerror</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> SO_ERROR option name</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_solinger"><A HREF="../abstract/socket_resources_flat.html#f_solinger">solinger</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> SO_LINGER option name</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_somtu"><A HREF="../abstract/socket_resources_flat.html#f_somtu">somtu</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> SO_MTU option name</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_soseqno"><A HREF="../abstract/socket_resources_flat.html#f_soseqno">soseqno</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> SO_SEQNO option name</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_sotype"><A HREF="../abstract/socket_resources_flat.html#f_sotype">sotype</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> SO_TYPE option name</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_tcpmax_seg"><A HREF="../abstract/socket_resources_flat.html#f_tcpmax_seg">tcpmax_seg</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> TCP_MAXSEG option name</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_tcpno_delay"><A HREF="../abstract/socket_resources_flat.html#f_tcpno_delay">tcpno_delay</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> TCP_NODELAY option name</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Externals: socket types</FONT>
+
+    <A NAME="f_sock_dgrm"><A HREF="../abstract/socket_resources_flat.html#f_sock_dgrm">sock_dgrm</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Datagram socket</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_sock_raw"><A HREF="../abstract/socket_resources_flat.html#f_sock_raw">sock_raw</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Raw socket</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_sock_stream"><A HREF="../abstract/socket_resources_flat.html#f_sock_stream">sock_stream</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Stream socket</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flat.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initalization</FONT>
+
+    <A NAME="f_make"><A HREF="../abstract/socket_address_flat.html#f_make">socket_address_make</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make space available for address size.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_address_flat.html">SOCKET_ADDRESS</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>create</B> <A HREF="../abstract/socket_address_flat.html#f_socket_address">socket_address</A>.<A HREF="../elks/managed_pointer_flat.html#f_make">make</A> (<A HREF="../network/network_socket_address_flat.html#f_address_size">address_size</A>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output</FONT>
+
+    <A NAME="f_io"><A HREF="../elks/any_flat.html#f_io">Io</A>: <A HREF="../elks/std_files_flat.html">STD_FILES</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Handle to standard file setup</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../elks/std_files_flat.html#f_set_output_default">set_output_default</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            io_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_out"><A HREF="../elks/any_flat.html#f_out">out</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/any_flat.html#f_tagged_out">tagged_out</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            out_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_print"><A HREF="../elks/any_flat.html#f_print">print</A> (o: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write terse external representation of </FONT>`o'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on standard output.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> o /= <B>Void</B> <B>then</B>
+                <A HREF="../elks/any_flat.html#f_io">Io</A>.<A HREF="../elks/std_files_flat.html#f_put_string">put_string</A> (o.<A HREF="../elks/any_flat.html#f_out">out</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_tagged_out"><B>frozen</B> <A HREF="../elks/any_flat.html#f_tagged_out">tagged_out</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            tagged_out_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Platform</FONT>
+
+    <A NAME="f_operating_environment"><A HREF="../elks/any_flat.html#f_operating_environment">Operating_environment</A>: <A HREF="../elks/operating_environment_flat.html">OPERATING_ENVIRONMENT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Objects available from the operating system</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            operating_environment_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieval</FONT>
+
+    <A NAME="f_internal_correct_mismatch"><B>frozen</B> <A HREF="../elks/any_flat.html#f_internal_correct_mismatch">internal_correct_mismatch</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Called from runtime to perform a proper dynamic dispatch on </FONT>`correct_mismatch'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> from MISMATCH_CORRECTOR.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            l_msg: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            l_exc: <A HREF="../elks/exceptions_flat.html">EXCEPTIONS</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<A HREF="../elks/mismatch_corrector_flat.html">MISMATCH_CORRECTOR</A>} <B>Current</B> <B>as</B> l_corrector <B>then</B>
+                l_corrector.<A HREF="../elks/mismatch_corrector_flat.html#f_correct_mismatch">correct_mismatch</A>
+            <B>else</B>
+                <B>create</B> l_msg.<A HREF="../elks/readable_string_8_flat.html#f_make_from_string">make_from_string</A> ("Mismatch: ")
+                <B>create</B> l_exc
+                l_msg.<A HREF="../elks/string_8_flat.html#f_append">append</A> (<A HREF="../elks/any_flat.html#f_generating_type">generating_type</A>.<A HREF="../elks/type_flat.html#f_name">name</A>)
+                l_exc.<A HREF="../elks/exceptions_flat.html#f_raise_retrieval_exception">raise_retrieval_exception</A> (l_msg)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>invariant</B>
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../network/inet_properties_flat.html">INET_PROPERTIES</A>
+    exclusive: <A HREF="../network/inet_properties_flat.html#f_is_ipv4_stack_preferred">is_ipv4_stack_preferred</A> <B>implies</B> <B>not</B> <A HREF="../network/inet_properties_flat.html#f_is_ipv6_available">is_ipv6_available</A>
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+    reflexive_equality: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+    reflexive_conformance: <A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>Current</B>)
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2006, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        356 Storke Road, Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../network/network_socket_address_flat.html">NETWORK_SOCKET_ADDRESS</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="network_socket_address_chart.html">Chart</A></TD><TD><A HREF="network_socket_address_links.html">Relations</A></TD><TD><A HREF="network_socket_address.html">Text</A></TD><TD>Flat</TD><TD><A HREF="network_socket_address_short.html">Contracts</A></TD><TD><A HREF="network_socket_address_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

@@ -1,0 +1,114 @@
+<HTML><HEAD>
+<meta name="description" content="A SQLite statement used to perform modification to the database."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software"/>
+<meta name="license" content="GPL version 2 (see http://www.eiffel.com/licensing/gpl.txt)"/>
+<meta name="licensing_options" content="http://www.eiffel.com/licensing"/>
+<meta name="copying" content="This file is part of Eiffel Software's Eiffel Development Environment.  Eiffel Software's Eiffel Development Environment is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 2 of the License (available at the URL listed under license above).  Eiffel Software's Eiffel Development Environment is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.  You should have received a copy of the GNU General Public License along with Eiffel Software's Eiffel Development Environment; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>sqlite_modify_statement Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sqlite_modify_statement_chart.html">Chart</A></TD><TD><A HREF="sqlite_modify_statement_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="sqlite_modify_statement_flat.html">Flat</A></TD><TD><A HREF="sqlite_modify_statement_short.html">Contracts</A></TD><TD><A HREF="sqlite_modify_statement_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        A SQLite statement used to perform modification to the database.
+    ]"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2013-11-07 12:09:47 -0800 (Thu, 07 Nov 2013) $"
+    revision: "$Revision: 93250 $"
+
+<B>class</B> 
+    <A HREF="../sqlite/sqlite_modify_statement.html">SQLITE_MODIFY_STATEMENT</A>
+
+<B>inherit</B>
+    <A HREF="../sqlite/sqlite_statement.html">SQLITE_STATEMENT</A>
+        <B>export</B>
+            {<A HREF="../elks/any.html">ANY</A>} <A HREF="../sqlite/sqlite_statement.html#f_changes_count">changes_count</A>
+        <B>end</B>
+
+<B>create</B> 
+    <A HREF="../sqlite/sqlite_statement.html#f_make">make</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_execute"><B>frozen</B> <A HREF="../sqlite/sqlite_modify_statement.html#f_execute">execute</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Executes the SQLite modification statement.</FONT>
+        <B>require</B>
+            is_sqlite_available: <A HREF="../sqlite/sqlite_shared_api.html#f_is_sqlite_available">Is_sqlite_available</A>
+            is_interface_usable: <A HREF="../sqlite/sqlite_shared_api.html#f_is_interface_usable">is_interface_usable</A>
+            not_is_executing: <B>not</B> <A HREF="../sqlite/sqlite_statement.html#f_is_executing">is_executing</A>
+            is_accessible: <A HREF="../sqlite/sqlite_statement.html#f_is_accessible">is_accessible</A>
+            database_is_writable: <A HREF="../sqlite/sqlite_statement.html#f_database">database</A>.<A HREF="../sqlite/sqlite_database.html#f_is_writable">is_writable</A>
+        <B>do</B>
+            <A HREF="../sqlite/sqlite_statement.html#f_execute_internal">execute_internal</A> (<B>Void</B>, <B>Void</B>)
+        <B>ensure</B>
+            not_is_executing: <B>not</B> <A HREF="../sqlite/sqlite_statement.html#f_is_executing">is_executing</A>
+        <B>end</B></A>
+
+    <A NAME="f_execute_with_arguments"><B>frozen</B> <A HREF="../sqlite/sqlite_modify_statement.html#f_execute_with_arguments">execute_with_arguments</A> (a_arguments: <A HREF="../elks/iterable.html">ITERABLE</A> [<B>detachable</B> <A HREF="../elks/any.html">ANY</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Executes the SQLite modification statement with bound set of arguments.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_arguments'<FONT COLOR="red">: The bound arguments to call the SQLite query statement with.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                Valid arguments are those that descent </FONT><A HREF="../sqlite/sqlite_bind_arg.html">SQLITE_BIND_ARG</A><FONT COLOR="red"> or</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                </FONT><A HREF="../elks/readable_string_8.html">READABLE_STRING_8</A><FONT COLOR="red">, or of type {INTEGER_*}, {NATURAL_*} (with the expection</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                of </FONT><A HREF="../elks/natural_64.html">NATURAL_64</A><FONT COLOR="red">), or </FONT><A HREF="../elks/managed_pointer.html">MANAGED_POINTER</A><FONT COLOR="red"> (for blobs).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                Note: If *not* using </FONT><A HREF="../sqlite/sqlite_bind_arg.html">SQLITE_BIND_ARG</A><FONT COLOR="red">, the SQLite statement should use ?NNN</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                      arguments and not named arguments.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">                      see </FONT><FONT COLOR="red">http://sqlite.org/c3ref/bind_blob.html</FONT>
+        <B>require</B>
+            is_compiled: <A HREF="../sqlite/sqlite_statement.html#f_is_compiled">is_compiled</A>
+            is_connected: <A HREF="../sqlite/sqlite_statement.html#f_is_connected">is_connected</A>
+            not_is_executing: <B>not</B> <A HREF="../sqlite/sqlite_statement.html#f_is_executing">is_executing</A>
+            is_accessible: <A HREF="../sqlite/sqlite_statement.html#f_is_accessible">is_accessible</A>
+            database_is_writable: <A HREF="../sqlite/sqlite_statement.html#f_database">database</A>.<A HREF="../sqlite/sqlite_database.html#f_is_writable">is_writable</A>
+            has_arguments: <A HREF="../sqlite/sqlite_statement.html#f_has_arguments">has_arguments</A>
+            a_arguments_attached: <B>attached</B> a_arguments
+            a_arguments_count_correct: <A HREF="../sqlite/sqlite_binding_helpers.html#f_iterable_has_count">iterable_has_count</A> (a_arguments, <A HREF="../sqlite/sqlite_statement.html#f_arguments_count">arguments_count</A>.<A HREF="../elks/natural_32.html#f_as_integer_32">as_integer_32</A>)
+            a_arguments_is_valid_arguments: <A HREF="../sqlite/sqlite_binding_helpers.html#f_is_valid_arguments">is_valid_arguments</A> (a_arguments)
+        <B>do</B>
+            <A HREF="../sqlite/sqlite_statement.html#f_execute_internal">execute_internal</A> (<B>Void</B>, <A HREF="../sqlite/sqlite_bind_arg_marshaller.html#f_new_binding_argument_array">new_binding_argument_array</A> (a_arguments))
+        <B>ensure</B>
+            not_is_executing: <B>not</B> <A HREF="../sqlite/sqlite_statement.html#f_is_executing">is_executing</A>
+        <B>end</B></A>
+    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2013, Eiffel Software"
+    license: "GPL version 2 (see <a href="http://www.eiffel.com/licensing/gpl.txt">http://www.eiffel.com/licensing/gpl.txt</a>)"
+    licensing_options: "<a href="http://www.eiffel.com/licensing">http://www.eiffel.com/licensing</a>"
+    copying: "[
+        This file is part of Eiffel Software's Eiffel Development Environment.
+        
+        Eiffel Software's Eiffel Development Environment is free
+        software; you can redistribute it and/or modify it under
+        the terms of the GNU General Public License as published
+        by the Free Software Foundation, version 2 of the License
+        (available at the URL listed under "license" above).
+        
+        Eiffel Software's Eiffel Development Environment is
+        distributed in the hope that it will be useful, but
+        WITHOUT ANY WARRANTY; without even the implied warranty
+        of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        See the GNU General Public License for more details.
+        
+        You should have received a copy of the GNU General Public
+        License along with Eiffel Software's Eiffel Development
+        Environment; if not, write to the Free Software Foundation,
+        Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+    ]"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../sqlite/sqlite_modify_statement.html">SQLITE_MODIFY_STATEMENT</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sqlite_modify_statement_chart.html">Chart</A></TD><TD><A HREF="sqlite_modify_statement_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="sqlite_modify_statement_flat.html">Flat</A></TD><TD><A HREF="sqlite_modify_statement_short.html">Contracts</A></TD><TD><A HREF="sqlite_modify_statement_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

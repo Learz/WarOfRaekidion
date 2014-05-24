@@ -1,0 +1,632 @@
+<HTML><HEAD>
+<meta name="description" content="Serialize/Deserialize data from a medium."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="library" content="EiffelBase: Library of reusable components for Eiffel."/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>sed_medium_reader_writer Flat contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sed_medium_reader_writer_chart.html">Chart</A></TD><TD><A HREF="sed_medium_reader_writer_links.html">Relations</A></TD><TD><A HREF="sed_medium_reader_writer.html">Text</A></TD><TD><A HREF="sed_medium_reader_writer_flat.html">Flat</A></TD><TD><A HREF="sed_medium_reader_writer_short.html">Contracts</A></TD><TD>Flat contracts</TD></TR></TABLE><B>note</B>
+    description: "Serialize/Deserialize data from a medium."
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2013-02-14 11:01:59 -0800 (Thu, 14 Feb 2013) $"
+    revision: "$Revision: 91229 $"
+
+<B>class</B> <B>interface</B>
+    <A HREF="../ise/sed_medium_reader_writer_flatshort.html">SED_MEDIUM_READER_WRITER</A>
+
+<B>create</B> 
+    <A NAME="f_make"><A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_make">make</A> (a_medium: <A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize current to read or write from </FONT>`a_medium'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_medium_not_void: a_medium /= <B>Void</B>
+        <B>ensure</B>
+            medium_set: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_medium">medium</A> = a_medium
+            buffer_size_set: <A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_buffer_size">buffer_size</A> = <A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_default_buffer_size">Default_buffer_size</A>
+</A>
+    <A NAME="f_make_for_reading"><A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_make_for_reading">make_for_reading</A> (a_medium: <A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize current to read from </FONT>`a_medium'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_medium_not_void: a_medium /= <B>Void</B>
+            a_medium_open_for_reading: a_medium.<A HREF="../elks/io_medium_flatshort.html#f_is_open_read">is_open_read</A>
+        <B>ensure</B>
+            medium_set: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_medium">medium</A> = a_medium
+            buffer_size_set: <A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_buffer_size">buffer_size</A> = <A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_default_buffer_size">Default_buffer_size</A>
+</A>
+    <A NAME="f_make_for_writing"><A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_make_for_writing">make_for_writing</A> (a_medium: <A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize current to write to </FONT>`a_medium'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_medium_not_void: a_medium /= <B>Void</B>
+            a_medium_open_for_writing: a_medium.<A HREF="../elks/io_medium_flatshort.html#f_is_open_write">is_open_write</A>
+        <B>ensure</B>
+            medium_set: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_medium">medium</A> = a_medium
+            buffer_size_set: <A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_buffer_size">buffer_size</A> = <A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_default_buffer_size">Default_buffer_size</A>
+</A>
+    <A NAME="f_make_with_buffer"><A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_make_with_buffer">make_with_buffer</A> (a_medium: <A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>; a_buffer_size: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize current to read or write from </FONT>`a_medium'<FONT COLOR="red"> using a buffer of size </FONT>`a_buffer_size'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_buffer_size">buffer_size</A><FONT COLOR="red"> will be overriden during read operation by the value of </FONT><A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_buffer_size">buffer_size</A><FONT COLOR="red"> used</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> when writing.</FONT>
+        <B>require</B>
+            a_medium_not_void: a_medium /= <B>Void</B>
+            a_buffer_size_non_negative: a_buffer_size &gt;= 0
+        <B>ensure</B>
+            medium_set: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_medium">medium</A> = a_medium
+            buffer_size_set: <A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_buffer_size">buffer_size</A> = a_buffer_size
+            buffer_size_set: <A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flatshort.html#f_count">count</A> = a_buffer_size
+</A>
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_generating_type"><A HREF="../elks/any_flatshort.html#f_generating_type">generating_type</A>: <A HREF="../elks/type_flatshort.html">TYPE</A> [<B>detachable</B> <A HREF="../ise/sed_medium_reader_writer_flatshort.html">SED_MEDIUM_READER_WRITER</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Type of current object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            generating_type_not_void: <B>Result</B> /= <B>Void</B>
+</A>
+    <A NAME="f_generator"><A HREF="../elks/any_flatshort.html#f_generator">generator</A>: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of current object's generating class</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (base class of the type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            generator_not_void: <B>Result</B> /= <B>Void</B>
+            generator_not_empty: <B>not</B> <B>Result</B>.<A HREF="../elks/finite_flatshort.html#f_is_empty">is_empty</A>
+</A>
+    <A NAME="f_read_boolean"><A HREF="../ise/sed_reader_writer_flatshort.html#f_read_boolean">read_boolean</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next boolean</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_reading">is_ready_for_reading</A>
+</A>
+    <A NAME="f_read_character_32"><A HREF="../ise/sed_reader_writer_flatshort.html#f_read_character_32">read_character_32</A>: <A HREF="../elks/character_32_flatshort.html">CHARACTER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next 32-bits character</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_reading">is_ready_for_reading</A>
+</A>
+    <A NAME="f_read_character_8"><A HREF="../ise/sed_reader_writer_flatshort.html#f_read_character_8">read_character_8</A>: <A HREF="../elks/character_8_flatshort.html">CHARACTER_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next 8-bits character</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_reading">is_ready_for_reading</A>
+</A>
+    <A NAME="f_read_compressed_integer_32"><A HREF="../ise/sed_reader_writer_flatshort.html#f_read_compressed_integer_32">read_compressed_integer_32</A>: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next compressed integer_32.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> See </FONT><A HREF="../ise/sed_reader_writer_flatshort.html#f_read_compressed_natural_32">read_compressed_natural_32</A><FONT COLOR="red"> for more details about encoding.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_reading">is_ready_for_reading</A>
+</A>
+    <A NAME="f_read_compressed_natural_32"><A HREF="../ise/sed_reader_writer_flatshort.html#f_read_compressed_natural_32">read_compressed_natural_32</A>: <A HREF="../elks/natural_32_flatshort.html">NATURAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next compressed natural_32.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Depending on first natural_8 value read, it will tell how much more we need to read:</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 1 - Of the form 0xxxxxxx (0x00) for values between 0 and 127</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 2 - Of the form 10xxxxxx (0x80) for values between 128 and 16382 and one more to read.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 3 - Of the form 110xxxxx (0xC0) for values between 16383 and 2097150 and 2 more to read.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 4 - Of the form 1110xxxx (0xE0) for values between 2097151 and 268435454 and 3 more to read</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 5 - Otherwise a full natural_32 to read.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_reading">is_ready_for_reading</A>
+</A>
+    <A NAME="f_read_immutable_string_32"><A HREF="../ise/sed_reader_writer_flatshort.html#f_read_immutable_string_32">read_immutable_string_32</A>: <A HREF="../elks/immutable_string_32_flatshort.html">IMMUTABLE_STRING_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next sequence of characters encoded in UTF-8 as an IMMUTABLE_STRING_32.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            read_string_8_not_void: <B>Result</B> /= <B>Void</B>
+</A>
+    <A NAME="f_read_immutable_string_8"><A HREF="../ise/sed_reader_writer_flatshort.html#f_read_immutable_string_8">read_immutable_string_8</A>: <A HREF="../elks/immutable_string_8_flatshort.html">IMMUTABLE_STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next 8-bits sequence of character as an IMMUTABLE_STRING_8</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            read_immutable_string_8_not_void: <B>Result</B> /= <B>Void</B>
+</A>
+    <A NAME="f_read_integer_16"><A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_read_integer_16">read_integer_16</A>: <A HREF="../elks/integer_16_flatshort.html">INTEGER_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next integer_16</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flatshort.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_reading">is_ready_for_reading</A>
+</A>
+    <A NAME="f_read_integer_32"><A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_read_integer_32">read_integer_32</A>: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next integer_32</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flatshort.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_reading">is_ready_for_reading</A>
+</A>
+    <A NAME="f_read_integer_64"><A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_read_integer_64">read_integer_64</A>: <A HREF="../elks/integer_64_flatshort.html">INTEGER_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next integer_64</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flatshort.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_reading">is_ready_for_reading</A>
+</A>
+    <A NAME="f_read_integer_8"><A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_read_integer_8">read_integer_8</A>: <A HREF="../elks/integer_8_flatshort.html">INTEGER_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next integer_8</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flatshort.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_reading">is_ready_for_reading</A>
+</A>
+    <A NAME="f_read_natural_16"><A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_read_natural_16">read_natural_16</A>: <A HREF="../elks/natural_16_flatshort.html">NATURAL_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next natural_16</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flatshort.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_reading">is_ready_for_reading</A>
+</A>
+    <A NAME="f_read_natural_32"><A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_read_natural_32">read_natural_32</A>: <A HREF="../elks/natural_32_flatshort.html">NATURAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next natural_32</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flatshort.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_reading">is_ready_for_reading</A>
+</A>
+    <A NAME="f_read_natural_64"><A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_read_natural_64">read_natural_64</A>: <A HREF="../elks/natural_64_flatshort.html">NATURAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next natural_64</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flatshort.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_reading">is_ready_for_reading</A>
+</A>
+    <A NAME="f_read_natural_8"><A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_read_natural_8">read_natural_8</A>: <A HREF="../elks/natural_8_flatshort.html">NATURAL_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next natural_8</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flatshort.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_reading">is_ready_for_reading</A>
+</A>
+    <A NAME="f_read_pointer"><A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_read_pointer">read_pointer</A>: <A HREF="../elks/pointer_flatshort.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next pointer</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flatshort.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_reading">is_ready_for_reading</A>
+</A>
+    <A NAME="f_read_real_32"><A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_read_real_32">read_real_32</A>: <A HREF="../elks/real_32_flatshort.html">REAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next real_32</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flatshort.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_reading">is_ready_for_reading</A>
+</A>
+    <A NAME="f_read_real_64"><A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_read_real_64">read_real_64</A>: <A HREF="../elks/real_64_flatshort.html">REAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next real_64</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flatshort.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_reading">is_ready_for_reading</A>
+</A>
+    <A NAME="f_read_string_32"><A HREF="../ise/sed_reader_writer_flatshort.html#f_read_string_32">read_string_32</A>: <A HREF="../elks/string_32_flatshort.html">STRING_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next sequence of characters encoded in UTF-8.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            read_string_8_not_void: <B>Result</B> /= <B>Void</B>
+</A>
+    <A NAME="f_read_string_8"><A HREF="../ise/sed_reader_writer_flatshort.html#f_read_string_8">read_string_8</A>: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next 8-bits sequence of character</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            read_string_8_not_void: <B>Result</B> /= <B>Void</B>
+</A>
+    <A NAME="f_reader_writer_version_6_6"><A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_reader_writer_version_6_6">Reader_writer_version_6_6</A>: <A HREF="../elks/natural_32_flatshort.html">NATURAL_32</A> = 1</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Version of format used for reading/writing.</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_deep_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flatshort.html#f_standard_equal">standard_equal</A> (a, b) <B>implies</B> <B>Result</B>
+            both_or_none_void: (a = <B>Void</B>) <B>implies</B> (<B>Result</B> = (b = <B>Void</B>))
+            same_type: (<B>Result</B> <B>and</B> (a /= <B>Void</B>)) <B>implies</B> (b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (b))
+            symmetric: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A> (b, a)
+</A>
+    <A NAME="f_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_equal">equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to objects considered equal?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flatshort.html#f_is_equal">is_equal</A> (b))
+</A>
+    <A NAME="f_is_deep_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_is_deep_equal">is_deep_equal</A> (other: <B>attached</B> <A HREF="../ise/sed_medium_reader_writer_flatshort.html">SED_MEDIUM_READER_WRITER</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`Current'<FONT COLOR="red"> and </FONT>`other'<FONT COLOR="red"> attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flatshort.html#f_is_deep_equal">is_deep_equal</A> (<B>Current</B>)
+</A>
+    <A NAME="f_is_equal"><A HREF="../elks/any_flatshort.html#f_is_equal">is_equal</A> (other: <B>attached</B> <A HREF="../ise/sed_medium_reader_writer_flatshort.html">SED_MEDIUM_READER_WRITER</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object considered</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to current object?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            symmetric: <B>Result</B> <B>implies</B> other ~ <B>Current</B>
+            consistent: <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+</A>
+    <A NAME="f_standard_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_standard_equal">standard_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical objects of the same type?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default object comparison criterion.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (b))
+</A>
+    <A NAME="f_standard_is_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (other: <B>attached</B> <A HREF="../ise/sed_medium_reader_writer_flatshort.html">SED_MEDIUM_READER_WRITER</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object of the same type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as current object, and field-by-field identical to it?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_cleanup"><A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_cleanup">cleanup</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> When a reading is stopped, perform the necessary cleanup to perform</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> another reading or writing.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_reading">is_ready_for_reading</A>
+</A>
+    <A NAME="f_conforms_to"><A HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A> (other: <A HREF="../elks/any_flatshort.html">ANY</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does type of current object conform to type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of </FONT>`other'<FONT COLOR="red"> (as per Eiffel: The Language, chapter 13)?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+</A>
+    <A NAME="f_is_for_reading"><A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_is_for_reading">is_for_reading</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Will current do a read operation?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flatshort.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_is_last_chunk"><A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_last_chunk">is_last_chunk</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are we reading the last chunk?</FONT>
+
+    <A NAME="f_is_pointer_value_stored"><A HREF="../ise/sed_reader_writer_flatshort.html#f_is_pointer_value_stored">is_pointer_value_stored</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is value of a POINTER stored?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_is_ready_for_reading"><A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_reading">is_ready_for_reading</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is Current ready for future read operations?</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            <B>True</B>
+</A>
+    <A NAME="f_is_ready_for_writing"><A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_writing">is_ready_for_writing</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is Current ready for future write operations?</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            <B>True</B>
+</A>
+    <A NAME="f_same_type"><A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other: <A HREF="../elks/any_flatshort.html">ANY</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is type of current object identical to type of </FONT>`other'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            definition: <B>Result</B> = (<A HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A> (other) <B>and</B> other.<A HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A> (<B>Current</B>))
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_write_boolean"><A HREF="../ise/sed_reader_writer_flatshort.html#f_write_boolean">write_boolean</A> (v: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_writing">is_ready_for_writing</A>
+</A>
+    <A NAME="f_write_character_32"><A HREF="../ise/sed_reader_writer_flatshort.html#f_write_character_32">write_character_32</A> (v: <A HREF="../elks/character_32_flatshort.html">CHARACTER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_writing">is_ready_for_writing</A>
+</A>
+    <A NAME="f_write_character_8"><A HREF="../ise/sed_reader_writer_flatshort.html#f_write_character_8">write_character_8</A> (v: <A HREF="../elks/character_8_flatshort.html">CHARACTER_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_writing">is_ready_for_writing</A>
+</A>
+    <A NAME="f_write_compressed_integer_32"><A HREF="../ise/sed_reader_writer_flatshort.html#f_write_compressed_integer_32">write_compressed_integer_32</A> (v: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red"> as a compressed integer_32.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> See </FONT><A HREF="../ise/sed_reader_writer_flatshort.html#f_write_compressed_natural_32">write_compressed_natural_32</A><FONT COLOR="red"> for details about encoding.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_writing">is_ready_for_writing</A>
+</A>
+    <A NAME="f_write_compressed_natural_32"><A HREF="../ise/sed_reader_writer_flatshort.html#f_write_compressed_natural_32">write_compressed_natural_32</A> (v: <A HREF="../elks/natural_32_flatshort.html">NATURAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red"> as a compressed natural_32.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Depending on value of </FONT>`v'<FONT COLOR="red">, it will tell how many natural_8 will</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> be written. Below here is the actual encoding where </FONT>`x'<FONT COLOR="red"> represents</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> a meaningful bit for </FONT>`v'<FONT COLOR="red"> and the last number in parenthesis is the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> marker value in hexadecimal which is added to the value of </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 1 - For values between 0 and 127, write 0xxxxxxx (0x00).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 2 - For values between 128 and 16382, write 0x10xxxxxx xxxxxxxx (0xE0).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 3 - For values between 16383 and 2097150, write 0x110xxxxx xxxxxxxx xxxxxxxx (0xC0).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 4 - For values between 2097151 and 268435454, write 0x1110xxx xxxxxxxx xxxxxxxx xxxxxxxx (0xE0).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 5 - Otherwise write </FONT>`v'<FONT COLOR="red"> as a full natural_32.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_writing">is_ready_for_writing</A>
+</A>
+    <A NAME="f_write_integer_16"><A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_write_integer_16">write_integer_16</A> (v: <A HREF="../elks/integer_16_flatshort.html">INTEGER_16</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flatshort.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_writing">is_ready_for_writing</A>
+</A>
+    <A NAME="f_write_integer_32"><A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_write_integer_32">write_integer_32</A> (v: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flatshort.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_writing">is_ready_for_writing</A>
+</A>
+    <A NAME="f_write_integer_64"><A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_write_integer_64">write_integer_64</A> (v: <A HREF="../elks/integer_64_flatshort.html">INTEGER_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flatshort.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_writing">is_ready_for_writing</A>
+</A>
+    <A NAME="f_write_integer_8"><A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_write_integer_8">write_integer_8</A> (v: <A HREF="../elks/integer_8_flatshort.html">INTEGER_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flatshort.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_writing">is_ready_for_writing</A>
+</A>
+    <A NAME="f_write_natural_16"><A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_write_natural_16">write_natural_16</A> (v: <A HREF="../elks/natural_16_flatshort.html">NATURAL_16</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flatshort.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_writing">is_ready_for_writing</A>
+</A>
+    <A NAME="f_write_natural_32"><A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_write_natural_32">write_natural_32</A> (v: <A HREF="../elks/natural_32_flatshort.html">NATURAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flatshort.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_writing">is_ready_for_writing</A>
+</A>
+    <A NAME="f_write_natural_64"><A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_write_natural_64">write_natural_64</A> (v: <A HREF="../elks/natural_64_flatshort.html">NATURAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flatshort.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_writing">is_ready_for_writing</A>
+</A>
+    <A NAME="f_write_natural_8"><A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_write_natural_8">write_natural_8</A> (v: <A HREF="../elks/natural_8_flatshort.html">NATURAL_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flatshort.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_writing">is_ready_for_writing</A>
+</A>
+    <A NAME="f_write_pointer"><A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_write_pointer">write_pointer</A> (v: <A HREF="../elks/pointer_flatshort.html">POINTER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flatshort.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_writing">is_ready_for_writing</A>
+</A>
+    <A NAME="f_write_real_32"><A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_write_real_32">write_real_32</A> (v: <A HREF="../elks/real_32_flatshort.html">REAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flatshort.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_writing">is_ready_for_writing</A>
+</A>
+    <A NAME="f_write_real_64"><A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_write_real_64">write_real_64</A> (v: <A HREF="../elks/real_64_flatshort.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flatshort.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_writing">is_ready_for_writing</A>
+</A>
+    <A NAME="f_write_string_32"><A HREF="../ise/sed_reader_writer_flatshort.html#f_write_string_32">write_string_32</A> (v: <A HREF="../elks/readable_string_general_flatshort.html">READABLE_STRING_GENERAL</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red"> in UTF-8 format.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_writing">is_ready_for_writing</A>
+            v_not_void: v /= <B>Void</B>
+</A>
+    <A NAME="f_write_string_8"><A HREF="../ise/sed_reader_writer_flatshort.html#f_write_string_8">write_string_8</A> (v: <A HREF="../elks/readable_string_8_flatshort.html">READABLE_STRING_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_writing">is_ready_for_writing</A>
+            v_not_void: v /= <B>Void</B>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_copy"><A HREF="../elks/any_flatshort.html#f_copy">copy</A> (other: <B>attached</B> <A HREF="../ise/sed_medium_reader_writer_flatshort.html">SED_MEDIUM_READER_WRITER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update current object using fields of object attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to </FONT>`other'<FONT COLOR="red">, so as to yield equal objects.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            is_equal: <B>Current</B> ~ other
+</A>
+    <A NAME="f_deep_copy"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_deep_copy">deep_copy</A> (other: <B>attached</B> <A HREF="../ise/sed_medium_reader_writer_flatshort.html">SED_MEDIUM_READER_WRITER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Effect equivalent to that of:</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">		</FONT><A HREF="../elks/any_flatshort.html#f_copy">copy</A><FONT COLOR="red"> (</FONT>`other'<FONT COLOR="red"> . </FONT><A HREF="../elks/any_flatshort.html#f_deep_twin">deep_twin</A><FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            deep_equal: <A HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A> (<B>Current</B>, other)
+</A>
+    <A NAME="f_deep_twin"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_deep_twin">deep_twin</A>: <B>attached</B> <A HREF="../ise/sed_medium_reader_writer_flatshort.html">SED_MEDIUM_READER_WRITER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object structure recursively duplicated from Current.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            deep_twin_not_void: <B>Result</B> /= <B>Void</B>
+            deep_equal: <A HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A> (<B>Current</B>, <B>Result</B>)
+</A>
+    <A NAME="f_standard_copy"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_standard_copy">standard_copy</A> (other: <B>attached</B> <A HREF="../ise/sed_medium_reader_writer_flatshort.html">SED_MEDIUM_READER_WRITER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy every field of </FONT>`other'<FONT COLOR="red"> onto corresponding field</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            is_standard_equal: <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (other)
+</A>
+    <A NAME="f_standard_twin"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_standard_twin">standard_twin</A>: <B>attached</B> <A HREF="../ise/sed_medium_reader_writer_flatshort.html">SED_MEDIUM_READER_WRITER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            standard_twin_not_void: <B>Result</B> /= <B>Void</B>
+            equal: <A HREF="../elks/any_flatshort.html#f_standard_equal">standard_equal</A> (<B>Result</B>, <B>Current</B>)
+</A>
+    <A NAME="f_twin"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_twin">twin</A>: <B>attached</B> <A HREF="../ise/sed_medium_reader_writer_flatshort.html">SED_MEDIUM_READER_WRITER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object equal to </FONT>`Current'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/any_flatshort.html#f_twin">twin</A><FONT COLOR="red"> calls </FONT><A HREF="../elks/any_flatshort.html#f_copy">copy</A><FONT COLOR="red">; to change copying/twinning semantics, redefine </FONT><A HREF="../elks/any_flatshort.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            twin_not_void: <B>Result</B> /= <B>Void</B>
+            is_equal: <B>Result</B> ~ <B>Current</B>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_as_attached"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_as_attached">as_attached</A>: <B>attached</B> <A HREF="../ise/sed_medium_reader_writer_flatshort.html">SED_MEDIUM_READER_WRITER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attached version of Current</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Can be used during transitional period to convert</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> non-void-safe classes to void-safe ones.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_default"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_default">default</A>: <B>detachable</B> <A HREF="../ise/sed_medium_reader_writer_flatshort.html">SED_MEDIUM_READER_WRITER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of object's type</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_default_pointer"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_default_pointer">default_pointer</A>: <A HREF="../elks/pointer_flatshort.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of type </FONT>`POINTER'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Avoid the need to write </FONT>`p'<FONT COLOR="red">.</FONT><A HREF="../elks/any_flatshort.html#f_default">default</A><FONT COLOR="red"> for</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> some </FONT>`p'<FONT COLOR="red"> of type </FONT>`POINTER'<FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_default_rescue"><A HREF="../elks/any_flatshort.html#f_default_rescue">default_rescue</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process exception for routines with no Rescue clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_do_nothing"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_do_nothing">do_nothing</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execute a null action.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Header/Footer</FONT>
+
+    <A NAME="f_read_footer"><A HREF="../ise/sed_reader_writer_flatshort.html#f_read_footer">read_footer</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Action being executed after finishing to read data.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_reading">is_ready_for_reading</A>
+</A>
+    <A NAME="f_read_header"><A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_read_header">read_header</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieve configuration of how data was stored.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_reading">is_ready_for_reading</A>
+</A>
+    <A NAME="f_write_chunk_header"><A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_write_chunk_header">write_chunk_header</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Store information about chunks</FONT>
+</A>
+    <A NAME="f_write_footer"><A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_write_footer">write_footer</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Store last buffered data.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_writing">is_ready_for_writing</A>
+</A>
+    <A NAME="f_write_header"><A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_write_header">write_header</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Store configuration on how data will be stored.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_is_ready_for_writing">is_ready_for_writing</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output</FONT>
+
+    <A NAME="f_io"><A HREF="../elks/any_flatshort.html#f_io">Io</A>: <A HREF="../elks/std_files_flatshort.html">STD_FILES</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Handle to standard file setup</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            io_not_void: <B>Result</B> /= <B>Void</B>
+</A>
+    <A NAME="f_out"><A HREF="../elks/any_flatshort.html#f_out">out</A>: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            out_not_void: <B>Result</B> /= <B>Void</B>
+</A>
+    <A NAME="f_print"><A HREF="../elks/any_flatshort.html#f_print">print</A> (o: <B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write terse external representation of </FONT>`o'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on standard output.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_tagged_out"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_tagged_out">tagged_out</A>: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            tagged_out_not_void: <B>Result</B> /= <B>Void</B>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Platform</FONT>
+
+    <A NAME="f_operating_environment"><A HREF="../elks/any_flatshort.html#f_operating_environment">Operating_environment</A>: <A HREF="../elks/operating_environment_flatshort.html">OPERATING_ENVIRONMENT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Objects available from the operating system</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            operating_environment_not_void: <B>Result</B> /= <B>Void</B>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Settings</FONT>
+
+    <A NAME="f_set_for_reading"><A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_set_for_reading">set_for_reading</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set current for reading.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flatshort.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_binary_reader_writer_flatshort.html">SED_BINARY_READER_WRITER</A>
+            is_for_reading: <A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_is_for_reading">is_for_reading</A>
+</A>
+    <A NAME="f_set_for_writing"><A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_set_for_writing">set_for_writing</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set current for writing.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flatshort.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_binary_reader_writer_flatshort.html">SED_BINARY_READER_WRITER</A>
+            is_for_writing: <B>not</B> <A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_is_for_reading">is_for_reading</A>
+</A>
+    <A NAME="f_set_is_pointer_value_stored"><A HREF="../ise/sed_reader_writer_flatshort.html#f_set_is_pointer_value_stored">set_is_pointer_value_stored</A> (v: <B>like</B> <A HREF="../ise/sed_reader_writer_flatshort.html#f_is_pointer_value_stored">is_pointer_value_stored</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../ise/sed_reader_writer_flatshort.html#f_is_pointer_value_stored">is_pointer_value_stored</A><FONT COLOR="red"> with </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flatshort.html">SED_READER_WRITER</A>
+            is_pointer_value_stored_set: <A HREF="../ise/sed_reader_writer_flatshort.html#f_is_pointer_value_stored">is_pointer_value_stored</A> = v
+</A>    
+<B>invariant</B>
+    medium_not_void: <A HREF="../ise/sed_medium_reader_writer_flatshort.html#f_medium">medium</A> /= <B>Void</B>
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_binary_reader_writer_flatshort.html">SED_BINARY_READER_WRITER</A>
+    buffer_not_void: <A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_buffer">buffer</A> /= <B>Void</B>
+    buffer_size_non_negative: <A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_buffer_size">buffer_size</A> &gt;= 0
+    buffer_position_non_negative: <A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_buffer_position">buffer_position</A> &gt;= 0
+    stored_pointer_bytes_non_negative: <A HREF="../ise/sed_binary_reader_writer_flatshort.html#f_stored_pointer_bytes">stored_pointer_bytes</A> &gt;= 0
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+    reflexive_equality: <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+    reflexive_conformance: <A HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A> (<B>Current</B>)
+
+<B>note</B>
+    library: "EiffelBase: Library of reusable components for Eiffel."
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../ise/sed_medium_reader_writer_flatshort.html">SED_MEDIUM_READER_WRITER</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sed_medium_reader_writer_chart.html">Chart</A></TD><TD><A HREF="sed_medium_reader_writer_links.html">Relations</A></TD><TD><A HREF="sed_medium_reader_writer.html">Text</A></TD><TD><A HREF="sed_medium_reader_writer_flat.html">Flat</A></TD><TD><A HREF="sed_medium_reader_writer_short.html">Contracts</A></TD><TD>Flat contracts</TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

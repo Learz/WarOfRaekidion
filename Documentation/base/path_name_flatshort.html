@@ -1,0 +1,238 @@
+<HTML><HEAD>
+<meta name="description" content="Path name abstraction"/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>path_name Flat contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="path_name_chart.html">Chart</A></TD><TD><A HREF="path_name_links.html">Relations</A></TD><TD><A HREF="path_name.html">Text</A></TD><TD><A HREF="path_name_flat.html">Flat</A></TD><TD><A HREF="path_name_short.html">Contracts</A></TD><TD>Flat contracts</TD></TR></TABLE><B>note</B>
+    description: "Path name abstraction"
+    library: "Free implementation of ELKS library"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2012-12-17 14:05:44 -0800 (Mon, 17 Dec 2012) $"
+    revision: "$Revision: 92087 $"
+
+<B>deferred</B> <B>class</B> <B>interface</B>
+    <A HREF="../elks/path_name_flatshort.html">PATH_NAME</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make_empty"><A HREF="../elks/readable_string_general_flatshort.html#f_make_empty">make</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create empty string.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/readable_string_general_flatshort.html">READABLE_STRING_GENERAL</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/readable_string_general_flatshort.html">READABLE_STRING_GENERAL</A>
+            empty: <A HREF="../elks/readable_string_8_flatshort.html#f_count">count</A> = 0
+            area_allocated: <A HREF="../elks/readable_string_8_flatshort.html#f_capacity">capacity</A> &gt;= 0
+</A>
+    <A NAME="f_make_from_string"><A HREF="../elks/readable_string_8_flatshort.html#f_make_from_string">make_from_string</A> (s: <A HREF="../elks/readable_string_8_flatshort.html">READABLE_STRING_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize from the characters of </FONT>`s'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/readable_string_8_flatshort.html">READABLE_STRING_8</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/readable_string_8_flatshort.html">READABLE_STRING_8</A>
+            string_exists: s /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/readable_string_8_flatshort.html">READABLE_STRING_8</A>
+            not_shared_implementation: <B>Current</B> /= s <B>implies</B> <B>not</B> <A HREF="../elks/readable_string_8_flatshort.html#f_shared_with">shared_with</A> (s)
+            initialized: <A HREF="../elks/readable_string_8_flatshort.html#f_same_string">same_string</A> (s)
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_string"><A HREF="../elks/readable_string_8_flatshort.html#f_string">string</A>: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New STRING_8 having same character sequence as </FONT>`Current'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/readable_string_8_flatshort.html">READABLE_STRING_8</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/readable_string_8_flatshort.html">READABLE_STRING_8</A>
+            string_not_void: <B>Result</B> /= <B>Void</B>
+            string_type: <B>Result</B>.<A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (<B>create</B> {<A HREF="../elks/string_8_flatshort.html">STRING_8</A>}.<A HREF="../elks/readable_string_general_flatshort.html#f_make_empty">make_empty</A>)
+            first_item: <A HREF="../elks/readable_string_8_flatshort.html#f_count">count</A> &gt; 0 <B>implies</B> <B>Result</B>.<A HREF="../elks/string_8_flatshort.html#f_item">item</A> (1) = <A HREF="../elks/string_8_flatshort.html#f_item">item</A> (1)
+            recurse: <A HREF="../elks/readable_string_8_flatshort.html#f_count">count</A> &gt; 1 <B>implies</B> <B>Result</B>.<A HREF="../elks/string_8_flatshort.html#f_substring">substring</A> (2, <A HREF="../elks/readable_string_8_flatshort.html#f_count">count</A>) ~ <A HREF="../elks/string_8_flatshort.html#f_substring">substring</A> (2, <A HREF="../elks/readable_string_8_flatshort.html#f_count">count</A>).<A HREF="../elks/readable_string_8_flatshort.html#f_string">string</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_is_equal"><A HREF="../elks/path_name_flatshort.html#f_is_equal">is_equal</A> (other: <B>like</B> <B>Current</B>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is the path name equal to </FONT>`other'<FONT COLOR="red">?</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            symmetric: <B>Result</B> <B>implies</B> other ~ <B>Current</B>
+            consistent: <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/comparable_flatshort.html">COMPARABLE</A>
+            trichotomy: <B>Result</B> = (<B>not</B> (<B>Current</B> &lt; other) <B>and</B> <B>not</B> (other &lt; <B>Current</B>))
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_is_directory_name_valid"><A HREF="../elks/path_name_flatshort.html#f_is_directory_name_valid">is_directory_name_valid</A> (dir_name: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`dir_name'<FONT COLOR="red"> a valid subdirectory part for the operating system?</FONT>
+        <B>require</B>
+            exists: dir_name /= <B>Void</B>
+</A>
+    <A NAME="f_is_empty"><A HREF="../elks/finite_flatshort.html#f_is_empty">is_empty</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is structure empty?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/finite_flatshort.html">FINITE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/container_flatshort.html">CONTAINER</A>
+            <B>True</B>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/readable_string_general_flatshort.html">READABLE_STRING_GENERAL</A>
+            <B>True</B>
+</A>
+    <A NAME="f_is_valid"><A HREF="../elks/path_name_flatshort.html#f_is_valid">is_valid</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is the path name valid for the operating system?</FONT>
+</A>
+    <A NAME="f_is_volume_name_valid"><A HREF="../elks/path_name_flatshort.html#f_is_volume_name_valid">is_volume_name_valid</A> (vol_name: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`vol_name'<FONT COLOR="red"> a valid volume name for the operating system?</FONT>
+        <B>require</B>
+            exists: vol_name /= <B>Void</B>
+</A>
+    <A NAME="f_prunable"><A HREF="../elks/string_8_flatshort.html#f_prunable">prunable</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May items be removed? (Answer: yes.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/string_8_flatshort.html">STRING_8</A><FONT COLOR="red">)</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status setting</FONT>
+
+    <A NAME="f_extend"><A HREF="../elks/path_name_flatshort.html#f_extend">extend</A> (directory_name: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Append the subdirectory </FONT>`directory_name'<FONT COLOR="red"> to the path name.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/path_name_flatshort.html">PATH_NAME</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/path_name_flatshort.html#f_set_subdirectory">set_subdirectory</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            string_exists: directory_name /= <B>Void</B>
+            valid_directory_name: <A HREF="../elks/path_name_flatshort.html#f_is_directory_name_valid">is_directory_name_valid</A> (directory_name)
+        <B>ensure</B>
+            valid_file_name: <A HREF="../elks/path_name_flatshort.html#f_is_valid">is_valid</A>
+</A>
+    <A NAME="f_extend_from_array"><A HREF="../elks/path_name_flatshort.html#f_extend_from_array">extend_from_array</A> (directories: <A HREF="../elks/array_flatshort.html">ARRAY</A> [<A HREF="../elks/string_8_flatshort.html">STRING_8</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Append the subdirectories from </FONT>`directories'<FONT COLOR="red"> to the path name.</FONT>
+        <B>require</B>
+            array_exists: directories /= <B>Void</B> <B>and then</B> <B>not</B> (directories.<A HREF="../elks/finite_flatshort.html#f_is_empty">is_empty</A>)
+        <B>ensure</B>
+            valid_file_name: <A HREF="../elks/path_name_flatshort.html#f_is_valid">is_valid</A>
+</A>
+    <A NAME="f_reset"><A HREF="../elks/path_name_flatshort.html#f_reset">reset</A> (a_name: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Reset content with a path starting with </FONT>`a_name'
+        <B>require</B>
+            a_name_attached: a_name /= <B>Void</B>
+</A>
+    <A NAME="f_set_directory"><A HREF="../elks/path_name_flatshort.html#f_set_directory">set_directory</A> (directory_name: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set the absolute directory part of the path name to </FONT>`directory_name'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            string_exists: directory_name /= <B>Void</B>
+            valid_directory_name: <A HREF="../elks/path_name_flatshort.html#f_is_directory_name_valid">is_directory_name_valid</A> (directory_name)
+        <B>ensure</B>
+            valid_file_name: <A HREF="../elks/path_name_flatshort.html#f_is_valid">is_valid</A>
+</A>
+    <A NAME="f_set_subdirectory"><A HREF="../elks/path_name_flatshort.html#f_set_subdirectory">set_subdirectory</A> (directory_name: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Append the subdirectory </FONT>`directory_name'<FONT COLOR="red"> to the path name.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/path_name_flatshort.html">PATH_NAME</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/path_name_flatshort.html#f_extend">extend</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            string_exists: directory_name /= <B>Void</B>
+            valid_directory_name: <A HREF="../elks/path_name_flatshort.html#f_is_directory_name_valid">is_directory_name_valid</A> (directory_name)
+        <B>ensure</B>
+            valid_file_name: <A HREF="../elks/path_name_flatshort.html#f_is_valid">is_valid</A>
+</A>
+    <A NAME="f_set_volume"><A HREF="../elks/path_name_flatshort.html#f_set_volume">set_volume</A> (volume_name: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set the volume part of the path name to </FONT>`volume_name'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            string_exists: volume_name /= <B>Void</B>
+            valid_volume_name: <A HREF="../elks/path_name_flatshort.html#f_is_volume_name_valid">is_volume_name_valid</A> (volume_name)
+            empty_path_name: <A HREF="../elks/finite_flatshort.html#f_is_empty">is_empty</A>
+        <B>ensure</B>
+            valid_file_name: <A HREF="../elks/path_name_flatshort.html#f_is_valid">is_valid</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removal</FONT>
+
+    <A NAME="f_wipe_out"><A HREF="../elks/string_8_flatshort.html#f_wipe_out">wipe_out</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove all characters.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/string_8_flatshort.html">STRING_8</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flatshort.html">COLLECTION</A>
+            prunable: <A HREF="../elks/string_8_flatshort.html#f_prunable">prunable</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flatshort.html">COLLECTION</A>
+            wiped_out: <A HREF="../elks/finite_flatshort.html#f_is_empty">is_empty</A>
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/string_8_flatshort.html">STRING_8</A>
+            is_empty: <A HREF="../elks/readable_string_8_flatshort.html#f_count">count</A> = 0
+            same_capacity: <A HREF="../elks/readable_string_8_flatshort.html#f_capacity">capacity</A> = <B>old</B> <A HREF="../elks/readable_string_8_flatshort.html#f_capacity">capacity</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Conversion</FONT>
+
+    <A NAME="f_to_c"><B>frozen</B> <A HREF="../elks/string_8_flatshort.html#f_to_c">to_c</A>: <A HREF="../elks/any_flatshort.html">ANY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> A reference to a C form of current string.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Useful only for interfacing with C software.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/string_8_flatshort.html">STRING_8</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/string_8_flatshort.html">STRING_8</A>
+            not_is_dotnet: <B>not</B> {<A HREF="../elks/platform_flatshort.html">PLATFORM</A>}.<A HREF="../elks/platform_flatshort.html#f_is_dotnet">is_dotnet</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_twin"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_twin">twin</A>: <B>attached</B> <A HREF="../elks/path_name_flatshort.html">PATH_NAME</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object equal to </FONT>`Current'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/any_flatshort.html#f_twin">twin</A><FONT COLOR="red"> calls </FONT><A HREF="../elks/readable_string_8_flatshort.html#f_copy">copy</A><FONT COLOR="red">; to change copying/twinning semantics, redefine </FONT><A HREF="../elks/readable_string_8_flatshort.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            twin_not_void: <B>Result</B> /= <B>Void</B>
+            is_equal: <B>Result</B> ~ <B>Current</B>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_as_attached"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_as_attached">as_attached</A>: <B>attached</B> <A HREF="../elks/path_name_flatshort.html">PATH_NAME</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attached version of Current</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Can be used during transitional period to convert</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> non-void-safe classes to void-safe ones.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output</FONT>
+
+    <A NAME="f_out"><A HREF="../elks/readable_string_8_flatshort.html#f_out">out</A>: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Printable representation</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/readable_string_8_flatshort.html">READABLE_STRING_8</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/any_flatshort.html">ANY</A>
+            <B>True</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            out_not_void: <B>Result</B> /= <B>Void</B>
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/readable_string_8_flatshort.html">READABLE_STRING_8</A>
+            out_not_void: <B>Result</B> /= <B>Void</B>
+            same_items: <A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> ("") <B>implies</B> <B>Result</B>.<A HREF="../elks/readable_string_8_flatshort.html#f_same_string">same_string</A> (<B>Current</B>)
+</A>    
+<B>invariant</B>
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/string_8_flatshort.html">STRING_8</A>
+    extendible: <A HREF="../elks/string_8_flatshort.html#f_extendible">Extendible</A>
+    compare_character: <B>not</B> <A HREF="../elks/container_flatshort.html#f_object_comparison">object_comparison</A>
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/readable_string_8_flatshort.html">READABLE_STRING_8</A>
+    area_not_void: <A HREF="../elks/string_8_flatshort.html#f_area">area</A> /= <B>Void</B>
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/comparable_flatshort.html">COMPARABLE</A>
+    irreflexive_comparison: <B>not</B> (<B>Current</B> &lt; <B>Current</B>)
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+    reflexive_equality: <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+    reflexive_conformance: <A HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A> (<B>Current</B>)
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/string_general_flatshort.html">STRING_GENERAL</A>
+    mutable: <B>not</B> <A HREF="../elks/readable_string_general_flatshort.html#f_is_immutable">is_immutable</A>
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/resizable_flatshort.html">RESIZABLE</A>
+    increase_by_at_least_one: <A HREF="../elks/resizable_flatshort.html#f_minimal_increase">Minimal_increase</A> &gt;= 1
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/bounded_flatshort.html">BOUNDED</A>
+    valid_count: <A HREF="../elks/readable_string_8_flatshort.html#f_count">count</A> &lt;= <A HREF="../elks/readable_string_8_flatshort.html#f_capacity">capacity</A>
+    full_definition: <A HREF="../elks/bounded_flatshort.html#f_full">full</A> = (<A HREF="../elks/readable_string_8_flatshort.html#f_count">count</A> = <A HREF="../elks/readable_string_8_flatshort.html#f_capacity">capacity</A>)
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/finite_flatshort.html">FINITE</A>
+    empty_definition: <A HREF="../elks/finite_flatshort.html#f_is_empty">is_empty</A> = (<A HREF="../elks/readable_string_8_flatshort.html#f_count">count</A> = 0)
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/path_name_flatshort.html">PATH_NAME</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="path_name_chart.html">Chart</A></TD><TD><A HREF="path_name_links.html">Relations</A></TD><TD><A HREF="path_name.html">Text</A></TD><TD><A HREF="path_name_flat.html">Flat</A></TD><TD><A HREF="path_name_short.html">Contracts</A></TD><TD>Flat contracts</TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

@@ -1,0 +1,117 @@
+<HTML><HEAD>
+<meta name="description" content="War of Raekidion - An image factory An {IMAGE_FACTORY} loads and stores every image file found in  the game's folders and puts them in a list."/>
+<meta name="author" content="François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>image_factory Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="image_factory_chart.html">Chart</A></TD><TD><A HREF="image_factory_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="image_factory_flat.html">Flat</A></TD><TD><A HREF="image_factory_short.html">Contracts</A></TD><TD><A HREF="image_factory_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        War of Raekidion - An image factory
+        An <A HREF="../../raekidion/objects/image_factory.html">IMAGE_FACTORY</A> loads and stores every image file found in 
+        the game's folders and puts them in a list.
+    ]"
+    author: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+    date: "$Date$"
+    revision: "$Revision$"
+
+<B>class</B> 
+    <A HREF="../../raekidion/objects/image_factory.html">IMAGE_FACTORY</A>
+
+<B>inherit</B>
+    <A HREF="../../elks/disposable.html">DISPOSABLE</A>
+        <B>select</B>
+            <A HREF="../../raekidion/objects/image_factory.html#f_dispose">dispose</A>
+        <B>end</B>
+
+    <A HREF="../../raekidion/objects/directory_list.html">DIRECTORY_LIST</A>
+        <B>rename</B>
+            <A HREF="../../elks/directory.html#f_make">make</A> <B>as</B> <A HREF="../../elks/directory.html#f_make">directory_make</A>,
+            <A HREF="../../elks/directory.html#f_dispose">dispose</A> <B>as</B> <A HREF="../../elks/directory.html#f_dispose">directory_dispose</A>
+        <B>end</B>
+
+<B>create</B> 
+    <A HREF="../../raekidion/objects/image_factory.html#f_make">make</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../../raekidion/objects/image_factory.html#f_make">make</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize </FONT>`Current'
+        <B>require</B>
+            is_not_already_initialised: <B>not</B> <A HREF="../../raekidion/objects/image_factory.html#f_is_init">Is_init</A>.<A HREF="../../elks/cell.html#f_item">item</A>
+        <B>local</B>
+            l_directory: <A HREF="../../elks/string_8.html">STRING_8</A>
+            l_count: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+            l_name: <A HREF="../../elks/string_8.html">STRING_8</A>
+            l_filename_c: <A HREF="../../elks/c_string.html">C_STRING</A>
+            l_filename_list: <A HREF="../../elks/linked_list.html">LINKED_LIST</A> [<A HREF="../../elks/string_8.html">STRING_8</A>]
+        <B>do</B>
+            l_directory := "resources/images/"
+            <A HREF="../../elks/directory.html#f_make">directory_make</A> (l_directory)
+            <B>create</B> <A HREF="../../raekidion/objects/image_factory.html#f_file_list">file_list</A>.<A HREF="../../elks/linked_list.html#f_make">make</A>
+            <B>create</B> l_filename_list.<A HREF="../../elks/linked_list.html#f_make">make</A>
+            l_filename_list := <A HREF="../../raekidion/objects/directory_list.html#f_files_with_type">files_with_type</A> ("png")
+            <B>from</B>
+                l_filename_list.<A HREF="../../elks/linked_list.html#f_start">start</A>
+            <B>until</B>
+                l_filename_list.<A HREF="../../elks/linear.html#f_exhausted">exhausted</A>
+            <B>loop</B>
+                l_count := l_filename_list.<A HREF="../../elks/linked_list.html#f_item">item</A>.<A HREF="../../elks/readable_string_8.html#f_index_of">index_of</A> ('.', 1)
+                l_name := l_filename_list.<A HREF="../../elks/linked_list.html#f_item">item</A>.<A HREF="../../elks/string_8.html#f_substring">substring</A> (1, l_count - 1)
+                <B>create</B> l_filename_c.<A HREF="../../elks/c_string.html#f_make">make</A> (l_directory + l_filename_list.<A HREF="../../elks/linked_list.html#f_item">item</A>)
+                <A HREF="../../raekidion/objects/image_factory.html#f_file_list">file_list</A>.<A HREF="../../elks/linked_list.html#f_extend">extend</A> ([l_name, {<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_sdl_loadimage">sdl_loadimage</A> (l_filename_c.<A HREF="../../elks/c_string.html#f_item">item</A>)])
+                l_filename_list.<A HREF="../../elks/linked_list.html#f_forth">forth</A>
+            <B>end</B>
+            <A HREF="../../raekidion/objects/image_factory.html#f_is_init">Is_init</A>.<A HREF="../../elks/cell.html#f_replace">replace</A> (<B>True</B>)
+        <B>ensure</B>
+            is_initialised: <A HREF="../../raekidion/objects/image_factory.html#f_is_init">Is_init</A>.<A HREF="../../elks/cell.html#f_item">item</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_image"><A HREF="../../raekidion/objects/image_factory.html#f_image">image</A> (a_name: <A HREF="../../elks/string_8.html">STRING_8</A>): <A HREF="../../elks/pointer.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Find a loaded image from </FONT>`a_name'
+        <B>do</B>
+            <B>from</B>
+                <A HREF="../../raekidion/objects/image_factory.html#f_file_list">file_list</A>.<A HREF="../../elks/linked_list.html#f_start">start</A>
+            <B>until</B>
+                <A HREF="../../raekidion/objects/image_factory.html#f_file_list">file_list</A>.<A HREF="../../elks/linear.html#f_exhausted">exhausted</A>
+            <B>loop</B>
+                <B>if</B> <A HREF="../../raekidion/objects/image_factory.html#f_file_list">file_list</A>.<A HREF="../../elks/linked_list.html#f_item">item</A>.filename.<A HREF="../../elks/readable_string_8.html#f_is_equal">is_equal</A> (a_name) <B>then</B>
+                    <B>Result</B> := <A HREF="../../raekidion/objects/image_factory.html#f_file_list">file_list</A>.<A HREF="../../elks/linked_list.html#f_item">item</A>.object
+                <B>end</B>
+                <A HREF="../../raekidion/objects/image_factory.html#f_file_list">file_list</A>.<A HREF="../../elks/linked_list.html#f_forth">forth</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_dispose"><A HREF="../../raekidion/objects/image_factory.html#f_dispose">dispose</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Free every image from memory</FONT>
+        <B>do</B>
+            <B>from</B>
+                <A HREF="../../raekidion/objects/image_factory.html#f_file_list">file_list</A>.<A HREF="../../elks/linked_list.html#f_start">start</A>
+            <B>until</B>
+                <A HREF="../../raekidion/objects/image_factory.html#f_file_list">file_list</A>.<A HREF="../../elks/linear.html#f_exhausted">exhausted</A>
+            <B>loop</B>
+                <A HREF="../../raekidion/objects/image_factory.html#f_file_list">file_list</A>.<A HREF="../../elks/linked_list.html#f_item">item</A>.object.<A HREF="../../elks/pointer_ref.html#f_memory_free">memory_free</A>
+                {<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_sdl_freesurface">sdl_freesurface</A> (<A HREF="../../raekidion/objects/image_factory.html#f_file_list">file_list</A>.<A HREF="../../elks/linked_list.html#f_item">item</A>.object)
+                <A HREF="../../raekidion/objects/image_factory.html#f_file_list">file_list</A>.<A HREF="../../elks/linked_list.html#f_forth">forth</A>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_file_list"><A HREF="../../raekidion/objects/image_factory.html#f_file_list">file_list</A>: <A HREF="../../elks/linked_list.html">LINKED_LIST</A> [<A HREF="../../elks/tuple.html">TUPLE</A> [filename: <A HREF="../../elks/string_8.html">STRING_8</A>; object: <A HREF="../../elks/pointer.html">POINTER</A>]]</A>
+
+    <A NAME="f_is_init"><A HREF="../../raekidion/objects/image_factory.html#f_is_init">Is_init</A>: <A HREF="../../elks/cell.html">CELL</A> [<A HREF="../../elks/boolean.html">BOOLEAN</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If this class has been initialized, don't initialize it again</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>.<A HREF="../../elks/cell.html#f_put">put</A> (<B>False</B>)
+        <B>end</B></A>
+    
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../../raekidion/objects/image_factory.html">IMAGE_FACTORY</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="image_factory_chart.html">Chart</A></TD><TD><A HREF="image_factory_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="image_factory_flat.html">Flat</A></TD><TD><A HREF="image_factory_short.html">Contracts</A></TD><TD><A HREF="image_factory_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

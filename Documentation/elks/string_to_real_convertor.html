@@ -1,0 +1,367 @@
+<HTML><HEAD>
+<meta name="description" content="String to real/double convertor"/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>string_to_real_convertor Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="string_to_real_convertor_chart.html">Chart</A></TD><TD><A HREF="string_to_real_convertor_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="string_to_real_convertor_flat.html">Flat</A></TD><TD><A HREF="string_to_real_convertor_short.html">Contracts</A></TD><TD><A HREF="string_to_real_convertor_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "String to real/double convertor"
+    library: "Free implementation of ELKS library"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2012-05-23 21:13:10 -0700 (Wed, 23 May 2012) $"
+    revision: "$Revision: 91981 $"
+
+<B>frozen</B> <B>class</B> 
+    <A HREF="../elks/string_to_real_convertor.html">STRING_TO_REAL_CONVERTOR</A>
+
+<B>inherit</B>
+    <A HREF="../elks/string_to_numeric_convertor.html">STRING_TO_NUMERIC_CONVERTOR</A>
+
+<B>create</B> 
+    <A HREF="../elks/string_to_real_convertor.html#f_make">make</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../elks/string_to_real_convertor.html#f_make">make</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize.</FONT>
+        <B>do</B>
+            <B>create</B> <A HREF="../elks/string_to_numeric_convertor.html#f_leading_separators">leading_separators</A>.<A HREF="../elks/readable_string_8.html#f_make_from_string">make_from_string</A> (" ")
+            <B>create</B> <A HREF="../elks/string_to_numeric_convertor.html#f_trailing_separators">trailing_separators</A>.<A HREF="../elks/readable_string_8.html#f_make_from_string">make_from_string</A> (" ")
+        <B>ensure</B>
+            leading_separators_set: <A HREF="../elks/string_to_numeric_convertor.html#f_leading_separators">leading_separators</A> ~ " "
+            trailing_separators_set: <A HREF="../elks/string_to_numeric_convertor.html#f_trailing_separators">trailing_separators</A> ~ " "
+            leading_separators_not_acceptable: <B>not</B> <A HREF="../elks/string_to_numeric_convertor.html#f_leading_separators_acceptable">leading_separators_acceptable</A>
+            trailing_separatorsnot_acceptable: <B>not</B> <A HREF="../elks/string_to_numeric_convertor.html#f_trailing_separators_acceptable">trailing_separators_acceptable</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status reporting</FONT>
+
+    <A NAME="f_conversion_type_valid"><A HREF="../elks/string_to_real_convertor.html#f_conversion_type_valid">conversion_type_valid</A> (type: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is conversion type </FONT>`type'<FONT COLOR="red"> valid?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/numeric_information.html#f_real_double_type_valid">real_double_type_valid</A> (type)
+        <B>end</B></A>
+
+    <A NAME="f_overflowed"><A HREF="../elks/string_to_real_convertor.html#f_overflowed">overflowed</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is real number parsed so far overflowed?</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>False</B>
+        <B>end</B></A>
+
+    <A NAME="f_underflowed"><A HREF="../elks/string_to_real_convertor.html#f_underflowed">underflowed</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is real number parsed so far underflowed?</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>False</B>
+        <B>end</B></A>
+
+    <A NAME="f_parse_successful"><A HREF="../elks/string_to_real_convertor.html#f_parse_successful">parse_successful</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> This only means we didn't enter an invalid state when parsing,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> it doesn't mean that we have got an valid double/real number.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> You need to check </FONT>`is_double'<FONT COLOR="red"> or </FONT>`is_real'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> /= 9)
+        <B>end</B></A>
+
+    <A NAME="f_separators_valid"><A HREF="../elks/string_to_real_convertor.html#f_separators_valid">separators_valid</A> (separators: <A HREF="../elks/string_8.html">STRING_8</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are separators contained in </FONT>`separators'<FONT COLOR="red"> valid?</FONT>
+        <B>local</B>
+            i: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            c: <A HREF="../elks/character_8.html">CHARACTER_8</A>
+            l_c: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            done: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            <B>from</B>
+                i := 1
+                l_c := separators.<A HREF="../elks/readable_string_8.html#f_count">count</A>
+                done := <B>False</B>
+                <B>Result</B> := <B>True</B>
+            <B>until</B>
+                i &gt; l_c <B>or</B> done
+            <B>loop</B>
+                c := separators.<A HREF="../elks/string_8.html#f_item">item</A> (i)
+                <B>if</B> (c &gt;= '0' <B>and</B> c &lt;= '9') <B>or</B> c = '+' <B>or</B> c = '-' <B>or</B> c = 'E' <B>or</B> c = 'e' <B>then</B>
+                    done := <B>True</B>
+                    <B>Result</B> := <B>False</B>
+                <B>end</B>
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_integral_double"><A HREF="../elks/string_to_real_convertor.html#f_is_integral_double">is_integral_double</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is character sequence that has been parsed represents a valid double?</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> &gt; 1 <B>and</B> <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> &lt; 9) <B>and</B> (<B>not</B> <A HREF="../elks/string_to_real_convertor.html#f_needs_digit">needs_digit</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_integral_real"><A HREF="../elks/string_to_real_convertor.html#f_is_integral_real">is_integral_real</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is character sequence that has been parsed represents a valid real?	</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/string_to_real_convertor.html#f_is_integral_double">is_integral_double</A>
+        <B>end</B></A>
+
+    <A NAME="f_is_part_of_double"><A HREF="../elks/string_to_real_convertor.html#f_is_part_of_double">is_part_of_double</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is character sequence that has been parsed so far a valid start part of double?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> /= 9
+        <B>end</B></A>
+
+    <A NAME="f_is_part_of_real"><A HREF="../elks/string_to_real_convertor.html#f_is_part_of_real">is_part_of_real</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is character sequence that has been parsed so far a valid start part of real?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/string_to_real_convertor.html#f_is_part_of_double">is_part_of_double</A>
+        <B>end</B></A>
+
+    <A NAME="f_parsed_double"><A HREF="../elks/string_to_real_convertor.html#f_parsed_double">parsed_double</A>: <A HREF="../elks/real_64.html">REAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Parsed double value</FONT>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/string_to_real_convertor.html#f_has_negative_exponent">has_negative_exponent</A> <B>then</B>
+                <A HREF="../elks/string_to_real_convertor.html#f_exponent">exponent</A> := - <A HREF="../elks/string_to_real_convertor.html#f_exponent">exponent</A>
+            <B>end</B>
+            <B>if</B> <A HREF="../elks/string_to_real_convertor.html#f_has_fractional_part">has_fractional_part</A> <B>then</B>
+                <A HREF="../elks/string_to_real_convertor.html#f_natural_part">natural_part</A> := <A HREF="../elks/string_to_real_convertor.html#f_natural_part">natural_part</A> + <A HREF="../elks/string_to_real_convertor.html#f_fractional_part">fractional_part</A> / <A HREF="../elks/string_to_real_convertor.html#f_fractional_divider">fractional_divider</A>
+            <B>end</B>
+            <B>if</B> <A HREF="../elks/string_to_real_convertor.html#f_is_negative">is_negative</A> <B>then</B>
+                <B>Result</B> := - <A HREF="../elks/string_to_real_convertor.html#f_natural_part">natural_part</A> * (10.0 ^ <A HREF="../elks/string_to_real_convertor.html#f_exponent">exponent</A>.<A HREF="../elks/integer_32.html#f_to_double">to_double</A>)
+            <B>else</B>
+                <B>Result</B> := <A HREF="../elks/string_to_real_convertor.html#f_natural_part">natural_part</A> * (10.0 ^ <A HREF="../elks/string_to_real_convertor.html#f_exponent">exponent</A>.<A HREF="../elks/integer_32.html#f_to_double">to_double</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_parsed_real"><A HREF="../elks/string_to_real_convertor.html#f_parsed_real">parsed_real</A>: <A HREF="../elks/real_32.html">REAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Parsed real value</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/string_to_real_convertor.html#f_parsed_double">parsed_double</A>.<A HREF="../elks/real_64.html#f_truncated_to_real">truncated_to_real</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status setting</FONT>
+
+    <A NAME="f_reset"><A HREF="../elks/string_to_real_convertor.html#f_reset">reset</A> (type: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Reset current convertor to parse real number string of type </FONT>`type'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/string_to_numeric_convertor.html#f_conversion_type">conversion_type</A> := type
+            <A HREF="../elks/string_to_numeric_convertor.html#f_sign">sign</A> := 0
+            <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 0
+            <A HREF="../elks/string_to_real_convertor.html#f_natural_part">natural_part</A> := 0.<A HREF="../elks/integer_32.html#f_to_double">to_double</A>
+            <A HREF="../elks/string_to_real_convertor.html#f_fractional_part">fractional_part</A> := 0.<A HREF="../elks/integer_32.html#f_to_double">to_double</A>
+            <A HREF="../elks/string_to_real_convertor.html#f_fractional_divider">fractional_divider</A> := 0.<A HREF="../elks/integer_32.html#f_to_double">to_double</A>
+            <A HREF="../elks/string_to_real_convertor.html#f_exponent">exponent</A> := 0
+            <A HREF="../elks/string_to_real_convertor.html#f_is_negative">is_negative</A> := <B>False</B>
+            <A HREF="../elks/string_to_real_convertor.html#f_has_negative_exponent">has_negative_exponent</A> := <B>False</B>
+            <A HREF="../elks/string_to_real_convertor.html#f_has_fractional_part">has_fractional_part</A> := <B>False</B>
+            <A HREF="../elks/string_to_real_convertor.html#f_needs_digit">needs_digit</A> := <B>False</B>
+        <B>ensure then</B>
+            natural_part_set: <A HREF="../elks/string_to_real_convertor.html#f_natural_part">natural_part</A> = 0.<A HREF="../elks/integer_32.html#f_to_double">to_double</A>
+            fractional_part_set: <A HREF="../elks/string_to_real_convertor.html#f_fractional_part">fractional_part</A> = 0.<A HREF="../elks/integer_32.html#f_to_double">to_double</A>
+            fractional_divider_set: <A HREF="../elks/string_to_real_convertor.html#f_fractional_divider">fractional_divider</A> = 0.<A HREF="../elks/integer_32.html#f_to_double">to_double</A>
+            exponent_set: <A HREF="../elks/string_to_real_convertor.html#f_exponent">exponent</A> = 0
+            is_negative_set: <A HREF="../elks/string_to_real_convertor.html#f_is_negative">is_negative</A> = <B>False</B>
+            has_negative_exponent_set: <A HREF="../elks/string_to_real_convertor.html#f_has_negative_exponent">has_negative_exponent</A> = <B>False</B>
+            has_fractional_part_set: <A HREF="../elks/string_to_real_convertor.html#f_has_fractional_part">has_fractional_part</A> = <B>False</B>
+            needs_digit_set: <A HREF="../elks/string_to_real_convertor.html#f_needs_digit">needs_digit</A> = <B>False</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Parse</FONT>
+
+    <A NAME="f_parse_string_with_type"><A HREF="../elks/string_to_real_convertor.html#f_parse_string_with_type">parse_string_with_type</A> (s: <A HREF="../elks/readable_string_general.html">READABLE_STRING_GENERAL</A>; type: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Parse string </FONT>`s'<FONT COLOR="red"> as real number of type </FONT>`type'<FONT COLOR="red">.</FONT>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_area8: <A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/character_8.html">CHARACTER_8</A>]
+            l_area32: <A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/character_32.html">CHARACTER_32</A>]
+            l_c: <A HREF="../elks/character_32.html">CHARACTER_32</A>
+            l_code: <A HREF="../elks/natural_32.html">NATURAL_32</A>
+        <B>do</B>
+            <A HREF="../elks/string_to_real_convertor.html#f_reset">reset</A> (type)
+            i := 0
+            nb := s.<A HREF="../elks/readable_string_general.html#f_count">count</A>
+            <B>if</B> <B>attached</B> {<A HREF="../elks/readable_string_8.html">READABLE_STRING_8</A>} s <B>as</B> l_str8 <B>then</B>
+                <B>from</B>
+                    l_area8 := l_str8.<A HREF="../elks/readable_string_8.html#f_area">area</A>
+                <B>until</B>
+                    i = nb <B>or</B> <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> = 9
+                <B>loop</B>
+                    <A HREF="../elks/string_to_real_convertor.html#f_parse_character">parse_character</A> (l_area8.<A HREF="../elks/special.html#f_item">item</A> (i))
+                    i := i + 1
+                <B>end</B>
+            <B>elseif</B> <B>attached</B> {<A HREF="../elks/readable_string_32.html">READABLE_STRING_32</A>} s <B>as</B> l_str32 <B>then</B>
+                <B>from</B>
+                    l_area32 := l_str32.<A HREF="../elks/readable_string_32.html#f_area">area</A>
+                <B>until</B>
+                    i = nb <B>or</B> <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> = 9
+                <B>loop</B>
+                    l_c := l_area32.<A HREF="../elks/special.html#f_item">item</A> (i)
+                    <B>if</B> l_c.<A HREF="../elks/character_32_ref.html#f_is_character_8">is_character_8</A> <B>then</B>
+                        <A HREF="../elks/string_to_real_convertor.html#f_parse_character">parse_character</A> (l_c.<A HREF="../elks/character_32.html#f_to_character_8">to_character_8</A>)
+                    <B>else</B>
+                        <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 9
+                    <B>end</B>
+                    i := i + 1
+                <B>end</B>
+            <B>else</B>
+                <B>from</B>
+                    i := 1
+                    nb := s.<A HREF="../elks/readable_string_general.html#f_count">count</A>
+                <B>until</B>
+                    i &gt; nb <B>or</B> <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> = 9
+                <B>loop</B>
+                    l_code := s.<A HREF="../elks/readable_string_general.html#f_code">code</A> (i)
+                    <B>if</B> l_code.<A HREF="../elks/natural_32_ref.html#f_is_valid_character_8_code">is_valid_character_8_code</A> <B>then</B>
+                        <A HREF="../elks/string_to_real_convertor.html#f_parse_character">parse_character</A> (l_code.<A HREF="../elks/natural_32.html#f_to_character_8">to_character_8</A>)
+                    <B>else</B>
+                        <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 9
+                    <B>end</B>
+                    i := i + 1
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_parse_character"><A HREF="../elks/string_to_real_convertor.html#f_parse_character">parse_character</A> (c: <A HREF="../elks/character_8.html">CHARACTER_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Parse character </FONT>`c'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>inspect</B> <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A>
+            <B>when</B> 0 <B>then</B> 
+                <B>if</B> c.<A HREF="../elks/character_8_ref.html#f_is_digit">is_digit</A> <B>then</B>
+                    <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 2
+                    <A HREF="../elks/string_to_real_convertor.html#f_natural_part">natural_part</A> := c.<A HREF="../elks/character_8.html#f_code">code</A> - 48.<A HREF="../elks/integer_32.html#f_to_double">to_double</A>
+                <B>elseif</B> c = '+' <B>then</B>
+                    <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 1
+                <B>elseif</B> c = '-' <B>then</B>
+                    <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 1
+                    <A HREF="../elks/string_to_real_convertor.html#f_is_negative">is_negative</A> := <B>True</B>
+                <B>elseif</B> (<A HREF="../elks/string_to_numeric_convertor.html#f_leading_separators_acceptable">leading_separators_acceptable</A> <B>and then</B> <A HREF="../elks/string_to_numeric_convertor.html#f_leading_separators">leading_separators</A>.<A HREF="../elks/readable_string_8.html#f_has">has</A> (c)) <B>then</B>
+                <B>elseif</B> c = '.' <B>then</B>
+                    <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 3
+                    <A HREF="../elks/string_to_real_convertor.html#f_needs_digit">needs_digit</A> := <B>True</B>
+                <B>else</B>
+                    <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 9
+                <B>end</B>
+            <B>when</B> 1 <B>then</B> 
+                <B>if</B> c.<A HREF="../elks/character_8_ref.html#f_is_digit">is_digit</A> <B>then</B>
+                    <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 2
+                    <A HREF="../elks/string_to_real_convertor.html#f_natural_part">natural_part</A> := c.<A HREF="../elks/character_8.html#f_code">code</A> - 48.<A HREF="../elks/integer_32.html#f_to_double">to_double</A>
+                <B>elseif</B> c = '.' <B>then</B>
+                    <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 3
+                    <A HREF="../elks/string_to_real_convertor.html#f_needs_digit">needs_digit</A> := <B>True</B>
+                <B>else</B>
+                    <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 9
+                <B>end</B>
+            <B>when</B> 2 <B>then</B> 
+                <B>if</B> c.<A HREF="../elks/character_8_ref.html#f_is_digit">is_digit</A> <B>then</B>
+                    <A HREF="../elks/string_to_real_convertor.html#f_natural_part">natural_part</A> := <A HREF="../elks/string_to_real_convertor.html#f_natural_part">natural_part</A> * 10.0 + c.<A HREF="../elks/character_8.html#f_code">code</A>.<A HREF="../elks/integer_32.html#f_to_double">to_double</A> - 48.<A HREF="../elks/integer_32.html#f_to_double">to_double</A>
+                <B>elseif</B> c = '.' <B>then</B>
+                    <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 3
+                    <A HREF="../elks/string_to_real_convertor.html#f_needs_digit">needs_digit</A> := <B>False</B>
+                <B>elseif</B> (<A HREF="../elks/string_to_numeric_convertor.html#f_trailing_separators_acceptable">trailing_separators_acceptable</A> <B>and then</B> <A HREF="../elks/string_to_numeric_convertor.html#f_trailing_separators">trailing_separators</A>.<A HREF="../elks/readable_string_8.html#f_has">has</A> (c)) <B>then</B>
+                    <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 8
+                <B>elseif</B> c.<A HREF="../elks/character_8_ref.html#f_as_lower">as_lower</A> = 'e' <B>then</B>
+                    <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 5
+                <B>else</B>
+                    <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 9
+                <B>end</B>
+            <B>when</B> 3 <B>then</B> 
+                <B>if</B> c.<A HREF="../elks/character_8_ref.html#f_is_digit">is_digit</A> <B>then</B>
+                    <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 4
+                    <A HREF="../elks/string_to_real_convertor.html#f_has_fractional_part">has_fractional_part</A> := <B>True</B>
+                    <A HREF="../elks/string_to_real_convertor.html#f_fractional_part">fractional_part</A> := c.<A HREF="../elks/character_8.html#f_code">code</A> - 48.<A HREF="../elks/integer_32.html#f_to_double">to_double</A>
+                    <A HREF="../elks/string_to_real_convertor.html#f_fractional_divider">fractional_divider</A> := 10.0
+                    <A HREF="../elks/string_to_real_convertor.html#f_needs_digit">needs_digit</A> := <B>False</B>
+                <B>elseif</B> c.<A HREF="../elks/character_8_ref.html#f_as_lower">as_lower</A> = 'e' <B>and</B> <B>not</B> <A HREF="../elks/string_to_real_convertor.html#f_needs_digit">needs_digit</A> <B>then</B>
+                    <A HREF="../elks/string_to_real_convertor.html#f_needs_digit">needs_digit</A> := <B>True</B>
+                    <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 5
+                <B>elseif</B> (<A HREF="../elks/string_to_numeric_convertor.html#f_trailing_separators_acceptable">trailing_separators_acceptable</A> <B>and then</B> <A HREF="../elks/string_to_numeric_convertor.html#f_trailing_separators">trailing_separators</A>.<A HREF="../elks/readable_string_8.html#f_has">has</A> (c)) <B>then</B>
+                    <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 8
+                <B>else</B>
+                    <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 9
+                <B>end</B>
+            <B>when</B> 4 <B>then</B> 
+                <B>if</B> c.<A HREF="../elks/character_8_ref.html#f_is_digit">is_digit</A> <B>then</B>
+                    <A HREF="../elks/string_to_real_convertor.html#f_fractional_part">fractional_part</A> := <A HREF="../elks/string_to_real_convertor.html#f_fractional_part">fractional_part</A> * 10.0 + (c.<A HREF="../elks/character_8.html#f_code">code</A> - 48).<A HREF="../elks/integer_32.html#f_to_double">to_double</A>
+                    <A HREF="../elks/string_to_real_convertor.html#f_fractional_divider">fractional_divider</A> := <A HREF="../elks/string_to_real_convertor.html#f_fractional_divider">fractional_divider</A> * 10.0
+                <B>elseif</B> c.<A HREF="../elks/character_8_ref.html#f_as_lower">as_lower</A> = 'e' <B>then</B>
+                    <A HREF="../elks/string_to_real_convertor.html#f_needs_digit">needs_digit</A> := <B>True</B>
+                    <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 5
+                <B>elseif</B> (<A HREF="../elks/string_to_numeric_convertor.html#f_trailing_separators_acceptable">trailing_separators_acceptable</A> <B>and then</B> <A HREF="../elks/string_to_numeric_convertor.html#f_trailing_separators">trailing_separators</A>.<A HREF="../elks/readable_string_8.html#f_has">has</A> (c)) <B>then</B>
+                    <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 8
+                <B>else</B>
+                    <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 9
+                <B>end</B>
+            <B>when</B> 5 <B>then</B> 
+                <B>if</B> c = '-' <B>then</B>
+                    <A HREF="../elks/string_to_real_convertor.html#f_has_negative_exponent">has_negative_exponent</A> := <B>True</B>
+                    <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 6
+                <B>elseif</B> c = '+' <B>then</B>
+                    <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 6
+                <B>elseif</B> c.<A HREF="../elks/character_8_ref.html#f_is_digit">is_digit</A> <B>then</B>
+                    <A HREF="../elks/string_to_real_convertor.html#f_needs_digit">needs_digit</A> := <B>False</B>
+                    <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 7
+                    <A HREF="../elks/string_to_real_convertor.html#f_exponent">exponent</A> := c.<A HREF="../elks/character_8.html#f_code">code</A> - 48
+                <B>else</B>
+                    <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 9
+                <B>end</B>
+            <B>when</B> 6 <B>then</B> 
+                <B>if</B> c.<A HREF="../elks/character_8_ref.html#f_is_digit">is_digit</A> <B>then</B>
+                    <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 7
+                    <A HREF="../elks/string_to_real_convertor.html#f_exponent">exponent</A> := c.<A HREF="../elks/character_8.html#f_code">code</A> - 48
+                    <A HREF="../elks/string_to_real_convertor.html#f_needs_digit">needs_digit</A> := <B>False</B>
+                <B>else</B>
+                    <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 9
+                <B>end</B>
+            <B>when</B> 7 <B>then</B> 
+                <B>if</B> c.<A HREF="../elks/character_8_ref.html#f_is_digit">is_digit</A> <B>then</B>
+                    <A HREF="../elks/string_to_real_convertor.html#f_exponent">exponent</A> := <A HREF="../elks/string_to_real_convertor.html#f_exponent">exponent</A> * 10 + c.<A HREF="../elks/character_8.html#f_code">code</A> - 48
+                <B>elseif</B> (<A HREF="../elks/string_to_numeric_convertor.html#f_trailing_separators_acceptable">trailing_separators_acceptable</A> <B>and then</B> <A HREF="../elks/string_to_numeric_convertor.html#f_trailing_separators">trailing_separators</A>.<A HREF="../elks/readable_string_8.html#f_has">has</A> (c)) <B>then</B>
+                    <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 8
+                <B>else</B>
+                    <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 9
+                <B>end</B>
+            <B>when</B> 8 <B>then</B> 
+                <B>if</B> <B>not</B> <A HREF="../elks/string_to_numeric_convertor.html#f_trailing_separators">trailing_separators</A>.<A HREF="../elks/readable_string_8.html#f_has">has</A> (c) <B>then</B>
+                    <A HREF="../elks/string_to_numeric_convertor.html#f_last_state">last_state</A> := 9
+                <B>end</B>
+            <B>else</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_natural_part"><A HREF="../elks/string_to_real_convertor.html#f_natural_part">natural_part</A>: <A HREF="../elks/real_64.html">REAL_64</A></A>
+
+    <A NAME="f_fractional_part"><A HREF="../elks/string_to_real_convertor.html#f_fractional_part">fractional_part</A>: <A HREF="../elks/real_64.html">REAL_64</A></A>
+
+    <A NAME="f_fractional_divider"><A HREF="../elks/string_to_real_convertor.html#f_fractional_divider">fractional_divider</A>: <A HREF="../elks/real_64.html">REAL_64</A></A>
+
+    <A NAME="f_exponent"><A HREF="../elks/string_to_real_convertor.html#f_exponent">exponent</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+
+    <A NAME="f_is_negative"><A HREF="../elks/string_to_real_convertor.html#f_is_negative">is_negative</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+
+    <A NAME="f_has_negative_exponent"><A HREF="../elks/string_to_real_convertor.html#f_has_negative_exponent">has_negative_exponent</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+
+    <A NAME="f_has_fractional_part"><A HREF="../elks/string_to_real_convertor.html#f_has_fractional_part">has_fractional_part</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+
+    <A NAME="f_needs_digit"><A HREF="../elks/string_to_real_convertor.html#f_needs_digit">needs_digit</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Used to calculate real/double value</FONT>
+    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/string_to_real_convertor.html">STRING_TO_REAL_CONVERTOR</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="string_to_real_convertor_chart.html">Chart</A></TD><TD><A HREF="string_to_real_convertor_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="string_to_real_convertor_flat.html">Flat</A></TD><TD><A HREF="string_to_real_convertor_short.html">Contracts</A></TD><TD><A HREF="string_to_real_convertor_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

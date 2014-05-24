@@ -1,13 +1,13 @@
 note
 	description : "[
-						War of Raekidion - An audio factory implementation
-						An {AUDIO_FACTORY_SHARED} initializes an {AUDIO_FACTORY} 
-						as a singleton.
-					]"
+					War of Raekidion - An audio factory implementation
+					An {AUDIO_FACTORY_SHARED} initializes an {AUDIO_FACTORY} 
+					as a singleton.
+				]"
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
-	date		: "$Date$"
-	revision	: "$Revision$"
-
+	date		: "$Date: May 23 2014$"
+	revision	: "$Revision: 1$"
+	
 deferred class
 	AUDIO_FACTORY_SHARED
 
@@ -60,5 +60,13 @@ feature {NONE} -- Access
 		do
 			{SDL_MIXER}.mix_haltmusic
 		end
+
+note
+	copyright: "[
+				War of Raekidion
+				Copyright (C) 2014 François Allard <binarmorker@gmail.com>
+             		   		   and Marc-Antoine Renaud <legars123456@gmail.com>
+               ]"
+	license:   "GNU General Public License, <http://www.gnu.org/licenses/>"
 
 end

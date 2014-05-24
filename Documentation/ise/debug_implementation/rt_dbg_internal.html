@@ -1,0 +1,900 @@
+<HTML><HEAD>
+<meta name="description" content="Internal routine for RT_DBG_ classes"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="library" content="EiffelBase: Library of reusable components for Eiffel."/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>rt_dbg_internal Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="rt_dbg_internal_chart.html">Chart</A></TD><TD><A HREF="rt_dbg_internal_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="rt_dbg_internal_flat.html">Flat</A></TD><TD><A HREF="rt_dbg_internal_short.html">Contracts</A></TD><TD><A HREF="rt_dbg_internal_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Internal routine for RT_DBG_ classes"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2013-04-08 17:12:32 -0700 (Mon, 08 Apr 2013) $"
+    revision: "$Revision: 92422 $"
+
+<B>deferred</B> <B>class</B> 
+    <A HREF="../../ise/debug_implementation/rt_dbg_internal.html">RT_DBG_INTERNAL</A>
+
+<B>inherit</B>
+    <A HREF="../../elks/any.html">ANY</A>
+
+    <A HREF="../../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Object access</FONT>
+
+    <A NAME="f_object_field_count"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_object_field_count">object_field_count</A> (obj: <A HREF="../../elks/any.html">ANY</A>): <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Field_count on </FONT>`obj'
+        <B>require</B>
+            obj_attached: obj /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_reflected_object">Reflected_object</A>.<A HREF="../../elks/reflected_reference_object.html#f_set_object">set_object</A> (obj)
+            <B>Result</B> := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_reflected_object">Reflected_object</A>.<A HREF="../../elks/reflected_object.html#f_field_count">field_count</A>
+        <B>end</B></A>
+
+    <A NAME="f_object_records"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_object_records">object_records</A> (obj: <A HREF="../../elks/any.html">ANY</A>): <B>detachable</B> <A HREF="../../elks/arrayed_list.html">ARRAYED_LIST</A> [<A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> List of field records on </FONT>`obj'
+        <B>require</B>
+            obj_attached: obj /= <B>Void</B>
+        <B>local</B>
+            i, cnb: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+            l_records: <B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_object_records">object_records</A>
+        <B>do</B>
+            cnb := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_object_field_count">object_field_count</A> (obj)
+            <B>if</B> cnb &gt; 0 <B>then</B>
+                <B>create</B> l_records.<A HREF="../../elks/arrayed_list.html#f_make">make</A> (cnb)
+                <B>from</B>
+                    i := 1
+                <B>until</B>
+                    i &gt; cnb
+                <B>loop</B>
+                    <B>if</B> <B>attached</B> {<B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_object_record">object_record</A>} <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_object_record">object_record</A> (i, obj) <B>as</B> r <B>then</B>
+                        l_records.<A HREF="../../elks/arrayed_list.html#f_extend">extend</A> (r)
+                    <B>end</B>
+                    i := i + 1
+                <B>end</B>
+                <B>Result</B> := l_records
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_object_is_expanded"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_object_is_expanded">object_is_expanded</A> (object: <A HREF="../../elks/any.html">ANY</A>): <A HREF="../../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`object'<FONT COLOR="red"> an expanded value ?</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_object_is_expanded">c_object_is_expanded</A> ($object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>)
+        <B>end</B></A>
+
+    <A NAME="f_field_index_at"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_field_index_at">field_index_at</A> (off: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; obj: <A HREF="../../elks/any.html">ANY</A>): <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Field name at offset </FONT>`off'<FONT COLOR="red"> on </FONT>`obj'
+        <B>require</B>
+            obj /= <B>Void</B>
+        <B>local</B>
+            n: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+            l_reflected_object: <B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_reflected_object">Reflected_object</A>
+        <B>do</B>
+            <B>from</B>
+                l_reflected_object := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_reflected_object">Reflected_object</A>
+                l_reflected_object.<A HREF="../../elks/reflected_reference_object.html#f_set_object">set_object</A> (obj)
+                n := l_reflected_object.<A HREF="../../elks/reflected_object.html#f_field_count">field_count</A>
+            <B>until</B>
+                n = 0 <B>or</B> <B>Result</B> &gt; 0
+            <B>loop</B>
+                <B>if</B> off = l_reflected_object.<A HREF="../../elks/reflected_object.html#f_field_offset">field_offset</A> (n) <B>then</B>
+                    <B>Result</B> := n
+                <B>end</B>
+                n := n - 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_field_name_at"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_field_name_at">field_name_at</A> (off: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; obj: <A HREF="../../elks/any.html">ANY</A>): <B>detachable</B> <A HREF="../../elks/string_8.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Field name at offset </FONT>`off'<FONT COLOR="red"> on </FONT>`obj'
+        <B>require</B>
+            obj /= <B>Void</B>
+        <B>local</B>
+            i: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            i := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_field_index_at">field_index_at</A> (off, obj)
+            <B>if</B> i &gt; 0 <B>then</B>
+                <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_reflected_object">Reflected_object</A>.<A HREF="../../elks/reflected_reference_object.html#f_set_object">set_object</A> (obj)
+                <B>Result</B> := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_reflected_object">Reflected_object</A>.<A HREF="../../elks/reflected_object.html#f_field_name">field_name</A> (i)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_field_at"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_field_at">field_at</A> (off: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_field_type: <A HREF="../../elks/natural_32.html">NATURAL_32</A>; object: <A HREF="../../elks/any.html">ANY</A>): <B>detachable</B> <A HREF="../../elks/any.html">ANY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Object attached at offset </FONT>`off'<FONT COLOR="red"> field of </FONT>`object'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (directly or through a reference)</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: off &gt;= 1
+        <B>local</B>
+            t: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            t := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_eif_type">eif_type</A> (a_field_type)
+            <B>inspect</B> t
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_boolean_type">Boolean_type</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_boolean_field_at">boolean_field_at</A> (off, $object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_character_8_type">Character_8_type</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_character_8_field_at">character_8_field_at</A> (off, $object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_character_32_type">Character_32_type</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_character_32_field_at">character_32_field_at</A> (off, $object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_natural_8_type">Natural_8_type</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_natural_8_field_at">natural_8_field_at</A> (off, $object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_natural_16_type">Natural_16_type</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_natural_16_field_at">natural_16_field_at</A> (off, $object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_natural_32_type">Natural_32_type</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_natural_32_field_at">natural_32_field_at</A> (off, $object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_natural_64_type">Natural_64_type</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_natural_64_field_at">natural_64_field_at</A> (off, $object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_integer_8_type">Integer_8_type</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_integer_8_field_at">integer_8_field_at</A> (off, $object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_integer_16_type">Integer_16_type</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_integer_16_field_at">integer_16_field_at</A> (off, $object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_integer_32_type">Integer_32_type</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_integer_32_field_at">integer_32_field_at</A> (off, $object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_integer_64_type">Integer_64_type</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_integer_64_field_at">integer_64_field_at</A> (off, $object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_real_32_type">Real_32_type</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_real_32_field_at">real_32_field_at</A> (off, $object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_real_64_type">Real_64_type</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_real_64_field_at">real_64_field_at</A> (off, $object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_pointer_type">Pointer_type</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_pointer_field_at">pointer_field_at</A> (off, $object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_reference_type">Reference_type</A> <B>then</B> 
+                <B>Result</B> := {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_reference_field_at">reference_field_at</A> (off, $object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0)
+            <B>else</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_stack_value_at"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_stack_value_at">stack_value_at</A> (dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_rt_type: <A HREF="../../elks/natural_32.html">NATURAL_32</A>): <B>detachable</B> <A HREF="../../elks/any.html">ANY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Object attached at offset </FONT>`off'<FONT COLOR="red"> field of </FONT>`object'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (directly or through a reference)</FONT>
+        <B>require</B>
+            index_large_enough: pos &gt;= 1
+        <B>do</B>
+            <B>debug</B> ("rt_dbg_internal")
+                <A HREF="../../elks/any.html#f_print">print</A> ("%Nstack_value_at (" + dep.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + ", " + pos.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + ", 0x" + a_rt_type.<A HREF="../../elks/natural_32_ref.html#f_to_hex_string">to_hex_string</A> + ")%N")
+            <B>end</B>
+            <B>Result</B> := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_stack_value_at">c_stack_value_at</A> (dep, a_loc_type, pos, a_rt_type)
+            <B>debug</B> ("rt_dbg_internal")
+                <A HREF="../../elks/any.html#f_print">print</A> ("stack_value_at -&gt; ")
+                <B>if</B> <B>Result</B> /= <B>Void</B> <B>then</B>
+                    <A HREF="../../elks/any.html#f_print">print</A> (<B>Result</B>.<A HREF="../../elks/any.html#f_generating_type">generating_type</A> + " = " + <B>Result</B>.<A HREF="../../elks/any.html#f_out">out</A>)
+                <B>else</B>
+                    <A HREF="../../elks/any.html#f_print">print</A> ("Void Result")
+                <B>end</B>
+                <A HREF="../../elks/any.html#f_print">print</A> ("%N")
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_eif_type"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_eif_type">eif_type</A> (a_field_type: <A HREF="../../elks/natural_32.html">NATURAL_32</A>): <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> EIF_ type from field type </FONT>`a_field_type'
+        <B>do</B>
+            <B>Result</B> := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_eif_type">c_eif_type</A> (a_field_type)
+        <B>end</B></A>
+
+    <A NAME="f_rt_dynamic_type"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_rt_dynamic_type">rt_dynamic_type</A> (object: <A HREF="../../elks/any.html">ANY</A>): <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Dynamic type of </FONT>`object'
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_rt_dynamic_type">c_rt_dynamic_type</A> ($object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>)
+        <B>ensure</B>
+            rt_dynamic_type_nonnegative: <B>Result</B> &gt;= 0
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Factory</FONT>
+
+    <A NAME="f_object_record"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_object_record">object_record</A> (i: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; obj: <A HREF="../../elks/any.html">ANY</A>): <B>detachable</B> <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>
+        <B>require</B>
+            obj_attached: obj /= <B>Void</B>
+        <B>local</B>
+            ft: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+            l_reflected_object: <B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_reflected_object">Reflected_object</A>
+        <B>do</B>
+            l_reflected_object := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_reflected_object">Reflected_object</A>
+            l_reflected_object.<A HREF="../../elks/reflected_reference_object.html#f_set_object">set_object</A> (obj)
+            ft := l_reflected_object.<A HREF="../../elks/reflected_object.html#f_field_type">field_type</A> (i)
+            <B>Result</B> := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_object_attribute_record">object_attribute_record</A> (l_reflected_object.<A HREF="../../elks/reflected_object.html#f_field_offset">field_offset</A> (i), <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_rt_field_type">c_rt_field_type</A> (i, ft), obj)
+            <B>inspect</B> ft
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_integer_8_type">Integer_8_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html">RT_DBG_FIELD_RECORD</A> [<A HREF="../../elks/integer_8.html">INTEGER_8</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html#f_make">make</A> (obj, i, ft, l_reflected_object.<A HREF="../../elks/reflected_object.html#f_integer_8_field">integer_8_field</A> (i))
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_integer_16_type">Integer_16_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html">RT_DBG_FIELD_RECORD</A> [<A HREF="../../elks/integer_16.html">INTEGER_16</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html#f_make">make</A> (obj, i, ft, l_reflected_object.<A HREF="../../elks/reflected_object.html#f_integer_16_field">integer_16_field</A> (i))
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_integer_32_type">Integer_32_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html">RT_DBG_FIELD_RECORD</A> [<A HREF="../../elks/integer_32.html">INTEGER_32</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html#f_make">make</A> (obj, i, ft, l_reflected_object.<A HREF="../../elks/reflected_object.html#f_integer_32_field">integer_32_field</A> (i))
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_integer_64_type">Integer_64_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html">RT_DBG_FIELD_RECORD</A> [<A HREF="../../elks/integer_64.html">INTEGER_64</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html#f_make">make</A> (obj, i, ft, l_reflected_object.<A HREF="../../elks/reflected_object.html#f_integer_64_field">integer_64_field</A> (i))
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_natural_8_type">Natural_8_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html">RT_DBG_FIELD_RECORD</A> [<A HREF="../../elks/natural_8.html">NATURAL_8</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html#f_make">make</A> (obj, i, ft, l_reflected_object.<A HREF="../../elks/reflected_object.html#f_natural_8_field">natural_8_field</A> (i))
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_natural_16_type">Natural_16_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html">RT_DBG_FIELD_RECORD</A> [<A HREF="../../elks/natural_16.html">NATURAL_16</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html#f_make">make</A> (obj, i, ft, l_reflected_object.<A HREF="../../elks/reflected_object.html#f_natural_16_field">natural_16_field</A> (i))
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_natural_32_type">Natural_32_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html">RT_DBG_FIELD_RECORD</A> [<A HREF="../../elks/natural_32.html">NATURAL_32</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html#f_make">make</A> (obj, i, ft, l_reflected_object.<A HREF="../../elks/reflected_object.html#f_natural_32_field">natural_32_field</A> (i))
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_natural_64_type">Natural_64_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html">RT_DBG_FIELD_RECORD</A> [<A HREF="../../elks/natural_64.html">NATURAL_64</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html#f_make">make</A> (obj, i, ft, l_reflected_object.<A HREF="../../elks/reflected_object.html#f_natural_64_field">natural_64_field</A> (i))
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_pointer_type">Pointer_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html">RT_DBG_FIELD_RECORD</A> [<A HREF="../../elks/pointer.html">POINTER</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html#f_make">make</A> (obj, i, ft, l_reflected_object.<A HREF="../../elks/reflected_object.html#f_pointer_field">pointer_field</A> (i))
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_reference_type">Reference_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html">RT_DBG_FIELD_RECORD</A> [<B>detachable</B> <A HREF="../../elks/any.html">ANY</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html#f_make">make</A> (obj, i, ft, l_reflected_object.<A HREF="../../elks/reflected_object.html#f_reference_field">reference_field</A> (i))
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_expanded_type">Expanded_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html">RT_DBG_FIELD_RECORD</A> [<B>detachable</B> <A HREF="../../elks/any.html">ANY</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html#f_make">make</A> (obj, i, ft, l_reflected_object.<A HREF="../../elks/reflected_object.html#f_field">field</A> (i))
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_boolean_type">Boolean_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html">RT_DBG_FIELD_RECORD</A> [<A HREF="../../elks/boolean.html">BOOLEAN</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html#f_make">make</A> (obj, i, ft, l_reflected_object.<A HREF="../../elks/reflected_object.html#f_boolean_field">boolean_field</A> (i))
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_real_32_type">Real_32_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html">RT_DBG_FIELD_RECORD</A> [<A HREF="../../elks/real_32.html">REAL_32</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html#f_make">make</A> (obj, i, ft, l_reflected_object.<A HREF="../../elks/reflected_object.html#f_real_32_field">real_32_field</A> (i))
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_real_64_type">Real_64_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html">RT_DBG_FIELD_RECORD</A> [<A HREF="../../elks/real_64.html">REAL_64</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html#f_make">make</A> (obj, i, ft, l_reflected_object.<A HREF="../../elks/reflected_object.html#f_real_64_field">real_64_field</A> (i))
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_character_8_type">Character_8_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html">RT_DBG_FIELD_RECORD</A> [<A HREF="../../elks/character_8.html">CHARACTER_8</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html#f_make">make</A> (obj, i, ft, l_reflected_object.<A HREF="../../elks/reflected_object.html#f_character_8_field">character_8_field</A> (i))
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_character_32_type">Character_32_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html">RT_DBG_FIELD_RECORD</A> [<A HREF="../../elks/character_32.html">CHARACTER_32</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_field_record.html#f_make">make</A> (obj, i, ft, l_reflected_object.<A HREF="../../elks/reflected_object.html#f_character_32_field">character_32_field</A> (i))
+            <B>else</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_object_attribute_record"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_object_attribute_record">object_attribute_record</A> (off: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; t: <A HREF="../../elks/natural_32.html">NATURAL_32</A>; obj: <A HREF="../../elks/any.html">ANY</A>): <B>detachable</B> <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Record for attribute of type </FONT>`t'<FONT COLOR="red"> at offset </FONT>`o'<FONT COLOR="red"> on object </FONT>`obj'
+        <B>require</B>
+            obj_attached: obj /= <B>Void</B>
+        <B>local</B>
+            ft: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+            l_reflected_object: <A HREF="../../elks/reflected_reference_object.html">REFLECTED_REFERENCE_OBJECT</A>
+        <B>do</B>
+            ft := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_eif_type">eif_type</A> (t)
+            <B>inspect</B> ft
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_boolean_type">Boolean_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html">RT_DBG_ATTRIBUTE_RECORD</A> [<A HREF="../../elks/boolean.html">BOOLEAN</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html#f_make">make</A> (obj, off, ft, t, {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_boolean_field_at">boolean_field_at</A> (off, $obj.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0))
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_character_8_type">Character_8_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html">RT_DBG_ATTRIBUTE_RECORD</A> [<A HREF="../../elks/character_8.html">CHARACTER_8</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html#f_make">make</A> (obj, off, ft, t, {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_character_8_field_at">character_8_field_at</A> (off, $obj.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0))
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_character_32_type">Character_32_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html">RT_DBG_ATTRIBUTE_RECORD</A> [<A HREF="../../elks/character_32.html">CHARACTER_32</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html#f_make">make</A> (obj, off, ft, t, {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_character_32_field_at">character_32_field_at</A> (off, $obj.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0))
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_integer_8_type">Integer_8_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html">RT_DBG_ATTRIBUTE_RECORD</A> [<A HREF="../../elks/integer_8.html">INTEGER_8</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html#f_make">make</A> (obj, off, ft, t, {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_integer_8_field_at">integer_8_field_at</A> (off, $obj.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0))
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_integer_16_type">Integer_16_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html">RT_DBG_ATTRIBUTE_RECORD</A> [<A HREF="../../elks/integer_16.html">INTEGER_16</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html#f_make">make</A> (obj, off, ft, t, {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_integer_16_field_at">integer_16_field_at</A> (off, $obj.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0))
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_integer_32_type">Integer_32_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html">RT_DBG_ATTRIBUTE_RECORD</A> [<A HREF="../../elks/integer_32.html">INTEGER_32</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html#f_make">make</A> (obj, off, ft, t, {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_integer_32_field_at">integer_32_field_at</A> (off, $obj.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0))
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_integer_64_type">Integer_64_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html">RT_DBG_ATTRIBUTE_RECORD</A> [<A HREF="../../elks/integer_64.html">INTEGER_64</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html#f_make">make</A> (obj, off, ft, t, {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_integer_64_field_at">integer_64_field_at</A> (off, $obj.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0))
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_natural_8_type">Natural_8_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html">RT_DBG_ATTRIBUTE_RECORD</A> [<A HREF="../../elks/natural_8.html">NATURAL_8</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html#f_make">make</A> (obj, off, ft, t, {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_natural_8_field_at">natural_8_field_at</A> (off, $obj.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0))
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_natural_16_type">Natural_16_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html">RT_DBG_ATTRIBUTE_RECORD</A> [<A HREF="../../elks/natural_16.html">NATURAL_16</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html#f_make">make</A> (obj, off, ft, t, {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_natural_16_field_at">natural_16_field_at</A> (off, $obj.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0))
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_natural_32_type">Natural_32_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html">RT_DBG_ATTRIBUTE_RECORD</A> [<A HREF="../../elks/natural_32.html">NATURAL_32</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html#f_make">make</A> (obj, off, ft, t, {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_natural_8_field_at">natural_8_field_at</A> (off, $obj.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0).<A HREF="../../elks/natural_8_ref.html#f_to_natural_32">to_natural_32</A>)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_natural_64_type">Natural_64_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html">RT_DBG_ATTRIBUTE_RECORD</A> [<A HREF="../../elks/natural_64.html">NATURAL_64</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html#f_make">make</A> (obj, off, ft, t, {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_natural_8_field_at">natural_8_field_at</A> (off, $obj.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0).<A HREF="../../elks/natural_8_ref.html#f_to_natural_64">to_natural_64</A>)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_real_32_type">Real_32_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html">RT_DBG_ATTRIBUTE_RECORD</A> [<A HREF="../../elks/real_32.html">REAL_32</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html#f_make">make</A> (obj, off, ft, t, {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_real_32_field_at">real_32_field_at</A> (off, $obj.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0))
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_real_64_type">Real_64_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html">RT_DBG_ATTRIBUTE_RECORD</A> [<A HREF="../../elks/real_64.html">REAL_64</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html#f_make">make</A> (obj, off, ft, t, {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_real_64_field_at">real_64_field_at</A> (off, $obj.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0))
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_pointer_type">Pointer_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html">RT_DBG_ATTRIBUTE_RECORD</A> [<A HREF="../../elks/pointer.html">POINTER</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html#f_make">make</A> (obj, off, ft, t, {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_pointer_field_at">pointer_field_at</A> (off, $obj.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0))
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_reference_type">Reference_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html">RT_DBG_ATTRIBUTE_RECORD</A> [<A HREF="../../elks/any.html">ANY</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html#f_make">make</A> (obj, off, ft, t, {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_reference_field_at">reference_field_at</A> (off, $obj.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0))
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_expanded_type">Expanded_type</A> <B>then</B> 
+                <B>create</B> l_reflected_object.<A HREF="../../elks/reflected_reference_object.html#f_make_for_expanded_field_at">make_for_expanded_field_at</A> (obj, off)
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html">RT_DBG_ATTRIBUTE_RECORD</A> [<A HREF="../../elks/any.html">ANY</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_attribute_record.html#f_make">make</A> (obj, off, ft, t, l_reflected_object.<A HREF="../../elks/reflected_reference_object.html#f_object">object</A>)
+            <B>else</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_object_local_record"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_object_local_record">object_local_record</A> (dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; t: <A HREF="../../elks/natural_32.html">NATURAL_32</A>): <B>detachable</B> <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Local or Result value record.</FONT>
+        <B>local</B>
+            ft: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            ft := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_eif_type">eif_type</A> (t)
+            <B>inspect</B> ft
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_boolean_type">Boolean_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html">RT_DBG_LOCAL_RECORD</A> [<A HREF="../../elks/boolean.html">BOOLEAN</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_make">make</A> (dep, pos, ft, t)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_character_8_type">Character_8_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html">RT_DBG_LOCAL_RECORD</A> [<A HREF="../../elks/character_8.html">CHARACTER_8</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_make">make</A> (dep, pos, ft, t)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_character_32_type">Character_32_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html">RT_DBG_LOCAL_RECORD</A> [<A HREF="../../elks/character_32.html">CHARACTER_32</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_make">make</A> (dep, pos, ft, t)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_natural_8_type">Natural_8_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html">RT_DBG_LOCAL_RECORD</A> [<A HREF="../../elks/natural_8.html">NATURAL_8</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_make">make</A> (dep, pos, ft, t)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_natural_16_type">Natural_16_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html">RT_DBG_LOCAL_RECORD</A> [<A HREF="../../elks/natural_16.html">NATURAL_16</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_make">make</A> (dep, pos, ft, t)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_natural_32_type">Natural_32_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html">RT_DBG_LOCAL_RECORD</A> [<A HREF="../../elks/natural_32.html">NATURAL_32</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_make">make</A> (dep, pos, ft, t)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_natural_64_type">Natural_64_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html">RT_DBG_LOCAL_RECORD</A> [<A HREF="../../elks/natural_64.html">NATURAL_64</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_make">make</A> (dep, pos, ft, t)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_integer_8_type">Integer_8_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html">RT_DBG_LOCAL_RECORD</A> [<A HREF="../../elks/integer_8.html">INTEGER_8</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_make">make</A> (dep, pos, ft, t)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_integer_16_type">Integer_16_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html">RT_DBG_LOCAL_RECORD</A> [<A HREF="../../elks/integer_16.html">INTEGER_16</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_make">make</A> (dep, pos, ft, t)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_integer_32_type">Integer_32_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html">RT_DBG_LOCAL_RECORD</A> [<A HREF="../../elks/integer_32.html">INTEGER_32</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_make">make</A> (dep, pos, ft, t)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_integer_64_type">Integer_64_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html">RT_DBG_LOCAL_RECORD</A> [<A HREF="../../elks/integer_64.html">INTEGER_64</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_make">make</A> (dep, pos, ft, t)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_real_32_type">Real_32_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html">RT_DBG_LOCAL_RECORD</A> [<A HREF="../../elks/real_32.html">REAL_32</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_make">make</A> (dep, pos, ft, t)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_real_64_type">Real_64_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html">RT_DBG_LOCAL_RECORD</A> [<A HREF="../../elks/real_64.html">REAL_64</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_make">make</A> (dep, pos, ft, t)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_pointer_type">Pointer_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html">RT_DBG_LOCAL_RECORD</A> [<A HREF="../../elks/pointer.html">POINTER</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_make">make</A> (dep, pos, ft, t)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_reference_type">Reference_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html">RT_DBG_LOCAL_RECORD</A> [<A HREF="../../elks/any.html">ANY</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_make">make</A> (dep, pos, ft, t)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_expanded_type">Expanded_type</A> <B>then</B> 
+                <B>create</B> {<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html">RT_DBG_LOCAL_RECORD</A> [<A HREF="../../elks/any.html">ANY</A>]} <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_local_record.html#f_make">make</A> (dep, pos, ft, t)
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_none_type">None_type</A> <B>then</B> 
+            <B>else</B>
+            <B>end</B>
+            <B>if</B> <B>Result</B> /= <B>Void</B> <B>then</B>
+                <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_value_record.html#f_get_value">get_value</A>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> External implementation</FONT>
+
+    <A NAME="f_c_object_is_expanded"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_object_is_expanded">c_object_is_expanded</A> (object: <A HREF="../../elks/pointer.html">POINTER</A>): <A HREF="../../elks/boolean.html">BOOLEAN</A>
+        <B>external</B>
+            "C inline use %"eif_eiffel.h%""
+        <B>alias</B>
+            "eif_is_expanded(HEADER($object)-&gt;ov_flags)"
+        <B>end</B></A>
+
+    <A NAME="f_c_eif_type"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_eif_type">c_eif_type</A> (a_field_type: <A HREF="../../elks/natural_32.html">NATURAL_32</A>): <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> EIF_ type related to </FONT>`a_field_type'
+        <B>external</B>
+            "C inline use %"eif_internal.h%""
+        <B>alias</B>
+            "ei_eif_type((uint32) $a_field_type)"
+        <B>end</B></A>
+
+    <A NAME="f_c_rt_field_type"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_rt_field_type">c_rt_field_type</A> (i: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_type_id: <A HREF="../../elks/integer_32.html">INTEGER_32</A>): <A HREF="../../elks/natural_32.html">NATURAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> RT field type related to </FONT>`i'<FONT COLOR="red"> on </FONT>`a_type_id'
+        <B>external</B>
+            "C inline use %"eif_internal.h%""
+        <B>alias</B>
+            "System(To_dtype($a_type_id)).cn_types[$i]"
+        <B>end</B></A>
+
+    <A NAME="f_c_rt_dynamic_type"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_rt_dynamic_type">c_rt_dynamic_type</A> (object: <A HREF="../../elks/pointer.html">POINTER</A>): <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Dynamic type of </FONT>`object'<FONT COLOR="red">.</FONT>
+        <B>external</B>
+            "C macro signature (EIF_REFERENCE): EIF_INTEGER use %"eif_macros.h%""
+        <B>alias</B>
+            "Dtype"
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Change field</FONT>
+
+    <A NAME="f_set_field_at"><A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_set_field_at">set_field_at</A> (off: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_type: <A HREF="../../elks/natural_32.html">NATURAL_32</A>; value: <B>detachable</B> <A HREF="../../elks/any.html">ANY</A>; object: <A HREF="../../elks/any.html">ANY</A>)
+        <B>require</B>
+            object_attached: object /= <B>Void</B>
+        <B>local</B>
+            a_eif_type: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>debug</B> ("rt_dbg_internal")
+                <A HREF="../../elks/any.html#f_print">print</A> ("set_field_at (" + off.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + ", " + a_type.<A HREF="../../elks/natural_32_ref.html#f_out">out</A> + ", value, " + object.<A HREF="../../elks/any.html#f_generator">generator</A> + ") %N")
+            <B>end</B>
+            a_eif_type := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_eif_type">eif_type</A> (a_type)
+            <B>inspect</B> a_eif_type
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_boolean_type">Boolean_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/boolean.html">BOOLEAN</A>} value <B>as</B> bool <B>then</B>
+                    {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_set_boolean_field_at">set_boolean_field_at</A> (off, $object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0, bool)
+                <B>end</B>
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_character_8_type">Character_8_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/character_8.html">CHARACTER_8</A>} value <B>as</B> c8 <B>then</B>
+                    {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_set_character_8_field_at">set_character_8_field_at</A> (off, $object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0, c8)
+                <B>end</B>
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_character_32_type">Character_32_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/character_32.html">CHARACTER_32</A>} value <B>as</B> c32 <B>then</B>
+                    {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_set_character_32_field_at">set_character_32_field_at</A> (off, $object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0, c32)
+                <B>end</B>
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_natural_8_type">Natural_8_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/natural_8.html">NATURAL_8</A>} value <B>as</B> n8 <B>then</B>
+                    {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_set_natural_8_field_at">set_natural_8_field_at</A> (off, $object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0, n8)
+                <B>end</B>
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_natural_16_type">Natural_16_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/natural_16.html">NATURAL_16</A>} value <B>as</B> n16 <B>then</B>
+                    {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_set_natural_16_field_at">set_natural_16_field_at</A> (off, $object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0, n16)
+                <B>end</B>
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_natural_32_type">Natural_32_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/natural_32.html">NATURAL_32</A>} value <B>as</B> n32 <B>then</B>
+                    {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_set_natural_32_field_at">set_natural_32_field_at</A> (off, $object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0, n32)
+                <B>end</B>
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_natural_64_type">Natural_64_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/natural_64.html">NATURAL_64</A>} value <B>as</B> n64 <B>then</B>
+                    {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_set_natural_64_field_at">set_natural_64_field_at</A> (off, $object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0, n64)
+                <B>end</B>
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_integer_8_type">Integer_8_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/integer_8.html">INTEGER_8</A>} value <B>as</B> i8 <B>then</B>
+                    {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_set_integer_8_field_at">set_integer_8_field_at</A> (off, $object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0, i8)
+                <B>end</B>
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_integer_16_type">Integer_16_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/integer_16.html">INTEGER_16</A>} value <B>as</B> i16 <B>then</B>
+                    {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_set_integer_16_field_at">set_integer_16_field_at</A> (off, $object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0, i16)
+                <B>end</B>
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_integer_32_type">Integer_32_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/integer_32.html">INTEGER_32</A>} value <B>as</B> i32 <B>then</B>
+                    {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_set_integer_32_field_at">set_integer_32_field_at</A> (off, $object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0, i32)
+                <B>end</B>
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_integer_64_type">Integer_64_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/integer_64.html">INTEGER_64</A>} value <B>as</B> i64 <B>then</B>
+                    {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_set_integer_64_field_at">set_integer_64_field_at</A> (off, $object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0, i64)
+                <B>end</B>
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_real_32_type">Real_32_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/real_32.html">REAL_32</A>} value <B>as</B> r32 <B>then</B>
+                    {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_set_real_32_field_at">set_real_32_field_at</A> (off, $object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0, r32)
+                <B>end</B>
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_real_64_type">Real_64_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/real_64.html">REAL_64</A>} value <B>as</B> r64 <B>then</B>
+                    {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_set_real_64_field_at">set_real_64_field_at</A> (off, $object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0, r64)
+                <B>end</B>
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_pointer_type">Pointer_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/pointer.html">POINTER</A>} value <B>as</B> ptr <B>then</B>
+                    {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_set_pointer_field_at">set_pointer_field_at</A> (off, $object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0, ptr)
+                <B>end</B>
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_reference_type">Reference_type</A> <B>then</B> 
+                {<A HREF="../../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../../elks/ise_runtime.html#f_set_reference_field_at">set_reference_field_at</A> (off, $object.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, 0, value)
+            <B>else</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access local</FONT>
+
+    <A NAME="f_c_stack_value_at"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_stack_value_at">c_stack_value_at</A> (dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_rt_type: <A HREF="../../elks/natural_32.html">NATURAL_32</A>): <B>detachable</B> <A HREF="../../elks/any.html">ANY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Object value referenced at </FONT>`off'<FONT COLOR="red"> offset of </FONT>`object'
+        <B>external</B>
+            "C inline use %"eif_debug.h%""
+        <B>alias</B>
+            "[
+                #ifdef WORKBENCH
+                	return (EIF_REFERENCE) rt_dbg_stack_value((uint32)$dep, (uint32)$a_loc_type, (uint32)$pos, (uint32)$a_rt_type);
+                #else
+                	return NULL;
+                #endif
+            ]"
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Change local</FONT>
+
+    <A NAME="f_rt_dlt_argument"><A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_rt_dlt_argument">Rt_dlt_argument</A>: <A HREF="../../elks/integer_32.html">INTEGER_32</A> = 0</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> DLT=DebugLocalType, the type is an argument of a function</FONT>
+
+    <A NAME="f_rt_dlt_localvar"><A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_rt_dlt_localvar">Rt_dlt_localvar</A>: <A HREF="../../elks/integer_32.html">INTEGER_32</A> = 1</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> DLT=DebugLocalType, the type is a local variable inside a function</FONT>
+
+    <A NAME="f_rt_dlt_result"><A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_rt_dlt_result">Rt_dlt_result</A>: <A HREF="../../elks/integer_32.html">INTEGER_32</A> = 2</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> DLT=DebugLocalType, the type is the Result of the current feature</FONT>
+
+    <A NAME="f_set_stack_value_at"><A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_set_stack_value_at">set_stack_value_at</A> (dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_rt_type: <A HREF="../../elks/natural_32.html">NATURAL_32</A>; value: <B>detachable</B> <A HREF="../../elks/any.html">ANY</A>): <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set stack value at position </FONT>`pos'<FONT COLOR="red"> on stack of depth </FONT>`dep'<FONT COLOR="red"> with </FONT>`value'
+        <B>require</B>
+            a_loc_type_valid: a_loc_type = <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_rt_dlt_localvar">Rt_dlt_localvar</A> <B>or</B> a_loc_type = <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_rt_dlt_argument">Rt_dlt_argument</A> <B>or</B> a_loc_type = <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_rt_dlt_result">Rt_dlt_result</A>
+        <B>local</B>
+            a_eif_type: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>debug</B> ("rt_dbg_internal")
+                <A HREF="../../elks/any.html#f_print">print</A> ("set_stack_value_at (dep=" + dep.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + ", loc_type=" + a_loc_type.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + ", pos=" + pos.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + ", type=0x" + a_rt_type.<A HREF="../../elks/natural_32_ref.html#f_to_hex_string">to_hex_string</A> + ", value=")
+                <B>if</B> value = <B>Void</B> <B>then</B>
+                    <A HREF="../../elks/any.html#f_print">print</A> ("Void) %N")
+                <B>else</B>
+                    <A HREF="../../elks/any.html#f_print">print</A> (value.<A HREF="../../elks/any.html#f_generating_type">generating_type</A> + ": " + value.<A HREF="../../elks/any.html#f_out">out</A> + ") %N")
+                <B>end</B>
+            <B>end</B>
+            a_eif_type := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_eif_type">eif_type</A> (a_rt_type)
+            <B>inspect</B> a_eif_type
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_boolean_type">Boolean_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/boolean.html">BOOLEAN</A>} value <B>as</B> bool <B>then</B>
+                    <B>Result</B> := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_boolean_stack_value">c_set_boolean_stack_value</A> (dep, a_loc_type, pos, bool)
+                <B>end</B>
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_character_8_type">Character_8_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/character_8.html">CHARACTER_8</A>} value <B>as</B> c8 <B>then</B>
+                    <B>Result</B> := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_character_8_stack_value">c_set_character_8_stack_value</A> (dep, a_loc_type, pos, c8)
+                <B>end</B>
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_character_32_type">Character_32_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/character_32.html">CHARACTER_32</A>} value <B>as</B> c32 <B>then</B>
+                    <B>Result</B> := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_character_32_stack_value">c_set_character_32_stack_value</A> (dep, a_loc_type, pos, c32)
+                <B>end</B>
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_natural_8_type">Natural_8_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/natural_8.html">NATURAL_8</A>} value <B>as</B> n8 <B>then</B>
+                    <B>Result</B> := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_natural_8_stack_value">c_set_natural_8_stack_value</A> (dep, a_loc_type, pos, n8)
+                <B>end</B>
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_natural_16_type">Natural_16_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/natural_16.html">NATURAL_16</A>} value <B>as</B> n16 <B>then</B>
+                    <B>Result</B> := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_natural_16_stack_value">c_set_natural_16_stack_value</A> (dep, a_loc_type, pos, n16)
+                <B>end</B>
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_natural_32_type">Natural_32_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/natural_32.html">NATURAL_32</A>} value <B>as</B> n32 <B>then</B>
+                    <B>Result</B> := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_natural_32_stack_value">c_set_natural_32_stack_value</A> (dep, a_loc_type, pos, n32)
+                <B>end</B>
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_natural_64_type">Natural_64_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/natural_64.html">NATURAL_64</A>} value <B>as</B> n64 <B>then</B>
+                    <B>Result</B> := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_natural_64_stack_value">c_set_natural_64_stack_value</A> (dep, a_loc_type, pos, n64)
+                <B>end</B>
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_integer_8_type">Integer_8_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/integer_8.html">INTEGER_8</A>} value <B>as</B> i8 <B>then</B>
+                    <B>Result</B> := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_integer_8_stack_value">c_set_integer_8_stack_value</A> (dep, a_loc_type, pos, i8)
+                <B>end</B>
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_integer_16_type">Integer_16_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/integer_16.html">INTEGER_16</A>} value <B>as</B> i16 <B>then</B>
+                    <B>Result</B> := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_integer_16_stack_value">c_set_integer_16_stack_value</A> (dep, a_loc_type, pos, i16)
+                <B>end</B>
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_integer_32_type">Integer_32_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/integer_32.html">INTEGER_32</A>} value <B>as</B> i32 <B>then</B>
+                    <B>Result</B> := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_integer_32_stack_value">c_set_integer_32_stack_value</A> (dep, a_loc_type, pos, i32)
+                <B>end</B>
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_integer_64_type">Integer_64_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/integer_64.html">INTEGER_64</A>} value <B>as</B> i64 <B>then</B>
+                    <B>Result</B> := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_integer_64_stack_value">c_set_integer_64_stack_value</A> (dep, a_loc_type, pos, i64)
+                <B>end</B>
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_real_32_type">Real_32_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/real_32.html">REAL_32</A>} value <B>as</B> r32 <B>then</B>
+                    <B>Result</B> := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_real_32_stack_value">c_set_real_32_stack_value</A> (dep, a_loc_type, pos, r32)
+                <B>end</B>
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_real_64_type">Real_64_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/real_64.html">REAL_64</A>} value <B>as</B> r64 <B>then</B>
+                    <B>Result</B> := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_real_64_stack_value">c_set_real_64_stack_value</A> (dep, a_loc_type, pos, r64)
+                <B>end</B>
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_pointer_type">Pointer_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/pointer.html">POINTER</A>} value <B>as</B> ptr <B>then</B>
+                    <B>Result</B> := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_pointer_stack_value">c_set_pointer_stack_value</A> (dep, a_loc_type, pos, ptr)
+                <B>end</B>
+            <B>when</B> <A HREF="../../elks/reflector_constants.html#f_reference_type">Reference_type</A> <B>then</B> 
+                <B>if</B> value /= <B>Void</B> <B>then</B>
+                    <B>Result</B> := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_reference_stack_value">c_set_reference_stack_value</A> (dep, a_loc_type, pos, $value.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>)
+                <B>else</B>
+                    <B>Result</B> := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_void_stack_value">c_set_void_stack_value</A> (dep, a_loc_type, pos)
+                <B>end</B>
+            <B>else</B>
+                <B>Result</B> := 2
+            <B>end</B>
+            <B>debug</B> ("rt_dbg_internal")
+                <A HREF="../../elks/any.html#f_print">print</A> ("set_stack_value_at (dep=" + dep.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + ", loc_type=" + a_loc_type.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + ", pos=" + pos.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + ", ...) -&gt; " + <B>Result</B>.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + " %N")
+                <A HREF="../../elks/any.html#f_print">print</A> ("set_stack_value_at: check modification -&gt; ")
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/any.html">ANY</A>} <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_stack_value_at">stack_value_at</A> (dep, a_loc_type, pos, a_rt_type) <B>as</B> a <B>then</B>
+                    <A HREF="../../elks/any.html#f_print">print</A> (a.<A HREF="../../elks/any.html#f_generating_type">generating_type</A> + ": " + a.<A HREF="../../elks/any.html#f_out">out</A> + "%N")
+                <B>else</B>
+                    <A HREF="../../elks/any.html#f_print">print</A> (" Void %N")
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_c_set_boolean_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_boolean_stack_value">c_set_boolean_stack_value</A> (dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_bool: <A HREF="../../elks/boolean.html">BOOLEAN</A>): <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>external</B>
+            "C inline use %"eif_debug.h%""
+        <B>alias</B>
+            "[
+                #ifdef WORKBENCH
+                	EIF_TYPED_VALUE a_val; a_val.type = SK_BOOL; a_val.it_bool = (EIF_BOOLEAN) $a_bool;
+                	return rt_dbg_set_stack_value ((uint32)$dep, (uint32)$a_loc_type, (uint32)$pos, (EIF_TYPED_VALUE*) &#38;a_val);
+                #else
+                	return 0;
+                #endif
+            ]"
+        <B>end</B></A>
+
+    <A NAME="f_c_set_character_8_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_character_8_stack_value">c_set_character_8_stack_value</A> (dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_ch8: <A HREF="../../elks/character_8.html">CHARACTER_8</A>): <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>external</B>
+            "C inline use %"eif_debug.h%""
+        <B>alias</B>
+            "[
+                #ifdef WORKBENCH
+                	EIF_TYPED_VALUE a_val; a_val.type = SK_CHAR; a_val.it_c1 = (EIF_CHARACTER) $a_ch8;
+                	return rt_dbg_set_stack_value ((uint32)$dep, (uint32)$a_loc_type, (uint32)$pos, (EIF_TYPED_VALUE*) &#38;a_val);
+                #else
+                	return 0;
+                #endif
+            ]"
+        <B>end</B></A>
+
+    <A NAME="f_c_set_character_32_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_character_32_stack_value">c_set_character_32_stack_value</A> (dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_ch32: <A HREF="../../elks/character_32.html">CHARACTER_32</A>): <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>external</B>
+            "C inline use %"eif_debug.h%""
+        <B>alias</B>
+            "[
+                #ifdef WORKBENCH
+                	EIF_TYPED_VALUE a_val; a_val.type = SK_WCHAR; a_val.it_c4 = (EIF_WIDE_CHAR) $a_ch32;
+                	return rt_dbg_set_stack_value ((uint32)$dep, (uint32)$a_loc_type, (uint32)$pos, (EIF_TYPED_VALUE*) &#38;a_val);
+                #else
+                	return 0;
+                #endif
+            ]"
+        <B>end</B></A>
+
+    <A NAME="f_c_set_natural_8_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_natural_8_stack_value">c_set_natural_8_stack_value</A> (dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_n8: <A HREF="../../elks/natural_8.html">NATURAL_8</A>): <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>external</B>
+            "C inline use %"eif_debug.h%""
+        <B>alias</B>
+            "[
+                #ifdef WORKBENCH
+                	EIF_TYPED_VALUE a_val; a_val.type = SK_UINT8; a_val.it_n1 = (EIF_NATURAL_8) $a_n8;
+                	return rt_dbg_set_stack_value ((uint32)$dep, (uint32)$a_loc_type, (uint32)$pos, (EIF_TYPED_VALUE*) &#38;a_val);
+                #else
+                	return 0;
+                #endif
+            ]"
+        <B>end</B></A>
+
+    <A NAME="f_c_set_natural_16_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_natural_16_stack_value">c_set_natural_16_stack_value</A> (dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_n16: <A HREF="../../elks/natural_16.html">NATURAL_16</A>): <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>external</B>
+            "C inline use %"eif_debug.h%""
+        <B>alias</B>
+            "[
+                #ifdef WORKBENCH
+                	EIF_TYPED_VALUE a_val; a_val.type = SK_UINT16; a_val.it_n2 = (EIF_NATURAL_16) $a_n16;
+                	return rt_dbg_set_stack_value ((uint32)$dep, (uint32)$a_loc_type, (uint32)$pos, (EIF_TYPED_VALUE*) &#38;a_val);
+                #else
+                	return 0;
+                #endif
+            ]"
+        <B>end</B></A>
+
+    <A NAME="f_c_set_natural_32_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_natural_32_stack_value">c_set_natural_32_stack_value</A> (dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_n32: <A HREF="../../elks/natural_32.html">NATURAL_32</A>): <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>external</B>
+            "C inline use %"eif_debug.h%""
+        <B>alias</B>
+            "[
+                #ifdef WORKBENCH
+                	EIF_TYPED_VALUE a_val; a_val.type = SK_UINT32; a_val.it_n4 = (EIF_NATURAL_32) $a_n32;
+                	return rt_dbg_set_stack_value ((uint32)$dep, (uint32)$a_loc_type, (uint32)$pos, (EIF_TYPED_VALUE*) &#38;a_val);
+                #else
+                	return 0;
+                #endif
+            ]"
+        <B>end</B></A>
+
+    <A NAME="f_c_set_natural_64_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_natural_64_stack_value">c_set_natural_64_stack_value</A> (dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_n64: <A HREF="../../elks/natural_64.html">NATURAL_64</A>): <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>external</B>
+            "C inline use %"eif_debug.h%""
+        <B>alias</B>
+            "[
+                #ifdef WORKBENCH
+                	EIF_TYPED_VALUE a_val; a_val.type = SK_UINT64; a_val.it_n8 = (EIF_NATURAL_64) $a_n64;
+                	return rt_dbg_set_stack_value ((uint32)$dep, (uint32)$a_loc_type, (uint32)$pos, (EIF_TYPED_VALUE*) &#38;a_val);
+                #else
+                	return 0;
+                #endif
+            ]"
+        <B>end</B></A>
+
+    <A NAME="f_c_set_integer_8_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_integer_8_stack_value">c_set_integer_8_stack_value</A> (dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_i8: <A HREF="../../elks/integer_8.html">INTEGER_8</A>): <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>external</B>
+            "C inline use %"eif_debug.h%""
+        <B>alias</B>
+            "[
+                #ifdef WORKBENCH
+                	EIF_TYPED_VALUE a_val; a_val.type = SK_INT8; a_val.it_i1 = (EIF_INTEGER_8) $a_i8;
+                	return rt_dbg_set_stack_value ((uint32)$dep, (uint32)$a_loc_type, (uint32)$pos, (EIF_TYPED_VALUE*) &#38;a_val);
+                #else
+                	return 0;
+                #endif
+            ]"
+        <B>end</B></A>
+
+    <A NAME="f_c_set_integer_16_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_integer_16_stack_value">c_set_integer_16_stack_value</A> (dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_i16: <A HREF="../../elks/integer_16.html">INTEGER_16</A>): <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>external</B>
+            "C inline use %"eif_debug.h%""
+        <B>alias</B>
+            "[
+                #ifdef WORKBENCH
+                	EIF_TYPED_VALUE a_val; a_val.type = SK_INT16; a_val.it_i2 = (EIF_INTEGER_16) $a_i16;
+                	return rt_dbg_set_stack_value ((uint32)$dep, (uint32)$a_loc_type, (uint32)$pos, (EIF_TYPED_VALUE*) &#38;a_val);
+                #else
+                	return 0;
+                #endif
+            ]"
+        <B>end</B></A>
+
+    <A NAME="f_c_set_integer_32_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_integer_32_stack_value">c_set_integer_32_stack_value</A> (dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_i32: <A HREF="../../elks/integer_32.html">INTEGER_32</A>): <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>external</B>
+            "C inline use %"eif_debug.h%""
+        <B>alias</B>
+            "[
+                #ifdef WORKBENCH
+                	EIF_TYPED_VALUE a_val; a_val.type = SK_INT32; a_val.it_i4 = (EIF_INTEGER_32) $a_i32;
+                	return rt_dbg_set_stack_value ((uint32)$dep, (uint32)$a_loc_type, (uint32)$pos, (EIF_TYPED_VALUE*) &#38;a_val);
+                #else
+                	return 0;
+                #endif
+            ]"
+        <B>end</B></A>
+
+    <A NAME="f_c_set_integer_64_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_integer_64_stack_value">c_set_integer_64_stack_value</A> (dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_i64: <A HREF="../../elks/integer_64.html">INTEGER_64</A>): <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>external</B>
+            "C inline use %"eif_debug.h%""
+        <B>alias</B>
+            "[
+                #ifdef WORKBENCH
+                	EIF_TYPED_VALUE a_val; a_val.type = SK_INT64; a_val.it_i8 = (EIF_INTEGER_64) $a_i64;
+                	return rt_dbg_set_stack_value ((uint32)$dep, (uint32)$a_loc_type, (uint32)$pos, (EIF_TYPED_VALUE*) &#38;a_val);
+                #else
+                	return 0;
+                #endif
+            ]"
+        <B>end</B></A>
+
+    <A NAME="f_c_set_real_32_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_real_32_stack_value">c_set_real_32_stack_value</A> (dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_i32: <A HREF="../../elks/real_32.html">REAL_32</A>): <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>external</B>
+            "C inline use %"eif_debug.h%""
+        <B>alias</B>
+            "[
+                #ifdef WORKBENCH
+                	EIF_TYPED_VALUE a_val; a_val.type = SK_REAL32; a_val.it_r4 = (EIF_REAL_32) $a_i32;
+                	return rt_dbg_set_stack_value ((uint32)$dep, (uint32)$a_loc_type, (uint32)$pos, (EIF_TYPED_VALUE*) &#38;a_val);
+                #else
+                	return 0;
+                #endif
+            ]"
+        <B>end</B></A>
+
+    <A NAME="f_c_set_real_64_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_real_64_stack_value">c_set_real_64_stack_value</A> (dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_i64: <A HREF="../../elks/real_64.html">REAL_64</A>): <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>external</B>
+            "C inline use %"eif_debug.h%""
+        <B>alias</B>
+            "[
+                #ifdef WORKBENCH
+                	EIF_TYPED_VALUE a_val; a_val.type = SK_REAL64; a_val.it_r8 = (EIF_REAL_64) $a_i64;
+                	return rt_dbg_set_stack_value ((uint32)$dep, (uint32)$a_loc_type, (uint32)$pos, (EIF_TYPED_VALUE*) &#38;a_val);
+                #else
+                	return 0;
+                #endif
+            ]"
+        <B>end</B></A>
+
+    <A NAME="f_c_set_pointer_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_pointer_stack_value">c_set_pointer_stack_value</A> (dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_p: <A HREF="../../elks/pointer.html">POINTER</A>): <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>external</B>
+            "C inline use %"eif_debug.h%""
+        <B>alias</B>
+            "[
+                #ifdef WORKBENCH
+                	EIF_TYPED_VALUE a_val; a_val.type = SK_POINTER; a_val.it_p = (EIF_POINTER) $a_p;
+                	return rt_dbg_set_stack_value ((uint32)$dep, (uint32)$a_loc_type, (uint32)$pos, (EIF_TYPED_VALUE*) &#38;a_val);
+                #else
+                	return 0;
+                #endif
+            ]"
+        <B>end</B></A>
+
+    <A NAME="f_c_set_reference_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_reference_stack_value">c_set_reference_stack_value</A> (dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_ref: <A HREF="../../elks/pointer.html">POINTER</A>): <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>require</B>
+            a_ref_not_null: a_ref /= <A HREF="../../elks/any.html#f_default_pointer">default_pointer</A>
+        <B>external</B>
+            "C inline use %"eif_debug.h%""
+        <B>alias</B>
+            "[
+                #ifdef WORKBENCH
+                	EIF_TYPED_VALUE a_val; 
+                	a_val.type = SK_REF; 
+                	a_val.it_ref = (EIF_REFERENCE) &#38;($a_ref);
+                	return rt_dbg_set_stack_value ((uint32)$dep, (uint32)$a_loc_type, (uint32)$pos, (EIF_TYPED_VALUE*) &#38;a_val);
+                #else
+                	return 0;
+                #endif
+            ]"
+        <B>end</B></A>
+
+    <A NAME="f_c_set_void_stack_value"><B>frozen</B> <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_set_void_stack_value">c_set_void_stack_value</A> (dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_loc_type: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; pos: <A HREF="../../elks/integer_32.html">INTEGER_32</A>): <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>external</B>
+            "C inline use %"eif_debug.h%""
+        <B>alias</B>
+            "[
+                #ifdef WORKBENCH
+                	EIF_TYPED_VALUE a_val; 
+                	a_val.type = SK_VOID; 
+                	a_val.it_ref = (char*) 0;
+                	return rt_dbg_set_stack_value ((uint32)$dep, (uint32)$a_loc_type, (uint32)$pos, (EIF_TYPED_VALUE*) &#38;a_val);
+                #else
+                	return 0;
+                #endif
+            ]"
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Testing</FONT>
+
+    <A NAME="f_c_rt_set_is_inside_rt_eiffel_code"><A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_rt_set_is_inside_rt_eiffel_code">c_rt_set_is_inside_rt_eiffel_code</A> (v: <A HREF="../../elks/integer_32.html">INTEGER_32</A>)
+        <B>external</B>
+            "C inline use %"eif_debug.h%""
+        <B>alias</B>
+            "[
+                #ifdef WORKBENCH
+                	EIF_GET_CONTEXT; is_inside_rt_eiffel_code = $v;
+                #endif
+            ]"
+        <B>end</B></A>
+
+    <A NAME="f_test_locals"><A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_test_locals">test_locals</A> (dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; loc_pos: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; val: <A HREF="../../elks/any.html">ANY</A>; a_rt_type: <A HREF="../../elks/natural_32.html">NATURAL_32</A>)
+        <B>local</B>
+            s: <A HREF="../../elks/string_8.html">STRING_8</A>
+            retried: <A HREF="../../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            <B>if</B> <B>not</B> retried <B>then</B>
+                <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_rt_set_is_inside_rt_eiffel_code">c_rt_set_is_inside_rt_eiffel_code</A> (1)
+                s := "----------------------------------%N"
+                s.<A HREF="../../elks/string_8.html#f_append">append</A> ("Loc #" + loc_pos.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + "(stack depth=" + dep.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + ")")
+                <B>if</B> val /= <B>Void</B> <B>then</B>
+                    s.<A HREF="../../elks/string_8.html#f_append">append</A> (": should be " + val.<A HREF="../../elks/any.html#f_generating_type">generating_type</A>.<A HREF="../../elks/type.html#f_to_string_8">to_string_8</A>)
+                <B>end</B>
+                s.<A HREF="../../elks/string_8.html#f_append">append</A> ("%N")
+                <A HREF="../../elks/any.html#f_print">print</A> (s)
+                s.<A HREF="../../elks/string_8.html#f_append">append</A> (" -&gt; ")
+                <B>if</B> <B>attached</B> {<A HREF="../../elks/any.html">ANY</A>} <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_stack_value_at">stack_value_at</A> (dep, <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_rt_dlt_localvar">Rt_dlt_localvar</A>, loc_pos, a_rt_type) <B>as</B> a <B>then</B>
+                    s.<A HREF="../../elks/string_8.html#f_append">append</A> (a.<A HREF="../../elks/any.html#f_generating_type">generating_type</A> + "=" + a.<A HREF="../../elks/any.html#f_out">out</A>)
+                <B>else</B>
+                    s.<A HREF="../../elks/string_8.html#f_append">append</A> ("Void object")
+                <B>end</B>
+                s.<A HREF="../../elks/string_8.html#f_append">append</A> ("%N")
+                <A HREF="../../elks/any.html#f_print">print</A> (s)
+                <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_rt_set_is_inside_rt_eiffel_code">c_rt_set_is_inside_rt_eiffel_code</A> (0)
+            <B>else</B>
+                <A HREF="../../elks/any.html#f_print">print</A> ("Rescued%N")
+                <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_rt_set_is_inside_rt_eiffel_code">c_rt_set_is_inside_rt_eiffel_code</A> (0)
+            <B>end</B>
+        <B>rescue</B>
+            retried := <B>True</B>
+            <B>retry</B>
+        <B>end</B></A>
+
+    <A NAME="f_test_set_local"><A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_test_set_local">test_set_local</A> (dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; loc_pos: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; val: <A HREF="../../elks/any.html">ANY</A>; a_rt_type: <A HREF="../../elks/natural_32.html">NATURAL_32</A>)
+        <B>local</B>
+            s: <A HREF="../../elks/string_8.html">STRING_8</A>
+            r: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+            retried: <A HREF="../../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            <B>if</B> <B>not</B> retried <B>then</B>
+                <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_rt_set_is_inside_rt_eiffel_code">c_rt_set_is_inside_rt_eiffel_code</A> (1)
+                s := "----------------------------------%N"
+                s.<A HREF="../../elks/string_8.html#f_append">append</A> ("SetLoc #" + loc_pos.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + "(stack depth=" + dep.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + ")")
+                <B>if</B> val /= <B>Void</B> <B>then</B>
+                    s.<A HREF="../../elks/string_8.html#f_append">append</A> (": value " + val.<A HREF="../../elks/any.html#f_generating_type">generating_type</A>.<A HREF="../../elks/type.html#f_to_string_8">to_string_8</A>)
+                <B>else</B>
+                    s.<A HREF="../../elks/string_8.html#f_append">append</A> (": value Void")
+                <B>end</B>
+                s.<A HREF="../../elks/string_8.html#f_append">append</A> ("%N")
+                <A HREF="../../elks/any.html#f_print">print</A> (s)
+                r := <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_set_stack_value_at">set_stack_value_at</A> (dep, <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_rt_dlt_localvar">Rt_dlt_localvar</A>, loc_pos, a_rt_type, val)
+                s.<A HREF="../../elks/string_8.html#f_append">append</A> (" -&gt; ")
+                s.<A HREF="../../elks/string_8.html#f_append">append</A> ("Result = " + r.<A HREF="../../elks/integer_32_ref.html#f_out">out</A>)
+                s.<A HREF="../../elks/string_8.html#f_append">append</A> ("%N")
+                <A HREF="../../elks/any.html#f_print">print</A> (s)
+                <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_rt_set_is_inside_rt_eiffel_code">c_rt_set_is_inside_rt_eiffel_code</A> (0)
+            <B>else</B>
+                <A HREF="../../elks/any.html#f_print">print</A> ("Rescued%N")
+                <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_c_rt_set_is_inside_rt_eiffel_code">c_rt_set_is_inside_rt_eiffel_code</A> (0)
+            <B>end</B>
+        <B>rescue</B>
+            retried := <B>True</B>
+            <B>retry</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_reflected_object"><A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_reflected_object">Reflected_object</A>: <A HREF="../../elks/reflected_reference_object.html">REFLECTED_REFERENCE_OBJECT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> To enable object introspection.</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>.<A HREF="../../elks/reflected_reference_object.html#f_make">make</A> (<B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_reflector"><A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_reflector">Reflector</A>: <A HREF="../../elks/reflector.html">REFLECTOR</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> To enable type discovery</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+        <B>end</B></A>
+    
+<B>note</B>
+    library: "EiffelBase: Library of reusable components for Eiffel."
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../../ise/debug_implementation/rt_dbg_internal.html">RT_DBG_INTERNAL</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="rt_dbg_internal_chart.html">Chart</A></TD><TD><A HREF="rt_dbg_internal_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="rt_dbg_internal_flat.html">Flat</A></TD><TD><A HREF="rt_dbg_internal_short.html">Contracts</A></TD><TD><A HREF="rt_dbg_internal_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

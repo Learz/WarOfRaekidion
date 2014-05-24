@@ -1,0 +1,114 @@
+<HTML><HEAD>
+<meta name="description" content="Objects that may be stored and retrieved along with all their dependents. This class may be used as ancestor by classes needing its facilities."/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>storable Contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="storable_chart.html">Chart</A></TD><TD><A HREF="storable_links.html">Relations</A></TD><TD><A HREF="storable.html">Text</A></TD><TD><A HREF="storable_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="storable_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Objects that may be stored and retrieved along with all their dependents.
+        This class may be used as ancestor by classes needing its facilities.
+    ]"
+    library: "Free implementation of ELKS library"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2013-04-12 16:54:13 -0700 (Fri, 12 Apr 2013) $"
+    revision: "$Revision: 92439 $"
+
+<B>class</B> <B>interface</B>
+    <A HREF="../elks/storable_short.html">STORABLE</A>
+
+<B>create</B> 
+    <A HREF="../elks/any_short.html#f_default_create">default_create</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_retrieved"><A HREF="../elks/storable_short.html#f_retrieved">retrieved</A> (medium: <A HREF="../elks/io_medium_short.html">IO_MEDIUM</A>): <B>detachable</B> <A HREF="../elks/any_short.html">ANY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieved object structure, from external</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> representation previously stored in </FONT>`medium'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> To access resulting object under correct type,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> use assignment attempt.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Will raise an exception (code </FONT><A HREF="../elks/excep_const_short.html#f_retrieve_exception">Retrieve_exception</A><FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> if medium content is not a stored Eiffel structure.</FONT>
+        <B>require</B>
+            medium_not_void: medium /= <B>Void</B>
+            medium_exists: medium.<A HREF="../elks/io_medium_short.html#f_exists">exists</A>
+            medium_is_open_read: medium.<A HREF="../elks/io_medium_short.html#f_is_open_read">is_open_read</A>
+            medium_supports_storable: medium.<A HREF="../elks/io_medium_short.html#f_support_storable">support_storable</A>
+</A>
+    <A NAME="f_retrieve_by_name"><A HREF="../elks/storable_short.html#f_retrieve_by_name">retrieve_by_name</A> (file_name: <A HREF="../elks/string_8_short.html">STRING_8</A>): <B>detachable</B> <A HREF="../elks/any_short.html">ANY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieve object structure, from external</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> representation previously stored in a file</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> called </FONT>`file_name'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> To access resulting object under correct type,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> use assignment attempt.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Will raise an exception (code </FONT><A HREF="../elks/excep_const_short.html#f_retrieve_exception">Retrieve_exception</A><FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> if file content is not a stored Eiffel structure.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Will return Void if the file does not exist or</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> is not readable.</FONT>
+        <B>require</B>
+            file_name_exists: file_name /= <B>Void</B>
+            file_name_meaningful: <B>not</B> file_name.<A HREF="../elks/finite_short.html#f_is_empty">is_empty</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Setting</FONT>
+
+    <A NAME="f_set_discard_pointers"><A HREF="../elks/storable_short.html#f_set_discard_pointers">set_discard_pointers</A> (v: <A HREF="../elks/boolean_short.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If </FONT>`v'<FONT COLOR="red"> it will discard POINTER values and replace them by</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> the </FONT><A HREF="../elks/any_short.html#f_default_pointer">default_pointer</A><FONT COLOR="red"> pointer. Otherwise it keeps the original value.</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_basic_store"><A HREF="../elks/storable_short.html#f_basic_store">basic_store</A> (medium: <A HREF="../elks/io_medium_short.html">IO_MEDIUM</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Produce on </FONT>`medium'<FONT COLOR="red"> an external representation of the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> entire object structure reachable from current object.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrievable within current system only.</FONT>
+        <B>require</B>
+            medium_not_void: medium /= <B>Void</B>
+            medium_exists: medium.<A HREF="../elks/io_medium_short.html#f_exists">exists</A>
+            medium_is_open_write: medium.<A HREF="../elks/io_medium_short.html#f_is_open_write">is_open_write</A>
+            medium_supports_storable: medium.<A HREF="../elks/io_medium_short.html#f_support_storable">support_storable</A>
+</A>
+    <A NAME="f_independent_store"><A HREF="../elks/storable_short.html#f_independent_store">independent_store</A> (medium: <A HREF="../elks/io_medium_short.html">IO_MEDIUM</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Produce on </FONT>`medium'<FONT COLOR="red"> an external representation of the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> entire object structure reachable from current object.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrievable from other systems for the same or other</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> platform (machine architecture).</FONT>
+        <B>require</B>
+            medium_not_void: medium /= <B>Void</B>
+            medium_exists: medium.<A HREF="../elks/io_medium_short.html#f_exists">exists</A>
+            medium_is_open_write: medium.<A HREF="../elks/io_medium_short.html#f_is_open_write">is_open_write</A>
+            medium_supports_storable: medium.<A HREF="../elks/io_medium_short.html#f_support_storable">support_storable</A>
+</A>
+    <A NAME="f_store_by_name"><A HREF="../elks/storable_short.html#f_store_by_name">store_by_name</A> (file_name: <A HREF="../elks/string_8_short.html">STRING_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Produce on file called </FONT>`file_name'<FONT COLOR="red"> an external</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> representation of the entire object structure</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> reachable from current object.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrievable from other systems for same platform</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (machine architecture).</FONT>
+        <B>require</B>
+            file_name_not_void: file_name /= <B>Void</B>
+            file_name_meaningful: <B>not</B> file_name.<A HREF="../elks/finite_short.html#f_is_empty">is_empty</A>
+</A>    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/storable_short.html">STORABLE</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="storable_chart.html">Chart</A></TD><TD><A HREF="storable_links.html">Relations</A></TD><TD><A HREF="storable.html">Text</A></TD><TD><A HREF="storable_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="storable_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

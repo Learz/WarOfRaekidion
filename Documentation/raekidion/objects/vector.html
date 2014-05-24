@@ -1,0 +1,293 @@
+<HTML><HEAD>
+<meta name="description" content="War of Raekidion - A simple 2D vector A {VECTOR} stores X and Y coordinates relative to a (0,0) origin,  and the angle and distance from the two points (force)."/>
+<meta name="author" content="François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>vector Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="vector_chart.html">Chart</A></TD><TD><A HREF="vector_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="vector_flat.html">Flat</A></TD><TD><A HREF="vector_short.html">Contracts</A></TD><TD><A HREF="vector_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        War of Raekidion - A simple 2D vector
+        A <A HREF="../../raekidion/objects/vector.html">VECTOR</A> stores X and Y coordinates relative to a (0,0) origin, 
+        and the angle and distance from the two points (force).
+    ]"
+    author: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+    date: "$Date$"
+    revision: "$Revision$"
+
+<B>class</B> 
+    <A HREF="../../raekidion/objects/vector.html">VECTOR</A>
+
+<B>inherit</B>
+    <A HREF="../../elks/double_math.html">DOUBLE_MATH</A>
+        <B>redefine</B>
+            <A HREF="../../raekidion/objects/vector.html#f_out">out</A>
+        <B>end</B>
+
+<B>create</B> 
+    <A HREF="../../raekidion/objects/vector.html#f_make_empty">make_empty</A>,
+    <A HREF="../../raekidion/objects/vector.html#f_make_from_x_y">make_from_x_y</A>,
+    <A HREF="../../raekidion/objects/vector.html#f_make_from_angle_force">make_from_angle_force</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make_empty"><A HREF="../../raekidion/objects/vector.html#f_make_empty">make_empty</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize </FONT>`Current'<FONT COLOR="red"> to null</FONT>
+        <B>do</B>
+            <A HREF="../../raekidion/objects/vector.html#f_x">x</A> := 0.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>
+            <A HREF="../../raekidion/objects/vector.html#f_y">y</A> := 0.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>
+            <A HREF="../../raekidion/objects/vector.html#f_angle">angle</A> := 0.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>
+            <A HREF="../../raekidion/objects/vector.html#f_force">force</A> := 0.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>
+        <B>end</B></A>
+
+    <A NAME="f_make_from_x_y"><A HREF="../../raekidion/objects/vector.html#f_make_from_x_y">make_from_x_y</A> (a_x, a_y: <A HREF="../../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize </FONT>`Current'<FONT COLOR="red"> from </FONT>`a_x'<FONT COLOR="red"> and </FONT>`a_y'<FONT COLOR="red">. Automatically adjust </FONT><A HREF="../../raekidion/objects/vector.html#f_angle">angle</A><FONT COLOR="red"> and </FONT><A HREF="../../raekidion/objects/vector.html#f_force">force</A>
+        <B>do</B>
+            <A HREF="../../raekidion/objects/vector.html#f_x">x</A> := a_x
+            <A HREF="../../raekidion/objects/vector.html#f_y">y</A> := a_y
+            <A HREF="../../raekidion/objects/vector.html#f_adjust_angle_and_force">adjust_angle_and_force</A> (a_x, a_y)
+        <B>end</B></A>
+
+    <A NAME="f_make_from_angle_force"><A HREF="../../raekidion/objects/vector.html#f_make_from_angle_force">make_from_angle_force</A> (a_angle, a_force: <A HREF="../../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize </FONT>`Current'<FONT COLOR="red"> from </FONT><A HREF="../../raekidion/objects/vector.html#f_angle">angle</A><FONT COLOR="red"> and </FONT><A HREF="../../raekidion/objects/vector.html#f_force">force</A><FONT COLOR="red">. Automatically adjust </FONT><A HREF="../../raekidion/objects/vector.html#f_x">x</A><FONT COLOR="red"> and </FONT><A HREF="../../raekidion/objects/vector.html#f_y">y</A>
+        <B>do</B>
+            <A HREF="../../raekidion/objects/vector.html#f_angle">angle</A> := a_angle
+            <A HREF="../../raekidion/objects/vector.html#f_force">force</A> := a_force
+            <A HREF="../../raekidion/objects/vector.html#f_adjust_x_and_y">adjust_x_and_y</A> (a_angle, a_force)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_x"><A HREF="../../raekidion/objects/vector.html#f_x">x</A>: <A HREF="../../elks/real_64.html">REAL_64</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> x coordinate.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> y coordinate.</FONT>
+
+    <A NAME="f_y"><A HREF="../../raekidion/objects/vector.html#f_y">y</A>: <A HREF="../../elks/real_64.html">REAL_64</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> y coordinate.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Angle, or direction.</FONT>
+
+    <A NAME="f_angle"><A HREF="../../raekidion/objects/vector.html#f_angle">angle</A>: <A HREF="../../elks/real_64.html">REAL_64</A></A>
+
+    <A NAME="f_force"><A HREF="../../raekidion/objects/vector.html#f_force">force</A>: <A HREF="../../elks/real_64.html">REAL_64</A></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output</FONT>
+
+    <A NAME="f_out"><A HREF="../../raekidion/objects/vector.html#f_out">out</A>: <A HREF="../../elks/string_8.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Show </FONT><A HREF="../../raekidion/objects/vector.html#f_x">x</A><FONT COLOR="red">, </FONT><A HREF="../../raekidion/objects/vector.html#f_y">y</A><FONT COLOR="red">, </FONT><A HREF="../../raekidion/objects/vector.html#f_angle">angle</A><FONT COLOR="red"> and </FONT><A HREF="../../raekidion/objects/vector.html#f_force">force</A><FONT COLOR="red"> in the console</FONT>
+        <B>do</B>
+            <B>Result</B> := "x     : " + <A HREF="../../raekidion/objects/vector.html#f_x">x</A>.<A HREF="../../elks/real_64.html#f_out">out</A> + "%N" + "y     : " + <A HREF="../../raekidion/objects/vector.html#f_y">y</A>.<A HREF="../../elks/real_64.html#f_out">out</A> + "%N" + "angle : " + <A HREF="../../raekidion/objects/vector.html#f_angle">angle</A>.<A HREF="../../elks/real_64.html#f_out">out</A> + "%N" + "force : " + <A HREF="../../raekidion/objects/vector.html#f_force">force</A>.<A HREF="../../elks/real_64.html#f_out">out</A> + "%N"
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status</FONT>
+
+    <A NAME="f_is_degree_mode"><A HREF="../../raekidion/objects/vector.html#f_is_degree_mode">is_degree_mode</A>: <A HREF="../../elks/boolean.html">BOOLEAN</A></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_set_x"><A HREF="../../raekidion/objects/vector.html#f_set_x">set_x</A> (a_x: <A HREF="../../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Assign </FONT><A HREF="../../raekidion/objects/vector.html#f_x">x</A><FONT COLOR="red"> to </FONT>`a_x'<FONT COLOR="red"> and adjust </FONT><A HREF="../../raekidion/objects/vector.html#f_angle">angle</A><FONT COLOR="red"> and </FONT><A HREF="../../raekidion/objects/vector.html#f_force">force</A><FONT COLOR="red"> automatically</FONT>
+        <B>do</B>
+            <A HREF="../../raekidion/objects/vector.html#f_x">x</A> := a_x
+            <A HREF="../../raekidion/objects/vector.html#f_adjust_angle_and_force">adjust_angle_and_force</A> (a_x, <A HREF="../../raekidion/objects/vector.html#f_y">y</A>)
+        <B>end</B></A>
+
+    <A NAME="f_set_y"><A HREF="../../raekidion/objects/vector.html#f_set_y">set_y</A> (a_y: <A HREF="../../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Assign </FONT><A HREF="../../raekidion/objects/vector.html#f_y">y</A><FONT COLOR="red"> to </FONT>`a_y'<FONT COLOR="red"> and adjust </FONT><A HREF="../../raekidion/objects/vector.html#f_angle">angle</A><FONT COLOR="red"> and </FONT><A HREF="../../raekidion/objects/vector.html#f_force">force</A><FONT COLOR="red"> automatically</FONT>
+        <B>do</B>
+            <A HREF="../../raekidion/objects/vector.html#f_y">y</A> := a_y
+            <A HREF="../../raekidion/objects/vector.html#f_adjust_angle_and_force">adjust_angle_and_force</A> (<A HREF="../../raekidion/objects/vector.html#f_x">x</A>, a_y)
+        <B>end</B></A>
+
+    <A NAME="f_set_angle"><A HREF="../../raekidion/objects/vector.html#f_set_angle">set_angle</A> (a_angle: <A HREF="../../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Assign </FONT><A HREF="../../raekidion/objects/vector.html#f_angle">angle</A><FONT COLOR="red"> to </FONT>`a_angle'<FONT COLOR="red"> and adjust </FONT><A HREF="../../raekidion/objects/vector.html#f_x">x</A><FONT COLOR="red"> and </FONT><A HREF="../../raekidion/objects/vector.html#f_y">y</A><FONT COLOR="red"> automatically</FONT>
+        <B>do</B>
+            <A HREF="../../raekidion/objects/vector.html#f_angle">angle</A> := a_angle
+            <A HREF="../../raekidion/objects/vector.html#f_adjust_x_and_y">adjust_x_and_y</A> (a_angle, <A HREF="../../raekidion/objects/vector.html#f_force">force</A>)
+        <B>end</B></A>
+
+    <A NAME="f_set_force"><A HREF="../../raekidion/objects/vector.html#f_set_force">set_force</A> (a_force: <A HREF="../../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Assign </FONT><A HREF="../../raekidion/objects/vector.html#f_force">force</A><FONT COLOR="red"> to </FONT>`a_force'<FONT COLOR="red"> and adjust </FONT><A HREF="../../raekidion/objects/vector.html#f_x">x</A><FONT COLOR="red"> and </FONT><A HREF="../../raekidion/objects/vector.html#f_y">y</A><FONT COLOR="red"> automatically</FONT>
+        <B>do</B>
+            <A HREF="../../raekidion/objects/vector.html#f_force">force</A> := a_force
+            <A HREF="../../raekidion/objects/vector.html#f_adjust_x_and_y">adjust_x_and_y</A> (<A HREF="../../raekidion/objects/vector.html#f_angle">angle</A>, a_force)
+        <B>end</B></A>
+
+    <A NAME="f_set_x_and_y"><A HREF="../../raekidion/objects/vector.html#f_set_x_and_y">set_x_and_y</A> (a_x, a_y: <A HREF="../../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Assign </FONT><A HREF="../../raekidion/objects/vector.html#f_x">x</A><FONT COLOR="red"> to </FONT>`a_x'<FONT COLOR="red"> and </FONT><A HREF="../../raekidion/objects/vector.html#f_y">y</A><FONT COLOR="red"> to </FONT>`a_y'<FONT COLOR="red"> and adjust </FONT><A HREF="../../raekidion/objects/vector.html#f_angle">angle</A><FONT COLOR="red"> and </FONT><A HREF="../../raekidion/objects/vector.html#f_force">force</A><FONT COLOR="red"> automatically</FONT>
+        <B>do</B>
+            <A HREF="../../raekidion/objects/vector.html#f_x">x</A> := a_x
+            <A HREF="../../raekidion/objects/vector.html#f_y">y</A> := a_y
+            <A HREF="../../raekidion/objects/vector.html#f_adjust_angle_and_force">adjust_angle_and_force</A> (a_x, a_y)
+        <B>end</B></A>
+
+    <A NAME="f_set_angle_and_force"><A HREF="../../raekidion/objects/vector.html#f_set_angle_and_force">set_angle_and_force</A> (a_angle, a_force: <A HREF="../../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Assign </FONT><A HREF="../../raekidion/objects/vector.html#f_angle">angle</A><FONT COLOR="red"> to </FONT>`a_angle'<FONT COLOR="red"> and </FONT><A HREF="../../raekidion/objects/vector.html#f_force">force</A><FONT COLOR="red"> to </FONT>`a_force'<FONT COLOR="red"> and adjust </FONT><A HREF="../../raekidion/objects/vector.html#f_x">x</A><FONT COLOR="red"> and </FONT><A HREF="../../raekidion/objects/vector.html#f_y">y</A><FONT COLOR="red"> automatically</FONT>
+        <B>do</B>
+            <A HREF="../../raekidion/objects/vector.html#f_angle">angle</A> := a_angle
+            <A HREF="../../raekidion/objects/vector.html#f_force">force</A> := a_force
+            <A HREF="../../raekidion/objects/vector.html#f_adjust_x_and_y">adjust_x_and_y</A> (a_angle, a_force)
+        <B>end</B></A>
+
+    <A NAME="f_enable_degree_mode"><A HREF="../../raekidion/objects/vector.html#f_enable_degree_mode">enable_degree_mode</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT>`Current'<FONT COLOR="red"> to use degrees instead of radians</FONT>
+        <B>do</B>
+            <B>if</B> <B>not</B> <A HREF="../../raekidion/objects/vector.html#f_is_degree_mode">is_degree_mode</A> <B>then</B>
+                <A HREF="../../raekidion/objects/vector.html#f_is_degree_mode">is_degree_mode</A> := <B>True</B>
+                <A HREF="../../raekidion/objects/vector.html#f_angle">angle</A> := <A HREF="../../raekidion/objects/vector.html#f_degree_value">degree_value</A> (<A HREF="../../raekidion/objects/vector.html#f_angle">angle</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_disable_degree_mode"><A HREF="../../raekidion/objects/vector.html#f_disable_degree_mode">disable_degree_mode</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT>`Current'<FONT COLOR="red"> to use radians instead of degrees</FONT>
+        <B>do</B>
+            <B>if</B> <A HREF="../../raekidion/objects/vector.html#f_is_degree_mode">is_degree_mode</A> <B>then</B>
+                <A HREF="../../raekidion/objects/vector.html#f_is_degree_mode">is_degree_mode</A> := <B>False</B>
+                <A HREF="../../raekidion/objects/vector.html#f_angle">angle</A> := <A HREF="../../raekidion/objects/vector.html#f_radian_value">radian_value</A> (<A HREF="../../raekidion/objects/vector.html#f_angle">angle</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_plus"><A HREF="../../raekidion/objects/vector.html#f_plus">plus</A> (a_factor: <A HREF="../../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Adds </FONT>`a_factor'<FONT COLOR="red"> to the current </FONT><A HREF="../../raekidion/objects/vector.html#f_force">force</A><FONT COLOR="red"> and adjust </FONT><A HREF="../../raekidion/objects/vector.html#f_x">x</A><FONT COLOR="red"> and </FONT><A HREF="../../raekidion/objects/vector.html#f_y">y</A>
+        <B>require</B>
+            factor_positive: a_factor &gt; 0.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>
+        <B>do</B>
+            <A HREF="../../raekidion/objects/vector.html#f_set_force">set_force</A> (<A HREF="../../raekidion/objects/vector.html#f_force">force</A>.<A HREF="../../elks/real_64.html#f_plus">plus</A> (a_factor))
+        <B>end</B></A>
+
+    <A NAME="f_plus_vector"><A HREF="../../raekidion/objects/vector.html#f_plus_vector">plus_vector</A> (a_other: <A HREF="../../raekidion/objects/vector.html">VECTOR</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Adds </FONT>`a_other'<FONT COLOR="red"> to the current </FONT><A HREF="../../raekidion/objects/vector.html#f_x">x</A><FONT COLOR="red"> and </FONT><A HREF="../../raekidion/objects/vector.html#f_y">y</A><FONT COLOR="red"> and adjust </FONT><A HREF="../../raekidion/objects/vector.html#f_angle">angle</A><FONT COLOR="red"> and </FONT><A HREF="../../raekidion/objects/vector.html#f_force">force</A>
+        <B>require</B>
+            other_exists: a_other /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../../raekidion/objects/vector.html#f_set_x_and_y">set_x_and_y</A> (<A HREF="../../raekidion/objects/vector.html#f_x">x</A>.<A HREF="../../elks/real_64.html#f_plus">plus</A> (a_other.<A HREF="../../raekidion/objects/vector.html#f_x">x</A>), <A HREF="../../raekidion/objects/vector.html#f_y">y</A>.<A HREF="../../elks/real_64.html#f_plus">plus</A> (a_other.<A HREF="../../raekidion/objects/vector.html#f_y">y</A>))
+        <B>end</B></A>
+
+    <A NAME="f_minus"><A HREF="../../raekidion/objects/vector.html#f_minus">minus</A> (a_factor: <A HREF="../../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removes </FONT>`a_factor'<FONT COLOR="red"> from the current </FONT><A HREF="../../raekidion/objects/vector.html#f_force">force</A><FONT COLOR="red"> and adjust </FONT><A HREF="../../raekidion/objects/vector.html#f_x">x</A><FONT COLOR="red"> and </FONT><A HREF="../../raekidion/objects/vector.html#f_y">y</A>
+        <B>require</B>
+            factor_positive: a_factor &gt; 0.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>
+        <B>do</B>
+            <A HREF="../../raekidion/objects/vector.html#f_set_force">set_force</A> (<A HREF="../../raekidion/objects/vector.html#f_force">force</A>.<A HREF="../../elks/real_64.html#f_minus">minus</A> (a_factor))
+        <B>end</B></A>
+
+    <A NAME="f_minus_vector"><A HREF="../../raekidion/objects/vector.html#f_minus_vector">minus_vector</A> (a_other: <A HREF="../../raekidion/objects/vector.html">VECTOR</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removes </FONT>`a_other'<FONT COLOR="red"> from the current </FONT><A HREF="../../raekidion/objects/vector.html#f_x">x</A><FONT COLOR="red"> and </FONT><A HREF="../../raekidion/objects/vector.html#f_y">y</A><FONT COLOR="red"> and adjust </FONT><A HREF="../../raekidion/objects/vector.html#f_angle">angle</A><FONT COLOR="red"> and </FONT><A HREF="../../raekidion/objects/vector.html#f_force">force</A>
+        <B>require</B>
+            other_exists: a_other /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../../raekidion/objects/vector.html#f_set_x_and_y">set_x_and_y</A> (<A HREF="../../raekidion/objects/vector.html#f_x">x</A>.<A HREF="../../elks/real_64.html#f_minus">minus</A> (a_other.<A HREF="../../raekidion/objects/vector.html#f_x">x</A>), <A HREF="../../raekidion/objects/vector.html#f_y">y</A>.<A HREF="../../elks/real_64.html#f_minus">minus</A> (a_other.<A HREF="../../raekidion/objects/vector.html#f_y">y</A>))
+        <B>end</B></A>
+
+    <A NAME="f_normalize"><A HREF="../../raekidion/objects/vector.html#f_normalize">normalize</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../../raekidion/objects/vector.html#f_force">force</A><FONT COLOR="red"> to 1 and adjust </FONT><A HREF="../../raekidion/objects/vector.html#f_x">x</A><FONT COLOR="red"> and </FONT><A HREF="../../raekidion/objects/vector.html#f_y">y</A><FONT COLOR="red"> accordingly</FONT>
+        <B>do</B>
+            <A HREF="../../raekidion/objects/vector.html#f_force">force</A> := 1.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>
+            <A HREF="../../raekidion/objects/vector.html#f_adjust_x_and_y">adjust_x_and_y</A> (<A HREF="../../raekidion/objects/vector.html#f_angle">angle</A>, 1.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>)
+        <B>ensure</B>
+            angle_not_changed: <A HREF="../../raekidion/objects/vector.html#f_angle">angle</A> = <B>old</B> <A HREF="../../raekidion/objects/vector.html#f_angle">angle</A>
+            force_set: <A HREF="../../raekidion/objects/vector.html#f_force">force</A> = 1.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>
+        <B>end</B></A>
+
+    <A NAME="f_invert"><A HREF="../../raekidion/objects/vector.html#f_invert">invert</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Swaps the vector around to be pointing in the exact opposite direction</FONT>
+        <B>require</B>
+            is_not_zero: <A HREF="../../raekidion/objects/vector.html#f_x">x</A> /= 0.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> <B>and</B> <A HREF="../../raekidion/objects/vector.html#f_y">y</A> /= 0.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>
+        <B>do</B>
+            <A HREF="../../raekidion/objects/vector.html#f_set_x_and_y">set_x_and_y</A> (- <A HREF="../../raekidion/objects/vector.html#f_x">x</A>, - <A HREF="../../raekidion/objects/vector.html#f_y">y</A>)
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_radian_value"><A HREF="../../raekidion/objects/vector.html#f_radian_value">radian_value</A> (a_degree: <A HREF="../../elks/real_64.html">REAL_64</A>): <A HREF="../../elks/real_64.html">REAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert </FONT>`a_degree'<FONT COLOR="red"> to radian value</FONT>
+        <B>do</B>
+            <B>if</B> <A HREF="../../raekidion/objects/vector.html#f_is_degree_mode">is_degree_mode</A> <B>then</B>
+                <B>Result</B> := <A HREF="../../raekidion/objects/vector.html#f_pi_div">Pi_div</A> * a_degree
+            <B>else</B>
+                <B>Result</B> := a_degree
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_degree_value"><A HREF="../../raekidion/objects/vector.html#f_degree_value">degree_value</A> (a_radian: <A HREF="../../elks/real_64.html">REAL_64</A>): <A HREF="../../elks/real_64.html">REAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert </FONT>`a_radian'<FONT COLOR="red"> to degree value</FONT>
+        <B>do</B>
+            <B>if</B> <A HREF="../../raekidion/objects/vector.html#f_is_degree_mode">is_degree_mode</A> <B>then</B>
+                <B>Result</B> := <A HREF="../../raekidion/objects/vector.html#f_div_pi">Div_pi</A> * a_radian
+            <B>else</B>
+                <B>Result</B> := a_radian
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_pi_div"><A HREF="../../raekidion/objects/vector.html#f_pi_div">Pi_div</A>: <A HREF="../../elks/real_64.html">REAL_64</A>
+        <B>once</B>
+            <B>Result</B> := <A HREF="../../elks/math_const.html#f_pi">Pi</A> / 180.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>
+        <B>end</B></A>
+
+    <A NAME="f_div_pi"><A HREF="../../raekidion/objects/vector.html#f_div_pi">Div_pi</A>: <A HREF="../../elks/real_64.html">REAL_64</A>
+        <B>once</B>
+            <B>Result</B> := 180.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> / <A HREF="../../elks/math_const.html#f_pi">Pi</A>
+        <B>end</B></A>
+
+    <A NAME="f_x_from_angle_force"><A HREF="../../raekidion/objects/vector.html#f_x_from_angle_force">x_from_angle_force</A> (a_angle, a_force: <A HREF="../../elks/real_64.html">REAL_64</A>): <A HREF="../../elks/real_64.html">REAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Find </FONT><A HREF="../../raekidion/objects/vector.html#f_x">x</A><FONT COLOR="red"> from </FONT>`a_angle'<FONT COLOR="red"> and </FONT>`a_force'
+        <B>do</B>
+            <B>Result</B> := - <A HREF="../../elks/double_math.html#f_cosine">cosine</A> (<A HREF="../../raekidion/objects/vector.html#f_radian_value">radian_value</A> (a_angle)) * a_force
+        <B>end</B></A>
+
+    <A NAME="f_y_from_angle_force"><A HREF="../../raekidion/objects/vector.html#f_y_from_angle_force">y_from_angle_force</A> (a_angle, a_force: <A HREF="../../elks/real_64.html">REAL_64</A>): <A HREF="../../elks/real_64.html">REAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Find </FONT><A HREF="../../raekidion/objects/vector.html#f_y">y</A><FONT COLOR="red"> from </FONT>`a_angle'<FONT COLOR="red"> and </FONT>`a_force'
+        <B>do</B>
+            <B>Result</B> := <A HREF="../../elks/double_math.html#f_sine">sine</A> (<A HREF="../../raekidion/objects/vector.html#f_radian_value">radian_value</A> (a_angle)) * a_force
+        <B>end</B></A>
+
+    <A NAME="f_angle_from_x_y"><A HREF="../../raekidion/objects/vector.html#f_angle_from_x_y">angle_from_x_y</A> (a_x, a_y: <A HREF="../../elks/real_64.html">REAL_64</A>): <A HREF="../../elks/real_64.html">REAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Find </FONT><A HREF="../../raekidion/objects/vector.html#f_angle">angle</A><FONT COLOR="red"> from </FONT>`a_x'<FONT COLOR="red"> and </FONT>`a_y'
+        <B>do</B>
+            <B>if</B> a_x = 0.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> <B>then</B>
+                <B>if</B> a_y = 0.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> <B>then</B>
+                    <B>Result</B> := <A HREF="../../raekidion/objects/vector.html#f_angle">angle</A>
+                <B>elseif</B> a_y &lt; 0.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> <B>then</B>
+                    <B>Result</B> := <A HREF="../../raekidion/objects/vector.html#f_degree_value">degree_value</A> (<A HREF="../../elks/math_const.html#f_pi">Pi</A> + <A HREF="../../elks/math_const.html#f_pi_2">Pi_2</A>)
+                <B>else</B>
+                    <B>Result</B> := <A HREF="../../raekidion/objects/vector.html#f_degree_value">degree_value</A> (<A HREF="../../elks/math_const.html#f_pi_2">Pi_2</A>)
+                <B>end</B>
+            <B>else</B>
+                <B>if</B> a_x &lt;= 0.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> <B>and</B> a_y &gt;= 0.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> <B>then</B>
+                    <B>Result</B> := <A HREF="../../raekidion/objects/vector.html#f_degree_value">degree_value</A> (- <A HREF="../../elks/double_math.html#f_arc_tangent">arc_tangent</A> (a_y / a_x))
+                <B>elseif</B> a_x &gt;= 0.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> <B>and</B> a_y &gt;= 0.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> <B>then</B>
+                    <B>Result</B> := <A HREF="../../raekidion/objects/vector.html#f_degree_value">degree_value</A> (<A HREF="../../elks/math_const.html#f_pi">Pi</A> - <A HREF="../../elks/double_math.html#f_arc_tangent">arc_tangent</A> (a_y / a_x))
+                <B>elseif</B> a_x &gt;= 0.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> <B>and</B> a_y &lt;= 0.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> <B>then</B>
+                    <B>Result</B> := <A HREF="../../raekidion/objects/vector.html#f_degree_value">degree_value</A> (<A HREF="../../elks/math_const.html#f_pi">Pi</A> - <A HREF="../../elks/double_math.html#f_arc_tangent">arc_tangent</A> (a_y / a_x))
+                <B>else</B>
+                    <B>Result</B> := <A HREF="../../raekidion/objects/vector.html#f_degree_value">degree_value</A> ((2.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> * <A HREF="../../elks/math_const.html#f_pi">Pi</A>) - <A HREF="../../elks/double_math.html#f_arc_tangent">arc_tangent</A> (a_y / a_x))
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_force_from_x_y"><A HREF="../../raekidion/objects/vector.html#f_force_from_x_y">force_from_x_y</A> (a_x, a_y: <A HREF="../../elks/real_64.html">REAL_64</A>): <A HREF="../../elks/real_64.html">REAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Find </FONT><A HREF="../../raekidion/objects/vector.html#f_force">force</A><FONT COLOR="red"> from </FONT>`a_x'<FONT COLOR="red"> and </FONT>`a_y'
+        <B>do</B>
+            <B>Result</B> := <A HREF="../../elks/double_math.html#f_sqrt">sqrt</A> ((a_x ^ 2.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>) + (a_y ^ 2.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>))
+        <B>end</B></A>
+
+    <A NAME="f_adjust_x_and_y"><A HREF="../../raekidion/objects/vector.html#f_adjust_x_and_y">adjust_x_and_y</A> (a_angle, a_force: <A HREF="../../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Assign </FONT><A HREF="../../raekidion/objects/vector.html#f_angle">angle</A><FONT COLOR="red"> and </FONT><A HREF="../../raekidion/objects/vector.html#f_force">force</A><FONT COLOR="red"> to </FONT>`a_angle'<FONT COLOR="red"> and </FONT>`a_force'<FONT COLOR="red"> and adjust </FONT><A HREF="../../raekidion/objects/vector.html#f_x">x</A><FONT COLOR="red"> and </FONT><A HREF="../../raekidion/objects/vector.html#f_y">y</A><FONT COLOR="red"> accordingly</FONT>
+        <B>do</B>
+            <A HREF="../../raekidion/objects/vector.html#f_x">x</A> := <A HREF="../../raekidion/objects/vector.html#f_x_from_angle_force">x_from_angle_force</A> (a_angle, a_force)
+            <A HREF="../../raekidion/objects/vector.html#f_y">y</A> := <A HREF="../../raekidion/objects/vector.html#f_y_from_angle_force">y_from_angle_force</A> (a_angle, a_force)
+        <B>end</B></A>
+
+    <A NAME="f_adjust_angle_and_force"><A HREF="../../raekidion/objects/vector.html#f_adjust_angle_and_force">adjust_angle_and_force</A> (a_x, a_y: <A HREF="../../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Assign </FONT><A HREF="../../raekidion/objects/vector.html#f_x">x</A><FONT COLOR="red"> and </FONT><A HREF="../../raekidion/objects/vector.html#f_y">y</A><FONT COLOR="red"> to </FONT>`a_x'<FONT COLOR="red"> and </FONT>`a_y'<FONT COLOR="red"> and adjust </FONT><A HREF="../../raekidion/objects/vector.html#f_angle">angle</A><FONT COLOR="red"> and </FONT><A HREF="../../raekidion/objects/vector.html#f_force">force</A><FONT COLOR="red"> accordingly</FONT>
+        <B>do</B>
+            <A HREF="../../raekidion/objects/vector.html#f_angle">angle</A> := <A HREF="../../raekidion/objects/vector.html#f_angle_from_x_y">angle_from_x_y</A> (a_x, a_y)
+            <A HREF="../../raekidion/objects/vector.html#f_force">force</A> := <A HREF="../../raekidion/objects/vector.html#f_force_from_x_y">force_from_x_y</A> (a_x, a_y)
+        <B>end</B></A>
+    
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../../raekidion/objects/vector.html">VECTOR</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="vector_chart.html">Chart</A></TD><TD><A HREF="vector_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="vector_flat.html">Flat</A></TD><TD><A HREF="vector_short.html">Contracts</A></TD><TD><A HREF="vector_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

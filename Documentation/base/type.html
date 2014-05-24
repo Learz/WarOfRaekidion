@@ -1,0 +1,331 @@
+<HTML><HEAD>
+<meta name="description" content="Representation of an Eiffel type."/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>type Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="type_chart.html">Chart</A></TD><TD><A HREF="type_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="type_flat.html">Flat</A></TD><TD><A HREF="type_short.html">Contracts</A></TD><TD><A HREF="type_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Representation of an Eiffel type."
+    library: "Free implementation of ELKS library"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2013-09-05 03:29:24 -0700 (Thu, 05 Sep 2013) $"
+    revision: "$Revision: 92913 $"
+
+<B>class</B> 
+    <A HREF="../elks/type.html">TYPE</A> [G]
+
+<B>inherit</B>
+    <A HREF="../elks/hashable.html">HASHABLE</A>
+        <B>rename</B>
+            <A HREF="../elks/any.html#f_default">default</A> <B>as</B> <A HREF="../elks/any.html#f_default">any_default</A>
+        <B>redefine</B>
+            <A HREF="../elks/type.html#f_is_equal">is_equal</A>,
+            <A HREF="../elks/type.html#f_out">out</A>
+        <B>end</B>
+
+    <A HREF="../elks/part_comparable.html">PART_COMPARABLE</A>
+        <B>rename</B>
+            <A HREF="../elks/any.html#f_default">default</A> <B>as</B> <A HREF="../elks/any.html#f_default">any_default</A>,
+            <A HREF="../elks/part_comparable.html#f_is_less">is_less</A> <B>as</B> <A HREF="../elks/type.html#f_is_strictly_conforming_to">is_strictly_conforming_to</A> <B>alias</B> "&lt;",
+            <A HREF="../elks/part_comparable.html#f_is_less_equal">is_less_equal</A> <B>as</B> <A HREF="../elks/type.html#f_is_conforming_to">is_conforming_to</A> <B>alias</B> "&lt;="
+        <B>redefine</B>
+            <A HREF="../elks/type.html#f_is_conforming_to">is_conforming_to</A>,
+            <A HREF="../elks/type.html#f_is_equal">is_equal</A>,
+            <A HREF="../elks/type.html#f_out">out</A>
+        <B>end</B>
+
+    <A HREF="../elks/debug_output.html">DEBUG_OUTPUT</A>
+        <B>rename</B>
+            <A HREF="../elks/any.html#f_default">default</A> <B>as</B> <A HREF="../elks/any.html#f_default">any_default</A>
+        <B>redefine</B>
+            <A HREF="../elks/type.html#f_is_equal">is_equal</A>,
+            <A HREF="../elks/type.html#f_out">out</A>
+        <B>end</B>
+
+<B>create</B> {NONE}
+<B>convert</B>
+    <A HREF="../elks/type.html#f_to_string_8">to_string_8</A>: {<A HREF="../elks/string_8.html">STRING_8</A>,
+        <A HREF="../elks/string_general.html">STRING_GENERAL</A>,
+        <A HREF="../elks/readable_string_general.html">READABLE_STRING_GENERAL</A>,
+        <A HREF="../elks/readable_string_8.html">READABLE_STRING_8</A>},
+    <A HREF="../elks/type.html#f_to_string_32">to_string_32</A>: {<A HREF="../elks/string_32.html">STRING_32</A>,
+        <A HREF="../elks/readable_string_32.html">READABLE_STRING_32</A>}
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_name"><A HREF="../elks/type.html#f_name">name</A>: <A HREF="../elks/immutable_string_8.html">IMMUTABLE_STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of Eiffel type represented by </FONT>`Current'<FONT COLOR="red">, using Eiffel style guidelines</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as specified in OOSC2 (e.g. COMPARABLE, HASH_TABLE [FOO, BAR], ...)</FONT>
+        <B>do</B>
+            <B>if</B> <B>attached</B> <A HREF="../elks/type.html#f_internal_name">internal_name</A> <B>as</B> l_name <B>then</B>
+                <B>Result</B> := l_name
+            <B>else</B>
+                <B>create</B> <B>Result</B>.<A HREF="../elks/readable_string_8.html#f_make_from_string">make_from_string</A> (<A HREF="../elks/type.html#f_runtime_name">runtime_name</A>)
+                <A HREF="../elks/type.html#f_internal_name">internal_name</A> := <B>Result</B>
+            <B>end</B>
+        <B>ensure</B>
+            name_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_generic_parameter_type"><A HREF="../elks/type.html#f_generic_parameter_type">generic_parameter_type</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/type.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/any.html">ANY</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`i'<FONT COLOR="red">-th generic parameter of Eiffel type represented by </FONT>`Current'
+        <B>require</B>
+            i_large_enough: i &gt;= 1
+            i_small_enough: i &lt;= <A HREF="../elks/type.html#f_generic_parameter_count">generic_parameter_count</A>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B>
+            generic_parameter_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_type_id"><A HREF="../elks/type.html#f_type_id">type_id</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Id of the Eiffel type represented by </FONT>`Current'
+        <B>external</B>
+            "built_in"
+        <B>ensure</B>
+            type_id_not_negative: <B>Result</B> &gt;= 0
+        <B>end</B></A>
+
+    <A NAME="f_hash_code"><A HREF="../elks/type.html#f_hash_code">hash_code</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Hash code value</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/type.html#f_type_id">type_id</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_generic_parameter_count"><A HREF="../elks/type.html#f_generic_parameter_count">generic_parameter_count</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of generic parameters in Eiffel type represented by </FONT>`Current'
+        <B>external</B>
+            "built_in"
+        <B>ensure</B>
+            generic_parameter_count_not_negative: <B>Result</B> &gt;= 0
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_has_default"><A HREF="../elks/type.html#f_has_default">has_default</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current type a type that has a default value?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> I.e. a detachable type or an expanded type.</FONT>
+        <B>external</B>
+            "built_in"
+        <B>end</B></A>
+
+    <A NAME="f_is_expanded"><A HREF="../elks/type.html#f_is_expanded">is_expanded</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current type an expanded type?</FONT>
+        <B>external</B>
+            "built_in"
+        <B>end</B></A>
+
+    <A NAME="f_is_attached"><A HREF="../elks/type.html#f_is_attached">is_attached</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current type attached?</FONT>
+        <B>external</B>
+            "built_in"
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_is_equal"><A HREF="../elks/type.html#f_is_equal">is_equal</A> (other: <B>like</B> <B>Current</B>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object considered</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to current object?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/type.html#f_type_id">type_id</A> = other.<A HREF="../elks/type.html#f_type_id">type_id</A>
+        <B>end</B></A>
+
+    <A NAME="f_is_strictly_conforming_to"><A HREF="../elks/type.html#f_is_strictly_conforming_to">is_strictly_conforming_to</A> <B>alias</B> "&lt;" (other: <B>like</B> <B>Current</B>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does type represented by </FONT>`Current'<FONT COLOR="red"> conform to type represented by </FONT>`other'<FONT COLOR="red"> and differ from it?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/type.html#f_type_id">type_id</A> /= other.<A HREF="../elks/type.html#f_type_id">type_id</A> <B>and then</B> <A HREF="../elks/type.html#f_is_conforming_to">is_conforming_to</A> (other)
+        <B>end</B></A>
+
+    <A NAME="f_is_conforming_to"><A HREF="../elks/type.html#f_is_conforming_to">is_conforming_to</A> <B>alias</B> "&lt;=" (other: <B>like</B> <B>Current</B>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does type represented by </FONT>`Current'<FONT COLOR="red"> conform to type represented by </FONT>`other'<FONT COLOR="red">?</FONT>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/ise_runtime.html">ISE_RUNTIME</A>}.<A HREF="../elks/ise_runtime.html#f_type_conforms_to">type_conforms_to</A> (<A HREF="../elks/type.html#f_type_id">type_id</A>, other.<A HREF="../elks/type.html#f_type_id">type_id</A>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Conversion</FONT>
+
+    <A NAME="f_adapt"><A HREF="../elks/type.html#f_adapt">adapt</A> <B>alias</B> "[]" (g: <B>detachable</B> G): <B>detachable</B> G
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Adapts </FONT>`g'<FONT COLOR="red"> or calls necessary conversion routine to adapt </FONT>`g'
+        <B>do</B>
+            <B>Result</B> := g
+        <B>ensure</B>
+            adapted: <B>Result</B> ~ g
+        <B>end</B></A>
+
+    <A NAME="f_attempt"><A HREF="../elks/type.html#f_attempt">attempt</A> <B>alias</B> "#?" (obj: <B>detachable</B> <A HREF="../elks/any.html">ANY</A>): <B>detachable</B> G
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Result of assignment attempt of </FONT>`obj'<FONT COLOR="red"> to entity of type G</FONT>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {G} obj <B>as</B> l_g <B>then</B>
+                <B>Result</B> := l_g
+            <B>end</B>
+        <B>ensure</B>
+            assigned_or_void: <B>Result</B> = obj <B>or</B> <B>Result</B> = <A HREF="../elks/type.html#f_default_detachable_value">default_detachable_value</A>
+        <B>end</B></A>
+
+    <A NAME="f_default_detachable_value"><A HREF="../elks/type.html#f_default_detachable_value">default_detachable_value</A>: <B>detachable</B> G
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_default"><A HREF="../elks/type.html#f_default">default</A>: G
+        <B>require</B>
+            has_default: <A HREF="../elks/type.html#f_has_default">has_default</A>
+        <B>local</B>
+            r: <B>detachable</B> G
+        <B>do</B>
+            <B>check</B>
+                <B>attached</B> r
+            <B>then</B>
+                <B>Result</B> := r
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output</FONT>
+
+    <A NAME="f_out"><A HREF="../elks/type.html#f_out">out</A>: <A HREF="../elks/string_8.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/readable_string_8.html#f_make_from_string">make_from_string</A> (<A HREF="../elks/type.html#f_name">name</A>)
+        <B>end</B></A>
+
+    <A NAME="f_debug_output"><A HREF="../elks/type.html#f_debug_output">debug_output</A>: <A HREF="../elks/string_8.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> String that should be displayed in debugger to represent </FONT>`Current'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/readable_string_8.html#f_make_from_string">make_from_string</A> (<A HREF="../elks/type.html#f_name">name</A>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Features from STRING needed here for the transition period (see convert clause)</FONT>
+
+    <A NAME="f_plus"><A HREF="../elks/type.html#f_plus">plus</A> <B>alias</B> "+" (other: <A HREF="../elks/string_8.html">STRING_8</A>): <A HREF="../elks/string_8.html">STRING_8</A>
+        <B>obsolete</B> "[070813] Use 'name + other' instead (or 'out + other' during the transition period)."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Append a copy of 's' at the end of a copy of the name of the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Eiffel type represented by </FONT>`Current'<FONT COLOR="red">, then return the Result.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> This feature from STRING is needed here for the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> transition period (see convert clause).</FONT>
+        <B>require</B>
+            argument_not_void: other /= <B>Void</B>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/readable_string_8.html#f_make">make</A> (<A HREF="../elks/type.html#f_name">name</A>.<A HREF="../elks/readable_string_8.html#f_count">count</A> + other.<A HREF="../elks/readable_string_8.html#f_count">count</A>)
+            <B>Result</B>.<A HREF="../elks/string_8.html#f_append">append</A> (<A HREF="../elks/type.html#f_name">name</A>)
+            <B>Result</B>.<A HREF="../elks/string_8.html#f_append">append</A> (other)
+        <B>ensure</B>
+            result_exists: <B>Result</B> /= <B>Void</B>
+            definition: <B>Result</B>.<A HREF="../elks/readable_string_8.html#f_same_string">same_string</A> (<A HREF="../elks/type.html#f_name">name</A> + other)
+        <B>end</B></A>
+
+    <A NAME="f_same_string"><A HREF="../elks/type.html#f_same_string">same_string</A> (other: <A HREF="../elks/string_8.html">STRING_8</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>obsolete</B> "[070813] Use 'name.same_string (other)' instead (or 'out.same_string (other)' during the transition period)."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do the name of the Eiffel type represented by </FONT>`Current'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> and </FONT>`other'<FONT COLOR="red"> have same character sequence?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> This feature from STRING is needed here for the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> transition period (see convert clause).</FONT>
+        <B>require</B>
+            other_not_void: other /= <B>Void</B>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/type.html#f_name">name</A>.<A HREF="../elks/readable_string_8.html#f_same_string">same_string</A> (other)
+        <B>ensure</B>
+            definition: <B>Result</B> = <A HREF="../elks/type.html#f_name">name</A>.<A HREF="../elks/readable_string_8.html#f_same_string">same_string</A> (other)
+        <B>end</B></A>
+
+    <A NAME="f_is_case_insensitive_equal"><A HREF="../elks/type.html#f_is_case_insensitive_equal">is_case_insensitive_equal</A> (other: <A HREF="../elks/string_8.html">STRING_8</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>obsolete</B> "[070813] Use 'name.is_case_insensitive_equal (other)' instead (or 'out.is_case_insensitive_equal (other)' during the transition period)."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is the name of the Eiffel type represented by </FONT>`Current'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> made of same character sequence as </FONT>`other'<FONT COLOR="red"> regardless</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of casing (possibly with a different capacity)?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> This feature from STRING is needed here for the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> transition period (see convert clause).</FONT>
+        <B>require</B>
+            other_not_void: other /= <B>Void</B>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/type.html#f_name">name</A>.<A HREF="../elks/readable_string_8.html#f_is_case_insensitive_equal">is_case_insensitive_equal</A> (other)
+        <B>ensure</B>
+            definition: <B>Result</B> = <A HREF="../elks/type.html#f_name">name</A>.<A HREF="../elks/readable_string_8.html#f_is_case_insensitive_equal">is_case_insensitive_equal</A> (other)
+        <B>end</B></A>
+
+    <A NAME="f_as_lower"><A HREF="../elks/type.html#f_as_lower">as_lower</A>: <A HREF="../elks/string_8.html">STRING_8</A>
+        <B>obsolete</B> "[070813] Use 'name.as_lower' instead (or 'out.as_lower' during the transition period)."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object with all letters of the name of the Eiffel type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> represented by </FONT>`Current'<FONT COLOR="red"> in lower case.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> This feature from STRING is needed here for the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> transition period (see convert clause).</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/readable_string_8.html#f_make_from_string">make_from_string</A> (<A HREF="../elks/type.html#f_name">name</A>)
+            <B>Result</B>.<A HREF="../elks/string_8.html#f_to_lower">to_lower</A>
+        <B>ensure</B>
+            as_lower_not_void: <B>Result</B> /= <B>Void</B>
+            definition: <B>Result</B>.<A HREF="../elks/readable_string_8.html#f_same_string">same_string</A> (<A HREF="../elks/type.html#f_name">name</A>.<A HREF="../elks/immutable_string_8.html#f_as_lower">as_lower</A>)
+        <B>end</B></A>
+
+    <A NAME="f_as_upper"><A HREF="../elks/type.html#f_as_upper">as_upper</A>: <A HREF="../elks/string_8.html">STRING_8</A>
+        <B>obsolete</B> "[070813] Use 'name.as_upper' instead (or 'out.as_upper' during the transition period)."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object with all letters of the name of the Eiffel type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> represented by </FONT>`Current'<FONT COLOR="red"> in upper case.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> This feature from STRING is needed here for the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> transition period (see convert clause).</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/readable_string_8.html#f_make_from_string">make_from_string</A> (<A HREF="../elks/type.html#f_name">name</A>)
+            <B>Result</B>.<A HREF="../elks/string_8.html#f_to_upper">to_upper</A>
+        <B>ensure</B>
+            as_upper_not_void: <B>Result</B> /= <B>Void</B>
+            definition: <B>Result</B>.<A HREF="../elks/readable_string_8.html#f_same_string">same_string</A> (<A HREF="../elks/type.html#f_name">name</A>.<A HREF="../elks/immutable_string_8.html#f_as_upper">as_upper</A>)
+        <B>end</B></A>
+
+    <A NAME="f_to_string_8"><A HREF="../elks/type.html#f_to_string_8">to_string_8</A>: <A HREF="../elks/string_8.html">STRING_8</A>
+        <B>obsolete</B> "Use `name' instead (or `out' during the transition period)."
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/readable_string_8.html#f_make_from_string">make_from_string</A> (<A HREF="../elks/type.html#f_name">name</A>)
+        <B>ensure</B>
+            to_string_8_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_to_string_32"><A HREF="../elks/type.html#f_to_string_32">to_string_32</A>: <A HREF="../elks/string_32.html">STRING_32</A>
+        <B>obsolete</B> "[080717] Use 'name' instead (or 'out' during the transition period)."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of type</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/string_32.html#f_make_from_string_general">make_from_string_general</A> (<A HREF="../elks/type.html#f_name">name</A>)
+        <B>ensure</B>
+            to_string_32_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation: Access</FONT>
+
+    <A NAME="f_internal_name"><A HREF="../elks/type.html#f_internal_name">internal_name</A>: <B>detachable</B> <A HREF="../elks/immutable_string_8.html">IMMUTABLE_STRING_8</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Storage for once per object </FONT><A HREF="../elks/type.html#f_name">name</A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_runtime_name"><A HREF="../elks/type.html#f_runtime_name">runtime_name</A>: <A HREF="../elks/string_8.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of Eiffel type represented by </FONT>`Current'<FONT COLOR="red">, using Eiffel style guidelines</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as specified in OOSC2 (e.g. COMPARABLE, HASH_TABLE [FOO, BAR], ...)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B>
+            name_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/type.html">TYPE</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="type_chart.html">Chart</A></TD><TD><A HREF="type_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="type_flat.html">Flat</A></TD><TD><A HREF="type_short.html">Contracts</A></TD><TD><A HREF="type_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

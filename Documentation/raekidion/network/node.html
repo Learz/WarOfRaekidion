@@ -1,0 +1,336 @@
+<HTML><HEAD>
+<meta name="description" content="War of Raekidion - A network client or server connection A {NODE} is a network class that binds a server to a  port or connects a client to a server and a port."/>
+<meta name="author" content="François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>node Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="node_chart.html">Chart</A></TD><TD><A HREF="node_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="node_flat.html">Flat</A></TD><TD><A HREF="node_short.html">Contracts</A></TD><TD><A HREF="node_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        War of Raekidion - A network client or server connection
+        A <A HREF="../../raekidion/network/node.html">NODE</A> is a network class that binds a server to a 
+        port or connects a client to a server and a port.
+    ]"
+    author: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+    date: "$Date$"
+    revision: "$Revision$"
+
+<B>class</B> 
+    <A HREF="../../raekidion/network/node.html">NODE</A>
+
+<B>create</B> 
+    <A HREF="../../raekidion/network/node.html#f_make_client">make_client</A>,
+    <A HREF="../../raekidion/network/node.html#f_make_server">make_server</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make_client"><A HREF="../../raekidion/network/node.html#f_make_client">make_client</A> (a_address: <A HREF="../../elks/string_8.html">STRING_8</A>; a_port: <A HREF="../../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize </FONT>`Current'<FONT COLOR="red"> from </FONT>`a_address'<FONT COLOR="red"> and </FONT>`a_port'
+        <B>local</B>
+            l_address: <B>detachable</B> <A HREF="../../network/inet_address.html">INET_ADDRESS</A>
+            l_address_factory: <A HREF="../../network/inet_address_factory.html">INET_ADDRESS_FACTORY</A>
+        <B>do</B>
+            <B>create</B> <A HREF="../../raekidion/network/node.html#f_new_enemies">new_enemies</A>.<A HREF="../../elks/linked_list.html#f_make">make</A>
+            <A HREF="../../raekidion/network/node.html#f_new_player_position">new_player_position</A> := [112, 300]
+            <B>create</B> <A HREF="../../raekidion/network/node.html#f_new_projectiles">new_projectiles</A>.<A HREF="../../elks/linked_list.html#f_make">make</A>
+            <B>create</B> <A HREF="../../raekidion/network/node.html#f_new_collisions">new_collisions</A>.<A HREF="../../elks/linked_list.html#f_make">make</A>
+            <B>create</B> l_address_factory
+            l_address := l_address_factory.<A HREF="../../network/inet_address_factory.html#f_create_from_name">create_from_name</A> (a_address)
+            <B>if</B> <B>attached</B> l_address <B>as</B> la_address <B>then</B>
+                <B>create</B> <A HREF="../../raekidion/network/node.html#f_distant_socket">distant_socket</A>.<A HREF="../../network/network_stream_socket.html#f_make_client_by_address_and_port">make_client_by_address_and_port</A> (l_address, a_port)
+                <B>if</B> <B>attached</B> <A HREF="../../raekidion/network/node.html#f_distant_socket">distant_socket</A> <B>as</B> la_socket <B>then</B>
+                    la_socket.<A HREF="../../network/network_socket.html#f_connect">connect</A>
+                    <B>if</B> <B>not</B> la_socket.<A HREF="../../network/network_socket.html#f_is_connected">is_connected</A> <B>then</B>
+                        <A HREF="../../raekidion/network/node.html#f_connection_error">connection_error</A> := <B>True</B>
+                    <B>end</B>
+                <B>else</B>
+                    <A HREF="../../raekidion/network/node.html#f_connection_error">connection_error</A> := <B>True</B>
+                <B>end</B>
+            <B>else</B>
+                <A HREF="../../raekidion/network/node.html#f_connection_error">connection_error</A> := <B>True</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_make_server"><A HREF="../../raekidion/network/node.html#f_make_server">make_server</A> (a_port: <A HREF="../../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize </FONT>`Current'<FONT COLOR="red"> from </FONT>`a_port'
+        <B>do</B>
+            <B>create</B> <A HREF="../../raekidion/network/node.html#f_new_enemies">new_enemies</A>.<A HREF="../../elks/linked_list.html#f_make">make</A>
+            <A HREF="../../raekidion/network/node.html#f_new_player_position">new_player_position</A> := [112, 300]
+            <B>create</B> <A HREF="../../raekidion/network/node.html#f_new_projectiles">new_projectiles</A>.<A HREF="../../elks/linked_list.html#f_make">make</A>
+            <B>create</B> <A HREF="../../raekidion/network/node.html#f_new_collisions">new_collisions</A>.<A HREF="../../elks/linked_list.html#f_make">make</A>
+            <B>create</B> <A HREF="../../raekidion/network/node.html#f_local_socket">local_socket</A>.<A HREF="../../network/network_stream_socket.html#f_make_server_by_port">make_server_by_port</A> (a_port)
+            <B>if</B> <B>attached</B> <A HREF="../../raekidion/network/node.html#f_local_socket">local_socket</A> <B>as</B> la_socket <B>then</B>
+                la_socket.<A HREF="../../network/network_stream_socket.html#f_listen">listen</A> (1)
+                la_socket.<A HREF="../../network/network_stream_socket.html#f_accept">accept</A>
+                <A HREF="../../raekidion/network/node.html#f_distant_socket">distant_socket</A> := la_socket.<A HREF="../../abstract/stream_socket.html#f_accepted">accepted</A>
+                <B>if</B> la_socket.<A HREF="../../abstract/socket.html#f_was_error">was_error</A> <B>then</B>
+                    <A HREF="../../raekidion/network/node.html#f_connection_error">connection_error</A> := <B>True</B>
+                <B>end</B>
+            <B>else</B>
+                <A HREF="../../raekidion/network/node.html#f_connection_error">connection_error</A> := <B>True</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status</FONT>
+
+    <A NAME="f_connection_error"><A HREF="../../raekidion/network/node.html#f_connection_error">connection_error</A>: <A HREF="../../elks/boolean.html">BOOLEAN</A></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_local_socket"><A HREF="../../raekidion/network/node.html#f_local_socket">local_socket</A>: <B>detachable</B> <A HREF="../../network/network_stream_socket.html">NETWORK_STREAM_SOCKET</A></A>
+
+    <A NAME="f_distant_socket"><A HREF="../../raekidion/network/node.html#f_distant_socket">distant_socket</A>: <B>detachable</B> <A HREF="../../network/network_stream_socket.html">NETWORK_STREAM_SOCKET</A></A>
+
+    <A NAME="f_new_enemies"><A HREF="../../raekidion/network/node.html#f_new_enemies">new_enemies</A>: <A HREF="../../elks/linked_list.html">LINKED_LIST</A> [<A HREF="../../elks/tuple.html">TUPLE</A> [name: <A HREF="../../elks/string_8.html">STRING_8</A>; x: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; y: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; dest_x: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; dest_y: <A HREF="../../elks/integer_32.html">INTEGER_32</A>]]</A>
+
+    <A NAME="f_new_player_position"><A HREF="../../raekidion/network/node.html#f_new_player_position">new_player_position</A>: <A HREF="../../elks/tuple.html">TUPLE</A> [x: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; y: <A HREF="../../elks/integer_32.html">INTEGER_32</A>]</A>
+
+    <A NAME="f_new_projectiles"><A HREF="../../raekidion/network/node.html#f_new_projectiles">new_projectiles</A>: <A HREF="../../elks/linked_list.html">LINKED_LIST</A> [<A HREF="../../elks/tuple.html">TUPLE</A> [name: <A HREF="../../elks/string_8.html">STRING_8</A>; x: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; y: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; angle: <A HREF="../../elks/real_64.html">REAL_64</A>]]</A>
+
+    <A NAME="f_new_collisions"><A HREF="../../raekidion/network/node.html#f_new_collisions">new_collisions</A>: <A HREF="../../elks/linked_list.html">LINKED_LIST</A> [<A HREF="../../elks/tuple.html">TUPLE</A> [enemy_id: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; projectile_id: <A HREF="../../elks/integer_32.html">INTEGER_32</A>]]</A>
+
+    <A NAME="f_new_score"><A HREF="../../raekidion/network/node.html#f_new_score">new_score</A>: <A HREF="../../elks/integer_32.html">INTEGER_32</A></A>
+
+    <A NAME="f_receive_data"><A HREF="../../raekidion/network/node.html#f_receive_data">receive_data</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Fill variables with distant packets' data</FONT>
+        <B>local</B>
+            l_choice: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+            l_packet: <B>detachable</B> <A HREF="../../abstract/packet.html">PACKET</A>
+            l_count: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+            l_string: <A HREF="../../elks/string_8.html">STRING_8</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../../raekidion/network/node.html#f_connection_error">connection_error</A> <B>then</B>
+                <A HREF="../../raekidion/network/node.html#f_close">close</A>
+            <B>else</B>
+                l_string := ""
+                <B>if</B> <B>attached</B> <A HREF="../../raekidion/network/node.html#f_distant_socket">distant_socket</A> <B>as</B> la_socket <B>then</B>
+                    <B>if</B> la_socket.<A HREF="../../abstract/socket.html#f_is_readable">is_readable</A> <B>and</B> la_socket.<A HREF="../../abstract/socket.html#f_is_open_read">is_open_read</A> <B>then</B>
+                        l_packet := la_socket.<A HREF="../../abstract/socket.html#f_receive">receive</A> (4, 0)
+                        <B>if</B> <B>attached</B> l_packet <B>as</B> la_packet <B>then</B>
+                            l_count := l_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_read_integer_32">read_integer_32</A> (0)
+                        <B>end</B>
+                        l_packet := la_socket.<A HREF="../../abstract/socket.html#f_receive">receive</A> (l_count, 0)
+                        <B>if</B> <B>attached</B> l_packet <B>as</B> la_packet <B>then</B>
+                            l_choice := l_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_read_integer_32">read_integer_32</A> (0)
+                            <B>if</B> l_choice = <A HREF="../../raekidion/network/node.html#f_enemy_packet">Enemy_packet</A> <B>then</B>
+                                <B>from</B>
+                                    l_count := 0
+                                <B>until</B>
+                                    l_count = la_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_read_integer_32">read_integer_32</A> (20)
+                                <B>loop</B>
+                                    l_string.<A HREF="../../elks/string_8.html#f_append_character">append_character</A> (l_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_read_character">read_character</A> (24 + l_count))
+                                    l_count := l_count + 1
+                                <B>end</B>
+                                <A HREF="../../raekidion/network/node.html#f_new_enemies">new_enemies</A>.<A HREF="../../elks/linked_list.html#f_extend">extend</A> (l_string, la_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_read_integer_32">read_integer_32</A> (4), la_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_read_integer_32">read_integer_32</A> (8), la_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_read_integer_32">read_integer_32</A> (12), la_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_read_integer_32">read_integer_32</A> (16))
+                            <B>elseif</B> l_choice = <A HREF="../../raekidion/network/node.html#f_player_packet">Player_packet</A> <B>then</B>
+                                <A HREF="../../raekidion/network/node.html#f_new_player_position">new_player_position</A> := [la_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_read_integer_32">read_integer_32</A> (4), la_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_read_integer_32">read_integer_32</A> (8)]
+                            <B>elseif</B> l_choice = <A HREF="../../raekidion/network/node.html#f_projectile_packet">Projectile_packet</A> <B>then</B>
+                                <B>from</B>
+                                    l_count := 0
+                                <B>until</B>
+                                    l_count = la_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_read_integer_32">read_integer_32</A> (20)
+                                <B>loop</B>
+                                    l_string.<A HREF="../../elks/string_8.html#f_append_character">append_character</A> (l_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_read_character">read_character</A> (24 + l_count))
+                                    l_count := l_count + 1
+                                <B>end</B>
+                                <A HREF="../../raekidion/network/node.html#f_new_projectiles">new_projectiles</A>.<A HREF="../../elks/linked_list.html#f_extend">extend</A> (l_string, la_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_read_integer_32">read_integer_32</A> (4), la_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_read_integer_32">read_integer_32</A> (8), la_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_read_real_64">read_real_64</A> (12))
+                            <B>elseif</B> l_choice = <A HREF="../../raekidion/network/node.html#f_collision_packet">Collision_packet</A> <B>then</B>
+                                <A HREF="../../raekidion/network/node.html#f_new_collisions">new_collisions</A>.<A HREF="../../elks/linked_list.html#f_extend">extend</A> (la_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_read_integer_32">read_integer_32</A> (4), la_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_read_integer_32">read_integer_32</A> (8))
+                            <B>elseif</B> l_choice = <A HREF="../../raekidion/network/node.html#f_score_packet">Score_packet</A> <B>then</B>
+                                <A HREF="../../raekidion/network/node.html#f_new_score">new_score</A> := la_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_read_integer_32">read_integer_32</A> (4)
+                            <B>end</B>
+                        <B>end</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>rescue</B>
+            <A HREF="../../raekidion/network/node.html#f_connection_error">connection_error</A> := <B>True</B>
+            <B>retry</B>
+        <B>end</B></A>
+
+    <A NAME="f_send_new_enemy_ship"><A HREF="../../raekidion/network/node.html#f_send_new_enemy_ship">send_new_enemy_ship</A> (a_name: <A HREF="../../elks/string_8.html">STRING_8</A>; a_x, a_y, a_dest_x, a_dest_y: <A HREF="../../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Send a packet containing </FONT>`a_name'<FONT COLOR="red">, </FONT>`a_x'<FONT COLOR="red">, </FONT>`a_y'<FONT COLOR="red">, </FONT>`a_dest_x'<FONT COLOR="red"> and </FONT>`a_dest_y'
+        <B>local</B>
+            l_count: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+            l_size: <A HREF="../../abstract/packet.html">PACKET</A>
+            l_packet: <A HREF="../../abstract/packet.html">PACKET</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../../raekidion/network/node.html#f_connection_error">connection_error</A> <B>then</B>
+                <A HREF="../../raekidion/network/node.html#f_close">close</A>
+            <B>else</B>
+                <B>create</B> l_size.<A HREF="../../abstract/packet.html#f_make">make</A> (4)
+                l_size.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_put_integer_32">put_integer_32</A> (24 + a_name.<A HREF="../../elks/readable_string_8.html#f_count">count</A>, 0)
+                <B>create</B> l_packet.<A HREF="../../abstract/packet.html#f_make">make</A> (24 + a_name.<A HREF="../../elks/readable_string_8.html#f_count">count</A>)
+                l_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_put_integer_32">put_integer_32</A> (<A HREF="../../raekidion/network/node.html#f_enemy_packet">Enemy_packet</A>, 0)
+                l_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_put_integer_32">put_integer_32</A> (a_x, 4)
+                l_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_put_integer_32">put_integer_32</A> (a_y, 8)
+                l_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_put_integer_32">put_integer_32</A> (a_x, 12)
+                l_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_put_integer_32">put_integer_32</A> (a_y, 16)
+                l_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_put_integer_32">put_integer_32</A> (a_name.<A HREF="../../elks/readable_string_8.html#f_count">count</A>, 20)
+                <B>from</B>
+                    l_count := 0
+                <B>until</B>
+                    l_count = a_name.<A HREF="../../elks/readable_string_8.html#f_count">count</A>
+                <B>loop</B>
+                    l_count := l_count + 1
+                    l_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_put_character">put_character</A> (a_name.<A HREF="../../elks/string_8.html#f_at">at</A> (l_count), 24)
+                <B>end</B>
+                <B>if</B> <B>attached</B> <A HREF="../../raekidion/network/node.html#f_distant_socket">distant_socket</A> <B>as</B> la_socket <B>then</B>
+                    <B>if</B> la_socket.<A HREF="../../abstract/socket.html#f_is_writable">is_writable</A> <B>and</B> la_socket.<A HREF="../../abstract/socket.html#f_is_open_write">is_open_write</A> <B>then</B>
+                        la_socket.<A HREF="../../abstract/socket.html#f_send">send</A> (l_size, 0)
+                        la_socket.<A HREF="../../abstract/socket.html#f_send">send</A> (l_packet, 0)
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>rescue</B>
+            <A HREF="../../raekidion/network/node.html#f_connection_error">connection_error</A> := <B>True</B>
+            <B>retry</B>
+        <B>end</B></A>
+
+    <A NAME="f_send_player_position"><A HREF="../../raekidion/network/node.html#f_send_player_position">send_player_position</A> (a_x, a_y: <A HREF="../../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Send a packet containing </FONT>`a_x'<FONT COLOR="red"> and </FONT>`a_y'
+        <B>local</B>
+            l_size: <A HREF="../../abstract/packet.html">PACKET</A>
+            l_packet: <A HREF="../../abstract/packet.html">PACKET</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../../raekidion/network/node.html#f_connection_error">connection_error</A> <B>then</B>
+                <A HREF="../../raekidion/network/node.html#f_close">close</A>
+            <B>else</B>
+                <B>create</B> l_size.<A HREF="../../abstract/packet.html#f_make">make</A> (4)
+                l_size.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_put_integer_32">put_integer_32</A> (12, 0)
+                <B>create</B> l_packet.<A HREF="../../abstract/packet.html#f_make">make</A> (12)
+                l_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_put_integer_32">put_integer_32</A> (<A HREF="../../raekidion/network/node.html#f_player_packet">Player_packet</A>, 0)
+                l_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_put_integer_32">put_integer_32</A> (a_x, 4)
+                l_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_put_integer_32">put_integer_32</A> (a_y, 8)
+                <B>if</B> <B>attached</B> <A HREF="../../raekidion/network/node.html#f_distant_socket">distant_socket</A> <B>as</B> la_socket <B>then</B>
+                    <B>if</B> la_socket.<A HREF="../../abstract/socket.html#f_is_writable">is_writable</A> <B>and</B> la_socket.<A HREF="../../abstract/socket.html#f_is_open_write">is_open_write</A> <B>then</B>
+                        la_socket.<A HREF="../../abstract/socket.html#f_send">send</A> (l_size, 0)
+                        la_socket.<A HREF="../../abstract/socket.html#f_send">send</A> (l_packet, 0)
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>rescue</B>
+            <A HREF="../../raekidion/network/node.html#f_connection_error">connection_error</A> := <B>True</B>
+            <B>retry</B>
+        <B>end</B></A>
+
+    <A NAME="f_send_projectile"><A HREF="../../raekidion/network/node.html#f_send_projectile">send_projectile</A> (a_name: <A HREF="../../elks/string_8.html">STRING_8</A>; a_x, a_y: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_angle: <A HREF="../../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Send a packet containing </FONT>`a_name'<FONT COLOR="red">, </FONT>`a_x'<FONT COLOR="red">, </FONT>`a_y'<FONT COLOR="red"> and </FONT>`a_angle'
+        <B>local</B>
+            l_count: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+            l_size: <A HREF="../../abstract/packet.html">PACKET</A>
+            l_packet: <A HREF="../../abstract/packet.html">PACKET</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../../raekidion/network/node.html#f_connection_error">connection_error</A> <B>then</B>
+                <A HREF="../../raekidion/network/node.html#f_close">close</A>
+            <B>else</B>
+                <B>create</B> l_size.<A HREF="../../abstract/packet.html#f_make">make</A> (4)
+                l_size.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_put_integer_32">put_integer_32</A> (24 + a_name.<A HREF="../../elks/readable_string_8.html#f_count">count</A>, 0)
+                <B>create</B> l_packet.<A HREF="../../abstract/packet.html#f_make">make</A> (24 + a_name.<A HREF="../../elks/readable_string_8.html#f_count">count</A>)
+                l_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_put_integer_32">put_integer_32</A> (<A HREF="../../raekidion/network/node.html#f_projectile_packet">Projectile_packet</A>, 0)
+                l_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_put_integer_32">put_integer_32</A> (a_x, 4)
+                l_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_put_integer_32">put_integer_32</A> (a_y, 8)
+                l_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_put_real_64">put_real_64</A> (a_angle, 12)
+                l_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_put_integer_32">put_integer_32</A> (a_name.<A HREF="../../elks/readable_string_8.html#f_count">count</A>, 20)
+                <B>from</B>
+                    l_count := 0
+                <B>until</B>
+                    l_count = a_name.<A HREF="../../elks/readable_string_8.html#f_count">count</A>
+                <B>loop</B>
+                    l_count := l_count + 1
+                    l_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_put_character">put_character</A> (a_name.<A HREF="../../elks/string_8.html#f_at">at</A> (l_count), 24)
+                <B>end</B>
+                <B>if</B> <B>attached</B> <A HREF="../../raekidion/network/node.html#f_distant_socket">distant_socket</A> <B>as</B> la_socket <B>then</B>
+                    <B>if</B> la_socket.<A HREF="../../abstract/socket.html#f_is_writable">is_writable</A> <B>and</B> la_socket.<A HREF="../../abstract/socket.html#f_is_open_write">is_open_write</A> <B>then</B>
+                        la_socket.<A HREF="../../abstract/socket.html#f_send">send</A> (l_size, 0)
+                        la_socket.<A HREF="../../abstract/socket.html#f_send">send</A> (l_packet, 0)
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>rescue</B>
+            <A HREF="../../raekidion/network/node.html#f_connection_error">connection_error</A> := <B>True</B>
+            <B>retry</B>
+        <B>end</B></A>
+
+    <A NAME="f_send_collision"><A HREF="../../raekidion/network/node.html#f_send_collision">send_collision</A> (a_enemy_id, a_projectile_id: <A HREF="../../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Send a packet containing </FONT>`a_enemy_id'<FONT COLOR="red"> and </FONT>`a_projectile'
+        <B>local</B>
+            l_size: <A HREF="../../abstract/packet.html">PACKET</A>
+            l_packet: <A HREF="../../abstract/packet.html">PACKET</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../../raekidion/network/node.html#f_connection_error">connection_error</A> <B>then</B>
+                <A HREF="../../raekidion/network/node.html#f_close">close</A>
+            <B>else</B>
+                <B>create</B> l_size.<A HREF="../../abstract/packet.html#f_make">make</A> (4)
+                l_size.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_put_integer_32">put_integer_32</A> (12, 0)
+                <B>create</B> l_packet.<A HREF="../../abstract/packet.html#f_make">make</A> (12)
+                l_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_put_integer_32">put_integer_32</A> (<A HREF="../../raekidion/network/node.html#f_collision_packet">Collision_packet</A>, 0)
+                l_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_put_integer_32">put_integer_32</A> (a_enemy_id, 4)
+                l_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_put_integer_32">put_integer_32</A> (a_projectile_id, 8)
+                <B>if</B> <B>attached</B> <A HREF="../../raekidion/network/node.html#f_distant_socket">distant_socket</A> <B>as</B> la_socket <B>then</B>
+                    <B>if</B> la_socket.<A HREF="../../abstract/socket.html#f_is_writable">is_writable</A> <B>and</B> la_socket.<A HREF="../../abstract/socket.html#f_is_open_write">is_open_write</A> <B>then</B>
+                        la_socket.<A HREF="../../abstract/socket.html#f_send">send</A> (l_size, 0)
+                        la_socket.<A HREF="../../abstract/socket.html#f_send">send</A> (l_packet, 0)
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>rescue</B>
+            <A HREF="../../raekidion/network/node.html#f_connection_error">connection_error</A> := <B>True</B>
+            <B>retry</B>
+        <B>end</B></A>
+
+    <A NAME="f_send_score"><A HREF="../../raekidion/network/node.html#f_send_score">send_score</A> (a_score: <A HREF="../../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Send a packet containing </FONT>`a_score'
+        <B>local</B>
+            l_size: <A HREF="../../abstract/packet.html">PACKET</A>
+            l_packet: <A HREF="../../abstract/packet.html">PACKET</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../../raekidion/network/node.html#f_connection_error">connection_error</A> <B>then</B>
+                <A HREF="../../raekidion/network/node.html#f_close">close</A>
+            <B>else</B>
+                <B>create</B> l_size.<A HREF="../../abstract/packet.html#f_make">make</A> (4)
+                l_size.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_put_integer_32">put_integer_32</A> (8, 0)
+                <B>create</B> l_packet.<A HREF="../../abstract/packet.html#f_make">make</A> (8)
+                l_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_put_integer_32">put_integer_32</A> (<A HREF="../../raekidion/network/node.html#f_score_packet">Score_packet</A>, 0)
+                l_packet.<A HREF="../../abstract/packet.html#f_data">data</A>.<A HREF="../../elks/managed_pointer.html#f_put_integer_32">put_integer_32</A> (a_score, 4)
+                <B>if</B> <B>attached</B> <A HREF="../../raekidion/network/node.html#f_distant_socket">distant_socket</A> <B>as</B> la_socket <B>then</B>
+                    <B>if</B> la_socket.<A HREF="../../abstract/socket.html#f_is_writable">is_writable</A> <B>and</B> la_socket.<A HREF="../../abstract/socket.html#f_is_open_write">is_open_write</A> <B>then</B>
+                        la_socket.<A HREF="../../abstract/socket.html#f_send">send</A> (l_size, 0)
+                        la_socket.<A HREF="../../abstract/socket.html#f_send">send</A> (l_packet, 0)
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>rescue</B>
+            <A HREF="../../raekidion/network/node.html#f_connection_error">connection_error</A> := <B>True</B>
+            <B>retry</B>
+        <B>end</B></A>
+
+    <A NAME="f_close"><A HREF="../../raekidion/network/node.html#f_close">close</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> <A HREF="../../raekidion/network/node.html#f_distant_socket">distant_socket</A> <B>as</B> la_socket <B>and then</B> <B>not</B> la_socket.<A HREF="../../network/network_socket.html#f_is_closed">is_closed</A> <B>then</B>
+                la_socket.<A HREF="../../abstract/socket.html#f_close">close</A>
+            <B>end</B>
+            <B>if</B> <B>attached</B> <A HREF="../../raekidion/network/node.html#f_local_socket">local_socket</A> <B>as</B> la_socket <B>and then</B> <B>not</B> la_socket.<A HREF="../../network/network_socket.html#f_is_closed">is_closed</A> <B>then</B>
+                la_socket.<A HREF="../../abstract/socket.html#f_close">close</A>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_enemy_packet"><A HREF="../../raekidion/network/node.html#f_enemy_packet">Enemy_packet</A>: <A HREF="../../elks/integer_32.html">INTEGER_32</A> = 1</A>
+
+    <A NAME="f_player_packet"><A HREF="../../raekidion/network/node.html#f_player_packet">Player_packet</A>: <A HREF="../../elks/integer_32.html">INTEGER_32</A> = 2</A>
+
+    <A NAME="f_projectile_packet"><A HREF="../../raekidion/network/node.html#f_projectile_packet">Projectile_packet</A>: <A HREF="../../elks/integer_32.html">INTEGER_32</A> = 3</A>
+
+    <A NAME="f_collision_packet"><A HREF="../../raekidion/network/node.html#f_collision_packet">Collision_packet</A>: <A HREF="../../elks/integer_32.html">INTEGER_32</A> = 4</A>
+
+    <A NAME="f_score_packet"><A HREF="../../raekidion/network/node.html#f_score_packet">Score_packet</A>: <A HREF="../../elks/integer_32.html">INTEGER_32</A> = 5</A>
+    
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../../raekidion/network/node.html">NODE</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="node_chart.html">Chart</A></TD><TD><A HREF="node_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="node_flat.html">Flat</A></TD><TD><A HREF="node_short.html">Contracts</A></TD><TD><A HREF="node_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

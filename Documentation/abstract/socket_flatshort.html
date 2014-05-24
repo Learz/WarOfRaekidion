@@ -1,0 +1,1119 @@
+<HTML><HEAD>
+<meta name="description" content="Generic sockets"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2006, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 356 Storke Road, Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>socket Flat contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="socket_chart.html">Chart</A></TD><TD><A HREF="socket_links.html">Relations</A></TD><TD><A HREF="socket.html">Text</A></TD><TD><A HREF="socket_flat.html">Flat</A></TD><TD><A HREF="socket_short.html">Contracts</A></TD><TD>Flat contracts</TD></TR></TABLE><B>note</B>
+    description: "Generic sockets"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2012-09-28 09:02:02 -0700 (Fri, 28 Sep 2012) $"
+    revision: "$Revision: 89474 $"
+
+<B>deferred</B> <B>class</B> <B>interface</B>
+    <A HREF="../abstract/socket_flatshort.html">SOCKET</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_generating_type"><A HREF="../elks/any_flatshort.html#f_generating_type">generating_type</A>: <A HREF="../elks/type_flatshort.html">TYPE</A> [<B>detachable</B> <A HREF="../abstract/socket_flatshort.html">SOCKET</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Type of current object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            generating_type_not_void: <B>Result</B> /= <B>Void</B>
+</A>
+    <A NAME="f_generator"><A HREF="../elks/any_flatshort.html#f_generator">generator</A>: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of current object's generating class</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (base class of the type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            generator_not_void: <B>Result</B> /= <B>Void</B>
+            generator_not_empty: <B>not</B> <B>Result</B>.<A HREF="../elks/finite_flatshort.html#f_is_empty">is_empty</A>
+</A>
+    <A NAME="f_retrieved"><A HREF="../abstract/socket_flatshort.html#f_retrieved">retrieved</A>: <B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieved object structure</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> To access resulting object under correct type,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> use assignment attempt.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Will raise an exception (code </FONT><A HREF="../elks/excep_const_flatshort.html#f_retrieve_exception">Retrieve_exception</A><FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> if content is not a stored Eiffel structure.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../abstract/socket_flatshort.html#f_readable">readable</A>
+            support_storable: <A HREF="../abstract/socket_flatshort.html#f_support_storable">support_storable</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_deep_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flatshort.html#f_standard_equal">standard_equal</A> (a, b) <B>implies</B> <B>Result</B>
+            both_or_none_void: (a = <B>Void</B>) <B>implies</B> (<B>Result</B> = (b = <B>Void</B>))
+            same_type: (<B>Result</B> <B>and</B> (a /= <B>Void</B>)) <B>implies</B> (b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (b))
+            symmetric: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A> (b, a)
+</A>
+    <A NAME="f_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_equal">equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to objects considered equal?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flatshort.html#f_is_equal">is_equal</A> (b))
+</A>
+    <A NAME="f_is_deep_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_is_deep_equal">is_deep_equal</A> (other: <B>attached</B> <A HREF="../abstract/socket_flatshort.html">SOCKET</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`Current'<FONT COLOR="red"> and </FONT>`other'<FONT COLOR="red"> attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flatshort.html#f_is_deep_equal">is_deep_equal</A> (<B>Current</B>)
+</A>
+    <A NAME="f_is_equal"><A HREF="../elks/any_flatshort.html#f_is_equal">is_equal</A> (other: <B>attached</B> <A HREF="../abstract/socket_flatshort.html">SOCKET</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object considered</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to current object?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            symmetric: <B>Result</B> <B>implies</B> other ~ <B>Current</B>
+            consistent: <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+</A>
+    <A NAME="f_standard_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_standard_equal">standard_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical objects of the same type?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default object comparison criterion.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (b))
+</A>
+    <A NAME="f_standard_is_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (other: <B>attached</B> <A HREF="../abstract/socket_flatshort.html">SOCKET</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object of the same type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as current object, and field-by-field identical to it?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_address_in_use"><A HREF="../abstract/socket_resources_flatshort.html#f_address_in_use">address_in_use</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Address is in use by another socket.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flatshort.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_address_not_readable"><A HREF="../abstract/socket_resources_flatshort.html#f_address_not_readable">address_not_readable</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Unreadable address</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flatshort.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_already_bound"><A HREF="../abstract/socket_resources_flatshort.html#f_already_bound">already_bound</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Socket has already been bound.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flatshort.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_bad_socket_handle"><A HREF="../abstract/socket_resources_flatshort.html#f_bad_socket_handle">bad_socket_handle</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Socket descriptor is bad.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flatshort.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_bytes_read"><A HREF="../elks/io_medium_flatshort.html#f_bytes_read">bytes_read</A>: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last number of bytes read by </FONT><A HREF="../abstract/socket_flatshort.html#f_read_to_managed_pointer">read_to_managed_pointer</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_conforms_to"><A HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A> (other: <A HREF="../elks/any_flatshort.html">ANY</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does type of current object conform to type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of </FONT>`other'<FONT COLOR="red"> (as per Eiffel: The Language, chapter 13)?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+</A>
+    <A NAME="f_connect_in_progress"><A HREF="../abstract/socket_resources_flatshort.html#f_connect_in_progress">connect_in_progress</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Call to connect returned on a non-blocking socket.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flatshort.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_connection_refused"><A HREF="../abstract/socket_resources_flatshort.html#f_connection_refused">connection_refused</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Connection is refused (possibly due to security).</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flatshort.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_dtable_full"><A HREF="../abstract/socket_resources_flatshort.html#f_dtable_full">dtable_full</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Descriptor table is full</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flatshort.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_error"><A HREF="../abstract/socket_flatshort.html#f_error">error</A>: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output a related error message.</FONT>
+</A>
+    <A NAME="f_error_number"><A HREF="../abstract/socket_resources_flatshort.html#f_error_number">error_number</A>: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Returned error number</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flatshort.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_expired_socket"><A HREF="../abstract/socket_resources_flatshort.html#f_expired_socket">expired_socket</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Socket connection has expired.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flatshort.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_handle"><A HREF="../elks/io_medium_flatshort.html#f_handle">descriptor</A>: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Handle to medium</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            valid_handle: <A HREF="../abstract/socket_flatshort.html#f_descriptor_available">descriptor_available</A>
+</A>
+    <A NAME="f_invalid_address"><A HREF="../abstract/socket_resources_flatshort.html#f_invalid_address">invalid_address</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Address is not valid.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flatshort.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_invalid_socket_handle"><A HREF="../abstract/socket_resources_flatshort.html#f_invalid_socket_handle">invalid_socket_handle</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Socket descriptor is not valid.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flatshort.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_is_plain_text"><A HREF="../elks/io_medium_flatshort.html#f_is_plain_text">is_plain_text</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is file reserved for text (character sequences)?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_is_valid_family"><A HREF="../abstract/socket_flatshort.html#f_is_valid_family">is_valid_family</A> (addr: <B>attached</B> <B>like</B> <A HREF="../abstract/socket_flatshort.html#f_address">address</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`addr'<FONT COLOR="red"> the same family as Current?</FONT>
+        <B>require</B>
+            address_exists: addr /= <B>Void</B>
+</A>
+    <A NAME="f_is_valid_peer_address"><A HREF="../abstract/socket_flatshort.html#f_is_valid_peer_address">is_valid_peer_address</A> (addr: <B>attached</B> <B>like</B> <A HREF="../abstract/socket_flatshort.html#f_address">address</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`addr'<FONT COLOR="red"> a valid peer address?</FONT>
+        <B>require</B>
+            address_exists: addr /= <B>Void</B>
+</A>
+    <A NAME="f_last_character"><A HREF="../elks/io_medium_flatshort.html#f_last_character">last_character</A>: <A HREF="../elks/character_8_flatshort.html">CHARACTER_8</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last character read by </FONT><A HREF="../abstract/socket_flatshort.html#f_read_character">read_character</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_last_double"><A HREF="../elks/io_medium_flatshort.html#f_last_double">last_double</A>: <A HREF="../elks/real_64_flatshort.html">REAL_64</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last double read by </FONT><A HREF="../abstract/socket_flatshort.html#f_read_double">read_double</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_last_integer"><A HREF="../elks/io_medium_flatshort.html#f_last_integer">last_integer</A>: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last integer read by </FONT><A HREF="../abstract/socket_flatshort.html#f_read_integer">read_integer</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_last_integer_16"><A HREF="../elks/io_medium_flatshort.html#f_last_integer_16">last_integer_16</A>: <A HREF="../elks/integer_16_flatshort.html">INTEGER_16</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last 16-bit integer read by </FONT><A HREF="../abstract/socket_flatshort.html#f_read_integer_16">read_integer_16</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_last_integer_32"><A HREF="../elks/io_medium_flatshort.html#f_last_integer_32">last_integer_32</A>: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Synonymy of </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_integer">last_integer</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_last_integer_64"><A HREF="../elks/io_medium_flatshort.html#f_last_integer_64">last_integer_64</A>: <A HREF="../elks/integer_64_flatshort.html">INTEGER_64</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last 64-bit integer read by </FONT><A HREF="../abstract/socket_flatshort.html#f_read_integer_64">read_integer_64</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_last_integer_8"><A HREF="../elks/io_medium_flatshort.html#f_last_integer_8">last_integer_8</A>: <A HREF="../elks/integer_8_flatshort.html">INTEGER_8</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last 8-bit integer read by </FONT><A HREF="../abstract/socket_flatshort.html#f_read_integer_8">read_integer_8</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_last_natural"><A HREF="../elks/io_medium_flatshort.html#f_last_natural">last_natural</A>: <A HREF="../elks/natural_32_flatshort.html">NATURAL_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last 32-bit natural read by </FONT><A HREF="../abstract/socket_flatshort.html#f_read_natural">read_natural</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_last_natural_16"><A HREF="../elks/io_medium_flatshort.html#f_last_natural_16">last_natural_16</A>: <A HREF="../elks/natural_16_flatshort.html">NATURAL_16</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last 16-bit natural read by </FONT><A HREF="../abstract/socket_flatshort.html#f_read_natural_16">read_natural_16</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_last_natural_32"><A HREF="../elks/io_medium_flatshort.html#f_last_natural_32">last_natural_32</A>: <A HREF="../elks/natural_32_flatshort.html">NATURAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Synonymy of </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_natural">last_natural</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_last_natural_64"><A HREF="../elks/io_medium_flatshort.html#f_last_natural_64">last_natural_64</A>: <A HREF="../elks/natural_64_flatshort.html">NATURAL_64</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last 64-bit natural read by </FONT><A HREF="../abstract/socket_flatshort.html#f_read_natural_64">read_natural_64</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_last_natural_8"><A HREF="../elks/io_medium_flatshort.html#f_last_natural_8">last_natural_8</A>: <A HREF="../elks/natural_8_flatshort.html">NATURAL_8</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last 8-bit natural read by </FONT><A HREF="../abstract/socket_flatshort.html#f_read_natural_8">read_natural_8</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_last_real"><A HREF="../elks/io_medium_flatshort.html#f_last_real">last_real</A>: <A HREF="../elks/real_32_flatshort.html">REAL_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last real read by </FONT><A HREF="../abstract/socket_flatshort.html#f_read_real">read_real</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_last_string"><A HREF="../elks/io_medium_flatshort.html#f_last_string">last_string</A>: <A HREF="../elks/string_8_flatshort.html">STRING_8</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last string read</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_network"><A HREF="../abstract/socket_resources_flatshort.html#f_network">network</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Socket failed due to network problems.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flatshort.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_no_buffers"><A HREF="../abstract/socket_resources_flatshort.html#f_no_buffers">no_buffers</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> No more buffers available</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flatshort.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_no_permission"><A HREF="../abstract/socket_resources_flatshort.html#f_no_permission">no_permission</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> No permission is given to user for this socket.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flatshort.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_not_connected"><A HREF="../abstract/socket_resources_flatshort.html#f_not_connected">not_connected</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Socket is not connect.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flatshort.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_protected_address"><A HREF="../abstract/socket_resources_flatshort.html#f_protected_address">protected_address</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> No access to this address is allowed.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flatshort.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_protocol_not_supported"><A HREF="../abstract/socket_resources_flatshort.html#f_protocol_not_supported">protocol_not_supported</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Protocol is not supported on this platform.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flatshort.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_same_type"><A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other: <A HREF="../elks/any_flatshort.html">ANY</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is type of current object identical to type of </FONT>`other'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            definition: <B>Result</B> = (<A HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A> (other) <B>and</B> other.<A HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A> (<B>Current</B>))
+</A>
+    <A NAME="f_socket_family_not_supported"><A HREF="../abstract/socket_resources_flatshort.html#f_socket_family_not_supported">socket_family_not_supported</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Requested family is not supported.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flatshort.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_socket_in_use"><A HREF="../abstract/socket_resources_flatshort.html#f_socket_in_use">socket_in_use</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Socket is already in use.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flatshort.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_socket_ok"><A HREF="../abstract/socket_flatshort.html#f_socket_ok">socket_ok</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> No error</FONT>
+</A>
+    <A NAME="f_socket_would_block"><A HREF="../abstract/socket_resources_flatshort.html#f_socket_would_block">socket_would_block</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Call to read, write, etc would have blocked.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flatshort.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_support_storable"><A HREF="../abstract/socket_flatshort.html#f_support_storable">support_storable</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Can medium be used to store an Eiffel structure?</FONT>
+</A>
+    <A NAME="f_was_error"><A HREF="../abstract/socket_flatshort.html#f_was_error">was_error</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates that there was an error during the last operation</FONT>
+
+    <A NAME="f_zero_option"><A HREF="../abstract/socket_resources_flatshort.html#f_zero_option">zero_option</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> No options provided</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flatshort.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_basic_store"><A HREF="../abstract/socket_flatshort.html#f_basic_store">basic_store</A> (object: <A HREF="../elks/any_flatshort.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Produce an external representation of the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> entire object structure reachable from </FONT>`object'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrievable within current system only.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            object_not_void: object /= <B>Void</B>
+            extendible: <A HREF="../abstract/socket_flatshort.html#f_extendible">extendible</A>
+            support_storable: <A HREF="../abstract/socket_flatshort.html#f_support_storable">support_storable</A>
+</A>
+    <A NAME="f_general_store"><A HREF="../abstract/socket_flatshort.html#f_general_store">general_store</A> (object: <A HREF="../elks/any_flatshort.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Produce an external representation of the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> entire object structure reachable from </FONT>`object'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrievable from other systems for same platform</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (machine architecture).</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            object_not_void: object /= <B>Void</B>
+            extendible: <A HREF="../abstract/socket_flatshort.html#f_extendible">extendible</A>
+            support_storable: <A HREF="../abstract/socket_flatshort.html#f_support_storable">support_storable</A>
+</A>
+    <A NAME="f_independent_store"><A HREF="../abstract/socket_flatshort.html#f_independent_store">independent_store</A> (object: <A HREF="../elks/any_flatshort.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Produce an external representation of the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> entire object structure reachable from </FONT>`object'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrievable from other systems for the same or other</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> platform (machine architecture).</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            object_not_void: object /= <B>Void</B>
+            extendible: <A HREF="../abstract/socket_flatshort.html#f_extendible">extendible</A>
+            support_storable: <A HREF="../abstract/socket_flatshort.html#f_support_storable">support_storable</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removal</FONT>
+
+    <A NAME="f_dispose"><A HREF="../elks/io_medium_flatshort.html#f_dispose">dispose</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Ensure this medium is closed when garbage collected.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_copy"><A HREF="../elks/any_flatshort.html#f_copy">copy</A> (other: <B>attached</B> <A HREF="../abstract/socket_flatshort.html">SOCKET</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update current object using fields of object attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to </FONT>`other'<FONT COLOR="red">, so as to yield equal objects.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            is_equal: <B>Current</B> ~ other
+</A>
+    <A NAME="f_deep_copy"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_deep_copy">deep_copy</A> (other: <B>attached</B> <A HREF="../abstract/socket_flatshort.html">SOCKET</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Effect equivalent to that of:</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">		</FONT><A HREF="../elks/any_flatshort.html#f_copy">copy</A><FONT COLOR="red"> (</FONT>`other'<FONT COLOR="red"> . </FONT><A HREF="../elks/any_flatshort.html#f_deep_twin">deep_twin</A><FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            deep_equal: <A HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A> (<B>Current</B>, other)
+</A>
+    <A NAME="f_deep_twin"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_deep_twin">deep_twin</A>: <B>attached</B> <A HREF="../abstract/socket_flatshort.html">SOCKET</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object structure recursively duplicated from Current.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            deep_twin_not_void: <B>Result</B> /= <B>Void</B>
+            deep_equal: <A HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A> (<B>Current</B>, <B>Result</B>)
+</A>
+    <A NAME="f_standard_copy"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_standard_copy">standard_copy</A> (other: <B>attached</B> <A HREF="../abstract/socket_flatshort.html">SOCKET</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy every field of </FONT>`other'<FONT COLOR="red"> onto corresponding field</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            is_standard_equal: <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (other)
+</A>
+    <A NAME="f_standard_twin"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_standard_twin">standard_twin</A>: <B>attached</B> <A HREF="../abstract/socket_flatshort.html">SOCKET</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            standard_twin_not_void: <B>Result</B> /= <B>Void</B>
+            equal: <A HREF="../elks/any_flatshort.html#f_standard_equal">standard_equal</A> (<B>Result</B>, <B>Current</B>)
+</A>
+    <A NAME="f_twin"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_twin">twin</A>: <B>attached</B> <A HREF="../abstract/socket_flatshort.html">SOCKET</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object equal to </FONT>`Current'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/any_flatshort.html#f_twin">twin</A><FONT COLOR="red"> calls </FONT><A HREF="../elks/any_flatshort.html#f_copy">copy</A><FONT COLOR="red">; to change copying/twinning semantics, redefine </FONT><A HREF="../elks/any_flatshort.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            twin_not_void: <B>Result</B> /= <B>Void</B>
+            is_equal: <B>Result</B> ~ <B>Current</B>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Miscellaneous</FONT>
+
+    <A NAME="f_name"><A HREF="../abstract/socket_flatshort.html#f_name">name</A>: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Socket name</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_as_attached"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_as_attached">as_attached</A>: <B>attached</B> <A HREF="../abstract/socket_flatshort.html">SOCKET</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attached version of Current</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Can be used during transitional period to convert</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> non-void-safe classes to void-safe ones.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_default"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_default">default</A>: <B>detachable</B> <A HREF="../abstract/socket_flatshort.html">SOCKET</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of object's type</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_default_pointer"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_default_pointer">default_pointer</A>: <A HREF="../elks/pointer_flatshort.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of type </FONT>`POINTER'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Avoid the need to write </FONT>`p'<FONT COLOR="red">.</FONT><A HREF="../elks/any_flatshort.html#f_default">default</A><FONT COLOR="red"> for</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> some </FONT>`p'<FONT COLOR="red"> of type </FONT>`POINTER'<FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_default_rescue"><A HREF="../elks/any_flatshort.html#f_default_rescue">default_rescue</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process exception for routines with no Rescue clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_do_nothing"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_do_nothing">do_nothing</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execute a null action.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Obsolete</FONT>
+
+    <A NAME="f_lastchar"><A HREF="../elks/io_medium_flatshort.html#f_lastchar">lastchar</A>: <A HREF="../elks/character_8_flatshort.html">CHARACTER_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last character read by </FONT><A HREF="../abstract/socket_flatshort.html#f_read_character">read_character</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_lastdouble"><A HREF="../elks/io_medium_flatshort.html#f_lastdouble">lastdouble</A>: <A HREF="../elks/real_64_flatshort.html">REAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last double read by </FONT><A HREF="../abstract/socket_flatshort.html#f_read_double">read_double</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_lastint"><A HREF="../elks/io_medium_flatshort.html#f_lastint">lastint</A>: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last integer read by </FONT><A HREF="../abstract/socket_flatshort.html#f_read_integer">read_integer</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_lastreal"><A HREF="../elks/io_medium_flatshort.html#f_lastreal">lastreal</A>: <A HREF="../elks/real_32_flatshort.html">REAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last real read by </FONT><A HREF="../abstract/socket_flatshort.html#f_read_real">read_real</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_laststring"><A HREF="../elks/io_medium_flatshort.html#f_laststring">laststring</A>: <B>like</B> <A HREF="../elks/io_medium_flatshort.html#f_last_string">last_string</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last string read</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic commands</FONT>
+
+    <A NAME="f_address"><A HREF="../abstract/socket_flatshort.html#f_address">address</A>: <B>detachable</B> <B>like</B> <A HREF="../abstract/socket_flatshort.html#f_address_type">address_type</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Local address of socket</FONT>
+
+    <A NAME="f_address_type"><A HREF="../abstract/socket_flatshort.html#f_address_type">address_type</A>: <A HREF="../abstract/socket_address_flatshort.html">SOCKET_ADDRESS</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Type of </FONT><A HREF="../abstract/socket_flatshort.html#f_address">address</A><FONT COLOR="red"> and </FONT><A HREF="../abstract/socket_flatshort.html#f_peer_address">peer_address</A>
+        <B>require</B>
+            not_callable: <B>False</B>
+        <B>ensure</B>
+            for_typing_only: <B>False</B>
+</A>
+    <A NAME="f_bind"><A HREF="../abstract/socket_flatshort.html#f_bind">bind</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Bind socket to local address in </FONT><A HREF="../abstract/socket_flatshort.html#f_address">address</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket_flatshort.html#f_exists">exists</A>
+            valid_local_address: <A HREF="../abstract/socket_flatshort.html#f_address">address</A> /= <B>Void</B>
+</A>
+    <A NAME="f_cleanup"><A HREF="../abstract/socket_flatshort.html#f_cleanup">cleanup</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Cleanup socket.</FONT>
+</A>
+    <A NAME="f_close"><A HREF="../abstract/socket_flatshort.html#f_close">close</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Close socket for all context.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            medium_is_open: <B>not</B> <A HREF="../abstract/socket_flatshort.html#f_is_closed">is_closed</A>
+</A>
+    <A NAME="f_close_socket"><A HREF="../abstract/socket_flatshort.html#f_close_socket">close_socket</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Close socket for current context.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket_flatshort.html#f_exists">exists</A>
+        <B>ensure</B>
+            is_closed: <A HREF="../abstract/socket_flatshort.html#f_is_closed">is_closed</A>
+</A>
+    <A NAME="f_connect"><A HREF="../abstract/socket_flatshort.html#f_connect">connect</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Connect socket to peer address.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket_flatshort.html#f_exists">exists</A>
+            valid_peer_address: <A HREF="../abstract/socket_flatshort.html#f_peer_address">peer_address</A> /= <B>Void</B>
+</A>
+    <A NAME="f_descriptor_available"><A HREF="../abstract/socket_flatshort.html#f_descriptor_available">descriptor_available</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is descriptor available?</FONT>
+
+    <A NAME="f_family"><A HREF="../abstract/socket_flatshort.html#f_family">family</A>: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Socket family eg. af_inet, af_unix</FONT>
+
+    <A NAME="f_is_closed"><A HREF="../abstract/socket_flatshort.html#f_is_closed">is_closed</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is socket closed?</FONT>
+</A>
+    <A NAME="f_make_socket"><A HREF="../abstract/socket_flatshort.html#f_make_socket">make_socket</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create socket descriptor.</FONT>
+        <B>require</B>
+            valid_family: <A HREF="../abstract/socket_flatshort.html#f_family">family</A> &gt;= 0
+            valid_type: <A HREF="../abstract/socket_flatshort.html#f_type">type</A> &gt;= 0
+            valid_protocol: <A HREF="../abstract/socket_flatshort.html#f_protocol">protocol</A> &gt;= 0
+</A>
+    <A NAME="f_peer_address"><A HREF="../abstract/socket_flatshort.html#f_peer_address">peer_address</A>: <B>detachable</B> <B>like</B> <A HREF="../abstract/socket_flatshort.html#f_address">address</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Peer address of socket</FONT>
+
+    <A NAME="f_protocol"><A HREF="../abstract/socket_flatshort.html#f_protocol">protocol</A>: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Protocol of the socket. default 0</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> means for the system to chose the default</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> protocol for the family chosen. eg. </FONT>`udp'<FONT COLOR="red">, </FONT>`tcp'<FONT COLOR="red">.</FONT>
+
+    <A NAME="f_set_address"><A HREF="../abstract/socket_flatshort.html#f_set_address">set_address</A> (addr: <B>like</B> <A HREF="../abstract/socket_flatshort.html#f_address">address</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set local address to </FONT>`addr'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            add_non_void: addr /= <B>Void</B>
+            same_type: <A HREF="../abstract/socket_flatshort.html#f_is_valid_family">is_valid_family</A> (addr)
+        <B>ensure</B>
+            address_set: <A HREF="../abstract/socket_flatshort.html#f_address">address</A> = addr
+</A>
+    <A NAME="f_set_peer_address"><A HREF="../abstract/socket_flatshort.html#f_set_peer_address">set_peer_address</A> (addr: <B>like</B> <A HREF="../abstract/socket_flatshort.html#f_address">address</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set peer address to </FONT>`addr'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            address_exists: addr /= <B>Void</B>
+            address_valid: <A HREF="../abstract/socket_flatshort.html#f_is_valid_peer_address">is_valid_peer_address</A> (addr)
+        <B>ensure</B>
+            address_set: <A HREF="../abstract/socket_flatshort.html#f_peer_address">peer_address</A> = addr
+</A>
+    <A NAME="f_type"><A HREF="../abstract/socket_flatshort.html#f_type">type</A>: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Type of socket. eg stream, datagram</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Externals: flags for send, sendto recv and recvfrom socket calls</FONT>
+
+    <A NAME="f_c_msgdontroute"><A HREF="../abstract/socket_resources_flatshort.html#f_c_msgdontroute">c_msgdontroute</A>: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do not route message</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flatshort.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_c_oobmsg"><A HREF="../abstract/socket_resources_flatshort.html#f_c_oobmsg">c_oobmsg</A>: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Out of bound message</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flatshort.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_c_peekmsg"><A HREF="../abstract/socket_resources_flatshort.html#f_c_peekmsg">c_peekmsg</A>: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Peek message</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../abstract/socket_resources_flatshort.html">SOCKET_RESOURCES</A><FONT COLOR="red">)</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Input</FONT>
+
+    <A NAME="f_last_boolean"><A HREF="../abstract/socket_flatshort.html#f_last_boolean">last_boolean</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last boolean read by read_boolean</FONT>
+
+    <A NAME="f_read"><A HREF="../abstract/socket_flatshort.html#f_read">read</A> (size: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>): <B>detachable</B> <A HREF="../abstract/packet_flatshort.html">PACKET</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a packet of data of maximum size </FONT>`size'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket_flatshort.html#f_exists">exists</A>
+            opened_for_read: <A HREF="../abstract/socket_flatshort.html#f_is_open_read">is_open_read</A>
+</A>
+    <A NAME="f_read_boolean"><A HREF="../abstract/socket_flatshort.html#f_read_boolean">read_boolean</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new boolean.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Maker result available in </FONT><A HREF="../abstract/socket_flatshort.html#f_last_boolean">last_boolean</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_readbool">readbool</A><FONT COLOR="red">.</FONT>
+</A>
+    <A NAME="f_read_character"><A HREF="../abstract/socket_flatshort.html#f_read_character">read_character</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new character.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_character">last_character</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_readchar">readchar</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../abstract/socket_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_read_double"><A HREF="../abstract/socket_flatshort.html#f_read_double">read_double</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new double.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_double">last_double</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_readdouble">readdouble</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../abstract/socket_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_read_integer"><A HREF="../abstract/socket_flatshort.html#f_read_integer">read_integer</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 32-bit integer.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_integer">last_integer</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_readint">readint</A><FONT COLOR="red"> and </FONT><A HREF="../abstract/socket_flatshort.html#f_read_integer_32">read_integer_32</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../abstract/socket_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_read_integer_16"><A HREF="../abstract/socket_flatshort.html#f_read_integer_16">read_integer_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 16-bit integer.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_integer_16">last_integer_16</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../abstract/socket_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_read_integer_32"><A HREF="../abstract/socket_flatshort.html#f_read_integer_32">read_integer_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 32-bit integer.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_integer">last_integer</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_read_integer">read_integer</A><FONT COLOR="red"> and </FONT><A HREF="../abstract/socket_flatshort.html#f_readint">readint</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../abstract/socket_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_read_integer_64"><A HREF="../abstract/socket_flatshort.html#f_read_integer_64">read_integer_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 64-bit integer.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_integer_64">last_integer_64</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../abstract/socket_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_read_integer_8"><A HREF="../abstract/socket_flatshort.html#f_read_integer_8">read_integer_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 8-bit integer.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_integer_8">last_integer_8</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../abstract/socket_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_read_line"><A HREF="../abstract/socket_flatshort.html#f_read_line">read_line</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a line of characters (ended by a new_line).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_readline">readline</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../abstract/socket_flatshort.html#f_readable">readable</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            last_string_not_void: <A HREF="../elks/io_medium_flatshort.html#f_last_string">last_string</A> /= <B>Void</B>
+</A>
+    <A NAME="f_read_line_thread_aware"><A HREF="../elks/io_medium_flatshort.html#f_read_line_thread_aware">read_line_thread_aware</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read characters until a new line or</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> end of medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_string">last_string</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Functionally identical to </FONT><A HREF="../abstract/socket_flatshort.html#f_read_line">read_line</A><FONT COLOR="red"> but</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> won't prevent garbage collection from occurring</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> while blocked waiting for data, though data must</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> be copied an extra time.			</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../abstract/socket_flatshort.html#f_readable">readable</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            last_string_not_void: <A HREF="../elks/io_medium_flatshort.html#f_last_string">last_string</A> /= <B>Void</B>
+</A>
+    <A NAME="f_read_line_until"><A HREF="../abstract/socket_flatshort.html#f_read_line_until">read_line_until</A> (n: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a line of at most </FONT>`n'<FONT COLOR="red"> characters (ended by a new_line).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If new line not read after </FONT>`n'<FONT COLOR="red"> characters, set an error.</FONT>
+        <B>require</B>
+            is_readable: <A HREF="../abstract/socket_flatshort.html#f_readable">readable</A>
+        <B>ensure</B>
+            last_string_not_void: <A HREF="../elks/io_medium_flatshort.html#f_last_string">last_string</A> /= <B>Void</B>
+</A>
+    <A NAME="f_read_natural"><A HREF="../abstract/socket_flatshort.html#f_read_natural">read_natural</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 32-bit natural.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_natural">last_natural</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_read_natural_32">read_natural_32</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../abstract/socket_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_read_natural_16"><A HREF="../abstract/socket_flatshort.html#f_read_natural_16">read_natural_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 16-bit natural.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_natural_16">last_natural_16</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../abstract/socket_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_read_natural_32"><A HREF="../abstract/socket_flatshort.html#f_read_natural_32">read_natural_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 32-bit natural.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_natural">last_natural</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_read_natural">read_natural</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../abstract/socket_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_read_natural_64"><A HREF="../abstract/socket_flatshort.html#f_read_natural_64">read_natural_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 64-bit natural.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_natural_64">last_natural_64</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../abstract/socket_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_read_natural_8"><A HREF="../abstract/socket_flatshort.html#f_read_natural_8">read_natural_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 8-bit natural.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_natural_8">last_natural_8</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../abstract/socket_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_read_real"><A HREF="../abstract/socket_flatshort.html#f_read_real">read_real</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new real.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_real">last_real</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_readreal">readreal</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../abstract/socket_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_read_stream"><A HREF="../abstract/socket_flatshort.html#f_read_stream">read_stream</A> (nb_char: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a string of at most </FONT>`nb_char'<FONT COLOR="red"> characters.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_string">last_string</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_readstream">readstream</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../abstract/socket_flatshort.html#f_readable">readable</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            last_string_not_void: <A HREF="../elks/io_medium_flatshort.html#f_last_string">last_string</A> /= <B>Void</B>
+</A>
+    <A NAME="f_read_stream_thread_aware"><A HREF="../elks/io_medium_flatshort.html#f_read_stream_thread_aware">read_stream_thread_aware</A> (nb_char: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a string of at most </FONT>`nb_char'<FONT COLOR="red"> bound characters</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or until end of medium is encountered.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_string">last_string</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Functionally identical to </FONT><A HREF="../abstract/socket_flatshort.html#f_read_stream">read_stream</A><FONT COLOR="red"> but</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> won't prevent garbage collection from occurring</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> while blocked waiting for data, though data must</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> be copied an extra time.			</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../abstract/socket_flatshort.html#f_readable">readable</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            last_string_not_void: <A HREF="../elks/io_medium_flatshort.html#f_last_string">last_string</A> /= <B>Void</B>
+</A>
+    <A NAME="f_read_to_managed_pointer"><A HREF="../abstract/socket_flatshort.html#f_read_to_managed_pointer">read_to_managed_pointer</A> (p: <A HREF="../elks/managed_pointer_flatshort.html">MANAGED_POINTER</A>; start_pos, nb_bytes: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read at most </FONT>`nb_bytes'<FONT COLOR="red"> bound bytes and make result</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> available in </FONT>`p'<FONT COLOR="red"> at position </FONT>`start_pos'<FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            p_not_void: p /= <B>Void</B>
+            p_large_enough: p.<A HREF="../elks/managed_pointer_flatshort.html#f_count">count</A> &gt;= nb_bytes + start_pos
+            nb_bytes_non_negative: nb_bytes &gt;= 0
+            is_readable: <A HREF="../abstract/socket_flatshort.html#f_readable">readable</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            bytes_read_non_negative: <A HREF="../elks/io_medium_flatshort.html#f_bytes_read">bytes_read</A> &gt;= 0
+            bytes_read_not_too_big: <A HREF="../elks/io_medium_flatshort.html#f_bytes_read">bytes_read</A> &lt;= nb_bytes
+</A>
+    <A NAME="f_readbool"><A HREF="../abstract/socket_flatshort.html#f_readbool">readbool</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new boolean.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Maker result available in </FONT><A HREF="../abstract/socket_flatshort.html#f_last_boolean">last_boolean</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_read_boolean">read_boolean</A><FONT COLOR="red">.</FONT>
+</A>
+    <A NAME="f_readchar"><A HREF="../abstract/socket_flatshort.html#f_readchar">readchar</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new character.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_character">last_character</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_read_character">read_character</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../abstract/socket_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_readdouble"><A HREF="../abstract/socket_flatshort.html#f_readdouble">readdouble</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new double.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_double">last_double</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_read_double">read_double</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../abstract/socket_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_readint"><A HREF="../abstract/socket_flatshort.html#f_readint">readint</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 32-bit integer.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_integer">last_integer</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_read_integer">read_integer</A><FONT COLOR="red"> and </FONT><A HREF="../abstract/socket_flatshort.html#f_read_integer_32">read_integer_32</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../abstract/socket_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_readline"><A HREF="../abstract/socket_flatshort.html#f_readline">readline</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a line of characters (ended by a new_line).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_read_line">read_line</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../abstract/socket_flatshort.html#f_readable">readable</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            last_string_not_void: <A HREF="../elks/io_medium_flatshort.html#f_last_string">last_string</A> /= <B>Void</B>
+</A>
+    <A NAME="f_readreal"><A HREF="../abstract/socket_flatshort.html#f_readreal">readreal</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new real.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_real">last_real</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_read_real">read_real</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../abstract/socket_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_readstream"><A HREF="../abstract/socket_flatshort.html#f_readstream">readstream</A> (nb_char: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a string of at most </FONT>`nb_char'<FONT COLOR="red"> characters.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_string">last_string</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_read_stream">read_stream</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../abstract/socket_flatshort.html#f_readable">readable</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            last_string_not_void: <A HREF="../elks/io_medium_flatshort.html#f_last_string">last_string</A> /= <B>Void</B>
+</A>
+    <A NAME="f_receive"><A HREF="../abstract/socket_flatshort.html#f_receive">receive</A> (size, flags: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>): <B>detachable</B> <A HREF="../abstract/packet_flatshort.html">PACKET</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Receive a packet of maximum size </FONT>`size'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket_flatshort.html#f_exists">exists</A>
+            opened_for_read: <A HREF="../abstract/socket_flatshort.html#f_is_open_read">is_open_read</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output</FONT>
+
+    <A NAME="f_exists"><A HREF="../abstract/socket_flatshort.html#f_exists">exists</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does socket exist?</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            <B>True</B>
+        <B>ensure then</B>
+            definition: <B>Result</B> <B>implies</B> <A HREF="../abstract/socket_flatshort.html#f_descriptor_available">descriptor_available</A>
+</A>
+    <A NAME="f_extendible"><A HREF="../abstract/socket_flatshort.html#f_extendible">extendible</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May new items be added?</FONT>
+</A>
+    <A NAME="f_io"><A HREF="../elks/any_flatshort.html#f_io">Io</A>: <A HREF="../elks/std_files_flatshort.html">STD_FILES</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Handle to standard file setup</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            io_not_void: <B>Result</B> /= <B>Void</B>
+</A>
+    <A NAME="f_is_executable"><A HREF="../abstract/socket_flatshort.html#f_is_executable">is_executable</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is socket an executable?</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            handle_exists: <A HREF="../abstract/socket_flatshort.html#f_exists">exists</A>
+</A>
+    <A NAME="f_is_open_read"><A HREF="../abstract/socket_flatshort.html#f_is_open_read">is_open_read</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is socket opened for reading?</FONT>
+
+    <A NAME="f_is_open_write"><A HREF="../abstract/socket_flatshort.html#f_is_open_write">is_open_write</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is socket opened for writing?</FONT>
+
+    <A NAME="f_is_readable"><A HREF="../abstract/socket_flatshort.html#f_is_readable">is_readable</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there currently any data available on socket?</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            handle_exists: <A HREF="../abstract/socket_flatshort.html#f_exists">exists</A>
+</A>
+    <A NAME="f_is_writable"><A HREF="../abstract/socket_flatshort.html#f_is_writable">is_writable</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is socket a writable medium?</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            handle_exists: <A HREF="../abstract/socket_flatshort.html#f_exists">exists</A>
+</A>
+    <A NAME="f_new_line"><A HREF="../abstract/socket_flatshort.html#f_new_line">new_line</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write a "new_line" character to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_put_new_line">put_new_line</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../abstract/socket_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_out"><A HREF="../elks/any_flatshort.html#f_out">out</A>: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            out_not_void: <B>Result</B> /= <B>Void</B>
+</A>
+    <A NAME="f_print"><A HREF="../elks/any_flatshort.html#f_print">print</A> (o: <B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write terse external representation of </FONT>`o'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on standard output.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_put_boolean"><A HREF="../abstract/socket_flatshort.html#f_put_boolean">put_boolean</A> (b: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write boolean </FONT>`b'<FONT COLOR="red"> to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_putbool">putbool</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../abstract/socket_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_character"><A HREF="../abstract/socket_flatshort.html#f_put_character">put_character</A> (c: <A HREF="../elks/character_8_flatshort.html">CHARACTER_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write character </FONT>`c'<FONT COLOR="red"> to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_putchar">putchar</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../abstract/socket_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_double"><A HREF="../abstract/socket_flatshort.html#f_put_double">put_double</A> (d: <A HREF="../elks/real_64_flatshort.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write double </FONT>`d'<FONT COLOR="red"> to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_putdouble">putdouble</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../abstract/socket_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_integer"><A HREF="../abstract/socket_flatshort.html#f_put_integer">put_integer</A> (i: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write integer </FONT>`i'<FONT COLOR="red"> to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_putint">putint</A><FONT COLOR="red"> and </FONT><A HREF="../abstract/socket_flatshort.html#f_put_integer_32">put_integer_32</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../abstract/socket_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_integer_16"><A HREF="../abstract/socket_flatshort.html#f_put_integer_16">put_integer_16</A> (i: <A HREF="../elks/integer_16_flatshort.html">INTEGER_16</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write integer </FONT>`i'<FONT COLOR="red"> to socket.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../abstract/socket_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_integer_32"><A HREF="../abstract/socket_flatshort.html#f_put_integer_32">put_integer_32</A> (i: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write integer </FONT>`i'<FONT COLOR="red"> to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_put_integer">put_integer</A><FONT COLOR="red"> and </FONT><A HREF="../abstract/socket_flatshort.html#f_putint">putint</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../abstract/socket_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_integer_64"><A HREF="../abstract/socket_flatshort.html#f_put_integer_64">put_integer_64</A> (i: <A HREF="../elks/integer_64_flatshort.html">INTEGER_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write integer </FONT>`i'<FONT COLOR="red"> to socket.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../abstract/socket_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_integer_8"><A HREF="../abstract/socket_flatshort.html#f_put_integer_8">put_integer_8</A> (i: <A HREF="../elks/integer_8_flatshort.html">INTEGER_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write integer </FONT>`i'<FONT COLOR="red"> to socket.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../abstract/socket_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_managed_pointer"><A HREF="../abstract/socket_flatshort.html#f_put_managed_pointer">put_managed_pointer</A> (p: <A HREF="../elks/managed_pointer_flatshort.html">MANAGED_POINTER</A>; start_pos, nb_bytes: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Put data of length </FONT>`nb_bytes'<FONT COLOR="red"> pointed by </FONT>`start_pos'<FONT COLOR="red"> index in </FONT>`p'<FONT COLOR="red"> at</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> current position.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            p_not_void: p /= <B>Void</B>
+            p_large_enough: p.<A HREF="../elks/managed_pointer_flatshort.html#f_count">count</A> &gt;= nb_bytes + start_pos
+            nb_bytes_non_negative: nb_bytes &gt;= 0
+            extendible: <A HREF="../abstract/socket_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_natural"><A HREF="../abstract/socket_flatshort.html#f_put_natural">put_natural</A> (i: <A HREF="../elks/natural_32_flatshort.html">NATURAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write natural </FONT>`i'<FONT COLOR="red"> to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_put_natural_32">put_natural_32</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../abstract/socket_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_natural_16"><A HREF="../abstract/socket_flatshort.html#f_put_natural_16">put_natural_16</A> (i: <A HREF="../elks/natural_16_flatshort.html">NATURAL_16</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write natural </FONT>`i'<FONT COLOR="red"> to socket.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../abstract/socket_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_natural_32"><A HREF="../abstract/socket_flatshort.html#f_put_natural_32">put_natural_32</A> (i: <A HREF="../elks/natural_32_flatshort.html">NATURAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write natural </FONT>`i'<FONT COLOR="red"> to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_put_natural">put_natural</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../abstract/socket_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_natural_64"><A HREF="../abstract/socket_flatshort.html#f_put_natural_64">put_natural_64</A> (i: <A HREF="../elks/natural_64_flatshort.html">NATURAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write natural </FONT>`i'<FONT COLOR="red"> to socket.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../abstract/socket_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_natural_8"><A HREF="../abstract/socket_flatshort.html#f_put_natural_8">put_natural_8</A> (i: <A HREF="../elks/natural_8_flatshort.html">NATURAL_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write natural </FONT>`i'<FONT COLOR="red"> to socket.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../abstract/socket_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_new_line"><A HREF="../abstract/socket_flatshort.html#f_put_new_line">put_new_line</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write a "new_line" character to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_new_line">new_line</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../abstract/socket_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_real"><A HREF="../abstract/socket_flatshort.html#f_put_real">put_real</A> (r: <A HREF="../elks/real_32_flatshort.html">REAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write real </FONT>`r'<FONT COLOR="red"> to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_putreal">putreal</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../abstract/socket_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_string"><A HREF="../abstract/socket_flatshort.html#f_put_string">put_string</A> (s: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write string </FONT>`s'<FONT COLOR="red"> to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_putstring">putstring</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../abstract/socket_flatshort.html#f_extendible">extendible</A>
+            non_void: s /= <B>Void</B>
+</A>
+    <A NAME="f_putbool"><A HREF="../abstract/socket_flatshort.html#f_putbool">putbool</A> (b: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write boolean </FONT>`b'<FONT COLOR="red"> to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_put_boolean">put_boolean</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../abstract/socket_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_putchar"><A HREF="../abstract/socket_flatshort.html#f_putchar">putchar</A> (c: <A HREF="../elks/character_8_flatshort.html">CHARACTER_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write character </FONT>`c'<FONT COLOR="red"> to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_put_character">put_character</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../abstract/socket_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_putdouble"><A HREF="../abstract/socket_flatshort.html#f_putdouble">putdouble</A> (d: <A HREF="../elks/real_64_flatshort.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write double </FONT>`d'<FONT COLOR="red"> to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_put_double">put_double</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../abstract/socket_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_putint"><A HREF="../abstract/socket_flatshort.html#f_putint">putint</A> (i: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write integer </FONT>`i'<FONT COLOR="red"> to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_put_integer">put_integer</A><FONT COLOR="red"> and </FONT><A HREF="../abstract/socket_flatshort.html#f_put_integer_32">put_integer_32</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../abstract/socket_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_putreal"><A HREF="../abstract/socket_flatshort.html#f_putreal">putreal</A> (r: <A HREF="../elks/real_32_flatshort.html">REAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write real </FONT>`r'<FONT COLOR="red"> to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_put_real">put_real</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../abstract/socket_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_putstring"><A HREF="../abstract/socket_flatshort.html#f_putstring">putstring</A> (s: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write string </FONT>`s'<FONT COLOR="red"> to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket_flatshort.html#f_put_string">put_string</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../abstract/socket_flatshort.html#f_extendible">extendible</A>
+            non_void: s /= <B>Void</B>
+</A>
+    <A NAME="f_readable"><A HREF="../abstract/socket_flatshort.html#f_readable">readable</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there a current item that may be read?</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            handle_exists: <A HREF="../abstract/socket_flatshort.html#f_exists">exists</A>
+</A>
+    <A NAME="f_send"><A HREF="../abstract/socket_flatshort.html#f_send">send</A> (a_packet: <A HREF="../abstract/packet_flatshort.html">PACKET</A>; flags: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Send a packet </FONT>`a_packet'<FONT COLOR="red"> of data to socket.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket_flatshort.html#f_exists">exists</A>
+            opened_for_write: <A HREF="../abstract/socket_flatshort.html#f_is_open_write">is_open_write</A>
+            valid_packet: a_packet /= <B>Void</B>
+</A>
+    <A NAME="f_tagged_out"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_tagged_out">tagged_out</A>: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            tagged_out_not_void: <B>Result</B> /= <B>Void</B>
+</A>
+    <A NAME="f_write"><A HREF="../abstract/socket_flatshort.html#f_write">write</A> (a_packet: <A HREF="../abstract/packet_flatshort.html">PACKET</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write packet </FONT>`a_packet'<FONT COLOR="red"> to socket.</FONT>
+        <B>require</B>
+            a_packet_not_void: a_packet /= <B>Void</B>
+            socket_exists: <A HREF="../abstract/socket_flatshort.html#f_exists">exists</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Platform</FONT>
+
+    <A NAME="f_operating_environment"><A HREF="../elks/any_flatshort.html#f_operating_environment">Operating_environment</A>: <A HREF="../elks/operating_environment_flatshort.html">OPERATING_ENVIRONMENT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Objects available from the operating system</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            operating_environment_not_void: <B>Result</B> /= <B>Void</B>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> socket options</FONT>
+
+    <A NAME="f_debug_enabled"><A HREF="../abstract/socket_flatshort.html#f_debug_enabled">debug_enabled</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is socket system debugging enabled?</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket_flatshort.html#f_exists">exists</A>
+</A>
+    <A NAME="f_disable_debug"><A HREF="../abstract/socket_flatshort.html#f_disable_debug">disable_debug</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Disable socket system debugging.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket_flatshort.html#f_exists">exists</A>
+</A>
+    <A NAME="f_do_not_route"><A HREF="../abstract/socket_flatshort.html#f_do_not_route">do_not_route</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set socket to non-routing.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket_flatshort.html#f_exists">exists</A>
+</A>
+    <A NAME="f_enable_debug"><A HREF="../abstract/socket_flatshort.html#f_enable_debug">enable_debug</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Enable socket system debugging.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket_flatshort.html#f_exists">exists</A>
+</A>
+    <A NAME="f_group_id"><A HREF="../abstract/socket_flatshort.html#f_group_id">group_id</A>: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Group id of socket</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket_flatshort.html#f_exists">exists</A>
+            group_set: <A HREF="../abstract/socket_flatshort.html#f_is_group_id">is_group_id</A>
+</A>
+    <A NAME="f_is_blocking"><A HREF="../abstract/socket_flatshort.html#f_is_blocking">is_blocking</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is the socket blocking?</FONT>
+
+    <A NAME="f_is_group_id"><A HREF="../abstract/socket_flatshort.html#f_is_group_id">is_group_id</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is the owner id the socket group id?</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket_flatshort.html#f_exists">exists</A>
+</A>
+    <A NAME="f_is_process_id"><A HREF="../abstract/socket_flatshort.html#f_is_process_id">is_process_id</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is the owner id the socket process id?</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket_flatshort.html#f_exists">exists</A>
+</A>
+    <A NAME="f_is_socket_stream"><A HREF="../abstract/socket_flatshort.html#f_is_socket_stream">is_socket_stream</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is the socket a stream?</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket_flatshort.html#f_exists">exists</A>
+</A>
+    <A NAME="f_process_id"><A HREF="../abstract/socket_flatshort.html#f_process_id">process_id</A>: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process id of socket</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket_flatshort.html#f_exists">exists</A>
+            process_set: <A HREF="../abstract/socket_flatshort.html#f_is_process_id">is_process_id</A>
+</A>
+    <A NAME="f_receive_buf_size"><A HREF="../abstract/socket_flatshort.html#f_receive_buf_size">receive_buf_size</A>: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Size of receive buffer.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket_flatshort.html#f_exists">exists</A>
+</A>
+    <A NAME="f_route"><A HREF="../abstract/socket_flatshort.html#f_route">route</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set socket to routing.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket_flatshort.html#f_exists">exists</A>
+</A>
+    <A NAME="f_route_enabled"><A HREF="../abstract/socket_flatshort.html#f_route_enabled">route_enabled</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is routing enabled?</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket_flatshort.html#f_exists">exists</A>
+</A>
+    <A NAME="f_send_buf_size"><A HREF="../abstract/socket_flatshort.html#f_send_buf_size">send_buf_size</A>: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Size of send buffer.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket_flatshort.html#f_exists">exists</A>
+</A>
+    <A NAME="f_set_blocking"><A HREF="../abstract/socket_flatshort.html#f_set_blocking">set_blocking</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set socket to blocking mode.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket_flatshort.html#f_exists">exists</A>
+        <B>ensure</B>
+            <A HREF="../abstract/socket_flatshort.html#f_is_blocking">is_blocking</A>
+</A>
+    <A NAME="f_set_non_blocking"><A HREF="../abstract/socket_flatshort.html#f_set_non_blocking">set_non_blocking</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set socket to non-blocking mode.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket_flatshort.html#f_exists">exists</A>
+        <B>ensure</B>
+            <B>not</B> <A HREF="../abstract/socket_flatshort.html#f_is_blocking">is_blocking</A>
+</A>
+    <A NAME="f_set_owner"><A HREF="../abstract/socket_flatshort.html#f_set_owner">set_owner</A> (own: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Negative value sets group process id.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> positive value sets process id.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket_flatshort.html#f_exists">exists</A>
+            valid_owner: own /= 0 <B>and</B> own /= -1
+        <B>ensure</B>
+            set_id: own &lt; -1 <B>implies</B> own = <A HREF="../abstract/socket_flatshort.html#f_group_id">group_id</A> <B>or else</B> own &gt; 0 <B>implies</B> own = <A HREF="../abstract/socket_flatshort.html#f_process_id">process_id</A>
+</A>
+    <A NAME="f_set_receive_buf_size"><A HREF="../abstract/socket_flatshort.html#f_set_receive_buf_size">set_receive_buf_size</A> (s: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set receive buffer size.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket_flatshort.html#f_exists">exists</A>
+        <B>ensure</B>
+            size_set: s = <A HREF="../abstract/socket_flatshort.html#f_receive_buf_size">receive_buf_size</A>
+</A>
+    <A NAME="f_set_send_buf_size"><A HREF="../abstract/socket_flatshort.html#f_set_send_buf_size">set_send_buf_size</A> (s: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set the send buffer to size </FONT>`s'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket_flatshort.html#f_exists">exists</A>
+        <B>ensure</B>
+            size_set: s = <A HREF="../abstract/socket_flatshort.html#f_send_buf_size">send_buf_size</A>
+</A>    
+<B>invariant</B>
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+    reflexive_equality: <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+    reflexive_conformance: <A HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A> (<B>Current</B>)
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2006, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        356 Storke Road, Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../abstract/socket_flatshort.html">SOCKET</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="socket_chart.html">Chart</A></TD><TD><A HREF="socket_links.html">Relations</A></TD><TD><A HREF="socket.html">Text</A></TD><TD><A HREF="socket_flat.html">Flat</A></TD><TD><A HREF="socket_short.html">Contracts</A></TD><TD>Flat contracts</TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

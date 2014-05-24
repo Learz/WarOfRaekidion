@@ -1,12 +1,12 @@
 note
 	description : "[
-						War of Raekidion - A text input container
-						A {TEXTBOX} receives text input and directly shows it 
-						on top of its sprite.
-					]"
+					War of Raekidion - A text input container
+					A {TEXTBOX} receives text input and directly shows it 
+					on top of its sprite.
+				]"
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
-	date		: "$Date$"
-	revision	: "$Revision$"
+	date		: "$Date: May 23 2014$"
+	revision	: "$Revision: 1$"
 
 class
 	TEXTBOX
@@ -72,5 +72,13 @@ feature {NONE} -- Implementation
 
 	text: TEXT
 		-- The text object to render
+
+note
+	copyright: "[
+				War of Raekidion
+				Copyright (C) 2014 François Allard <binarmorker@gmail.com>
+             		   		   and Marc-Antoine Renaud <legars123456@gmail.com>
+               ]"
+	license:   "GNU General Public License, <http://www.gnu.org/licenses/>"
 
 end

@@ -1,0 +1,499 @@
+<HTML><HEAD>
+<meta name="description" content="Access to internal object properties. This class may be used as ancestor by classes needing its facilities."/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>internal Contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="internal_chart.html">Chart</A></TD><TD><A HREF="internal_links.html">Relations</A></TD><TD><A HREF="internal.html">Text</A></TD><TD><A HREF="internal_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="internal_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Access to internal object properties.
+        This class may be used as ancestor by classes needing its facilities.
+    ]"
+    library: "Free implementation of ELKS library"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2013-04-08 17:12:32 -0700 (Mon, 08 Apr 2013) $"
+    revision: "$Revision: 92422 $"
+
+<B>class</B> <B>interface</B>
+    <A HREF="../elks/internal_short.html">INTERNAL</A>
+
+<B>create</B> 
+    <A HREF="../elks/any_short.html#f_default_create">default_create</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Conformance</FONT>
+
+    <A NAME="f_is_instance_of"><A HREF="../elks/internal_short.html#f_is_instance_of">is_instance_of</A> (object: <A HREF="../elks/any_short.html">ANY</A>; type_id: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`object'<FONT COLOR="red"> an instance of type </FONT>`type_id'<FONT COLOR="red">?</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            type_id_nonnegative: type_id &gt;= 0
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Creation</FONT>
+
+    <A NAME="f_type_of"><A HREF="../elks/internal_short.html#f_type_of">type_of</A> (object: <B>detachable</B> <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/type_short.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/any_short.html">ANY</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Associated TYPE instance of </FONT>`object'<FONT COLOR="red">.</FONT>
+        <B>ensure</B>
+            result_not_void: <B>Result</B> /= <B>Void</B>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_is_special"><A HREF="../elks/internal_short.html#f_is_special">is_special</A> (object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`object'<FONT COLOR="red"> a special object?</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+</A>
+    <A NAME="f_is_tuple"><A HREF="../elks/internal_short.html#f_is_tuple">is_tuple</A> (object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`object'<FONT COLOR="red"> a TUPLE object?</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+</A>
+    <A NAME="f_is_field_transient"><A HREF="../elks/internal_short.html#f_is_field_transient">is_field_transient</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`i'<FONT COLOR="red">-th field of </FONT>`object'<FONT COLOR="red"> a transient attribute?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> I.e. an attribute that does not need to be stored?</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+</A>
+    <A NAME="f_is_field_expanded"><A HREF="../elks/internal_short.html#f_is_field_expanded">is_field_expanded</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`i'<FONT COLOR="red">-th field of </FONT>`object'<FONT COLOR="red"> a user-defined expanded attribute?</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_class_name"><A HREF="../elks/internal_short.html#f_class_name">class_name</A> (object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/string_8_short.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of the class associated with </FONT>`object'
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+</A>
+    <A NAME="f_type_name"><A HREF="../elks/internal_short.html#f_type_name">type_name</A> (object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/string_8_short.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of </FONT>`object'<FONT COLOR="red">'s generating type (type of which </FONT>`object'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> is a direct instance).</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+</A>
+    <A NAME="f_dynamic_type"><A HREF="../elks/internal_short.html#f_dynamic_type">dynamic_type</A> (object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Dynamic type of </FONT>`object'
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+        <B>ensure</B>
+            dynamic_type_nonnegative: <B>Result</B> &gt;= 0
+</A>
+    <A NAME="f_generic_count"><A HREF="../elks/internal_short.html#f_generic_count">generic_count</A> (obj: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of generic parameter in </FONT>`obj'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            obj_not_void: obj /= <B>Void</B>
+</A>
+    <A NAME="f_generic_dynamic_type"><A HREF="../elks/internal_short.html#f_generic_dynamic_type">generic_dynamic_type</A> (obj: <A HREF="../elks/any_short.html">ANY</A>; i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Dynamic type of generic parameter of </FONT>`object'<FONT COLOR="red"> at</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> position </FONT>`i'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            obj_not_void: obj /= <B>Void</B>
+            obj_generic: <A HREF="../elks/internal_short.html#f_generic_count">generic_count</A> (obj) &gt; 0
+            i_valid: i &gt; 0 <B>and</B> i &lt;= <A HREF="../elks/internal_short.html#f_generic_count">generic_count</A> (obj)
+        <B>ensure</B>
+            dynamic_type_nonnegative: <B>Result</B> &gt;= 0
+</A>
+    <A NAME="f_field"><A HREF="../elks/internal_short.html#f_field">field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>): <B>detachable</B> <A HREF="../elks/any_short.html">ANY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Object attached to the </FONT>`i'<FONT COLOR="red">-th field of </FONT>`object'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (directly or through a reference)</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            not_special: <B>not</B> <A HREF="../elks/internal_short.html#f_is_special">is_special</A> (object)
+</A>
+    <A NAME="f_reference_field"><A HREF="../elks/internal_short.html#f_reference_field">reference_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>): <B>detachable</B> <A HREF="../elks/any_short.html">ANY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Reference value of the </FONT>`i'<FONT COLOR="red">-th field of </FONT>`object'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            not_special: <B>not</B> <A HREF="../elks/internal_short.html#f_is_special">is_special</A> (object)
+            valid_type: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_reference_type">Reference_type</A>
+</A>
+    <A NAME="f_field_name"><A HREF="../elks/internal_short.html#f_field_name">field_name</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/string_8_short.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of </FONT>`i'<FONT COLOR="red">-th field of </FONT>`object'
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            not_special: <B>not</B> <A HREF="../elks/internal_short.html#f_is_special">is_special</A> (object)
+        <B>ensure</B>
+            result_exists: <B>Result</B> /= <B>Void</B>
+</A>
+    <A NAME="f_field_offset"><A HREF="../elks/internal_short.html#f_field_offset">field_offset</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Offset of </FONT>`i'<FONT COLOR="red">-th field of </FONT>`object'
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            not_special: <B>not</B> <A HREF="../elks/internal_short.html#f_is_special">is_special</A> (object)
+</A>
+    <A NAME="f_field_type"><A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Abstract type of </FONT>`i'<FONT COLOR="red">-th field of </FONT>`object'
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+        <B>ensure</B>
+            field_type_nonnegative: <B>Result</B> &gt;= 0
+</A>
+    <A NAME="f_character_8_field"><A HREF="../elks/internal_short.html#f_character_8_field">character_8_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/character_8_short.html">CHARACTER_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Character value of </FONT>`i'<FONT COLOR="red">-th field of </FONT>`object'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/internal_short.html">INTERNAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/internal_short.html#f_character_field">character_field</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            character_8_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_character_8_type">Character_8_type</A>
+</A>
+    <A NAME="f_character_field"><A HREF="../elks/internal_short.html#f_character_field">character_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/character_8_short.html">CHARACTER_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Character value of </FONT>`i'<FONT COLOR="red">-th field of </FONT>`object'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/internal_short.html">INTERNAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/internal_short.html#f_character_8_field">character_8_field</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            character_8_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_character_8_type">Character_8_type</A>
+</A>
+    <A NAME="f_character_32_field"><A HREF="../elks/internal_short.html#f_character_32_field">character_32_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/character_32_short.html">CHARACTER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Character value of </FONT>`i'<FONT COLOR="red">-th field of </FONT>`object'
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            character_32_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_character_32_type">Character_32_type</A>
+</A>
+    <A NAME="f_boolean_field"><A HREF="../elks/internal_short.html#f_boolean_field">boolean_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Boolean value of </FONT>`i'<FONT COLOR="red">-th field of </FONT>`object'
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            boolean_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_boolean_type">Boolean_type</A>
+</A>
+    <A NAME="f_natural_8_field"><A HREF="../elks/internal_short.html#f_natural_8_field">natural_8_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/natural_8_short.html">NATURAL_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> NATURAL_8 value of </FONT>`i'<FONT COLOR="red">-th field of </FONT>`object'
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            natural_8_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_natural_8_type">Natural_8_type</A>
+</A>
+    <A NAME="f_natural_16_field"><A HREF="../elks/internal_short.html#f_natural_16_field">natural_16_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/natural_16_short.html">NATURAL_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> NATURAL_16 value of </FONT>`i'<FONT COLOR="red">-th field of </FONT>`object'
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            natural_16_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_natural_16_type">Natural_16_type</A>
+</A>
+    <A NAME="f_natural_32_field"><A HREF="../elks/internal_short.html#f_natural_32_field">natural_32_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/natural_32_short.html">NATURAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> NATURAL_32 value of </FONT>`i'<FONT COLOR="red">-th field of </FONT>`object'
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            natural_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_natural_32_type">Natural_32_type</A>
+</A>
+    <A NAME="f_natural_64_field"><A HREF="../elks/internal_short.html#f_natural_64_field">natural_64_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/natural_64_short.html">NATURAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> NATURAL_64 value of </FONT>`i'<FONT COLOR="red">-th field of </FONT>`object'
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            natural_64_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_natural_64_type">Natural_64_type</A>
+</A>
+    <A NAME="f_integer_8_field"><A HREF="../elks/internal_short.html#f_integer_8_field">integer_8_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/integer_8_short.html">INTEGER_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Integer value of </FONT>`i'<FONT COLOR="red">-th field of </FONT>`object'
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            integer_8_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_integer_8_type">Integer_8_type</A>
+</A>
+    <A NAME="f_integer_16_field"><A HREF="../elks/internal_short.html#f_integer_16_field">integer_16_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/integer_16_short.html">INTEGER_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Integer value of </FONT>`i'<FONT COLOR="red">-th field of </FONT>`object'
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            integer_16_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_integer_16_type">Integer_16_type</A>
+</A>
+    <A NAME="f_integer_field"><A HREF="../elks/internal_short.html#f_integer_field">integer_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Integer value of </FONT>`i'<FONT COLOR="red">-th field of </FONT>`object'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/internal_short.html">INTERNAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/internal_short.html#f_integer_32_field">integer_32_field</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            integer_32_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_integer_32_type">Integer_32_type</A>
+</A>
+    <A NAME="f_integer_32_field"><A HREF="../elks/internal_short.html#f_integer_32_field">integer_32_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Integer value of </FONT>`i'<FONT COLOR="red">-th field of </FONT>`object'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/internal_short.html">INTERNAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/internal_short.html#f_integer_field">integer_field</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            integer_32_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_integer_32_type">Integer_32_type</A>
+</A>
+    <A NAME="f_integer_64_field"><A HREF="../elks/internal_short.html#f_integer_64_field">integer_64_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/integer_64_short.html">INTEGER_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Integer value of </FONT>`i'<FONT COLOR="red">-th field of </FONT>`object'
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            integer_64_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_integer_64_type">Integer_64_type</A>
+</A>
+    <A NAME="f_real_32_field"><A HREF="../elks/internal_short.html#f_real_32_field">real_32_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/real_32_short.html">REAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Real value of </FONT>`i'<FONT COLOR="red">-th field of </FONT>`object'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/internal_short.html">INTERNAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/internal_short.html#f_real_field">real_field</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            real_32_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_real_32_type">Real_32_type</A>
+</A>
+    <A NAME="f_real_field"><A HREF="../elks/internal_short.html#f_real_field">real_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/real_32_short.html">REAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Real value of </FONT>`i'<FONT COLOR="red">-th field of </FONT>`object'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/internal_short.html">INTERNAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/internal_short.html#f_real_32_field">real_32_field</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            real_32_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_real_32_type">Real_32_type</A>
+</A>
+    <A NAME="f_pointer_field"><A HREF="../elks/internal_short.html#f_pointer_field">pointer_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/pointer_short.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Pointer value of </FONT>`i'<FONT COLOR="red">-th field of </FONT>`object'
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            pointer_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_pointer_type">Pointer_type</A>
+</A>
+    <A NAME="f_real_64_field"><A HREF="../elks/internal_short.html#f_real_64_field">real_64_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/real_64_short.html">REAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Double precision value of </FONT>`i'<FONT COLOR="red">-th field of </FONT>`object'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/internal_short.html">INTERNAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/internal_short.html#f_double_field">double_field</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            real_64_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_real_64_type">Real_64_type</A>
+</A>
+    <A NAME="f_double_field"><A HREF="../elks/internal_short.html#f_double_field">double_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/real_64_short.html">REAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Double precision value of </FONT>`i'<FONT COLOR="red">-th field of </FONT>`object'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/internal_short.html">INTERNAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/internal_short.html#f_real_64_field">real_64_field</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            real_64_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_real_64_type">Real_64_type</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_set_reference_field"><A HREF="../elks/internal_short.html#f_set_reference_field">set_reference_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>; value: <B>detachable</B> <A HREF="../elks/any_short.html">ANY</A>)
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            reference_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_reference_type">Reference_type</A>
+            valid_value: <A HREF="../elks/reflector_short.html#f_is_attached_type">is_attached_type</A> (<A HREF="../elks/reflector_short.html#f_field_static_type_of_type">field_static_type_of_type</A> (i, <A HREF="../elks/internal_short.html#f_dynamic_type">dynamic_type</A> (object))) <B>implies</B> value /= <B>Void</B>
+            value_conforms_to_field_static_type: value /= <B>Void</B> <B>implies</B> <A HREF="../elks/reflector_short.html#f_field_conforms_to">field_conforms_to</A> (<A HREF="../elks/internal_short.html#f_dynamic_type">dynamic_type</A> (value), <A HREF="../elks/reflector_short.html#f_field_static_type_of_type">field_static_type_of_type</A> (i, <A HREF="../elks/internal_short.html#f_dynamic_type">dynamic_type</A> (object)))
+</A>
+    <A NAME="f_set_real_64_field"><A HREF="../elks/internal_short.html#f_set_real_64_field">set_real_64_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>; value: <A HREF="../elks/real_64_short.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/internal_short.html">INTERNAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/internal_short.html#f_set_double_field">set_double_field</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            real_64_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_real_64_type">Real_64_type</A>
+</A>
+    <A NAME="f_set_double_field"><A HREF="../elks/internal_short.html#f_set_double_field">set_double_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>; value: <A HREF="../elks/real_64_short.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/internal_short.html">INTERNAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/internal_short.html#f_set_real_64_field">set_real_64_field</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            real_64_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_real_64_type">Real_64_type</A>
+</A>
+    <A NAME="f_set_character_8_field"><A HREF="../elks/internal_short.html#f_set_character_8_field">set_character_8_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>; value: <A HREF="../elks/character_8_short.html">CHARACTER_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/internal_short.html">INTERNAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/internal_short.html#f_set_character_field">set_character_field</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            character_8_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_character_8_type">Character_8_type</A>
+</A>
+    <A NAME="f_set_character_field"><A HREF="../elks/internal_short.html#f_set_character_field">set_character_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>; value: <A HREF="../elks/character_8_short.html">CHARACTER_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/internal_short.html">INTERNAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/internal_short.html#f_set_character_8_field">set_character_8_field</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            character_8_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_character_8_type">Character_8_type</A>
+</A>
+    <A NAME="f_set_character_32_field"><A HREF="../elks/internal_short.html#f_set_character_32_field">set_character_32_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>; value: <A HREF="../elks/character_32_short.html">CHARACTER_32</A>)
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            character_32_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_character_32_type">Character_32_type</A>
+</A>
+    <A NAME="f_set_boolean_field"><A HREF="../elks/internal_short.html#f_set_boolean_field">set_boolean_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>; value: <A HREF="../elks/boolean_short.html">BOOLEAN</A>)
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            boolean_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_boolean_type">Boolean_type</A>
+</A>
+    <A NAME="f_set_natural_8_field"><A HREF="../elks/internal_short.html#f_set_natural_8_field">set_natural_8_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>; value: <A HREF="../elks/natural_8_short.html">NATURAL_8</A>)
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            natural_8_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_natural_8_type">Natural_8_type</A>
+</A>
+    <A NAME="f_set_natural_16_field"><A HREF="../elks/internal_short.html#f_set_natural_16_field">set_natural_16_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>; value: <A HREF="../elks/natural_16_short.html">NATURAL_16</A>)
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            natural_16_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_natural_16_type">Natural_16_type</A>
+</A>
+    <A NAME="f_set_natural_32_field"><A HREF="../elks/internal_short.html#f_set_natural_32_field">set_natural_32_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>; value: <A HREF="../elks/natural_32_short.html">NATURAL_32</A>)
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            natural_32_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_natural_32_type">Natural_32_type</A>
+</A>
+    <A NAME="f_set_natural_64_field"><A HREF="../elks/internal_short.html#f_set_natural_64_field">set_natural_64_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>; value: <A HREF="../elks/natural_64_short.html">NATURAL_64</A>)
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            natural_64_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_natural_64_type">Natural_64_type</A>
+</A>
+    <A NAME="f_set_integer_8_field"><A HREF="../elks/internal_short.html#f_set_integer_8_field">set_integer_8_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>; value: <A HREF="../elks/integer_8_short.html">INTEGER_8</A>)
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            integer_8_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_integer_8_type">Integer_8_type</A>
+</A>
+    <A NAME="f_set_integer_16_field"><A HREF="../elks/internal_short.html#f_set_integer_16_field">set_integer_16_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>; value: <A HREF="../elks/integer_16_short.html">INTEGER_16</A>)
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            integer_16_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_integer_16_type">Integer_16_type</A>
+</A>
+    <A NAME="f_set_integer_field"><A HREF="../elks/internal_short.html#f_set_integer_field">set_integer_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>; value: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/internal_short.html">INTERNAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/internal_short.html#f_set_integer_32_field">set_integer_32_field</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            integer_32_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_integer_32_type">Integer_32_type</A>
+</A>
+    <A NAME="f_set_integer_32_field"><A HREF="../elks/internal_short.html#f_set_integer_32_field">set_integer_32_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>; value: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/internal_short.html">INTERNAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/internal_short.html#f_set_integer_field">set_integer_field</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            integer_32_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_integer_32_type">Integer_32_type</A>
+</A>
+    <A NAME="f_set_integer_64_field"><A HREF="../elks/internal_short.html#f_set_integer_64_field">set_integer_64_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>; value: <A HREF="../elks/integer_64_short.html">INTEGER_64</A>)
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            integer_64_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_integer_64_type">Integer_64_type</A>
+</A>
+    <A NAME="f_set_real_32_field"><A HREF="../elks/internal_short.html#f_set_real_32_field">set_real_32_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>; value: <A HREF="../elks/real_32_short.html">REAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/internal_short.html">INTERNAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/internal_short.html#f_set_real_field">set_real_field</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            real_32_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_real_32_type">Real_32_type</A>
+</A>
+    <A NAME="f_set_real_field"><A HREF="../elks/internal_short.html#f_set_real_field">set_real_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>; value: <A HREF="../elks/real_32_short.html">REAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/internal_short.html">INTERNAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/internal_short.html#f_set_real_32_field">set_real_32_field</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            real_32_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_real_32_type">Real_32_type</A>
+</A>
+    <A NAME="f_set_pointer_field"><A HREF="../elks/internal_short.html#f_set_pointer_field">set_pointer_field</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; object: <A HREF="../elks/any_short.html">ANY</A>; value: <A HREF="../elks/pointer_short.html">POINTER</A>)
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+            index_large_enough: i &gt;= 1
+            index_small_enough: i &lt;= <A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object)
+            pointer_field: <A HREF="../elks/internal_short.html#f_field_type">field_type</A> (i, object) = <A HREF="../elks/reflector_constants_short.html#f_pointer_type">Pointer_type</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_field_count"><A HREF="../elks/internal_short.html#f_field_count">field_count</A> (object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of logical fields in </FONT>`object'
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+</A>
+    <A NAME="f_persistent_field_count"><A HREF="../elks/internal_short.html#f_persistent_field_count">persistent_field_count</A> (object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of logical fields in </FONT>`object'<FONT COLOR="red"> that are not transient.</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+        <B>ensure</B>
+            count_positive: <B>Result</B> &gt;= 0
+</A>
+    <A NAME="f_physical_size"><A HREF="../elks/internal_short.html#f_physical_size">physical_size</A> (object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Space occupied by </FONT>`object'<FONT COLOR="red"> in bytes</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+</A>
+    <A NAME="f_deep_physical_size"><A HREF="../elks/internal_short.html#f_deep_physical_size">deep_physical_size</A> (object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Space occupied by </FONT>`object'<FONT COLOR="red"> and its children in bytes</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+</A>
+    <A NAME="f_physical_size_64"><A HREF="../elks/internal_short.html#f_physical_size_64">physical_size_64</A> (object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/natural_64_short.html">NATURAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Space occupied by </FONT>`object'<FONT COLOR="red"> in bytes</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+</A>
+    <A NAME="f_deep_physical_size_64"><A HREF="../elks/internal_short.html#f_deep_physical_size_64">deep_physical_size_64</A> (object: <A HREF="../elks/any_short.html">ANY</A>): <A HREF="../elks/natural_64_short.html">NATURAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Space occupied by </FONT>`object'<FONT COLOR="red"> and its children in bytes</FONT>
+        <B>require</B>
+            object_not_void: object /= <B>Void</B>
+</A>    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/internal_short.html">INTERNAL</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="internal_chart.html">Chart</A></TD><TD><A HREF="internal_links.html">Relations</A></TD><TD><A HREF="internal.html">Text</A></TD><TD><A HREF="internal_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="internal_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

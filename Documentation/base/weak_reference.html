@@ -1,0 +1,137 @@
+<HTML><HEAD>
+<meta name="description" content="Abstraction for weak references, i.e. references to object that can still be reclaimed by the GC. If the actual generic parameter is expanded, `put' cannot be used as it does not make sense from the user point of view."/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>weak_reference Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="weak_reference_chart.html">Chart</A></TD><TD><A HREF="weak_reference_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="weak_reference_flat.html">Flat</A></TD><TD><A HREF="weak_reference_short.html">Contracts</A></TD><TD><A HREF="weak_reference_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Abstraction for weak references, i.e. references to object that can still be reclaimed by the GC.
+        If the actual generic parameter is expanded, <A HREF="../elks/weak_reference.html#f_put">put</A> cannot be used as it does not make sense from the user
+        point of view.
+    ]"
+    status: "See notice at end of class."
+    library: "Free implementation of ELKS library"
+    legal: "See notice at end of class."
+    date: "$Date: 2013-05-20 16:15:17 -0700 (Mon, 20 May 2013) $"
+    revision: "$Revision: 92557 $"
+
+<B>class</B> 
+    <A HREF="../elks/weak_reference.html">WEAK_REFERENCE</A> [G]
+
+<B>inherit</B>
+    <A HREF="../elks/disposable.html">DISPOSABLE</A>
+        <B>rename</B>
+            <A HREF="../elks/disposable.html#f_dispose">dispose</A> <B>as</B> <A HREF="../elks/weak_reference.html#f_clear">clear</A>
+        <B>end</B>
+
+<B>create</B> 
+    <A HREF="../elks/any.html#f_default_create">default_create</A>,
+    <A HREF="../elks/weak_reference.html#f_put">put</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_put"><A HREF="../elks/weak_reference.html#f_put">put</A> (v: G)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New weak reference to </FONT>`v'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            v_not_void: v /= <B>Void</B>
+            not_expanded: <B>not</B> ({G}).<A HREF="../elks/type.html#f_is_expanded">is_expanded</A>
+        <B>do</B>
+            <A HREF="../elks/weak_reference.html#f_clear">clear</A>
+            <A HREF="../elks/weak_reference.html#f_internal_item">internal_item</A> := <A HREF="../elks/weak_reference.html#f_create_weak_reference">create_weak_reference</A> ($v.<A HREF="../elks/pointer_ref.html#f_item">to_pointer</A>)
+        <B>ensure</B>
+            item_set: <A HREF="../elks/weak_reference.html#f_item">item</A> = v
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removal</FONT>
+
+    <A NAME="f_clear"><A HREF="../elks/weak_reference.html#f_clear">clear</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove existing weak reference.</FONT>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/weak_reference.html#f_internal_item">internal_item</A> /= <A HREF="../elks/any.html#f_default_pointer">default_pointer</A> <B>then</B>
+                <A HREF="../elks/weak_reference.html#f_free_weak_reference">free_weak_reference</A> (<A HREF="../elks/weak_reference.html#f_internal_item">internal_item</A>)
+                <A HREF="../elks/weak_reference.html#f_internal_item">internal_item</A> := <A HREF="../elks/any.html#f_default_pointer">default_pointer</A>
+            <B>end</B>
+        <B>ensure then</B>
+            removed: <B>not</B> <A HREF="../elks/weak_reference.html#f_exists">exists</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_item"><A HREF="../elks/weak_reference.html#f_item">item</A>: <B>detachable</B> G
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Current reference if still alive. Void otherwise</FONT>
+        <B>require</B>
+            not_expanded: <B>not</B> ({G}).<A HREF="../elks/type.html#f_is_expanded">is_expanded</A>
+        <B>local</B>
+            l_ptr, l_null: <A HREF="../elks/pointer.html">POINTER</A>
+        <B>do</B>
+            l_ptr := <A HREF="../elks/weak_reference.html#f_internal_item">internal_item</A>
+            <B>if</B> l_ptr /= l_null <B>and then</B> <B>attached</B> {G} <A HREF="../elks/weak_reference.html#f_access">access</A> (l_ptr) <B>as</B> l_result <B>then</B>
+                <B>Result</B> := l_result
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_exists"><A HREF="../elks/weak_reference.html#f_exists">exists</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current reference still alive?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/weak_reference.html#f_item">item</A> /= <B>Void</B>
+        <B>ensure</B>
+            not_present: <B>not</B> <B>Result</B> <B>implies</B> <A HREF="../elks/weak_reference.html#f_item">item</A> = <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation: Status Report</FONT>
+
+    <A NAME="f_internal_item"><A HREF="../elks/weak_reference.html#f_internal_item">internal_item</A>: <A HREF="../elks/pointer.html">POINTER</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Actual reference to the weak reference.</FONT>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> To move to ISE_RUNTIME</FONT>
+
+    <A NAME="f_create_weak_reference"><B>frozen</B> <A HREF="../elks/weak_reference.html#f_create_weak_reference">create_weak_reference</A> (a_object: <A HREF="../elks/pointer.html">POINTER</A>): <A HREF="../elks/pointer.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Given the Eiffel object </FONT>`a_object'<FONT COLOR="red">, return its weak_reference value.</FONT>
+        <B>external</B>
+            "C inline use %"eif_hector.h%""
+        <B>alias</B>
+            "return eif_create_weak_reference($a_object);"
+        <B>end</B></A>
+
+    <A NAME="f_free_weak_reference"><B>frozen</B> <A HREF="../elks/weak_reference.html#f_free_weak_reference">free_weak_reference</A> (a_weak_reference: <A HREF="../elks/pointer.html">POINTER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Free the allocated entry for weak reference </FONT>`a_weak_reference'<FONT COLOR="red">.</FONT>
+        <B>external</B>
+            "C inline use %"eif_hector.h%""
+        <B>alias</B>
+            "eif_free_weak_reference($a_weak_reference);"
+        <B>end</B></A>
+
+    <A NAME="f_access"><B>frozen</B> <A HREF="../elks/weak_reference.html#f_access">access</A> (a_weak_reference: <A HREF="../elks/pointer.html">POINTER</A>): <B>detachable</B> <A HREF="../elks/any.html">ANY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Associated Eiffel object if any associated to weak reference </FONT>`a_weak_reference'<FONT COLOR="red">.</FONT>
+        <B>external</B>
+            "C inline use %"eif_hector.h%""
+        <B>alias</B>
+            "return eif_access($a_weak_reference);"
+        <B>end</B></A>
+    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/weak_reference.html">WEAK_REFERENCE</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="weak_reference_chart.html">Chart</A></TD><TD><A HREF="weak_reference_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="weak_reference_flat.html">Flat</A></TD><TD><A HREF="weak_reference_short.html">Contracts</A></TD><TD><A HREF="weak_reference_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

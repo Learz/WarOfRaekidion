@@ -1,0 +1,423 @@
+<HTML><HEAD>
+<meta name="description" content="Trees implemented using a two way linked list representation"/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="names" content="two_way_tree, tree, two_way_list"/>
+<meta name="representation" content="recursive, linked"/>
+<meta name="access" content="cursor, membership"/>
+<meta name="contents" content="generic"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>two_way_tree Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="two_way_tree_chart.html">Chart</A></TD><TD><A HREF="two_way_tree_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="two_way_tree_flat.html">Flat</A></TD><TD><A HREF="two_way_tree_short.html">Contracts</A></TD><TD><A HREF="two_way_tree_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Trees implemented using a two way linked list representation"
+    library: "Free implementation of ELKS library"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    names: two_way_tree, tree, two_way_list
+    representation: recursive, linked
+    access: cursor, membership
+    contents: generic
+    date: "$Date: 2012-07-23 14:02:19 -0700 (Mon, 23 Jul 2012) $"
+    revision: "$Revision: 91989 $"
+
+<B>class</B> 
+    <A HREF="../elks/two_way_tree.html">TWO_WAY_TREE</A> [G]
+
+<B>inherit</B>
+    <A HREF="../elks/dynamic_tree.html">DYNAMIC_TREE</A> [G]
+        <B>undefine</B>
+            <A HREF="../elks/linked_list.html#f_after">child_after</A>,
+            <A HREF="../elks/linked_list.html#f_before">child_before</A>,
+            <A HREF="../elks/linked_list.html#f_item">child_item</A>,
+            <A HREF="../elks/linked_list.html#f_off">child_off</A>,
+            <A HREF="../elks/two_way_tree.html#f_child_islast">child_islast</A>
+        <B>redefine</B>
+            <A HREF="../elks/two_way_tree.html#f_parent">parent</A>,
+            <A HREF="../elks/two_way_tree.html#f_clone_node">clone_node</A>
+        <B>select</B>
+            <A HREF="../elks/tree.html#f_has">has</A>
+        <B>end</B>
+
+    <A HREF="../elks/bi_linkable.html">BI_LINKABLE</A> [G]
+        <B>rename</B>
+            <A HREF="../elks/bi_linkable.html#f_left">left</A> <B>as</B> <A HREF="../elks/bi_linkable.html#f_left">left_sibling</A>,
+            <A HREF="../elks/linkable.html#f_right">right</A> <B>as</B> <A HREF="../elks/linkable.html#f_right">right_sibling</A>,
+            <A HREF="../elks/bi_linkable.html#f_put_left">put_left</A> <B>as</B> <A HREF="../elks/bi_linkable.html#f_put_left">bl_put_left</A>,
+            <A HREF="../elks/bi_linkable.html#f_put_right">put_right</A> <B>as</B> <A HREF="../elks/bi_linkable.html#f_put_right">bl_put_right</A>
+        <B>export</B>
+            {<A HREF="../elks/any.html">ANY</A>} <A HREF="../elks/bi_linkable.html#f_left">left_sibling</A>, <A HREF="../elks/linkable.html#f_right">right_sibling</A>
+            {<A HREF="../elks/two_way_tree.html">TWO_WAY_TREE</A>} <A HREF="../elks/bi_linkable.html#f_put_left">bl_put_left</A>, <A HREF="../elks/bi_linkable.html#f_put_right">bl_put_right</A>, <A HREF="../elks/bi_linkable.html#f_forget_left">forget_left</A>, <A HREF="../elks/bi_linkable.html#f_forget_right">forget_right</A>
+        <B>undefine</B>
+            <A HREF="../elks/tree.html#f_copy">copy</A>,
+            <A HREF="../elks/tree.html#f_is_equal">is_equal</A>
+        <B>end</B>
+
+    <A HREF="../elks/two_way_list.html">TWO_WAY_LIST</A> [G]
+        <B>rename</B>
+            <A HREF="../elks/linked_list.html#f_active">active</A> <B>as</B> <A HREF="../elks/linked_list.html#f_active">child</A>,
+            <A HREF="../elks/two_way_list.html#f_put_left">put_left</A> <B>as</B> <A HREF="../elks/two_way_list.html#f_put_left">child_put_left</A>,
+            <A HREF="../elks/two_way_list.html#f_put_right">put_right</A> <B>as</B> <A HREF="../elks/two_way_list.html#f_put_right">child_put_right</A>,
+            <A HREF="../elks/linked_list.html#f_after">after</A> <B>as</B> <A HREF="../elks/linked_list.html#f_after">child_after</A>,
+            <A HREF="../elks/two_way_list.html#f_back">back</A> <B>as</B> <A HREF="../elks/two_way_list.html#f_back">child_back</A>,
+            <A HREF="../elks/linked_list.html#f_before">before</A> <B>as</B> <A HREF="../elks/linked_list.html#f_before">child_before</A>,
+            <A HREF="../elks/linked_list.html#f_count">count</A> <B>as</B> <A HREF="../elks/linked_list.html#f_count">arity</A>,
+            <A HREF="../elks/two_way_list.html#f_cursor">cursor</A> <B>as</B> <A HREF="../elks/two_way_tree.html#f_child_cursor">child_cursor</A>,
+            <A HREF="../elks/dynamic_chain.html#f_duplicate">duplicate</A> <B>as</B> <A HREF="../elks/dynamic_chain.html#f_duplicate">twl_duplicate</A>,
+            <A HREF="../elks/finite.html#f_is_empty">is_empty</A> <B>as</B> <A HREF="../elks/tree.html#f_is_leaf">is_leaf</A>,
+            <A HREF="../elks/two_way_list.html#f_extend">extend</A> <B>as</B> <A HREF="../elks/two_way_list.html#f_extend">child_extend</A>,
+            <A HREF="../elks/dynamic_chain.html#f_extendible">extendible</A> <B>as</B> <A HREF="../elks/dynamic_chain.html#f_extendible">child_extendible</A>,
+            <A HREF="../elks/chain.html#f_fill">fill</A> <B>as</B> <A HREF="../elks/chain.html#f_fill">twl_fill</A>,
+            <A HREF="../elks/two_way_list.html#f_finish">finish</A> <B>as</B> <A HREF="../elks/two_way_list.html#f_finish">child_finish</A>,
+            <A HREF="../elks/two_way_list.html#f_first_element">first_element</A> <B>as</B> <A HREF="../elks/two_way_tree.html#f_first_child">first_child</A>,
+            <A HREF="../elks/two_way_list.html#f_forth">forth</A> <B>as</B> <A HREF="../elks/two_way_list.html#f_forth">child_forth</A>,
+            <A HREF="../elks/linked_list.html#f_full">Full</A> <B>as</B> <A HREF="../elks/linked_list.html#f_full">Twl_full</A>,
+            <A HREF="../elks/linked_list.html#f_go_i_th">go_i_th</A> <B>as</B> <A HREF="../elks/linked_list.html#f_go_i_th">child_go_i_th</A>,
+            <A HREF="../elks/linked_list.html#f_go_to">go_to</A> <B>as</B> <A HREF="../elks/linked_list.html#f_go_to">child_go_to</A>,
+            <A HREF="../elks/chain.html#f_has">has</A> <B>as</B> <A HREF="../elks/chain.html#f_has">twl_has</A>,
+            <A HREF="../elks/linked_list.html#f_index">index</A> <B>as</B> <A HREF="../elks/linked_list.html#f_index">child_index</A>,
+            <A HREF="../elks/linked_list.html#f_isfirst">isfirst</A> <B>as</B> <A HREF="../elks/tree.html#f_child_isfirst">child_isfirst</A>,
+            <A HREF="../elks/two_way_list.html#f_islast">islast</A> <B>as</B> <A HREF="../elks/two_way_tree.html#f_child_islast">child_islast</A>,
+            <A HREF="../elks/linked_list.html#f_item">item</A> <B>as</B> <A HREF="../elks/linked_list.html#f_item">child_item</A>,
+            <A HREF="../elks/two_way_list.html#f_last_element">last_element</A> <B>as</B> <A HREF="../elks/two_way_tree.html#f_last_child">last_child</A>,
+            <A HREF="../elks/linked_list.html#f_make">make</A> <B>as</B> <A HREF="../elks/linked_list.html#f_make">twl_make</A>,
+            <A HREF="../elks/two_way_list.html#f_merge_left">merge_left</A> <B>as</B> <A HREF="../elks/two_way_list.html#f_merge_left">twl_merge_left</A>,
+            <A HREF="../elks/two_way_list.html#f_merge_right">merge_right</A> <B>as</B> <A HREF="../elks/two_way_list.html#f_merge_right">twl_merge_right</A>,
+            <A HREF="../elks/two_way_list.html#f_new_cursor">new_cursor</A> <B>as</B> <A HREF="../elks/two_way_list.html#f_new_cursor">twl_new_cursor</A>,
+            <A HREF="../elks/linked_list.html#f_off">off</A> <B>as</B> <A HREF="../elks/linked_list.html#f_off">child_off</A>,
+            <A HREF="../elks/dynamic_chain.html#f_prune">prune</A> <B>as</B> <A HREF="../elks/dynamic_chain.html#f_prune">twl_prune</A>,
+            <A HREF="../elks/chain.html#f_put">put</A> <B>as</B> <A HREF="../elks/chain.html#f_put">child_put</A>,
+            <A HREF="../elks/linked_list.html#f_readable">readable</A> <B>as</B> <A HREF="../elks/tree.html#f_child_readable">child_readable</A>,
+            <A HREF="../elks/two_way_list.html#f_remove">remove</A> <B>as</B> <A HREF="../elks/two_way_list.html#f_remove">remove_child</A>,
+            <A HREF="../elks/two_way_list.html#f_remove_left">remove_left</A> <B>as</B> <A HREF="../elks/two_way_list.html#f_remove_left">remove_left_child</A>,
+            <A HREF="../elks/two_way_list.html#f_remove_right">remove_right</A> <B>as</B> <A HREF="../elks/two_way_list.html#f_remove_right">remove_right_child</A>,
+            <A HREF="../elks/linked_list.html#f_replace">replace</A> <B>as</B> <A HREF="../elks/linked_list.html#f_replace">child_replace</A>,
+            <A HREF="../elks/bilinear.html#f_search">search</A> <B>as</B> <A HREF="../elks/bilinear.html#f_search">search_child</A>,
+            <A HREF="../elks/linked_list.html#f_start">start</A> <B>as</B> <A HREF="../elks/linked_list.html#f_start">child_start</A>,
+            <A HREF="../elks/sequence.html#f_writable">writable</A> <B>as</B> <A HREF="../elks/tree.html#f_child_writable">child_writable</A>
+        <B>export</B>
+            {<A HREF="../elks/any.html">ANY</A>} <A HREF="../elks/linked_list.html#f_active">child</A>
+            {NONE} <A HREF="../elks/linked_list.html#f_make">twl_make</A>, <A HREF="../elks/chain.html#f_has">twl_has</A>, <A HREF="../elks/chain.html#f_fill">twl_fill</A>, <A HREF="../elks/dynamic_chain.html#f_duplicate">twl_duplicate</A>, <A HREF="../elks/linked_list.html#f_full">Twl_full</A>, <A HREF="../elks/two_way_list.html#f_new_cursor">twl_new_cursor</A>, <A HREF="../elks/two_way_tree.html#f_split">split</A>
+        <B>undefine</B>
+            <A HREF="../elks/tree.html#f_copy">copy</A>,
+            <A HREF="../elks/tree.html#f_child_readable">child_readable</A>,
+            <A HREF="../elks/tree.html#f_is_leaf">is_leaf</A>,
+            <A HREF="../elks/tree.html#f_child_writable">child_writable</A>,
+            <A HREF="../elks/tree.html#f_linear_representation">linear_representation</A>,
+            <A HREF="../elks/tree.html#f_child_isfirst">child_isfirst</A>,
+            <A HREF="../elks/tree.html#f_valid_cursor_index">valid_cursor_index</A>,
+            <A HREF="../elks/tree.html#f_is_equal">is_equal</A>
+        <B>redefine</B>
+            <A HREF="../elks/two_way_tree.html#f_first_child">first_child</A>,
+            <A HREF="../elks/two_way_tree.html#f_child_islast">child_islast</A>,
+            <A HREF="../elks/two_way_tree.html#f_last_child">last_child</A>,
+            <A HREF="../elks/two_way_tree.html#f_new_cell">new_cell</A>,
+            <A HREF="../elks/two_way_tree.html#f_child_cursor">child_cursor</A>,
+            <A HREF="../elks/two_way_tree.html#f_split">split</A>,
+            <A HREF="../elks/two_way_tree.html#f_new_chain">new_chain</A>
+        <B>select</B>
+            <A HREF="../elks/tree.html#f_is_leaf">is_leaf</A>
+        <B>end</B>
+
+<B>create</B> 
+    <A HREF="../elks/two_way_tree.html#f_make">make</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../elks/two_way_tree.html#f_make">make</A> (v: <B>like</B> <A HREF="../elks/cell.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create single node with item </FONT>`v'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/cell.html#f_put">put</A> (v)
+            <A HREF="../elks/linked_list.html#f_make">twl_make</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_parent"><A HREF="../elks/two_way_tree.html#f_parent">parent</A>: <B>detachable</B> <B>like</B> <A HREF="../elks/two_way_tree.html#f_new_cell">new_cell</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Parent node</FONT>
+
+    <A NAME="f_first_child"><A HREF="../elks/two_way_tree.html#f_first_child">first_child</A>: <B>like</B> <A HREF="../elks/two_way_tree.html#f_parent">parent</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Leftmost child</FONT>
+
+    <A NAME="f_last_child"><A HREF="../elks/two_way_tree.html#f_last_child">last_child</A>: <B>like</B> <A HREF="../elks/two_way_tree.html#f_parent">parent</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Right most child</FONT>
+
+    <A NAME="f_child_cursor"><A HREF="../elks/two_way_tree.html#f_child_cursor">child_cursor</A>: <A HREF="../elks/two_way_tree_cursor.html">TWO_WAY_TREE_CURSOR</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Current cursor position</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/linked_list_cursor.html#f_make">make</A> (<A HREF="../elks/linked_list.html#f_active">child</A>, <A HREF="../elks/linked_list.html#f_after">child_after</A>, <A HREF="../elks/linked_list.html#f_before">child_before</A>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_child_islast"><A HREF="../elks/two_way_tree.html#f_child_islast">child_islast</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is cursor under last child?</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>not</B> <A HREF="../elks/tree.html#f_is_leaf">is_leaf</A> <B>and</B> <B>Precursor</B> {<A HREF="../elks/two_way_list.html">TWO_WAY_LIST</A>}
+        <B>end</B></A>
+    
+<B>feature</B> {<A HREF="../elks/recursive_cursor_tree.html">RECURSIVE_CURSOR_TREE</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_set_child"><A HREF="../elks/two_way_tree.html#f_set_child">set_child</A> (n: <B>like</B> <A HREF="../elks/two_way_tree.html#f_parent">parent</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set the child of parent to </FONT>`n'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/linked_list.html#f_active">child</A> := n
+        <B>ensure then</B>
+            child_set: <A HREF="../elks/linked_list.html#f_active">child</A> = n
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_put_child"><A HREF="../elks/two_way_tree.html#f_put_child">put_child</A> (n: <B>like</B> <A HREF="../elks/two_way_tree.html#f_new_cell">new_cell</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Add </FONT>`n'<FONT COLOR="red"> to the list of children.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do not move child cursor.</FONT>
+        <B>local</B>
+            c: <B>like</B> <A HREF="../elks/two_way_tree.html#f_last_child">last_child</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/container.html#f_object_comparison">object_comparison</A> <B>then</B>
+                n.<A HREF="../elks/container.html#f_compare_objects">compare_objects</A>
+            <B>else</B>
+                n.<A HREF="../elks/container.html#f_compare_references">compare_references</A>
+            <B>end</B>
+            <B>if</B> <A HREF="../elks/tree.html#f_is_leaf">is_leaf</A> <B>then</B>
+                <A HREF="../elks/two_way_tree.html#f_first_child">first_child</A> := n
+                <A HREF="../elks/linked_list.html#f_active">child</A> := n
+            <B>else</B>
+                c := <A HREF="../elks/two_way_tree.html#f_last_child">last_child</A>
+                <B>if</B> c /= <B>Void</B> <B>then</B>
+                    c.<A HREF="../elks/bi_linkable.html#f_put_right">bl_put_right</A> (n)
+                <B>end</B>
+                <B>if</B> <A HREF="../elks/linked_list.html#f_after">child_after</A> <B>then</B>
+                    <A HREF="../elks/linked_list.html#f_active">child</A> := n
+                <B>end</B>
+            <B>end</B>
+            <A HREF="../elks/two_way_tree.html#f_last_child">last_child</A> := n
+            n.<A HREF="../elks/tree.html#f_attach_to_parent">attach_to_parent</A> (<B>Current</B>)
+            <A HREF="../elks/linked_list.html#f_count">arity</A> := <A HREF="../elks/linked_list.html#f_count">arity</A> + 1
+        <B>end</B></A>
+
+    <A NAME="f_replace_child"><A HREF="../elks/two_way_tree.html#f_replace_child">replace_child</A> (n: <B>like</B> <A HREF="../elks/two_way_tree.html#f_new_cell">new_cell</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Replace current child by </FONT>`n'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/two_way_list.html#f_remove">remove_child</A>
+            <A HREF="../elks/two_way_tree.html#f_put_child_right">put_child_right</A> (n)
+        <B>end</B></A>
+
+    <A NAME="f_put_child_left"><A HREF="../elks/two_way_tree.html#f_put_child_left">put_child_left</A> (n: <B>like</B> <A HREF="../elks/two_way_tree.html#f_new_cell">new_cell</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Add </FONT>`n'<FONT COLOR="red"> to the left of cursor position.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do not move cursor.</FONT>
+        <B>do</B>
+            <A HREF="../elks/two_way_list.html#f_back">child_back</A>
+            <A HREF="../elks/two_way_tree.html#f_put_child_right">put_child_right</A> (n)
+            <A HREF="../elks/two_way_list.html#f_forth">child_forth</A>
+            <A HREF="../elks/two_way_list.html#f_forth">child_forth</A>
+        <B>end</B></A>
+
+    <A NAME="f_put_child_right"><A HREF="../elks/two_way_tree.html#f_put_child_right">put_child_right</A> (n: <B>like</B> <A HREF="../elks/two_way_tree.html#f_new_cell">new_cell</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Add </FONT>`n'<FONT COLOR="red"> to the right of cursor position.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do not move cursor.</FONT>
+        <B>local</B>
+            c: <B>like</B> <A HREF="../elks/linked_list.html#f_active">child</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/container.html#f_object_comparison">object_comparison</A> <B>then</B>
+                n.<A HREF="../elks/container.html#f_compare_objects">compare_objects</A>
+            <B>else</B>
+                n.<A HREF="../elks/container.html#f_compare_references">compare_references</A>
+            <B>end</B>
+            <B>if</B> <A HREF="../elks/linked_list.html#f_before">child_before</A> <B>then</B>
+                <B>if</B> <A HREF="../elks/tree.html#f_is_leaf">is_leaf</A> <B>then</B>
+                    <A HREF="../elks/two_way_tree.html#f_last_child">last_child</A> := n
+                <B>end</B>
+                n.<A HREF="../elks/bi_linkable.html#f_put_right">bl_put_right</A> (<A HREF="../elks/two_way_tree.html#f_first_child">first_child</A>)
+                <A HREF="../elks/two_way_tree.html#f_first_child">first_child</A> := n
+                <A HREF="../elks/linked_list.html#f_active">child</A> := n
+            <B>elseif</B> <A HREF="../elks/two_way_tree.html#f_child_islast">child_islast</A> <B>then</B>
+                c := <A HREF="../elks/linked_list.html#f_active">child</A>
+                <B>if</B> c /= <B>Void</B> <B>then</B>
+                    c.<A HREF="../elks/bi_linkable.html#f_put_right">bl_put_right</A> (n)
+                <B>end</B>
+                <A HREF="../elks/two_way_tree.html#f_last_child">last_child</A> := n
+            <B>else</B>
+                c := <A HREF="../elks/linked_list.html#f_active">child</A>
+                <B>if</B> c /= <B>Void</B> <B>then</B>
+                    n.<A HREF="../elks/bi_linkable.html#f_put_right">bl_put_right</A> (c.<A HREF="../elks/linkable.html#f_right">right_sibling</A>)
+                <B>end</B>
+                n.<A HREF="../elks/bi_linkable.html#f_put_left">bl_put_left</A> (c)
+            <B>end</B>
+            n.<A HREF="../elks/tree.html#f_attach_to_parent">attach_to_parent</A> (<B>Current</B>)
+            <A HREF="../elks/linked_list.html#f_count">arity</A> := <A HREF="../elks/linked_list.html#f_count">arity</A> + 1
+        <B>end</B></A>
+
+    <A NAME="f_merge_tree_before"><A HREF="../elks/two_way_tree.html#f_merge_tree_before">merge_tree_before</A> (other: <B>like</B> <A HREF="../elks/two_way_tree.html#f_new_cell">new_cell</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Merge children of </FONT>`other'<FONT COLOR="red"> into current structure</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> before cursor position. Do not move cursor.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make </FONT>`other'<FONT COLOR="red"> a leaf.</FONT>
+        <B>do</B>
+            <A HREF="../elks/two_way_tree.html#f_attach">attach</A> (other)
+            <A HREF="../elks/two_way_list.html#f_merge_left">twl_merge_left</A> (other)
+        <B>end</B></A>
+
+    <A NAME="f_merge_tree_after"><A HREF="../elks/two_way_tree.html#f_merge_tree_after">merge_tree_after</A> (other: <B>like</B> <A HREF="../elks/two_way_tree.html#f_new_cell">new_cell</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Merge children of </FONT>`other'<FONT COLOR="red"> into current structure</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> after cursor position. Do not move cursor.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make </FONT>`other'<FONT COLOR="red"> a leaf.</FONT>
+        <B>do</B>
+            <A HREF="../elks/two_way_tree.html#f_attach">attach</A> (other)
+            <A HREF="../elks/two_way_list.html#f_merge_right">twl_merge_right</A> (other)
+        <B>end</B></A>
+
+    <A NAME="f_prune"><A HREF="../elks/two_way_tree.html#f_prune">prune</A> (n: <B>like</B> <A HREF="../elks/two_way_tree.html#f_new_cell">new_cell</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Prune </FONT>`n'<FONT COLOR="red"> from children.</FONT>
+        <B>local</B>
+            l_child: <B>like</B> <A HREF="../elks/two_way_tree.html#f_first_child">first_child</A>
+            c: <B>like</B> <A HREF="../elks/linked_list.html#f_active">child</A>
+        <B>do</B>
+            <B>from</B>
+                l_child := <A HREF="../elks/two_way_tree.html#f_first_child">first_child</A>
+            <B>until</B>
+                l_child = <B>Void</B> <B>or</B> l_child = n
+            <B>loop</B>
+                l_child := l_child.<A HREF="../elks/linkable.html#f_right">right_sibling</A>
+            <B>end</B>
+            <B>if</B> l_child /= <B>Void</B> <B>then</B>
+                <B>if</B> l_child = <A HREF="../elks/two_way_tree.html#f_first_child">first_child</A> <B>then</B>
+                    <A HREF="../elks/two_way_tree.html#f_first_child">first_child</A> := l_child.<A HREF="../elks/linkable.html#f_right">right_sibling</A>
+                    <B>if</B> <A HREF="../elks/linked_list.html#f_active">child</A> = n <B>then</B>
+                        <A HREF="../elks/linked_list.html#f_active">child</A> := <A HREF="../elks/two_way_tree.html#f_first_child">first_child</A>
+                    <B>end</B>
+                    <B>if</B> l_child = <A HREF="../elks/two_way_tree.html#f_last_child">last_child</A> <B>then</B>
+                        <A HREF="../elks/two_way_tree.html#f_last_child">last_child</A> := l_child.<A HREF="../elks/bi_linkable.html#f_left">left_sibling</A>
+                    <B>end</B>
+                <B>elseif</B> l_child = <A HREF="../elks/two_way_tree.html#f_last_child">last_child</A> <B>then</B>
+                    <A HREF="../elks/two_way_tree.html#f_last_child">last_child</A> := l_child.<A HREF="../elks/bi_linkable.html#f_left">left_sibling</A>
+                    <B>if</B> <A HREF="../elks/linked_list.html#f_active">child</A> = n <B>then</B>
+                        <A HREF="../elks/linked_list.html#f_active">child</A> := <A HREF="../elks/two_way_tree.html#f_last_child">last_child</A>
+                    <B>end</B>
+                <B>else</B>
+                    c := l_child.<A HREF="../elks/linkable.html#f_right">right_sibling</A>
+                    <B>if</B> c /= <B>Void</B> <B>then</B>
+                        c.<A HREF="../elks/bi_linkable.html#f_put_left">bl_put_left</A> (l_child.<A HREF="../elks/bi_linkable.html#f_left">left_sibling</A>)
+                    <B>end</B>
+                    <B>if</B> <A HREF="../elks/linked_list.html#f_active">child</A> = n <B>then</B>
+                        <A HREF="../elks/linked_list.html#f_active">child</A> := l_child.<A HREF="../elks/bi_linkable.html#f_left">left_sibling</A>
+                    <B>end</B>
+                <B>end</B>
+                <A HREF="../elks/linked_list.html#f_count">arity</A> := <A HREF="../elks/linked_list.html#f_count">arity</A> - 1
+                <B>if</B> <A HREF="../elks/tree.html#f_is_leaf">is_leaf</A> <B>and</B> <B>not</B> <A HREF="../elks/linked_list.html#f_before">child_before</A> <B>then</B>
+                    <A HREF="../elks/two_way_tree.html#f_first_child">first_child</A> := <B>Void</B>
+                    <A HREF="../elks/two_way_tree.html#f_last_child">last_child</A> := <B>Void</B>
+                    <A HREF="../elks/linked_list.html#f_after">child_after</A> := <B>True</B>
+                <B>end</B>
+                n.<A HREF="../elks/tree.html#f_attach_to_parent">attach_to_parent</A> (<B>Void</B>)
+                n.<A HREF="../elks/bi_linkable.html#f_simple_forget_left">simple_forget_left</A>
+                n.<A HREF="../elks/bi_linkable.html#f_simple_forget_right">simple_forget_right</A>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removal</FONT>
+
+    <A NAME="f_split"><A HREF="../elks/two_way_tree.html#f_split">split</A> (n: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do nothing.</FONT>
+        <B>do</B>
+        <B>end</B></A>
+    
+<B>feature</B> {<A HREF="../elks/two_way_tree.html">TWO_WAY_TREE</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_new_cell"><A HREF="../elks/two_way_tree.html#f_new_cell">new_cell</A> (v: <B>like</B> <A HREF="../elks/cell.html#f_item">item</A>): <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New cell containing </FONT>`v'
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/two_way_tree.html#f_make">make</A> (v)
+            <B>if</B> <A HREF="../elks/container.html#f_object_comparison">object_comparison</A> <B>then</B>
+                <B>Result</B>.<A HREF="../elks/container.html#f_compare_objects">compare_objects</A>
+            <B>end</B>
+            <B>Result</B>.<A HREF="../elks/tree.html#f_attach_to_parent">attach_to_parent</A> (<B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_new_tree"><A HREF="../elks/two_way_tree.html#f_new_tree">new_tree</A>: <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> A newly created instance of the same type, with</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> the same node value.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> This feature may be redefined in descendants so as to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> produce an adequately allocated and initialized object.</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/two_way_tree.html#f_make">make</A> (<A HREF="../elks/cell.html#f_item">item</A>)
+        <B>end</B></A>
+
+    <A NAME="f_new_chain"><A HREF="../elks/two_way_tree.html#f_new_chain">new_chain</A>: <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> A newly created instance of the same type.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> This feature may be redefined in descendants so as to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> produce an adequately allocated and initialized object.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/two_way_tree.html#f_new_tree">new_tree</A>
+        <B>end</B></A>
+
+    <A NAME="f_clone_node"><A HREF="../elks/two_way_tree.html#f_clone_node">clone_node</A> (n: <B>like</B> <B>Current</B>): <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Clone node </FONT>`n'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/two_way_tree.html#f_make">make</A> (n.<A HREF="../elks/cell.html#f_item">item</A>)
+            <B>Result</B>.<A HREF="../elks/two_way_tree.html#f_copy_node">copy_node</A> (n)
+        <B>end</B></A>
+
+    <A NAME="f_copy_node"><A HREF="../elks/two_way_tree.html#f_copy_node">copy_node</A> (n: <B>like</B> <B>Current</B>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy content of </FONT>`n'<FONT COLOR="red"> except tree data into Current.</FONT>
+        <B>do</B>
+            <A HREF="../elks/any.html#f_standard_copy">standard_copy</A> (n)
+            <A HREF="../elks/linked_list.html#f_count">arity</A> := 0
+            <A HREF="../elks/linked_list.html#f_active">child</A> := <B>Void</B>
+            <A HREF="../elks/linked_list.html#f_after">child_after</A> := <B>False</B>
+            <A HREF="../elks/linked_list.html#f_before">child_before</A> := <B>True</B>
+            <A HREF="../elks/two_way_tree.html#f_first_child">first_child</A> := <B>Void</B>
+            <A HREF="../elks/two_way_tree.html#f_last_child">last_child</A> := <B>Void</B>
+            <A HREF="../elks/bi_linkable.html#f_left">left_sibling</A> := <B>Void</B>
+            <A HREF="../elks/two_way_tree.html#f_parent">parent</A> := <B>Void</B>
+            <A HREF="../elks/linkable.html#f_right">right_sibling</A> := <B>Void</B>
+            <A HREF="../elks/two_way_list.html#f_sublist">sublist</A> := <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_attach"><A HREF="../elks/two_way_tree.html#f_attach">attach</A> (other: <B>like</B> <A HREF="../elks/two_way_tree.html#f_new_cell">new_cell</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attach all children of </FONT>`other'<FONT COLOR="red"> to current node.</FONT>
+        <B>local</B>
+            cursor: <B>like</B> <A HREF="../elks/two_way_tree.html#f_child_cursor">child_cursor</A>
+            c: <B>like</B> <A HREF="../elks/linked_list.html#f_active">child</A>
+        <B>do</B>
+            cursor := other.<A HREF="../elks/two_way_tree.html#f_child_cursor">child_cursor</A>
+            <B>from</B>
+                other.<A HREF="../elks/linked_list.html#f_start">child_start</A>
+            <B>until</B>
+                other.<A HREF="../elks/linked_list.html#f_off">child_off</A>
+            <B>loop</B>
+                c := other.<A HREF="../elks/linked_list.html#f_active">child</A>
+                <B>if</B> c /= <B>Void</B> <B>then</B>
+                    c.<A HREF="../elks/tree.html#f_attach_to_parent">attach_to_parent</A> (<B>Current</B>)
+                <B>end</B>
+                other.<A HREF="../elks/two_way_list.html#f_forth">child_forth</A>
+            <B>end</B>
+            other.<A HREF="../elks/linked_list.html#f_go_to">child_go_to</A> (cursor)
+        <B>end</B></A>
+    
+<B>invariant</B>
+    off_constraint: (<A HREF="../elks/linked_list.html#f_active">child</A> = <B>Void</B>) <B>implies</B> <A HREF="../elks/linked_list.html#f_off">child_off</A>
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/two_way_tree.html">TWO_WAY_TREE</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="two_way_tree_chart.html">Chart</A></TD><TD><A HREF="two_way_tree_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="two_way_tree_flat.html">Flat</A></TD><TD><A HREF="two_way_tree_short.html">Contracts</A></TD><TD><A HREF="two_way_tree_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

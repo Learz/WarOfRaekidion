@@ -1,0 +1,161 @@
+<HTML><HEAD>
+<meta name="description" content="A network stream socket."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2006, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 356 Storke Road, Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>network_stream_socket Contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="network_stream_socket_chart.html">Chart</A></TD><TD><A HREF="network_stream_socket_links.html">Relations</A></TD><TD><A HREF="network_stream_socket.html">Text</A></TD><TD><A HREF="network_stream_socket_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="network_stream_socket_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "A network stream socket."
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2011-10-24 16:52:05 -0700 (Mon, 24 Oct 2011) $"
+    revision: "$Revision: 87603 $"
+
+<B>class</B> <B>interface</B>
+    <A HREF="../network/network_stream_socket_short.html">NETWORK_STREAM_SOCKET</A>
+
+<B>create</B> 
+    <A HREF="../network/network_stream_socket_short.html#f_make">make</A>,
+    <A HREF="../network/network_stream_socket_short.html#f_make_client_by_port">make_client_by_port</A>,
+    <A HREF="../network/network_stream_socket_short.html#f_make_client_by_address_and_port">make_client_by_address_and_port</A>,
+    <A HREF="../network/network_stream_socket_short.html#f_make_server_by_port">make_server_by_port</A>,
+    <A HREF="../network/network_stream_socket_short.html#f_make_loopback_server_by_port">make_loopback_server_by_port</A>
+
+
+<B>create</B> {<A HREF="../network/network_stream_socket_short.html">NETWORK_STREAM_SOCKET</A>}
+    <A HREF="../network/network_stream_socket_short.html#f_make_from_descriptor_and_address">make_from_descriptor_and_address</A>,
+    <A HREF="../network/network_stream_socket_short.html#f_create_from_descriptor">create_from_descriptor</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../network/network_stream_socket_short.html#f_make">make</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create a network stream socket.</FONT>
+        <B>ensure</B>
+            timeout_set_to_default: <A HREF="../network/network_socket_short.html#f_timeout">timeout</A> = <A HREF="../network/network_socket_short.html#f_default_timeout">Default_timeout</A>
+</A>
+    <A NAME="f_make_client_by_port"><A HREF="../network/network_stream_socket_short.html#f_make_client_by_port">make_client_by_port</A> (a_peer_port: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>; a_peer_host: <A HREF="../elks/string_8_short.html">STRING_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create a client connection to </FONT>`a_peer_host'<FONT COLOR="red"> on</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_peer_port'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            valid_peer_host: a_peer_host /= <B>Void</B> <B>and then</B> <B>not</B> a_peer_host.<A HREF="../elks/finite_short.html#f_is_empty">is_empty</A>
+            valid_port: a_peer_port &gt;= 0
+</A>
+    <A NAME="f_make_server_by_port"><A HREF="../network/network_stream_socket_short.html#f_make_server_by_port">make_server_by_port</A> (a_port: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create server socket on </FONT>`a_port'<FONT COLOR="red"> and on any incoming address.</FONT>
+        <B>require</B>
+            valid_port: a_port &gt;= 0
+</A>
+    <A NAME="f_make_loopback_server_by_port"><A HREF="../network/network_stream_socket_short.html#f_make_loopback_server_by_port">make_loopback_server_by_port</A> (a_port: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create server socket on </FONT>`a_port'<FONT COLOR="red"> that listen only for loopback interface peer.</FONT>
+        <B>require</B>
+            valid_port: a_port &gt;= 0
+</A>
+    <A NAME="f_make_client_by_address_and_port"><A HREF="../network/network_stream_socket_short.html#f_make_client_by_address_and_port">make_client_by_address_and_port</A> (a_peer_address: <A HREF="../network/inet_address_short.html">INET_ADDRESS</A>; a_peer_port: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create a client connection to </FONT>`a_peer_host'<FONT COLOR="red"> on</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_peer_port'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            valid_peer_address: a_peer_address /= <B>Void</B>
+            valid_port: a_peer_port &gt;= 0
+</A>    
+<B>feature</B> 
+
+    <A NAME="f_connect_timeout"><A HREF="../network/network_stream_socket_short.html#f_connect_timeout">connect_timeout</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The connect timeout in milliseconds</FONT>
+
+    <A NAME="f_set_connect_timeout"><A HREF="../network/network_stream_socket_short.html#f_set_connect_timeout">set_connect_timeout</A> (a_timeout: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">  Sets the connect timeout in milliseconds</FONT>
+</A>
+    <A NAME="f_accept_timeout"><A HREF="../network/network_stream_socket_short.html#f_accept_timeout">accept_timeout</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The connect timeout in milliseconds</FONT>
+
+    <A NAME="f_set_accept_timeout"><A HREF="../network/network_stream_socket_short.html#f_set_accept_timeout">set_accept_timeout</A> (a_timeout: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">  Sets the accept timeout in milliseconds</FONT>
+</A>
+    <A NAME="f_listen"><A HREF="../network/network_stream_socket_short.html#f_listen">listen</A> (queue: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Listen on socket for at most </FONT>`queue'<FONT COLOR="red"> connections.</FONT>
+</A>
+    <A NAME="f_accept"><A HREF="../network/network_stream_socket_short.html#f_accept">accept</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Accept a new connection on listen socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Accepted service socket available in </FONT><A HREF="../abstract/stream_socket_short.html#f_accepted">accepted</A><FONT COLOR="red">.</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_maximum_seg_size"><A HREF="../network/network_stream_socket_short.html#f_maximum_seg_size">maximum_seg_size</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Maximum segment size</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../network/network_socket_short.html#f_exists">exists</A>
+</A>
+    <A NAME="f_has_delay"><A HREF="../network/network_stream_socket_short.html#f_has_delay">has_delay</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is option TCPNO_DELAY off.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../network/network_socket_short.html#f_exists">exists</A>
+</A>
+    <A NAME="f_is_linger_on"><A HREF="../network/network_stream_socket_short.html#f_is_linger_on">is_linger_on</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is lingering switched on?</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../network/network_socket_short.html#f_exists">exists</A>
+</A>
+    <A NAME="f_is_out_of_band_inline"><A HREF="../network/network_stream_socket_short.html#f_is_out_of_band_inline">is_out_of_band_inline</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are out-of-band packets sent inline?</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../network/network_socket_short.html#f_exists">exists</A>
+</A>
+    <A NAME="f_linger_time"><A HREF="../network/network_stream_socket_short.html#f_linger_time">linger_time</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Linger time</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../network/network_socket_short.html#f_exists">exists</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status setting</FONT>
+
+    <A NAME="f_set_delay"><A HREF="../network/network_stream_socket_short.html#f_set_delay">set_delay</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Switch option TCPNO_DELAY off.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../network/network_socket_short.html#f_exists">exists</A>
+</A>
+    <A NAME="f_set_nodelay"><A HREF="../network/network_stream_socket_short.html#f_set_nodelay">set_nodelay</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Switch option TCPNO_DELAY on.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../network/network_socket_short.html#f_exists">exists</A>
+</A>
+    <A NAME="f_set_linger_on"><A HREF="../network/network_stream_socket_short.html#f_set_linger_on">set_linger_on</A> (time: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Switch lingering on and set linger time to </FONT>`time'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../network/network_socket_short.html#f_exists">exists</A>
+</A>
+    <A NAME="f_set_linger_off"><A HREF="../network/network_stream_socket_short.html#f_set_linger_off">set_linger_off</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Switch lingering off.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../network/network_socket_short.html#f_exists">exists</A>
+</A>
+    <A NAME="f_set_out_of_band_inline"><A HREF="../network/network_stream_socket_short.html#f_set_out_of_band_inline">set_out_of_band_inline</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Switch "out of band packets inline" on.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../network/network_socket_short.html#f_exists">exists</A>
+</A>
+    <A NAME="f_set_out_of_band_not_inline"><A HREF="../network/network_stream_socket_short.html#f_set_out_of_band_not_inline">set_out_of_band_not_inline</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Switch "out of band packets inline" off.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../network/network_socket_short.html#f_exists">exists</A>
+</A>    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2006, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        356 Storke Road, Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../network/network_stream_socket_short.html">NETWORK_STREAM_SOCKET</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="network_stream_socket_chart.html">Chart</A></TD><TD><A HREF="network_stream_socket_links.html">Relations</A></TD><TD><A HREF="network_stream_socket.html">Text</A></TD><TD><A HREF="network_stream_socket_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="network_stream_socket_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

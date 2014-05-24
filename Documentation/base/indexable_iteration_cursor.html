@@ -1,0 +1,266 @@
+<HTML><HEAD>
+<meta name="description" content="Concrete version of an external iteration cursor for {INDEXABLE}."/>
+<meta name="library" content="EiffelBase: Library of reusable components for Eiffel."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="copyright" content="Copyright (c) 1984-2011, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>indexable_iteration_cursor Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="indexable_iteration_cursor_chart.html">Chart</A></TD><TD><A HREF="indexable_iteration_cursor_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="indexable_iteration_cursor_flat.html">Flat</A></TD><TD><A HREF="indexable_iteration_cursor_short.html">Contracts</A></TD><TD><A HREF="indexable_iteration_cursor_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Concrete version of an external iteration cursor for {<A HREF="../elks/indexable.html">INDEXABLE</A>}."
+    library: "EiffelBase: Library of reusable components for Eiffel."
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    copyright: "Copyright (c) 1984-2011, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    date: "$Date: 2012-09-24 09:48:31 -0700 (Mon, 24 Sep 2012) $"
+    revision: "$Revision: 91994 $"
+
+<B>class</B> 
+    <A HREF="../elks/indexable_iteration_cursor.html">INDEXABLE_ITERATION_CURSOR</A> [G]
+
+<B>inherit</B>
+    <A HREF="../elks/iteration_cursor.html">ITERATION_CURSOR</A> [G]
+
+    <A HREF="../elks/iterable.html">ITERABLE</A> [G]
+
+<B>create</B> 
+    <A HREF="../elks/indexable_iteration_cursor.html#f_make">make</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../elks/indexable_iteration_cursor.html#f_make">make</A> (s: <B>like</B> <A HREF="../elks/indexable_iteration_cursor.html#f_target">target</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize cursor using structure </FONT>`s'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            s_attached: s /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../elks/indexable_iteration_cursor.html#f_target">target</A> := s
+            <B>if</B> <B>attached</B> {<A HREF="../elks/versionable.html">VERSIONABLE</A>} s <B>as</B> l_versionable <B>then</B>
+                <A HREF="../elks/indexable_iteration_cursor.html#f_version">version</A> := l_versionable.<A HREF="../elks/versionable.html#f_version">version</A>
+            <B>else</B>
+                <A HREF="../elks/indexable_iteration_cursor.html#f_version">version</A> := 0.<A HREF="../elks/integer_32_ref.html#f_to_natural_32">to_natural_32</A>
+            <B>end</B>
+            <A HREF="../elks/indexable_iteration_cursor.html#f_step">step</A> := 1
+            <A HREF="../elks/indexable_iteration_cursor.html#f_is_reversed">is_reversed</A> := <B>False</B>
+        <B>ensure</B>
+            structure_set: <A HREF="../elks/indexable_iteration_cursor.html#f_target">target</A> = s
+            is_valid: <A HREF="../elks/indexable_iteration_cursor.html#f_is_valid">is_valid</A>
+            default_step: <A HREF="../elks/indexable_iteration_cursor.html#f_step">step</A> = 1
+            ascending_traversal: <B>not</B> <A HREF="../elks/indexable_iteration_cursor.html#f_is_reversed">is_reversed</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_item"><A HREF="../elks/indexable_iteration_cursor.html#f_item">item</A>: G
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Item at current cursor position.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/indexable_iteration_cursor.html#f_target">target</A>.<A HREF="../elks/readable_indexable.html#f_item">item</A> (<A HREF="../elks/indexable_iteration_cursor.html#f_target_index">target_index</A>)
+        <B>end</B></A>
+
+    <A NAME="f_cursor_index"><A HREF="../elks/indexable_iteration_cursor.html#f_cursor_index">cursor_index</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Index position of cursor in the iteration.</FONT>
+        <B>require</B>
+            is_valid: <A HREF="../elks/indexable_iteration_cursor.html#f_is_valid">is_valid</A>
+        <B>do</B>
+            <B>Result</B> := ((<A HREF="../elks/indexable_iteration_cursor.html#f_target_index">target_index</A> - <A HREF="../elks/indexable_iteration_cursor.html#f_first_index">first_index</A>).<A HREF="../elks/integer_32_ref.html#f_abs">abs</A> + <A HREF="../elks/indexable_iteration_cursor.html#f_step">step</A> - 1) // <A HREF="../elks/indexable_iteration_cursor.html#f_step">step</A> + 1
+        <B>ensure</B>
+            positive_index: <B>Result</B> &gt;= 0
+        <B>end</B></A>
+
+    <A NAME="f_target_index"><A HREF="../elks/indexable_iteration_cursor.html#f_target_index">target_index</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Index position of </FONT><A HREF="../elks/indexable_iteration_cursor.html#f_target">target</A><FONT COLOR="red"> for current iteration.</FONT>
+
+    <A NAME="f_first_index"><A HREF="../elks/indexable_iteration_cursor.html#f_first_index">first_index</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+
+    <A NAME="f_last_index"><A HREF="../elks/indexable_iteration_cursor.html#f_last_index">last_index</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> First and last valid index of </FONT><A HREF="../elks/indexable_iteration_cursor.html#f_target">target</A><FONT COLOR="red"> for current iteration.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note that if </FONT><A HREF="../elks/indexable_iteration_cursor.html#f_is_reversed">is_reversed</A><FONT COLOR="red">, </FONT><A HREF="../elks/indexable_iteration_cursor.html#f_first_index">first_index</A><FONT COLOR="red"> might be greater than </FONT><A HREF="../elks/indexable_iteration_cursor.html#f_last_index">last_index</A><FONT COLOR="red">.</FONT>
+
+    <A NAME="f_step"><A HREF="../elks/indexable_iteration_cursor.html#f_step">step</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Distance between successive iteration elements.</FONT>
+
+    <A NAME="f_new_cursor"><A HREF="../elks/indexable_iteration_cursor.html#f_new_cursor">new_cursor</A>: <A HREF="../elks/indexable_iteration_cursor.html">INDEXABLE_ITERATION_CURSOR</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Restarted copy of Current.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/any.html#f_twin">twin</A>
+            <B>Result</B>.<A HREF="../elks/indexable_iteration_cursor.html#f_start">start</A>
+        <B>end</B></A>
+
+    <A NAME="f_reversed"><A HREF="../elks/indexable_iteration_cursor.html#f_reversed">reversed</A> <B>alias</B> "-": <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Reversed copy of Current.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/any.html#f_twin">twin</A>
+            <B>Result</B>.<A HREF="../elks/indexable_iteration_cursor.html#f_reverse">reverse</A>
+        <B>ensure</B>
+            is_reversed: <B>Result</B>.<A HREF="../elks/indexable_iteration_cursor.html#f_is_reversed">is_reversed</A> = <B>not</B> <A HREF="../elks/indexable_iteration_cursor.html#f_is_reversed">is_reversed</A>
+            same_structure: <B>Result</B>.<A HREF="../elks/indexable_iteration_cursor.html#f_target">target</A> = <A HREF="../elks/indexable_iteration_cursor.html#f_target">target</A>
+            same_step: <B>Result</B>.<A HREF="../elks/indexable_iteration_cursor.html#f_step">step</A> = <A HREF="../elks/indexable_iteration_cursor.html#f_step">step</A>
+        <B>end</B></A>
+
+    <A NAME="f_incremented"><A HREF="../elks/indexable_iteration_cursor.html#f_incremented">incremented</A> <B>alias</B> "+" (n: <B>like</B> <A HREF="../elks/indexable_iteration_cursor.html#f_step">step</A>): <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy of Current with step increased by </FONT>`n'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            n_valid: <A HREF="../elks/indexable_iteration_cursor.html#f_step">step</A> + n &gt; 0
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/any.html#f_twin">twin</A>
+            <B>Result</B>.<A HREF="../elks/indexable_iteration_cursor.html#f_set_step">set_step</A> (<A HREF="../elks/indexable_iteration_cursor.html#f_step">step</A> + n)
+        <B>ensure</B>
+            is_incremented: <B>Result</B>.<A HREF="../elks/indexable_iteration_cursor.html#f_step">step</A> = <A HREF="../elks/indexable_iteration_cursor.html#f_step">step</A> + n
+            same_structure: <B>Result</B>.<A HREF="../elks/indexable_iteration_cursor.html#f_target">target</A> = <A HREF="../elks/indexable_iteration_cursor.html#f_target">target</A>
+            same_direction: <B>Result</B>.<A HREF="../elks/indexable_iteration_cursor.html#f_is_reversed">is_reversed</A> = <A HREF="../elks/indexable_iteration_cursor.html#f_is_reversed">is_reversed</A>
+        <B>end</B></A>
+
+    <A NAME="f_decremented"><A HREF="../elks/indexable_iteration_cursor.html#f_decremented">decremented</A> <B>alias</B> "-" (n: <B>like</B> <A HREF="../elks/indexable_iteration_cursor.html#f_step">step</A>): <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy of Current with step decreased by </FONT>`n'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            n_valid: <A HREF="../elks/indexable_iteration_cursor.html#f_step">step</A> &gt; n
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/any.html#f_twin">twin</A>
+            <B>Result</B>.<A HREF="../elks/indexable_iteration_cursor.html#f_set_step">set_step</A> (<A HREF="../elks/indexable_iteration_cursor.html#f_step">step</A> - n)
+        <B>ensure</B>
+            is_incremented: <B>Result</B>.<A HREF="../elks/indexable_iteration_cursor.html#f_step">step</A> = <A HREF="../elks/indexable_iteration_cursor.html#f_step">step</A> - n
+            same_structure: <B>Result</B>.<A HREF="../elks/indexable_iteration_cursor.html#f_target">target</A> = <A HREF="../elks/indexable_iteration_cursor.html#f_target">target</A>
+            same_direction: <B>Result</B>.<A HREF="../elks/indexable_iteration_cursor.html#f_is_reversed">is_reversed</A> = <A HREF="../elks/indexable_iteration_cursor.html#f_is_reversed">is_reversed</A>
+        <B>end</B></A>
+
+    <A NAME="f_with_step"><A HREF="../elks/indexable_iteration_cursor.html#f_with_step">with_step</A> (n: <B>like</B> <A HREF="../elks/indexable_iteration_cursor.html#f_step">step</A>): <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy of Current with step set to </FONT>`n'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            n_positive: n &gt; 0
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/any.html#f_twin">twin</A>
+            <B>Result</B>.<A HREF="../elks/indexable_iteration_cursor.html#f_set_step">set_step</A> (n)
+        <B>ensure</B>
+            step_set: <B>Result</B>.<A HREF="../elks/indexable_iteration_cursor.html#f_step">step</A> = n
+            same_structure: <B>Result</B>.<A HREF="../elks/indexable_iteration_cursor.html#f_target">target</A> = <A HREF="../elks/indexable_iteration_cursor.html#f_target">target</A>
+            same_direction: <B>Result</B>.<A HREF="../elks/indexable_iteration_cursor.html#f_is_reversed">is_reversed</A> = <A HREF="../elks/indexable_iteration_cursor.html#f_is_reversed">is_reversed</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_version"><A HREF="../elks/indexable_iteration_cursor.html#f_version">version</A>: <A HREF="../elks/natural_32.html">NATURAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Current version.</FONT>
+        <B>note</B>
+            option: transient
+        <B>attribute</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_after"><A HREF="../elks/indexable_iteration_cursor.html#f_after">after</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are there no more items to iterate over?</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>not</B> <A HREF="../elks/indexable_iteration_cursor.html#f_is_valid">is_valid</A> <B>or</B> <B>not</B> <A HREF="../elks/indexable_iteration_cursor.html#f_target">target</A>.<A HREF="../elks/readable_indexable.html#f_valid_index">valid_index</A> (<A HREF="../elks/indexable_iteration_cursor.html#f_target_index">target_index</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_reversed"><A HREF="../elks/indexable_iteration_cursor.html#f_is_reversed">is_reversed</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are we traversing </FONT><A HREF="../elks/indexable_iteration_cursor.html#f_target">target</A><FONT COLOR="red"> backwards?</FONT>
+
+    <A NAME="f_is_valid"><A HREF="../elks/indexable_iteration_cursor.html#f_is_valid">is_valid</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is the cursor still compatible with the associated underlying object?</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>attached</B> {<A HREF="../elks/versionable.html">VERSIONABLE</A>} <A HREF="../elks/indexable_iteration_cursor.html#f_target">target</A> <B>as</B> l_versionable <B>implies</B> l_versionable.<A HREF="../elks/versionable.html#f_version">version</A> = <A HREF="../elks/indexable_iteration_cursor.html#f_version">version</A>
+        <B>end</B></A>
+
+    <A NAME="f_is_last"><A HREF="../elks/indexable_iteration_cursor.html#f_is_last">is_last</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is cursor at last position?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/indexable_iteration_cursor.html#f_target_index">target_index</A> = <A HREF="../elks/indexable_iteration_cursor.html#f_last_index">last_index</A> <B>and then</B> <A HREF="../elks/indexable_iteration_cursor.html#f_is_valid">is_valid</A>
+        <B>end</B></A>
+
+    <A NAME="f_is_first"><A HREF="../elks/indexable_iteration_cursor.html#f_is_first">is_first</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is cursor at first position?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/indexable_iteration_cursor.html#f_target_index">target_index</A> = <A HREF="../elks/indexable_iteration_cursor.html#f_first_index">first_index</A> <B>and then</B> <A HREF="../elks/indexable_iteration_cursor.html#f_is_valid">is_valid</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status setting</FONT>
+
+    <A NAME="f_reverse"><A HREF="../elks/indexable_iteration_cursor.html#f_reverse">reverse</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Flip traversal order.</FONT>
+        <B>do</B>
+            <A HREF="../elks/indexable_iteration_cursor.html#f_is_reversed">is_reversed</A> := <B>not</B> <A HREF="../elks/indexable_iteration_cursor.html#f_is_reversed">is_reversed</A>
+        <B>ensure</B>
+            is_reversed: <A HREF="../elks/indexable_iteration_cursor.html#f_is_reversed">is_reversed</A> = <B>not</B> <B>old</B> <A HREF="../elks/indexable_iteration_cursor.html#f_is_reversed">is_reversed</A>
+        <B>end</B></A>
+
+    <A NAME="f_set_step"><A HREF="../elks/indexable_iteration_cursor.html#f_set_step">set_step</A> (v: <B>like</B> <A HREF="../elks/indexable_iteration_cursor.html#f_step">step</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set increment step to </FONT>`v'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            v_positive: v &gt; 0
+        <B>do</B>
+            <A HREF="../elks/indexable_iteration_cursor.html#f_step">step</A> := v
+        <B>ensure</B>
+            step_set: <A HREF="../elks/indexable_iteration_cursor.html#f_step">step</A> = v
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Cursor movement</FONT>
+
+    <A NAME="f_start"><A HREF="../elks/indexable_iteration_cursor.html#f_start">start</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move to first position.</FONT>
+        <B>local</B>
+            l_index_set: <B>like</B> <A HREF="../elks/indexable_iteration_cursor.html#f_index_set">index_set</A>
+        <B>do</B>
+            l_index_set := <A HREF="../elks/indexable_iteration_cursor.html#f_index_set">index_set</A>
+            <B>if</B> <A HREF="../elks/indexable_iteration_cursor.html#f_is_reversed">is_reversed</A> <B>then</B>
+                <A HREF="../elks/indexable_iteration_cursor.html#f_first_index">first_index</A> := l_index_set.<A HREF="../elks/integer_interval.html#f_upper">upper</A>
+                <A HREF="../elks/indexable_iteration_cursor.html#f_last_index">last_index</A> := l_index_set.<A HREF="../elks/integer_interval.html#f_lower">lower</A>
+            <B>else</B>
+                <A HREF="../elks/indexable_iteration_cursor.html#f_last_index">last_index</A> := l_index_set.<A HREF="../elks/integer_interval.html#f_upper">upper</A>
+                <A HREF="../elks/indexable_iteration_cursor.html#f_first_index">first_index</A> := l_index_set.<A HREF="../elks/integer_interval.html#f_lower">lower</A>
+            <B>end</B>
+            <A HREF="../elks/indexable_iteration_cursor.html#f_target_index">target_index</A> := <A HREF="../elks/indexable_iteration_cursor.html#f_first_index">first_index</A>
+        <B>ensure</B>
+            cursor_index_set_to_one: <A HREF="../elks/indexable_iteration_cursor.html#f_cursor_index">cursor_index</A> = 1
+        <B>end</B></A>
+
+    <A NAME="f_forth"><A HREF="../elks/indexable_iteration_cursor.html#f_forth">forth</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move to next position.</FONT>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/indexable_iteration_cursor.html#f_is_reversed">is_reversed</A> <B>then</B>
+                <A HREF="../elks/indexable_iteration_cursor.html#f_target_index">target_index</A> := <A HREF="../elks/indexable_iteration_cursor.html#f_target_index">target_index</A> - <A HREF="../elks/indexable_iteration_cursor.html#f_step">step</A>
+            <B>else</B>
+                <A HREF="../elks/indexable_iteration_cursor.html#f_target_index">target_index</A> := <A HREF="../elks/indexable_iteration_cursor.html#f_target_index">target_index</A> + <A HREF="../elks/indexable_iteration_cursor.html#f_step">step</A>
+            <B>end</B>
+        <B>ensure then</B>
+            cursor_index_advanced: <A HREF="../elks/indexable_iteration_cursor.html#f_cursor_index">cursor_index</A> = <B>old</B> <A HREF="../elks/indexable_iteration_cursor.html#f_cursor_index">cursor_index</A> + 1
+        <B>end</B></A>
+    
+<B>feature</B> {<A HREF="../elks/iterable.html">ITERABLE</A>, <A HREF="../elks/iteration_cursor.html">ITERATION_CURSOR</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_target"><A HREF="../elks/indexable_iteration_cursor.html#f_target">target</A>: <A HREF="../elks/readable_indexable.html">READABLE_INDEXABLE</A> [G]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Associated structure used for iteration.</FONT>
+
+    <A NAME="f_index_set"><A HREF="../elks/indexable_iteration_cursor.html#f_index_set">index_set</A>: <A HREF="../elks/integer_interval.html">INTEGER_INTERVAL</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Range of acceptable indexes for </FONT><A HREF="../elks/indexable_iteration_cursor.html#f_target">target</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/indexable_iteration_cursor.html#f_target">target</A>.<A HREF="../elks/readable_indexable.html#f_index_set">index_set</A>
+        <B>end</B></A>
+    
+<B>invariant</B>
+    target_attached: <A HREF="../elks/indexable_iteration_cursor.html#f_target">target</A> /= <B>Void</B>
+    step_positive: <A HREF="../elks/indexable_iteration_cursor.html#f_step">step</A> &gt; 0
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/indexable_iteration_cursor.html">INDEXABLE_ITERATION_CURSOR</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="indexable_iteration_cursor_chart.html">Chart</A></TD><TD><A HREF="indexable_iteration_cursor_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="indexable_iteration_cursor_flat.html">Flat</A></TD><TD><A HREF="indexable_iteration_cursor_short.html">Contracts</A></TD><TD><A HREF="indexable_iteration_cursor_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

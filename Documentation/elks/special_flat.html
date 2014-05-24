@@ -1,0 +1,1280 @@
+<HTML><HEAD>
+<meta name="description" content="Special objects: homogeneous sequences of values, used to represent arrays and strings"/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>special Flat</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="special_chart.html">Chart</A></TD><TD><A HREF="special_links.html">Relations</A></TD><TD><A HREF="special.html">Text</A></TD><TD>Flat</TD><TD><A HREF="special_short.html">Contracts</A></TD><TD><A HREF="special_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Special objects: homogeneous sequences of values,
+        used to represent arrays and strings
+    ]"
+    library: "Free implementation of ELKS library"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2013-03-04 15:01:25 -0800 (Mon, 04 Mar 2013) $"
+    revision: "$Revision: 92178 $"
+
+<B>frozen</B> <B>class</B> 
+    <A HREF="../elks/special_flat.html">SPECIAL</A> [T]
+
+<B>create</B> 
+    <A HREF="../elks/special_flat.html#f_make_empty">make_empty</A>,
+    <A HREF="../elks/special_flat.html#f_make_filled">make_filled</A>,
+    <A HREF="../elks/special_flat.html#f_make_from_native_array">make_from_native_array</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_default_create"><A HREF="../elks/any_flat.html#f_default_create">default_create</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process instances of classes with no creation clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_make_empty"><A HREF="../elks/special_flat.html#f_make_empty">make_empty</A> (n: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create a special object for </FONT>`n'<FONT COLOR="red"> entries.</FONT>
+        <B>require</B>
+            non_negative_argument: n &gt;= 0
+        <B>do</B>
+        <B>ensure</B>
+            capacity_set: <A HREF="../elks/special_flat.html#f_capacity">capacity</A> = n
+            count_set: <A HREF="../elks/special_flat.html#f_count">count</A> = 0
+        <B>end</B></A>
+
+    <A NAME="f_make_filled"><A HREF="../elks/special_flat.html#f_make_filled">make_filled</A> (v: T; n: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create a special object for </FONT>`n'<FONT COLOR="red"> entries initialized with </FONT>`v'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            non_negative_argument: n &gt;= 0
+        <B>do</B>
+            <A HREF="../elks/special_flat.html#f_make_empty">make_empty</A> (n)
+            <A HREF="../elks/special_flat.html#f_fill_with">fill_with</A> (v, 0, n - 1)
+        <B>ensure</B>
+            capacity_set: <A HREF="../elks/special_flat.html#f_capacity">capacity</A> = n
+            count_set: <A HREF="../elks/special_flat.html#f_count">count</A> = n
+            filled: <A HREF="../elks/special_flat.html#f_filled_with">filled_with</A> (v, 0, n - 1)
+        <B>end</B></A>
+
+    <A NAME="f_make_from_native_array"><A HREF="../elks/special_flat.html#f_make_from_native_array">make_from_native_array</A> (an_array: <B>like</B> <A HREF="../elks/special_flat.html#f_native_array">native_array</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create a special object from </FONT>`an_array'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            is_dotnet: {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_is_dotnet">is_dotnet</A>
+            an_array_not_void: an_array /= <B>Void</B>
+        <B>do</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_at"><A HREF="../elks/special_flat.html#f_at">at</A> <B>alias</B> "@" (i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): T
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Item at </FONT>`i'<FONT COLOR="red">-th position</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (indices begin at 0)</FONT>
+        <B>require</B>
+            valid_index: <A HREF="../elks/special_flat.html#f_valid_index">valid_index</A> (i)
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/special_flat.html#f_item">item</A> (i)
+        <B>end</B></A>
+
+    <A NAME="f_base_address"><A HREF="../elks/special_flat.html#f_base_address">base_address</A>: <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Address of element at position </FONT>`0'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Use only when interfacing with C externals when Current is guaranteed to not move in memory.</FONT>
+        <B>require</B>
+            not_dotnet: <B>not</B> {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_is_dotnet">is_dotnet</A>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B>
+            base_address_not_null: <B>Result</B> /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>end</B></A>
+
+    <A NAME="f_generating_type"><A HREF="../elks/any_flat.html#f_generating_type">generating_type</A>: <A HREF="../elks/type_flat.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/special_flat.html">SPECIAL</A> [T]]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Type of current object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := {<B>detachable</B> <A HREF="../elks/special_flat.html">SPECIAL</A> [T]}
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            generating_type_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_generator"><A HREF="../elks/any_flat.html#f_generator">generator</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of current object's generating class</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (base class of the type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            generator_not_void: <B>Result</B> /= <B>Void</B>
+            generator_not_empty: <B>not</B> <B>Result</B>.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+
+    <A NAME="f_index_of"><A HREF="../elks/special_flat.html#f_index_of">index_of</A> (v: T; start_position: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Index of first occurrence of item identical to </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> -1 if none.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Use object equality for comparison.)</FONT>
+        <B>require</B>
+            valid_start_position: start_position &gt;= 0
+        <B>local</B>
+            nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                <B>Result</B> := start_position
+                nb := <A HREF="../elks/special_flat.html#f_count">count</A>
+            <B>until</B>
+                <B>Result</B> &gt;= nb <B>or else</B> <A HREF="../elks/special_flat.html#f_item">item</A> (<B>Result</B>) ~ v
+            <B>loop</B>
+                <B>Result</B> := <B>Result</B> + 1
+            <B>end</B>
+            <B>if</B> <B>Result</B> &gt;= nb <B>then</B>
+                <B>Result</B> := -1
+            <B>end</B>
+        <B>ensure</B>
+            found_or_not_found: <B>Result</B> = -1 <B>or else</B> (<B>Result</B> &gt;= 0 <B>and then</B> <B>Result</B> &lt; <A HREF="../elks/special_flat.html#f_count">count</A>)
+        <B>end</B></A>
+
+    <A NAME="f_index_set"><A HREF="../elks/special_flat.html#f_index_set">index_set</A>: <A HREF="../elks/integer_interval_flat.html">INTEGER_INTERVAL</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Range of acceptable indexes</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/integer_interval_flat.html#f_make">make</A> (<A HREF="../elks/special_flat.html#f_lower">Lower</A>, <A HREF="../elks/special_flat.html#f_upper">upper</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/readable_indexable_flat.html">READABLE_INDEXABLE</A>
+            not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_item"><A HREF="../elks/special_flat.html#f_item">item</A> <B>alias</B> "[]" (i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): T <B>assign</B> <A HREF="../elks/special_flat.html#f_put">put</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Item at </FONT>`i'<FONT COLOR="red">-th position</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (indices begin at 0)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/readable_indexable_flat.html">READABLE_INDEXABLE</A>
+            valid_index: <A HREF="../elks/special_flat.html#f_valid_index">valid_index</A> (i)
+        <B>local</B>
+            r: <B>detachable</B> T
+        <B>do</B>
+            <B>check</B>
+                <B>attached</B> r
+            <B>then</B>
+                <B>Result</B> := r
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_item_address"><A HREF="../elks/special_flat.html#f_item_address">item_address</A> (i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Address of element at position </FONT>`i'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Use only when interfacing with C externals when Current is guaranteed to not move in memory.</FONT>
+        <B>require</B>
+            not_dotnet: <B>not</B> {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_is_dotnet">is_dotnet</A>
+            index_large_enough: i &gt;= 0
+            index_small_enough: i &lt; <A HREF="../elks/special_flat.html#f_count">count</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/special_flat.html#f_base_address">base_address</A> + i * <A HREF="../elks/special_flat.html#f_element_size">element_size</A>
+        <B>ensure</B>
+            element_address_not_null: <B>Result</B> /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>end</B></A>
+
+    <A NAME="f_native_array"><A HREF="../elks/special_flat.html#f_native_array">native_array</A>: <A HREF="../elks/native_array_flat.html">NATIVE_ARRAY</A> [T]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Only for compatibility with .NET</FONT>
+        <B>require</B>
+            is_dotnet: {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_is_dotnet">is_dotnet</A>
+        <B>do</B>
+            <B>create</B> <B>Result</B>
+        <B>end</B></A>
+
+    <A NAME="f_new_cursor"><A HREF="../elks/readable_indexable_flat.html#f_new_cursor">new_cursor</A>: <A HREF="../elks/indexable_iteration_cursor_flat.html">INDEXABLE_ITERATION_CURSOR</A> [T]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Fresh cursor associated with current structure</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/readable_indexable_flat.html">READABLE_INDEXABLE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/indexable_iteration_cursor_flat.html#f_make">make</A> (<B>Current</B>)
+            <B>Result</B>.<A HREF="../elks/indexable_iteration_cursor_flat.html#f_start">start</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/iterable_flat.html">ITERABLE</A>
+            result_attached: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_to_array"><A HREF="../elks/special_flat.html#f_to_array">to_array</A>: <A HREF="../elks/array_flat.html">ARRAY</A> [T]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Build an array representation of Current from </FONT>`1'<FONT COLOR="red"> to </FONT><A HREF="../elks/special_flat.html#f_count">count</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/array_flat.html#f_make_from_special">make_from_special</A> (<B>Current</B>)
+        <B>ensure</B>
+            to_array_attached: <B>Result</B> /= <B>Void</B>
+            to_array_lower_set: <B>Result</B>.<A HREF="../elks/array_flat.html#f_lower">lower</A> = 1
+            to_array_upper_set: <B>Result</B>.<A HREF="../elks/array_flat.html#f_upper">upper</A> = <A HREF="../elks/special_flat.html#f_count">count</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_capacity"><A HREF="../elks/special_flat.html#f_capacity">capacity</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Capacity of special area</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/abstract_special_flat.html">ABSTRACT_SPECIAL</A>
+            count_non_negative: <B>Result</B> &gt;= 0
+        <B>end</B></A>
+
+    <A NAME="f_count"><A HREF="../elks/special_flat.html#f_count">count</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Count of special area</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/abstract_special_flat.html">ABSTRACT_SPECIAL</A>
+            count_non_negative: <B>Result</B> &gt;= 0
+        <B>end</B></A>
+
+    <A NAME="f_lower"><A HREF="../elks/special_flat.html#f_lower">Lower</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 0</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Minimum index of Current</FONT>
+
+    <A NAME="f_upper"><A HREF="../elks/special_flat.html#f_upper">upper</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Maximum index of Current</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/special_flat.html#f_count">count</A> - 1
+        <B>ensure</B>
+            definition: <A HREF="../elks/special_flat.html#f_lower">Lower</A> &lt;= <B>Result</B> + 1
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_deep_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (a, b) <B>implies</B> <B>Result</B>
+            both_or_none_void: (a = <B>Void</B>) <B>implies</B> (<B>Result</B> = (b = <B>Void</B>))
+            same_type: (<B>Result</B> <B>and</B> (a /= <B>Void</B>)) <B>implies</B> (b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_same_type">same_type</A> (b))
+            symmetric: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (b, a)
+        <B>end</B></A>
+
+    <A NAME="f_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_equal">equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to objects considered equal?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_equal">is_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_equal">is_equal</A> (b))
+        <B>end</B></A>
+
+    <A NAME="f_is_deep_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (other: <B>attached</B> <A HREF="../elks/special_flat.html">SPECIAL</A> [T]): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`Current'<FONT COLOR="red"> and </FONT>`other'<FONT COLOR="red"> attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (<B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_is_equal"><A HREF="../elks/any_flat.html#f_is_equal">is_equal</A> (other: <B>attached</B> <A HREF="../elks/special_flat.html">SPECIAL</A> [T]): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object considered</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to current object?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            symmetric: <B>Result</B> <B>implies</B> other ~ <B>Current</B>
+            consistent: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+        <B>end</B></A>
+
+    <A NAME="f_standard_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical objects of the same type?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default object comparison criterion.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (b))
+        <B>end</B></A>
+
+    <A NAME="f_standard_is_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other: <B>attached</B> <A HREF="../elks/special_flat.html">SPECIAL</A> [T]): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object of the same type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as current object, and field-by-field identical to it?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_conforms_to"><A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (other: <A HREF="../elks/any_flat.html">ANY</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does type of current object conform to type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of </FONT>`other'<FONT COLOR="red"> (as per Eiffel: The Language, chapter 13)?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>end</B></A>
+
+    <A NAME="f_filled_with"><A HREF="../elks/special_flat.html#f_filled_with">filled_with</A> (v: T; start_index, end_index: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are all items between index </FONT>`start_index'<FONT COLOR="red"> and </FONT>`end_index'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> set to </FONT>`v'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Use reference equality for comparison.)			</FONT>
+        <B>require</B>
+            start_index_non_negative: start_index &gt;= 0
+            start_index_not_too_big: start_index &lt;= end_index + 1
+            end_index_valid: end_index &lt; <A HREF="../elks/special_flat.html#f_count">count</A>
+        <B>local</B>
+            i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                <B>Result</B> := <B>True</B>
+                i := start_index
+            <B>until</B>
+                i &gt; end_index <B>or else</B> <B>not</B> <B>Result</B>
+            <B>loop</B>
+                <B>Result</B> := <A HREF="../elks/special_flat.html#f_item">item</A> (i) = v
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_same_items"><A HREF="../elks/special_flat.html#f_same_items">same_items</A> (other: <B>like</B> <B>Current</B>; source_index, destination_index, n: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are the </FONT>`n'<FONT COLOR="red"> elements of </FONT>`other'<FONT COLOR="red"> from </FONT>`source_index'<FONT COLOR="red"> position the same as</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> the </FONT>`n'<FONT COLOR="red"> elements of </FONT>`Current'<FONT COLOR="red"> from </FONT>`destination_index'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Use reference equality for comparison.)</FONT>
+        <B>require</B>
+            other_not_void: other /= <B>Void</B>
+            source_index_non_negative: source_index &gt;= 0
+            destination_index_non_negative: destination_index &gt;= 0
+            n_non_negative: n &gt;= 0
+            n_is_small_enough_for_source: source_index + n &lt;= other.<A HREF="../elks/special_flat.html#f_count">count</A>
+            n_is_small_enough_for_destination: destination_index + n &lt;= <A HREF="../elks/special_flat.html#f_count">count</A>
+        <B>local</B>
+            i, j, nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>Result</B> := <B>True</B>
+            <B>if</B> other /= <B>Current</B> <B>then</B>
+                <B>from</B>
+                    i := source_index
+                    j := destination_index
+                    nb := source_index + n
+                <B>until</B>
+                    i = nb
+                <B>loop</B>
+                    <B>if</B> other.<A HREF="../elks/special_flat.html#f_item">item</A> (i) /= <A HREF="../elks/special_flat.html#f_item">item</A> (j) <B>then</B>
+                        <B>Result</B> := <B>False</B>
+                        i := nb - 1
+                    <B>end</B>
+                    i := i + 1
+                    j := j + 1
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B>
+            valid_on_empty_area: (n = 0) <B>implies</B> <B>Result</B>
+        <B>end</B></A>
+
+    <A NAME="f_same_type"><A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other: <A HREF="../elks/any_flat.html">ANY</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is type of current object identical to type of </FONT>`other'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (<A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (other) <B>and</B> other.<A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>Current</B>))
+        <B>end</B></A>
+
+    <A NAME="f_valid_index"><A HREF="../elks/special_flat.html#f_valid_index">valid_index</A> (i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`i'<FONT COLOR="red"> within the bounds of Current?</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/abstract_special_flat.html">ABSTRACT_SPECIAL</A>
+            <B>True</B>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/readable_indexable_flat.html">READABLE_INDEXABLE</A>
+            <B>True</B>
+        <B>do</B>
+            <B>Result</B> := (0 &lt;= i) <B>and</B> (i &lt; <A HREF="../elks/special_flat.html#f_count">count</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/readable_indexable_flat.html">READABLE_INDEXABLE</A>
+            only_if_in_index_set: <B>Result</B> <B>implies</B> ((i &gt;= <A HREF="../elks/special_flat.html#f_index_set">index_set</A>.<A HREF="../elks/integer_interval_flat.html#f_lower">lower</A>) <B>and</B> (i &lt;= <A HREF="../elks/special_flat.html#f_index_set">index_set</A>.<A HREF="../elks/integer_interval_flat.html#f_upper">upper</A>))
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_copy_data"><A HREF="../elks/special_flat.html#f_copy_data">copy_data</A> (other: <A HREF="../elks/special_flat.html">SPECIAL</A> [T]; source_index, destination_index, n: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy </FONT>`n'<FONT COLOR="red"> elements of </FONT>`other'<FONT COLOR="red"> from </FONT>`source_index'<FONT COLOR="red"> position to Current at</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`destination_index'<FONT COLOR="red">. Other elements of Current remain unchanged.</FONT>
+        <B>require</B>
+            other_not_void: other /= <B>Void</B>
+            source_index_non_negative: source_index &gt;= 0
+            destination_index_non_negative: destination_index &gt;= 0
+            destination_index_in_bound: destination_index &lt;= <A HREF="../elks/special_flat.html#f_count">count</A>
+            n_non_negative: n &gt;= 0
+            n_is_small_enough_for_source: source_index + n &lt;= other.<A HREF="../elks/special_flat.html#f_count">count</A>
+            n_is_small_enough_for_destination: destination_index + n &lt;= <A HREF="../elks/special_flat.html#f_capacity">capacity</A>
+            same_type: other.<A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>Current</B>)
+        <B>local</B>
+            i, j, nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>if</B> other = <B>Current</B> <B>then</B>
+                <A HREF="../elks/special_flat.html#f_move_data">move_data</A> (source_index, destination_index, n)
+            <B>else</B>
+                <B>from</B>
+                    i := source_index
+                    j := destination_index
+                    nb := source_index + n
+                <B>until</B>
+                    i = nb
+                <B>loop</B>
+                    <A HREF="../elks/special_flat.html#f_force">force</A> (other.<A HREF="../elks/special_flat.html#f_item">item</A> (i), j)
+                    i := i + 1
+                    j := j + 1
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B>
+            copied: <A HREF="../elks/special_flat.html#f_same_items">same_items</A> (other, source_index, destination_index, n)
+            count_updated: <A HREF="../elks/special_flat.html#f_count">count</A> = (<B>old</B> <A HREF="../elks/special_flat.html#f_count">count</A>).<A HREF="../elks/comparable_flat.html#f_max">max</A> (destination_index + n)
+        <B>end</B></A>
+
+    <A NAME="f_extend"><A HREF="../elks/special_flat.html#f_extend">extend</A> (v: T)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Add </FONT>`v'<FONT COLOR="red"> at index </FONT><A HREF="../elks/special_flat.html#f_count">count</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            count_small_enough: <A HREF="../elks/special_flat.html#f_count">count</A> &lt; <A HREF="../elks/special_flat.html#f_capacity">capacity</A>
+        <B>do</B>
+        <B>ensure</B>
+            count_increased: <A HREF="../elks/special_flat.html#f_count">count</A> = <B>old</B> <A HREF="../elks/special_flat.html#f_count">count</A> + 1
+            same_capacity: <A HREF="../elks/special_flat.html#f_capacity">capacity</A> = <B>old</B> <A HREF="../elks/special_flat.html#f_capacity">capacity</A>
+            inserted: <A HREF="../elks/special_flat.html#f_item">item</A> (<A HREF="../elks/special_flat.html#f_count">count</A> - 1) = v
+        <B>end</B></A>
+
+    <A NAME="f_extend_filled"><A HREF="../elks/special_flat.html#f_extend_filled">extend_filled</A> (v: T)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set items between </FONT><A HREF="../elks/special_flat.html#f_count">count</A><FONT COLOR="red"> and </FONT>`capacity - 1'<FONT COLOR="red"> with </FONT>`v'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/special_flat.html#f_fill_with">fill_with</A> (v, <A HREF="../elks/special_flat.html#f_count">count</A>, <A HREF="../elks/special_flat.html#f_capacity">capacity</A> - 1)
+        <B>ensure</B>
+            same_capacity: <A HREF="../elks/special_flat.html#f_capacity">capacity</A> = <B>old</B> <A HREF="../elks/special_flat.html#f_capacity">capacity</A>
+            count_increased: <A HREF="../elks/special_flat.html#f_count">count</A> = <A HREF="../elks/special_flat.html#f_capacity">capacity</A>
+            filled: <A HREF="../elks/special_flat.html#f_filled_with">filled_with</A> (v, <B>old</B> <A HREF="../elks/special_flat.html#f_count">count</A>, <A HREF="../elks/special_flat.html#f_capacity">capacity</A> - 1)
+        <B>end</B></A>
+
+    <A NAME="f_fill_with"><A HREF="../elks/special_flat.html#f_fill_with">fill_with</A> (v: T; start_index, end_index: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set items between </FONT>`start_index'<FONT COLOR="red"> and </FONT>`end_index'<FONT COLOR="red"> with </FONT>`v'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            start_index_non_negative: start_index &gt;= 0
+            start_index_in_bound: start_index &lt;= <A HREF="../elks/special_flat.html#f_count">count</A>
+            start_index_not_too_big: start_index &lt;= end_index + 1
+            end_index_valid: end_index &lt; <A HREF="../elks/special_flat.html#f_capacity">capacity</A>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            l_count: <B>like</B> <A HREF="../elks/special_flat.html#f_count">count</A>
+        <B>do</B>
+            <B>from</B>
+                i := start_index
+                l_count := <A HREF="../elks/special_flat.html#f_count">count</A>.<A HREF="../elks/comparable_flat.html#f_min">min</A> (end_index + 1)
+                nb := l_count
+            <B>until</B>
+                i = nb
+            <B>loop</B>
+                <A HREF="../elks/special_flat.html#f_put">put</A> (v, i)
+                i := i + 1
+            <B>end</B>
+            <B>from</B>
+                i := l_count
+                nb := end_index + 1
+            <B>until</B>
+                i = nb
+            <B>loop</B>
+                <A HREF="../elks/special_flat.html#f_extend">extend</A> (v)
+                i := i + 1
+            <B>end</B>
+        <B>ensure</B>
+            same_capacity: <A HREF="../elks/special_flat.html#f_capacity">capacity</A> = <B>old</B> <A HREF="../elks/special_flat.html#f_capacity">capacity</A>
+            count_definition: <A HREF="../elks/special_flat.html#f_count">count</A> = (<B>old</B> <A HREF="../elks/special_flat.html#f_count">count</A>).<A HREF="../elks/comparable_flat.html#f_max">max</A> (end_index + 1)
+            filled: <A HREF="../elks/special_flat.html#f_filled_with">filled_with</A> (v, start_index, end_index)
+        <B>end</B></A>
+
+    <A NAME="f_fill_with_default"><A HREF="../elks/special_flat.html#f_fill_with_default">fill_with_default</A> (start_index, end_index: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Clear items between </FONT>`start_index'<FONT COLOR="red"> and </FONT>`end_index'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            is_self_initializing: ({T}).<A HREF="../elks/type_flat.html#f_has_default">has_default</A>
+            start_index_non_negative: start_index &gt;= 0
+            start_index_not_too_big: start_index &lt;= end_index + 1
+            end_index_valid: end_index &lt; <A HREF="../elks/special_flat.html#f_count">count</A>
+        <B>do</B>
+            <A HREF="../elks/special_flat.html#f_fill_with">fill_with</A> (({T}).<A HREF="../elks/type_flat.html#f_default">default</A>, start_index, end_index)
+        <B>ensure</B>
+            filled: <A HREF="../elks/special_flat.html#f_filled_with">filled_with</A> (({T}).<A HREF="../elks/type_flat.html#f_default">default</A>, start_index, end_index)
+        <B>end</B></A>
+
+    <A NAME="f_force"><A HREF="../elks/special_flat.html#f_force">force</A> (v: T; i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If </FONT>`i'<FONT COLOR="red"> is equal to </FONT><A HREF="../elks/special_flat.html#f_count">count</A><FONT COLOR="red"> increase </FONT><A HREF="../elks/special_flat.html#f_count">count</A><FONT COLOR="red"> by one and insert </FONT>`v'<FONT COLOR="red"> at index </FONT><A HREF="../elks/special_flat.html#f_count">count</A><FONT COLOR="red">,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> otherwise replace </FONT>`i'<FONT COLOR="red">-th item by </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Indices begin at 0.)</FONT>
+        <B>require</B>
+            index_large_enough: i &gt;= 0
+            index_small_enough: i &lt;= <A HREF="../elks/special_flat.html#f_count">count</A>
+            not_full: i = <A HREF="../elks/special_flat.html#f_count">count</A> <B>implies</B> <A HREF="../elks/special_flat.html#f_count">count</A> &lt; <A HREF="../elks/special_flat.html#f_capacity">capacity</A>
+        <B>do</B>
+            <B>if</B> i &lt; <A HREF="../elks/special_flat.html#f_count">count</A> <B>then</B>
+                <A HREF="../elks/special_flat.html#f_put">put</A> (v, i)
+            <B>else</B>
+                <A HREF="../elks/special_flat.html#f_extend">extend</A> (v)
+            <B>end</B>
+        <B>ensure</B>
+            count_updated: <A HREF="../elks/special_flat.html#f_count">count</A> = (i + 1).<A HREF="../elks/comparable_flat.html#f_max">max</A> (<B>old</B> <A HREF="../elks/special_flat.html#f_count">count</A>)
+            same_capacity: <A HREF="../elks/special_flat.html#f_capacity">capacity</A> = <B>old</B> <A HREF="../elks/special_flat.html#f_capacity">capacity</A>
+            inserted: <A HREF="../elks/special_flat.html#f_item">item</A> (i) = v
+        <B>end</B></A>
+
+    <A NAME="f_insert_data"><A HREF="../elks/special_flat.html#f_insert_data">insert_data</A> (other: <A HREF="../elks/special_flat.html">SPECIAL</A> [T]; source_index, destination_index, n: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Insert </FONT>`n'<FONT COLOR="red"> elements of </FONT>`other'<FONT COLOR="red"> from </FONT>`source_index'<FONT COLOR="red"> position to Current at</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`destination_index'<FONT COLOR="red"> and shift elements between </FONT>`destination_index'<FONT COLOR="red"> and </FONT><A HREF="../elks/special_flat.html#f_count">count</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to the right. Other elements of Current remain unchanged.</FONT>
+        <B>require</B>
+            other_not_void: other /= <B>Void</B>
+            source_index_non_negative: source_index &gt;= 0
+            destination_index_non_negative: destination_index &gt;= 0
+            destination_index_in_bound: destination_index &lt;= <A HREF="../elks/special_flat.html#f_count">count</A>
+            n_non_negative: n &gt;= 0
+            n_is_small_enough_for_source: source_index + n &lt;= other.<A HREF="../elks/special_flat.html#f_count">count</A>
+            n_is_small_enough_for_destination: <A HREF="../elks/special_flat.html#f_count">count</A> + n &lt;= <A HREF="../elks/special_flat.html#f_capacity">capacity</A>
+            same_type: other.<A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>Current</B>)
+        <B>local</B>
+            l_remaining_items, l_offset, l_nb_items_left: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            l_source_index, l_end_index, l_destination_index: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            l_remaining_items := <A HREF="../elks/special_flat.html#f_count">count</A> - destination_index
+            <B>if</B> l_remaining_items = 0 <B>then</B>
+                <A HREF="../elks/special_flat.html#f_copy_data">copy_data</A> (other, source_index, destination_index, n)
+            <B>elseif</B> n &lt;= l_remaining_items <B>then</B>
+                <A HREF="../elks/special_flat.html#f_move_data">move_data</A> (destination_index, destination_index + n, l_remaining_items)
+                <A HREF="../elks/special_flat.html#f_copy_data">copy_data</A> (other, source_index, destination_index, n)
+            <B>else</B>
+                <B>from</B>
+                    l_source_index := source_index
+                    l_destination_index := destination_index
+                    l_end_index := source_index + n
+                    l_nb_items_left := n
+                    l_offset := l_remaining_items
+                <B>until</B>
+                    l_source_index &gt;= l_end_index
+                <B>loop</B>
+                    <A HREF="../elks/special_flat.html#f_move_data">move_data</A> (l_destination_index, l_destination_index + l_offset, l_remaining_items)
+                    <A HREF="../elks/special_flat.html#f_copy_data">copy_data</A> (other, l_source_index, l_destination_index, l_offset)
+                    l_destination_index := l_destination_index + l_offset
+                    l_source_index := l_source_index + l_offset
+                    l_nb_items_left := l_nb_items_left - l_remaining_items
+                    l_offset := l_offset.<A HREF="../elks/comparable_flat.html#f_min">min</A> (l_nb_items_left)
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B>
+            copied: <A HREF="../elks/special_flat.html#f_same_items">same_items</A> (other, source_index, destination_index, n)
+            count_updated: <A HREF="../elks/special_flat.html#f_count">count</A> = <B>old</B> <A HREF="../elks/special_flat.html#f_count">count</A> + n
+        <B>end</B></A>
+
+    <A NAME="f_move_data"><A HREF="../elks/special_flat.html#f_move_data">move_data</A> (source_index, destination_index, n: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move </FONT>`n'<FONT COLOR="red"> elements of Current from </FONT>`source_start'<FONT COLOR="red"> position to </FONT>`destination_index'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Other elements remain unchanged.</FONT>
+        <B>require</B>
+            source_index_non_negative: source_index &gt;= 0
+            destination_index_non_negative: destination_index &gt;= 0
+            destination_index_in_bound: destination_index &lt;= <A HREF="../elks/special_flat.html#f_count">count</A>
+            n_non_negative: n &gt;= 0
+            n_is_small_enough_for_source: source_index + n &lt;= <A HREF="../elks/special_flat.html#f_count">count</A>
+            n_is_small_enough_for_destination: destination_index + n &lt;= <A HREF="../elks/special_flat.html#f_capacity">capacity</A>
+        <B>do</B>
+            <B>if</B> source_index = destination_index <B>then</B>
+            <B>elseif</B> source_index &gt; destination_index <B>then</B>
+                <B>if</B> destination_index + n &lt; source_index <B>then</B>
+                    <A HREF="../elks/special_flat.html#f_non_overlapping_move">non_overlapping_move</A> (source_index, destination_index, n)
+                <B>else</B>
+                    <A HREF="../elks/special_flat.html#f_overlapping_move">overlapping_move</A> (source_index, destination_index, n)
+                <B>end</B>
+            <B>else</B>
+                <B>if</B> source_index + n &lt; destination_index <B>then</B>
+                    <A HREF="../elks/special_flat.html#f_non_overlapping_move">non_overlapping_move</A> (source_index, destination_index, n)
+                <B>else</B>
+                    <A HREF="../elks/special_flat.html#f_overlapping_move">overlapping_move</A> (source_index, destination_index, n)
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B>
+            moved: <A HREF="../elks/special_flat.html#f_same_items">same_items</A> (<B>old</B> <A HREF="../elks/any_flat.html#f_twin">twin</A>, source_index, destination_index, n)
+            count_updated: <A HREF="../elks/special_flat.html#f_count">count</A> = (<B>old</B> <A HREF="../elks/special_flat.html#f_count">count</A>).<A HREF="../elks/comparable_flat.html#f_max">max</A> (destination_index + n)
+        <B>end</B></A>
+
+    <A NAME="f_non_overlapping_move"><A HREF="../elks/special_flat.html#f_non_overlapping_move">non_overlapping_move</A> (source_index, destination_index, n: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move </FONT>`n'<FONT COLOR="red"> elements of Current from </FONT>`source_start'<FONT COLOR="red"> position to </FONT>`destination_index'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Other elements remain unchanged.</FONT>
+        <B>require</B>
+            source_index_non_negative: source_index &gt;= 0
+            destination_index_non_negative: destination_index &gt;= 0
+            destination_index_in_bound: destination_index &lt;= <A HREF="../elks/special_flat.html#f_count">count</A>
+            n_non_negative: n &gt;= 0
+            different_source_and_target: source_index /= destination_index
+            non_overlapping: (source_index &lt; destination_index <B>implies</B> source_index + n &lt; destination_index) <B>or</B> (source_index &gt; destination_index <B>implies</B> destination_index + n &lt; source_index)
+            n_is_small_enough_for_source: source_index + n &lt;= <A HREF="../elks/special_flat.html#f_count">count</A>
+            n_is_small_enough_for_destination: destination_index + n &lt;= <A HREF="../elks/special_flat.html#f_capacity">capacity</A>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            l_offset: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                i := source_index
+                nb := source_index + n
+                l_offset := destination_index - source_index
+            <B>until</B>
+                i = nb
+            <B>loop</B>
+                <A HREF="../elks/special_flat.html#f_force">force</A> (<A HREF="../elks/special_flat.html#f_item">item</A> (i), i + l_offset)
+                i := i + 1
+            <B>end</B>
+        <B>ensure</B>
+            moved: <A HREF="../elks/special_flat.html#f_same_items">same_items</A> (<B>Current</B>, source_index, destination_index, n)
+            count_updated: <A HREF="../elks/special_flat.html#f_count">count</A> = (<B>old</B> <A HREF="../elks/special_flat.html#f_count">count</A>).<A HREF="../elks/comparable_flat.html#f_max">max</A> (destination_index + n)
+        <B>end</B></A>
+
+    <A NAME="f_overlapping_move"><A HREF="../elks/special_flat.html#f_overlapping_move">overlapping_move</A> (source_index, destination_index, n: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move </FONT>`n'<FONT COLOR="red"> elements of Current from </FONT>`source_start'<FONT COLOR="red"> position to </FONT>`destination_index'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Other elements remain unchanged.</FONT>
+        <B>require</B>
+            source_index_non_negative: source_index &gt;= 0
+            destination_index_non_negative: destination_index &gt;= 0
+            destination_index_in_bound: destination_index &lt;= <A HREF="../elks/special_flat.html#f_count">count</A>
+            n_non_negative: n &gt;= 0
+            different_source_and_target: source_index /= destination_index
+            n_is_small_enough_for_source: source_index + n &lt;= <A HREF="../elks/special_flat.html#f_count">count</A>
+            n_is_small_enough_for_destination: destination_index + n &lt;= <A HREF="../elks/special_flat.html#f_capacity">capacity</A>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            l_offset: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>if</B> source_index &lt; destination_index <B>then</B>
+                <B>from</B>
+                    i := source_index + n - 1
+                    nb := source_index - 1
+                    l_offset := destination_index - source_index
+                    <B>if</B> (destination_index + n &gt;= <A HREF="../elks/special_flat.html#f_count">count</A>) <B>then</B>
+                        <A HREF="../elks/special_flat.html#f_fill_with">fill_with</A> (<A HREF="../elks/special_flat.html#f_item">item</A> (source_index), <A HREF="../elks/special_flat.html#f_count">count</A>, destination_index + n - 1)
+                    <B>end</B>
+                    <B>check</B>
+                        l_offset_positive: l_offset &gt; 0
+                    <B>end</B>
+                <B>until</B>
+                    i = nb
+                <B>loop</B>
+                    <A HREF="../elks/special_flat.html#f_put">put</A> (<A HREF="../elks/special_flat.html#f_item">item</A> (i), i + l_offset)
+                    i := i - 1
+                <B>end</B>
+            <B>else</B>
+                <B>from</B>
+                    i := source_index
+                    nb := source_index + n
+                    l_offset := source_index - destination_index
+                    <B>check</B>
+                        l_offset_positive: l_offset &gt; 0
+                    <B>end</B>
+                <B>until</B>
+                    i = nb
+                <B>loop</B>
+                    <A HREF="../elks/special_flat.html#f_force">force</A> (<A HREF="../elks/special_flat.html#f_item">item</A> (i), i - l_offset)
+                    i := i + 1
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B>
+            moved: <A HREF="../elks/special_flat.html#f_same_items">same_items</A> (<B>old</B> <A HREF="../elks/any_flat.html#f_twin">twin</A>, source_index, destination_index, n)
+            count_updated: <A HREF="../elks/special_flat.html#f_count">count</A> = (<B>old</B> <A HREF="../elks/special_flat.html#f_count">count</A>).<A HREF="../elks/comparable_flat.html#f_max">max</A> (destination_index + n)
+        <B>end</B></A>
+
+    <A NAME="f_put"><A HREF="../elks/special_flat.html#f_put">put</A> (v: T; i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Replace </FONT>`i'<FONT COLOR="red">-th item by </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Indices begin at 0.)</FONT>
+        <B>require</B>
+            index_large_enough: i &gt;= 0
+            index_small_enough: i &lt; <A HREF="../elks/special_flat.html#f_count">count</A>
+        <B>do</B>
+        <B>ensure</B>
+            inserted: <A HREF="../elks/special_flat.html#f_item">item</A> (i) = v
+            same_count: <A HREF="../elks/special_flat.html#f_count">count</A> = <B>old</B> <A HREF="../elks/special_flat.html#f_count">count</A>
+            same_capacity: <A HREF="../elks/special_flat.html#f_capacity">capacity</A> = <B>old</B> <A HREF="../elks/special_flat.html#f_capacity">capacity</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removal</FONT>
+
+    <A NAME="f_clear_all"><A HREF="../elks/special_flat.html#f_clear_all">clear_all</A>
+        <B>obsolete</B> "Because of the new precondition, it is recommended to use `fill_with' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Reset all items to default values.</FONT>
+        <B>require</B>
+            has_default: ({T}).<A HREF="../elks/type_flat.html#f_has_default">has_default</A>
+        <B>do</B>
+            <A HREF="../elks/special_flat.html#f_fill_with_default">fill_with_default</A> (0, <A HREF="../elks/special_flat.html#f_upper">upper</A>)
+        <B>ensure</B>
+            same_capacity: <A HREF="../elks/special_flat.html#f_capacity">capacity</A> = <B>old</B> <A HREF="../elks/special_flat.html#f_capacity">capacity</A>
+            count_reset: <A HREF="../elks/special_flat.html#f_count">count</A> = <B>old</B> <A HREF="../elks/special_flat.html#f_count">count</A>
+        <B>end</B></A>
+
+    <A NAME="f_replace_all"><A HREF="../elks/special_flat.html#f_replace_all">replace_all</A> (v: T)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Replace all items with </FONT>`v'<FONT COLOR="red">.</FONT>
+        <B>local</B>
+            i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                i := <A HREF="../elks/special_flat.html#f_count">count</A> - 1
+            <B>until</B>
+                i &lt; 0
+            <B>loop</B>
+                <A HREF="../elks/special_flat.html#f_put">put</A> (v, i)
+                i := i - 1
+            <B>end</B>
+        <B>ensure</B>
+            cleared: <A HREF="../elks/special_flat.html#f_filled_with">filled_with</A> (v, 0, <A HREF="../elks/special_flat.html#f_upper">upper</A>)
+        <B>end</B></A>
+
+    <A NAME="f_wipe_out"><A HREF="../elks/special_flat.html#f_wipe_out">wipe_out</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Reset count to zero.</FONT>
+        <B>do</B>
+            <A HREF="../elks/special_flat.html#f_set_count">set_count</A> (0)
+        <B>ensure</B>
+            same_capacity: <A HREF="../elks/special_flat.html#f_capacity">capacity</A> = <B>old</B> <A HREF="../elks/special_flat.html#f_capacity">capacity</A>
+            count_reset: <A HREF="../elks/special_flat.html#f_count">count</A> = 0
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Resizing</FONT>
+
+    <A NAME="f_aliased_resized_area"><A HREF="../elks/special_flat.html#f_aliased_resized_area">aliased_resized_area</A> (n: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Try to resize </FONT>`Current'<FONT COLOR="red"> with a count of </FONT>`n'<FONT COLOR="red">, if not</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> possible a new copy</FONT>
+        <B>require</B>
+            n_non_negative: n &gt;= 0
+        <B>external</B>
+            "built_in"
+        <B>ensure</B>
+            result_not_void: <B>Result</B> /= <B>Void</B>
+            new_count: <B>Result</B>.<A HREF="../elks/special_flat.html#f_count">count</A> = n.<A HREF="../elks/comparable_flat.html#f_min">min</A> (<B>old</B> <A HREF="../elks/special_flat.html#f_count">count</A>)
+            new_capacity: <B>Result</B>.<A HREF="../elks/special_flat.html#f_capacity">capacity</A> = n
+            preserved: <B>Result</B>.<A HREF="../elks/special_flat.html#f_same_items">same_items</A> (<B>old</B> <A HREF="../elks/any_flat.html#f_twin">twin</A>, 0, 0, n.<A HREF="../elks/comparable_flat.html#f_min">min</A> (<B>old</B> <A HREF="../elks/special_flat.html#f_count">count</A>))
+        <B>end</B></A>
+
+    <A NAME="f_aliased_resized_area_with_default"><A HREF="../elks/special_flat.html#f_aliased_resized_area_with_default">aliased_resized_area_with_default</A> (a_default_value: T; n: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Try to resize </FONT>`Current'<FONT COLOR="red"> with a count of </FONT>`n'<FONT COLOR="red">, if not</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> possible a new copy. Non yet initialized entries are set to </FONT>`a_default_value'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            n_non_negative: n &gt;= 0
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/special_flat.html#f_aliased_resized_area">aliased_resized_area</A> (n)
+            <B>Result</B>.<A HREF="../elks/special_flat.html#f_fill_with">fill_with</A> (a_default_value, <B>Result</B>.<A HREF="../elks/special_flat.html#f_count">count</A>, n - 1)
+        <B>ensure</B>
+            result_not_void: <B>Result</B> /= <B>Void</B>
+            new_count: <B>Result</B>.<A HREF="../elks/special_flat.html#f_count">count</A> = n
+            new_capacity: <B>Result</B>.<A HREF="../elks/special_flat.html#f_capacity">capacity</A> = n
+            preserved: <B>Result</B>.<A HREF="../elks/special_flat.html#f_same_items">same_items</A> (<B>old</B> <A HREF="../elks/any_flat.html#f_twin">twin</A>, 0, 0, n.<A HREF="../elks/comparable_flat.html#f_min">min</A> (<B>old</B> <A HREF="../elks/special_flat.html#f_count">count</A>))
+        <B>end</B></A>
+
+    <A NAME="f_keep_head"><A HREF="../elks/special_flat.html#f_keep_head">keep_head</A> (n: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Keep the first </FONT>`n'<FONT COLOR="red"> entries.</FONT>
+        <B>require</B>
+            non_negative_argument: n &gt;= 0
+            less_than_count: n &lt;= <A HREF="../elks/special_flat.html#f_count">count</A>
+        <B>do</B>
+            <A HREF="../elks/special_flat.html#f_set_count">set_count</A> (n)
+        <B>ensure</B>
+            count_updated: <A HREF="../elks/special_flat.html#f_count">count</A> = n
+            kept: <A HREF="../elks/special_flat.html#f_same_items">same_items</A> (<B>old</B> <A HREF="../elks/any_flat.html#f_twin">twin</A>, 0, 0, n)
+        <B>end</B></A>
+
+    <A NAME="f_keep_tail"><A HREF="../elks/special_flat.html#f_keep_tail">keep_tail</A> (n: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Keep the last </FONT>`n'<FONT COLOR="red"> entries.</FONT>
+        <B>require</B>
+            non_negative_argument: n &gt;= 0
+            less_than_count: n &lt;= <A HREF="../elks/special_flat.html#f_count">count</A>
+        <B>do</B>
+            <A HREF="../elks/special_flat.html#f_overlapping_move">overlapping_move</A> (<A HREF="../elks/special_flat.html#f_count">count</A> - n, 0, n)
+            <A HREF="../elks/special_flat.html#f_set_count">set_count</A> (n)
+        <B>ensure</B>
+            count_updated: <A HREF="../elks/special_flat.html#f_count">count</A> = n
+            kept: <A HREF="../elks/special_flat.html#f_same_items">same_items</A> (<B>old</B> <A HREF="../elks/any_flat.html#f_twin">twin</A>, n, 0, n)
+        <B>end</B></A>
+
+    <A NAME="f_remove_head"><A HREF="../elks/special_flat.html#f_remove_head">remove_head</A> (n: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove the first </FONT>`n'<FONT COLOR="red"> entries.</FONT>
+        <B>require</B>
+            non_negative_argument: n &gt;= 0
+            less_than_count: n &lt;= <A HREF="../elks/special_flat.html#f_count">count</A>
+        <B>do</B>
+            <A HREF="../elks/special_flat.html#f_keep_tail">keep_tail</A> (<A HREF="../elks/special_flat.html#f_count">count</A> - n)
+        <B>ensure</B>
+            count_updated: <A HREF="../elks/special_flat.html#f_count">count</A> = <B>old</B> <A HREF="../elks/special_flat.html#f_count">count</A> - n
+            kept: <A HREF="../elks/special_flat.html#f_same_items">same_items</A> (<B>old</B> <A HREF="../elks/any_flat.html#f_twin">twin</A>, n, 0, <A HREF="../elks/special_flat.html#f_count">count</A>)
+        <B>end</B></A>
+
+    <A NAME="f_remove_tail"><A HREF="../elks/special_flat.html#f_remove_tail">remove_tail</A> (n: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Keep the first  </FONT>`count - n'<FONT COLOR="red"> entries.</FONT>
+        <B>require</B>
+            non_negative_argument: n &gt;= 0
+            less_than_count: n &lt;= <A HREF="../elks/special_flat.html#f_count">count</A>
+        <B>do</B>
+            <A HREF="../elks/special_flat.html#f_keep_head">keep_head</A> (<A HREF="../elks/special_flat.html#f_count">count</A> - n)
+        <B>ensure</B>
+            count_updated: <A HREF="../elks/special_flat.html#f_count">count</A> = <B>old</B> <A HREF="../elks/special_flat.html#f_count">count</A> - n
+            kept: <A HREF="../elks/special_flat.html#f_same_items">same_items</A> (<B>old</B> <A HREF="../elks/any_flat.html#f_twin">twin</A>, 0, 0, <A HREF="../elks/special_flat.html#f_count">count</A>)
+        <B>end</B></A>
+
+    <A NAME="f_resized_area"><A HREF="../elks/special_flat.html#f_resized_area">resized_area</A> (n: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create a copy of Current with a count of </FONT>`n'
+        <B>require</B>
+            n_non_negative: n &gt;= 0
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/special_flat.html#f_make_empty">make_empty</A> (n)
+            <B>Result</B>.<A HREF="../elks/special_flat.html#f_copy_data">copy_data</A> (<B>Current</B>, 0, 0, n.<A HREF="../elks/comparable_flat.html#f_min">min</A> (<A HREF="../elks/special_flat.html#f_count">count</A>))
+        <B>ensure</B>
+            result_not_void: <B>Result</B> /= <B>Void</B>
+            result_different_from_current: <B>Result</B> /= <B>Current</B>
+            new_count: <B>Result</B>.<A HREF="../elks/special_flat.html#f_count">count</A> = n.<A HREF="../elks/comparable_flat.html#f_min">min</A> (<B>old</B> <A HREF="../elks/special_flat.html#f_count">count</A>)
+            new_capacity: <B>Result</B>.<A HREF="../elks/special_flat.html#f_capacity">capacity</A> = n
+            preserved: <B>Result</B>.<A HREF="../elks/special_flat.html#f_same_items">same_items</A> (<B>Current</B>, 0, 0, n.<A HREF="../elks/comparable_flat.html#f_min">min</A> (<B>old</B> <A HREF="../elks/special_flat.html#f_count">count</A>))
+        <B>end</B></A>
+
+    <A NAME="f_resized_area_with_default"><A HREF="../elks/special_flat.html#f_resized_area_with_default">resized_area_with_default</A> (a_default_value: T; n: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create a copy of Current with a count of </FONT>`n'<FONT COLOR="red"> where not yet initialized</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> entries are set to </FONT>`a_default_value'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            n_non_negative: n &gt;= 0
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/special_flat.html#f_make_empty">make_empty</A> (n)
+            <B>if</B> n &gt; <A HREF="../elks/special_flat.html#f_count">count</A> <B>then</B>
+                <B>Result</B>.<A HREF="../elks/special_flat.html#f_copy_data">copy_data</A> (<B>Current</B>, 0, 0, <A HREF="../elks/special_flat.html#f_count">count</A>)
+                <B>Result</B>.<A HREF="../elks/special_flat.html#f_fill_with">fill_with</A> (a_default_value, <A HREF="../elks/special_flat.html#f_count">count</A>, n - 1)
+            <B>else</B>
+                <B>Result</B>.<A HREF="../elks/special_flat.html#f_copy_data">copy_data</A> (<B>Current</B>, 0, 0, n)
+            <B>end</B>
+        <B>ensure</B>
+            result_not_void: <B>Result</B> /= <B>Void</B>
+            result_different_from_current: <B>Result</B> /= <B>Current</B>
+            new_count: <B>Result</B>.<A HREF="../elks/special_flat.html#f_count">count</A> = n
+            new_capacity: <B>Result</B>.<A HREF="../elks/special_flat.html#f_capacity">capacity</A> = n
+            preserved: <B>Result</B>.<A HREF="../elks/special_flat.html#f_same_items">same_items</A> (<B>Current</B>, 0, 0, n.<A HREF="../elks/comparable_flat.html#f_min">min</A> (<B>old</B> <A HREF="../elks/special_flat.html#f_count">count</A>))
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_clone">clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void; otherwise new object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to </FONT>`other'
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> For non-void </FONT>`other'<FONT COLOR="red">, </FONT><A HREF="../elks/any_flat.html#f_clone">clone</A><FONT COLOR="red"> calls </FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to change copying/cloning semantics, redefine </FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_twin">twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            equal: <B>Result</B> ~ other
+        <B>end</B></A>
+
+    <A NAME="f_copy"><A HREF="../elks/any_flat.html#f_copy">copy</A> (other: <B>attached</B> <A HREF="../elks/special_flat.html">SPECIAL</A> [T])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update current object using fields of object attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to </FONT>`other'<FONT COLOR="red">, so as to yield equal objects.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            is_equal: <B>Current</B> ~ other
+        <B>end</B></A>
+
+    <A NAME="f_deep_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_clone">deep_clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `deep_twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void: otherwise, new object structure</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> recursively duplicated from the one attached to </FONT>`other'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (other, <B>Result</B>)
+        <B>end</B></A>
+
+    <A NAME="f_deep_copy"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_copy">deep_copy</A> (other: <B>attached</B> <A HREF="../elks/special_flat.html">SPECIAL</A> [T])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Effect equivalent to that of:</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">		</FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red"> (</FONT>`other'<FONT COLOR="red"> . </FONT><A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A><FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../elks/any_flat.html#f_copy">copy</A> (other.<A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (<B>Current</B>, other)
+        <B>end</B></A>
+
+    <A NAME="f_deep_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>: <B>attached</B> <A HREF="../elks/special_flat.html">SPECIAL</A> [T]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object structure recursively duplicated from Current.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_twin_not_void: <B>Result</B> /= <B>Void</B>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (<B>Current</B>, <B>Result</B>)
+        <B>end</B></A>
+
+    <A NAME="f_standard_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_clone">standard_clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `standard_twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void; otherwise new object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_standard_twin">standard_twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            equal: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (<B>Result</B>, other)
+        <B>end</B></A>
+
+    <A NAME="f_standard_copy"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_copy">standard_copy</A> (other: <B>attached</B> <A HREF="../elks/special_flat.html">SPECIAL</A> [T])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy every field of </FONT>`other'<FONT COLOR="red"> onto corresponding field</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            is_standard_equal: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other)
+        <B>end</B></A>
+
+    <A NAME="f_standard_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_twin">standard_twin</A>: <B>attached</B> <A HREF="../elks/special_flat.html">SPECIAL</A> [T]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            standard_twin_not_void: <B>Result</B> /= <B>Void</B>
+            equal: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (<B>Result</B>, <B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_twin">twin</A>: <B>attached</B> <A HREF="../elks/special_flat.html">SPECIAL</A> [T]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object equal to </FONT>`Current'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/any_flat.html#f_twin">twin</A><FONT COLOR="red"> calls </FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">; to change copying/twinning semantics, redefine </FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            twin_not_void: <B>Result</B> /= <B>Void</B>
+            is_equal: <B>Result</B> ~ <B>Current</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_as_attached"><B>frozen</B> <A HREF="../elks/any_flat.html#f_as_attached">as_attached</A>: <B>attached</B> <A HREF="../elks/special_flat.html">SPECIAL</A> [T]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attached version of Current</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Can be used during transitional period to convert</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> non-void-safe classes to void-safe ones.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>Current</B>
+        <B>end</B></A>
+
+    <A NAME="f_default"><B>frozen</B> <A HREF="../elks/any_flat.html#f_default">default</A>: <B>detachable</B> <A HREF="../elks/special_flat.html">SPECIAL</A> [T]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of object's type</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_default_pointer"><B>frozen</B> <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>: <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of type </FONT>`POINTER'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Avoid the need to write </FONT>`p'<FONT COLOR="red">.</FONT><A HREF="../elks/any_flat.html#f_default">default</A><FONT COLOR="red"> for</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> some </FONT>`p'<FONT COLOR="red"> of type </FONT>`POINTER'<FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_default_rescue"><A HREF="../elks/any_flat.html#f_default_rescue">default_rescue</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process exception for routines with no Rescue clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_do_nothing"><B>frozen</B> <A HREF="../elks/any_flat.html#f_do_nothing">do_nothing</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execute a null action.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_element_size"><A HREF="../elks/special_flat.html#f_element_size">element_size</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Size of elements</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B>
+            element_size_non_negative: <B>Result</B> &gt;= 0
+        <B>end</B></A>
+
+    <A NAME="f_set_count"><A HREF="../elks/special_flat.html#f_set_count">set_count</A> (n: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/special_flat.html#f_count">count</A><FONT COLOR="red"> with </FONT>`n'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            n_non_negative: n &gt;= 0
+            valid_new_count: n &lt;= <A HREF="../elks/special_flat.html#f_count">count</A>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B>
+            count_set: <A HREF="../elks/special_flat.html#f_count">count</A> = n
+            capacity_preserved: <A HREF="../elks/special_flat.html#f_capacity">capacity</A> = <B>old</B> <A HREF="../elks/special_flat.html#f_capacity">capacity</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Iteration</FONT>
+
+    <A NAME="f_do_all_in_bounds"><A HREF="../elks/special_flat.html#f_do_all_in_bounds">do_all_in_bounds</A> (action: <A HREF="../elks/procedure_flat.html">PROCEDURE</A> [<A HREF="../elks/any_flat.html">ANY</A>, <A HREF="../elks/tuple_flat.html">TUPLE</A> [T]]; start_index, end_index: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Apply </FONT>`action'<FONT COLOR="red"> to every item, from first to last.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Semantics not guaranteed if </FONT>`action'<FONT COLOR="red"> changes the structure;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> in such a case, apply iterator to clone of structure instead.</FONT>
+        <B>require</B>
+            action_not_void: action /= <B>Void</B>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                i := start_index
+                nb := end_index
+            <B>until</B>
+                i &gt; nb
+            <B>loop</B>
+                action.<A HREF="../elks/procedure_flat.html#f_call">call</A> ([<A HREF="../elks/special_flat.html#f_item">item</A> (i)])
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_do_all_with_index_in_bounds"><A HREF="../elks/special_flat.html#f_do_all_with_index_in_bounds">do_all_with_index_in_bounds</A> (action: <A HREF="../elks/procedure_flat.html">PROCEDURE</A> [<A HREF="../elks/any_flat.html">ANY</A>, <A HREF="../elks/tuple_flat.html">TUPLE</A> [T, <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>]]; start_index, end_index: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Apply </FONT>`action'<FONT COLOR="red"> to every item, from first to last.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`action'<FONT COLOR="red"> receives item and its index.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Semantics not guaranteed if </FONT>`action'<FONT COLOR="red"> changes the structure;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> in such a case, apply iterator to clone of structure instead.</FONT>
+        <B>require</B>
+            action_not_void: action /= <B>Void</B>
+        <B>local</B>
+            i, j, nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                i := start_index
+                j := <A HREF="../elks/special_flat.html#f_lower">Lower</A>
+                nb := end_index
+            <B>until</B>
+                i &gt; nb
+            <B>loop</B>
+                action.<A HREF="../elks/procedure_flat.html#f_call">call</A> ([<A HREF="../elks/special_flat.html#f_item">item</A> (i), j])
+                j := j + 1
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_do_if_in_bounds"><A HREF="../elks/special_flat.html#f_do_if_in_bounds">do_if_in_bounds</A> (action: <A HREF="../elks/procedure_flat.html">PROCEDURE</A> [<A HREF="../elks/any_flat.html">ANY</A>, <A HREF="../elks/tuple_flat.html">TUPLE</A> [T]]; test: <A HREF="../elks/function_flat.html">FUNCTION</A> [<A HREF="../elks/any_flat.html">ANY</A>, <A HREF="../elks/tuple_flat.html">TUPLE</A> [T], <A HREF="../elks/boolean_flat.html">BOOLEAN</A>]; start_index, end_index: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Apply </FONT>`action'<FONT COLOR="red"> to every item that satisfies </FONT>`test'<FONT COLOR="red">, from first to last.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Semantics not guaranteed if </FONT>`action'<FONT COLOR="red"> or </FONT>`test'<FONT COLOR="red"> changes the structure;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> in such a case, apply iterator to clone of structure instead.</FONT>
+        <B>require</B>
+            action_not_void: action /= <B>Void</B>
+            test_not_void: test /= <B>Void</B>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                i := start_index
+                nb := end_index
+            <B>until</B>
+                i &gt; nb
+            <B>loop</B>
+                <B>if</B> test.<A HREF="../elks/function_flat.html#f_item">item</A> ([<A HREF="../elks/special_flat.html#f_item">item</A> (i)]) <B>then</B>
+                    action.<A HREF="../elks/procedure_flat.html#f_call">call</A> ([<A HREF="../elks/special_flat.html#f_item">item</A> (i)])
+                <B>end</B>
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_do_if_with_index_in_bounds"><A HREF="../elks/special_flat.html#f_do_if_with_index_in_bounds">do_if_with_index_in_bounds</A> (action: <A HREF="../elks/procedure_flat.html">PROCEDURE</A> [<A HREF="../elks/any_flat.html">ANY</A>, <A HREF="../elks/tuple_flat.html">TUPLE</A> [T, <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>]]; test: <A HREF="../elks/function_flat.html">FUNCTION</A> [<A HREF="../elks/any_flat.html">ANY</A>, <A HREF="../elks/tuple_flat.html">TUPLE</A> [T, <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>], <A HREF="../elks/boolean_flat.html">BOOLEAN</A>]; start_index, end_index: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Apply </FONT>`action'<FONT COLOR="red"> to every item that satisfies </FONT>`test'<FONT COLOR="red">, from first to last.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`action'<FONT COLOR="red"> and </FONT>`test'<FONT COLOR="red"> receive the item and its index.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Semantics not guaranteed if </FONT>`action'<FONT COLOR="red"> or </FONT>`test'<FONT COLOR="red"> changes the structure;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> in such a case, apply iterator to clone of structure instead.</FONT>
+        <B>require</B>
+            action_not_void: action /= <B>Void</B>
+            test_not_void: test /= <B>Void</B>
+        <B>local</B>
+            i, j, nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                i := start_index
+                j := <A HREF="../elks/special_flat.html#f_lower">Lower</A>
+                nb := end_index
+            <B>until</B>
+                i &gt; nb
+            <B>loop</B>
+                <B>if</B> test.<A HREF="../elks/function_flat.html#f_item">item</A> ([<A HREF="../elks/special_flat.html#f_item">item</A> (i), j]) <B>then</B>
+                    action.<A HREF="../elks/procedure_flat.html#f_call">call</A> ([<A HREF="../elks/special_flat.html#f_item">item</A> (i), j])
+                <B>end</B>
+                j := j + 1
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_for_all_in_bounds"><A HREF="../elks/special_flat.html#f_for_all_in_bounds">for_all_in_bounds</A> (test: <A HREF="../elks/function_flat.html">FUNCTION</A> [<A HREF="../elks/any_flat.html">ANY</A>, <A HREF="../elks/tuple_flat.html">TUPLE</A> [T], <A HREF="../elks/boolean_flat.html">BOOLEAN</A>]; start_index, end_index: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`test'<FONT COLOR="red"> true for all items?</FONT>
+        <B>require</B>
+            test_not_void: test /= <B>Void</B>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                i := start_index
+                nb := end_index
+                <B>Result</B> := <B>True</B>
+            <B>until</B>
+                i &gt; nb <B>or</B> <B>not</B> <B>Result</B>
+            <B>loop</B>
+                <B>Result</B> := test.<A HREF="../elks/function_flat.html#f_item">item</A> ([<A HREF="../elks/special_flat.html#f_item">item</A> (i)])
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_there_exists_in_bounds"><A HREF="../elks/special_flat.html#f_there_exists_in_bounds">there_exists_in_bounds</A> (test: <A HREF="../elks/function_flat.html">FUNCTION</A> [<A HREF="../elks/any_flat.html">ANY</A>, <A HREF="../elks/tuple_flat.html">TUPLE</A> [T], <A HREF="../elks/boolean_flat.html">BOOLEAN</A>]; start_index, end_index: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`test'<FONT COLOR="red"> true for at least one item?</FONT>
+        <B>require</B>
+            test_not_void: test /= <B>Void</B>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                i := start_index
+                nb := end_index
+            <B>until</B>
+                i &gt; nb <B>or</B> <B>Result</B>
+            <B>loop</B>
+                <B>Result</B> := test.<A HREF="../elks/function_flat.html#f_item">item</A> ([<A HREF="../elks/special_flat.html#f_item">item</A> (i)])
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output</FONT>
+
+    <A NAME="f_debug_output"><A HREF="../elks/special_flat.html#f_debug_output">debug_output</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> String that should be displayed in debugger to represent </FONT>`Current'<FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/debug_output_flat.html">DEBUG_OUTPUT</A>
+            <B>True</B>
+        <B>do</B>
+            <B>Result</B> := <B>Precursor</B>
+            <B>Result</B>.<A HREF="../elks/string_8_flat.html#f_append_string">append_string</A> (", capacity=")
+            <B>Result</B>.<A HREF="../elks/string_8_flat.html#f_append_integer">append_integer</A> (<A HREF="../elks/special_flat.html#f_capacity">capacity</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/debug_output_flat.html">DEBUG_OUTPUT</A>
+            result_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_io"><A HREF="../elks/any_flat.html#f_io">Io</A>: <A HREF="../elks/std_files_flat.html">STD_FILES</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Handle to standard file setup</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../elks/std_files_flat.html#f_set_output_default">set_output_default</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            io_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_out"><A HREF="../elks/any_flat.html#f_out">out</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/any_flat.html#f_tagged_out">tagged_out</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            out_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_print"><A HREF="../elks/any_flat.html#f_print">print</A> (o: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write terse external representation of </FONT>`o'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on standard output.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> o /= <B>Void</B> <B>then</B>
+                <A HREF="../elks/any_flat.html#f_io">Io</A>.<A HREF="../elks/std_files_flat.html#f_put_string">put_string</A> (o.<A HREF="../elks/any_flat.html#f_out">out</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_tagged_out"><B>frozen</B> <A HREF="../elks/any_flat.html#f_tagged_out">tagged_out</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            tagged_out_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Platform</FONT>
+
+    <A NAME="f_operating_environment"><A HREF="../elks/any_flat.html#f_operating_environment">Operating_environment</A>: <A HREF="../elks/operating_environment_flat.html">OPERATING_ENVIRONMENT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Objects available from the operating system</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            operating_environment_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieval</FONT>
+
+    <A NAME="f_internal_correct_mismatch"><B>frozen</B> <A HREF="../elks/any_flat.html#f_internal_correct_mismatch">internal_correct_mismatch</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Called from runtime to perform a proper dynamic dispatch on </FONT>`correct_mismatch'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> from MISMATCH_CORRECTOR.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            l_msg: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            l_exc: <A HREF="../elks/exceptions_flat.html">EXCEPTIONS</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<A HREF="../elks/mismatch_corrector_flat.html">MISMATCH_CORRECTOR</A>} <B>Current</B> <B>as</B> l_corrector <B>then</B>
+                l_corrector.<A HREF="../elks/mismatch_corrector_flat.html#f_correct_mismatch">correct_mismatch</A>
+            <B>else</B>
+                <B>create</B> l_msg.<A HREF="../elks/readable_string_8_flat.html#f_make_from_string">make_from_string</A> ("Mismatch: ")
+                <B>create</B> l_exc
+                l_msg.<A HREF="../elks/string_8_flat.html#f_append">append</A> (<A HREF="../elks/any_flat.html#f_generating_type">generating_type</A>.<A HREF="../elks/type_flat.html#f_name">name</A>)
+                l_exc.<A HREF="../elks/exceptions_flat.html#f_raise_retrieval_exception">raise_retrieval_exception</A> (l_msg)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>invariant</B>
+    count_less_than_capacity: <A HREF="../elks/special_flat.html#f_count">count</A> &lt;= <A HREF="../elks/special_flat.html#f_capacity">capacity</A>
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+    reflexive_equality: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+    reflexive_conformance: <A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>Current</B>)
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/special_flat.html">SPECIAL</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="special_chart.html">Chart</A></TD><TD><A HREF="special_links.html">Relations</A></TD><TD><A HREF="special.html">Text</A></TD><TD>Flat</TD><TD><A HREF="special_short.html">Contracts</A></TD><TD><A HREF="special_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

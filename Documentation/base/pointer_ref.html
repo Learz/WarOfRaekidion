@@ -1,0 +1,295 @@
+<HTML><HEAD>
+<meta name="description" content="References to objects containing reference to object meant to be exchanged with non-Eiffel software."/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>pointer_ref Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="pointer_ref_chart.html">Chart</A></TD><TD><A HREF="pointer_ref_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="pointer_ref_flat.html">Flat</A></TD><TD><A HREF="pointer_ref_short.html">Contracts</A></TD><TD><A HREF="pointer_ref_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        References to objects containing reference to object
+        meant to be exchanged with non-Eiffel software.
+    ]"
+    library: "Free implementation of ELKS library"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2012-05-23 21:13:10 -0700 (Wed, 23 May 2012) $"
+    revision: "$Revision: 91981 $"
+
+<B>class</B> 
+    <A HREF="../elks/pointer_ref.html">POINTER_REF</A>
+
+<B>inherit</B>
+    <A HREF="../elks/hashable.html">HASHABLE</A>
+        <B>redefine</B>
+            <A HREF="../elks/pointer_ref.html#f_out">out</A>,
+            <A HREF="../elks/pointer_ref.html#f_is_equal">is_equal</A>,
+            <A HREF="../elks/pointer_ref.html#f_is_hashable">is_hashable</A>
+        <B>end</B>
+
+    <A HREF="../elks/refactoring_helper.html">REFACTORING_HELPER</A>
+        <B>redefine</B>
+            <A HREF="../elks/pointer_ref.html#f_out">out</A>,
+            <A HREF="../elks/pointer_ref.html#f_is_equal">is_equal</A>
+        <B>end</B>
+
+<B>create</B> 
+    <A HREF="../elks/any.html#f_default_create">default_create</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_item"><A HREF="../elks/pointer_ref.html#f_item">item</A>: <A HREF="../elks/pointer.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Pointer value</FONT>
+</A>
+
+    <A NAME="f_hash_code"><A HREF="../elks/pointer_ref.html#f_hash_code">hash_code</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Hash code value</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/pointer_ref.html#f_item">item</A>.<A HREF="../elks/pointer.html#f_hash_code">hash_code</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_set_item"><B>frozen</B> <A HREF="../elks/pointer_ref.html#f_set_item">set_item</A> (p: <A HREF="../elks/pointer.html">POINTER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make </FONT>`p'<FONT COLOR="red"> the </FONT><A HREF="../elks/pointer_ref.html#f_item">item</A><FONT COLOR="red"> value.</FONT>
+        <B>do</B>
+            <A HREF="../elks/pointer_ref.html#f_item">item</A> := p
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_is_equal"><A HREF="../elks/pointer_ref.html#f_is_equal">is_equal</A> (other: <B>like</B> <B>Current</B>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object of the same type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as current object and identical to it?</FONT>
+        <B>do</B>
+            <B>Result</B> := other.<A HREF="../elks/pointer_ref.html#f_item">item</A> = <A HREF="../elks/pointer_ref.html#f_item">item</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_is_hashable"><A HREF="../elks/pointer_ref.html#f_is_hashable">is_hashable</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May current object be hashed?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (True if it is not its type's default.)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/pointer_ref.html#f_item">item</A> /= <A HREF="../elks/any.html#f_default_pointer">default_pointer</A>
+        <B>end</B></A>
+
+    <A NAME="f_is_default_pointer"><A HREF="../elks/pointer_ref.html#f_is_default_pointer">is_default_pointer</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current </FONT><A HREF="../elks/any.html#f_default_pointer">default_pointer</A><FONT COLOR="red">?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/pointer_ref.html#f_item">item</A> = <A HREF="../elks/any.html#f_default_pointer">default_pointer</A>
+        <B>ensure</B>
+            definition: <B>Result</B> = (<A HREF="../elks/pointer_ref.html#f_item">item</A> = <A HREF="../elks/any.html#f_default_pointer">default_pointer</A>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Operations</FONT>
+
+    <A NAME="f_plus"><A HREF="../elks/pointer_ref.html#f_plus">plus</A> <B>alias</B> "+" (offset: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/pointer.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Pointer moved by an offset of </FONT>`offset'<FONT COLOR="red"> bytes.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/pointer_ref.html#f_item">item</A> + offset
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make_from_reference"><A HREF="../elks/pointer_ref.html#f_make_from_reference">make_from_reference</A> (v: <A HREF="../elks/pointer_ref.html">POINTER_REF</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize </FONT>`Current'<FONT COLOR="red"> with </FONT>`v.item'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            v_not_void: v /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../elks/pointer_ref.html#f_set_item">set_item</A> (v.<A HREF="../elks/pointer_ref.html#f_item">item</A>)
+        <B>ensure</B>
+            item_set: <A HREF="../elks/pointer_ref.html#f_item">item</A> = v.<A HREF="../elks/pointer_ref.html#f_item">item</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Conversion</FONT>
+
+    <A NAME="f_to_reference"><A HREF="../elks/pointer_ref.html#f_to_reference">to_reference</A>: <A HREF="../elks/pointer_ref.html">POINTER_REF</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Associated reference of Current</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../elks/pointer_ref.html#f_set_item">set_item</A> (<A HREF="../elks/pointer_ref.html#f_item">item</A>)
+        <B>ensure</B>
+            to_reference_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_to_integer_32"><A HREF="../elks/pointer_ref.html#f_to_integer_32">to_integer_32</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert </FONT><A HREF="../elks/pointer_ref.html#f_item">item</A><FONT COLOR="red"> into an INTEGER_32 value.</FONT>
+        <B>do</B>
+            <A HREF="../elks/refactoring_helper.html#f_fixme">fixme</A> (<B>once</B> "Do not forget to add proper precondition to ensure we can convert pointer value into an INTEGER_32")
+            <B>Result</B> := <A HREF="../elks/pointer_ref.html#f_item">item</A>.<A HREF="../elks/pointer.html#f_to_integer_32">to_integer_32</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Memory copy</FONT>
+
+    <A NAME="f_memory_copy"><A HREF="../elks/pointer_ref.html#f_memory_copy">memory_copy</A> (a_source: <A HREF="../elks/pointer.html">POINTER</A>; a_size: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy </FONT>`a_size'<FONT COLOR="red"> bytes from </FONT>`a_source'<FONT COLOR="red"> to </FONT>`Current'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_source'<FONT COLOR="red"> and </FONT>`Current'<FONT COLOR="red"> should not overlap.</FONT>
+        <B>require</B>
+            valid_size: a_size &gt;= 0
+            valid_source: a_source /= <A HREF="../elks/any.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <A HREF="../elks/pointer_ref.html#f_c_memcpy">c_memcpy</A> (<A HREF="../elks/pointer_ref.html#f_item">item</A>, a_source, a_size)
+        <B>end</B></A>
+
+    <A NAME="f_memory_move"><A HREF="../elks/pointer_ref.html#f_memory_move">memory_move</A> (a_source: <A HREF="../elks/pointer.html">POINTER</A>; a_size: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy </FONT>`a_size'<FONT COLOR="red"> bytes from </FONT>`a_source'<FONT COLOR="red"> to </FONT>`Current'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_source'<FONT COLOR="red"> and </FONT>`Current'<FONT COLOR="red"> can overlap.</FONT>
+        <B>require</B>
+            valid_size: a_size &gt;= 0
+            valid_source: a_source /= <A HREF="../elks/any.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <A HREF="../elks/pointer_ref.html#f_c_memmove">c_memmove</A> (<A HREF="../elks/pointer_ref.html#f_item">item</A>, a_source, a_size)
+        <B>end</B></A>
+
+    <A NAME="f_memory_set"><A HREF="../elks/pointer_ref.html#f_memory_set">memory_set</A> (val, n: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Fill first </FONT>`n'<FONT COLOR="red"> bytes of the memory pointed by </FONT>`Current'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> with constant </FONT>`val'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            valid_val: val &gt;= 0
+            valid_n: n &gt;= 0
+        <B>do</B>
+            <A HREF="../elks/pointer_ref.html#f_c_memset">c_memset</A> (<A HREF="../elks/pointer_ref.html#f_item">item</A>, val, n)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Allocation/free</FONT>
+
+    <A NAME="f_memory_alloc"><A HREF="../elks/pointer_ref.html#f_memory_alloc">memory_alloc</A> (a_size: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/pointer.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Allocated </FONT>`size'<FONT COLOR="red"> bytes using </FONT>`malloc'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            valid_size: a_size &gt; 0
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/pointer_ref.html#f_c_malloc">c_malloc</A> (a_size)
+        <B>end</B></A>
+
+    <A NAME="f_memory_calloc"><A HREF="../elks/pointer_ref.html#f_memory_calloc">memory_calloc</A> (a_count, a_element_size: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/pointer.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Allocate </FONT>`a_count'<FONT COLOR="red"> elements of size </FONT>`a_element_size'<FONT COLOR="red"> bytes using `calloc.</FONT>
+        <B>require</B>
+            valid_element_count: a_count &gt; 0
+            valid_element_size: a_element_size &gt; 0
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/pointer_ref.html#f_c_calloc">c_calloc</A> (a_count, a_element_size)
+        <B>end</B></A>
+
+    <A NAME="f_memory_realloc"><A HREF="../elks/pointer_ref.html#f_memory_realloc">memory_realloc</A> (a_size: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/pointer.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Realloc </FONT>`Current'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            valid_size: a_size &gt;= 0
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/pointer_ref.html#f_c_realloc">c_realloc</A> (<A HREF="../elks/pointer_ref.html#f_item">item</A>, a_size)
+        <B>end</B></A>
+
+    <A NAME="f_memory_free"><A HREF="../elks/pointer_ref.html#f_memory_free">memory_free</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Free allocated memory with </FONT>`malloc'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/pointer_ref.html#f_c_free">c_free</A> (<A HREF="../elks/pointer_ref.html#f_item">item</A>)
+            <A HREF="../elks/pointer_ref.html#f_set_item">set_item</A> (<A HREF="../elks/any.html#f_default_pointer">default_pointer</A>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_memory_compare"><A HREF="../elks/pointer_ref.html#f_memory_compare">memory_compare</A> (other: <A HREF="../elks/pointer.html">POINTER</A>; a_size: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> True if </FONT>`Current'<FONT COLOR="red"> and </FONT>`other'<FONT COLOR="red"> are identical on </FONT>`a_size'<FONT COLOR="red"> bytes.</FONT>
+        <B>require</B>
+            valid_size: a_size &gt; 0
+            valid_other: other /= <A HREF="../elks/any.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/pointer_ref.html#f_c_memcmp">c_memcmp</A> (<A HREF="../elks/pointer_ref.html#f_item">item</A>, other, a_size) = 0
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output</FONT>
+
+    <A NAME="f_out"><A HREF="../elks/pointer_ref.html#f_out">out</A>: <A HREF="../elks/string_8.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Printable representation of pointer value</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/pointer_ref.html#f_item">item</A>.<A HREF="../elks/pointer.html#f_out">out</A>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_c_memcpy"><A HREF="../elks/pointer_ref.html#f_c_memcpy">c_memcpy</A> (destination, source: <A HREF="../elks/pointer.html">POINTER</A>; count: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> C memcpy</FONT>
+        <B>external</B>
+            "C signature (void *, const void *, size_t) use &lt;string.h&gt;"
+        <B>alias</B>
+            "memcpy"
+        <B>end</B></A>
+
+    <A NAME="f_c_memmove"><A HREF="../elks/pointer_ref.html#f_c_memmove">c_memmove</A> (destination, source: <A HREF="../elks/pointer.html">POINTER</A>; count: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> C memmove</FONT>
+        <B>external</B>
+            "C signature (void *, const void *, size_t) use &lt;string.h&gt;"
+        <B>alias</B>
+            "memmove"
+        <B>end</B></A>
+
+    <A NAME="f_c_memset"><A HREF="../elks/pointer_ref.html#f_c_memset">c_memset</A> (source: <A HREF="../elks/pointer.html">POINTER</A>; val: <A HREF="../elks/integer_32.html">INTEGER_32</A>; count: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> C memset</FONT>
+        <B>external</B>
+            "C signature (void *, int, size_t) use &lt;string.h&gt;"
+        <B>alias</B>
+            "memset"
+        <B>end</B></A>
+
+    <A NAME="f_c_memcmp"><A HREF="../elks/pointer_ref.html#f_c_memcmp">c_memcmp</A> (source, other: <A HREF="../elks/pointer.html">POINTER</A>; count: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> C memcmp</FONT>
+        <B>external</B>
+            "C signature (void *, void *, size_t): EIF_INTEGER use &lt;string.h&gt;"
+        <B>alias</B>
+            "memcmp"
+        <B>end</B></A>
+
+    <A NAME="f_c_malloc"><A HREF="../elks/pointer_ref.html#f_c_malloc">c_malloc</A> (size: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/pointer.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> C malloc</FONT>
+        <B>external</B>
+            "C signature (size_t): EIF_POINTER use &lt;stdlib.h&gt;"
+        <B>alias</B>
+            "malloc"
+        <B>end</B></A>
+
+    <A NAME="f_c_calloc"><A HREF="../elks/pointer_ref.html#f_c_calloc">c_calloc</A> (nmemb, size: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/pointer.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> C calloc</FONT>
+        <B>external</B>
+            "C signature (size_t, size_t): EIF_POINTER use &lt;stdlib.h&gt;"
+        <B>alias</B>
+            "calloc"
+        <B>end</B></A>
+
+    <A NAME="f_c_realloc"><A HREF="../elks/pointer_ref.html#f_c_realloc">c_realloc</A> (source: <A HREF="../elks/pointer.html">POINTER</A>; size: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/pointer.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> C realloc</FONT>
+        <B>external</B>
+            "C signature (void *, size_t): EIF_POINTER use &lt;stdlib.h&gt;"
+        <B>alias</B>
+            "realloc"
+        <B>end</B></A>
+
+    <A NAME="f_c_free"><A HREF="../elks/pointer_ref.html#f_c_free">c_free</A> (p: <A HREF="../elks/pointer.html">POINTER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> C free</FONT>
+        <B>external</B>
+            "C signature (void *) use &lt;stdlib.h&gt;"
+        <B>alias</B>
+            "free"
+        <B>end</B></A>
+    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/pointer_ref.html">POINTER_REF</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="pointer_ref_chart.html">Chart</A></TD><TD><A HREF="pointer_ref_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="pointer_ref_flat.html">Flat</A></TD><TD><A HREF="pointer_ref_short.html">Contracts</A></TD><TD><A HREF="pointer_ref_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

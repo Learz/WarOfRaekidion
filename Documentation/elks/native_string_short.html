@@ -1,0 +1,146 @@
+<HTML><HEAD>
+<meta name="description" content="TTTPlatform specific encoding of Unicode strings. By default, UTF-8 on unix or UTF-16 on Windows.  TTTMixed-encoding consideration TTT============================  TTTMost operating systems have conventions for strings that are incompatible with Unicode. TTTOn UNIX, a string is just a null-terminated byte sequence, it does not follow any TTTspecific encoding. Usually the locale setting enables you to see the string the way TTTyou expect. TTTOn Windows, the sequence of names is made of null-terminated UTF-16 code unit sequence. Windows TTTdoes not guarantee that the sequence is actually a valid UTF-16 sequence.  TTTIn other words, when there is an invalid UTF-8 encoding on UNIX, or an invalid UTF-16 encoding TTTon Windows, the string is not directly representable as a Unicode string. To make it possible TTTto create and store strings in a textually representable form, the query `string' will create TTTan encoded representation that can be then later used in `make' to create a NATIVE_STRING TTTequivalent to the original string. The encoding is described in UTF_CONVERTER's note clause TTTand is a fourth variant of the recommended practice for replacement characters in Unicode TTT(see http://www.unicode.org/review/pr-121.html). "/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>native_string Contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="native_string_chart.html">Chart</A></TD><TD><A HREF="native_string_links.html">Relations</A></TD><TD><A HREF="native_string.html">Text</A></TD><TD><A HREF="native_string_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="native_string_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        			Platform specific encoding of Unicode strings. By default, UTF-8 on unix or UTF-16 on Windows.
+        
+        			Mixed-encoding consideration
+        			============================
+        
+        			Most operating systems have conventions for strings that are incompatible with Unicode.
+        			On UNIX, a string is just a null-terminated byte sequence, it does not follow any
+        			specific encoding. Usually the locale setting enables you to see the string the way
+        			you expect.
+        			On Windows, the sequence of names is made of null-terminated UTF-16 code unit sequence. Windows
+        			does not guarantee that the sequence is actually a valid UTF-16 sequence.
+        
+        			In other words, when there is an invalid UTF-8 encoding on UNIX, or an invalid UTF-16 encoding
+        			on Windows, the string is not directly representable as a Unicode string. To make it possible
+        			to create and store strings in a textually representable form, the query <A HREF="../elks/native_string_short.html#f_string">string</A> will create
+        			an encoded representation that can be then later used in <A HREF="../elks/native_string_short.html#f_make">make</A> to create a NATIVE_STRING
+        			equivalent to the original string. The encoding is described in UTF_CONVERTER's note clause
+        			and is a fourth variant of the recommended practice for replacement characters in Unicode
+        			(see <a href="http://www.unicode.org/review/pr-121.html">http://www.unicode.org/review/pr-121.html</a>).
+        
+    ]"
+    date: "$Date: 2013-03-22 09:04:25 -0700 (Fri, 22 Mar 2013) $"
+    revision: "$Revision: 92334 $"
+
+<B>class</B> <B>interface</B>
+    <A HREF="../elks/native_string_short.html">NATIVE_STRING</A>
+
+<B>create</B> 
+    <A HREF="../elks/native_string_short.html#f_make">make</A>,
+    <A HREF="../elks/native_string_short.html#f_make_empty">make_empty</A>,
+    <A HREF="../elks/native_string_short.html#f_make_from_pointer">make_from_pointer</A>,
+    <A HREF="../elks/native_string_short.html#f_make_from_raw_string">make_from_raw_string</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_raw_string"><A HREF="../elks/native_string_short.html#f_raw_string">raw_string</A>: <A HREF="../elks/string_8_short.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Sequence of bytes representing </FONT>`Current'<FONT COLOR="red">.</FONT>
+</A>
+    <A NAME="f_string"><A HREF="../elks/native_string_short.html#f_string">string</A>: <A HREF="../elks/string_32_short.html">STRING_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Representation of Current up to the first null character.</FONT>
+</A>
+    <A NAME="f_substring"><A HREF="../elks/native_string_short.html#f_substring">substring</A> (start_pos, end_pos: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/string_32_short.html">STRING_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy of substring containing all code units at indices</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> between </FONT>`start_pos'<FONT COLOR="red"> and </FONT>`end_pos'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            start_position_big_enough: start_pos &gt;= 1
+            end_position_big_enough: start_pos &lt;= end_pos + 1
+            end_position_not_too_big: end_pos &lt;= (<A HREF="../elks/native_string_short.html#f_capacity">capacity</A> // <A HREF="../elks/native_string_short.html#f_unit_size">unit_size</A>)
+        <B>ensure</B>
+            susbstring_not_void: <B>Result</B> /= <B>Void</B>
+</A>
+    <A NAME="f_item"><A HREF="../elks/native_string_short.html#f_item">item</A>: <A HREF="../elks/pointer_short.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Get pointer to allocated area.</FONT>
+        <B>ensure</B>
+            item_not_null: <B>Result</B> /= <A HREF="../elks/any_short.html#f_default_pointer">default_pointer</A>
+</A>
+    <A NAME="f_managed_data"><A HREF="../elks/native_string_short.html#f_managed_data">managed_data</A>: <A HREF="../elks/managed_pointer_short.html">MANAGED_POINTER</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Hold data of Current.</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status Report</FONT>
+
+    <A NAME="f_is_empty"><A HREF="../elks/native_string_short.html#f_is_empty">is_empty</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current empty?</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_capacity"><A HREF="../elks/native_string_short.html#f_capacity">capacity</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bytes in Current.</FONT>
+</A>
+    <A NAME="f_bytes_count"><A HREF="../elks/native_string_short.html#f_bytes_count">bytes_count</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bytes used by Current not including the null terminating character.</FONT>
+        <B>ensure</B>
+            bytes_count_non_negative: <B>Result</B> &gt;= 0
+</A>
+    <A NAME="f_unit_count"><A HREF="../elks/native_string_short.html#f_unit_count">unit_count</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of units used by Current not including the null terminating unit.</FONT>
+
+    <A NAME="f_unit_size"><A HREF="../elks/native_string_short.html#f_unit_size">unit_size</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Size in bytes of a unit for </FONT>`storage'<FONT COLOR="red">.</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_is_equal"><A HREF="../elks/native_string_short.html#f_is_equal">is_equal</A> (other: <B>like</B> <B>Current</B>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is content of string identical to content of string </FONT>`other'<FONT COLOR="red">?</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_set_string"><A HREF="../elks/native_string_short.html#f_set_string">set_string</A> (a_string: <A HREF="../elks/readable_string_general_short.html">READABLE_STRING_GENERAL</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/native_string_short.html#f_string">string</A><FONT COLOR="red"> with </FONT>`a_string'<FONT COLOR="red">	treated as a sequence of Unicode characters.</FONT>
+        <B>require</B>
+            a_string_not_void: a_string /= <B>Void</B>
+</A>
+    <A NAME="f_set_substring"><A HREF="../elks/native_string_short.html#f_set_substring">set_substring</A> (a_string: <A HREF="../elks/readable_string_general_short.html">READABLE_STRING_GENERAL</A>; start_pos, end_pos: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/native_string_short.html#f_string">string</A><FONT COLOR="red"> with a subset of </FONT>`a_string'<FONT COLOR="red"> from </FONT>`a_start_pos'<FONT COLOR="red"> index to </FONT>`end_pos'<FONT COLOR="red"> index.</FONT>
+        <B>require</B>
+            a_string_not_void: a_string /= <B>Void</B>
+            start_position_big_enough: start_pos &gt;= 1
+            end_position_big_enough: start_pos &lt;= end_pos + 1
+            end_pos_small_enough: end_pos &lt;= a_string.<A HREF="../elks/readable_string_general_short.html#f_count">count</A>
+</A>
+    <A NAME="f_set_shared_from_pointer"><A HREF="../elks/native_string_short.html#f_set_shared_from_pointer">set_shared_from_pointer</A> (a_ptr: <A HREF="../elks/pointer_short.html">POINTER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New instance sharing </FONT>`a_ptr'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_ptr_not_null: a_ptr /= <A HREF="../elks/any_short.html#f_default_pointer">default_pointer</A>
+</A>
+    <A NAME="f_set_shared_from_pointer_and_count"><A HREF="../elks/native_string_short.html#f_set_shared_from_pointer_and_count">set_shared_from_pointer_and_count</A> (a_ptr: <A HREF="../elks/pointer_short.html">POINTER</A>; a_length: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New instance sharing </FONT>`a_ptr'<FONT COLOR="red"> of </FONT>`a_length'<FONT COLOR="red"> byte. Space for an additional</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> null terminating code unit is added to </FONT><A HREF="../elks/native_string_short.html#f_managed_data">managed_data</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_ptr_not_null: a_ptr /= <A HREF="../elks/any_short.html#f_default_pointer">default_pointer</A>
+            a_length_non_negative: a_length &gt;= 0
+            a_length_valid: (a_length \\ <A HREF="../elks/native_string_short.html#f_unit_size">unit_size</A>) = 0
+</A>    
+<B>invariant</B>
+    little_endian_windows: {<A HREF="../elks/platform_short.html">PLATFORM</A>}.<A HREF="../elks/platform_short.html#f_is_windows">is_windows</A> <B>implies</B> <A HREF="../elks/native_string_short.html#f_platform">Platform</A>.<A HREF="../elks/platform_short.html#f_is_little_endian">Is_little_endian</A>
+    even_count_on_windows: {<A HREF="../elks/platform_short.html">PLATFORM</A>}.<A HREF="../elks/platform_short.html#f_is_windows">is_windows</A> <B>implies</B> <A HREF="../elks/native_string_short.html#f_managed_data">managed_data</A>.<A HREF="../elks/managed_pointer_short.html#f_count">count</A> \\ <A HREF="../elks/native_string_short.html#f_unit_size">unit_size</A> = 0
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/native_string_short.html">NATIVE_STRING</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="native_string_chart.html">Chart</A></TD><TD><A HREF="native_string_links.html">Relations</A></TD><TD><A HREF="native_string.html">Text</A></TD><TD><A HREF="native_string_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="native_string_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

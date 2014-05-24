@@ -1,0 +1,1703 @@
+<HTML><HEAD>
+<meta name="description" content="Serialize/Deserialize data from a medium."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="library" content="EiffelBase: Library of reusable components for Eiffel."/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>sed_medium_reader_writer Flat</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sed_medium_reader_writer_chart.html">Chart</A></TD><TD><A HREF="sed_medium_reader_writer_links.html">Relations</A></TD><TD><A HREF="sed_medium_reader_writer.html">Text</A></TD><TD>Flat</TD><TD><A HREF="sed_medium_reader_writer_short.html">Contracts</A></TD><TD><A HREF="sed_medium_reader_writer_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Serialize/Deserialize data from a medium."
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2013-02-14 11:01:59 -0800 (Thu, 14 Feb 2013) $"
+    revision: "$Revision: 91229 $"
+
+<B>class</B> 
+    <A HREF="../ise/sed_medium_reader_writer_flat.html">SED_MEDIUM_READER_WRITER</A>
+
+<B>create</B> 
+    <A HREF="../ise/sed_medium_reader_writer_flat.html#f_make">make</A>,
+    <A HREF="../ise/sed_medium_reader_writer_flat.html#f_make_for_reading">make_for_reading</A>,
+    <A HREF="../ise/sed_medium_reader_writer_flat.html#f_make_for_writing">make_for_writing</A>,
+    <A HREF="../ise/sed_medium_reader_writer_flat.html#f_make_with_buffer">make_with_buffer</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_default_create"><A HREF="../elks/any_flat.html#f_default_create">default_create</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process instances of classes with no creation clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_make"><A HREF="../ise/sed_medium_reader_writer_flat.html#f_make">make</A> (a_medium: <A HREF="../elks/io_medium_flat.html">IO_MEDIUM</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize current to read or write from </FONT>`a_medium'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_medium_not_void: a_medium /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../ise/sed_medium_reader_writer_flat.html#f_make_with_buffer">make_with_buffer</A> (a_medium, <A HREF="../ise/sed_binary_reader_writer_flat.html#f_default_buffer_size">Default_buffer_size</A>)
+        <B>ensure</B>
+            medium_set: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_medium">medium</A> = a_medium
+            buffer_size_set: <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_size">buffer_size</A> = <A HREF="../ise/sed_binary_reader_writer_flat.html#f_default_buffer_size">Default_buffer_size</A>
+        <B>end</B></A>
+
+    <A NAME="f_make_for_reading"><A HREF="../ise/sed_medium_reader_writer_flat.html#f_make_for_reading">make_for_reading</A> (a_medium: <A HREF="../elks/io_medium_flat.html">IO_MEDIUM</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize current to read from </FONT>`a_medium'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_medium_not_void: a_medium /= <B>Void</B>
+            a_medium_open_for_reading: a_medium.<A HREF="../elks/io_medium_flat.html#f_is_open_read">is_open_read</A>
+        <B>do</B>
+            <A HREF="../ise/sed_medium_reader_writer_flat.html#f_make">make</A> (a_medium)
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_set_for_reading">set_for_reading</A>
+        <B>ensure</B>
+            medium_set: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_medium">medium</A> = a_medium
+            buffer_size_set: <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_size">buffer_size</A> = <A HREF="../ise/sed_binary_reader_writer_flat.html#f_default_buffer_size">Default_buffer_size</A>
+        <B>end</B></A>
+
+    <A NAME="f_make_for_writing"><A HREF="../ise/sed_medium_reader_writer_flat.html#f_make_for_writing">make_for_writing</A> (a_medium: <A HREF="../elks/io_medium_flat.html">IO_MEDIUM</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize current to write to </FONT>`a_medium'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_medium_not_void: a_medium /= <B>Void</B>
+            a_medium_open_for_writing: a_medium.<A HREF="../elks/io_medium_flat.html#f_is_open_write">is_open_write</A>
+        <B>do</B>
+            <A HREF="../ise/sed_medium_reader_writer_flat.html#f_make">make</A> (a_medium)
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_set_for_writing">set_for_writing</A>
+        <B>ensure</B>
+            medium_set: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_medium">medium</A> = a_medium
+            buffer_size_set: <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_size">buffer_size</A> = <A HREF="../ise/sed_binary_reader_writer_flat.html#f_default_buffer_size">Default_buffer_size</A>
+        <B>end</B></A>
+
+    <A NAME="f_make_with_buffer"><A HREF="../ise/sed_medium_reader_writer_flat.html#f_make_with_buffer">make_with_buffer</A> (a_medium: <A HREF="../elks/io_medium_flat.html">IO_MEDIUM</A>; a_buffer_size: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize current to read or write from </FONT>`a_medium'<FONT COLOR="red"> using a buffer of size </FONT>`a_buffer_size'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_size">buffer_size</A><FONT COLOR="red"> will be overriden during read operation by the value of </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_size">buffer_size</A><FONT COLOR="red"> used</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> when writing.</FONT>
+        <B>require</B>
+            a_medium_not_void: a_medium /= <B>Void</B>
+            a_buffer_size_non_negative: a_buffer_size &gt;= 0
+        <B>do</B>
+            <A HREF="../ise/sed_medium_reader_writer_flat.html#f_medium">medium</A> := a_medium
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_size">buffer_size</A> := a_buffer_size
+            <B>create</B> <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_make">make</A> (a_buffer_size)
+        <B>ensure</B>
+            medium_set: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_medium">medium</A> = a_medium
+            buffer_size_set: <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_size">buffer_size</A> = a_buffer_size
+            buffer_size_set: <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_count">count</A> = a_buffer_size
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_generating_type"><A HREF="../elks/any_flat.html#f_generating_type">generating_type</A>: <A HREF="../elks/type_flat.html">TYPE</A> [<B>detachable</B> <A HREF="../ise/sed_medium_reader_writer_flat.html">SED_MEDIUM_READER_WRITER</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Type of current object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := {<B>detachable</B> <A HREF="../ise/sed_medium_reader_writer_flat.html">SED_MEDIUM_READER_WRITER</A>}
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            generating_type_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_generator"><A HREF="../elks/any_flat.html#f_generator">generator</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of current object's generating class</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (base class of the type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            generator_not_void: <B>Result</B> /= <B>Void</B>
+            generator_not_empty: <B>not</B> <B>Result</B>.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+
+    <A NAME="f_read_boolean"><A HREF="../ise/sed_reader_writer_flat.html#f_read_boolean">read_boolean</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next boolean</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>local</B>
+            l_nat: <A HREF="../elks/natural_8_flat.html">NATURAL_8</A>
+        <B>do</B>
+            l_nat := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_natural_8">read_natural_8</A>
+            <B>Result</B> := l_nat = 1.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A>
+        <B>end</B></A>
+
+    <A NAME="f_read_character_32"><A HREF="../ise/sed_reader_writer_flat.html#f_read_character_32">read_character_32</A>: <A HREF="../elks/character_32_flat.html">CHARACTER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next 32-bits character</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_natural_32">read_natural_32</A>.<A HREF="../elks/natural_32_flat.html#f_to_character_32">to_character_32</A>
+        <B>end</B></A>
+
+    <A NAME="f_read_character_8"><A HREF="../ise/sed_reader_writer_flat.html#f_read_character_8">read_character_8</A>: <A HREF="../elks/character_8_flat.html">CHARACTER_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next 8-bits character</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>local</B>
+            l_nat8: <A HREF="../elks/natural_8_flat.html">NATURAL_8</A>
+        <B>do</B>
+            l_nat8 := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_natural_8">read_natural_8</A>
+            <B>Result</B> := l_nat8.<A HREF="../elks/natural_8_flat.html#f_to_character_8">to_character_8</A>
+        <B>end</B></A>
+
+    <A NAME="f_read_compressed_integer_32"><A HREF="../ise/sed_reader_writer_flat.html#f_read_compressed_integer_32">read_compressed_integer_32</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next compressed integer_32.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> See </FONT><A HREF="../ise/sed_reader_writer_flat.html#f_read_compressed_natural_32">read_compressed_natural_32</A><FONT COLOR="red"> for more details about encoding.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../ise/sed_reader_writer_flat.html#f_read_compressed_natural_32">read_compressed_natural_32</A>.<A HREF="../elks/natural_32_flat.html#f_as_integer_32">as_integer_32</A>
+        <B>end</B></A>
+
+    <A NAME="f_read_compressed_natural_32"><A HREF="../ise/sed_reader_writer_flat.html#f_read_compressed_natural_32">read_compressed_natural_32</A>: <A HREF="../elks/natural_32_flat.html">NATURAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next compressed natural_32.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Depending on first natural_8 value read, it will tell how much more we need to read:</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 1 - Of the form 0xxxxxxx (0x00) for values between 0 and 127</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 2 - Of the form 10xxxxxx (0x80) for values between 128 and 16382 and one more to read.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 3 - Of the form 110xxxxx (0xC0) for values between 16383 and 2097150 and 2 more to read.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 4 - Of the form 1110xxxx (0xE0) for values between 2097151 and 268435454 and 3 more to read</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 5 - Otherwise a full natural_32 to read.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>local</B>
+            l_nat8: <A HREF="../elks/natural_8_flat.html">NATURAL_8</A>
+        <B>do</B>
+            l_nat8 := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_natural_8">read_natural_8</A>
+            <B>if</B> l_nat8 &#38; 128.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A> = 0.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A> <B>then</B>
+                <B>Result</B> := l_nat8.<A HREF="../elks/natural_8_ref_flat.html#f_to_natural_32">to_natural_32</A>
+            <B>elseif</B> l_nat8 &#38; 192.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A> = 128.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A> <B>then</B>
+                <B>Result</B> := ((l_nat8.<A HREF="../elks/natural_8_flat.html#f_as_natural_32">as_natural_32</A> &#38; 63.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A>) |&lt;&lt; 8) | (<A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_natural_8">read_natural_8</A>.<A HREF="../elks/natural_8_flat.html#f_as_natural_32">as_natural_32</A>)
+            <B>elseif</B> l_nat8 &#38; 224.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A> = 192.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A> <B>then</B>
+                <B>Result</B> := ((l_nat8.<A HREF="../elks/natural_8_flat.html#f_as_natural_32">as_natural_32</A> &#38; 31.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A>) |&lt;&lt; 16) | (<A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_natural_8">read_natural_8</A>.<A HREF="../elks/natural_8_flat.html#f_as_natural_32">as_natural_32</A> |&lt;&lt; 8) | (<A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_natural_8">read_natural_8</A>.<A HREF="../elks/natural_8_flat.html#f_as_natural_32">as_natural_32</A>)
+            <B>elseif</B> l_nat8 &#38; 240.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A> = 224.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A> <B>then</B>
+                <B>Result</B> := ((l_nat8.<A HREF="../elks/natural_8_flat.html#f_as_natural_32">as_natural_32</A> &#38; 15.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A>) |&lt;&lt; 24) | (<A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_natural_8">read_natural_8</A>.<A HREF="../elks/natural_8_flat.html#f_as_natural_32">as_natural_32</A> |&lt;&lt; 16) | (<A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_natural_8">read_natural_8</A>.<A HREF="../elks/natural_8_flat.html#f_as_natural_32">as_natural_32</A> |&lt;&lt; 8) | (<A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_natural_8">read_natural_8</A>.<A HREF="../elks/natural_8_flat.html#f_as_natural_32">as_natural_32</A>)
+            <B>else</B>
+                <B>Result</B> := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_natural_32">read_natural_32</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_immutable_string_32"><A HREF="../ise/sed_reader_writer_flat.html#f_read_immutable_string_32">read_immutable_string_32</A>: <A HREF="../elks/immutable_string_32_flat.html">IMMUTABLE_STRING_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next sequence of characters encoded in UTF-8 as an IMMUTABLE_STRING_32.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/readable_string_32_flat.html#f_make_from_string">make_from_string</A> (<A HREF="../ise/sed_reader_writer_flat.html#f_read_string_32">read_string_32</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            read_string_8_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_immutable_string_8"><A HREF="../ise/sed_reader_writer_flat.html#f_read_immutable_string_8">read_immutable_string_8</A>: <A HREF="../elks/immutable_string_8_flat.html">IMMUTABLE_STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next 8-bits sequence of character as an IMMUTABLE_STRING_8</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/readable_string_8_flat.html#f_make_from_string">make_from_string</A> (<A HREF="../ise/sed_reader_writer_flat.html#f_read_string_8">read_string_8</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            read_immutable_string_8_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_integer_16"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_integer_16">read_integer_16</A>: <A HREF="../elks/integer_16_flat.html">INTEGER_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next integer_16</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>do</B>
+            <B>check</B>
+                correct_size: {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_16_bytes">natural_16_bytes</A> = {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_integer_16_bytes">integer_16_bytes</A>
+            <B>end</B>
+            <B>Result</B> := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_natural_16">read_natural_16</A>.<A HREF="../elks/natural_16_flat.html#f_as_integer_16">as_integer_16</A>
+        <B>end</B></A>
+
+    <A NAME="f_read_integer_32"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_integer_32">read_integer_32</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next integer_32</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>do</B>
+            <B>check</B>
+                correct_size: {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_32_bytes">natural_32_bytes</A> = {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_integer_32_bytes">integer_32_bytes</A>
+            <B>end</B>
+            <B>Result</B> := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_natural_32">read_natural_32</A>.<A HREF="../elks/natural_32_flat.html#f_as_integer_32">as_integer_32</A>
+        <B>end</B></A>
+
+    <A NAME="f_read_integer_64"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_integer_64">read_integer_64</A>: <A HREF="../elks/integer_64_flat.html">INTEGER_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next integer_64</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>do</B>
+            <B>check</B>
+                correct_size: {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_64_bytes">natural_64_bytes</A> = {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_integer_64_bytes">integer_64_bytes</A>
+            <B>end</B>
+            <B>Result</B> := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_natural_64">read_natural_64</A>.<A HREF="../elks/natural_64_flat.html#f_as_integer_64">as_integer_64</A>
+        <B>end</B></A>
+
+    <A NAME="f_read_integer_8"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_integer_8">read_integer_8</A>: <A HREF="../elks/integer_8_flat.html">INTEGER_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next integer_8</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>do</B>
+            <B>check</B>
+                correct_size: {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_8_bytes">natural_8_bytes</A> = {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_integer_8_bytes">integer_8_bytes</A>
+            <B>end</B>
+            <B>Result</B> := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_natural_8">read_natural_8</A>.<A HREF="../elks/natural_8_flat.html#f_as_integer_8">as_integer_8</A>
+        <B>end</B></A>
+
+    <A NAME="f_read_natural_16"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_natural_16">read_natural_16</A>: <A HREF="../elks/natural_16_flat.html">NATURAL_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next natural_16</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>local</B>
+            l_pos: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <A HREF="../ise/sed_medium_reader_writer_flat.html#f_check_buffer">check_buffer</A> ({<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_16_bytes">natural_16_bytes</A>)
+            l_pos := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A>
+            <B>if</B> <A HREF="../ise/sed_binary_reader_writer_flat.html#f_is_little_endian_storable">is_little_endian_storable</A> <B>then</B>
+                <B>Result</B> := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_read_natural_16_le">read_natural_16_le</A> (l_pos)
+            <B>else</B>
+                <B>Result</B> := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_read_natural_16_be">read_natural_16_be</A> (l_pos)
+            <B>end</B>
+            l_pos := l_pos + {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_16_bytes">natural_16_bytes</A>
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A> := l_pos
+        <B>end</B></A>
+
+    <A NAME="f_read_natural_32"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_natural_32">read_natural_32</A>: <A HREF="../elks/natural_32_flat.html">NATURAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next natural_32</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>local</B>
+            l_pos: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <A HREF="../ise/sed_medium_reader_writer_flat.html#f_check_buffer">check_buffer</A> ({<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_32_bytes">natural_32_bytes</A>)
+            l_pos := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A>
+            <B>if</B> <A HREF="../ise/sed_binary_reader_writer_flat.html#f_is_little_endian_storable">is_little_endian_storable</A> <B>then</B>
+                <B>Result</B> := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_read_natural_32_le">read_natural_32_le</A> (l_pos)
+            <B>else</B>
+                <B>Result</B> := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_read_natural_32_be">read_natural_32_be</A> (l_pos)
+            <B>end</B>
+            l_pos := l_pos + {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_32_bytes">natural_32_bytes</A>
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A> := l_pos
+        <B>end</B></A>
+
+    <A NAME="f_read_natural_64"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_natural_64">read_natural_64</A>: <A HREF="../elks/natural_64_flat.html">NATURAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next natural_64</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>local</B>
+            l_pos: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <A HREF="../ise/sed_medium_reader_writer_flat.html#f_check_buffer">check_buffer</A> ({<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_64_bytes">natural_64_bytes</A>)
+            l_pos := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A>
+            <B>if</B> <A HREF="../ise/sed_binary_reader_writer_flat.html#f_is_little_endian_storable">is_little_endian_storable</A> <B>then</B>
+                <B>Result</B> := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_read_natural_64_le">read_natural_64_le</A> (l_pos)
+            <B>else</B>
+                <B>Result</B> := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_read_natural_64_be">read_natural_64_be</A> (l_pos)
+            <B>end</B>
+            l_pos := l_pos + {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_64_bytes">natural_64_bytes</A>
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A> := l_pos
+        <B>end</B></A>
+
+    <A NAME="f_read_natural_8"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_natural_8">read_natural_8</A>: <A HREF="../elks/natural_8_flat.html">NATURAL_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next natural_8</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>local</B>
+            l_pos: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <A HREF="../ise/sed_medium_reader_writer_flat.html#f_check_buffer">check_buffer</A> ({<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_8_bytes">natural_8_bytes</A>)
+            l_pos := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A>
+            <B>Result</B> := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_read_natural_8">read_natural_8</A> (l_pos)
+            l_pos := l_pos + {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_8_bytes">natural_8_bytes</A>
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A> := l_pos
+        <B>end</B></A>
+
+    <A NAME="f_read_pointer"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_pointer">read_pointer</A>: <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next pointer</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>local</B>
+            l_val32: <A HREF="../elks/natural_32_flat.html">NATURAL_32</A>
+            l_val64: <A HREF="../elks/natural_64_flat.html">NATURAL_64</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../ise/sed_reader_writer_flat.html#f_is_pointer_value_stored">is_pointer_value_stored</A> <B>then</B>
+                <A HREF="../ise/sed_medium_reader_writer_flat.html#f_check_buffer">check_buffer</A> (<A HREF="../ise/sed_binary_reader_writer_flat.html#f_stored_pointer_bytes">stored_pointer_bytes</A>)
+                <B>if</B> {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_pointer_bytes">pointer_bytes</A> = <A HREF="../ise/sed_binary_reader_writer_flat.html#f_stored_pointer_bytes">stored_pointer_bytes</A> <B>then</B>
+                    <B>if</B> {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_pointer_bytes">pointer_bytes</A> = {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_32_bytes">natural_32_bytes</A> <B>then</B>
+                        l_val32 := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_natural_32">read_natural_32</A>;
+                        ($<B>Result</B>).<A HREF="../elks/pointer_ref_flat.html#f_memory_copy">memory_copy</A> ($l_val32.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_32_bytes">natural_32_bytes</A>)
+                    <B>elseif</B> {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_pointer_bytes">pointer_bytes</A> = {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_64_bytes">natural_64_bytes</A> <B>then</B>
+                        l_val64 := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_natural_64">read_natural_64</A>;
+                        ($<B>Result</B>).<A HREF="../elks/pointer_ref_flat.html#f_memory_copy">memory_copy</A> ($l_val64.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_64_bytes">natural_64_bytes</A>)
+                    <B>else</B>
+                        <B>check</B>
+                            not_supported: <B>False</B>
+                        <B>end</B>
+                    <B>end</B>
+                <B>elseif</B> {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_pointer_bytes">pointer_bytes</A> &gt; <A HREF="../ise/sed_binary_reader_writer_flat.html#f_stored_pointer_bytes">stored_pointer_bytes</A> <B>then</B>
+                    <B>check</B>
+                        expected_size: {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_pointer_bytes">pointer_bytes</A> = {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_64_bytes">natural_64_bytes</A> <B>and</B> <A HREF="../ise/sed_binary_reader_writer_flat.html#f_stored_pointer_bytes">stored_pointer_bytes</A> = {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_32_bytes">natural_32_bytes</A>
+                    <B>end</B>
+                    l_val32 := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_natural_32">read_natural_32</A>;
+                    ($<B>Result</B> + {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_32_bytes">natural_32_bytes</A>).<A HREF="../elks/pointer_ref_flat.html#f_memory_copy">memory_copy</A> ($l_val32.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_32_bytes">natural_32_bytes</A>)
+                <B>else</B>
+                    <B>check</B>
+                        expected_size: {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_pointer_bytes">pointer_bytes</A> = {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_32_bytes">natural_32_bytes</A> <B>and</B> <A HREF="../ise/sed_binary_reader_writer_flat.html#f_stored_pointer_bytes">stored_pointer_bytes</A> = {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_64_bytes">natural_64_bytes</A>
+                    <B>end</B>
+                    l_val32 := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_natural_64">read_natural_64</A>.<A HREF="../elks/natural_64_flat.html#f_as_natural_32">as_natural_32</A>;
+                    ($<B>Result</B>).<A HREF="../elks/pointer_ref_flat.html#f_memory_copy">memory_copy</A> ($l_val32.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_32_bytes">natural_32_bytes</A>)
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_real_32"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_real_32">read_real_32</A>: <A HREF="../elks/real_32_flat.html">REAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next real_32</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>local</B>
+            l_pos: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <A HREF="../ise/sed_medium_reader_writer_flat.html#f_check_buffer">check_buffer</A> ({<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_real_32_bytes">real_32_bytes</A>)
+            l_pos := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A>
+            <B>if</B> <A HREF="../ise/sed_binary_reader_writer_flat.html#f_is_little_endian_storable">is_little_endian_storable</A> <B>then</B>
+                <B>Result</B> := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_read_real_32_le">read_real_32_le</A> (l_pos)
+            <B>else</B>
+                <B>Result</B> := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_read_real_32_be">read_real_32_be</A> (l_pos)
+            <B>end</B>
+            l_pos := l_pos + {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_real_32_bytes">real_32_bytes</A>
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A> := l_pos
+        <B>end</B></A>
+
+    <A NAME="f_read_real_64"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_real_64">read_real_64</A>: <A HREF="../elks/real_64_flat.html">REAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next real_64</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>local</B>
+            l_pos: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <A HREF="../ise/sed_medium_reader_writer_flat.html#f_check_buffer">check_buffer</A> ({<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_real_64_bytes">real_64_bytes</A>)
+            l_pos := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A>
+            <B>if</B> <A HREF="../ise/sed_binary_reader_writer_flat.html#f_is_little_endian_storable">is_little_endian_storable</A> <B>then</B>
+                <B>Result</B> := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_read_real_64_le">read_real_64_le</A> (l_pos)
+            <B>else</B>
+                <B>Result</B> := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_read_real_64_be">read_real_64_be</A> (l_pos)
+            <B>end</B>
+            l_pos := l_pos + {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_real_64_bytes">real_64_bytes</A>
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A> := l_pos
+        <B>end</B></A>
+
+    <A NAME="f_read_string_32"><A HREF="../ise/sed_reader_writer_flat.html#f_read_string_32">read_string_32</A>: <A HREF="../elks/string_32_flat.html">STRING_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next sequence of characters encoded in UTF-8.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>local</B>
+            u: <A HREF="../elks/utf_converter_flat.html">UTF_CONVERTER</A>
+        <B>do</B>
+            <B>Result</B> := u.<A HREF="../elks/utf_converter_flat.html#f_utf_8_string_8_to_string_32">utf_8_string_8_to_string_32</A> (<A HREF="../ise/sed_reader_writer_flat.html#f_read_string_8">read_string_8</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            read_string_8_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_string_8"><A HREF="../ise/sed_reader_writer_flat.html#f_read_string_8">read_string_8</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next 8-bits sequence of character</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            nb := <A HREF="../ise/sed_reader_writer_flat.html#f_read_compressed_natural_32">read_compressed_natural_32</A>.<A HREF="../elks/natural_32_ref_flat.html#f_to_integer_32">to_integer_32</A>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/readable_string_8_flat.html#f_make">make</A> (nb)
+            <B>from</B>
+                i := 1
+                nb := nb + 1
+            <B>until</B>
+                i = nb
+            <B>loop</B>
+                <B>Result</B>.<A HREF="../elks/string_8_flat.html#f_append_character">append_character</A> (<A HREF="../ise/sed_reader_writer_flat.html#f_read_character_8">read_character_8</A>)
+                i := i + 1
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            read_string_8_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_reader_writer_version_6_6"><A HREF="../ise/sed_medium_reader_writer_flat.html#f_reader_writer_version_6_6">Reader_writer_version_6_6</A>: <A HREF="../elks/natural_32_flat.html">NATURAL_32</A> = 1</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Version of format used for reading/writing.</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_deep_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (a, b) <B>implies</B> <B>Result</B>
+            both_or_none_void: (a = <B>Void</B>) <B>implies</B> (<B>Result</B> = (b = <B>Void</B>))
+            same_type: (<B>Result</B> <B>and</B> (a /= <B>Void</B>)) <B>implies</B> (b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_same_type">same_type</A> (b))
+            symmetric: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (b, a)
+        <B>end</B></A>
+
+    <A NAME="f_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_equal">equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to objects considered equal?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_equal">is_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_equal">is_equal</A> (b))
+        <B>end</B></A>
+
+    <A NAME="f_is_deep_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (other: <B>attached</B> <A HREF="../ise/sed_medium_reader_writer_flat.html">SED_MEDIUM_READER_WRITER</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`Current'<FONT COLOR="red"> and </FONT>`other'<FONT COLOR="red"> attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (<B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_is_equal"><A HREF="../elks/any_flat.html#f_is_equal">is_equal</A> (other: <B>attached</B> <A HREF="../ise/sed_medium_reader_writer_flat.html">SED_MEDIUM_READER_WRITER</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object considered</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to current object?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            symmetric: <B>Result</B> <B>implies</B> other ~ <B>Current</B>
+            consistent: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+        <B>end</B></A>
+
+    <A NAME="f_standard_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical objects of the same type?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default object comparison criterion.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (b))
+        <B>end</B></A>
+
+    <A NAME="f_standard_is_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other: <B>attached</B> <A HREF="../ise/sed_medium_reader_writer_flat.html">SED_MEDIUM_READER_WRITER</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object of the same type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as current object, and field-by-field identical to it?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_cleanup"><A HREF="../ise/sed_medium_reader_writer_flat.html#f_cleanup">cleanup</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> When a reading is stopped, perform the necessary cleanup to perform</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> another reading or writing.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>do</B>
+            <B>from</B>
+            <B>until</B>
+                <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_last_chunk">is_last_chunk</A>
+            <B>loop</B>
+                <A HREF="../ise/sed_medium_reader_writer_flat.html#f_read_buffer_from_medium">read_buffer_from_medium</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_conforms_to"><A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (other: <A HREF="../elks/any_flat.html">ANY</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does type of current object conform to type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of </FONT>`other'<FONT COLOR="red"> (as per Eiffel: The Language, chapter 13)?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>end</B></A>
+
+    <A NAME="f_is_for_reading"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_is_for_reading">is_for_reading</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Will current do a read operation?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_is_last_chunk"><A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_last_chunk">is_last_chunk</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are we reading the last chunk?</FONT>
+
+    <A NAME="f_is_pointer_value_stored"><A HREF="../ise/sed_reader_writer_flat.html#f_is_pointer_value_stored">is_pointer_value_stored</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is value of a POINTER stored?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_is_ready_for_reading"><A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_reading">is_ready_for_reading</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is Current ready for future read operations?</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            <B>True</B>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_is_for_reading">is_for_reading</A> <B>and then</B> <A HREF="../ise/sed_medium_reader_writer_flat.html#f_medium">medium</A>.<A HREF="../elks/io_medium_flat.html#f_exists">exists</A> <B>and then</B> <A HREF="../ise/sed_medium_reader_writer_flat.html#f_medium">medium</A>.<A HREF="../elks/io_medium_flat.html#f_is_open_read">is_open_read</A> <B>and then</B> <A HREF="../ise/sed_medium_reader_writer_flat.html#f_medium">medium</A>.<A HREF="../elks/io_medium_flat.html#f_support_storable">support_storable</A> <B>and then</B> <A HREF="../ise/sed_medium_reader_writer_flat.html#f_medium">medium</A>.<A HREF="../elks/io_medium_flat.html#f_readable">readable</A>
+        <B>end</B></A>
+
+    <A NAME="f_is_ready_for_writing"><A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_writing">is_ready_for_writing</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is Current ready for future write operations?</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            <B>True</B>
+        <B>do</B>
+            <B>Result</B> := <B>not</B> <A HREF="../ise/sed_binary_reader_writer_flat.html#f_is_for_reading">is_for_reading</A> <B>and then</B> <A HREF="../ise/sed_medium_reader_writer_flat.html#f_medium">medium</A>.<A HREF="../elks/io_medium_flat.html#f_exists">exists</A> <B>and then</B> <A HREF="../ise/sed_medium_reader_writer_flat.html#f_medium">medium</A>.<A HREF="../elks/io_medium_flat.html#f_is_open_write">is_open_write</A> <B>and then</B> <A HREF="../ise/sed_medium_reader_writer_flat.html#f_medium">medium</A>.<A HREF="../elks/io_medium_flat.html#f_support_storable">support_storable</A>
+        <B>end</B></A>
+
+    <A NAME="f_same_type"><A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other: <A HREF="../elks/any_flat.html">ANY</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is type of current object identical to type of </FONT>`other'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (<A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (other) <B>and</B> other.<A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>Current</B>))
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_write_boolean"><A HREF="../ise/sed_reader_writer_flat.html#f_write_boolean">write_boolean</A> (v: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>do</B>
+            <B>if</B> v <B>then</B>
+                <A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_natural_8">write_natural_8</A> (1.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A>)
+            <B>else</B>
+                <A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_natural_8">write_natural_8</A> (0.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_write_character_32"><A HREF="../ise/sed_reader_writer_flat.html#f_write_character_32">write_character_32</A> (v: <A HREF="../elks/character_32_flat.html">CHARACTER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>do</B>
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_natural_32">write_natural_32</A> (v.<A HREF="../elks/character_32_flat.html#f_natural_32_code">natural_32_code</A>)
+        <B>end</B></A>
+
+    <A NAME="f_write_character_8"><A HREF="../ise/sed_reader_writer_flat.html#f_write_character_8">write_character_8</A> (v: <A HREF="../elks/character_8_flat.html">CHARACTER_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>do</B>
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_natural_8">write_natural_8</A> (v.<A HREF="../elks/character_8_flat.html#f_code">code</A>.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A>)
+        <B>end</B></A>
+
+    <A NAME="f_write_compressed_integer_32"><A HREF="../ise/sed_reader_writer_flat.html#f_write_compressed_integer_32">write_compressed_integer_32</A> (v: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red"> as a compressed integer_32.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> See </FONT><A HREF="../ise/sed_reader_writer_flat.html#f_write_compressed_natural_32">write_compressed_natural_32</A><FONT COLOR="red"> for details about encoding.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>do</B>
+            <A HREF="../ise/sed_reader_writer_flat.html#f_write_compressed_natural_32">write_compressed_natural_32</A> (v.<A HREF="../elks/integer_32_flat.html#f_as_natural_32">as_natural_32</A>)
+        <B>end</B></A>
+
+    <A NAME="f_write_compressed_natural_32"><A HREF="../ise/sed_reader_writer_flat.html#f_write_compressed_natural_32">write_compressed_natural_32</A> (v: <A HREF="../elks/natural_32_flat.html">NATURAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red"> as a compressed natural_32.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Depending on value of </FONT>`v'<FONT COLOR="red">, it will tell how many natural_8 will</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> be written. Below here is the actual encoding where </FONT>`x'<FONT COLOR="red"> represents</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> a meaningful bit for </FONT>`v'<FONT COLOR="red"> and the last number in parenthesis is the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> marker value in hexadecimal which is added to the value of </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 1 - For values between 0 and 127, write 0xxxxxxx (0x00).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 2 - For values between 128 and 16382, write 0x10xxxxxx xxxxxxxx (0xE0).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 3 - For values between 16383 and 2097150, write 0x110xxxxx xxxxxxxx xxxxxxxx (0xC0).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 4 - For values between 2097151 and 268435454, write 0x1110xxx xxxxxxxx xxxxxxxx xxxxxxxx (0xE0).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 5 - Otherwise write </FONT>`v'<FONT COLOR="red"> as a full natural_32.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>do</B>
+            <B>if</B> v &lt; 16384.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A> <B>then</B>
+                <B>if</B> v &lt; 128.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A> <B>then</B>
+                    <A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_natural_8">write_natural_8</A> (v.<A HREF="../elks/natural_32_flat.html#f_as_natural_8">as_natural_8</A>)
+                <B>else</B>
+                    <A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_natural_8">write_natural_8</A> ((((v | 32768.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A>) &#38; 65280.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A>) |&gt;&gt; 8).<A HREF="../elks/natural_32_flat.html#f_as_natural_8">as_natural_8</A>)
+                    <A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_natural_8">write_natural_8</A> ((v &#38; 255.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A>).<A HREF="../elks/natural_32_flat.html#f_as_natural_8">as_natural_8</A>)
+                <B>end</B>
+            <B>elseif</B> v &lt; 2097152.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A> <B>then</B>
+                <A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_natural_8">write_natural_8</A> ((((v | 12582912.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A>) &#38; 16711680.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A>) |&gt;&gt; 16).<A HREF="../elks/natural_32_flat.html#f_as_natural_8">as_natural_8</A>)
+                <A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_natural_8">write_natural_8</A> (((v &#38; 65280.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A>) |&gt;&gt; 8).<A HREF="../elks/natural_32_flat.html#f_as_natural_8">as_natural_8</A>)
+                <A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_natural_8">write_natural_8</A> ((v &#38; 255.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A>).<A HREF="../elks/natural_32_flat.html#f_as_natural_8">as_natural_8</A>)
+            <B>elseif</B> v &lt; 268435456.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A> <B>then</B>
+                <A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_natural_8">write_natural_8</A> ((((v | 3758096384.<A HREF="../elks/integer_64_ref_flat.html#f_to_natural_32">to_natural_32</A>) &#38; 4278190080.<A HREF="../elks/integer_64_ref_flat.html#f_to_natural_32">to_natural_32</A>) |&gt;&gt; 24).<A HREF="../elks/natural_32_flat.html#f_as_natural_8">as_natural_8</A>)
+                <A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_natural_8">write_natural_8</A> (((v &#38; 16711680.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A>) |&gt;&gt; 16).<A HREF="../elks/natural_32_flat.html#f_as_natural_8">as_natural_8</A>)
+                <A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_natural_8">write_natural_8</A> (((v &#38; 65280.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A>) |&gt;&gt; 8).<A HREF="../elks/natural_32_flat.html#f_as_natural_8">as_natural_8</A>)
+                <A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_natural_8">write_natural_8</A> ((v &#38; 255.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A>).<A HREF="../elks/natural_32_flat.html#f_as_natural_8">as_natural_8</A>)
+            <B>else</B>
+                <A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_natural_8">write_natural_8</A> (240.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A>)
+                <A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_natural_32">write_natural_32</A> (v)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_write_immutable_string_8"><A HREF="../ise/sed_reader_writer_flat.html#f_write_immutable_string_8">write_immutable_string_8</A> (v: <A HREF="../elks/immutable_string_8_flat.html">IMMUTABLE_STRING_8</A>)
+        <B>obsolete</B> "Use `write_string_8' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_writing">is_ready_for_writing</A>
+            v_not_void: v /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../ise/sed_reader_writer_flat.html#f_write_string_8">write_string_8</A> (v)
+        <B>end</B></A>
+
+    <A NAME="f_write_integer_16"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_integer_16">write_integer_16</A> (v: <A HREF="../elks/integer_16_flat.html">INTEGER_16</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>do</B>
+            <B>check</B>
+                correct_size: {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_16_bytes">natural_16_bytes</A> = {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_integer_16_bytes">integer_16_bytes</A>
+            <B>end</B>
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_natural_16">write_natural_16</A> (v.<A HREF="../elks/integer_16_flat.html#f_as_natural_16">as_natural_16</A>)
+        <B>end</B></A>
+
+    <A NAME="f_write_integer_32"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_integer_32">write_integer_32</A> (v: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>do</B>
+            <B>check</B>
+                correct_size: {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_32_bytes">natural_32_bytes</A> = {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_integer_32_bytes">integer_32_bytes</A>
+            <B>end</B>
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_natural_32">write_natural_32</A> (v.<A HREF="../elks/integer_32_flat.html#f_as_natural_32">as_natural_32</A>)
+        <B>end</B></A>
+
+    <A NAME="f_write_integer_64"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_integer_64">write_integer_64</A> (v: <A HREF="../elks/integer_64_flat.html">INTEGER_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>do</B>
+            <B>check</B>
+                correct_size: {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_64_bytes">natural_64_bytes</A> = {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_integer_64_bytes">integer_64_bytes</A>
+            <B>end</B>
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_natural_64">write_natural_64</A> (v.<A HREF="../elks/integer_64_flat.html#f_as_natural_64">as_natural_64</A>)
+        <B>end</B></A>
+
+    <A NAME="f_write_integer_8"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_integer_8">write_integer_8</A> (v: <A HREF="../elks/integer_8_flat.html">INTEGER_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>do</B>
+            <B>check</B>
+                correct_size: {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_8_bytes">natural_8_bytes</A> = {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_integer_8_bytes">integer_8_bytes</A>
+            <B>end</B>
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_natural_8">write_natural_8</A> (v.<A HREF="../elks/integer_8_flat.html#f_as_natural_8">as_natural_8</A>)
+        <B>end</B></A>
+
+    <A NAME="f_write_natural_16"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_natural_16">write_natural_16</A> (v: <A HREF="../elks/natural_16_flat.html">NATURAL_16</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>local</B>
+            l_pos: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <A HREF="../ise/sed_medium_reader_writer_flat.html#f_check_buffer">check_buffer</A> ({<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_16_bytes">natural_16_bytes</A>)
+            l_pos := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A>
+            <B>if</B> <A HREF="../ise/sed_binary_reader_writer_flat.html#f_is_little_endian_storable">is_little_endian_storable</A> <B>then</B>
+                <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_put_natural_16_le">put_natural_16_le</A> (v, l_pos)
+            <B>else</B>
+                <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_put_natural_16_be">put_natural_16_be</A> (v, l_pos)
+            <B>end</B>
+            l_pos := l_pos + {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_16_bytes">natural_16_bytes</A>
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A> := l_pos
+        <B>end</B></A>
+
+    <A NAME="f_write_natural_32"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_natural_32">write_natural_32</A> (v: <A HREF="../elks/natural_32_flat.html">NATURAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>local</B>
+            l_pos: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <A HREF="../ise/sed_medium_reader_writer_flat.html#f_check_buffer">check_buffer</A> ({<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_32_bytes">natural_32_bytes</A>)
+            l_pos := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A>
+            <B>if</B> <A HREF="../ise/sed_binary_reader_writer_flat.html#f_is_little_endian_storable">is_little_endian_storable</A> <B>then</B>
+                <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_put_natural_32_le">put_natural_32_le</A> (v, l_pos)
+            <B>else</B>
+                <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_put_natural_32_be">put_natural_32_be</A> (v, l_pos)
+            <B>end</B>
+            l_pos := l_pos + {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_32_bytes">natural_32_bytes</A>
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A> := l_pos
+        <B>end</B></A>
+
+    <A NAME="f_write_natural_64"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_natural_64">write_natural_64</A> (v: <A HREF="../elks/natural_64_flat.html">NATURAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>local</B>
+            l_pos: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <A HREF="../ise/sed_medium_reader_writer_flat.html#f_check_buffer">check_buffer</A> ({<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_64_bytes">natural_64_bytes</A>)
+            l_pos := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A>
+            <B>if</B> <A HREF="../ise/sed_binary_reader_writer_flat.html#f_is_little_endian_storable">is_little_endian_storable</A> <B>then</B>
+                <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_put_natural_64_le">put_natural_64_le</A> (v, l_pos)
+            <B>else</B>
+                <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_put_natural_64_be">put_natural_64_be</A> (v, l_pos)
+            <B>end</B>
+            l_pos := l_pos + {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_64_bytes">natural_64_bytes</A>
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A> := l_pos
+        <B>end</B></A>
+
+    <A NAME="f_write_natural_8"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_natural_8">write_natural_8</A> (v: <A HREF="../elks/natural_8_flat.html">NATURAL_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>local</B>
+            l_pos: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <A HREF="../ise/sed_medium_reader_writer_flat.html#f_check_buffer">check_buffer</A> ({<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_8_bytes">natural_8_bytes</A>)
+            l_pos := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A>
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_put_natural_8">put_natural_8</A> (v, l_pos)
+            l_pos := l_pos + {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_8_bytes">natural_8_bytes</A>
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A> := l_pos
+        <B>end</B></A>
+
+    <A NAME="f_write_pointer"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_pointer">write_pointer</A> (v: <A HREF="../elks/pointer_flat.html">POINTER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>local</B>
+            l_val32: <A HREF="../elks/natural_32_flat.html">NATURAL_32</A>
+            l_val64: <A HREF="../elks/natural_64_flat.html">NATURAL_64</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../ise/sed_reader_writer_flat.html#f_is_pointer_value_stored">is_pointer_value_stored</A> <B>then</B>
+                <B>if</B> {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_pointer_bytes">pointer_bytes</A> = {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_32_bytes">natural_32_bytes</A> <B>then</B>
+                    ($l_val32).<A HREF="../elks/pointer_ref_flat.html#f_memory_copy">memory_copy</A> ($v.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_32_bytes">natural_32_bytes</A>)
+                    <A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_natural_32">write_natural_32</A> (l_val32)
+                <B>elseif</B> {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_pointer_bytes">pointer_bytes</A> = {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_64_bytes">natural_64_bytes</A> <B>then</B>
+                    ($l_val64).<A HREF="../elks/pointer_ref_flat.html#f_memory_copy">memory_copy</A> ($v.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_64_bytes">natural_64_bytes</A>)
+                    <A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_natural_64">write_natural_64</A> (l_val64)
+                <B>else</B>
+                    <B>check</B>
+                        not_supported: <B>False</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_write_real_32"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_real_32">write_real_32</A> (v: <A HREF="../elks/real_32_flat.html">REAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>local</B>
+            l_pos: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <A HREF="../ise/sed_medium_reader_writer_flat.html#f_check_buffer">check_buffer</A> ({<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_real_32_bytes">real_32_bytes</A>)
+            l_pos := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A>
+            <B>if</B> <A HREF="../ise/sed_binary_reader_writer_flat.html#f_is_little_endian_storable">is_little_endian_storable</A> <B>then</B>
+                <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_put_real_32_le">put_real_32_le</A> (v, l_pos)
+            <B>else</B>
+                <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_put_real_32_be">put_real_32_be</A> (v, l_pos)
+            <B>end</B>
+            l_pos := l_pos + {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_real_32_bytes">real_32_bytes</A>
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A> := l_pos
+        <B>end</B></A>
+
+    <A NAME="f_write_real_64"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_real_64">write_real_64</A> (v: <A HREF="../elks/real_64_flat.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>local</B>
+            l_pos: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <A HREF="../ise/sed_medium_reader_writer_flat.html#f_check_buffer">check_buffer</A> ({<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_real_64_bytes">real_64_bytes</A>)
+            l_pos := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A>
+            <B>if</B> <A HREF="../ise/sed_binary_reader_writer_flat.html#f_is_little_endian_storable">is_little_endian_storable</A> <B>then</B>
+                <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_put_real_64_le">put_real_64_le</A> (v, l_pos)
+            <B>else</B>
+                <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_put_real_64_be">put_real_64_be</A> (v, l_pos)
+            <B>end</B>
+            l_pos := l_pos + {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_real_64_bytes">real_64_bytes</A>
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A> := l_pos
+        <B>end</B></A>
+
+    <A NAME="f_write_string_32"><A HREF="../ise/sed_reader_writer_flat.html#f_write_string_32">write_string_32</A> (v: <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red"> in UTF-8 format.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_writing">is_ready_for_writing</A>
+            v_not_void: v /= <B>Void</B>
+        <B>local</B>
+            u: <A HREF="../elks/utf_converter_flat.html">UTF_CONVERTER</A>
+        <B>do</B>
+            <A HREF="../ise/sed_reader_writer_flat.html#f_write_string_8">write_string_8</A> (u.<A HREF="../elks/utf_converter_flat.html#f_utf_32_string_to_utf_8_string_8">utf_32_string_to_utf_8_string_8</A> (v))
+        <B>end</B></A>
+
+    <A NAME="f_write_string_8"><A HREF="../ise/sed_reader_writer_flat.html#f_write_string_8">write_string_8</A> (v: <A HREF="../elks/readable_string_8_flat.html">READABLE_STRING_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_writing">is_ready_for_writing</A>
+            v_not_void: v /= <B>Void</B>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <A HREF="../ise/sed_reader_writer_flat.html#f_write_compressed_natural_32">write_compressed_natural_32</A> (v.<A HREF="../elks/readable_string_8_flat.html#f_count">count</A>.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A>)
+            <B>from</B>
+                i := 1
+                nb := v.<A HREF="../elks/readable_string_8_flat.html#f_count">count</A> + 1
+            <B>until</B>
+                i = nb
+            <B>loop</B>
+                <A HREF="../ise/sed_reader_writer_flat.html#f_write_character_8">write_character_8</A> (v.<A HREF="../elks/readable_string_8_flat.html#f_item">item</A> (i))
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_clone">clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void; otherwise new object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to </FONT>`other'
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> For non-void </FONT>`other'<FONT COLOR="red">, </FONT><A HREF="../elks/any_flat.html#f_clone">clone</A><FONT COLOR="red"> calls </FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to change copying/cloning semantics, redefine </FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_twin">twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            equal: <B>Result</B> ~ other
+        <B>end</B></A>
+
+    <A NAME="f_copy"><A HREF="../elks/any_flat.html#f_copy">copy</A> (other: <B>attached</B> <A HREF="../ise/sed_medium_reader_writer_flat.html">SED_MEDIUM_READER_WRITER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update current object using fields of object attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to </FONT>`other'<FONT COLOR="red">, so as to yield equal objects.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            is_equal: <B>Current</B> ~ other
+        <B>end</B></A>
+
+    <A NAME="f_deep_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_clone">deep_clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `deep_twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void: otherwise, new object structure</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> recursively duplicated from the one attached to </FONT>`other'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (other, <B>Result</B>)
+        <B>end</B></A>
+
+    <A NAME="f_deep_copy"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_copy">deep_copy</A> (other: <B>attached</B> <A HREF="../ise/sed_medium_reader_writer_flat.html">SED_MEDIUM_READER_WRITER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Effect equivalent to that of:</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">		</FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red"> (</FONT>`other'<FONT COLOR="red"> . </FONT><A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A><FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../elks/any_flat.html#f_copy">copy</A> (other.<A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (<B>Current</B>, other)
+        <B>end</B></A>
+
+    <A NAME="f_deep_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>: <B>attached</B> <A HREF="../ise/sed_medium_reader_writer_flat.html">SED_MEDIUM_READER_WRITER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object structure recursively duplicated from Current.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_twin_not_void: <B>Result</B> /= <B>Void</B>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (<B>Current</B>, <B>Result</B>)
+        <B>end</B></A>
+
+    <A NAME="f_standard_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_clone">standard_clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `standard_twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void; otherwise new object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_standard_twin">standard_twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            equal: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (<B>Result</B>, other)
+        <B>end</B></A>
+
+    <A NAME="f_standard_copy"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_copy">standard_copy</A> (other: <B>attached</B> <A HREF="../ise/sed_medium_reader_writer_flat.html">SED_MEDIUM_READER_WRITER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy every field of </FONT>`other'<FONT COLOR="red"> onto corresponding field</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            is_standard_equal: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other)
+        <B>end</B></A>
+
+    <A NAME="f_standard_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_twin">standard_twin</A>: <B>attached</B> <A HREF="../ise/sed_medium_reader_writer_flat.html">SED_MEDIUM_READER_WRITER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            standard_twin_not_void: <B>Result</B> /= <B>Void</B>
+            equal: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (<B>Result</B>, <B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_twin">twin</A>: <B>attached</B> <A HREF="../ise/sed_medium_reader_writer_flat.html">SED_MEDIUM_READER_WRITER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object equal to </FONT>`Current'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/any_flat.html#f_twin">twin</A><FONT COLOR="red"> calls </FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">; to change copying/twinning semantics, redefine </FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            twin_not_void: <B>Result</B> /= <B>Void</B>
+            is_equal: <B>Result</B> ~ <B>Current</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_as_attached"><B>frozen</B> <A HREF="../elks/any_flat.html#f_as_attached">as_attached</A>: <B>attached</B> <A HREF="../ise/sed_medium_reader_writer_flat.html">SED_MEDIUM_READER_WRITER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attached version of Current</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Can be used during transitional period to convert</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> non-void-safe classes to void-safe ones.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>Current</B>
+        <B>end</B></A>
+
+    <A NAME="f_default"><B>frozen</B> <A HREF="../elks/any_flat.html#f_default">default</A>: <B>detachable</B> <A HREF="../ise/sed_medium_reader_writer_flat.html">SED_MEDIUM_READER_WRITER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of object's type</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_default_pointer"><B>frozen</B> <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>: <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of type </FONT>`POINTER'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Avoid the need to write </FONT>`p'<FONT COLOR="red">.</FONT><A HREF="../elks/any_flat.html#f_default">default</A><FONT COLOR="red"> for</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> some </FONT>`p'<FONT COLOR="red"> of type </FONT>`POINTER'<FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_default_rescue"><A HREF="../elks/any_flat.html#f_default_rescue">default_rescue</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process exception for routines with no Rescue clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_do_nothing"><B>frozen</B> <A HREF="../elks/any_flat.html#f_do_nothing">do_nothing</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execute a null action.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access bits size</FONT>
+
+    <A NAME="f_boolean_bits"><A HREF="../elks/platform_flat.html#f_boolean_bits">boolean_bits</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bits in a value of type </FONT>`BOOLEAN'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/platform_flat.html#f_boolean_bytes">boolean_bytes</A> * 8
+        <B>end</B></A>
+
+    <A NAME="f_character_32_bits"><A HREF="../elks/platform_flat.html#f_character_32_bits">Character_32_bits</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bits in a value of type </FONT>`CHARACTER_32'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_character_8_bits"><A HREF="../elks/platform_flat.html#f_character_8_bits">Character_8_bits</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bits in a value of type </FONT>`CHARACTER_8'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_integer_16_bits"><A HREF="../elks/platform_flat.html#f_integer_16_bits">Integer_16_bits</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bits in a value of type </FONT>`INTEGER_16'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_integer_32_bits"><A HREF="../elks/platform_flat.html#f_integer_32_bits">Integer_32_bits</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bits in a value of type </FONT>`INTEGER_32'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_integer_64_bits"><A HREF="../elks/platform_flat.html#f_integer_64_bits">Integer_64_bits</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bits in a value of type </FONT>`INTEGER_64'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_integer_8_bits"><A HREF="../elks/platform_flat.html#f_integer_8_bits">Integer_8_bits</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bits in a value of type </FONT>`INTEGER_8'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_natural_16_bits"><A HREF="../elks/platform_flat.html#f_natural_16_bits">Natural_16_bits</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bits in a value of type </FONT>`NATURAL_16'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_natural_32_bits"><A HREF="../elks/platform_flat.html#f_natural_32_bits">Natural_32_bits</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bits in a value of type </FONT>`NATURAL_32'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_natural_64_bits"><A HREF="../elks/platform_flat.html#f_natural_64_bits">Natural_64_bits</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bits in a value of type </FONT>`NATURAL_64'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_natural_8_bits"><A HREF="../elks/platform_flat.html#f_natural_8_bits">Natural_8_bits</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bits in a value of type </FONT>`NATURAL_8'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_pointer_bits"><A HREF="../elks/platform_flat.html#f_pointer_bits">pointer_bits</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bits in a value of type </FONT>`POINTER'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/platform_flat.html#f_pointer_bytes">pointer_bytes</A> * 8
+        <B>end</B></A>
+
+    <A NAME="f_real_32_bits"><A HREF="../elks/platform_flat.html#f_real_32_bits">Real_32_bits</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bits in a value of type </FONT>`REAL_32'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_real_64_bits"><A HREF="../elks/platform_flat.html#f_real_64_bits">Real_64_bits</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bits in a value of type </FONT>`REAL_64'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access bytes size</FONT>
+
+    <A NAME="f_boolean_bytes"><A HREF="../elks/platform_flat.html#f_boolean_bytes">boolean_bytes</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bytes in a value of type </FONT>`BOOLEAN'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in static"
+        <B>end</B></A>
+
+    <A NAME="f_character_32_bytes"><A HREF="../elks/platform_flat.html#f_character_32_bytes">Character_32_bytes</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 4</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bytes in a value of type </FONT>`CHARACTER_32'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_character_8_bytes"><A HREF="../elks/platform_flat.html#f_character_8_bytes">Character_8_bytes</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 1</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bytes in a value of type </FONT>`CHARACTER_8'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_integer_16_bytes"><A HREF="../elks/platform_flat.html#f_integer_16_bytes">Integer_16_bytes</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 2</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bytes in a value of type </FONT>`INTEGER_16'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_integer_32_bytes"><A HREF="../elks/platform_flat.html#f_integer_32_bytes">Integer_32_bytes</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 4</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bytes in a value of type </FONT>`INTEGER_32'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_integer_64_bytes"><A HREF="../elks/platform_flat.html#f_integer_64_bytes">Integer_64_bytes</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bytes in a value of type </FONT>`INTEGER_64'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_integer_8_bytes"><A HREF="../elks/platform_flat.html#f_integer_8_bytes">Integer_8_bytes</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 1</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bytes in a value of type </FONT>`INTEGER_8'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_natural_16_bytes"><A HREF="../elks/platform_flat.html#f_natural_16_bytes">Natural_16_bytes</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 2</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bytes in a value of type </FONT>`NATURAL_16'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_natural_32_bytes"><A HREF="../elks/platform_flat.html#f_natural_32_bytes">Natural_32_bytes</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 4</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bytes in a value of type </FONT>`NATURAL_32'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_natural_64_bytes"><A HREF="../elks/platform_flat.html#f_natural_64_bytes">Natural_64_bytes</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bytes in a value of type </FONT>`NATURAL_64'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_natural_8_bytes"><A HREF="../elks/platform_flat.html#f_natural_8_bytes">Natural_8_bytes</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 1</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bytes in a value of type </FONT>`NATURAL_8'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_pointer_bytes"><A HREF="../elks/platform_flat.html#f_pointer_bytes">pointer_bytes</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bytes in a value of type </FONT>`POINTER'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in static"
+        <B>end</B></A>
+
+    <A NAME="f_real_32_bytes"><A HREF="../elks/platform_flat.html#f_real_32_bytes">Real_32_bytes</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 4</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bytes in a value of type </FONT>`REAL_32'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_real_64_bytes"><A HREF="../elks/platform_flat.html#f_real_64_bytes">Real_64_bytes</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bytes in a value of type </FONT>`REAL_64'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Buffer update</FONT>
+
+    <A NAME="f_check_buffer"><A HREF="../ise/sed_medium_reader_writer_flat.html#f_check_buffer">check_buffer</A> (n: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If there is enough space in </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A><FONT COLOR="red"> to read </FONT>`n'<FONT COLOR="red"> bytes, do nothing.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Otherwise, read/write to </FONT><A HREF="../ise/sed_medium_reader_writer_flat.html#f_medium">medium</A><FONT COLOR="red"> to free some space.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A>
+            n_non_negative: n &gt;= 0
+        <B>do</B>
+            <B>if</B> n + <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A> &gt; <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_size">buffer_size</A> <B>then</B>
+                <B>if</B> <A HREF="../ise/sed_binary_reader_writer_flat.html#f_is_for_reading">is_for_reading</A> <B>then</B>
+                    <A HREF="../ise/sed_medium_reader_writer_flat.html#f_read_buffer_from_medium">read_buffer_from_medium</A>
+                <B>else</B>
+                    <A HREF="../ise/sed_medium_reader_writer_flat.html#f_flush_buffer_to_medium">flush_buffer_to_medium</A> (<B>False</B>)
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_flush_buffer_to_medium"><A HREF="../ise/sed_medium_reader_writer_flat.html#f_flush_buffer_to_medium">flush_buffer_to_medium</A> (last_chunk: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write next chunk of data to </FONT><A HREF="../ise/sed_medium_reader_writer_flat.html#f_medium">medium</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>do</B>
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_put_integer_32_be">put_integer_32_be</A> (<A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A>, <A HREF="../ise/sed_medium_reader_writer_flat.html#f_size_position">size_position</A> (<B>True</B>))
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_put_boolean">put_boolean</A> (last_chunk, <A HREF="../ise/sed_medium_reader_writer_flat.html#f_new_chunk_position">new_chunk_position</A>)
+            <A HREF="../ise/sed_medium_reader_writer_flat.html#f_medium">medium</A>.<A HREF="../elks/io_medium_flat.html#f_put_managed_pointer">put_managed_pointer</A> (<A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>, 0, <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A>)
+            <A HREF="../ise/sed_medium_reader_writer_flat.html#f_write_chunk_header">write_chunk_header</A>
+        <B>end</B></A>
+
+    <A NAME="f_read_buffer_from_medium"><A HREF="../ise/sed_medium_reader_writer_flat.html#f_read_buffer_from_medium">read_buffer_from_medium</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read next chunk of data.</FONT>
+        <B>require</B>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>local</B>
+            l_version: <A HREF="../elks/natural_32_flat.html">NATURAL_32</A>
+            l_is_new_format: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            l_failure: <A HREF="../ise/serialization_failure_flat.html">SERIALIZATION_FAILURE</A>
+        <B>do</B>
+            <A HREF="../ise/sed_medium_reader_writer_flat.html#f_medium">medium</A>.<A HREF="../elks/io_medium_flat.html#f_read_to_managed_pointer">read_to_managed_pointer</A> (<A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>, 0, {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_integer_32_bytes">integer_32_bytes</A>)
+            <B>if</B> <A HREF="../ise/sed_medium_reader_writer_flat.html#f_medium">medium</A>.<A HREF="../elks/io_medium_flat.html#f_bytes_read">bytes_read</A> = {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_integer_32_bytes">integer_32_bytes</A> <B>then</B>
+                <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_size">buffer_size</A> := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_read_integer_32_be">read_integer_32_be</A> (0)
+                <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_last_chunk">is_last_chunk</A> := <B>True</B>
+                <B>if</B> <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_size">buffer_size</A> = -1 <B>then</B>
+                    l_is_new_format := <B>True</B>
+                    <A HREF="../ise/sed_medium_reader_writer_flat.html#f_medium">medium</A>.<A HREF="../elks/io_medium_flat.html#f_read_to_managed_pointer">read_to_managed_pointer</A> (<A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>, <A HREF="../ise/sed_medium_reader_writer_flat.html#f_version_position">version_position</A>, {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_integer_32_bytes">integer_32_bytes</A>)
+                    l_version := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_read_natural_32_be">read_natural_32_be</A> (<A HREF="../ise/sed_medium_reader_writer_flat.html#f_version_position">version_position</A>)
+                    <B>if</B> l_version = <A HREF="../ise/sed_medium_reader_writer_flat.html#f_reader_writer_version_6_6">Reader_writer_version_6_6</A> <B>then</B>
+                        <A HREF="../ise/sed_medium_reader_writer_flat.html#f_medium">medium</A>.<A HREF="../elks/io_medium_flat.html#f_read_to_managed_pointer">read_to_managed_pointer</A> (<A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>, <A HREF="../ise/sed_medium_reader_writer_flat.html#f_size_position">size_position</A> (<B>True</B>), {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_integer_32_bytes">integer_32_bytes</A>)
+                        <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_size">buffer_size</A> := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_read_integer_32_be">read_integer_32_be</A> (<A HREF="../ise/sed_medium_reader_writer_flat.html#f_size_position">size_position</A> (<B>True</B>))
+                        <A HREF="../ise/sed_medium_reader_writer_flat.html#f_medium">medium</A>.<A HREF="../elks/io_medium_flat.html#f_read_to_managed_pointer">read_to_managed_pointer</A> (<A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>, <A HREF="../ise/sed_medium_reader_writer_flat.html#f_new_chunk_position">new_chunk_position</A>, {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_boolean_bytes">boolean_bytes</A>)
+                        <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_last_chunk">is_last_chunk</A> := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_read_boolean">read_boolean</A> (<A HREF="../ise/sed_medium_reader_writer_flat.html#f_new_chunk_position">new_chunk_position</A>)
+                    <B>end</B>
+                <B>else</B>
+                    l_is_new_format := <B>False</B>
+                <B>end</B>
+                <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A> := <A HREF="../ise/sed_medium_reader_writer_flat.html#f_chunk_header_size">chunk_header_size</A> (l_is_new_format)
+                <B>if</B> <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_size">buffer_size</A> &gt; <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_count">count</A> <B>then</B>
+                    <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_resize">resize</A> (<A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_size">buffer_size</A>)
+                <B>end</B>
+                <B>if</B> <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_size">buffer_size</A> &gt; {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_integer_32_bytes">integer_32_bytes</A> <B>then</B>
+                    <A HREF="../ise/sed_medium_reader_writer_flat.html#f_medium">medium</A>.<A HREF="../elks/io_medium_flat.html#f_read_to_managed_pointer">read_to_managed_pointer</A> (<A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>, <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A>, <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_size">buffer_size</A> - <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A>)
+                    <B>if</B> <A HREF="../ise/sed_medium_reader_writer_flat.html#f_medium">medium</A>.<A HREF="../elks/io_medium_flat.html#f_bytes_read">bytes_read</A> /= <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_size">buffer_size</A> - <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A> <B>then</B>
+                        <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A> := 0
+                        <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_size">buffer_size</A> := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_count">count</A>
+                        <B>create</B> l_failure
+                        l_failure.<A HREF="../elks/exception_flat.html#f_set_description">set_description</A> ("Read less than expected number of bytes in buffer.")
+                        l_failure.<A HREF="../elks/exception_flat.html#f_raise">raise</A>
+                    <B>end</B>
+                <B>else</B>
+                    <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A> := 0
+                    <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_size">buffer_size</A> := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_count">count</A>
+                    <B>create</B> l_failure
+                    l_failure.<A HREF="../elks/exception_flat.html#f_set_description">set_description</A> ("Read less than 4 bytes in buffer's header.")
+                    l_failure.<A HREF="../elks/exception_flat.html#f_raise">raise</A>
+                <B>end</B>
+            <B>else</B>
+                <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A> := 0
+                <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_size">buffer_size</A> := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_count">count</A>
+                <B>create</B> l_failure
+                l_failure.<A HREF="../elks/exception_flat.html#f_set_description">set_description</A> ("Cannot read buffer size from header.")
+                l_failure.<A HREF="../elks/exception_flat.html#f_raise">raise</A>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Header/Footer</FONT>
+
+    <A NAME="f_read_footer"><A HREF="../ise/sed_reader_writer_flat.html#f_read_footer">read_footer</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Action being executed after finishing to read data.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_header"><A HREF="../ise/sed_medium_reader_writer_flat.html#f_read_header">read_header</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieve configuration of how data was stored.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_reading">is_ready_for_reading</A>
+        <B>do</B>
+            <A HREF="../ise/sed_medium_reader_writer_flat.html#f_read_buffer_from_medium">read_buffer_from_medium</A>
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_is_little_endian_storable">is_little_endian_storable</A> := <A HREF="../ise/sed_reader_writer_flat.html#f_read_boolean">read_boolean</A>
+            <A HREF="../ise/sed_reader_writer_flat.html#f_is_pointer_value_stored">is_pointer_value_stored</A> := <A HREF="../ise/sed_reader_writer_flat.html#f_read_boolean">read_boolean</A>
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_stored_pointer_bytes">stored_pointer_bytes</A> := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_read_integer_32">read_integer_32</A>
+        <B>end</B></A>
+
+    <A NAME="f_write_chunk_header"><A HREF="../ise/sed_medium_reader_writer_flat.html#f_write_chunk_header">write_chunk_header</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Store information about chunks</FONT>
+        <B>do</B>
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A> := 0
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_put_integer_32_be">put_integer_32_be</A> (-1, 0)
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A> := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A> + {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_integer_32_bytes">integer_32_bytes</A>
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_put_natural_32_be">put_natural_32_be</A> (<A HREF="../ise/sed_medium_reader_writer_flat.html#f_reader_writer_version_6_6">Reader_writer_version_6_6</A>, <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A>)
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A> := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A> + {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_32_bytes">natural_32_bytes</A>
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A> := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A> + {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_integer_32_bytes">integer_32_bytes</A>
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A> := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A> + {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_boolean_bytes">boolean_bytes</A>
+        <B>end</B></A>
+
+    <A NAME="f_write_footer"><A HREF="../ise/sed_medium_reader_writer_flat.html#f_write_footer">write_footer</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Store last buffered data.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>do</B>
+            <A HREF="../ise/sed_medium_reader_writer_flat.html#f_flush_buffer_to_medium">flush_buffer_to_medium</A> (<B>True</B>)
+        <B>end</B></A>
+
+    <A NAME="f_write_header"><A HREF="../ise/sed_medium_reader_writer_flat.html#f_write_header">write_header</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Store configuration on how data will be stored.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_ready: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>do</B>
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_size">buffer_size</A> := <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_count">count</A>
+            <B>check</B>
+                enough_space: <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>.<A HREF="../elks/managed_pointer_flat.html#f_count">count</A> &gt; {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_integer_32_bytes">integer_32_bytes</A> * 4 + {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_boolean_bytes">boolean_bytes</A> * 2
+            <B>end</B>
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_is_little_endian_storable">is_little_endian_storable</A> := <A HREF="../elks/platform_flat.html#f_is_little_endian">Is_little_endian</A>
+            <A HREF="../ise/sed_medium_reader_writer_flat.html#f_write_chunk_header">write_chunk_header</A>
+            <A HREF="../ise/sed_reader_writer_flat.html#f_write_boolean">write_boolean</A> (<A HREF="../ise/sed_binary_reader_writer_flat.html#f_is_little_endian_storable">is_little_endian_storable</A>)
+            <A HREF="../ise/sed_reader_writer_flat.html#f_write_boolean">write_boolean</A> (<A HREF="../ise/sed_reader_writer_flat.html#f_is_pointer_value_stored">is_pointer_value_stored</A>)
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_write_integer_32">write_integer_32</A> ({<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_pointer_bytes">pointer_bytes</A>)
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation: Access</FONT>
+
+    <A NAME="f_buffer"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>: <A HREF="../elks/managed_pointer_flat.html">MANAGED_POINTER</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Buffer to store/fetch data from </FONT><A HREF="../ise/sed_medium_reader_writer_flat.html#f_medium">medium</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_chunk_header_size"><A HREF="../ise/sed_medium_reader_writer_flat.html#f_chunk_header_size">chunk_header_size</A> (a_is_new_format: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Size of data</FONT>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_integer_32_bytes">integer_32_bytes</A>
+            <B>if</B> a_is_new_format <B>then</B>
+                <B>Result</B> := <B>Result</B> + {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_32_bytes">natural_32_bytes</A> + {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_integer_32_bytes">integer_32_bytes</A> + {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_boolean_bytes">boolean_bytes</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_medium"><A HREF="../ise/sed_medium_reader_writer_flat.html#f_medium">medium</A>: <A HREF="../elks/io_medium_flat.html">IO_MEDIUM</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Medium used for read/write operations</FONT>
+
+    <A NAME="f_new_chunk_position"><A HREF="../ise/sed_medium_reader_writer_flat.html#f_new_chunk_position">new_chunk_position</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Position where presence or not of a next chunk is stored.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../ise/sed_medium_reader_writer_flat.html#f_size_position">size_position</A> (<B>True</B>) + {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_integer_32_bytes">integer_32_bytes</A>
+        <B>end</B></A>
+
+    <A NAME="f_size_position"><A HREF="../ise/sed_medium_reader_writer_flat.html#f_size_position">size_position</A> (a_is_new_format: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Position where size information for current chunk is stored.</FONT>
+        <B>do</B>
+            <B>if</B> a_is_new_format <B>then</B>
+                <B>Result</B> := <A HREF="../ise/sed_medium_reader_writer_flat.html#f_version_position">version_position</A> + {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_natural_32_bytes">natural_32_bytes</A>
+            <B>else</B>
+                <B>Result</B> := 0
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_version_position"><A HREF="../ise/sed_medium_reader_writer_flat.html#f_version_position">version_position</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Position where information about version is stored</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../ise/sed_medium_reader_writer_flat.html#f_size_position">size_position</A> (<B>False</B>) + {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_integer_32_bytes">integer_32_bytes</A>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation: Status report</FONT>
+
+    <A NAME="f_buffer_position"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Position in </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A><FONT COLOR="red"> for next read/write operation</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_buffer_size"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_size">buffer_size</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Size for </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A><FONT COLOR="red"> to reduce access to medium</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_default_buffer_size"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_default_buffer_size">Default_buffer_size</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 262144</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default size for </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_is_little_endian_storable"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_is_little_endian_storable">is_little_endian_storable</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html#f_is_for_reading">is_for_reading</A><FONT COLOR="red">, encoding used to write data.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Otherwise encoding that will be used to write data.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_stored_pointer_bytes"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_stored_pointer_bytes">stored_pointer_bytes</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Size of pointers in bytes used to write data.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Obsoletes</FONT>
+
+    <A NAME="f_character_bits"><A HREF="../elks/platform_flat.html#f_character_bits">character_bits</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>obsolete</B> "Use `character_8_bits' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bits in a value of type </FONT>`CHARACTER_8'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := 8
+        <B>end</B></A>
+
+    <A NAME="f_character_bytes"><A HREF="../elks/platform_flat.html#f_character_bytes">character_bytes</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>obsolete</B> "Use `character_8_bytes' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bytes in a value of type </FONT>`CHARACTER_8'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in static"
+        <B>end</B></A>
+
+    <A NAME="f_double_bits"><A HREF="../elks/platform_flat.html#f_double_bits">double_bits</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>obsolete</B> "Use `real_64_bits' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bits in a value of type </FONT>`REAL_64'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := 64
+        <B>end</B></A>
+
+    <A NAME="f_double_bytes"><A HREF="../elks/platform_flat.html#f_double_bytes">double_bytes</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>obsolete</B> "Use `real_64_bytes' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bytes in a value of type </FONT>`REAL_64'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in static"
+        <B>end</B></A>
+
+    <A NAME="f_integer_bits"><A HREF="../elks/platform_flat.html#f_integer_bits">integer_bits</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>obsolete</B> "Use `integer_32_bits' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bits in a value of type </FONT>`INTEGER_32'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := 32
+        <B>end</B></A>
+
+    <A NAME="f_integer_bytes"><A HREF="../elks/platform_flat.html#f_integer_bytes">integer_bytes</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>obsolete</B> "Use `integer_32_bytes' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bytes in a value of type </FONT>`INTEGER_32'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in static"
+        <B>end</B></A>
+
+    <A NAME="f_maximum_character_code"><A HREF="../elks/platform_flat.html#f_maximum_character_code">maximum_character_code</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>obsolete</B> "Use `{CHARACTER}.max_value' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Largest supported code for CHARACTER_8 values</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/character_8_flat.html">CHARACTER_8</A>}.<A HREF="../elks/character_8_ref_flat.html#f_max_value">max_value</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A>
+            meaningful: <B>Result</B> &gt;= 127
+        <B>end</B></A>
+
+    <A NAME="f_maximum_integer"><A HREF="../elks/platform_flat.html#f_maximum_integer">maximum_integer</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>obsolete</B> "Use `{INTEGER}.max_value' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Largest supported value of type INTEGER_32</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/integer_32_flat.html">INTEGER_32</A>}.<A HREF="../elks/integer_32_ref_flat.html#f_max_value">max_value</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A>
+            meaningful: <B>Result</B> &gt;= 0
+        <B>end</B></A>
+
+    <A NAME="f_minimum_character_code"><A HREF="../elks/platform_flat.html#f_minimum_character_code">minimum_character_code</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>obsolete</B> "Use `{CHARACTER}.min_value' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Smallest supported code for CHARACTER_8 values</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/character_8_flat.html">CHARACTER_8</A>}.<A HREF="../elks/character_8_ref_flat.html#f_min_value">min_value</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A>
+            meaningful: <B>Result</B> &lt;= 0
+        <B>end</B></A>
+
+    <A NAME="f_minimum_integer"><A HREF="../elks/platform_flat.html#f_minimum_integer">minimum_integer</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>obsolete</B> "Use `{INTEGER}.min_value' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Smallest supported value of type INTEGER_32</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../elks/integer_32_flat.html">INTEGER_32</A>}.<A HREF="../elks/integer_32_ref_flat.html#f_min_value">min_value</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A>
+            meaningful: <B>Result</B> &lt;= 0
+        <B>end</B></A>
+
+    <A NAME="f_real_bits"><A HREF="../elks/platform_flat.html#f_real_bits">real_bits</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>obsolete</B> "Use `real_32_bits' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bits in a value of type </FONT>`REAL_32'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := 32
+        <B>end</B></A>
+
+    <A NAME="f_real_bytes"><A HREF="../elks/platform_flat.html#f_real_bytes">real_bytes</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>obsolete</B> "Use `real_32_bytes' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bytes in a value of type </FONT>`REAL_32'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in static"
+        <B>end</B></A>
+
+    <A NAME="f_wide_character_bytes"><A HREF="../elks/platform_flat.html#f_wide_character_bytes">wide_character_bytes</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>obsolete</B> "Use `character_32_bytes' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of bytes in a value of type </FONT>`CHARACTER_32'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in static"
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output</FONT>
+
+    <A NAME="f_io"><A HREF="../elks/any_flat.html#f_io">Io</A>: <A HREF="../elks/std_files_flat.html">STD_FILES</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Handle to standard file setup</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../elks/std_files_flat.html#f_set_output_default">set_output_default</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            io_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_out"><A HREF="../elks/any_flat.html#f_out">out</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/any_flat.html#f_tagged_out">tagged_out</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            out_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_print"><A HREF="../elks/any_flat.html#f_print">print</A> (o: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write terse external representation of </FONT>`o'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on standard output.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> o /= <B>Void</B> <B>then</B>
+                <A HREF="../elks/any_flat.html#f_io">Io</A>.<A HREF="../elks/std_files_flat.html#f_put_string">put_string</A> (o.<A HREF="../elks/any_flat.html#f_out">out</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_tagged_out"><B>frozen</B> <A HREF="../elks/any_flat.html#f_tagged_out">tagged_out</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            tagged_out_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Platform</FONT>
+
+    <A NAME="f_operating_environment"><A HREF="../elks/any_flat.html#f_operating_environment">Operating_environment</A>: <A HREF="../elks/operating_environment_flat.html">OPERATING_ENVIRONMENT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Objects available from the operating system</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            operating_environment_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Platform</FONT>
+
+    <A NAME="f_is_dotnet"><A HREF="../elks/platform_flat.html#f_is_dotnet">is_dotnet</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are we targetting .NET?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in static"
+        <B>end</B></A>
+
+    <A NAME="f_is_little_endian"><A HREF="../elks/platform_flat.html#f_is_little_endian">Is_little_endian</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current platform a little endian one?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            l_nat16: <A HREF="../elks/natural_16_flat.html">NATURAL_16</A>
+            l_nat8: <A HREF="../elks/natural_8_flat.html">NATURAL_8</A>
+            l_first: <A HREF="../elks/natural_8_flat.html">NATURAL_8</A>
+        <B>once</B>
+            l_nat16 := 17185.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_16">to_natural_16</A>
+            l_nat8 := 33.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A>;
+            ($l_first).<A HREF="../elks/pointer_ref_flat.html#f_memory_copy">memory_copy</A> ($l_nat16.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, 1)
+            <B>Result</B> := l_first = l_nat8
+        <B>end</B></A>
+
+    <A NAME="f_is_mac"><A HREF="../elks/platform_flat.html#f_is_mac">is_mac</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are we running on Mac OS?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in static"
+        <B>end</B></A>
+
+    <A NAME="f_is_scoop_capable"><A HREF="../elks/platform_flat.html#f_is_scoop_capable">is_scoop_capable</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current platform capable of SCOOP?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in static"
+        <B>end</B></A>
+
+    <A NAME="f_is_thread_capable"><A HREF="../elks/platform_flat.html#f_is_thread_capable">is_thread_capable</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current platform capable of multi-threading?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in static"
+        <B>end</B></A>
+
+    <A NAME="f_is_unix"><A HREF="../elks/platform_flat.html#f_is_unix">is_unix</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are we running on a Unix like platform?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in static"
+        <B>end</B></A>
+
+    <A NAME="f_is_vms"><A HREF="../elks/platform_flat.html#f_is_vms">is_vms</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are we running on VMS?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in static"
+        <B>end</B></A>
+
+    <A NAME="f_is_vxworks"><A HREF="../elks/platform_flat.html#f_is_vxworks">is_vxworks</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are we running on VxWorks?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in static"
+        <B>end</B></A>
+
+    <A NAME="f_is_windows"><A HREF="../elks/platform_flat.html#f_is_windows">is_windows</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are we running on Windows platform?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/platform_flat.html">PLATFORM</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in static"
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieval</FONT>
+
+    <A NAME="f_internal_correct_mismatch"><B>frozen</B> <A HREF="../elks/any_flat.html#f_internal_correct_mismatch">internal_correct_mismatch</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Called from runtime to perform a proper dynamic dispatch on </FONT>`correct_mismatch'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> from MISMATCH_CORRECTOR.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            l_msg: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            l_exc: <A HREF="../elks/exceptions_flat.html">EXCEPTIONS</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<A HREF="../elks/mismatch_corrector_flat.html">MISMATCH_CORRECTOR</A>} <B>Current</B> <B>as</B> l_corrector <B>then</B>
+                l_corrector.<A HREF="../elks/mismatch_corrector_flat.html#f_correct_mismatch">correct_mismatch</A>
+            <B>else</B>
+                <B>create</B> l_msg.<A HREF="../elks/readable_string_8_flat.html#f_make_from_string">make_from_string</A> ("Mismatch: ")
+                <B>create</B> l_exc
+                l_msg.<A HREF="../elks/string_8_flat.html#f_append">append</A> (<A HREF="../elks/any_flat.html#f_generating_type">generating_type</A>.<A HREF="../elks/type_flat.html#f_name">name</A>)
+                l_exc.<A HREF="../elks/exceptions_flat.html#f_raise_retrieval_exception">raise_retrieval_exception</A> (l_msg)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Settings</FONT>
+
+    <A NAME="f_set_for_reading"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_set_for_reading">set_for_reading</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set current for reading.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_is_for_reading">is_for_reading</A> := <B>True</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A>
+            is_for_reading: <A HREF="../ise/sed_binary_reader_writer_flat.html#f_is_for_reading">is_for_reading</A>
+        <B>end</B></A>
+
+    <A NAME="f_set_for_writing"><A HREF="../ise/sed_binary_reader_writer_flat.html#f_set_for_writing">set_for_writing</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set current for writing.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <A HREF="../ise/sed_binary_reader_writer_flat.html#f_is_for_reading">is_for_reading</A> := <B>False</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A>
+            is_for_writing: <B>not</B> <A HREF="../ise/sed_binary_reader_writer_flat.html#f_is_for_reading">is_for_reading</A>
+        <B>end</B></A>
+
+    <A NAME="f_set_is_pointer_value_stored"><A HREF="../ise/sed_reader_writer_flat.html#f_set_is_pointer_value_stored">set_is_pointer_value_stored</A> (v: <B>like</B> <A HREF="../ise/sed_reader_writer_flat.html#f_is_pointer_value_stored">is_pointer_value_stored</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../ise/sed_reader_writer_flat.html#f_is_pointer_value_stored">is_pointer_value_stored</A><FONT COLOR="red"> with </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <A HREF="../ise/sed_reader_writer_flat.html#f_is_pointer_value_stored">is_pointer_value_stored</A> := v
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_reader_writer_flat.html">SED_READER_WRITER</A>
+            is_pointer_value_stored_set: <A HREF="../ise/sed_reader_writer_flat.html#f_is_pointer_value_stored">is_pointer_value_stored</A> = v
+        <B>end</B></A>
+    
+<B>invariant</B>
+    medium_not_void: <A HREF="../ise/sed_medium_reader_writer_flat.html#f_medium">medium</A> /= <B>Void</B>
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../ise/sed_binary_reader_writer_flat.html">SED_BINARY_READER_WRITER</A>
+    buffer_not_void: <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer">buffer</A> /= <B>Void</B>
+    buffer_size_non_negative: <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_size">buffer_size</A> &gt;= 0
+    buffer_position_non_negative: <A HREF="../ise/sed_binary_reader_writer_flat.html#f_buffer_position">buffer_position</A> &gt;= 0
+    stored_pointer_bytes_non_negative: <A HREF="../ise/sed_binary_reader_writer_flat.html#f_stored_pointer_bytes">stored_pointer_bytes</A> &gt;= 0
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+    reflexive_equality: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+    reflexive_conformance: <A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>Current</B>)
+
+<B>note</B>
+    library: "EiffelBase: Library of reusable components for Eiffel."
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../ise/sed_medium_reader_writer_flat.html">SED_MEDIUM_READER_WRITER</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sed_medium_reader_writer_chart.html">Chart</A></TD><TD><A HREF="sed_medium_reader_writer_links.html">Relations</A></TD><TD><A HREF="sed_medium_reader_writer.html">Text</A></TD><TD>Flat</TD><TD><A HREF="sed_medium_reader_writer_short.html">Contracts</A></TD><TD><A HREF="sed_medium_reader_writer_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

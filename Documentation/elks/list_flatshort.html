@@ -1,0 +1,768 @@
+<HTML><HEAD>
+<meta name="description" content="Sequential lists, without commitment to a particular representation"/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="names" content="list, sequence"/>
+<meta name="access" content="index, cursor, membership"/>
+<meta name="contents" content="generic"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>list Flat contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="list_chart.html">Chart</A></TD><TD><A HREF="list_links.html">Relations</A></TD><TD><A HREF="list.html">Text</A></TD><TD><A HREF="list_flat.html">Flat</A></TD><TD><A HREF="list_short.html">Contracts</A></TD><TD>Flat contracts</TD></TR></TABLE><B>note</B>
+    description: "Sequential lists, without commitment to a particular representation"
+    library: "Free implementation of ELKS library"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    names: list, sequence
+    access: index, cursor, membership
+    contents: generic
+    date: "$Date: 2012-07-23 14:02:19 -0700 (Mon, 23 Jul 2012) $"
+    revision: "$Revision: 91989 $"
+
+<B>deferred</B> <B>class</B> <B>interface</B>
+    <A HREF="../elks/list_flatshort.html">LIST</A> [G]
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_at"><A HREF="../elks/chain_flatshort.html#f_at">at</A> <B>alias</B> "@" (i: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>): <B>like</B> <A HREF="../elks/active_flatshort.html#f_item">item</A> <B>assign</B> <A HREF="../elks/chain_flatshort.html#f_put_i_th">put_i_th</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Item at </FONT>`i'<FONT COLOR="red">-th position</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/chain_flatshort.html#f_i_th">i_th</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/table_flatshort.html">TABLE</A>
+            valid_key: <A HREF="../elks/chain_flatshort.html#f_valid_index">valid_index</A> (i)
+</A>
+    <A NAME="f_cursor"><A HREF="../elks/cursor_structure_flatshort.html#f_cursor">cursor</A>: <A HREF="../elks/cursor_flatshort.html">CURSOR</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Current cursor position</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/cursor_structure_flatshort.html">CURSOR_STRUCTURE</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/cursor_structure_flatshort.html">CURSOR_STRUCTURE</A>
+            cursor_not_void: <B>Result</B> /= <B>Void</B>
+</A>
+    <A NAME="f_first"><A HREF="../elks/chain_flatshort.html#f_first">first</A>: <B>like</B> <A HREF="../elks/active_flatshort.html#f_item">item</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Item at first position</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A>
+            not_empty: <B>not</B> <A HREF="../elks/finite_flatshort.html#f_is_empty">is_empty</A>
+</A>
+    <A NAME="f_generating_type"><A HREF="../elks/any_flatshort.html#f_generating_type">generating_type</A>: <A HREF="../elks/type_flatshort.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/list_flatshort.html">LIST</A> [G]]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Type of current object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            generating_type_not_void: <B>Result</B> /= <B>Void</B>
+</A>
+    <A NAME="f_generator"><A HREF="../elks/any_flatshort.html#f_generator">generator</A>: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of current object's generating class</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (base class of the type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            generator_not_void: <B>Result</B> /= <B>Void</B>
+            generator_not_empty: <B>not</B> <B>Result</B>.<A HREF="../elks/finite_flatshort.html#f_is_empty">is_empty</A>
+</A>
+    <A NAME="f_has"><A HREF="../elks/chain_flatshort.html#f_has">has</A> (v: <B>like</B> <A HREF="../elks/active_flatshort.html#f_item">item</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does chain include </FONT>`v'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Reference or object equality,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> based on </FONT><A HREF="../elks/container_flatshort.html#f_object_comparison">object_comparison</A><FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/container_flatshort.html">CONTAINER</A>
+            <B>True</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/container_flatshort.html">CONTAINER</A>
+            not_found_in_empty: <B>Result</B> <B>implies</B> <B>not</B> <A HREF="../elks/finite_flatshort.html#f_is_empty">is_empty</A>
+</A>
+    <A NAME="f_i_th"><A HREF="../elks/chain_flatshort.html#f_i_th">i_th</A> <B>alias</B> "[]" (i: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>): <B>like</B> <A HREF="../elks/active_flatshort.html#f_item">item</A> <B>assign</B> <A HREF="../elks/chain_flatshort.html#f_put_i_th">put_i_th</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Item at </FONT>`i'<FONT COLOR="red">-th position</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/chain_flatshort.html#f_at">at</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/table_flatshort.html">TABLE</A>
+            valid_key: <A HREF="../elks/chain_flatshort.html#f_valid_index">valid_index</A> (i)
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/readable_indexable_flatshort.html">READABLE_INDEXABLE</A>
+            valid_index: <A HREF="../elks/chain_flatshort.html#f_valid_index">valid_index</A> (i)
+</A>
+    <A NAME="f_index"><A HREF="../elks/linear_flatshort.html#f_index">index</A>: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Index of current position</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/linear_flatshort.html">LINEAR</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_index_of"><A HREF="../elks/chain_flatshort.html#f_index_of">index_of</A> (v: <B>like</B> <A HREF="../elks/active_flatshort.html#f_item">item</A>; i: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>): <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Index of </FONT>`i'<FONT COLOR="red">-th occurrence of item identical to </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Reference or object equality,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> based on </FONT><A HREF="../elks/container_flatshort.html#f_object_comparison">object_comparison</A><FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 0 if none.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/linear_flatshort.html">LINEAR</A>
+            positive_occurrences: i &gt; 0
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/linear_flatshort.html">LINEAR</A>
+            non_negative_result: <B>Result</B> &gt;= 0
+</A>
+    <A NAME="f_item"><A HREF="../elks/active_flatshort.html#f_item">item</A>: G
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Current item</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/active_flatshort.html">ACTIVE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/traversable_flatshort.html">TRAVERSABLE</A>
+            not_off: <B>not</B> <A HREF="../elks/chain_flatshort.html#f_off">off</A>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/active_flatshort.html">ACTIVE</A>
+            readable: <A HREF="../elks/sequence_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_item_for_iteration"><A HREF="../elks/linear_flatshort.html#f_item_for_iteration">item_for_iteration</A>: G
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Item at current position</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/linear_flatshort.html">LINEAR</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/linear_flatshort.html">LINEAR</A>
+            not_off: <B>not</B> <A HREF="../elks/chain_flatshort.html#f_off">off</A>
+</A>
+    <A NAME="f_last"><A HREF="../elks/chain_flatshort.html#f_last">last</A>: <B>like</B> <A HREF="../elks/active_flatshort.html#f_item">item</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Item at last position</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A>
+            not_empty: <B>not</B> <A HREF="../elks/finite_flatshort.html#f_is_empty">is_empty</A>
+</A>
+    <A NAME="f_new_cursor"><A HREF="../elks/readable_indexable_flatshort.html#f_new_cursor">new_cursor</A>: <A HREF="../elks/indexable_iteration_cursor_flatshort.html">INDEXABLE_ITERATION_CURSOR</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Fresh cursor associated with current structure</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/readable_indexable_flatshort.html">READABLE_INDEXABLE</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/iterable_flatshort.html">ITERABLE</A>
+            result_attached: <B>Result</B> /= <B>Void</B>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_count"><A HREF="../elks/finite_flatshort.html#f_count">count</A>: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of items</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/finite_flatshort.html">FINITE</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/finite_flatshort.html">FINITE</A>
+            count_non_negative: <B>Result</B> &gt;= 0
+</A>
+    <A NAME="f_index_set"><A HREF="../elks/chain_flatshort.html#f_index_set">index_set</A>: <A HREF="../elks/integer_interval_flatshort.html">INTEGER_INTERVAL</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Range of acceptable indexes</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/readable_indexable_flatshort.html">READABLE_INDEXABLE</A>
+            <B>True</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/readable_indexable_flatshort.html">READABLE_INDEXABLE</A>
+            not_void: <B>Result</B> /= <B>Void</B>
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A>
+            count_definition: <B>Result</B>.<A HREF="../elks/integer_interval_flatshort.html#f_count">count</A> = <A HREF="../elks/finite_flatshort.html#f_count">count</A>
+</A>
+    <A NAME="f_occurrences"><A HREF="../elks/chain_flatshort.html#f_occurrences">occurrences</A> (v: <B>like</B> <A HREF="../elks/active_flatshort.html#f_item">item</A>): <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of times </FONT>`v'<FONT COLOR="red"> appears.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Reference or object equality,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> based on </FONT><A HREF="../elks/container_flatshort.html#f_object_comparison">object_comparison</A><FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/bag_flatshort.html">BAG</A>
+            <B>True</B>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/linear_flatshort.html">LINEAR</A>
+            <B>True</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/bag_flatshort.html">BAG</A>
+            non_negative_occurrences: <B>Result</B> &gt;= 0
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_deep_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flatshort.html#f_standard_equal">standard_equal</A> (a, b) <B>implies</B> <B>Result</B>
+            both_or_none_void: (a = <B>Void</B>) <B>implies</B> (<B>Result</B> = (b = <B>Void</B>))
+            same_type: (<B>Result</B> <B>and</B> (a /= <B>Void</B>)) <B>implies</B> (b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (b))
+            symmetric: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A> (b, a)
+</A>
+    <A NAME="f_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_equal">equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to objects considered equal?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flatshort.html#f_is_equal">is_equal</A> (b))
+</A>
+    <A NAME="f_is_deep_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_is_deep_equal">is_deep_equal</A> (other: <B>attached</B> <A HREF="../elks/list_flatshort.html">LIST</A> [G]): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`Current'<FONT COLOR="red"> and </FONT>`other'<FONT COLOR="red"> attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flatshort.html#f_is_deep_equal">is_deep_equal</A> (<B>Current</B>)
+</A>
+    <A NAME="f_is_equal"><A HREF="../elks/list_flatshort.html#f_is_equal">is_equal</A> (other: <B>like</B> <B>Current</B>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`other'<FONT COLOR="red"> contain the same elements?</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            symmetric: <B>Result</B> <B>implies</B> other ~ <B>Current</B>
+            consistent: <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+        <B>ensure then</B>
+            indices_unchanged: <A HREF="../elks/linear_flatshort.html#f_index">index</A> = <B>old</B> <A HREF="../elks/linear_flatshort.html#f_index">index</A> <B>and</B> other.<A HREF="../elks/linear_flatshort.html#f_index">index</A> = <B>old</B> other.<A HREF="../elks/linear_flatshort.html#f_index">index</A>
+            true_implies_same_size: <B>Result</B> <B>implies</B> <A HREF="../elks/finite_flatshort.html#f_count">count</A> = other.<A HREF="../elks/finite_flatshort.html#f_count">count</A>
+</A>
+    <A NAME="f_standard_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_standard_equal">standard_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical objects of the same type?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default object comparison criterion.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (b))
+</A>
+    <A NAME="f_standard_is_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (other: <B>attached</B> <A HREF="../elks/list_flatshort.html">LIST</A> [G]): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object of the same type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as current object, and field-by-field identical to it?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_after"><A HREF="../elks/list_flatshort.html#f_after">after</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there no valid cursor position to the right of cursor?</FONT>
+</A>
+    <A NAME="f_before"><A HREF="../elks/list_flatshort.html#f_before">before</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there no valid cursor position to the left of cursor?</FONT>
+</A>
+    <A NAME="f_changeable_comparison_criterion"><A HREF="../elks/container_flatshort.html#f_changeable_comparison_criterion">changeable_comparison_criterion</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May </FONT><A HREF="../elks/container_flatshort.html#f_object_comparison">object_comparison</A><FONT COLOR="red"> be changed?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Answer: yes by default.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/container_flatshort.html">CONTAINER</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_conforms_to"><A HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A> (other: <A HREF="../elks/any_flatshort.html">ANY</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does type of current object conform to type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of </FONT>`other'<FONT COLOR="red"> (as per Eiffel: The Language, chapter 13)?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+</A>
+    <A NAME="f_exhausted"><A HREF="../elks/linear_flatshort.html#f_exhausted">exhausted</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Has structure been completely explored?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/linear_flatshort.html">LINEAR</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/linear_flatshort.html">LINEAR</A>
+            exhausted_when_off: <A HREF="../elks/chain_flatshort.html#f_off">off</A> <B>implies</B> <B>Result</B>
+</A>
+    <A NAME="f_extendible"><A HREF="../elks/collection_flatshort.html#f_extendible">extendible</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May new items be added?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/collection_flatshort.html">COLLECTION</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_full"><A HREF="../elks/box_flatshort.html#f_full">full</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is structure filled to capacity?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/box_flatshort.html">BOX</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_is_empty"><A HREF="../elks/finite_flatshort.html#f_is_empty">is_empty</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is structure empty?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/finite_flatshort.html">FINITE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/container_flatshort.html">CONTAINER</A>
+            <B>True</B>
+</A>
+    <A NAME="f_is_inserted"><A HREF="../elks/collection_flatshort.html#f_is_inserted">is_inserted</A> (v: G): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Has </FONT>`v'<FONT COLOR="red"> been inserted by the most recent insertion?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (By default, the value returned is equivalent to calling </FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`has (v)'<FONT COLOR="red">. However, descendants might be able to provide more</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> efficient implementations.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/collection_flatshort.html">COLLECTION</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_isfirst"><A HREF="../elks/chain_flatshort.html#f_isfirst">isfirst</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is cursor at first position?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A>
+            valid_position: <B>Result</B> <B>implies</B> <B>not</B> <A HREF="../elks/finite_flatshort.html#f_is_empty">is_empty</A>
+</A>
+    <A NAME="f_islast"><A HREF="../elks/chain_flatshort.html#f_islast">islast</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is cursor at last position?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A>
+            valid_position: <B>Result</B> <B>implies</B> <B>not</B> <A HREF="../elks/finite_flatshort.html#f_is_empty">is_empty</A>
+</A>
+    <A NAME="f_object_comparison"><A HREF="../elks/container_flatshort.html#f_object_comparison">object_comparison</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Must search operations use </FONT><A HREF="../elks/any_flatshort.html#f_equal">equal</A><FONT COLOR="red"> rather than </FONT>`='
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> for comparing references? (Default: no, use </FONT>`='<FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/container_flatshort.html">CONTAINER</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_off"><A HREF="../elks/chain_flatshort.html#f_off">off</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there no current item?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/traversable_flatshort.html">TRAVERSABLE</A>
+            <B>True</B>
+</A>
+    <A NAME="f_prunable"><A HREF="../elks/collection_flatshort.html#f_prunable">prunable</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May items be removed?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/collection_flatshort.html">COLLECTION</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_readable"><A HREF="../elks/sequence_flatshort.html#f_readable">readable</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there a current item that may be read?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/sequence_flatshort.html">SEQUENCE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/active_flatshort.html">ACTIVE</A>
+            <B>True</B>
+</A>
+    <A NAME="f_replaceable"><A HREF="../elks/active_flatshort.html#f_replaceable">replaceable</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Can current item be replaced?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/active_flatshort.html">ACTIVE</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_same_type"><A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other: <A HREF="../elks/any_flatshort.html">ANY</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is type of current object identical to type of </FONT>`other'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            definition: <B>Result</B> = (<A HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A> (other) <B>and</B> other.<A HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A> (<B>Current</B>))
+</A>
+    <A NAME="f_valid_cursor"><A HREF="../elks/cursor_structure_flatshort.html#f_valid_cursor">valid_cursor</A> (p: <A HREF="../elks/cursor_flatshort.html">CURSOR</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Can the cursor be moved to position </FONT>`p'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/cursor_structure_flatshort.html">CURSOR_STRUCTURE</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_valid_cursor_index"><A HREF="../elks/chain_flatshort.html#f_valid_cursor_index">valid_cursor_index</A> (i: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`i'<FONT COLOR="red"> correctly bounded for cursor movement?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A>
+            valid_cursor_index_definition: <B>Result</B> = ((i &gt;= 0) <B>and</B> (i &lt;= <A HREF="../elks/finite_flatshort.html#f_count">count</A> + 1))
+</A>
+    <A NAME="f_valid_index"><A HREF="../elks/chain_flatshort.html#f_valid_index">valid_index</A> (i: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`i'<FONT COLOR="red"> within allowable bounds?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/readable_indexable_flatshort.html">READABLE_INDEXABLE</A>
+            <B>True</B>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/table_flatshort.html">TABLE</A>
+            <B>True</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/readable_indexable_flatshort.html">READABLE_INDEXABLE</A>
+            only_if_in_index_set: <B>Result</B> <B>implies</B> ((i &gt;= <A HREF="../elks/chain_flatshort.html#f_index_set">index_set</A>.<A HREF="../elks/integer_interval_flatshort.html#f_lower">lower</A>) <B>and</B> (i &lt;= <A HREF="../elks/chain_flatshort.html#f_index_set">index_set</A>.<A HREF="../elks/integer_interval_flatshort.html#f_upper">upper</A>))
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A>
+            valid_index_definition: <B>Result</B> = ((i &gt;= 1) <B>and</B> (i &lt;= <A HREF="../elks/finite_flatshort.html#f_count">count</A>))
+</A>
+    <A NAME="f_writable"><A HREF="../elks/sequence_flatshort.html#f_writable">writable</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there a current item that may be modified?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/sequence_flatshort.html">SEQUENCE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/active_flatshort.html">ACTIVE</A>
+            <B>True</B>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status setting</FONT>
+
+    <A NAME="f_compare_objects"><A HREF="../elks/container_flatshort.html#f_compare_objects">compare_objects</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Ensure that future search operations will use </FONT><A HREF="../elks/any_flatshort.html#f_equal">equal</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> rather than </FONT>`='<FONT COLOR="red"> for comparing references.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/container_flatshort.html">CONTAINER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/container_flatshort.html">CONTAINER</A>
+            changeable_comparison_criterion: <A HREF="../elks/container_flatshort.html#f_changeable_comparison_criterion">changeable_comparison_criterion</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/container_flatshort.html">CONTAINER</A>
+            <A HREF="../elks/container_flatshort.html#f_object_comparison">object_comparison</A>
+</A>
+    <A NAME="f_compare_references"><A HREF="../elks/container_flatshort.html#f_compare_references">compare_references</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Ensure that future search operations will use </FONT>`='
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> rather than </FONT><A HREF="../elks/any_flatshort.html#f_equal">equal</A><FONT COLOR="red"> for comparing references.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/container_flatshort.html">CONTAINER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/container_flatshort.html">CONTAINER</A>
+            changeable_comparison_criterion: <A HREF="../elks/container_flatshort.html#f_changeable_comparison_criterion">changeable_comparison_criterion</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/container_flatshort.html">CONTAINER</A>
+            reference_comparison: <B>not</B> <A HREF="../elks/container_flatshort.html#f_object_comparison">object_comparison</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Cursor movement</FONT>
+
+    <A NAME="f_back"><A HREF="../elks/bilinear_flatshort.html#f_back">back</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move to previous position.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/bilinear_flatshort.html">BILINEAR</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/bilinear_flatshort.html">BILINEAR</A>
+            not_before: <B>not</B> <A HREF="../elks/list_flatshort.html#f_before">before</A>
+</A>
+    <A NAME="f_finish"><A HREF="../elks/chain_flatshort.html#f_finish">finish</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to last position.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (No effect if empty)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/linear_flatshort.html">LINEAR</A>
+            <B>True</B>
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A>
+            at_last: <B>not</B> <A HREF="../elks/finite_flatshort.html#f_is_empty">is_empty</A> <B>implies</B> <A HREF="../elks/chain_flatshort.html#f_islast">islast</A>
+</A>
+    <A NAME="f_forth"><A HREF="../elks/list_flatshort.html#f_forth">forth</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move to next position; if no next position,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> ensure that </FONT><A HREF="../elks/linear_flatshort.html#f_exhausted">exhausted</A><FONT COLOR="red"> will be true.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/linear_flatshort.html">LINEAR</A>
+            not_after: <B>not</B> <A HREF="../elks/list_flatshort.html#f_after">after</A>
+        <B>ensure then</B>
+            moved_forth: <A HREF="../elks/linear_flatshort.html#f_index">index</A> = <B>old</B> <A HREF="../elks/linear_flatshort.html#f_index">index</A> + 1
+</A>
+    <A NAME="f_go_i_th"><A HREF="../elks/chain_flatshort.html#f_go_i_th">go_i_th</A> (i: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to </FONT>`i'<FONT COLOR="red">-th position.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A>
+            valid_cursor_index: <A HREF="../elks/chain_flatshort.html#f_valid_cursor_index">valid_cursor_index</A> (i)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A>
+            position_expected: <A HREF="../elks/linear_flatshort.html#f_index">index</A> = i
+</A>
+    <A NAME="f_go_to"><A HREF="../elks/cursor_structure_flatshort.html#f_go_to">go_to</A> (p: <A HREF="../elks/cursor_flatshort.html">CURSOR</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to position </FONT>`p'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/cursor_structure_flatshort.html">CURSOR_STRUCTURE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/cursor_structure_flatshort.html">CURSOR_STRUCTURE</A>
+            cursor_position_valid: <A HREF="../elks/cursor_structure_flatshort.html#f_valid_cursor">valid_cursor</A> (p)
+</A>
+    <A NAME="f_move"><A HREF="../elks/chain_flatshort.html#f_move">move</A> (i: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor </FONT>`i'<FONT COLOR="red"> positions. The cursor</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> may end up </FONT><A HREF="../elks/chain_flatshort.html#f_off">off</A><FONT COLOR="red"> if the absolute value of </FONT>`i'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> is too big.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A>
+            too_far_right: (<B>old</B> <A HREF="../elks/linear_flatshort.html#f_index">index</A> + i &gt; <A HREF="../elks/finite_flatshort.html#f_count">count</A>) <B>implies</B> <A HREF="../elks/linear_flatshort.html#f_exhausted">exhausted</A>
+            too_far_left: (<B>old</B> <A HREF="../elks/linear_flatshort.html#f_index">index</A> + i &lt; 1) <B>implies</B> <A HREF="../elks/linear_flatshort.html#f_exhausted">exhausted</A>
+            expected_index: (<B>not</B> <A HREF="../elks/linear_flatshort.html#f_exhausted">exhausted</A>) <B>implies</B> (<A HREF="../elks/linear_flatshort.html#f_index">index</A> = <B>old</B> <A HREF="../elks/linear_flatshort.html#f_index">index</A> + i)
+</A>
+    <A NAME="f_search"><A HREF="../elks/bilinear_flatshort.html#f_search">search</A> (v: <B>like</B> <A HREF="../elks/active_flatshort.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move to first position (at or after current</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> position) where </FONT><A HREF="../elks/active_flatshort.html#f_item">item</A><FONT COLOR="red"> and </FONT>`v'<FONT COLOR="red"> are equal.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If structure does not include </FONT>`v'<FONT COLOR="red"> ensure that</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/linear_flatshort.html#f_exhausted">exhausted</A><FONT COLOR="red"> will be true.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Reference or object equality,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> based on </FONT><A HREF="../elks/container_flatshort.html#f_object_comparison">object_comparison</A><FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/bilinear_flatshort.html">BILINEAR</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/linear_flatshort.html">LINEAR</A>
+            object_found: (<B>not</B> <A HREF="../elks/linear_flatshort.html#f_exhausted">exhausted</A> <B>and</B> <A HREF="../elks/container_flatshort.html#f_object_comparison">object_comparison</A>) <B>implies</B> v ~ <A HREF="../elks/active_flatshort.html#f_item">item</A>
+            item_found: (<B>not</B> <A HREF="../elks/linear_flatshort.html#f_exhausted">exhausted</A> <B>and</B> <B>not</B> <A HREF="../elks/container_flatshort.html#f_object_comparison">object_comparison</A>) <B>implies</B> v = <A HREF="../elks/active_flatshort.html#f_item">item</A>
+</A>
+    <A NAME="f_start"><A HREF="../elks/chain_flatshort.html#f_start">start</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to first position.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (No effect if empty)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/traversable_flatshort.html">TRAVERSABLE</A>
+            <B>True</B>
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A>
+            at_first: <B>not</B> <A HREF="../elks/finite_flatshort.html#f_is_empty">is_empty</A> <B>implies</B> <A HREF="../elks/chain_flatshort.html#f_isfirst">isfirst</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_append"><A HREF="../elks/chain_flatshort.html#f_append">append</A> (s: <A HREF="../elks/sequence_flatshort.html">SEQUENCE</A> [G])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Append a copy of </FONT>`s'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/sequence_flatshort.html">SEQUENCE</A>
+            argument_not_void: s /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/sequence_flatshort.html">SEQUENCE</A>
+            new_count: <A HREF="../elks/finite_flatshort.html#f_count">count</A> &gt;= <B>old</B> <A HREF="../elks/finite_flatshort.html#f_count">count</A>
+</A>
+    <A NAME="f_extend"><A HREF="../elks/bag_flatshort.html#f_extend">extend</A> (v: G)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Add a new occurrence of </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/bag_flatshort.html">BAG</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flatshort.html">COLLECTION</A>
+            extendible: <A HREF="../elks/collection_flatshort.html#f_extendible">extendible</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flatshort.html">COLLECTION</A>
+            item_inserted: <A HREF="../elks/collection_flatshort.html#f_is_inserted">is_inserted</A> (v)
+</A>
+    <A NAME="f_fill"><A HREF="../elks/chain_flatshort.html#f_fill">fill</A> (other: <A HREF="../elks/container_flatshort.html">CONTAINER</A> [G])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Fill with as many items of </FONT>`other'<FONT COLOR="red"> as possible.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The representations of </FONT>`other'<FONT COLOR="red"> and current structure</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> need not be the same.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flatshort.html">COLLECTION</A>
+            other_not_void: other /= <B>Void</B>
+            extendible: <A HREF="../elks/collection_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_force"><A HREF="../elks/sequence_flatshort.html#f_force">force</A> (v: <B>like</B> <A HREF="../elks/active_flatshort.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Add </FONT>`v'<FONT COLOR="red"> to end.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/sequence_flatshort.html">SEQUENCE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/sequence_flatshort.html">SEQUENCE</A>
+            extendible: <A HREF="../elks/collection_flatshort.html#f_extendible">extendible</A>
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/sequence_flatshort.html">SEQUENCE</A>
+            new_count: <A HREF="../elks/finite_flatshort.html#f_count">count</A> = <B>old</B> <A HREF="../elks/finite_flatshort.html#f_count">count</A> + 1
+            item_inserted: <A HREF="../elks/chain_flatshort.html#f_has">has</A> (v)
+</A>
+    <A NAME="f_put"><A HREF="../elks/chain_flatshort.html#f_put">put</A> (v: <B>like</B> <A HREF="../elks/active_flatshort.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Replace current item by </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Synonym for </FONT><A HREF="../elks/active_flatshort.html#f_replace">replace</A><FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A>
+            writeable: <A HREF="../elks/sequence_flatshort.html#f_writable">writable</A>
+            replaceable: <A HREF="../elks/active_flatshort.html#f_replaceable">replaceable</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A>
+            same_count: <A HREF="../elks/finite_flatshort.html#f_count">count</A> = <B>old</B> <A HREF="../elks/finite_flatshort.html#f_count">count</A>
+            is_inserted: <A HREF="../elks/collection_flatshort.html#f_is_inserted">is_inserted</A> (v)
+</A>
+    <A NAME="f_put"><A HREF="../elks/sequence_flatshort.html#f_put">sequence_put</A> (v: <B>like</B> <A HREF="../elks/active_flatshort.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Add </FONT>`v'<FONT COLOR="red"> to end.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/sequence_flatshort.html">SEQUENCE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flatshort.html">COLLECTION</A>
+            extendible: <A HREF="../elks/collection_flatshort.html#f_extendible">extendible</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flatshort.html">COLLECTION</A>
+            item_inserted: <A HREF="../elks/collection_flatshort.html#f_is_inserted">is_inserted</A> (v)
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/sequence_flatshort.html">SEQUENCE</A>
+            new_count: <A HREF="../elks/finite_flatshort.html#f_count">count</A> = <B>old</B> <A HREF="../elks/finite_flatshort.html#f_count">count</A> + 1
+</A>
+    <A NAME="f_put_i_th"><A HREF="../elks/chain_flatshort.html#f_put_i_th">put_i_th</A> (v: <B>like</B> <A HREF="../elks/active_flatshort.html#f_item">item</A>; i: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Put </FONT>`v'<FONT COLOR="red"> at </FONT>`i'<FONT COLOR="red">-th position.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/table_flatshort.html">TABLE</A>
+            valid_key: <A HREF="../elks/chain_flatshort.html#f_valid_index">valid_index</A> (i)
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/table_flatshort.html">TABLE</A>
+            valid_key: <A HREF="../elks/chain_flatshort.html#f_valid_index">valid_index</A> (i)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/table_flatshort.html">TABLE</A>
+            inserted: <A HREF="../elks/chain_flatshort.html#f_i_th">i_th</A> (i) = v
+</A>
+    <A NAME="f_replace"><A HREF="../elks/active_flatshort.html#f_replace">replace</A> (v: G)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Replace current item by </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/active_flatshort.html">ACTIVE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/active_flatshort.html">ACTIVE</A>
+            writable: <A HREF="../elks/sequence_flatshort.html#f_writable">writable</A>
+            replaceable: <A HREF="../elks/active_flatshort.html#f_replaceable">replaceable</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/active_flatshort.html">ACTIVE</A>
+            item_replaced: <A HREF="../elks/active_flatshort.html#f_item">item</A> = v
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removal</FONT>
+
+    <A NAME="f_prune"><A HREF="../elks/sequence_flatshort.html#f_prune">prune</A> (v: <B>like</B> <A HREF="../elks/active_flatshort.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove the first occurrence of </FONT>`v'<FONT COLOR="red"> if any.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If no such occurrence go </FONT><A HREF="../elks/chain_flatshort.html#f_off">off</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/sequence_flatshort.html">SEQUENCE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flatshort.html">COLLECTION</A>
+            prunable: <A HREF="../elks/collection_flatshort.html#f_prunable">prunable</A>
+</A>
+    <A NAME="f_prune_all"><A HREF="../elks/sequence_flatshort.html#f_prune_all">prune_all</A> (v: <B>like</B> <A HREF="../elks/active_flatshort.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove all occurrences of </FONT>`v'<FONT COLOR="red">; go </FONT><A HREF="../elks/chain_flatshort.html#f_off">off</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/sequence_flatshort.html">SEQUENCE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flatshort.html">COLLECTION</A>
+            prunable: <A HREF="../elks/collection_flatshort.html#f_prunable">prunable</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flatshort.html">COLLECTION</A>
+            no_more_occurrences: <B>not</B> <A HREF="../elks/chain_flatshort.html#f_has">has</A> (v)
+</A>
+    <A NAME="f_wipe_out"><A HREF="../elks/collection_flatshort.html#f_wipe_out">wipe_out</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove all items.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/collection_flatshort.html">COLLECTION</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flatshort.html">COLLECTION</A>
+            prunable: <A HREF="../elks/collection_flatshort.html#f_prunable">prunable</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/collection_flatshort.html">COLLECTION</A>
+            wiped_out: <A HREF="../elks/finite_flatshort.html#f_is_empty">is_empty</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Transformation</FONT>
+
+    <A NAME="f_swap"><A HREF="../elks/chain_flatshort.html#f_swap">swap</A> (i: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Exchange item at </FONT>`i'<FONT COLOR="red">-th position with item</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> at cursor position.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A>
+            not_off: <B>not</B> <A HREF="../elks/chain_flatshort.html#f_off">off</A>
+            valid_index: <A HREF="../elks/chain_flatshort.html#f_valid_index">valid_index</A> (i)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A>
+            swapped_to_item: <A HREF="../elks/active_flatshort.html#f_item">item</A> = <B>old</B> <A HREF="../elks/chain_flatshort.html#f_i_th">i_th</A> (i)
+            swapped_from_item: <A HREF="../elks/chain_flatshort.html#f_i_th">i_th</A> (i) = <B>old</B> <A HREF="../elks/active_flatshort.html#f_item">item</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Conversion</FONT>
+
+    <A NAME="f_linear_representation"><A HREF="../elks/linear_flatshort.html#f_linear_representation">linear_representation</A>: <A HREF="../elks/linear_flatshort.html">LINEAR</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Representation as a linear structure</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/linear_flatshort.html">LINEAR</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/container_flatshort.html">CONTAINER</A>
+            <B>True</B>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_copy"><A HREF="../elks/any_flatshort.html#f_copy">copy</A> (other: <B>attached</B> <A HREF="../elks/list_flatshort.html">LIST</A> [G])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update current object using fields of object attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to </FONT>`other'<FONT COLOR="red">, so as to yield equal objects.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            is_equal: <B>Current</B> ~ other
+</A>
+    <A NAME="f_deep_copy"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_deep_copy">deep_copy</A> (other: <B>attached</B> <A HREF="../elks/list_flatshort.html">LIST</A> [G])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Effect equivalent to that of:</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">		</FONT><A HREF="../elks/any_flatshort.html#f_copy">copy</A><FONT COLOR="red"> (</FONT>`other'<FONT COLOR="red"> . </FONT><A HREF="../elks/any_flatshort.html#f_deep_twin">deep_twin</A><FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            deep_equal: <A HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A> (<B>Current</B>, other)
+</A>
+    <A NAME="f_deep_twin"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_deep_twin">deep_twin</A>: <B>attached</B> <A HREF="../elks/list_flatshort.html">LIST</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object structure recursively duplicated from Current.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            deep_twin_not_void: <B>Result</B> /= <B>Void</B>
+            deep_equal: <A HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A> (<B>Current</B>, <B>Result</B>)
+</A>
+    <A NAME="f_duplicate"><A HREF="../elks/chain_flatshort.html#f_duplicate">duplicate</A> (n: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>): <B>attached</B> <A HREF="../elks/list_flatshort.html">LIST</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy of sub-chain beginning at current position</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> and having min (</FONT>`n'<FONT COLOR="red">, </FONT>`from_here'<FONT COLOR="red">) items,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> where </FONT>`from_here'<FONT COLOR="red"> is the number of items</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> at or to the right of current position.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A>
+            not_off_unless_after: <A HREF="../elks/chain_flatshort.html#f_off">off</A> <B>implies</B> <A HREF="../elks/list_flatshort.html#f_after">after</A>
+            valid_subchain: n &gt;= 0
+</A>
+    <A NAME="f_standard_copy"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_standard_copy">standard_copy</A> (other: <B>attached</B> <A HREF="../elks/list_flatshort.html">LIST</A> [G])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy every field of </FONT>`other'<FONT COLOR="red"> onto corresponding field</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            is_standard_equal: <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (other)
+</A>
+    <A NAME="f_standard_twin"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_standard_twin">standard_twin</A>: <B>attached</B> <A HREF="../elks/list_flatshort.html">LIST</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            standard_twin_not_void: <B>Result</B> /= <B>Void</B>
+            equal: <A HREF="../elks/any_flatshort.html#f_standard_equal">standard_equal</A> (<B>Result</B>, <B>Current</B>)
+</A>
+    <A NAME="f_twin"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_twin">twin</A>: <B>attached</B> <A HREF="../elks/list_flatshort.html">LIST</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object equal to </FONT>`Current'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/any_flatshort.html#f_twin">twin</A><FONT COLOR="red"> calls </FONT><A HREF="../elks/any_flatshort.html#f_copy">copy</A><FONT COLOR="red">; to change copying/twinning semantics, redefine </FONT><A HREF="../elks/any_flatshort.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            twin_not_void: <B>Result</B> /= <B>Void</B>
+            is_equal: <B>Result</B> ~ <B>Current</B>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_as_attached"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_as_attached">as_attached</A>: <B>attached</B> <A HREF="../elks/list_flatshort.html">LIST</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attached version of Current</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Can be used during transitional period to convert</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> non-void-safe classes to void-safe ones.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_default"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_default">default</A>: <B>detachable</B> <A HREF="../elks/list_flatshort.html">LIST</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of object's type</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_default_pointer"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_default_pointer">default_pointer</A>: <A HREF="../elks/pointer_flatshort.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of type </FONT>`POINTER'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Avoid the need to write </FONT>`p'<FONT COLOR="red">.</FONT><A HREF="../elks/any_flatshort.html#f_default">default</A><FONT COLOR="red"> for</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> some </FONT>`p'<FONT COLOR="red"> of type </FONT>`POINTER'<FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_default_rescue"><A HREF="../elks/any_flatshort.html#f_default_rescue">default_rescue</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process exception for routines with no Rescue clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_do_nothing"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_do_nothing">do_nothing</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execute a null action.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Inapplicable</FONT>
+
+    <A NAME="f_remove"><A HREF="../elks/chain_flatshort.html#f_remove">remove</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove current item.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/active_flatshort.html">ACTIVE</A>
+            prunable: <A HREF="../elks/collection_flatshort.html#f_prunable">prunable</A>
+            writable: <A HREF="../elks/sequence_flatshort.html#f_writable">writable</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Iteration</FONT>
+
+    <A NAME="f_do_all"><A HREF="../elks/linear_flatshort.html#f_do_all">do_all</A> (action: <A HREF="../elks/procedure_flatshort.html">PROCEDURE</A> [<A HREF="../elks/any_flatshort.html">ANY</A>, <A HREF="../elks/tuple_flatshort.html">TUPLE</A> [G]])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Apply </FONT>`action'<FONT COLOR="red"> to every item.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Semantics not guaranteed if </FONT>`action'<FONT COLOR="red"> changes the structure;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> in such a case, apply iterator to clone of structure instead.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/linear_flatshort.html">LINEAR</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/traversable_flatshort.html">TRAVERSABLE</A>
+            action_exists: action /= <B>Void</B>
+</A>
+    <A NAME="f_do_if"><A HREF="../elks/linear_flatshort.html#f_do_if">do_if</A> (action: <A HREF="../elks/procedure_flatshort.html">PROCEDURE</A> [<A HREF="../elks/any_flatshort.html">ANY</A>, <A HREF="../elks/tuple_flatshort.html">TUPLE</A> [G]]; test: <A HREF="../elks/function_flatshort.html">FUNCTION</A> [<A HREF="../elks/any_flatshort.html">ANY</A>, <A HREF="../elks/tuple_flatshort.html">TUPLE</A> [G], <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Apply </FONT>`action'<FONT COLOR="red"> to every item that satisfies </FONT>`test'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Semantics not guaranteed if </FONT>`action'<FONT COLOR="red"> or </FONT>`test'<FONT COLOR="red"> changes the structure;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> in such a case, apply iterator to clone of structure instead.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/linear_flatshort.html">LINEAR</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/traversable_flatshort.html">TRAVERSABLE</A>
+            action_exists: action /= <B>Void</B>
+            test_exists: test /= <B>Void</B>
+</A>
+    <A NAME="f_for_all"><A HREF="../elks/linear_flatshort.html#f_for_all">for_all</A> (test: <A HREF="../elks/function_flatshort.html">FUNCTION</A> [<A HREF="../elks/any_flatshort.html">ANY</A>, <A HREF="../elks/tuple_flatshort.html">TUPLE</A> [G], <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>]): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`test'<FONT COLOR="red"> true for all items?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Semantics not guaranteed if </FONT>`test'<FONT COLOR="red"> changes the structure;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> in such a case, apply iterator to clone of structure instead.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/linear_flatshort.html">LINEAR</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/traversable_flatshort.html">TRAVERSABLE</A>
+            test_exists: test /= <B>Void</B>
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/linear_flatshort.html">LINEAR</A>
+            empty: <A HREF="../elks/finite_flatshort.html#f_is_empty">is_empty</A> <B>implies</B> <B>Result</B>
+</A>
+    <A NAME="f_there_exists"><A HREF="../elks/linear_flatshort.html#f_there_exists">there_exists</A> (test: <A HREF="../elks/function_flatshort.html">FUNCTION</A> [<A HREF="../elks/any_flatshort.html">ANY</A>, <A HREF="../elks/tuple_flatshort.html">TUPLE</A> [G], <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>]): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`test'<FONT COLOR="red"> true for at least one item?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Semantics not guaranteed if </FONT>`test'<FONT COLOR="red"> changes the structure;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> in such a case, apply iterator to clone of structure instead.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/linear_flatshort.html">LINEAR</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/traversable_flatshort.html">TRAVERSABLE</A>
+            test_exists: test /= <B>Void</B>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output</FONT>
+
+    <A NAME="f_io"><A HREF="../elks/any_flatshort.html#f_io">Io</A>: <A HREF="../elks/std_files_flatshort.html">STD_FILES</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Handle to standard file setup</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            io_not_void: <B>Result</B> /= <B>Void</B>
+</A>
+    <A NAME="f_out"><A HREF="../elks/any_flatshort.html#f_out">out</A>: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            out_not_void: <B>Result</B> /= <B>Void</B>
+</A>
+    <A NAME="f_print"><A HREF="../elks/any_flatshort.html#f_print">print</A> (o: <B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write terse external representation of </FONT>`o'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on standard output.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_tagged_out"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_tagged_out">tagged_out</A>: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            tagged_out_not_void: <B>Result</B> /= <B>Void</B>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Platform</FONT>
+
+    <A NAME="f_operating_environment"><A HREF="../elks/any_flatshort.html#f_operating_environment">Operating_environment</A>: <A HREF="../elks/operating_environment_flatshort.html">OPERATING_ENVIRONMENT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Objects available from the operating system</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            operating_environment_not_void: <B>Result</B> /= <B>Void</B>
+</A>    
+<B>invariant</B>
+    before_definition: <A HREF="../elks/list_flatshort.html#f_before">before</A> = (<A HREF="../elks/linear_flatshort.html#f_index">index</A> = 0)
+    after_definition: <A HREF="../elks/list_flatshort.html#f_after">after</A> = (<A HREF="../elks/linear_flatshort.html#f_index">index</A> = <A HREF="../elks/finite_flatshort.html#f_count">count</A> + 1)
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/chain_flatshort.html">CHAIN</A>
+    non_negative_index: <A HREF="../elks/linear_flatshort.html#f_index">index</A> &gt;= 0
+    index_small_enough: <A HREF="../elks/linear_flatshort.html#f_index">index</A> &lt;= <A HREF="../elks/finite_flatshort.html#f_count">count</A> + 1
+    off_definition: <A HREF="../elks/chain_flatshort.html#f_off">off</A> = ((<A HREF="../elks/linear_flatshort.html#f_index">index</A> = 0) <B>or</B> (<A HREF="../elks/linear_flatshort.html#f_index">index</A> = <A HREF="../elks/finite_flatshort.html#f_count">count</A> + 1))
+    isfirst_definition: <A HREF="../elks/chain_flatshort.html#f_isfirst">isfirst</A> = ((<B>not</B> <A HREF="../elks/finite_flatshort.html#f_is_empty">is_empty</A>) <B>and</B> (<A HREF="../elks/linear_flatshort.html#f_index">index</A> = 1))
+    islast_definition: <A HREF="../elks/chain_flatshort.html#f_islast">islast</A> = ((<B>not</B> <A HREF="../elks/finite_flatshort.html#f_is_empty">is_empty</A>) <B>and</B> (<A HREF="../elks/linear_flatshort.html#f_index">index</A> = <A HREF="../elks/finite_flatshort.html#f_count">count</A>))
+    item_corresponds_to_index: (<B>not</B> <A HREF="../elks/chain_flatshort.html#f_off">off</A>) <B>implies</B> (<A HREF="../elks/active_flatshort.html#f_item">item</A> = <A HREF="../elks/chain_flatshort.html#f_i_th">i_th</A> (<A HREF="../elks/linear_flatshort.html#f_index">index</A>))
+    index_set_has_same_count: <A HREF="../elks/chain_flatshort.html#f_index_set">index_set</A>.<A HREF="../elks/integer_interval_flatshort.html#f_count">count</A> = <A HREF="../elks/finite_flatshort.html#f_count">count</A>
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/active_flatshort.html">ACTIVE</A>
+    writable_constraint: <A HREF="../elks/sequence_flatshort.html#f_writable">writable</A> <B>implies</B> <A HREF="../elks/sequence_flatshort.html#f_readable">readable</A>
+    empty_constraint: <A HREF="../elks/finite_flatshort.html#f_is_empty">is_empty</A> <B>implies</B> (<B>not</B> <A HREF="../elks/sequence_flatshort.html#f_readable">readable</A>) <B>and</B> (<B>not</B> <A HREF="../elks/sequence_flatshort.html#f_writable">writable</A>)
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+    reflexive_equality: <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+    reflexive_conformance: <A HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A> (<B>Current</B>)
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/bilinear_flatshort.html">BILINEAR</A>
+    not_both: <B>not</B> (<A HREF="../elks/list_flatshort.html#f_after">after</A> <B>and</B> <A HREF="../elks/list_flatshort.html#f_before">before</A>)
+    before_constraint: <A HREF="../elks/list_flatshort.html#f_before">before</A> <B>implies</B> <A HREF="../elks/chain_flatshort.html#f_off">off</A>
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/linear_flatshort.html">LINEAR</A>
+    after_constraint: <A HREF="../elks/list_flatshort.html#f_after">after</A> <B>implies</B> <A HREF="../elks/chain_flatshort.html#f_off">off</A>
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/traversable_flatshort.html">TRAVERSABLE</A>
+    empty_constraint: <A HREF="../elks/finite_flatshort.html#f_is_empty">is_empty</A> <B>implies</B> <A HREF="../elks/chain_flatshort.html#f_off">off</A>
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/finite_flatshort.html">FINITE</A>
+    empty_definition: <A HREF="../elks/finite_flatshort.html#f_is_empty">is_empty</A> = (<A HREF="../elks/finite_flatshort.html#f_count">count</A> = 0)
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/list_flatshort.html">LIST</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="list_chart.html">Chart</A></TD><TD><A HREF="list_links.html">Relations</A></TD><TD><A HREF="list.html">Text</A></TD><TD><A HREF="list_flat.html">Flat</A></TD><TD><A HREF="list_short.html">Contracts</A></TD><TD>Flat contracts</TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

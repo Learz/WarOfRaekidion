@@ -1,0 +1,140 @@
+<HTML><HEAD>
+<meta name="description" content="War of Raekidion - Events handler A {EVENT_HANDLER} looks for keyboard and mouse events  and sends them to action sequences to use with agents."/>
+<meta name="author" content="François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>event_handler Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="event_handler_chart.html">Chart</A></TD><TD><A HREF="event_handler_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="event_handler_flat.html">Flat</A></TD><TD><A HREF="event_handler_short.html">Contracts</A></TD><TD><A HREF="event_handler_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        War of Raekidion - Events handler
+        A <A HREF="../../raekidion/objects/event_handler.html">EVENT_HANDLER</A> looks for keyboard and mouse events 
+        and sends them to action sequences to use with agents.
+    ]"
+    author: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+    date: "$Date$"
+    revision: "$Revision$"
+
+<B>class</B> 
+    <A HREF="../../raekidion/objects/event_handler.html">EVENT_HANDLER</A>
+
+<B>create</B> 
+    <A HREF="../../raekidion/objects/event_handler.html#f_make">make</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../../raekidion/objects/event_handler.html#f_make">make</A> (a_window: <A HREF="../../raekidion/objects/window.html">WINDOW</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize </FONT>`Current'<FONT COLOR="red"> from </FONT>`a_window'
+        <B>do</B>
+            <A HREF="../../raekidion/objects/event_handler.html#f_window">window</A> := a_window
+            <A HREF="../../raekidion/objects/event_handler.html#f_event">event</A> := <A HREF="../../raekidion/objects/event_handler.html#f_event">event</A>.<A HREF="../../elks/pointer_ref.html#f_memory_alloc">memory_alloc</A> ({<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_sizeof_sdl_event_struct">sizeof_sdl_event_struct</A>)
+            <B>create</B> <A HREF="../../raekidion/objects/event_handler.html#f_on_typing">on_typing</A>
+            <B>create</B> <A HREF="../../raekidion/objects/event_handler.html#f_on_key_pressed">on_key_pressed</A>
+            <B>create</B> <A HREF="../../raekidion/objects/event_handler.html#f_on_mouse_moved">on_mouse_moved</A>
+            <B>create</B> <A HREF="../../raekidion/objects/event_handler.html#f_on_mouse_pressed">on_mouse_pressed</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_on_typing"><A HREF="../../raekidion/objects/event_handler.html#f_on_typing">on_typing</A>: <A HREF="../../ise/action_sequence.html">ACTION_SEQUENCE</A> [<A HREF="../../elks/tuple.html">TUPLE</A> [keyname: <A HREF="../../elks/string_8.html">STRING_8</A>]]</A>
+
+    <A NAME="f_on_key_pressed"><A HREF="../../raekidion/objects/event_handler.html#f_on_key_pressed">on_key_pressed</A>: <A HREF="../../ise/action_sequence.html">ACTION_SEQUENCE</A> [<A HREF="../../elks/tuple.html">TUPLE</A> [key: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; state: <A HREF="../../elks/boolean.html">BOOLEAN</A>]]</A>
+
+    <A NAME="f_on_mouse_moved"><A HREF="../../raekidion/objects/event_handler.html#f_on_mouse_moved">on_mouse_moved</A>: <A HREF="../../ise/action_sequence.html">ACTION_SEQUENCE</A> [<A HREF="../../elks/tuple.html">TUPLE</A> [x: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; y: <A HREF="../../elks/integer_32.html">INTEGER_32</A>]]</A>
+
+    <A NAME="f_on_mouse_pressed"><A HREF="../../raekidion/objects/event_handler.html#f_on_mouse_pressed">on_mouse_pressed</A>: <A HREF="../../ise/action_sequence.html">ACTION_SEQUENCE</A> [<A HREF="../../elks/tuple.html">TUPLE</A> [button: <A HREF="../../elks/natural_32.html">NATURAL_32</A>; x: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; y: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; state: <A HREF="../../elks/boolean.html">BOOLEAN</A>]]</A>
+
+    <A NAME="f_manage_event"><A HREF="../../raekidion/objects/event_handler.html#f_manage_event">manage_event</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Event checkup</FONT>
+        <B>local</B>
+            l_must_quit: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                l_must_quit := {<A HREF="../../raekidion/wrapper/sdl_events.html">SDL_EVENTS</A>}.<A HREF="../../raekidion/wrapper/sdl_events.html#f_sdl_pollevent">sdl_pollevent</A> (<A HREF="../../raekidion/objects/event_handler.html#f_event">event</A>)
+            <B>until</B>
+                l_must_quit = 0
+            <B>loop</B>
+                <A HREF="../../raekidion/objects/event_handler.html#f_check_key_typed">check_key_typed</A>
+                <A HREF="../../raekidion/objects/event_handler.html#f_check_key_pressed">check_key_pressed</A>
+                <A HREF="../../raekidion/objects/event_handler.html#f_check_mouse_moved">check_mouse_moved</A>
+                <A HREF="../../raekidion/objects/event_handler.html#f_check_mouse_pressed">check_mouse_pressed</A>
+                l_must_quit := {<A HREF="../../raekidion/wrapper/sdl_events.html">SDL_EVENTS</A>}.<A HREF="../../raekidion/wrapper/sdl_events.html#f_sdl_pollevent">sdl_pollevent</A> (<A HREF="../../raekidion/objects/event_handler.html#f_event">event</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_quit_event"><A HREF="../../raekidion/objects/event_handler.html#f_is_quit_event">is_quit_event</A>: <A HREF="../../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If the event is a kill signal</FONT>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../../raekidion/wrapper/sdl_events.html">SDL_EVENTS</A>}.<A HREF="../../raekidion/wrapper/sdl_events.html#f_get_sdl_event_type">get_sdl_event_type</A> (<A HREF="../../raekidion/objects/event_handler.html#f_event">event</A>) = {<A HREF="../../raekidion/wrapper/sdl_events.html">SDL_EVENTS</A>}.<A HREF="../../raekidion/wrapper/sdl_events.html#f_sdl_quitevent">sdl_quitevent</A>
+        <B>end</B></A>
+
+    <A NAME="f_destroy"><A HREF="../../raekidion/objects/event_handler.html#f_destroy">destroy</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Free the event from memory</FONT>
+        <B>do</B>
+            <A HREF="../../raekidion/objects/event_handler.html#f_event">event</A>.<A HREF="../../elks/pointer_ref.html#f_memory_free">memory_free</A>
+            <A HREF="../../raekidion/objects/event_handler.html#f_on_typing">on_typing</A>.<A HREF="../../ise/interactive_list.html#f_wipe_out">wipe_out</A>
+            <A HREF="../../raekidion/objects/event_handler.html#f_on_key_pressed">on_key_pressed</A>.<A HREF="../../ise/interactive_list.html#f_wipe_out">wipe_out</A>
+            <A HREF="../../raekidion/objects/event_handler.html#f_on_mouse_moved">on_mouse_moved</A>.<A HREF="../../ise/interactive_list.html#f_wipe_out">wipe_out</A>
+            <A HREF="../../raekidion/objects/event_handler.html#f_on_mouse_pressed">on_mouse_pressed</A>.<A HREF="../../ise/interactive_list.html#f_wipe_out">wipe_out</A>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_event"><A HREF="../../raekidion/objects/event_handler.html#f_event">event</A>: <A HREF="../../elks/pointer.html">POINTER</A></A>
+
+    <A NAME="f_window"><A HREF="../../raekidion/objects/event_handler.html#f_window">window</A>: <A HREF="../../raekidion/objects/window.html">WINDOW</A></A>
+
+    <A NAME="f_check_key_typed"><A HREF="../../raekidion/objects/event_handler.html#f_check_key_typed">check_key_typed</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Check any key typed and get their name</FONT>
+        <B>local</B>
+            l_c_string: <A HREF="../../elks/c_string.html">C_STRING</A>
+        <B>do</B>
+            <B>if</B> {<A HREF="../../raekidion/wrapper/sdl_events.html">SDL_EVENTS</A>}.<A HREF="../../raekidion/wrapper/sdl_events.html#f_get_sdl_event_type">get_sdl_event_type</A> (<A HREF="../../raekidion/objects/event_handler.html#f_event">event</A>) = {<A HREF="../../raekidion/wrapper/sdl_events.html">SDL_EVENTS</A>}.<A HREF="../../raekidion/wrapper/sdl_events.html#f_sdl_keydown">sdl_keydown</A> <B>then</B>
+                <B>create</B> l_c_string.<A HREF="../../elks/c_string.html#f_make_by_pointer">make_by_pointer</A> ({<A HREF="../../raekidion/wrapper/sdl_events.html">SDL_EVENTS</A>}.<A HREF="../../raekidion/wrapper/sdl_events.html#f_get_sdl_key_name">get_sdl_key_name</A> ({<A HREF="../../raekidion/wrapper/sdl_events.html">SDL_EVENTS</A>}.<A HREF="../../raekidion/wrapper/sdl_events.html#f_get_sdl_keypressed">get_sdl_keypressed</A> (<A HREF="../../raekidion/objects/event_handler.html#f_event">event</A>)))
+                <A HREF="../../raekidion/objects/event_handler.html#f_on_typing">on_typing</A>.<A HREF="../../ise/action_sequence.html#f_call">call</A> ([l_c_string.<A HREF="../../elks/c_string.html#f_string">string</A>])
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_check_key_pressed"><A HREF="../../raekidion/objects/event_handler.html#f_check_key_pressed">check_key_pressed</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Check any key pressed or released and get their keycode and state</FONT>
+        <B>do</B>
+            <B>if</B> {<A HREF="../../raekidion/wrapper/sdl_events.html">SDL_EVENTS</A>}.<A HREF="../../raekidion/wrapper/sdl_events.html#f_get_sdl_event_type">get_sdl_event_type</A> (<A HREF="../../raekidion/objects/event_handler.html#f_event">event</A>) = {<A HREF="../../raekidion/wrapper/sdl_events.html">SDL_EVENTS</A>}.<A HREF="../../raekidion/wrapper/sdl_events.html#f_sdl_keydown">sdl_keydown</A> <B>then</B>
+                <A HREF="../../raekidion/objects/event_handler.html#f_on_key_pressed">on_key_pressed</A>.<A HREF="../../ise/action_sequence.html#f_call">call</A> ([{<A HREF="../../raekidion/wrapper/sdl_events.html">SDL_EVENTS</A>}.<A HREF="../../raekidion/wrapper/sdl_events.html#f_get_sdl_keypressed">get_sdl_keypressed</A> (<A HREF="../../raekidion/objects/event_handler.html#f_event">event</A>), <B>True</B>])
+            <B>elseif</B> {<A HREF="../../raekidion/wrapper/sdl_events.html">SDL_EVENTS</A>}.<A HREF="../../raekidion/wrapper/sdl_events.html#f_get_sdl_event_type">get_sdl_event_type</A> (<A HREF="../../raekidion/objects/event_handler.html#f_event">event</A>) = {<A HREF="../../raekidion/wrapper/sdl_events.html">SDL_EVENTS</A>}.<A HREF="../../raekidion/wrapper/sdl_events.html#f_sdl_keyup">sdl_keyup</A> <B>then</B>
+                <A HREF="../../raekidion/objects/event_handler.html#f_on_key_pressed">on_key_pressed</A>.<A HREF="../../ise/action_sequence.html#f_call">call</A> ([{<A HREF="../../raekidion/wrapper/sdl_events.html">SDL_EVENTS</A>}.<A HREF="../../raekidion/wrapper/sdl_events.html#f_get_sdl_keypressed">get_sdl_keypressed</A> (<A HREF="../../raekidion/objects/event_handler.html#f_event">event</A>), <B>False</B>])
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_check_mouse_moved"><A HREF="../../raekidion/objects/event_handler.html#f_check_mouse_moved">check_mouse_moved</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Check mouse position if it has moved</FONT>
+        <B>local</B>
+            l_x, l_y: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>if</B> {<A HREF="../../raekidion/wrapper/sdl_events.html">SDL_EVENTS</A>}.<A HREF="../../raekidion/wrapper/sdl_events.html#f_get_sdl_event_type">get_sdl_event_type</A> (<A HREF="../../raekidion/objects/event_handler.html#f_event">event</A>) = {<A HREF="../../raekidion/wrapper/sdl_events.html">SDL_EVENTS</A>}.<A HREF="../../raekidion/wrapper/sdl_events.html#f_sdl_mousemotion">sdl_mousemotion</A> <B>then</B>
+                {<A HREF="../../raekidion/wrapper/sdl_events.html">SDL_EVENTS</A>}.<A HREF="../../raekidion/wrapper/sdl_events.html#f_get_sdl_mouse_state_noreturn">get_sdl_mouse_state_noreturn</A> ($l_x.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, $l_y.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>)
+                <A HREF="../../raekidion/objects/event_handler.html#f_on_mouse_moved">on_mouse_moved</A>.<A HREF="../../ise/action_sequence.html#f_call">call</A> ([(l_x.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> / <A HREF="../../raekidion/objects/event_handler.html#f_window">window</A>.<A HREF="../../raekidion/objects/window.html#f_scale">scale</A>).<A HREF="../../elks/real_64_ref.html#f_floor">floor</A>, (l_y.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> / <A HREF="../../raekidion/objects/event_handler.html#f_window">window</A>.<A HREF="../../raekidion/objects/window.html#f_scale">scale</A>).<A HREF="../../elks/real_64_ref.html#f_floor">floor</A>])
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_check_mouse_pressed"><A HREF="../../raekidion/objects/event_handler.html#f_check_mouse_pressed">check_mouse_pressed</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Check any mouse button pressed, its state and mouse position</FONT>
+        <B>local</B>
+            l_x, l_y: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+            l_button: <A HREF="../../elks/natural_32.html">NATURAL_32</A>
+        <B>do</B>
+            <B>if</B> {<A HREF="../../raekidion/wrapper/sdl_events.html">SDL_EVENTS</A>}.<A HREF="../../raekidion/wrapper/sdl_events.html#f_get_sdl_event_type">get_sdl_event_type</A> (<A HREF="../../raekidion/objects/event_handler.html#f_event">event</A>) = {<A HREF="../../raekidion/wrapper/sdl_events.html">SDL_EVENTS</A>}.<A HREF="../../raekidion/wrapper/sdl_events.html#f_sdl_mousebuttondown">sdl_mousebuttondown</A> <B>then</B>
+                l_button := {<A HREF="../../raekidion/wrapper/sdl_events.html">SDL_EVENTS</A>}.<A HREF="../../raekidion/wrapper/sdl_events.html#f_get_sdl_mouse_state">get_sdl_mouse_state</A> ($l_x.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, $l_y.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>)
+                <A HREF="../../raekidion/objects/event_handler.html#f_on_mouse_pressed">on_mouse_pressed</A>.<A HREF="../../ise/action_sequence.html#f_call">call</A> ([l_button, (l_x.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> / <A HREF="../../raekidion/objects/event_handler.html#f_window">window</A>.<A HREF="../../raekidion/objects/window.html#f_scale">scale</A>).<A HREF="../../elks/real_64_ref.html#f_floor">floor</A>, (l_y.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> / <A HREF="../../raekidion/objects/event_handler.html#f_window">window</A>.<A HREF="../../raekidion/objects/window.html#f_scale">scale</A>).<A HREF="../../elks/real_64_ref.html#f_floor">floor</A>, <B>True</B>])
+            <B>elseif</B> {<A HREF="../../raekidion/wrapper/sdl_events.html">SDL_EVENTS</A>}.<A HREF="../../raekidion/wrapper/sdl_events.html#f_get_sdl_event_type">get_sdl_event_type</A> (<A HREF="../../raekidion/objects/event_handler.html#f_event">event</A>) = {<A HREF="../../raekidion/wrapper/sdl_events.html">SDL_EVENTS</A>}.<A HREF="../../raekidion/wrapper/sdl_events.html#f_sdl_mousebuttonup">sdl_mousebuttonup</A> <B>then</B>
+                l_button := {<A HREF="../../raekidion/wrapper/sdl_events.html">SDL_EVENTS</A>}.<A HREF="../../raekidion/wrapper/sdl_events.html#f_get_sdl_mouse_state">get_sdl_mouse_state</A> ($l_x.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>, $l_y.<A HREF="../../elks/pointer_ref.html#f_item">to_pointer</A>)
+                <A HREF="../../raekidion/objects/event_handler.html#f_on_mouse_pressed">on_mouse_pressed</A>.<A HREF="../../ise/action_sequence.html#f_call">call</A> ([l_button, (l_x.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> / <A HREF="../../raekidion/objects/event_handler.html#f_window">window</A>.<A HREF="../../raekidion/objects/window.html#f_scale">scale</A>).<A HREF="../../elks/real_64_ref.html#f_floor">floor</A>, (l_y.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> / <A HREF="../../raekidion/objects/event_handler.html#f_window">window</A>.<A HREF="../../raekidion/objects/window.html#f_scale">scale</A>).<A HREF="../../elks/real_64_ref.html#f_floor">floor</A>, <B>False</B>])
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../../raekidion/objects/event_handler.html">EVENT_HANDLER</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="event_handler_chart.html">Chart</A></TD><TD><A HREF="event_handler_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="event_handler_flat.html">Flat</A></TD><TD><A HREF="event_handler_short.html">Contracts</A></TD><TD><A HREF="event_handler_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

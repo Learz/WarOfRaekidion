@@ -1,0 +1,852 @@
+<HTML><HEAD>
+<meta name="description" content="Objects that traverse object graphs starting at the root object in a breadth first manner."/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="author" content="Stephanie Balzer"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>object_graph_breadth_first_traversable Flat</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="object_graph_breadth_first_traversable_chart.html">Chart</A></TD><TD><A HREF="object_graph_breadth_first_traversable_links.html">Relations</A></TD><TD><A HREF="object_graph_breadth_first_traversable.html">Text</A></TD><TD>Flat</TD><TD><A HREF="object_graph_breadth_first_traversable_short.html">Contracts</A></TD><TD><A HREF="object_graph_breadth_first_traversable_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Objects that traverse object graphs starting at the root object in a breadth first manner."
+    library: "Free implementation of ELKS library"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    author: "Stephanie Balzer"
+    date: "$Date: 2013-03-27 00:34:50 -0700 (Wed, 27 Mar 2013) $"
+    revision: "$Revision: 92359 $"
+
+<B>class</B> 
+    <A HREF="../elks/object_graph_breadth_first_traversable_flat.html">OBJECT_GRAPH_BREADTH_FIRST_TRAVERSABLE</A>
+
+<B>create</B> 
+    <A HREF="../elks/any_flat.html#f_default_create">default_create</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_default_create"><A HREF="../elks/any_flat.html#f_default_create">default_create</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process instances of classes with no creation clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_generating_type"><A HREF="../elks/any_flat.html#f_generating_type">generating_type</A>: <A HREF="../elks/type_flat.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/object_graph_breadth_first_traversable_flat.html">OBJECT_GRAPH_BREADTH_FIRST_TRAVERSABLE</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Type of current object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := {<B>detachable</B> <A HREF="../elks/object_graph_breadth_first_traversable_flat.html">OBJECT_GRAPH_BREADTH_FIRST_TRAVERSABLE</A>}
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            generating_type_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_generator"><A HREF="../elks/any_flat.html#f_generator">generator</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of current object's generating class</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (base class of the type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            generator_not_void: <B>Result</B> /= <B>Void</B>
+            generator_not_empty: <B>not</B> <B>Result</B>.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+
+    <A NAME="f_object_action"><A HREF="../elks/object_graph_traversable_flat.html#f_object_action">object_action</A>: <B>detachable</B> <A HREF="../elks/procedure_flat.html">PROCEDURE</A> [<A HREF="../elks/any_flat.html">ANY</A>, <A HREF="../elks/tuple_flat.html">TUPLE</A> [<A HREF="../elks/any_flat.html">ANY</A>]]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Action called on every object in object graph</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_on_processing_object_action"><A HREF="../elks/object_graph_traversable_flat.html#f_on_processing_object_action">on_processing_object_action</A>: <B>detachable</B> <A HREF="../elks/procedure_flat.html">PROCEDURE</A> [<A HREF="../elks/any_flat.html">ANY</A>, <A HREF="../elks/tuple_flat.html">TUPLE</A> [<A HREF="../elks/reflected_object_flat.html">REFLECTED_OBJECT</A>]]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Action called on every object in the object graph.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note: The argument is reused later for a different object. Do not alias it.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_on_processing_reference_action"><A HREF="../elks/object_graph_traversable_flat.html#f_on_processing_reference_action">on_processing_reference_action</A>: <B>detachable</B> <A HREF="../elks/procedure_flat.html">PROCEDURE</A> [<A HREF="../elks/any_flat.html">ANY</A>, <A HREF="../elks/tuple_flat.html">TUPLE</A> [referer: <A HREF="../elks/reflected_object_flat.html">REFLECTED_OBJECT</A>; referee: <A HREF="../elks/reflected_object_flat.html">REFLECTED_OBJECT</A>]]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Action called on every reference in the object graph.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Note: The arguments are reused later for different objects. Do not alias them.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_root_object"><A HREF="../elks/object_graph_traversable_flat.html#f_root_object">root_object</A>: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Starting point of graph traversing</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_visited_objects"><A HREF="../elks/object_graph_traversable_flat.html#f_visited_objects">visited_objects</A>: <B>detachable</B> <A HREF="../elks/arrayed_list_flat.html">ARRAYED_LIST</A> [<A HREF="../elks/any_flat.html">ANY</A>]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> List referencing objects of object graph that have been visited in </FONT><A HREF="../elks/object_graph_traversable_flat.html#f_traverse">traverse</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_visited_types"><A HREF="../elks/object_graph_traversable_flat.html#f_visited_types">visited_types</A>: <B>detachable</B> <A HREF="../elks/hash_table_flat.html">HASH_TABLE</A> [<A HREF="../elks/integer_32_flat.html">INTEGER_32</A>, <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> List of all types encountered during traversal</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A><FONT COLOR="red">)</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_deep_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (a, b) <B>implies</B> <B>Result</B>
+            both_or_none_void: (a = <B>Void</B>) <B>implies</B> (<B>Result</B> = (b = <B>Void</B>))
+            same_type: (<B>Result</B> <B>and</B> (a /= <B>Void</B>)) <B>implies</B> (b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_same_type">same_type</A> (b))
+            symmetric: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (b, a)
+        <B>end</B></A>
+
+    <A NAME="f_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_equal">equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to objects considered equal?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_equal">is_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_equal">is_equal</A> (b))
+        <B>end</B></A>
+
+    <A NAME="f_is_deep_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (other: <B>attached</B> <A HREF="../elks/object_graph_breadth_first_traversable_flat.html">OBJECT_GRAPH_BREADTH_FIRST_TRAVERSABLE</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`Current'<FONT COLOR="red"> and </FONT>`other'<FONT COLOR="red"> attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (<B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_is_equal"><A HREF="../elks/any_flat.html#f_is_equal">is_equal</A> (other: <B>attached</B> <A HREF="../elks/object_graph_breadth_first_traversable_flat.html">OBJECT_GRAPH_BREADTH_FIRST_TRAVERSABLE</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object considered</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to current object?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            symmetric: <B>Result</B> <B>implies</B> other ~ <B>Current</B>
+            consistent: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+        <B>end</B></A>
+
+    <A NAME="f_standard_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical objects of the same type?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default object comparison criterion.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (b))
+        <B>end</B></A>
+
+    <A NAME="f_standard_is_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other: <B>attached</B> <A HREF="../elks/object_graph_breadth_first_traversable_flat.html">OBJECT_GRAPH_BREADTH_FIRST_TRAVERSABLE</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object of the same type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as current object, and field-by-field identical to it?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_conforms_to"><A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (other: <A HREF="../elks/any_flat.html">ANY</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does type of current object conform to type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of </FONT>`other'<FONT COLOR="red"> (as per Eiffel: The Language, chapter 13)?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>end</B></A>
+
+    <A NAME="f_has_failed"><A HREF="../elks/object_graph_traversable_flat.html#f_has_failed">has_failed</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was the last traversal successful?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_has_reference_with_copy_semantics"><A HREF="../elks/object_graph_traversable_flat.html#f_has_reference_with_copy_semantics">has_reference_with_copy_semantics</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does the traversed graph of objects contain reference with copy semantics?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_is_exception_on_copy_suppressed"><A HREF="../elks/object_graph_traversable_flat.html#f_is_exception_on_copy_suppressed">is_exception_on_copy_suppressed</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do we suppress an exception when </FONT><A HREF="../elks/object_graph_traversable_flat.html#f_object_action">object_action</A><FONT COLOR="red"> is called on a copied object?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> A copy happens when encountering tuples containing copy-semantics references</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or with SPECIAL</FONT><FONT COLOR="red">[XX]</FONT><FONT COLOR="red">, where XX is a user-defined expanded type.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_is_exception_propagated"><A HREF="../elks/object_graph_traversable_flat.html#f_is_exception_propagated">is_exception_propagated</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does the algorithm propagate any exceptions to the user?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_is_object_action_set"><A HREF="../elks/object_graph_traversable_flat.html#f_is_object_action_set">is_object_action_set</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is procedure to call on every object set?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/object_graph_traversable_flat.html#f_object_action">object_action</A> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_root_object_set"><A HREF="../elks/object_graph_traversable_flat.html#f_is_root_object_set">is_root_object_set</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is starting point of graph traversing set?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/object_graph_traversable_flat.html#f_root_object">root_object</A> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_skip_copy_semantics_reference"><A HREF="../elks/object_graph_traversable_flat.html#f_is_skip_copy_semantics_reference">is_skip_copy_semantics_reference</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do we skip copy semantics reference from </FONT><A HREF="../elks/object_graph_traversable_flat.html#f_visited_objects">visited_objects</A><FONT COLOR="red"> during traversal?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_is_skip_transient"><A HREF="../elks/object_graph_traversable_flat.html#f_is_skip_transient">is_skip_transient</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Do we skip transient attribute during traversal?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_same_type"><A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other: <A HREF="../elks/any_flat.html">ANY</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is type of current object identical to type of </FONT>`other'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (<A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (other) <B>and</B> other.<A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>Current</B>))
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_set_is_exception_on_copy_suppressed"><A HREF="../elks/object_graph_traversable_flat.html#f_set_is_exception_on_copy_suppressed">set_is_exception_on_copy_suppressed</A> (v: <B>like</B> <A HREF="../elks/object_graph_traversable_flat.html#f_is_exception_on_copy_suppressed">is_exception_on_copy_suppressed</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/object_graph_traversable_flat.html#f_set_is_exception_on_copy_suppressed">set_is_exception_on_copy_suppressed</A><FONT COLOR="red"> with </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <A HREF="../elks/object_graph_traversable_flat.html#f_is_exception_on_copy_suppressed">is_exception_on_copy_suppressed</A> := v
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A>
+            is_exception_on_copy_suppressed_set: <A HREF="../elks/object_graph_traversable_flat.html#f_is_exception_on_copy_suppressed">is_exception_on_copy_suppressed</A> = v
+        <B>end</B></A>
+
+    <A NAME="f_set_is_exception_propagated"><A HREF="../elks/object_graph_traversable_flat.html#f_set_is_exception_propagated">set_is_exception_propagated</A> (v: <B>like</B> <A HREF="../elks/object_graph_traversable_flat.html#f_is_exception_propagated">is_exception_propagated</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/object_graph_traversable_flat.html#f_is_exception_propagated">is_exception_propagated</A><FONT COLOR="red"> with </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <A HREF="../elks/object_graph_traversable_flat.html#f_is_exception_propagated">is_exception_propagated</A> := v
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A>
+            is_exception_propagated_set: <A HREF="../elks/object_graph_traversable_flat.html#f_is_exception_propagated">is_exception_propagated</A> = v
+        <B>end</B></A>
+
+    <A NAME="f_set_is_skip_copy_semantics_reference"><A HREF="../elks/object_graph_traversable_flat.html#f_set_is_skip_copy_semantics_reference">set_is_skip_copy_semantics_reference</A> (v: <B>like</B> <A HREF="../elks/object_graph_traversable_flat.html#f_is_skip_copy_semantics_reference">is_skip_copy_semantics_reference</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/object_graph_traversable_flat.html#f_is_skip_copy_semantics_reference">is_skip_copy_semantics_reference</A><FONT COLOR="red"> with </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <A HREF="../elks/object_graph_traversable_flat.html#f_is_skip_copy_semantics_reference">is_skip_copy_semantics_reference</A> := v
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A>
+            is_skip_copy_semantics_reference_set: <A HREF="../elks/object_graph_traversable_flat.html#f_is_skip_copy_semantics_reference">is_skip_copy_semantics_reference</A> = v
+        <B>end</B></A>
+
+    <A NAME="f_set_is_skip_transient"><A HREF="../elks/object_graph_traversable_flat.html#f_set_is_skip_transient">set_is_skip_transient</A> (v: <B>like</B> <A HREF="../elks/object_graph_traversable_flat.html#f_is_skip_transient">is_skip_transient</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/object_graph_traversable_flat.html#f_is_skip_transient">is_skip_transient</A><FONT COLOR="red"> with </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <A HREF="../elks/object_graph_traversable_flat.html#f_is_skip_transient">is_skip_transient</A> := v
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A>
+            is_skip_transient_set: <A HREF="../elks/object_graph_traversable_flat.html#f_is_skip_transient">is_skip_transient</A> = v
+        <B>end</B></A>
+
+    <A NAME="f_set_object_action"><A HREF="../elks/object_graph_traversable_flat.html#f_set_object_action">set_object_action</A> (an_object_action: <B>like</B> <A HREF="../elks/object_graph_traversable_flat.html#f_object_action">object_action</A>)
+        <B>obsolete</B> "Use set_on_processing_object_action to read and manipulate objects via REFLECTED_OBJECT"
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/object_graph_traversable_flat.html#f_object_action">object_action</A><FONT COLOR="red"> with </FONT>`an_object_action'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A>
+            an_object_action_not_void: an_object_action /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../elks/object_graph_traversable_flat.html#f_object_action">object_action</A> := an_object_action
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A>
+            an_object_action_set: <A HREF="../elks/object_graph_traversable_flat.html#f_object_action">object_action</A> = an_object_action <B>and</B> <A HREF="../elks/object_graph_traversable_flat.html#f_is_object_action_set">is_object_action_set</A>
+        <B>end</B></A>
+
+    <A NAME="f_set_on_processing_object_action"><A HREF="../elks/object_graph_traversable_flat.html#f_set_on_processing_object_action">set_on_processing_object_action</A> (an_action: <B>like</B> <A HREF="../elks/object_graph_traversable_flat.html#f_on_processing_object_action">on_processing_object_action</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/object_graph_traversable_flat.html#f_on_processing_object_action">on_processing_object_action</A><FONT COLOR="red"> with </FONT>`an_action'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A>
+            an_action_not_void: an_action /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../elks/object_graph_traversable_flat.html#f_on_processing_object_action">on_processing_object_action</A> := an_action
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A>
+            on_processing_object_action_set: <A HREF="../elks/object_graph_traversable_flat.html#f_on_processing_object_action">on_processing_object_action</A> = an_action
+        <B>end</B></A>
+
+    <A NAME="f_set_on_processing_reference_action"><A HREF="../elks/object_graph_traversable_flat.html#f_set_on_processing_reference_action">set_on_processing_reference_action</A> (an_action: <B>like</B> <A HREF="../elks/object_graph_traversable_flat.html#f_on_processing_reference_action">on_processing_reference_action</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/object_graph_traversable_flat.html#f_on_processing_object_action">on_processing_object_action</A><FONT COLOR="red"> with </FONT>`an_action'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A>
+            an_action_not_void: an_action /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../elks/object_graph_traversable_flat.html#f_on_processing_reference_action">on_processing_reference_action</A> := an_action
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A>
+            on_processing_reference_action_set: <A HREF="../elks/object_graph_traversable_flat.html#f_on_processing_reference_action">on_processing_reference_action</A> = an_action
+        <B>end</B></A>
+
+    <A NAME="f_set_root_object"><A HREF="../elks/object_graph_traversable_flat.html#f_set_root_object">set_root_object</A> (an_object: <B>like</B> <A HREF="../elks/object_graph_traversable_flat.html#f_root_object">root_object</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/object_graph_traversable_flat.html#f_root_object">root_object</A><FONT COLOR="red"> with 'an_object'.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A>
+            an_object_not_void: an_object /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../elks/object_graph_traversable_flat.html#f_root_object">root_object</A> := an_object
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A>
+            root_object_set: <A HREF="../elks/object_graph_traversable_flat.html#f_root_object">root_object</A> = an_object <B>and</B> <A HREF="../elks/object_graph_traversable_flat.html#f_is_root_object_set">is_root_object_set</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_clone">clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void; otherwise new object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to </FONT>`other'
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> For non-void </FONT>`other'<FONT COLOR="red">, </FONT><A HREF="../elks/any_flat.html#f_clone">clone</A><FONT COLOR="red"> calls </FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to change copying/cloning semantics, redefine </FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_twin">twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            equal: <B>Result</B> ~ other
+        <B>end</B></A>
+
+    <A NAME="f_copy"><A HREF="../elks/any_flat.html#f_copy">copy</A> (other: <B>attached</B> <A HREF="../elks/object_graph_breadth_first_traversable_flat.html">OBJECT_GRAPH_BREADTH_FIRST_TRAVERSABLE</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update current object using fields of object attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to </FONT>`other'<FONT COLOR="red">, so as to yield equal objects.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            is_equal: <B>Current</B> ~ other
+        <B>end</B></A>
+
+    <A NAME="f_deep_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_clone">deep_clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `deep_twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void: otherwise, new object structure</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> recursively duplicated from the one attached to </FONT>`other'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (other, <B>Result</B>)
+        <B>end</B></A>
+
+    <A NAME="f_deep_copy"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_copy">deep_copy</A> (other: <B>attached</B> <A HREF="../elks/object_graph_breadth_first_traversable_flat.html">OBJECT_GRAPH_BREADTH_FIRST_TRAVERSABLE</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Effect equivalent to that of:</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">		</FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red"> (</FONT>`other'<FONT COLOR="red"> . </FONT><A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A><FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../elks/any_flat.html#f_copy">copy</A> (other.<A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (<B>Current</B>, other)
+        <B>end</B></A>
+
+    <A NAME="f_deep_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>: <B>attached</B> <A HREF="../elks/object_graph_breadth_first_traversable_flat.html">OBJECT_GRAPH_BREADTH_FIRST_TRAVERSABLE</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object structure recursively duplicated from Current.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_twin_not_void: <B>Result</B> /= <B>Void</B>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (<B>Current</B>, <B>Result</B>)
+        <B>end</B></A>
+
+    <A NAME="f_standard_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_clone">standard_clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `standard_twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void; otherwise new object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_standard_twin">standard_twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            equal: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (<B>Result</B>, other)
+        <B>end</B></A>
+
+    <A NAME="f_standard_copy"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_copy">standard_copy</A> (other: <B>attached</B> <A HREF="../elks/object_graph_breadth_first_traversable_flat.html">OBJECT_GRAPH_BREADTH_FIRST_TRAVERSABLE</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy every field of </FONT>`other'<FONT COLOR="red"> onto corresponding field</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            is_standard_equal: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other)
+        <B>end</B></A>
+
+    <A NAME="f_standard_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_twin">standard_twin</A>: <B>attached</B> <A HREF="../elks/object_graph_breadth_first_traversable_flat.html">OBJECT_GRAPH_BREADTH_FIRST_TRAVERSABLE</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            standard_twin_not_void: <B>Result</B> /= <B>Void</B>
+            equal: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (<B>Result</B>, <B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_twin">twin</A>: <B>attached</B> <A HREF="../elks/object_graph_breadth_first_traversable_flat.html">OBJECT_GRAPH_BREADTH_FIRST_TRAVERSABLE</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object equal to </FONT>`Current'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/any_flat.html#f_twin">twin</A><FONT COLOR="red"> calls </FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">; to change copying/twinning semantics, redefine </FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            twin_not_void: <B>Result</B> /= <B>Void</B>
+            is_equal: <B>Result</B> ~ <B>Current</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_as_attached"><B>frozen</B> <A HREF="../elks/any_flat.html#f_as_attached">as_attached</A>: <B>attached</B> <A HREF="../elks/object_graph_breadth_first_traversable_flat.html">OBJECT_GRAPH_BREADTH_FIRST_TRAVERSABLE</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attached version of Current</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Can be used during transitional period to convert</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> non-void-safe classes to void-safe ones.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>Current</B>
+        <B>end</B></A>
+
+    <A NAME="f_default"><B>frozen</B> <A HREF="../elks/any_flat.html#f_default">default</A>: <B>detachable</B> <A HREF="../elks/object_graph_breadth_first_traversable_flat.html">OBJECT_GRAPH_BREADTH_FIRST_TRAVERSABLE</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of object's type</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_default_pointer"><B>frozen</B> <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>: <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of type </FONT>`POINTER'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Avoid the need to write </FONT>`p'<FONT COLOR="red">.</FONT><A HREF="../elks/any_flat.html#f_default">default</A><FONT COLOR="red"> for</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> some </FONT>`p'<FONT COLOR="red"> of type </FONT>`POINTER'<FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_default_rescue"><A HREF="../elks/any_flat.html#f_default_rescue">default_rescue</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process exception for routines with no Rescue clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_do_nothing"><B>frozen</B> <A HREF="../elks/any_flat.html#f_do_nothing">do_nothing</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execute a null action.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_traverse"><B>frozen</B> <A HREF="../elks/object_graph_traversable_flat.html#f_traverse">traverse</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Traverse object structure starting at 'root_object' and call object_action</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on every object in the graph.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A>
+            root_object_available: <A HREF="../elks/object_graph_traversable_flat.html#f_is_root_object_set">is_root_object_set</A>
+        <B>local</B>
+            l_marker: <B>detachable</B> <A HREF="../elks/object_graph_marker_flat.html">OBJECT_GRAPH_MARKER</A>
+            l_has_lock: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            l_retried: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+        <B>do</B>
+            <B>if</B> <B>not</B> l_retried <B>and then</B> <B>attached</B> <A HREF="../elks/object_graph_traversable_flat.html#f_root_object">root_object</A> <B>as</B> l_root <B>then</B>
+                <B>create</B> l_marker
+                l_marker.<A HREF="../elks/object_graph_marker_flat.html#f_lock_marking">lock_marking</A>
+                l_has_lock := <B>True</B>
+                <A HREF="../elks/object_graph_traversable_flat.html#f_internal_traverse">internal_traverse</A> (l_root)
+                l_marker.<A HREF="../elks/object_graph_marker_flat.html#f_unlock_marking">unlock_marking</A>
+                <A HREF="../elks/object_graph_traversable_flat.html#f_has_failed">has_failed</A> := <B>False</B>
+            <B>end</B>
+        <B>rescue</B>
+            l_retried := <B>True</B>
+            <A HREF="../elks/object_graph_traversable_flat.html#f_has_failed">has_failed</A> := <B>True</B>
+            <B>if</B> l_has_lock <B>and then</B> l_marker /= <B>Void</B> <B>then</B>
+                l_marker.<A HREF="../elks/object_graph_marker_flat.html#f_unlock_marking">unlock_marking</A>
+            <B>end</B>
+            <B>if</B> <B>not</B> <A HREF="../elks/object_graph_traversable_flat.html#f_is_exception_propagated">is_exception_propagated</A> <B>then</B>
+                <B>retry</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_wipe_out"><A HREF="../elks/object_graph_traversable_flat.html#f_wipe_out">wipe_out</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Clear current to default values</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <A HREF="../elks/object_graph_traversable_flat.html#f_visited_objects">visited_objects</A> := <B>Void</B>
+            <A HREF="../elks/object_graph_traversable_flat.html#f_visited_types">visited_types</A> := <B>Void</B>
+            <A HREF="../elks/object_graph_traversable_flat.html#f_object_action">object_action</A> := <B>Void</B>
+            <A HREF="../elks/object_graph_traversable_flat.html#f_root_object">root_object</A> := <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A>
+            visited_objects_reset: <A HREF="../elks/object_graph_traversable_flat.html#f_visited_objects">visited_objects</A> = <B>Void</B>
+            object_action_not_set: <B>not</B> <A HREF="../elks/object_graph_traversable_flat.html#f_is_object_action_set">is_object_action_set</A>
+            root_object_not_set: <B>not</B> <A HREF="../elks/object_graph_traversable_flat.html#f_is_root_object_set">is_root_object_set</A>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_default_size"><A HREF="../elks/object_graph_traversable_flat.html#f_default_size">Default_size</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 200</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default size for containers used during object traversal</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_internal_traverse"><A HREF="../elks/object_graph_traversable_flat.html#f_internal_traverse">internal_traverse</A> (a_root_object: <A HREF="../elks/any_flat.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Traverse object structure starting at 'root_object' and call object_action</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on every object in the graph.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            l_object: <A HREF="../elks/any_flat.html">ANY</A>
+            l_field: <B>like</B> {<A HREF="../elks/tuple_flat.html">TUPLE</A>}.<A HREF="../elks/tuple_flat.html#f_reference_item">reference_item</A>
+            l_field_type: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            l_marker: <A HREF="../elks/object_graph_marker_flat.html">OBJECT_GRAPH_MARKER</A>
+            l_objects_to_visit: <B>like</B> <A HREF="../elks/object_graph_breadth_first_traversable_flat.html#f_new_dispenser">new_dispenser</A>
+            l_visited: <B>like</B> <A HREF="../elks/object_graph_traversable_flat.html#f_visited_objects">visited_objects</A>
+            l_visited_types: <B>like</B> <A HREF="../elks/object_graph_traversable_flat.html#f_visited_types">visited_types</A>
+            l_action: <B>like</B> <A HREF="../elks/object_graph_traversable_flat.html#f_object_action">object_action</A>
+            l_on_processing_object_action: <B>like</B> <A HREF="../elks/object_graph_traversable_flat.html#f_on_processing_object_action">on_processing_object_action</A>
+            l_spec: <B>like</B> <A HREF="../elks/object_graph_traversable_flat.html#f_visited_objects">visited_objects</A>.<A HREF="../elks/arrayed_list_flat.html#f_area">area</A>
+            l_reflected_reference_object: <A HREF="../elks/reflected_reference_object_flat.html">REFLECTED_REFERENCE_OBJECT</A>
+            l_reflected_object: <A HREF="../elks/reflected_object_flat.html">REFLECTED_OBJECT</A>
+            l_has_reference_with_copy_semantics: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            l_on_processing_reference_action: <B>like</B> <A HREF="../elks/object_graph_traversable_flat.html#f_on_processing_reference_action">on_processing_reference_action</A>
+            l_referee_object_cache: <A HREF="../elks/reflected_reference_object_flat.html">REFLECTED_REFERENCE_OBJECT</A>
+            l_referee_object: <A HREF="../elks/reflected_object_flat.html">REFLECTED_OBJECT</A>
+        <B>do</B>
+            <B>from</B>
+                <B>create</B> l_marker
+                <B>create</B> l_reflected_reference_object.<A HREF="../elks/reflected_reference_object_flat.html#f_make">make</A> (a_root_object)
+                l_reflected_object := l_reflected_reference_object
+                l_marker.<A HREF="../elks/object_graph_marker_flat.html#f_mark">mark</A> (a_root_object)
+                <B>create</B> l_visited.<A HREF="../elks/arrayed_list_flat.html#f_make">make</A> (<A HREF="../elks/object_graph_traversable_flat.html#f_default_size">Default_size</A>)
+                <B>create</B> l_visited_types.<A HREF="../elks/hash_table_flat.html#f_make">make</A> (<A HREF="../elks/object_graph_traversable_flat.html#f_default_size">Default_size</A>)
+                l_objects_to_visit := <A HREF="../elks/object_graph_breadth_first_traversable_flat.html#f_new_dispenser">new_dispenser</A>
+                l_objects_to_visit.<A HREF="../elks/dispenser_flat.html#f_put">put</A> (a_root_object)
+                l_action := <A HREF="../elks/object_graph_traversable_flat.html#f_object_action">object_action</A>
+                l_on_processing_object_action := <A HREF="../elks/object_graph_traversable_flat.html#f_on_processing_object_action">on_processing_object_action</A>
+                l_on_processing_reference_action := <A HREF="../elks/object_graph_traversable_flat.html#f_on_processing_reference_action">on_processing_reference_action</A>
+                <B>create</B> l_referee_object_cache.<A HREF="../elks/reflected_reference_object_flat.html#f_make">make</A> (a_root_object)
+                l_referee_object := l_referee_object_cache
+                l_referee_object := l_referee_object_cache
+            <B>until</B>
+                l_objects_to_visit.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+            <B>loop</B>
+                l_object := l_objects_to_visit.<A HREF="../elks/active_flat.html#f_item">item</A>
+                l_objects_to_visit.<A HREF="../elks/active_flat.html#f_remove">remove</A>
+                <B>if</B> <B>attached</B> {<A HREF="../elks/reflected_object_flat.html">REFLECTED_OBJECT</A>} l_object <B>as</B> l_copy_semantics_object <B>then</B>
+                    <B>check</B>
+                        embedded_or_copy_semantics: <B>attached</B> {<A HREF="../elks/reflected_copy_semantics_object_flat.html">REFLECTED_COPY_SEMANTICS_OBJECT</A>} l_copy_semantics_object <B>or</B> (<B>attached</B> {<A HREF="../elks/reflected_reference_object_flat.html">REFLECTED_REFERENCE_OBJECT</A>} l_copy_semantics_object <B>as</B> l_ref_obj <B>and then</B> l_ref_obj.<A HREF="../elks/reflected_reference_object_flat.html#f_physical_offset">physical_offset</A> /= 0)
+                    <B>end</B>
+                    l_has_reference_with_copy_semantics := <B>True</B>
+                    l_reflected_object := l_copy_semantics_object
+                    <B>if</B> <B>not</B> <A HREF="../elks/object_graph_traversable_flat.html#f_is_skip_copy_semantics_reference">is_skip_copy_semantics_reference</A> <B>then</B>
+                        l_visited.<A HREF="../elks/arrayed_list_flat.html#f_extend">extend</A> (l_copy_semantics_object.<A HREF="../elks/reflected_object_flat.html#f_object">object</A>)
+                    <B>end</B>
+                <B>else</B>
+                    l_reflected_reference_object.<A HREF="../elks/reflected_reference_object_flat.html#f_set_object">set_object</A> (l_object)
+                    l_reflected_object := l_reflected_reference_object
+                    <B>if</B> l_reflected_reference_object.<A HREF="../elks/reflected_object_flat.html#f_is_expanded">is_expanded</A> <B>then</B>
+                        l_has_reference_with_copy_semantics := <B>True</B>
+                        <B>if</B> <B>not</B> <A HREF="../elks/object_graph_traversable_flat.html#f_is_skip_copy_semantics_reference">is_skip_copy_semantics_reference</A> <B>then</B>
+                            l_visited.<A HREF="../elks/arrayed_list_flat.html#f_extend">extend</A> (l_object)
+                        <B>end</B>
+                    <B>else</B>
+                        l_visited.<A HREF="../elks/arrayed_list_flat.html#f_extend">extend</A> (l_object)
+                    <B>end</B>
+                <B>end</B>
+                l_visited_types.<A HREF="../elks/hash_table_flat.html#f_put">put</A> (l_reflected_object.<A HREF="../elks/reflected_object_flat.html#f_dynamic_type">dynamic_type</A>, l_reflected_object.<A HREF="../elks/reflected_object_flat.html#f_dynamic_type">dynamic_type</A>)
+                <B>if</B> l_action /= <B>Void</B> <B>or</B> l_on_processing_object_action /= <B>Void</B> <B>then</B>
+                    <B>if</B> <B>not</B> <A HREF="../elks/object_graph_traversable_flat.html#f_is_exception_on_copy_suppressed">is_exception_on_copy_suppressed</A> <B>and then</B> l_reflected_object.<A HREF="../elks/reflected_object_flat.html#f_is_expanded">is_expanded</A> <B>then</B>
+                        <A HREF="../elks/object_graph_traversable_flat.html#f_raise_unwanted_copy_exception">raise_unwanted_copy_exception</A>
+                    <B>else</B>
+                        <B>if</B> l_action /= <B>Void</B> <B>then</B>
+                            l_action.<A HREF="../elks/procedure_flat.html#f_call">call</A> ([l_object])
+                        <B>end</B>
+                        <B>if</B> <B>attached</B> l_on_processing_object_action <B>then</B>
+                            l_on_processing_object_action.<A HREF="../elks/procedure_flat.html#f_call">call</A> ([l_reflected_object])
+                        <B>end</B>
+                    <B>end</B>
+                <B>end</B>
+                <B>if</B> l_reflected_object.<A HREF="../elks/reflected_object_flat.html#f_is_special">is_special</A> <B>then</B>
+                    <B>if</B> l_reflected_object.<A HREF="../elks/reflected_object_flat.html#f_is_special_of_reference">is_special_of_reference</A> <B>then</B>
+                        <B>if</B> <B>attached</B> {<A HREF="../elks/special_flat.html">SPECIAL</A> [<B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>]} l_object <B>as</B> l_sp <B>then</B>
+                            <B>from</B>
+                                i := 0
+                                nb := l_sp.<A HREF="../elks/special_flat.html#f_count">count</A>
+                            <B>until</B>
+                                i = nb
+                            <B>loop</B>
+                                <B>if</B> l_reflected_object.<A HREF="../elks/reflected_object_flat.html#f_is_special_copy_semantics_item">is_special_copy_semantics_item</A> (i) <B>then</B>
+                                    l_referee_object := l_reflected_object.<A HREF="../elks/reflected_object_flat.html#f_special_copy_semantics_item">special_copy_semantics_item</A> (i)
+                                    l_field := l_referee_object
+                                    l_objects_to_visit.<A HREF="../elks/dispenser_flat.html#f_put">put</A> (l_field)
+                                    <B>if</B> <B>attached</B> l_on_processing_reference_action <B>then</B>
+                                        l_on_processing_reference_action.<A HREF="../elks/procedure_flat.html#f_call">call</A> ([l_reflected_object, l_referee_object])
+                                    <B>end</B>
+                                <B>else</B>
+                                    l_field := l_sp.<A HREF="../elks/special_flat.html#f_item">item</A> (i)
+                                    <B>if</B> l_field /= <B>Void</B> <B>and then</B> <B>not</B> l_marker.<A HREF="../elks/object_graph_marker_flat.html#f_is_marked">is_marked</A> (l_field) <B>then</B>
+                                        l_marker.<A HREF="../elks/object_graph_marker_flat.html#f_mark">mark</A> (l_field)
+                                        l_objects_to_visit.<A HREF="../elks/dispenser_flat.html#f_put">put</A> (l_field)
+                                    <B>end</B>
+                                    <B>if</B> <B>attached</B> l_on_processing_reference_action <B>and</B> <B>attached</B> l_field <B>then</B>
+                                        l_referee_object_cache.<A HREF="../elks/reflected_reference_object_flat.html#f_set_object">set_object</A> (l_field)
+                                        l_referee_object := l_referee_object_cache
+                                        l_on_processing_reference_action.<A HREF="../elks/procedure_flat.html#f_call">call</A> ([l_reflected_object, l_referee_object])
+                                    <B>end</B>
+                                <B>end</B>
+                                i := i + 1
+                            <B>end</B>
+                        <B>end</B>
+                    <B>elseif</B> l_reflected_object.<A HREF="../elks/reflected_object_flat.html#f_is_special_of_expanded">is_special_of_expanded</A> <B>then</B>
+                        <B>if</B> <B>attached</B> {<A HREF="../elks/special_flat.html">SPECIAL</A> [<A HREF="../elks/any_flat.html">ANY</A>]} l_object <B>as</B> l_sp <B>then</B>
+                            <B>from</B>
+                                i := 0
+                                nb := l_sp.<A HREF="../elks/special_flat.html#f_count">count</A>
+                            <B>until</B>
+                                i = nb
+                            <B>loop</B>
+                                l_field := l_sp.<A HREF="../elks/special_flat.html#f_item">item</A> (i)
+                                l_objects_to_visit.<A HREF="../elks/dispenser_flat.html#f_put">put</A> (l_field)
+                                <B>if</B> <B>attached</B> l_on_processing_reference_action <B>then</B>
+                                    <B>if</B> <A HREF="../elks/object_graph_traversable_flat.html#f_is_exception_on_copy_suppressed">is_exception_on_copy_suppressed</A> <B>then</B>
+                                        l_referee_object_cache.<A HREF="../elks/reflected_reference_object_flat.html#f_set_object">set_object</A> (l_field)
+                                        l_referee_object := l_referee_object_cache
+                                        l_on_processing_reference_action.<A HREF="../elks/procedure_flat.html#f_call">call</A> ([l_reflected_object, l_referee_object])
+                                    <B>else</B>
+                                        <A HREF="../elks/object_graph_traversable_flat.html#f_raise_unwanted_copy_exception">raise_unwanted_copy_exception</A>
+                                    <B>end</B>
+                                <B>end</B>
+                                i := i + 1
+                            <B>end</B>
+                        <B>end</B>
+                    <B>end</B>
+                <B>elseif</B> l_reflected_object.<A HREF="../elks/reflected_object_flat.html#f_is_tuple">is_tuple</A> <B>then</B>
+                    <B>if</B> <B>attached</B> {<A HREF="../elks/tuple_flat.html">TUPLE</A>} l_object <B>as</B> l_tuple_obj <B>then</B>
+                        <B>from</B>
+                            i := 1
+                            nb := l_tuple_obj.<A HREF="../elks/tuple_flat.html#f_count">count</A> + 1
+                        <B>until</B>
+                            i = nb
+                        <B>loop</B>
+                            <B>if</B> l_tuple_obj.<A HREF="../elks/tuple_flat.html#f_is_reference_item">is_reference_item</A> (i) <B>then</B>
+                                l_field := l_tuple_obj.<A HREF="../elks/tuple_flat.html#f_reference_item">reference_item</A> (i)
+                                <B>if</B> l_field /= <B>Void</B> <B>and then</B> <B>not</B> l_marker.<A HREF="../elks/object_graph_marker_flat.html#f_is_marked">is_marked</A> (l_field) <B>then</B>
+                                    l_marker.<A HREF="../elks/object_graph_marker_flat.html#f_mark">mark</A> (l_field)
+                                    l_objects_to_visit.<A HREF="../elks/dispenser_flat.html#f_put">put</A> (l_field)
+                                <B>end</B>
+                                <B>if</B> <B>attached</B> l_on_processing_reference_action <B>and</B> <B>attached</B> l_field <B>then</B>
+                                    <B>if</B> <A HREF="../elks/object_graph_traversable_flat.html#f_is_exception_on_copy_suppressed">is_exception_on_copy_suppressed</A> <B>then</B>
+                                        l_referee_object_cache.<A HREF="../elks/reflected_reference_object_flat.html#f_set_object">set_object</A> (l_field)
+                                        l_referee_object := l_referee_object_cache
+                                        l_on_processing_reference_action.<A HREF="../elks/procedure_flat.html#f_call">call</A> ([l_reflected_object, l_referee_object])
+                                    <B>else</B>
+                                        <A HREF="../elks/object_graph_traversable_flat.html#f_raise_unwanted_copy_exception">raise_unwanted_copy_exception</A>
+                                    <B>end</B>
+                                <B>end</B>
+                            <B>end</B>
+                            i := i + 1
+                        <B>end</B>
+                    <B>end</B>
+                <B>else</B>
+                    <B>from</B>
+                        i := 1
+                        nb := l_reflected_object.<A HREF="../elks/reflected_object_flat.html#f_field_count">field_count</A> + 1
+                    <B>variant</B>
+                        nb - i
+                    <B>until</B>
+                        i = nb
+                    <B>loop</B>
+                        l_field_type := l_reflected_object.<A HREF="../elks/reflected_object_flat.html#f_field_type">field_type</A> (i)
+                        <B>if</B> l_field_type = {<A HREF="../elks/reflector_constants_flat.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants_flat.html#f_reference_type">reference_type</A> <B>or</B> l_field_type = {<A HREF="../elks/reflector_constants_flat.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants_flat.html#f_expanded_type">expanded_type</A> <B>then</B>
+                            <B>if</B> <B>not</B> <A HREF="../elks/object_graph_traversable_flat.html#f_is_skip_transient">is_skip_transient</A> <B>or else</B> <B>not</B> l_reflected_object.<A HREF="../elks/reflected_object_flat.html#f_is_field_transient">is_field_transient</A> (i) <B>then</B>
+                                <B>if</B> l_field_type = {<A HREF="../elks/reflector_constants_flat.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants_flat.html#f_expanded_type">expanded_type</A> <B>then</B>
+                                    l_referee_object := l_reflected_object.<A HREF="../elks/reflected_object_flat.html#f_expanded_field">expanded_field</A> (i)
+                                    l_objects_to_visit.<A HREF="../elks/dispenser_flat.html#f_put">put</A> (l_referee_object)
+                                    <B>if</B> <B>attached</B> l_on_processing_reference_action <B>then</B>
+                                        l_on_processing_reference_action.<A HREF="../elks/procedure_flat.html#f_call">call</A> ([l_reflected_object, l_referee_object])
+                                    <B>end</B>
+                                <B>elseif</B> l_reflected_object.<A HREF="../elks/reflected_object_flat.html#f_is_copy_semantics_field">is_copy_semantics_field</A> (i) <B>then</B>
+                                    l_referee_object := l_reflected_object.<A HREF="../elks/reflected_object_flat.html#f_copy_semantics_field">copy_semantics_field</A> (i)
+                                    l_objects_to_visit.<A HREF="../elks/dispenser_flat.html#f_put">put</A> (l_referee_object)
+                                    <B>if</B> <B>attached</B> l_on_processing_reference_action <B>then</B>
+                                        l_on_processing_reference_action.<A HREF="../elks/procedure_flat.html#f_call">call</A> ([l_reflected_object, l_referee_object])
+                                    <B>end</B>
+                                <B>else</B>
+                                    l_field := l_reflected_object.<A HREF="../elks/reflected_object_flat.html#f_reference_field">reference_field</A> (i)
+                                    <B>if</B> l_field /= <B>Void</B> <B>then</B>
+                                        <B>if</B> <B>not</B> l_marker.<A HREF="../elks/object_graph_marker_flat.html#f_is_marked">is_marked</A> (l_field) <B>then</B>
+                                            l_marker.<A HREF="../elks/object_graph_marker_flat.html#f_mark">mark</A> (l_field)
+                                            l_objects_to_visit.<A HREF="../elks/dispenser_flat.html#f_put">put</A> (l_field)
+                                        <B>end</B>
+                                        <B>if</B> <B>attached</B> l_on_processing_reference_action <B>then</B>
+                                            l_referee_object_cache.<A HREF="../elks/reflected_reference_object_flat.html#f_set_object">set_object</A> (l_field)
+                                            l_referee_object := l_referee_object_cache
+                                            l_on_processing_reference_action.<A HREF="../elks/procedure_flat.html#f_call">call</A> ([l_reflected_object, l_referee_object])
+                                        <B>end</B>
+                                    <B>end</B>
+                                <B>end</B>
+                            <B>end</B>
+                        <B>end</B>
+                        i := i + 1
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+            <B>from</B>
+                i := 0
+                nb := l_visited.<A HREF="../elks/arrayed_list_flat.html#f_count">count</A>
+                l_spec := l_visited.<A HREF="../elks/arrayed_list_flat.html#f_area">area</A>
+            <B>until</B>
+                i = nb
+            <B>loop</B>
+                l_marker.<A HREF="../elks/object_graph_marker_flat.html#f_unmark">unmark</A> (l_spec.<A HREF="../elks/special_flat.html#f_item">item</A> (i))
+                i := i + 1
+            <B>end</B>
+            <A HREF="../elks/object_graph_traversable_flat.html#f_visited_objects">visited_objects</A> := l_visited
+            <A HREF="../elks/object_graph_traversable_flat.html#f_visited_types">visited_types</A> := l_visited_types
+            <A HREF="../elks/object_graph_traversable_flat.html#f_has_reference_with_copy_semantics">has_reference_with_copy_semantics</A> := l_has_reference_with_copy_semantics
+        <B>end</B></A>
+
+    <A NAME="f_new_dispenser"><A HREF="../elks/object_graph_breadth_first_traversable_flat.html#f_new_dispenser">new_dispenser</A>: <A HREF="../elks/arrayed_queue_flat.html">ARRAYED_QUEUE</A> [<A HREF="../elks/any_flat.html">ANY</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create the dispenser to use for storing visited objects.</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/arrayed_queue_flat.html#f_make">make</A> (<A HREF="../elks/object_graph_traversable_flat.html#f_default_size">Default_size</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A>
+            new_dispenser_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_raise_unwanted_copy_exception"><A HREF="../elks/object_graph_traversable_flat.html#f_raise_unwanted_copy_exception">raise_unwanted_copy_exception</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/object_graph_traversable_flat.html">OBJECT_GRAPH_TRAVERSABLE</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            l_exception: <A HREF="../elks/developer_exception_flat.html">DEVELOPER_EXCEPTION</A>
+        <B>do</B>
+            <B>create</B> l_exception
+            l_exception.<A HREF="../elks/exception_flat.html#f_set_description">set_description</A> ("An agent has been invoked on a copy of an object during object graph traversal.%NThis happens in TUPLE containing objects with copy-semantics or in SPECIAL[XX],%Nwhere XX is a user-defined expanded type.")
+            l_exception.<A HREF="../elks/exception_flat.html#f_raise">raise</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output</FONT>
+
+    <A NAME="f_io"><A HREF="../elks/any_flat.html#f_io">Io</A>: <A HREF="../elks/std_files_flat.html">STD_FILES</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Handle to standard file setup</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../elks/std_files_flat.html#f_set_output_default">set_output_default</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            io_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_out"><A HREF="../elks/any_flat.html#f_out">out</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/any_flat.html#f_tagged_out">tagged_out</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            out_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_print"><A HREF="../elks/any_flat.html#f_print">print</A> (o: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write terse external representation of </FONT>`o'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on standard output.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> o /= <B>Void</B> <B>then</B>
+                <A HREF="../elks/any_flat.html#f_io">Io</A>.<A HREF="../elks/std_files_flat.html#f_put_string">put_string</A> (o.<A HREF="../elks/any_flat.html#f_out">out</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_tagged_out"><B>frozen</B> <A HREF="../elks/any_flat.html#f_tagged_out">tagged_out</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            tagged_out_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Platform</FONT>
+
+    <A NAME="f_operating_environment"><A HREF="../elks/any_flat.html#f_operating_environment">Operating_environment</A>: <A HREF="../elks/operating_environment_flat.html">OPERATING_ENVIRONMENT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Objects available from the operating system</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            operating_environment_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieval</FONT>
+
+    <A NAME="f_internal_correct_mismatch"><B>frozen</B> <A HREF="../elks/any_flat.html#f_internal_correct_mismatch">internal_correct_mismatch</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Called from runtime to perform a proper dynamic dispatch on </FONT>`correct_mismatch'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> from MISMATCH_CORRECTOR.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            l_msg: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            l_exc: <A HREF="../elks/exceptions_flat.html">EXCEPTIONS</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<A HREF="../elks/mismatch_corrector_flat.html">MISMATCH_CORRECTOR</A>} <B>Current</B> <B>as</B> l_corrector <B>then</B>
+                l_corrector.<A HREF="../elks/mismatch_corrector_flat.html#f_correct_mismatch">correct_mismatch</A>
+            <B>else</B>
+                <B>create</B> l_msg.<A HREF="../elks/readable_string_8_flat.html#f_make_from_string">make_from_string</A> ("Mismatch: ")
+                <B>create</B> l_exc
+                l_msg.<A HREF="../elks/string_8_flat.html#f_append">append</A> (<A HREF="../elks/any_flat.html#f_generating_type">generating_type</A>.<A HREF="../elks/type_flat.html#f_name">name</A>)
+                l_exc.<A HREF="../elks/exceptions_flat.html#f_raise_retrieval_exception">raise_retrieval_exception</A> (l_msg)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>invariant</B>
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+    reflexive_equality: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+    reflexive_conformance: <A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>Current</B>)
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/object_graph_breadth_first_traversable_flat.html">OBJECT_GRAPH_BREADTH_FIRST_TRAVERSABLE</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="object_graph_breadth_first_traversable_chart.html">Chart</A></TD><TD><A HREF="object_graph_breadth_first_traversable_links.html">Relations</A></TD><TD><A HREF="object_graph_breadth_first_traversable.html">Text</A></TD><TD>Flat</TD><TD><A HREF="object_graph_breadth_first_traversable_short.html">Contracts</A></TD><TD><A HREF="object_graph_breadth_first_traversable_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

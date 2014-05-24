@@ -1,0 +1,597 @@
+<HTML><HEAD>
+<meta name="description" content="String - Integer/Natural conversion overflow checker"/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>integer_overflow_checker Flat</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="integer_overflow_checker_chart.html">Chart</A></TD><TD><A HREF="integer_overflow_checker_links.html">Relations</A></TD><TD><A HREF="integer_overflow_checker.html">Text</A></TD><TD>Flat</TD><TD><A HREF="integer_overflow_checker_short.html">Contracts</A></TD><TD><A HREF="integer_overflow_checker_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "String - Integer/Natural conversion overflow checker"
+    library: "Free implementation of ELKS library"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2012-05-23 21:13:10 -0700 (Wed, 23 May 2012) $"
+    revision: "$Revision: 91981 $"
+
+<B>class</B> 
+    <A HREF="../elks/integer_overflow_checker_flat.html">INTEGER_OVERFLOW_CHECKER</A>
+
+<B>create</B> 
+    <A HREF="../elks/integer_overflow_checker_flat.html#f_make">make</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_default_create"><A HREF="../elks/any_flat.html#f_default_create">default_create</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process instances of classes with no creation clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_make"><A HREF="../elks/integer_overflow_checker_flat.html#f_make">make</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize.</FONT>
+        <B>do</B>
+            <B>create</B> <A HREF="../elks/integer_overflow_checker_flat.html#f_integer_overflow_state1">integer_overflow_state1</A>.<A HREF="../elks/special_flat.html#f_make_empty">make_empty</A> (<A HREF="../elks/numeric_information_flat.html#f_type_count">Type_count</A> * 2 + 1)
+            <A HREF="../elks/integer_overflow_checker_flat.html#f_integer_overflow_state1">integer_overflow_state1</A>.<A HREF="../elks/special_flat.html#f_extend">extend</A> (0.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_64">to_natural_64</A>)
+            <B>create</B> <A HREF="../elks/integer_overflow_checker_flat.html#f_integer_overflow_state2">integer_overflow_state2</A>.<A HREF="../elks/special_flat.html#f_make_empty">make_empty</A> (<A HREF="../elks/numeric_information_flat.html#f_type_count">Type_count</A> * 2 + 1)
+            <A HREF="../elks/integer_overflow_checker_flat.html#f_integer_overflow_state2">integer_overflow_state2</A>.<A HREF="../elks/special_flat.html#f_extend">extend</A> (0.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_64">to_natural_64</A>)
+            <A HREF="../elks/integer_overflow_checker_flat.html#f_integer_overflow_state1">integer_overflow_state1</A>.<A HREF="../elks/special_flat.html#f_extend">extend</A> (({<A HREF="../elks/integer_8_flat.html">INTEGER_8</A>}.<A HREF="../elks/integer_8_ref_flat.html#f_max_value">max_value</A> // 10.<A HREF="../elks/integer_32_ref_flat.html#f_to_integer_8">to_integer_8</A>).<A HREF="../elks/integer_8_ref_flat.html#f_to_natural_64">to_natural_64</A>)
+            <A HREF="../elks/integer_overflow_checker_flat.html#f_integer_overflow_state2">integer_overflow_state2</A>.<A HREF="../elks/special_flat.html#f_extend">extend</A> (({<A HREF="../elks/integer_8_flat.html">INTEGER_8</A>}.<A HREF="../elks/integer_8_ref_flat.html#f_max_value">max_value</A> \\ 10.<A HREF="../elks/integer_32_ref_flat.html#f_to_integer_8">to_integer_8</A>).<A HREF="../elks/integer_8_ref_flat.html#f_to_natural_64">to_natural_64</A>)
+            <A HREF="../elks/integer_overflow_checker_flat.html#f_integer_overflow_state1">integer_overflow_state1</A>.<A HREF="../elks/special_flat.html#f_extend">extend</A> (({<A HREF="../elks/integer_16_flat.html">INTEGER_16</A>}.<A HREF="../elks/integer_16_ref_flat.html#f_max_value">max_value</A> // 10.<A HREF="../elks/integer_32_ref_flat.html#f_to_integer_16">to_integer_16</A>).<A HREF="../elks/integer_16_ref_flat.html#f_to_natural_64">to_natural_64</A>)
+            <A HREF="../elks/integer_overflow_checker_flat.html#f_integer_overflow_state2">integer_overflow_state2</A>.<A HREF="../elks/special_flat.html#f_extend">extend</A> (({<A HREF="../elks/integer_16_flat.html">INTEGER_16</A>}.<A HREF="../elks/integer_16_ref_flat.html#f_max_value">max_value</A> \\ 10.<A HREF="../elks/integer_32_ref_flat.html#f_to_integer_16">to_integer_16</A>).<A HREF="../elks/integer_16_ref_flat.html#f_to_natural_64">to_natural_64</A>)
+            <A HREF="../elks/integer_overflow_checker_flat.html#f_integer_overflow_state1">integer_overflow_state1</A>.<A HREF="../elks/special_flat.html#f_extend">extend</A> (({<A HREF="../elks/integer_32_flat.html">INTEGER_32</A>}.<A HREF="../elks/integer_32_ref_flat.html#f_max_value">max_value</A> // 10).<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_64">to_natural_64</A>)
+            <A HREF="../elks/integer_overflow_checker_flat.html#f_integer_overflow_state2">integer_overflow_state2</A>.<A HREF="../elks/special_flat.html#f_extend">extend</A> (({<A HREF="../elks/integer_32_flat.html">INTEGER_32</A>}.<A HREF="../elks/integer_32_ref_flat.html#f_max_value">max_value</A> \\ 10).<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_64">to_natural_64</A>)
+            <A HREF="../elks/integer_overflow_checker_flat.html#f_integer_overflow_state1">integer_overflow_state1</A>.<A HREF="../elks/special_flat.html#f_extend">extend</A> (({<A HREF="../elks/integer_64_flat.html">INTEGER_64</A>}.<A HREF="../elks/integer_64_ref_flat.html#f_max_value">max_value</A> // 10.<A HREF="../elks/integer_32_ref_flat.html#f_to_integer_64">to_integer_64</A>).<A HREF="../elks/integer_64_ref_flat.html#f_to_natural_64">to_natural_64</A>)
+            <A HREF="../elks/integer_overflow_checker_flat.html#f_integer_overflow_state2">integer_overflow_state2</A>.<A HREF="../elks/special_flat.html#f_extend">extend</A> (({<A HREF="../elks/integer_64_flat.html">INTEGER_64</A>}.<A HREF="../elks/integer_64_ref_flat.html#f_max_value">max_value</A> \\ 10.<A HREF="../elks/integer_32_ref_flat.html#f_to_integer_64">to_integer_64</A>).<A HREF="../elks/integer_64_ref_flat.html#f_to_natural_64">to_natural_64</A>)
+            <A HREF="../elks/integer_overflow_checker_flat.html#f_integer_overflow_state1">integer_overflow_state1</A>.<A HREF="../elks/special_flat.html#f_extend">extend</A> ((- ({<A HREF="../elks/integer_8_flat.html">INTEGER_8</A>}.<A HREF="../elks/integer_8_ref_flat.html#f_min_value">min_value</A> // 10.<A HREF="../elks/integer_32_ref_flat.html#f_to_integer_8">to_integer_8</A>)).<A HREF="../elks/integer_8_ref_flat.html#f_to_natural_64">to_natural_64</A>)
+            <A HREF="../elks/integer_overflow_checker_flat.html#f_integer_overflow_state2">integer_overflow_state2</A>.<A HREF="../elks/special_flat.html#f_extend">extend</A> ((- ({<A HREF="../elks/integer_8_flat.html">INTEGER_8</A>}.<A HREF="../elks/integer_8_ref_flat.html#f_min_value">min_value</A> \\ 10.<A HREF="../elks/integer_32_ref_flat.html#f_to_integer_8">to_integer_8</A>)).<A HREF="../elks/integer_8_ref_flat.html#f_to_natural_64">to_natural_64</A>)
+            <A HREF="../elks/integer_overflow_checker_flat.html#f_integer_overflow_state1">integer_overflow_state1</A>.<A HREF="../elks/special_flat.html#f_extend">extend</A> ((- ({<A HREF="../elks/integer_16_flat.html">INTEGER_16</A>}.<A HREF="../elks/integer_16_ref_flat.html#f_min_value">min_value</A> // 10.<A HREF="../elks/integer_32_ref_flat.html#f_to_integer_16">to_integer_16</A>)).<A HREF="../elks/integer_16_ref_flat.html#f_to_natural_64">to_natural_64</A>)
+            <A HREF="../elks/integer_overflow_checker_flat.html#f_integer_overflow_state2">integer_overflow_state2</A>.<A HREF="../elks/special_flat.html#f_extend">extend</A> ((- ({<A HREF="../elks/integer_16_flat.html">INTEGER_16</A>}.<A HREF="../elks/integer_16_ref_flat.html#f_min_value">min_value</A> \\ 10.<A HREF="../elks/integer_32_ref_flat.html#f_to_integer_16">to_integer_16</A>)).<A HREF="../elks/integer_16_ref_flat.html#f_to_natural_64">to_natural_64</A>)
+            <A HREF="../elks/integer_overflow_checker_flat.html#f_integer_overflow_state1">integer_overflow_state1</A>.<A HREF="../elks/special_flat.html#f_extend">extend</A> ((- ({<A HREF="../elks/integer_32_flat.html">INTEGER_32</A>}.<A HREF="../elks/integer_32_ref_flat.html#f_min_value">min_value</A> // 10)).<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_64">to_natural_64</A>)
+            <A HREF="../elks/integer_overflow_checker_flat.html#f_integer_overflow_state2">integer_overflow_state2</A>.<A HREF="../elks/special_flat.html#f_extend">extend</A> ((- ({<A HREF="../elks/integer_32_flat.html">INTEGER_32</A>}.<A HREF="../elks/integer_32_ref_flat.html#f_min_value">min_value</A> \\ 10)).<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_64">to_natural_64</A>)
+            <A HREF="../elks/integer_overflow_checker_flat.html#f_integer_overflow_state1">integer_overflow_state1</A>.<A HREF="../elks/special_flat.html#f_extend">extend</A> ((- ({<A HREF="../elks/integer_64_flat.html">INTEGER_64</A>}.<A HREF="../elks/integer_64_ref_flat.html#f_min_value">min_value</A> // 10.<A HREF="../elks/integer_32_ref_flat.html#f_to_integer_64">to_integer_64</A>)).<A HREF="../elks/integer_64_ref_flat.html#f_to_natural_64">to_natural_64</A>)
+            <A HREF="../elks/integer_overflow_checker_flat.html#f_integer_overflow_state2">integer_overflow_state2</A>.<A HREF="../elks/special_flat.html#f_extend">extend</A> ((- ({<A HREF="../elks/integer_64_flat.html">INTEGER_64</A>}.<A HREF="../elks/integer_64_ref_flat.html#f_min_value">min_value</A> \\ 10.<A HREF="../elks/integer_32_ref_flat.html#f_to_integer_64">to_integer_64</A>)).<A HREF="../elks/integer_64_ref_flat.html#f_to_natural_64">to_natural_64</A>)
+            <B>create</B> <A HREF="../elks/integer_overflow_checker_flat.html#f_natural_overflow_state1">natural_overflow_state1</A>.<A HREF="../elks/special_flat.html#f_make_empty">make_empty</A> (<A HREF="../elks/numeric_information_flat.html#f_type_count">Type_count</A> + 1)
+            <A HREF="../elks/integer_overflow_checker_flat.html#f_natural_overflow_state1">natural_overflow_state1</A>.<A HREF="../elks/special_flat.html#f_extend">extend</A> (0.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_64">to_natural_64</A>)
+            <B>create</B> <A HREF="../elks/integer_overflow_checker_flat.html#f_natural_overflow_state2">natural_overflow_state2</A>.<A HREF="../elks/special_flat.html#f_make_empty">make_empty</A> (<A HREF="../elks/numeric_information_flat.html#f_type_count">Type_count</A> + 1)
+            <A HREF="../elks/integer_overflow_checker_flat.html#f_natural_overflow_state2">natural_overflow_state2</A>.<A HREF="../elks/special_flat.html#f_extend">extend</A> (0.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_64">to_natural_64</A>)
+            <A HREF="../elks/integer_overflow_checker_flat.html#f_natural_overflow_state1">natural_overflow_state1</A>.<A HREF="../elks/special_flat.html#f_extend">extend</A> (({<A HREF="../elks/natural_8_flat.html">NATURAL_8</A>}.<A HREF="../elks/natural_8_ref_flat.html#f_max_value">max_value</A> // 10.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A>).<A HREF="../elks/natural_8_ref_flat.html#f_to_natural_64">to_natural_64</A>)
+            <A HREF="../elks/integer_overflow_checker_flat.html#f_natural_overflow_state2">natural_overflow_state2</A>.<A HREF="../elks/special_flat.html#f_extend">extend</A> (({<A HREF="../elks/natural_8_flat.html">NATURAL_8</A>}.<A HREF="../elks/natural_8_ref_flat.html#f_max_value">max_value</A> \\ 10.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A>).<A HREF="../elks/natural_8_ref_flat.html#f_to_natural_64">to_natural_64</A>)
+            <A HREF="../elks/integer_overflow_checker_flat.html#f_natural_overflow_state1">natural_overflow_state1</A>.<A HREF="../elks/special_flat.html#f_extend">extend</A> (({<A HREF="../elks/natural_16_flat.html">NATURAL_16</A>}.<A HREF="../elks/natural_16_ref_flat.html#f_max_value">max_value</A> // 10.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_16">to_natural_16</A>).<A HREF="../elks/natural_16_ref_flat.html#f_to_natural_64">to_natural_64</A>)
+            <A HREF="../elks/integer_overflow_checker_flat.html#f_natural_overflow_state2">natural_overflow_state2</A>.<A HREF="../elks/special_flat.html#f_extend">extend</A> (({<A HREF="../elks/natural_16_flat.html">NATURAL_16</A>}.<A HREF="../elks/natural_16_ref_flat.html#f_max_value">max_value</A> \\ 10.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_16">to_natural_16</A>).<A HREF="../elks/natural_16_ref_flat.html#f_to_natural_64">to_natural_64</A>)
+            <A HREF="../elks/integer_overflow_checker_flat.html#f_natural_overflow_state1">natural_overflow_state1</A>.<A HREF="../elks/special_flat.html#f_extend">extend</A> (({<A HREF="../elks/natural_32_flat.html">NATURAL_32</A>}.<A HREF="../elks/natural_32_ref_flat.html#f_max_value">max_value</A> // 10.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A>).<A HREF="../elks/natural_32_ref_flat.html#f_to_natural_64">to_natural_64</A>)
+            <A HREF="../elks/integer_overflow_checker_flat.html#f_natural_overflow_state2">natural_overflow_state2</A>.<A HREF="../elks/special_flat.html#f_extend">extend</A> (({<A HREF="../elks/natural_32_flat.html">NATURAL_32</A>}.<A HREF="../elks/natural_32_ref_flat.html#f_max_value">max_value</A> \\ 10.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A>).<A HREF="../elks/natural_32_ref_flat.html#f_to_natural_64">to_natural_64</A>)
+            <A HREF="../elks/integer_overflow_checker_flat.html#f_natural_overflow_state1">natural_overflow_state1</A>.<A HREF="../elks/special_flat.html#f_extend">extend</A> (({<A HREF="../elks/natural_64_flat.html">NATURAL_64</A>}.<A HREF="../elks/natural_64_ref_flat.html#f_max_value">max_value</A> // 10.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_64">to_natural_64</A>).<A HREF="../elks/natural_64_ref_flat.html#f_to_natural_64">to_natural_64</A>)
+            <A HREF="../elks/integer_overflow_checker_flat.html#f_natural_overflow_state2">natural_overflow_state2</A>.<A HREF="../elks/special_flat.html#f_extend">extend</A> (({<A HREF="../elks/natural_64_flat.html">NATURAL_64</A>}.<A HREF="../elks/natural_64_ref_flat.html#f_max_value">max_value</A> \\ 10.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_64">to_natural_64</A>).<A HREF="../elks/natural_64_ref_flat.html#f_to_natural_64">to_natural_64</A>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_generating_type"><A HREF="../elks/any_flat.html#f_generating_type">generating_type</A>: <A HREF="../elks/type_flat.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/integer_overflow_checker_flat.html">INTEGER_OVERFLOW_CHECKER</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Type of current object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := {<B>detachable</B> <A HREF="../elks/integer_overflow_checker_flat.html">INTEGER_OVERFLOW_CHECKER</A>}
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            generating_type_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_generator"><A HREF="../elks/any_flat.html#f_generator">generator</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of current object's generating class</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (base class of the type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            generator_not_void: <B>Result</B> /= <B>Void</B>
+            generator_not_empty: <B>not</B> <B>Result</B>.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_deep_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (a, b) <B>implies</B> <B>Result</B>
+            both_or_none_void: (a = <B>Void</B>) <B>implies</B> (<B>Result</B> = (b = <B>Void</B>))
+            same_type: (<B>Result</B> <B>and</B> (a /= <B>Void</B>)) <B>implies</B> (b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_same_type">same_type</A> (b))
+            symmetric: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (b, a)
+        <B>end</B></A>
+
+    <A NAME="f_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_equal">equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to objects considered equal?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_equal">is_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_equal">is_equal</A> (b))
+        <B>end</B></A>
+
+    <A NAME="f_is_deep_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (other: <B>attached</B> <A HREF="../elks/integer_overflow_checker_flat.html">INTEGER_OVERFLOW_CHECKER</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`Current'<FONT COLOR="red"> and </FONT>`other'<FONT COLOR="red"> attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (<B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_is_equal"><A HREF="../elks/any_flat.html#f_is_equal">is_equal</A> (other: <B>attached</B> <A HREF="../elks/integer_overflow_checker_flat.html">INTEGER_OVERFLOW_CHECKER</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object considered</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to current object?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            symmetric: <B>Result</B> <B>implies</B> other ~ <B>Current</B>
+            consistent: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+        <B>end</B></A>
+
+    <A NAME="f_standard_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical objects of the same type?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default object comparison criterion.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (b))
+        <B>end</B></A>
+
+    <A NAME="f_standard_is_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other: <B>attached</B> <A HREF="../elks/integer_overflow_checker_flat.html">INTEGER_OVERFLOW_CHECKER</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object of the same type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as current object, and field-by-field identical to it?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_conforms_to"><A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (other: <A HREF="../elks/any_flat.html">ANY</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does type of current object conform to type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of </FONT>`other'<FONT COLOR="red"> (as per Eiffel: The Language, chapter 13)?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>end</B></A>
+
+    <A NAME="f_same_type"><A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other: <A HREF="../elks/any_flat.html">ANY</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is type of current object identical to type of </FONT>`other'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (<A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (other) <B>and</B> other.<A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>Current</B>))
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_clone">clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void; otherwise new object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to </FONT>`other'
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> For non-void </FONT>`other'<FONT COLOR="red">, </FONT><A HREF="../elks/any_flat.html#f_clone">clone</A><FONT COLOR="red"> calls </FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to change copying/cloning semantics, redefine </FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_twin">twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            equal: <B>Result</B> ~ other
+        <B>end</B></A>
+
+    <A NAME="f_copy"><A HREF="../elks/any_flat.html#f_copy">copy</A> (other: <B>attached</B> <A HREF="../elks/integer_overflow_checker_flat.html">INTEGER_OVERFLOW_CHECKER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update current object using fields of object attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to </FONT>`other'<FONT COLOR="red">, so as to yield equal objects.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            is_equal: <B>Current</B> ~ other
+        <B>end</B></A>
+
+    <A NAME="f_deep_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_clone">deep_clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `deep_twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void: otherwise, new object structure</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> recursively duplicated from the one attached to </FONT>`other'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (other, <B>Result</B>)
+        <B>end</B></A>
+
+    <A NAME="f_deep_copy"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_copy">deep_copy</A> (other: <B>attached</B> <A HREF="../elks/integer_overflow_checker_flat.html">INTEGER_OVERFLOW_CHECKER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Effect equivalent to that of:</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">		</FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red"> (</FONT>`other'<FONT COLOR="red"> . </FONT><A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A><FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../elks/any_flat.html#f_copy">copy</A> (other.<A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (<B>Current</B>, other)
+        <B>end</B></A>
+
+    <A NAME="f_deep_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>: <B>attached</B> <A HREF="../elks/integer_overflow_checker_flat.html">INTEGER_OVERFLOW_CHECKER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object structure recursively duplicated from Current.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_twin_not_void: <B>Result</B> /= <B>Void</B>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (<B>Current</B>, <B>Result</B>)
+        <B>end</B></A>
+
+    <A NAME="f_standard_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_clone">standard_clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `standard_twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void; otherwise new object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_standard_twin">standard_twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            equal: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (<B>Result</B>, other)
+        <B>end</B></A>
+
+    <A NAME="f_standard_copy"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_copy">standard_copy</A> (other: <B>attached</B> <A HREF="../elks/integer_overflow_checker_flat.html">INTEGER_OVERFLOW_CHECKER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy every field of </FONT>`other'<FONT COLOR="red"> onto corresponding field</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            is_standard_equal: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other)
+        <B>end</B></A>
+
+    <A NAME="f_standard_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_twin">standard_twin</A>: <B>attached</B> <A HREF="../elks/integer_overflow_checker_flat.html">INTEGER_OVERFLOW_CHECKER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            standard_twin_not_void: <B>Result</B> /= <B>Void</B>
+            equal: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (<B>Result</B>, <B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_twin">twin</A>: <B>attached</B> <A HREF="../elks/integer_overflow_checker_flat.html">INTEGER_OVERFLOW_CHECKER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object equal to </FONT>`Current'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/any_flat.html#f_twin">twin</A><FONT COLOR="red"> calls </FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">; to change copying/twinning semantics, redefine </FONT><A HREF="../elks/any_flat.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            twin_not_void: <B>Result</B> /= <B>Void</B>
+            is_equal: <B>Result</B> ~ <B>Current</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_as_attached"><B>frozen</B> <A HREF="../elks/any_flat.html#f_as_attached">as_attached</A>: <B>attached</B> <A HREF="../elks/integer_overflow_checker_flat.html">INTEGER_OVERFLOW_CHECKER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attached version of Current</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Can be used during transitional period to convert</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> non-void-safe classes to void-safe ones.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>Current</B>
+        <B>end</B></A>
+
+    <A NAME="f_default"><B>frozen</B> <A HREF="../elks/any_flat.html#f_default">default</A>: <B>detachable</B> <A HREF="../elks/integer_overflow_checker_flat.html">INTEGER_OVERFLOW_CHECKER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of object's type</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_default_pointer"><B>frozen</B> <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>: <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of type </FONT>`POINTER'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Avoid the need to write </FONT>`p'<FONT COLOR="red">.</FONT><A HREF="../elks/any_flat.html#f_default">default</A><FONT COLOR="red"> for</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> some </FONT>`p'<FONT COLOR="red"> of type </FONT>`POINTER'<FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_default_rescue"><A HREF="../elks/any_flat.html#f_default_rescue">default_rescue</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process exception for routines with no Rescue clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_do_nothing"><B>frozen</B> <A HREF="../elks/any_flat.html#f_do_nothing">do_nothing</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execute a null action.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_integer_overflow_state1"><A HREF="../elks/integer_overflow_checker_flat.html#f_integer_overflow_state1">integer_overflow_state1</A>: <A HREF="../elks/special_flat.html">SPECIAL</A> [<B>like</B> <A HREF="../elks/numeric_information_flat.html#f_max_natural_type">max_natural_type</A>]</A>
+
+    <A NAME="f_integer_overflow_state2"><A HREF="../elks/integer_overflow_checker_flat.html#f_integer_overflow_state2">integer_overflow_state2</A>: <A HREF="../elks/special_flat.html">SPECIAL</A> [<B>like</B> <A HREF="../elks/numeric_information_flat.html#f_max_natural_type">max_natural_type</A>]</A>
+
+    <A NAME="f_natural_overflow_state1"><A HREF="../elks/integer_overflow_checker_flat.html#f_natural_overflow_state1">natural_overflow_state1</A>: <A HREF="../elks/special_flat.html">SPECIAL</A> [<B>like</B> <A HREF="../elks/numeric_information_flat.html#f_max_natural_type">max_natural_type</A>]</A>
+
+    <A NAME="f_natural_overflow_state2"><A HREF="../elks/integer_overflow_checker_flat.html#f_natural_overflow_state2">natural_overflow_state2</A>: <A HREF="../elks/special_flat.html">SPECIAL</A> [<B>like</B> <A HREF="../elks/numeric_information_flat.html#f_max_natural_type">max_natural_type</A>]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Arrays to check conversion overflow</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output</FONT>
+
+    <A NAME="f_io"><A HREF="../elks/any_flat.html#f_io">Io</A>: <A HREF="../elks/std_files_flat.html">STD_FILES</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Handle to standard file setup</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../elks/std_files_flat.html#f_set_output_default">set_output_default</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            io_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_out"><A HREF="../elks/any_flat.html#f_out">out</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/any_flat.html#f_tagged_out">tagged_out</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            out_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_print"><A HREF="../elks/any_flat.html#f_print">print</A> (o: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write terse external representation of </FONT>`o'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on standard output.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> o /= <B>Void</B> <B>then</B>
+                <A HREF="../elks/any_flat.html#f_io">Io</A>.<A HREF="../elks/std_files_flat.html#f_put_string">put_string</A> (o.<A HREF="../elks/any_flat.html#f_out">out</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_tagged_out"><B>frozen</B> <A HREF="../elks/any_flat.html#f_tagged_out">tagged_out</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            tagged_out_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Overflow checking</FONT>
+
+    <A NAME="f_will_overflow"><A HREF="../elks/integer_overflow_checker_flat.html#f_will_overflow">will_overflow</A> (part1: <B>like</B> <A HREF="../elks/numeric_information_flat.html#f_max_natural_type">max_natural_type</A>; part2: <B>like</B> <A HREF="../elks/numeric_information_flat.html#f_max_natural_type">max_natural_type</A>; type: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>; sign: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Will </FONT>`part1'<FONT COLOR="red"> * 10 + </FONT>`part2'<FONT COLOR="red"> with </FONT>`sign'<FONT COLOR="red"> overflow</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> if we convert it to an number of </FONT>`type'<FONT COLOR="red">?			</FONT>
+        <B>require</B>
+            type_valid: <A HREF="../elks/numeric_information_flat.html#f_integer_natural_type_valid">integer_natural_type_valid</A> (type)
+        <B>local</B>
+            l_index: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>Result</B> := type /= <A HREF="../elks/numeric_information_flat.html#f_type_no_limitation">Type_no_limitation</A>
+            <B>if</B> <B>Result</B> <B>then</B>
+                <B>if</B> (type = <A HREF="../elks/numeric_information_flat.html#f_type_integer_8">Type_integer_8</A>) <B>or</B> (type = <A HREF="../elks/numeric_information_flat.html#f_type_integer_16">Type_integer_16</A>) <B>or</B> (type = <A HREF="../elks/numeric_information_flat.html#f_type_integer_32">Type_integer_32</A>) <B>or</B> (type = <A HREF="../elks/numeric_information_flat.html#f_type_integer_64">Type_integer_64</A>) <B>then</B>
+                    l_index := sign * 4 + type
+                    <B>Result</B> := (part1 &gt; <A HREF="../elks/integer_overflow_checker_flat.html#f_integer_overflow_state1">integer_overflow_state1</A>.<A HREF="../elks/special_flat.html#f_item">item</A> (l_index)) <B>or</B> ((part1 = <A HREF="../elks/integer_overflow_checker_flat.html#f_integer_overflow_state1">integer_overflow_state1</A>.<A HREF="../elks/special_flat.html#f_item">item</A> (l_index)) <B>and</B> (part2 &gt; <A HREF="../elks/integer_overflow_checker_flat.html#f_integer_overflow_state2">integer_overflow_state2</A>.<A HREF="../elks/special_flat.html#f_item">item</A> (l_index)))
+                <B>else</B>
+                    l_index := type - <A HREF="../elks/numeric_information_flat.html#f_type_integer_natural_separator">Type_integer_natural_separator</A>
+                    <B>if</B> sign = 1 <B>then</B>
+                        <B>Result</B> := (part1 &gt; 0.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_64">to_natural_64</A>) <B>or</B> (part2 &gt; 0.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_64">to_natural_64</A>)
+                    <B>else</B>
+                        <B>Result</B> := (part1 &gt; <A HREF="../elks/integer_overflow_checker_flat.html#f_natural_overflow_state1">natural_overflow_state1</A>.<A HREF="../elks/special_flat.html#f_item">item</A> (l_index)) <B>or</B> ((part1 = <A HREF="../elks/integer_overflow_checker_flat.html#f_natural_overflow_state1">natural_overflow_state1</A>.<A HREF="../elks/special_flat.html#f_item">item</A> (l_index)) <B>and</B> (part2 &gt; <A HREF="../elks/integer_overflow_checker_flat.html#f_natural_overflow_state2">natural_overflow_state2</A>.<A HREF="../elks/special_flat.html#f_item">item</A> (l_index)))
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Platform</FONT>
+
+    <A NAME="f_operating_environment"><A HREF="../elks/any_flat.html#f_operating_environment">Operating_environment</A>: <A HREF="../elks/operating_environment_flat.html">OPERATING_ENVIRONMENT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Objects available from the operating system</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            operating_environment_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieval</FONT>
+
+    <A NAME="f_internal_correct_mismatch"><B>frozen</B> <A HREF="../elks/any_flat.html#f_internal_correct_mismatch">internal_correct_mismatch</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Called from runtime to perform a proper dynamic dispatch on </FONT>`correct_mismatch'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> from MISMATCH_CORRECTOR.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            l_msg: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            l_exc: <A HREF="../elks/exceptions_flat.html">EXCEPTIONS</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<A HREF="../elks/mismatch_corrector_flat.html">MISMATCH_CORRECTOR</A>} <B>Current</B> <B>as</B> l_corrector <B>then</B>
+                l_corrector.<A HREF="../elks/mismatch_corrector_flat.html#f_correct_mismatch">correct_mismatch</A>
+            <B>else</B>
+                <B>create</B> l_msg.<A HREF="../elks/readable_string_8_flat.html#f_make_from_string">make_from_string</A> ("Mismatch: ")
+                <B>create</B> l_exc
+                l_msg.<A HREF="../elks/string_8_flat.html#f_append">append</A> (<A HREF="../elks/any_flat.html#f_generating_type">generating_type</A>.<A HREF="../elks/type_flat.html#f_name">name</A>)
+                l_exc.<A HREF="../elks/exceptions_flat.html#f_raise_retrieval_exception">raise_retrieval_exception</A> (l_msg)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Type checking</FONT>
+
+    <A NAME="f_double_type_valid"><A HREF="../elks/numeric_information_flat.html#f_double_type_valid">double_type_valid</A> (type: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`type'<FONT COLOR="red"> a valid double type?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (type = <A HREF="../elks/numeric_information_flat.html#f_type_double">Type_double</A>)
+        <B>end</B></A>
+
+    <A NAME="f_integer_natural_type_valid"><A HREF="../elks/numeric_information_flat.html#f_integer_natural_type_valid">integer_natural_type_valid</A> (type: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`type'<FONT COLOR="red"> a valid integer/natural type?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (type = <A HREF="../elks/numeric_information_flat.html#f_type_no_limitation">Type_no_limitation</A>) <B>or</B> (type = <A HREF="../elks/numeric_information_flat.html#f_type_integer_8">Type_integer_8</A>) <B>or</B> (type = <A HREF="../elks/numeric_information_flat.html#f_type_integer_16">Type_integer_16</A>) <B>or</B> (type = <A HREF="../elks/numeric_information_flat.html#f_type_integer_32">Type_integer_32</A>) <B>or</B> (type = <A HREF="../elks/numeric_information_flat.html#f_type_integer_64">Type_integer_64</A>) <B>or</B> (type = <A HREF="../elks/numeric_information_flat.html#f_type_natural_8">Type_natural_8</A>) <B>or</B> (type = <A HREF="../elks/numeric_information_flat.html#f_type_natural_16">Type_natural_16</A>) <B>or</B> (type = <A HREF="../elks/numeric_information_flat.html#f_type_natural_32">Type_natural_32</A>) <B>or</B> (type = <A HREF="../elks/numeric_information_flat.html#f_type_natural_64">Type_natural_64</A>)
+        <B>end</B></A>
+
+    <A NAME="f_integer_type_valid"><A HREF="../elks/numeric_information_flat.html#f_integer_type_valid">integer_type_valid</A> (type: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`type'<FONT COLOR="red"> a valid integer type?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (type = <A HREF="../elks/numeric_information_flat.html#f_type_integer_8">Type_integer_8</A>) <B>or</B> (type = <A HREF="../elks/numeric_information_flat.html#f_type_integer_16">Type_integer_16</A>) <B>or</B> (type = <A HREF="../elks/numeric_information_flat.html#f_type_integer_32">Type_integer_32</A>) <B>or</B> (type = <A HREF="../elks/numeric_information_flat.html#f_type_integer_64">Type_integer_64</A>)
+        <B>end</B></A>
+
+    <A NAME="f_natural_type_valid"><A HREF="../elks/numeric_information_flat.html#f_natural_type_valid">natural_type_valid</A> (type: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`type'<FONT COLOR="red"> a valid natural type?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (type = <A HREF="../elks/numeric_information_flat.html#f_type_natural_8">Type_natural_8</A>) <B>or</B> (type = <A HREF="../elks/numeric_information_flat.html#f_type_natural_16">Type_natural_16</A>) <B>or</B> (type = <A HREF="../elks/numeric_information_flat.html#f_type_natural_32">Type_natural_32</A>) <B>or</B> (type = <A HREF="../elks/numeric_information_flat.html#f_type_natural_64">Type_natural_64</A>)
+        <B>end</B></A>
+
+    <A NAME="f_real_double_type_valid"><A HREF="../elks/numeric_information_flat.html#f_real_double_type_valid">real_double_type_valid</A> (type: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`type'<FONT COLOR="red"> a valid real/double type?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (type = <A HREF="../elks/numeric_information_flat.html#f_type_no_limitation">Type_no_limitation</A>) <B>or</B> (type = <A HREF="../elks/numeric_information_flat.html#f_type_real">Type_real</A>) <B>or</B> (type = <A HREF="../elks/numeric_information_flat.html#f_type_double">Type_double</A>)
+        <B>end</B></A>
+
+    <A NAME="f_real_type_valid"><A HREF="../elks/numeric_information_flat.html#f_real_type_valid">real_type_valid</A> (type: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`type'<FONT COLOR="red"> a valid real type?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (type = <A HREF="../elks/numeric_information_flat.html#f_type_real">Type_real</A>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Types</FONT>
+
+    <A NAME="f_max_integer_type"><A HREF="../elks/numeric_information_flat.html#f_max_integer_type">max_integer_type</A>: <A HREF="../elks/integer_64_flat.html">INTEGER_64</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> INTEGER type of max word length</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_max_natural_type"><A HREF="../elks/numeric_information_flat.html#f_max_natural_type">max_natural_type</A>: <A HREF="../elks/natural_64_flat.html">NATURAL_64</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> NATURAL type of max word length</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_type_count"><A HREF="../elks/numeric_information_flat.html#f_type_count">Type_count</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 4</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of types of integer/natural in Eiffel</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_type_double"><A HREF="../elks/numeric_information_flat.html#f_type_double">Type_double</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 101</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Real/Double type indicators</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_type_integer"><A HREF="../elks/numeric_information_flat.html#f_type_integer">Type_integer</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 3</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/numeric_information_flat.html#f_type_integer_32">Type_integer_32</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_type_integer_16"><A HREF="../elks/numeric_information_flat.html#f_type_integer_16">Type_integer_16</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 2</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_type_integer_32"><A HREF="../elks/numeric_information_flat.html#f_type_integer_32">Type_integer_32</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 3</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/numeric_information_flat.html#f_type_integer">Type_integer</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_type_integer_64"><A HREF="../elks/numeric_information_flat.html#f_type_integer_64">Type_integer_64</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 4</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_type_integer_8"><A HREF="../elks/numeric_information_flat.html#f_type_integer_8">Type_integer_8</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 1</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_type_integer_natural_separator"><A HREF="../elks/numeric_information_flat.html#f_type_integer_natural_separator">Type_integer_natural_separator</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 10</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_type_natural"><A HREF="../elks/numeric_information_flat.html#f_type_natural">Type_natural</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 13</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/numeric_information_flat.html#f_type_natural_32">Type_natural_32</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_type_natural_16"><A HREF="../elks/numeric_information_flat.html#f_type_natural_16">Type_natural_16</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 12</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_type_natural_32"><A HREF="../elks/numeric_information_flat.html#f_type_natural_32">Type_natural_32</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 13</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/numeric_information_flat.html#f_type_natural">Type_natural</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_type_natural_64"><A HREF="../elks/numeric_information_flat.html#f_type_natural_64">Type_natural_64</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 14</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Integer/natural type indicators</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_type_natural_8"><A HREF="../elks/numeric_information_flat.html#f_type_natural_8">Type_natural_8</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 11</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_type_no_limitation"><A HREF="../elks/numeric_information_flat.html#f_type_no_limitation">Type_no_limitation</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 0</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Type representing a number sequence (no length limitation)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_type_real"><A HREF="../elks/numeric_information_flat.html#f_type_real">Type_real</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 100</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/numeric_information_flat.html">NUMERIC_INFORMATION</A><FONT COLOR="red">)</FONT>
+    
+<B>invariant</B>
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+    reflexive_equality: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+    reflexive_conformance: <A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>Current</B>)
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/integer_overflow_checker_flat.html">INTEGER_OVERFLOW_CHECKER</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="integer_overflow_checker_chart.html">Chart</A></TD><TD><A HREF="integer_overflow_checker_links.html">Relations</A></TD><TD><A HREF="integer_overflow_checker.html">Text</A></TD><TD>Flat</TD><TD><A HREF="integer_overflow_checker_short.html">Contracts</A></TD><TD><A HREF="integer_overflow_checker_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

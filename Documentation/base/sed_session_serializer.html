@@ -1,0 +1,956 @@
+<HTML><HEAD>
+<meta name="description" content="Encoding of arbitrary objects graphs within a session of a same program.  Some routines are explicitely frozen, not because we do not want them to be redefined but if they are frozen, it saves us having to look at all possible descendants whenever we do a change."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="library" content="EiffelBase: Library of reusable components for Eiffel."/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>sed_session_serializer Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sed_session_serializer_chart.html">Chart</A></TD><TD><A HREF="sed_session_serializer_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="sed_session_serializer_flat.html">Flat</A></TD><TD><A HREF="sed_session_serializer_short.html">Contracts</A></TD><TD><A HREF="sed_session_serializer_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Encoding of arbitrary objects graphs within a session of a same program.
+        
+        Some routines are explicitely frozen, not because we do not want them to be redefined
+        but if they are frozen, it saves us having to look at all possible descendants whenever
+        we do a change.
+    ]"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2013-06-27 05:21:14 -0700 (Thu, 27 Jun 2013) $"
+    revision: "$Revision: 92746 $"
+
+<B>class</B> 
+    <A HREF="../ise/sed_session_serializer.html">SED_SESSION_SERIALIZER</A>
+
+<B>inherit</B>
+    <A HREF="../ise/sed_utilities.html">SED_UTILITIES</A>
+
+<B>create</B> 
+    <A HREF="../ise/sed_session_serializer.html#f_make">make</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../ise/sed_session_serializer.html#f_make">make</A> (a_serializer: <A HREF="../ise/sed_reader_writer.html">SED_READER_WRITER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize current instance</FONT>
+        <B>require</B>
+            a_serializer_not_void: a_serializer /= <B>Void</B>
+            a_serializer_ready: a_serializer.<A HREF="../ise/sed_reader_writer.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>do</B>
+            <B>create</B> <A HREF="../ise/sed_session_serializer.html#f_reflector">reflector</A>
+            <B>create</B> <A HREF="../ise/sed_session_serializer.html#f_reflected_object">reflected_object</A>.<A HREF="../elks/reflected_reference_object.html#f_make">make</A> (<A HREF="../ise/sed_session_serializer.html#f_reflector">reflector</A>)
+            <B>create</B> <A HREF="../ise/sed_session_serializer.html#f_object_indexes">object_indexes</A>.<A HREF="../ise/sed_objects_table.html#f_make">make</A> (1.<A HREF="../elks/integer_32_ref.html#f_to_natural_32">to_natural_32</A>)
+            <A HREF="../ise/sed_session_serializer.html#f_traversable">traversable</A> := <A HREF="../ise/sed_session_serializer.html#f_breadth_first_traversable">Breadth_first_traversable</A>
+            <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A> := a_serializer
+            <A HREF="../ise/sed_session_serializer.html#f_set_version">set_version</A> ({<A HREF="../ise/sed_versions.html">SED_VERSIONS</A>}.<A HREF="../ise/sed_versions.html#f_version_7_3">version_7_3</A>)
+        <B>ensure</B>
+            serializer_set: <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A> = a_serializer
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_root_object"><A HREF="../ise/sed_session_serializer.html#f_root_object">root_object</A>: <B>detachable</B> <A HREF="../elks/any.html">ANY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Root object of object graph</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../ise/sed_session_serializer.html#f_traversable">traversable</A>.<A HREF="../elks/object_graph_traversable.html#f_root_object">root_object</A>
+        <B>end</B></A>
+
+    <A NAME="f_serializer"><A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>: <A HREF="../ise/sed_reader_writer.html">SED_READER_WRITER</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Serializer used to encode data</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_is_traversing_mode_set"><A HREF="../ise/sed_session_serializer.html#f_is_traversing_mode_set">is_traversing_mode_set</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is traversing mode set?</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../ise/sed_session_serializer.html#f_traversable">traversable</A> /= <B>Void</B>)
+        <B>end</B></A>
+
+    <A NAME="f_is_root_object_set"><A HREF="../ise/sed_session_serializer.html#f_is_root_object_set">is_root_object_set</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is root object of object graph set?</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_set_breadth_first_traversing_mode"><A HREF="../ise/sed_session_serializer.html#f_set_breadth_first_traversing_mode">set_breadth_first_traversing_mode</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Change graph traversing to breadth first.</FONT>
+        <B>do</B>
+            <A HREF="../ise/sed_session_serializer.html#f_traversable">traversable</A> := <A HREF="../ise/sed_session_serializer.html#f_breadth_first_traversable">Breadth_first_traversable</A>
+        <B>ensure</B>
+            traversing_mode_set: <A HREF="../ise/sed_session_serializer.html#f_is_traversing_mode_set">is_traversing_mode_set</A>
+            breadth_first_mode: <B>attached</B> {<A HREF="../elks/object_graph_breadth_first_traversable.html">OBJECT_GRAPH_BREADTH_FIRST_TRAVERSABLE</A>} <A HREF="../ise/sed_session_serializer.html#f_traversable">traversable</A>
+        <B>end</B></A>
+
+    <A NAME="f_set_depth_first_traversing_mode"><A HREF="../ise/sed_session_serializer.html#f_set_depth_first_traversing_mode">set_depth_first_traversing_mode</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Change graph traversing to depth first.</FONT>
+        <B>do</B>
+            <A HREF="../ise/sed_session_serializer.html#f_traversable">traversable</A> := <A HREF="../ise/sed_session_serializer.html#f_depth_first_traversable">Depth_first_traversable</A>
+        <B>ensure</B>
+            traversing_mode_set: <A HREF="../ise/sed_session_serializer.html#f_is_traversing_mode_set">is_traversing_mode_set</A>
+            depth_first_mode: <B>attached</B> {<A HREF="../elks/object_graph_depth_first_traversable.html">OBJECT_GRAPH_DEPTH_FIRST_TRAVERSABLE</A>} <A HREF="../ise/sed_session_serializer.html#f_traversable">traversable</A>
+        <B>end</B></A>
+
+    <A NAME="f_set_root_object"><A HREF="../ise/sed_session_serializer.html#f_set_root_object">set_root_object</A> (an_object: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_root_object">root_object</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make 'an_object' the root_object.</FONT>
+        <B>require</B>
+            an_object_not_void: an_object /= <B>Void</B>
+            traversing_mode_set: <A HREF="../ise/sed_session_serializer.html#f_is_traversing_mode_set">is_traversing_mode_set</A>
+        <B>do</B>
+            <A HREF="../ise/sed_session_serializer.html#f_traversable">traversable</A>.<A HREF="../elks/object_graph_traversable.html#f_set_root_object">set_root_object</A> (an_object)
+            <A HREF="../ise/sed_session_serializer.html#f_is_root_object_set">is_root_object_set</A> := <B>True</B>
+        <B>ensure</B>
+            root_object_set: <A HREF="../ise/sed_session_serializer.html#f_root_object">root_object</A> = an_object <B>and</B> <A HREF="../ise/sed_session_serializer.html#f_is_root_object_set">is_root_object_set</A>
+            root_object_identity: <A HREF="../ise/sed_session_serializer.html#f_root_object">root_object</A> = <A HREF="../ise/sed_session_serializer.html#f_traversable">traversable</A>.<A HREF="../elks/object_graph_traversable.html#f_root_object">root_object</A>
+        <B>end</B></A>
+
+    <A NAME="f_set_serializer"><A HREF="../ise/sed_session_serializer.html#f_set_serializer">set_serializer</A> (a_serializer: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A><FONT COLOR="red"> with </FONT>`a_serializer'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_serializer_not_void: a_serializer /= <B>Void</B>
+            a_serializer_ready: a_serializer.<A HREF="../ise/sed_reader_writer.html#f_is_ready_for_writing">is_ready_for_writing</A>
+        <B>do</B>
+            <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A> := a_serializer
+        <B>ensure</B>
+            serializer_set: <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A> = a_serializer
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_encode"><B>frozen</B> <A HREF="../ise/sed_session_serializer.html#f_encode">encode</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Encode object graph starting with the root object.</FONT>
+        <B>require</B>
+            traversing_mode_set: <A HREF="../ise/sed_session_serializer.html#f_is_traversing_mode_set">is_traversing_mode_set</A>
+            root_object_set: <A HREF="../ise/sed_session_serializer.html#f_is_root_object_set">is_root_object_set</A>
+        <B>local</B>
+            l_mem: <B>detachable</B> <A HREF="../elks/memory.html">MEMORY</A>
+            l_is_collecting: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            l_list_count: <A HREF="../elks/natural_32.html">NATURAL_32</A>
+        <B>do</B>
+            <B>if</B> <B>not</B> {<A HREF="../elks/platform.html">PLATFORM</A>}.<A HREF="../elks/platform.html#f_is_dotnet">is_dotnet</A> <B>then</B>
+                <B>create</B> l_mem
+                l_is_collecting := l_mem.<A HREF="../elks/memory.html#f_collecting">collecting</A>
+                l_mem.<A HREF="../elks/memory.html#f_collection_off">collection_off</A>
+            <B>end</B>
+            <A HREF="../ise/sed_session_serializer.html#f_traversable">traversable</A>.<A HREF="../elks/object_graph_traversable.html#f_set_is_skip_transient">set_is_skip_transient</A> (<B>True</B>)
+            <A HREF="../ise/sed_session_serializer.html#f_traversable">traversable</A>.<A HREF="../elks/object_graph_traversable.html#f_set_is_skip_copy_semantics_reference">set_is_skip_copy_semantics_reference</A> (<B>True</B>)
+            <A HREF="../ise/sed_session_serializer.html#f_traversable">traversable</A>.<A HREF="../elks/object_graph_traversable.html#f_traverse">traverse</A>
+            <B>if</B> <B>attached</B> <A HREF="../ise/sed_session_serializer.html#f_traversable">traversable</A>.<A HREF="../elks/object_graph_traversable.html#f_visited_objects">visited_objects</A> <B>as</B> l_list <B>and then</B> <B>attached</B> <A HREF="../ise/sed_session_serializer.html#f_traversable">traversable</A>.<A HREF="../elks/object_graph_traversable.html#f_visited_types">visited_types</A> <B>as</B> l_type_table <B>then</B>
+                <A HREF="../ise/sed_session_serializer.html#f_has_reference_with_copy_semantics">has_reference_with_copy_semantics</A> := <A HREF="../ise/sed_session_serializer.html#f_traversable">traversable</A>.<A HREF="../elks/object_graph_traversable.html#f_has_reference_with_copy_semantics">has_reference_with_copy_semantics</A>
+                l_list_count := l_list.<A HREF="../elks/arrayed_list.html#f_count">count</A>.<A HREF="../elks/integer_32_ref.html#f_to_natural_32">to_natural_32</A>
+                <B>if</B> l_list.<A HREF="../elks/arrayed_list.html#f_count">count</A> &gt; <A HREF="../ise/sed_session_serializer.html#f_object_indexes">object_indexes</A>.<A HREF="../elks/hash_table.html#f_count">capacity</A> <B>then</B>
+                    <B>create</B> <A HREF="../ise/sed_session_serializer.html#f_object_indexes">object_indexes</A>.<A HREF="../ise/sed_objects_table.html#f_make">make</A> (l_list_count)
+                <B>end</B>
+                <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_natural_32">write_compressed_natural_32</A> (l_list_count)
+                <A HREF="../ise/sed_session_serializer.html#f_write_header">write_header</A> (l_list, l_type_table)
+                <A HREF="../ise/sed_session_serializer.html#f_encode_objects">encode_objects</A> (l_list)
+            <B>end</B>
+            <A HREF="../ise/sed_session_serializer.html#f_traversable">traversable</A>.<A HREF="../elks/object_graph_traversable.html#f_wipe_out">wipe_out</A>
+            <A HREF="../ise/sed_session_serializer.html#f_object_indexes">object_indexes</A>.<A HREF="../ise/sed_objects_table.html#f_wipe_out">wipe_out</A>
+            <B>if</B> l_mem /= <B>Void</B> <B>and then</B> l_is_collecting <B>then</B>
+                l_mem.<A HREF="../elks/memory.html#f_collection_on">collection_on</A>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation: Access</FONT>
+
+    <A NAME="f_reflector"><A HREF="../ise/sed_session_serializer.html#f_reflector">reflector</A>: <A HREF="../elks/reflector.html">REFLECTOR</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Facilities to inspect.</FONT>
+
+    <A NAME="f_reflected_object"><A HREF="../ise/sed_session_serializer.html#f_reflected_object">reflected_object</A>: <A HREF="../elks/reflected_reference_object.html">REFLECTED_REFERENCE_OBJECT</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Facility to inspect object.</FONT>
+
+    <A NAME="f_traversable"><A HREF="../ise/sed_session_serializer.html#f_traversable">traversable</A>: <A HREF="../elks/object_graph_traversable.html">OBJECT_GRAPH_TRAVERSABLE</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Object used for traversing object graph</FONT>
+
+    <A NAME="f_object_indexes"><A HREF="../ise/sed_session_serializer.html#f_object_indexes">object_indexes</A>: <A HREF="../ise/sed_objects_table.html">SED_OBJECTS_TABLE</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Mapping between object and their associated index.</FONT>
+
+    <A NAME="f_breadth_first_traversable"><A HREF="../ise/sed_session_serializer.html#f_breadth_first_traversable">Breadth_first_traversable</A>: <A HREF="../elks/object_graph_breadth_first_traversable.html">OBJECT_GRAPH_BREADTH_FIRST_TRAVERSABLE</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Return an instance of OBJECT_GRAPH_BREADTH_FIRST_TRAVERSABLE.</FONT>
+        <B>once</B>
+            <B>Result</B> := <B>create</B> {<A HREF="../elks/object_graph_breadth_first_traversable.html">OBJECT_GRAPH_BREADTH_FIRST_TRAVERSABLE</A>}
+        <B>end</B></A>
+
+    <A NAME="f_depth_first_traversable"><A HREF="../ise/sed_session_serializer.html#f_depth_first_traversable">Depth_first_traversable</A>: <A HREF="../elks/object_graph_depth_first_traversable.html">OBJECT_GRAPH_DEPTH_FIRST_TRAVERSABLE</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Return an instance of OBJECT_GRAPH_DEPTH_FIRST_TRAVERSABLE.</FONT>
+        <B>once</B>
+            <B>Result</B> := <B>create</B> {<A HREF="../elks/object_graph_depth_first_traversable.html">OBJECT_GRAPH_DEPTH_FIRST_TRAVERSABLE</A>}
+        <B>end</B></A>
+
+    <A NAME="f_version"><A HREF="../ise/sed_session_serializer.html#f_version">version</A>: <A HREF="../elks/natural_32.html">NATURAL_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Internal version of the format (See SED_VERSIONS for possible values).</FONT>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation: Setting</FONT>
+
+    <A NAME="f_set_version"><A HREF="../ise/sed_session_serializer.html#f_set_version">set_version</A> (v: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_version">version</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../ise/sed_session_serializer.html#f_version">version</A><FONT COLOR="red"> with </FONT>`v'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../ise/sed_session_serializer.html#f_version">version</A> := v
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_is_store_settings_enabled"><A HREF="../ise/sed_session_serializer.html#f_is_store_settings_enabled">is_store_settings_enabled</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are settings stored?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> By default not for SED_INDEPENDENT_SERIALIZER.</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>True</B>
+        <B>end</B></A>
+
+    <A NAME="f_has_reference_with_copy_semantics"><A HREF="../ise/sed_session_serializer.html#f_has_reference_with_copy_semantics">has_reference_with_copy_semantics</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does serialized data have some reference with copy semantics?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If none, we optimize the serialization of references by not emitting</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> a boolean switch each time we refer to an object.</FONT>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_write_header"><A HREF="../ise/sed_session_serializer.html#f_write_header">write_header</A> (a_list: <A HREF="../elks/arrayed_list.html">ARRAYED_LIST</A> [<A HREF="../elks/any.html">ANY</A>]; a_type_table: <A HREF="../elks/hash_table.html">HASH_TABLE</A> [<A HREF="../elks/integer_32.html">INTEGER_32</A>, <A HREF="../elks/integer_32.html">INTEGER_32</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Operation performed before </FONT>`encoding_objects'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_list_not_void: a_list /= <B>Void</B>
+            a_list_not_empty: <B>not</B> a_list.<A HREF="../elks/finite.html#f_is_empty">is_empty</A>
+        <B>do</B>
+            <A HREF="../ise/sed_session_serializer.html#f_write_settings">write_settings</A>
+            <A HREF="../ise/sed_session_serializer.html#f_write_object_table">write_object_table</A> (a_list)
+        <B>end</B></A>
+
+    <A NAME="f_write_settings"><B>frozen</B> <A HREF="../ise/sed_session_serializer.html#f_write_settings">write_settings</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../ise/sed_session_serializer.html#f_is_store_settings_enabled">is_store_settings_enabled</A> <B>then</B>
+                <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_natural_32">write_compressed_natural_32</A> (<A HREF="../ise/sed_session_serializer.html#f_version">version</A>)
+                <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>.<A HREF="../ise/sed_reader_writer.html#f_write_boolean">write_boolean</A> (<A HREF="../ise/sed_session_serializer.html#f_has_reference_with_copy_semantics">has_reference_with_copy_semantics</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_write_object_table"><B>frozen</B> <A HREF="../ise/sed_session_serializer.html#f_write_object_table">write_object_table</A> (a_list: <A HREF="../elks/arrayed_list.html">ARRAYED_LIST</A> [<A HREF="../elks/any.html">ANY</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write mapping between object's reference ID in </FONT>`a_list'<FONT COLOR="red"> with</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> all the necessary information necessary to recreate it at a</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> later time.</FONT>
+        <B>require</B>
+            a_list_not_void: a_list /= <B>Void</B>
+            a_list_not_empty: <B>not</B> a_list.<A HREF="../elks/finite.html#f_is_empty">is_empty</A>
+        <B>local</B>
+            l_reflected_object: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_reflected_object">reflected_object</A>
+            l_ser: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+            l_object_indexes: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_object_indexes">object_indexes</A>
+            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_dtype: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_obj: <A HREF="../elks/any.html">ANY</A>
+            l_area: <A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/any.html">ANY</A>]
+        <B>do</B>
+            l_ser := <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+            l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_boolean">write_boolean</A> (<B>True</B>)
+            l_reflected_object := <A HREF="../ise/sed_session_serializer.html#f_reflected_object">reflected_object</A>
+            l_object_indexes := <A HREF="../ise/sed_session_serializer.html#f_object_indexes">object_indexes</A>
+            <B>from</B>
+                l_area := a_list.<A HREF="../elks/arrayed_list.html#f_area">area</A>
+                i := 0
+                nb := a_list.<A HREF="../elks/arrayed_list.html#f_count">count</A>
+            <B>until</B>
+                i = nb
+            <B>loop</B>
+                l_obj := l_area.<A HREF="../elks/special.html#f_item">item</A> (i)
+                l_reflected_object.<A HREF="../elks/reflected_reference_object.html#f_set_object">set_object</A> (l_obj)
+                i := i + 1
+                l_dtype := l_reflected_object.<A HREF="../elks/reflected_object.html#f_dynamic_type">dynamic_type</A>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_natural_32">write_compressed_natural_32</A> (l_dtype.<A HREF="../elks/integer_32_ref.html#f_to_natural_32">to_natural_32</A>)
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_natural_32">write_compressed_natural_32</A> (l_object_indexes.<A HREF="../ise/sed_objects_table.html#f_index">index</A> (l_obj))
+                <B>if</B> l_reflected_object.<A HREF="../elks/reflected_object.html#f_is_special">is_special</A> <B>then</B>
+                    l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_natural_8">write_natural_8</A> (<A HREF="../ise/sed_utilities.html#f_is_special_flag">Is_special_flag</A>)
+                    l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_integer_32">write_compressed_integer_32</A> (<A HREF="../ise/sed_utilities.html#f_abstract_type">abstract_type</A> (l_reflected_object.<A HREF="../elks/reflected_object.html#f_generic_dynamic_type">generic_dynamic_type</A> (1)))
+                    <B>if</B> <B>attached</B> {<A HREF="../elks/abstract_special.html">ABSTRACT_SPECIAL</A>} l_obj <B>as</B> l_abstract_spec <B>then</B>
+                        l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_integer_32">write_compressed_integer_32</A> (l_abstract_spec.<A HREF="../elks/abstract_special.html#f_capacity">capacity</A>)
+                    <B>else</B>
+                        <B>check</B>
+                            l_abstract_spec_attached: <B>False</B>
+                        <B>end</B>
+                    <B>end</B>
+                <B>elseif</B> l_reflected_object.<A HREF="../elks/reflected_object.html#f_is_tuple">is_tuple</A> <B>then</B>
+                    l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_natural_8">write_natural_8</A> (<A HREF="../ise/sed_utilities.html#f_is_tuple_flag">Is_tuple_flag</A>)
+                <B>else</B>
+                    l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_natural_8">write_natural_8</A> (0.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>)
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_encode_objects"><B>frozen</B> <A HREF="../ise/sed_session_serializer.html#f_encode_objects">encode_objects</A> (a_list: <A HREF="../elks/arrayed_list.html">ARRAYED_LIST</A> [<A HREF="../elks/any.html">ANY</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Encode all objects referenced in </FONT>`a_list'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_list_not_void: a_list /= <B>Void</B>
+            a_list_not_empty: <B>not</B> a_list.<A HREF="../elks/finite.html#f_is_empty">is_empty</A>
+        <B>local</B>
+            l_reflected_object: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_reflected_object">reflected_object</A>
+            l_ser: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+            l_object_indexes: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_object_indexes">object_indexes</A>
+            l_obj: <A HREF="../elks/any.html">ANY</A>
+            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_area: <A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/any.html">ANY</A>]
+            l_obj_index: <A HREF="../elks/natural_32.html">NATURAL_32</A>
+        <B>do</B>
+            l_reflected_object := <A HREF="../ise/sed_session_serializer.html#f_reflected_object">reflected_object</A>
+            l_ser := <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+            l_object_indexes := <A HREF="../ise/sed_session_serializer.html#f_object_indexes">object_indexes</A>
+            <B>from</B>
+                l_area := a_list.<A HREF="../elks/arrayed_list.html#f_area">area</A>
+                i := 0
+                nb := a_list.<A HREF="../elks/arrayed_list.html#f_count">count</A>
+            <B>until</B>
+                i = nb
+            <B>loop</B>
+                l_obj := l_area.<A HREF="../elks/special.html#f_item">item</A> (i)
+                l_reflected_object.<A HREF="../elks/reflected_reference_object.html#f_set_object">set_object</A> (l_obj)
+                i := i + 1
+                l_obj_index := l_object_indexes.<A HREF="../ise/sed_objects_table.html#f_index">index</A> (l_obj)
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_natural_32">write_compressed_natural_32</A> (l_obj_index)
+                <B>check</B>
+                    l_obj_index = i.<A HREF="../elks/integer_32.html#f_as_natural_32">as_natural_32</A>
+                <B>end</B>
+                <B>if</B> l_reflected_object.<A HREF="../elks/reflected_object.html#f_is_special">is_special</A> <B>then</B>
+                    <A HREF="../ise/sed_session_serializer.html#f_encode_special">encode_special</A> (l_obj, <A HREF="../ise/sed_utilities.html#f_abstract_type">abstract_type</A> (l_reflected_object.<A HREF="../elks/reflected_object.html#f_generic_dynamic_type">generic_dynamic_type</A> (1)))
+                <B>elseif</B> l_reflected_object.<A HREF="../elks/reflected_object.html#f_is_tuple">is_tuple</A> <B>then</B>
+                    <B>if</B> <B>attached</B> {<A HREF="../elks/tuple.html">TUPLE</A>} l_obj <B>as</B> l_tuple <B>then</B>
+                        <A HREF="../ise/sed_session_serializer.html#f_encode_tuple_object">encode_tuple_object</A> (l_tuple)
+                    <B>else</B>
+                        <B>check</B>
+                            l_tuple_attached: <B>False</B>
+                        <B>end</B>
+                    <B>end</B>
+                <B>else</B>
+                    <A HREF="../ise/sed_session_serializer.html#f_encode_normal_object">encode_normal_object</A> (l_reflected_object)
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_encode_reference"><B>frozen</B> <A HREF="../ise/sed_session_serializer.html#f_encode_reference">encode_reference</A> (an_object: <B>detachable</B> <A HREF="../elks/any.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Encode reference to </FONT>`an_object'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>if</B> an_object /= <B>Void</B> <B>then</B>
+                <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_natural_32">write_compressed_natural_32</A> (<A HREF="../ise/sed_session_serializer.html#f_object_indexes">object_indexes</A>.<A HREF="../ise/sed_objects_table.html#f_index">index</A> (an_object))
+            <B>else</B>
+                <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_natural_32">write_compressed_natural_32</A> (0.<A HREF="../elks/integer_32_ref.html#f_to_natural_32">to_natural_32</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_encode_normal_object"><B>frozen</B> <A HREF="../ise/sed_session_serializer.html#f_encode_normal_object">encode_normal_object</A> (a_reflected_object: <A HREF="../elks/reflected_object.html">REFLECTED_OBJECT</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Encode normal object </FONT>`a_reflected_object'<FONT COLOR="red">.</FONT>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_ser: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+            l_exp: <A HREF="../elks/reflected_copy_semantics_object.html">REFLECTED_COPY_SEMANTICS_OBJECT</A>
+        <B>do</B>
+            <B>from</B>
+                l_ser := <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+                i := 1
+                nb := a_reflected_object.<A HREF="../elks/reflected_object.html#f_field_count">field_count</A> + 1
+            <B>until</B>
+                i = nb
+            <B>loop</B>
+                <B>if</B> <B>not</B> a_reflected_object.<A HREF="../elks/reflected_object.html#f_is_field_transient">is_field_transient</A> (i) <B>then</B>
+                    <B>inspect</B> a_reflected_object.<A HREF="../elks/reflected_object.html#f_field_type">field_type</A> (i)
+                    <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_boolean_type">boolean_type</A> <B>then</B> 
+                        l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_boolean">write_boolean</A> (a_reflected_object.<A HREF="../elks/reflected_object.html#f_boolean_field">boolean_field</A> (i))
+                    <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_character_8_type">character_8_type</A> <B>then</B> 
+                        l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_character_8">write_character_8</A> (a_reflected_object.<A HREF="../elks/reflected_object.html#f_character_8_field">character_8_field</A> (i))
+                    <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_character_32_type">character_32_type</A> <B>then</B> 
+                        l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_character_32">write_character_32</A> (a_reflected_object.<A HREF="../elks/reflected_object.html#f_character_32_field">character_32_field</A> (i))
+                    <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_natural_8_type">natural_8_type</A> <B>then</B> 
+                        l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_natural_8">write_natural_8</A> (a_reflected_object.<A HREF="../elks/reflected_object.html#f_natural_8_field">natural_8_field</A> (i))
+                    <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_natural_16_type">natural_16_type</A> <B>then</B> 
+                        l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_natural_16">write_natural_16</A> (a_reflected_object.<A HREF="../elks/reflected_object.html#f_natural_16_field">natural_16_field</A> (i))
+                    <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_natural_32_type">natural_32_type</A> <B>then</B> 
+                        l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_natural_32">write_natural_32</A> (a_reflected_object.<A HREF="../elks/reflected_object.html#f_natural_32_field">natural_32_field</A> (i))
+                    <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_natural_64_type">natural_64_type</A> <B>then</B> 
+                        l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_natural_64">write_natural_64</A> (a_reflected_object.<A HREF="../elks/reflected_object.html#f_natural_64_field">natural_64_field</A> (i))
+                    <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_integer_8_type">integer_8_type</A> <B>then</B> 
+                        l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_integer_8">write_integer_8</A> (a_reflected_object.<A HREF="../elks/reflected_object.html#f_integer_8_field">integer_8_field</A> (i))
+                    <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_integer_16_type">integer_16_type</A> <B>then</B> 
+                        l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_integer_16">write_integer_16</A> (a_reflected_object.<A HREF="../elks/reflected_object.html#f_integer_16_field">integer_16_field</A> (i))
+                    <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_integer_32_type">integer_32_type</A> <B>then</B> 
+                        l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_integer_32">write_integer_32</A> (a_reflected_object.<A HREF="../elks/reflected_object.html#f_integer_32_field">integer_32_field</A> (i))
+                    <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_integer_64_type">integer_64_type</A> <B>then</B> 
+                        l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_integer_64">write_integer_64</A> (a_reflected_object.<A HREF="../elks/reflected_object.html#f_integer_64_field">integer_64_field</A> (i))
+                    <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_real_32_type">real_32_type</A> <B>then</B> 
+                        l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_real_32">write_real_32</A> (a_reflected_object.<A HREF="../elks/reflected_object.html#f_real_32_field">real_32_field</A> (i))
+                    <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_real_64_type">real_64_type</A> <B>then</B> 
+                        l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_real_64">write_real_64</A> (a_reflected_object.<A HREF="../elks/reflected_object.html#f_real_64_field">real_64_field</A> (i))
+                    <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_pointer_type">pointer_type</A> <B>then</B> 
+                        l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_pointer">write_pointer</A> (a_reflected_object.<A HREF="../elks/reflected_object.html#f_pointer_field">pointer_field</A> (i))
+                    <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_reference_type">reference_type</A> <B>then</B> 
+                        <B>if</B> <A HREF="../ise/sed_session_serializer.html#f_has_reference_with_copy_semantics">has_reference_with_copy_semantics</A> <B>then</B>
+                            <B>if</B> a_reflected_object.<A HREF="../elks/reflected_object.html#f_is_copy_semantics_field">is_copy_semantics_field</A> (i) <B>then</B>
+                                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_boolean">write_boolean</A> (<B>True</B>)
+                                l_exp := a_reflected_object.<A HREF="../elks/reflected_object.html#f_copy_semantics_field">copy_semantics_field</A> (i)
+                                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_integer_32">write_compressed_integer_32</A> (l_exp.<A HREF="../elks/reflected_object.html#f_dynamic_type">dynamic_type</A>)
+                                <A HREF="../ise/sed_session_serializer.html#f_encode_normal_object">encode_normal_object</A> (l_exp)
+                            <B>else</B>
+                                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_boolean">write_boolean</A> (<B>False</B>)
+                                <A HREF="../ise/sed_session_serializer.html#f_encode_reference">encode_reference</A> (a_reflected_object.<A HREF="../elks/reflected_object.html#f_reference_field">reference_field</A> (i))
+                            <B>end</B>
+                        <B>else</B>
+                            <A HREF="../ise/sed_session_serializer.html#f_encode_reference">encode_reference</A> (a_reflected_object.<A HREF="../elks/reflected_object.html#f_reference_field">reference_field</A> (i))
+                        <B>end</B>
+                    <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_expanded_type">expanded_type</A> <B>then</B> 
+                        l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_integer_32">write_compressed_integer_32</A> (a_reflected_object.<A HREF="../elks/reflected_object.html#f_dynamic_type">dynamic_type</A>)
+                        <A HREF="../ise/sed_session_serializer.html#f_encode_normal_object">encode_normal_object</A> (a_reflected_object.<A HREF="../elks/reflected_object.html#f_expanded_field">expanded_field</A> (i))
+                    <B>else</B>
+                        <B>check</B>
+                            <B>False</B>
+                        <B>end</B>
+                    <B>end</B>
+                <B>end</B>
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_encode_tuple_object"><B>frozen</B> <A HREF="../ise/sed_session_serializer.html#f_encode_tuple_object">encode_tuple_object</A> (a_tuple: <A HREF="../elks/tuple.html">TUPLE</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Encode a TUPLE object.</FONT>
+        <B>require</B>
+            a_tuple_not_void: a_tuple /= <B>Void</B>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_code: <A HREF="../elks/natural_8.html">NATURAL_8</A>
+            l_ser: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+        <B>do</B>
+            <B>from</B>
+                l_ser := <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+                i := 1
+                nb := a_tuple.<A HREF="../elks/tuple.html#f_count">count</A> + 1
+            <B>until</B>
+                i = nb
+            <B>loop</B>
+                l_code := a_tuple.<A HREF="../elks/tuple.html#f_item_code">item_code</A> (i)
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_natural_8">write_natural_8</A> (l_code)
+                <B>inspect</B> l_code
+                <B>when</B> {<A HREF="../elks/tuple.html">TUPLE</A>}.<A HREF="../elks/tuple.html#f_boolean_code">boolean_code</A> <B>then</B> 
+                    l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_boolean">write_boolean</A> (a_tuple.<A HREF="../elks/tuple.html#f_boolean_item">boolean_item</A> (i))
+                <B>when</B> {<A HREF="../elks/tuple.html">TUPLE</A>}.<A HREF="../elks/tuple.html#f_character_8_code">character_8_code</A> <B>then</B> 
+                    l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_character_8">write_character_8</A> (a_tuple.<A HREF="../elks/tuple.html#f_character_8_item">character_8_item</A> (i))
+                <B>when</B> {<A HREF="../elks/tuple.html">TUPLE</A>}.<A HREF="../elks/tuple.html#f_character_32_code">character_32_code</A> <B>then</B> 
+                    l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_character_32">write_character_32</A> (a_tuple.<A HREF="../elks/tuple.html#f_character_32_item">character_32_item</A> (i))
+                <B>when</B> {<A HREF="../elks/tuple.html">TUPLE</A>}.<A HREF="../elks/tuple.html#f_natural_8_code">natural_8_code</A> <B>then</B> 
+                    l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_natural_8">write_natural_8</A> (a_tuple.<A HREF="../elks/tuple.html#f_natural_8_item">natural_8_item</A> (i))
+                <B>when</B> {<A HREF="../elks/tuple.html">TUPLE</A>}.<A HREF="../elks/tuple.html#f_natural_16_code">natural_16_code</A> <B>then</B> 
+                    l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_natural_16">write_natural_16</A> (a_tuple.<A HREF="../elks/tuple.html#f_natural_16_item">natural_16_item</A> (i))
+                <B>when</B> {<A HREF="../elks/tuple.html">TUPLE</A>}.<A HREF="../elks/tuple.html#f_natural_32_code">natural_32_code</A> <B>then</B> 
+                    l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_natural_32">write_natural_32</A> (a_tuple.<A HREF="../elks/tuple.html#f_natural_32_item">natural_32_item</A> (i))
+                <B>when</B> {<A HREF="../elks/tuple.html">TUPLE</A>}.<A HREF="../elks/tuple.html#f_natural_64_code">natural_64_code</A> <B>then</B> 
+                    l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_natural_64">write_natural_64</A> (a_tuple.<A HREF="../elks/tuple.html#f_natural_64_item">natural_64_item</A> (i))
+                <B>when</B> {<A HREF="../elks/tuple.html">TUPLE</A>}.<A HREF="../elks/tuple.html#f_integer_8_code">integer_8_code</A> <B>then</B> 
+                    l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_integer_8">write_integer_8</A> (a_tuple.<A HREF="../elks/tuple.html#f_integer_8_item">integer_8_item</A> (i))
+                <B>when</B> {<A HREF="../elks/tuple.html">TUPLE</A>}.<A HREF="../elks/tuple.html#f_integer_16_code">integer_16_code</A> <B>then</B> 
+                    l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_integer_16">write_integer_16</A> (a_tuple.<A HREF="../elks/tuple.html#f_integer_16_item">integer_16_item</A> (i))
+                <B>when</B> {<A HREF="../elks/tuple.html">TUPLE</A>}.<A HREF="../elks/tuple.html#f_integer_32_code">integer_32_code</A> <B>then</B> 
+                    l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_integer_32">write_integer_32</A> (a_tuple.<A HREF="../elks/tuple.html#f_integer_32_item">integer_32_item</A> (i))
+                <B>when</B> {<A HREF="../elks/tuple.html">TUPLE</A>}.<A HREF="../elks/tuple.html#f_integer_64_code">integer_64_code</A> <B>then</B> 
+                    l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_integer_64">write_integer_64</A> (a_tuple.<A HREF="../elks/tuple.html#f_integer_64_item">integer_64_item</A> (i))
+                <B>when</B> {<A HREF="../elks/tuple.html">TUPLE</A>}.<A HREF="../elks/tuple.html#f_real_32_code">real_32_code</A> <B>then</B> 
+                    l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_real_32">write_real_32</A> (a_tuple.<A HREF="../elks/tuple.html#f_real_32_item">real_32_item</A> (i))
+                <B>when</B> {<A HREF="../elks/tuple.html">TUPLE</A>}.<A HREF="../elks/tuple.html#f_real_64_code">real_64_code</A> <B>then</B> 
+                    l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_real_64">write_real_64</A> (a_tuple.<A HREF="../elks/tuple.html#f_real_64_item">real_64_item</A> (i))
+                <B>when</B> {<A HREF="../elks/tuple.html">TUPLE</A>}.<A HREF="../elks/tuple.html#f_pointer_code">pointer_code</A> <B>then</B> 
+                    l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_pointer">write_pointer</A> (a_tuple.<A HREF="../elks/tuple.html#f_pointer_item">pointer_item</A> (i))
+                <B>when</B> {<A HREF="../elks/tuple.html">TUPLE</A>}.<A HREF="../elks/tuple.html#f_reference_code">reference_code</A> <B>then</B> 
+                    <A HREF="../ise/sed_session_serializer.html#f_encode_reference">encode_reference</A> (a_tuple.<A HREF="../elks/tuple.html#f_reference_item">reference_item</A> (i))
+                <B>else</B>
+                    <B>check</B>
+                        <B>False</B>
+                    <B>end</B>
+                <B>end</B>
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_encode_special"><B>frozen</B> <A HREF="../ise/sed_session_serializer.html#f_encode_special">encode_special</A> (an_object: <A HREF="../elks/any.html">ANY</A>; a_item_type: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Encode an object which is a special object.</FONT>
+        <B>require</B>
+            an_object_not_void: an_object /= <B>Void</B>
+            an_object_is_special: <B>attached</B> {<A HREF="../elks/special.html">SPECIAL</A> [<B>detachable</B> <A HREF="../elks/any.html">ANY</A>]} an_object
+            a_item_type_non_negative: a_item_type &gt;= 0
+        <B>do</B>
+            <B>inspect</B> a_item_type
+            <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_boolean_type">boolean_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/boolean.html">BOOLEAN</A>]} an_object <B>as</B> l_spec_boolean <B>then</B>
+                    <A HREF="../ise/sed_session_serializer.html#f_encode_special_boolean">encode_special_boolean</A> (l_spec_boolean)
+                <B>else</B>
+                    <B>check</B>
+                        l_spec_boolean_not_void: <B>False</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_character_8_type">character_8_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/character_8.html">CHARACTER_8</A>]} an_object <B>as</B> l_spec_character_8 <B>then</B>
+                    <A HREF="../ise/sed_session_serializer.html#f_encode_special_character_8">encode_special_character_8</A> (l_spec_character_8)
+                <B>else</B>
+                    <B>check</B>
+                        l_spec_character_8_not_void: <B>False</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_character_32_type">character_32_type</A>, {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_natural_32_type">natural_32_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/character_32.html">CHARACTER_32</A>]} an_object <B>as</B> l_spec_character_32 <B>then</B>
+                    <A HREF="../ise/sed_session_serializer.html#f_encode_special_character_32">encode_special_character_32</A> (l_spec_character_32)
+                <B>elseif</B> <B>attached</B> {<A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/natural_32.html">NATURAL_32</A>]} an_object <B>as</B> l_spec_natural_32 <B>then</B>
+                    <A HREF="../ise/sed_session_serializer.html#f_encode_special_natural_32">encode_special_natural_32</A> (l_spec_natural_32)
+                <B>else</B>
+                    <B>check</B>
+                        l_spec_natural_32_not_void: <B>False</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_natural_8_type">natural_8_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/natural_8.html">NATURAL_8</A>]} an_object <B>as</B> l_spec_natural_8 <B>then</B>
+                    <A HREF="../ise/sed_session_serializer.html#f_encode_special_natural_8">encode_special_natural_8</A> (l_spec_natural_8)
+                <B>else</B>
+                    <B>check</B>
+                        l_spec_natural_8_not_void: <B>False</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_natural_16_type">natural_16_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/natural_16.html">NATURAL_16</A>]} an_object <B>as</B> l_spec_natural_16 <B>then</B>
+                    <A HREF="../ise/sed_session_serializer.html#f_encode_special_natural_16">encode_special_natural_16</A> (l_spec_natural_16)
+                <B>else</B>
+                    <B>check</B>
+                        l_spec_natural_16_not_void: <B>False</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_natural_64_type">natural_64_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/natural_64.html">NATURAL_64</A>]} an_object <B>as</B> l_spec_natural_64 <B>then</B>
+                    <A HREF="../ise/sed_session_serializer.html#f_encode_special_natural_64">encode_special_natural_64</A> (l_spec_natural_64)
+                <B>else</B>
+                    <B>check</B>
+                        l_spec_natural_64_not_void: <B>False</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_integer_8_type">integer_8_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/integer_8.html">INTEGER_8</A>]} an_object <B>as</B> l_spec_integer_8 <B>then</B>
+                    <A HREF="../ise/sed_session_serializer.html#f_encode_special_integer_8">encode_special_integer_8</A> (l_spec_integer_8)
+                <B>else</B>
+                    <B>check</B>
+                        l_spec_integer_8_not_void: <B>False</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_integer_16_type">integer_16_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/integer_16.html">INTEGER_16</A>]} an_object <B>as</B> l_spec_integer_16 <B>then</B>
+                    <A HREF="../ise/sed_session_serializer.html#f_encode_special_integer_16">encode_special_integer_16</A> (l_spec_integer_16)
+                <B>else</B>
+                    <B>check</B>
+                        l_spec_integer_16_not_void: <B>False</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_integer_32_type">integer_32_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/integer_32.html">INTEGER_32</A>]} an_object <B>as</B> l_spec_integer_32 <B>then</B>
+                    <A HREF="../ise/sed_session_serializer.html#f_encode_special_integer_32">encode_special_integer_32</A> (l_spec_integer_32)
+                <B>else</B>
+                    <B>check</B>
+                        l_spec_integer_32_not_void: <B>False</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_integer_64_type">integer_64_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/integer_64.html">INTEGER_64</A>]} an_object <B>as</B> l_spec_integer_64 <B>then</B>
+                    <A HREF="../ise/sed_session_serializer.html#f_encode_special_integer_64">encode_special_integer_64</A> (l_spec_integer_64)
+                <B>else</B>
+                    <B>check</B>
+                        l_spec_integer_64_not_void: <B>False</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_real_32_type">real_32_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/real_32.html">REAL_32</A>]} an_object <B>as</B> l_spec_real_32 <B>then</B>
+                    <A HREF="../ise/sed_session_serializer.html#f_encode_special_real_32">encode_special_real_32</A> (l_spec_real_32)
+                <B>else</B>
+                    <B>check</B>
+                        l_spec_real_32_not_void: <B>False</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_real_64_type">real_64_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/real_64.html">REAL_64</A>]} an_object <B>as</B> l_spec_real_64 <B>then</B>
+                    <A HREF="../ise/sed_session_serializer.html#f_encode_special_real_64">encode_special_real_64</A> (l_spec_real_64)
+                <B>else</B>
+                    <B>check</B>
+                        l_spec_real_64_not_void: <B>False</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>when</B> {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_pointer_type">pointer_type</A> <B>then</B> 
+                <B>if</B> <B>attached</B> {<A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/pointer.html">POINTER</A>]} an_object <B>as</B> l_spec_pointer <B>then</B>
+                    <A HREF="../ise/sed_session_serializer.html#f_encode_special_pointer">encode_special_pointer</A> (l_spec_pointer)
+                <B>else</B>
+                    <B>check</B>
+                        l_spec_pointer_not_void: <B>False</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>else</B>
+                <B>check</B>
+                    a_item_type_valid: a_item_type = {<A HREF="../elks/reflector_constants.html">REFLECTOR_CONSTANTS</A>}.<A HREF="../elks/reflector_constants.html#f_reference_type">reference_type</A>
+                <B>end</B>
+                <B>if</B> <B>attached</B> {<A HREF="../elks/special.html">SPECIAL</A> [<B>detachable</B> <A HREF="../elks/any.html">ANY</A>]} an_object <B>as</B> l_spec_any <B>then</B>
+                    <A HREF="../ise/sed_session_serializer.html#f_encode_special_reference">encode_special_reference</A> (l_spec_any)
+                <B>else</B>
+                    <B>check</B>
+                        l_spec_any_not_void: <B>False</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_encode_special_boolean"><B>frozen</B> <A HREF="../ise/sed_session_serializer.html#f_encode_special_boolean">encode_special_boolean</A> (a_spec: <A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/boolean.html">BOOLEAN</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Encode </FONT>`a_spec'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_spec_not_void: a_spec /= <B>Void</B>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_ser: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+        <B>do</B>
+            <B>from</B>
+                nb := a_spec.<A HREF="../elks/special.html#f_count">count</A>
+                l_ser := <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_integer_32">write_compressed_integer_32</A> (nb)
+            <B>until</B>
+                i = nb
+            <B>loop</B>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_boolean">write_boolean</A> (a_spec.<A HREF="../elks/special.html#f_item">item</A> (i))
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_encode_special_character_8"><B>frozen</B> <A HREF="../ise/sed_session_serializer.html#f_encode_special_character_8">encode_special_character_8</A> (a_spec: <A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/character_8.html">CHARACTER_8</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Encode </FONT>`a_spec'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_spec_not_void: a_spec /= <B>Void</B>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_ser: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+        <B>do</B>
+            <B>from</B>
+                nb := a_spec.<A HREF="../elks/special.html#f_count">count</A>
+                l_ser := <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_integer_32">write_compressed_integer_32</A> (nb)
+            <B>until</B>
+                i = nb
+            <B>loop</B>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_character_8">write_character_8</A> (a_spec.<A HREF="../elks/special.html#f_item">item</A> (i))
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_encode_special_character_32"><B>frozen</B> <A HREF="../ise/sed_session_serializer.html#f_encode_special_character_32">encode_special_character_32</A> (a_spec: <A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/character_32.html">CHARACTER_32</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Encode </FONT>`a_spec'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_spec_not_void: a_spec /= <B>Void</B>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_ser: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+        <B>do</B>
+            <B>from</B>
+                nb := a_spec.<A HREF="../elks/special.html#f_count">count</A>
+                l_ser := <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_integer_32">write_compressed_integer_32</A> (nb)
+            <B>until</B>
+                i = nb
+            <B>loop</B>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_character_32">write_character_32</A> (a_spec.<A HREF="../elks/special.html#f_item">item</A> (i))
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_encode_special_natural_8"><B>frozen</B> <A HREF="../ise/sed_session_serializer.html#f_encode_special_natural_8">encode_special_natural_8</A> (a_spec: <A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/natural_8.html">NATURAL_8</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Encode </FONT>`a_spec'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_spec_not_void: a_spec /= <B>Void</B>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_ser: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+        <B>do</B>
+            <B>from</B>
+                nb := a_spec.<A HREF="../elks/special.html#f_count">count</A>
+                l_ser := <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_integer_32">write_compressed_integer_32</A> (nb)
+            <B>until</B>
+                i = nb
+            <B>loop</B>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_natural_8">write_natural_8</A> (a_spec.<A HREF="../elks/special.html#f_item">item</A> (i))
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_encode_special_natural_16"><B>frozen</B> <A HREF="../ise/sed_session_serializer.html#f_encode_special_natural_16">encode_special_natural_16</A> (a_spec: <A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/natural_16.html">NATURAL_16</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Encode </FONT>`a_spec'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_spec_not_void: a_spec /= <B>Void</B>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_ser: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+        <B>do</B>
+            <B>from</B>
+                nb := a_spec.<A HREF="../elks/special.html#f_count">count</A>
+                l_ser := <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_integer_32">write_compressed_integer_32</A> (nb)
+            <B>until</B>
+                i = nb
+            <B>loop</B>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_natural_16">write_natural_16</A> (a_spec.<A HREF="../elks/special.html#f_item">item</A> (i))
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_encode_special_natural_32"><B>frozen</B> <A HREF="../ise/sed_session_serializer.html#f_encode_special_natural_32">encode_special_natural_32</A> (a_spec: <A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/natural_32.html">NATURAL_32</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Encode </FONT>`a_spec'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_spec_not_void: a_spec /= <B>Void</B>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_ser: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+        <B>do</B>
+            <B>from</B>
+                nb := a_spec.<A HREF="../elks/special.html#f_count">count</A>
+                l_ser := <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_integer_32">write_compressed_integer_32</A> (nb)
+            <B>until</B>
+                i = nb
+            <B>loop</B>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_natural_32">write_natural_32</A> (a_spec.<A HREF="../elks/special.html#f_item">item</A> (i))
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_encode_special_natural_64"><B>frozen</B> <A HREF="../ise/sed_session_serializer.html#f_encode_special_natural_64">encode_special_natural_64</A> (a_spec: <A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/natural_64.html">NATURAL_64</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Encode </FONT>`a_spec'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_spec_not_void: a_spec /= <B>Void</B>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_ser: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+        <B>do</B>
+            <B>from</B>
+                nb := a_spec.<A HREF="../elks/special.html#f_count">count</A>
+                l_ser := <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_integer_32">write_compressed_integer_32</A> (nb)
+            <B>until</B>
+                i = nb
+            <B>loop</B>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_natural_64">write_natural_64</A> (a_spec.<A HREF="../elks/special.html#f_item">item</A> (i))
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_encode_special_integer_8"><B>frozen</B> <A HREF="../ise/sed_session_serializer.html#f_encode_special_integer_8">encode_special_integer_8</A> (a_spec: <A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/integer_8.html">INTEGER_8</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Encode </FONT>`a_spec'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_spec_not_void: a_spec /= <B>Void</B>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_ser: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+        <B>do</B>
+            <B>from</B>
+                nb := a_spec.<A HREF="../elks/special.html#f_count">count</A>
+                l_ser := <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_integer_32">write_compressed_integer_32</A> (nb)
+            <B>until</B>
+                i = nb
+            <B>loop</B>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_integer_8">write_integer_8</A> (a_spec.<A HREF="../elks/special.html#f_item">item</A> (i))
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_encode_special_integer_16"><B>frozen</B> <A HREF="../ise/sed_session_serializer.html#f_encode_special_integer_16">encode_special_integer_16</A> (a_spec: <A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/integer_16.html">INTEGER_16</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Encode </FONT>`a_spec'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_spec_not_void: a_spec /= <B>Void</B>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_ser: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+        <B>do</B>
+            <B>from</B>
+                nb := a_spec.<A HREF="../elks/special.html#f_count">count</A>
+                l_ser := <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_integer_32">write_compressed_integer_32</A> (nb)
+            <B>until</B>
+                i = nb
+            <B>loop</B>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_integer_16">write_integer_16</A> (a_spec.<A HREF="../elks/special.html#f_item">item</A> (i))
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_encode_special_integer_32"><B>frozen</B> <A HREF="../ise/sed_session_serializer.html#f_encode_special_integer_32">encode_special_integer_32</A> (a_spec: <A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/integer_32.html">INTEGER_32</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Encode </FONT>`a_spec'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_spec_not_void: a_spec /= <B>Void</B>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_ser: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+        <B>do</B>
+            <B>from</B>
+                nb := a_spec.<A HREF="../elks/special.html#f_count">count</A>
+                l_ser := <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_integer_32">write_compressed_integer_32</A> (nb)
+            <B>until</B>
+                i = nb
+            <B>loop</B>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_integer_32">write_integer_32</A> (a_spec.<A HREF="../elks/special.html#f_item">item</A> (i))
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_encode_special_integer_64"><B>frozen</B> <A HREF="../ise/sed_session_serializer.html#f_encode_special_integer_64">encode_special_integer_64</A> (a_spec: <A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/integer_64.html">INTEGER_64</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Encode </FONT>`a_spec'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_spec_not_void: a_spec /= <B>Void</B>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_ser: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+        <B>do</B>
+            <B>from</B>
+                nb := a_spec.<A HREF="../elks/special.html#f_count">count</A>
+                l_ser := <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_integer_32">write_compressed_integer_32</A> (nb)
+            <B>until</B>
+                i = nb
+            <B>loop</B>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_integer_64">write_integer_64</A> (a_spec.<A HREF="../elks/special.html#f_item">item</A> (i))
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_encode_special_real_32"><B>frozen</B> <A HREF="../ise/sed_session_serializer.html#f_encode_special_real_32">encode_special_real_32</A> (a_spec: <A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/real_32.html">REAL_32</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Encode </FONT>`a_spec'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_spec_not_void: a_spec /= <B>Void</B>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_ser: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+        <B>do</B>
+            <B>from</B>
+                nb := a_spec.<A HREF="../elks/special.html#f_count">count</A>
+                l_ser := <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_integer_32">write_compressed_integer_32</A> (nb)
+            <B>until</B>
+                i = nb
+            <B>loop</B>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_real_32">write_real_32</A> (a_spec.<A HREF="../elks/special.html#f_item">item</A> (i))
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_encode_special_real_64"><B>frozen</B> <A HREF="../ise/sed_session_serializer.html#f_encode_special_real_64">encode_special_real_64</A> (a_spec: <A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/real_64.html">REAL_64</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Encode </FONT>`a_spec'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_spec_not_void: a_spec /= <B>Void</B>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_ser: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+        <B>do</B>
+            <B>from</B>
+                nb := a_spec.<A HREF="../elks/special.html#f_count">count</A>
+                l_ser := <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_integer_32">write_compressed_integer_32</A> (nb)
+            <B>until</B>
+                i = nb
+            <B>loop</B>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_real_64">write_real_64</A> (a_spec.<A HREF="../elks/special.html#f_item">item</A> (i))
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_encode_special_pointer"><B>frozen</B> <A HREF="../ise/sed_session_serializer.html#f_encode_special_pointer">encode_special_pointer</A> (a_spec: <A HREF="../elks/special.html">SPECIAL</A> [<A HREF="../elks/pointer.html">POINTER</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Encode </FONT>`a_spec'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_spec_not_void: a_spec /= <B>Void</B>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_ser: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+        <B>do</B>
+            <B>from</B>
+                nb := a_spec.<A HREF="../elks/special.html#f_count">count</A>
+                l_ser := <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_integer_32">write_compressed_integer_32</A> (nb)
+            <B>until</B>
+                i = nb
+            <B>loop</B>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_pointer">write_pointer</A> (a_spec.<A HREF="../elks/special.html#f_item">item</A> (i))
+                i := i + 1
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_encode_special_reference"><B>frozen</B> <A HREF="../ise/sed_session_serializer.html#f_encode_special_reference">encode_special_reference</A> (a_spec: <A HREF="../elks/special.html">SPECIAL</A> [<B>detachable</B> <A HREF="../elks/any.html">ANY</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Encode </FONT>`a_spec'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            a_spec_not_void: a_spec /= <B>Void</B>
+        <B>local</B>
+            i, nb: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_reflected_object: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_reflected_object">reflected_object</A>
+            l_exp: <A HREF="../elks/reflected_copy_semantics_object.html">REFLECTED_COPY_SEMANTICS_OBJECT</A>
+            l_ser: <B>like</B> <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+            l_has_copy_semantics: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            l_ser := <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A>
+            nb := a_spec.<A HREF="../elks/special.html#f_count">count</A>
+            l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_integer_32">write_compressed_integer_32</A> (nb)
+            <B>if</B> <A HREF="../ise/sed_session_serializer.html#f_version">version</A> &gt;= {<A HREF="../ise/sed_versions.html">SED_VERSIONS</A>}.<A HREF="../ise/sed_versions.html#f_version_7_3">version_7_3</A> <B>then</B>
+                <B>from</B>
+                    l_reflected_object := <A HREF="../ise/sed_session_serializer.html#f_reflected_object">reflected_object</A>
+                    l_reflected_object.<A HREF="../elks/reflected_reference_object.html#f_set_object">set_object</A> (a_spec)
+                <B>until</B>
+                    i = nb
+                <B>loop</B>
+                    <B>if</B> l_reflected_object.<A HREF="../elks/reflected_object.html#f_is_special_copy_semantics_item">is_special_copy_semantics_item</A> (i) <B>then</B>
+                        l_has_copy_semantics := <B>True</B>
+                        i := nb - 1
+                    <B>end</B>
+                    i := i + 1
+                <B>end</B>
+                l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_boolean">write_boolean</A> (l_has_copy_semantics)
+                <B>if</B> l_has_copy_semantics <B>then</B>
+                    <B>from</B>
+                        i := 0
+                    <B>until</B>
+                        i = nb
+                    <B>loop</B>
+                        <B>if</B> l_reflected_object.<A HREF="../elks/reflected_object.html#f_is_special_copy_semantics_item">is_special_copy_semantics_item</A> (i) <B>then</B>
+                            l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_boolean">write_boolean</A> (<B>True</B>)
+                            l_exp := l_reflected_object.<A HREF="../elks/reflected_object.html#f_special_copy_semantics_item">special_copy_semantics_item</A> (i)
+                            l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_compressed_integer_32">write_compressed_integer_32</A> (l_exp.<A HREF="../elks/reflected_object.html#f_dynamic_type">dynamic_type</A>)
+                            <A HREF="../ise/sed_session_serializer.html#f_encode_normal_object">encode_normal_object</A> (l_exp)
+                        <B>else</B>
+                            l_ser.<A HREF="../ise/sed_reader_writer.html#f_write_boolean">write_boolean</A> (<B>False</B>)
+                            <A HREF="../ise/sed_session_serializer.html#f_encode_reference">encode_reference</A> (a_spec.<A HREF="../elks/special.html#f_item">item</A> (i))
+                        <B>end</B>
+                        i := i + 1
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+            <B>if</B> <B>not</B> l_has_copy_semantics <B>then</B>
+                <B>from</B>
+                    i := 0
+                <B>until</B>
+                    i = nb
+                <B>loop</B>
+                    <A HREF="../ise/sed_session_serializer.html#f_encode_reference">encode_reference</A> (a_spec.<A HREF="../elks/special.html#f_item">item</A> (i))
+                    i := i + 1
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>invariant</B>
+    reflector_not_void: <A HREF="../ise/sed_session_serializer.html#f_reflector">reflector</A> /= <B>Void</B>
+    reflected_object_not_void: <A HREF="../ise/sed_session_serializer.html#f_reflected_object">reflected_object</A> /= <B>Void</B>
+    traversable_not_void: <A HREF="../ise/sed_session_serializer.html#f_traversable">traversable</A> /= <B>Void</B>
+    serializer_not_void: <A HREF="../ise/sed_session_serializer.html#f_serializer">serializer</A> /= <B>Void</B>
+    object_indexes_not_void: <A HREF="../ise/sed_session_serializer.html#f_object_indexes">object_indexes</A> /= <B>Void</B>
+
+<B>note</B>
+    library: "EiffelBase: Library of reusable components for Eiffel."
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../ise/sed_session_serializer.html">SED_SESSION_SERIALIZER</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sed_session_serializer_chart.html">Chart</A></TD><TD><A HREF="sed_session_serializer_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="sed_session_serializer_flat.html">Flat</A></TD><TD><A HREF="sed_session_serializer_short.html">Contracts</A></TD><TD><A HREF="sed_session_serializer_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

@@ -1,12 +1,12 @@
 note
 	description : "[
-						War of Raekidion - The title screen
-						The {TITLE_SCREEN} gives the user the choice to either play
-						alone or online, access the options or quit the game.
-					]"
+					War of Raekidion - The title screen
+					The {TITLE_SCREEN} gives the user the choice to either play
+					alone or online, access the options or quit the game.
+				]"
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
-	date		: "$Date$"
-	revision	: "$Revision$"
+	date		: "$Date: May 23 2014$"
+	revision	: "$Revision: 1$"
 
 class
 	TITLE_SCREEN
@@ -193,5 +193,13 @@ feature {NONE} -- Implementation
 				must_quit := true
 			end
 		end
+
+note
+	copyright: "[
+				War of Raekidion
+				Copyright (C) 2014 François Allard <binarmorker@gmail.com>
+             		   		   and Marc-Antoine Renaud <legars123456@gmail.com>
+               ]"
+	license:   "GNU General Public License, <http://www.gnu.org/licenses/>"
 
 end

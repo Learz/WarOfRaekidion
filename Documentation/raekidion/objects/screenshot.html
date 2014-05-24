@@ -1,0 +1,86 @@
+<HTML><HEAD>
+<meta name="description" content="War of Raekidion - A screen capture A {SCREENSHOT} is an image taken from the current window,  taking its size and containing every element at the taken frame."/>
+<meta name="author" content="François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>screenshot Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="screenshot_chart.html">Chart</A></TD><TD><A HREF="screenshot_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="screenshot_flat.html">Flat</A></TD><TD><A HREF="screenshot_short.html">Contracts</A></TD><TD><A HREF="screenshot_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        War of Raekidion - A screen capture
+        A <A HREF="../../raekidion/objects/screenshot.html">SCREENSHOT</A> is an image taken from the current window, 
+        taking its size and containing every element at the taken frame.
+    ]"
+    author: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+    date: "$Date$"
+    revision: "$Revision$"
+
+<B>class</B> 
+    <A HREF="../../raekidion/objects/screenshot.html">SCREENSHOT</A>
+
+<B>inherit</B>
+    <A HREF="../../elks/disposable.html">DISPOSABLE</A>
+
+<B>create</B> 
+    <A HREF="../../raekidion/objects/screenshot.html#f_make">make</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../../raekidion/objects/screenshot.html#f_make">make</A> (a_window: <A HREF="../../raekidion/objects/window.html">WINDOW</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize </FONT>`Current'<FONT COLOR="red"> from </FONT>`a_window'
+        <B>do</B>
+            <A HREF="../../raekidion/objects/screenshot.html#f_window">window</A> := a_window
+            <A HREF="../../raekidion/objects/screenshot.html#f_surface">surface</A> := {<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_sdl_creatergbsurface">sdl_creatergbsurface</A> (0.<A HREF="../../elks/integer_32_ref.html#f_to_natural_32">to_natural_32</A>, <A HREF="../../raekidion/objects/screenshot.html#f_window">window</A>.<A HREF="../../raekidion/objects/window.html#f_scaled_width">scaled_width</A>, <A HREF="../../raekidion/objects/screenshot.html#f_window">window</A>.<A HREF="../../raekidion/objects/window.html#f_scaled_height">scaled_height</A>, 32, 16711680.<A HREF="../../elks/integer_32_ref.html#f_to_natural_32">to_natural_32</A>, 65280.<A HREF="../../elks/integer_32_ref.html#f_to_natural_32">to_natural_32</A>, 255.<A HREF="../../elks/integer_32_ref.html#f_to_natural_32">to_natural_32</A>, 4278190080.<A HREF="../../elks/integer_64_ref.html#f_to_natural_32">to_natural_32</A>)
+            <B>if</B> <B>not</B> <A HREF="../../raekidion/objects/screenshot.html#f_surface">surface</A>.<A HREF="../../elks/pointer.html#f_is_default_pointer">is_default_pointer</A> <B>then</B>
+                <A HREF="../../raekidion/objects/screenshot.html#f_targetarea">targetarea</A> := <A HREF="../../raekidion/objects/screenshot.html#f_targetarea">targetarea</A>.<A HREF="../../elks/pointer_ref.html#f_memory_alloc">memory_alloc</A> ({<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_sizeof_sdl_rect_struct">sizeof_sdl_rect_struct</A>)
+                {<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_set_sdl_rect_x">set_sdl_rect_x</A> (<A HREF="../../raekidion/objects/screenshot.html#f_targetarea">targetarea</A>, 0)
+                {<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_set_sdl_rect_y">set_sdl_rect_y</A> (<A HREF="../../raekidion/objects/screenshot.html#f_targetarea">targetarea</A>, 0)
+                {<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_set_sdl_rect_w">set_sdl_rect_w</A> (<A HREF="../../raekidion/objects/screenshot.html#f_targetarea">targetarea</A>, <A HREF="../../raekidion/objects/screenshot.html#f_window">window</A>.<A HREF="../../raekidion/objects/window.html#f_width">width</A>)
+                {<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_set_sdl_rect_h">set_sdl_rect_h</A> (<A HREF="../../raekidion/objects/screenshot.html#f_targetarea">targetarea</A>, <A HREF="../../raekidion/objects/screenshot.html#f_window">window</A>.<A HREF="../../raekidion/objects/window.html#f_height">height</A>)
+                {<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_sdl_renderreadpixels">sdl_renderreadpixels</A> (<A HREF="../../raekidion/objects/screenshot.html#f_window">window</A>.<A HREF="../../raekidion/objects/window.html#f_renderer">renderer</A>, <B>create</B> {<A HREF="../../elks/pointer.html">POINTER</A>}, {<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_sdl_pixelformat_argb8888">sdl_pixelformat_argb8888</A>, {<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_get_sdl_surface_pixels">get_sdl_surface_pixels</A> (<A HREF="../../raekidion/objects/screenshot.html#f_surface">surface</A>), {<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_get_sdl_surface_pitch">get_sdl_surface_pitch</A> (<A HREF="../../raekidion/objects/screenshot.html#f_surface">surface</A>))
+                <A HREF="../../raekidion/objects/screenshot.html#f_texture">texture</A> := {<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_sdl_createtexturefromsurface">sdl_createtexturefromsurface</A> (<A HREF="../../raekidion/objects/screenshot.html#f_window">window</A>.<A HREF="../../raekidion/objects/window.html#f_renderer">renderer</A>, <A HREF="../../raekidion/objects/screenshot.html#f_surface">surface</A>)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_save"><A HREF="../../raekidion/objects/screenshot.html#f_save">save</A> (a_filename: <A HREF="../../elks/string_8.html">STRING_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Save </FONT>`Current'<FONT COLOR="red"> under </FONT>`a_filename'
+        <B>local</B>
+            l_c_string: <A HREF="../../elks/c_string.html">C_STRING</A>
+        <B>do</B>
+            <B>create</B> l_c_string.<A HREF="../../elks/c_string.html#f_make">make</A> (a_filename)
+            {<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_sdl_savebmp">sdl_savebmp</A> (<A HREF="../../raekidion/objects/screenshot.html#f_surface">surface</A>, l_c_string.<A HREF="../../elks/c_string.html#f_item">item</A>)
+        <B>end</B></A>
+
+    <A NAME="f_update"><A HREF="../../raekidion/objects/screenshot.html#f_update">update</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update </FONT>`Current'
+        <B>do</B>
+            {<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_sdl_rendercopy">sdl_rendercopy</A> (<A HREF="../../raekidion/objects/screenshot.html#f_window">window</A>.<A HREF="../../raekidion/objects/window.html#f_renderer">renderer</A>, <A HREF="../../raekidion/objects/screenshot.html#f_texture">texture</A>, <B>create</B> {<A HREF="../../elks/pointer.html">POINTER</A>}, <A HREF="../../raekidion/objects/screenshot.html#f_targetarea">targetarea</A>)
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_window"><A HREF="../../raekidion/objects/screenshot.html#f_window">window</A>: <A HREF="../../raekidion/objects/window.html">WINDOW</A></A>
+
+    <A NAME="f_targetarea"><A HREF="../../raekidion/objects/screenshot.html#f_targetarea">targetarea</A>: <A HREF="../../elks/pointer.html">POINTER</A></A>
+
+    <A NAME="f_surface"><A HREF="../../raekidion/objects/screenshot.html#f_surface">surface</A>: <A HREF="../../elks/pointer.html">POINTER</A></A>
+
+    <A NAME="f_texture"><A HREF="../../raekidion/objects/screenshot.html#f_texture">texture</A>: <A HREF="../../elks/pointer.html">POINTER</A></A>
+
+    <A NAME="f_dispose"><A HREF="../../raekidion/objects/screenshot.html#f_dispose">dispose</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove </FONT>`Current'<FONT COLOR="red"> from memory</FONT>
+        <B>do</B>
+            {<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_sdl_freesurface">sdl_freesurface</A> (<A HREF="../../raekidion/objects/screenshot.html#f_surface">surface</A>)
+            {<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_sdl_destroytexture">sdl_destroytexture</A> (<A HREF="../../raekidion/objects/screenshot.html#f_texture">texture</A>)
+            <A HREF="../../raekidion/objects/screenshot.html#f_targetarea">targetarea</A>.<A HREF="../../elks/pointer_ref.html#f_memory_free">memory_free</A>
+        <B>end</B></A>
+    
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../../raekidion/objects/screenshot.html">SCREENSHOT</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="screenshot_chart.html">Chart</A></TD><TD><A HREF="screenshot_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="screenshot_flat.html">Flat</A></TD><TD><A HREF="screenshot_short.html">Contracts</A></TD><TD><A HREF="screenshot_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

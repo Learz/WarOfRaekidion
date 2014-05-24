@@ -1,0 +1,801 @@
+<HTML><HEAD>
+<meta name="description" content="Implementation of the STORABLE mechanism with streams."/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>stream Flat contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="stream_chart.html">Chart</A></TD><TD><A HREF="stream_links.html">Relations</A></TD><TD><A HREF="stream.html">Text</A></TD><TD><A HREF="stream_flat.html">Flat</A></TD><TD><A HREF="stream_short.html">Contracts</A></TD><TD>Flat contracts</TD></TR></TABLE><B>note</B>
+    description: "Implementation of the STORABLE mechanism with streams."
+    library: "Free implementation of ELKS library"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2012-05-23 21:13:10 -0700 (Wed, 23 May 2012) $"
+    revision: "$Revision: 91981 $"
+
+<B>class</B> <B>interface</B>
+    <A HREF="../elks/stream_flatshort.html">STREAM</A>
+
+<B>create</B> 
+    <A NAME="f_make"><A HREF="../elks/stream_flatshort.html#f_make">make</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create stream object with a default_size of 100 bytes</FONT>
+</A>
+    <A NAME="f_make_with_size"><A HREF="../elks/stream_flatshort.html#f_make_with_size">make_with_size</A> (n: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create stream object with a default_size of </FONT>`n'<FONT COLOR="red"> bytes</FONT>
+</A>
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../elks/stream_flatshort.html#f_make">make</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create stream object with a default_size of 100 bytes</FONT>
+</A>
+    <A NAME="f_make_with_size"><A HREF="../elks/stream_flatshort.html#f_make_with_size">make_with_size</A> (n: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create stream object with a default_size of </FONT>`n'<FONT COLOR="red"> bytes</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_buffer_size"><A HREF="../elks/stream_flatshort.html#f_buffer_size">buffer_size</A>: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Buffer's size.</FONT>
+
+    <A NAME="f_create_c_buffer"><A HREF="../elks/stream_flatshort.html#f_create_c_buffer">create_c_buffer</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create the C memory corresponding to the C buffer.</FONT>
+</A>
+    <A NAME="f_generating_type"><A HREF="../elks/any_flatshort.html#f_generating_type">generating_type</A>: <A HREF="../elks/type_flatshort.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/stream_flatshort.html">STREAM</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Type of current object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            generating_type_not_void: <B>Result</B> /= <B>Void</B>
+</A>
+    <A NAME="f_generator"><A HREF="../elks/any_flatshort.html#f_generator">generator</A>: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of current object's generating class</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (base class of the type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            generator_not_void: <B>Result</B> /= <B>Void</B>
+            generator_not_empty: <B>not</B> <B>Result</B>.<A HREF="../elks/finite_flatshort.html#f_is_empty">is_empty</A>
+</A>
+    <A NAME="f_item"><A HREF="../elks/stream_flatshort.html#f_item">item</A>: <A HREF="../elks/pointer_flatshort.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Direct access to stored/retrieved data</FONT>
+</A>
+    <A NAME="f_object_stored_size"><A HREF="../elks/stream_flatshort.html#f_object_stored_size">object_stored_size</A>: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Size of last stored object.</FONT>
+
+    <A NAME="f_retrieved"><A HREF="../elks/stream_flatshort.html#f_retrieved">retrieved</A>: <A HREF="../elks/any_flatshort.html">ANY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieved object structure</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> To access resulting object under correct type,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> use assignment attempt.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Will raise an exception (code </FONT>`Retrieve_exception'<FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> if content is not a stored Eiffel structure.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../elks/stream_flatshort.html#f_readable">readable</A>
+            support_storable: <A HREF="../elks/stream_flatshort.html#f_support_storable">Support_storable</A>
+        <B>require else</B>
+            <B>True</B>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_deep_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flatshort.html#f_standard_equal">standard_equal</A> (a, b) <B>implies</B> <B>Result</B>
+            both_or_none_void: (a = <B>Void</B>) <B>implies</B> (<B>Result</B> = (b = <B>Void</B>))
+            same_type: (<B>Result</B> <B>and</B> (a /= <B>Void</B>)) <B>implies</B> (b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (b))
+            symmetric: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A> (b, a)
+</A>
+    <A NAME="f_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_equal">equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to objects considered equal?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flatshort.html#f_is_equal">is_equal</A> (b))
+</A>
+    <A NAME="f_is_deep_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_is_deep_equal">is_deep_equal</A> (other: <B>attached</B> <A HREF="../elks/stream_flatshort.html">STREAM</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`Current'<FONT COLOR="red"> and </FONT>`other'<FONT COLOR="red"> attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flatshort.html#f_is_deep_equal">is_deep_equal</A> (<B>Current</B>)
+</A>
+    <A NAME="f_is_equal"><A HREF="../elks/any_flatshort.html#f_is_equal">is_equal</A> (other: <B>attached</B> <A HREF="../elks/stream_flatshort.html">STREAM</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object considered</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to current object?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            symmetric: <B>Result</B> <B>implies</B> other ~ <B>Current</B>
+            consistent: <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+</A>
+    <A NAME="f_standard_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_standard_equal">standard_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical objects of the same type?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default object comparison criterion.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (b))
+</A>
+    <A NAME="f_standard_is_equal"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (other: <B>attached</B> <A HREF="../elks/stream_flatshort.html">STREAM</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object of the same type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as current object, and field-by-field identical to it?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_bytes_read"><A HREF="../elks/io_medium_flatshort.html#f_bytes_read">bytes_read</A>: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last number of bytes read by </FONT><A HREF="../elks/stream_flatshort.html#f_read_to_managed_pointer">read_to_managed_pointer</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_conforms_to"><A HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A> (other: <A HREF="../elks/any_flatshort.html">ANY</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does type of current object conform to type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of </FONT>`other'<FONT COLOR="red"> (as per Eiffel: The Language, chapter 13)?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+</A>
+    <A NAME="f_exists"><A HREF="../elks/stream_flatshort.html#f_exists">Exists</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A> = <B>True</B></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Stream exists in any cases.</FONT>
+
+    <A NAME="f_extendible"><A HREF="../elks/stream_flatshort.html#f_extendible">extendible</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May new items be added?</FONT>
+</A>
+    <A NAME="f_is_closed"><A HREF="../elks/stream_flatshort.html#f_is_closed">is_closed</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is the I/O medium open</FONT>
+
+    <A NAME="f_is_executable"><A HREF="../elks/stream_flatshort.html#f_is_executable">is_executable</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is stream executable?</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            handle_exists: <A HREF="../elks/stream_flatshort.html#f_exists">Exists</A>
+</A>
+    <A NAME="f_is_open_read"><A HREF="../elks/stream_flatshort.html#f_is_open_read">Is_open_read</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A> = <B>True</B></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Stream opens for input.</FONT>
+
+    <A NAME="f_is_open_write"><A HREF="../elks/stream_flatshort.html#f_is_open_write">Is_open_write</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A> = <B>True</B></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Stream opens for output.</FONT>
+
+    <A NAME="f_is_plain_text"><A HREF="../elks/io_medium_flatshort.html#f_is_plain_text">is_plain_text</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is file reserved for text (character sequences)?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_is_readable"><A HREF="../elks/stream_flatshort.html#f_is_readable">Is_readable</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A> = <B>True</B></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is medium readable?</FONT>
+
+    <A NAME="f_is_writable"><A HREF="../elks/stream_flatshort.html#f_is_writable">Is_writable</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A> = <B>True</B></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Stream is writable.</FONT>
+
+    <A NAME="f_last_character"><A HREF="../elks/io_medium_flatshort.html#f_last_character">last_character</A>: <A HREF="../elks/character_8_flatshort.html">CHARACTER_8</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last character read by </FONT><A HREF="../elks/stream_flatshort.html#f_read_character">read_character</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_last_double"><A HREF="../elks/io_medium_flatshort.html#f_last_double">last_double</A>: <A HREF="../elks/real_64_flatshort.html">REAL_64</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last double read by </FONT><A HREF="../elks/stream_flatshort.html#f_read_double">read_double</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_last_integer"><A HREF="../elks/io_medium_flatshort.html#f_last_integer">last_integer</A>: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last integer read by </FONT><A HREF="../elks/stream_flatshort.html#f_read_integer">read_integer</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_last_integer_16"><A HREF="../elks/io_medium_flatshort.html#f_last_integer_16">last_integer_16</A>: <A HREF="../elks/integer_16_flatshort.html">INTEGER_16</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last 16-bit integer read by </FONT><A HREF="../elks/stream_flatshort.html#f_read_integer_16">read_integer_16</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_last_integer_32"><A HREF="../elks/io_medium_flatshort.html#f_last_integer_32">last_integer_32</A>: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Synonymy of </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_integer">last_integer</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_last_integer_64"><A HREF="../elks/io_medium_flatshort.html#f_last_integer_64">last_integer_64</A>: <A HREF="../elks/integer_64_flatshort.html">INTEGER_64</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last 64-bit integer read by </FONT><A HREF="../elks/stream_flatshort.html#f_read_integer_64">read_integer_64</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_last_integer_8"><A HREF="../elks/io_medium_flatshort.html#f_last_integer_8">last_integer_8</A>: <A HREF="../elks/integer_8_flatshort.html">INTEGER_8</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last 8-bit integer read by </FONT><A HREF="../elks/stream_flatshort.html#f_read_integer_8">read_integer_8</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_last_natural"><A HREF="../elks/io_medium_flatshort.html#f_last_natural">last_natural</A>: <A HREF="../elks/natural_32_flatshort.html">NATURAL_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last 32-bit natural read by </FONT><A HREF="../elks/stream_flatshort.html#f_read_natural">read_natural</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_last_natural_16"><A HREF="../elks/io_medium_flatshort.html#f_last_natural_16">last_natural_16</A>: <A HREF="../elks/natural_16_flatshort.html">NATURAL_16</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last 16-bit natural read by </FONT><A HREF="../elks/stream_flatshort.html#f_read_natural_16">read_natural_16</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_last_natural_32"><A HREF="../elks/io_medium_flatshort.html#f_last_natural_32">last_natural_32</A>: <A HREF="../elks/natural_32_flatshort.html">NATURAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Synonymy of </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_natural">last_natural</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_last_natural_64"><A HREF="../elks/io_medium_flatshort.html#f_last_natural_64">last_natural_64</A>: <A HREF="../elks/natural_64_flatshort.html">NATURAL_64</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last 64-bit natural read by </FONT><A HREF="../elks/stream_flatshort.html#f_read_natural_64">read_natural_64</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_last_natural_8"><A HREF="../elks/io_medium_flatshort.html#f_last_natural_8">last_natural_8</A>: <A HREF="../elks/natural_8_flatshort.html">NATURAL_8</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last 8-bit natural read by </FONT><A HREF="../elks/stream_flatshort.html#f_read_natural_8">read_natural_8</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_last_real"><A HREF="../elks/io_medium_flatshort.html#f_last_real">last_real</A>: <A HREF="../elks/real_32_flatshort.html">REAL_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last real read by </FONT><A HREF="../elks/stream_flatshort.html#f_read_real">read_real</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_last_string"><A HREF="../elks/io_medium_flatshort.html#f_last_string">last_string</A>: <A HREF="../elks/string_8_flatshort.html">STRING_8</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last string read</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_readable"><A HREF="../elks/stream_flatshort.html#f_readable">readable</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there a current item that may be read?</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            handle_exists: <A HREF="../elks/stream_flatshort.html#f_exists">Exists</A>
+</A>
+    <A NAME="f_same_type"><A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other: <A HREF="../elks/any_flatshort.html">ANY</A>): <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is type of current object identical to type of </FONT>`other'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            definition: <B>Result</B> = (<A HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A> (other) <B>and</B> other.<A HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A> (<B>Current</B>))
+</A>
+    <A NAME="f_support_storable"><A HREF="../elks/stream_flatshort.html#f_support_storable">Support_storable</A>: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A> = <B>True</B></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Can medium be used to store an Eiffel structure?</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status setting</FONT>
+
+    <A NAME="f_close"><A HREF="../elks/stream_flatshort.html#f_close">close</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Close medium.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            medium_is_open: <B>not</B> <A HREF="../elks/stream_flatshort.html#f_is_closed">is_closed</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_basic_store"><A HREF="../elks/stream_flatshort.html#f_basic_store">basic_store</A> (object: <A HREF="../elks/any_flatshort.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Produce an external representation of the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> entire object structure reachable from </FONT>`object'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrievable within current system only.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            object_not_void: object /= <B>Void</B>
+            extendible: <A HREF="../elks/stream_flatshort.html#f_extendible">extendible</A>
+            support_storable: <A HREF="../elks/stream_flatshort.html#f_support_storable">Support_storable</A>
+</A>
+    <A NAME="f_general_store"><A HREF="../elks/stream_flatshort.html#f_general_store">general_store</A> (object: <A HREF="../elks/any_flatshort.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Produce an external representation of the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> entire object structure reachable from </FONT>`object'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrievable from other systems for same platform</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (machine architecture).</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            object_not_void: object /= <B>Void</B>
+            extendible: <A HREF="../elks/stream_flatshort.html#f_extendible">extendible</A>
+            support_storable: <A HREF="../elks/stream_flatshort.html#f_support_storable">Support_storable</A>
+</A>
+    <A NAME="f_independent_store"><A HREF="../elks/stream_flatshort.html#f_independent_store">independent_store</A> (object: <A HREF="../elks/any_flatshort.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Produce an external representation of the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> entire object structure reachable from </FONT>`object'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrievable from other systems for the same or other</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> platform (machine architecture).</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            object_not_void: object /= <B>Void</B>
+            extendible: <A HREF="../elks/stream_flatshort.html#f_extendible">extendible</A>
+            support_storable: <A HREF="../elks/stream_flatshort.html#f_support_storable">Support_storable</A>
+</A>
+    <A NAME="f_set_additional_size"><A HREF="../elks/stream_flatshort.html#f_set_additional_size">set_additional_size</A> (new_size: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT>`new_size'<FONT COLOR="red"> to BUFFER_SIZE, internal value used to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> increment </FONT><A HREF="../elks/stream_flatshort.html#f_buffer_size">buffer_size</A><FONT COLOR="red"> during storable operations.</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removal</FONT>
+
+    <A NAME="f_dispose"><A HREF="../elks/io_medium_flatshort.html#f_dispose">dispose</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Ensure this medium is closed when garbage collected.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_copy"><A HREF="../elks/any_flatshort.html#f_copy">copy</A> (other: <B>attached</B> <A HREF="../elks/stream_flatshort.html">STREAM</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update current object using fields of object attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to </FONT>`other'<FONT COLOR="red">, so as to yield equal objects.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            is_equal: <B>Current</B> ~ other
+</A>
+    <A NAME="f_deep_copy"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_deep_copy">deep_copy</A> (other: <B>attached</B> <A HREF="../elks/stream_flatshort.html">STREAM</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Effect equivalent to that of:</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">		</FONT><A HREF="../elks/any_flatshort.html#f_copy">copy</A><FONT COLOR="red"> (</FONT>`other'<FONT COLOR="red"> . </FONT><A HREF="../elks/any_flatshort.html#f_deep_twin">deep_twin</A><FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            deep_equal: <A HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A> (<B>Current</B>, other)
+</A>
+    <A NAME="f_deep_twin"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_deep_twin">deep_twin</A>: <B>attached</B> <A HREF="../elks/stream_flatshort.html">STREAM</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object structure recursively duplicated from Current.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            deep_twin_not_void: <B>Result</B> /= <B>Void</B>
+            deep_equal: <A HREF="../elks/any_flatshort.html#f_deep_equal">deep_equal</A> (<B>Current</B>, <B>Result</B>)
+</A>
+    <A NAME="f_standard_copy"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_standard_copy">standard_copy</A> (other: <B>attached</B> <A HREF="../elks/stream_flatshort.html">STREAM</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy every field of </FONT>`other'<FONT COLOR="red"> onto corresponding field</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flatshort.html#f_same_type">same_type</A> (other)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            is_standard_equal: <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (other)
+</A>
+    <A NAME="f_standard_twin"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_standard_twin">standard_twin</A>: <B>attached</B> <A HREF="../elks/stream_flatshort.html">STREAM</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            standard_twin_not_void: <B>Result</B> /= <B>Void</B>
+            equal: <A HREF="../elks/any_flatshort.html#f_standard_equal">standard_equal</A> (<B>Result</B>, <B>Current</B>)
+</A>
+    <A NAME="f_twin"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_twin">twin</A>: <B>attached</B> <A HREF="../elks/stream_flatshort.html">STREAM</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object equal to </FONT>`Current'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/any_flatshort.html#f_twin">twin</A><FONT COLOR="red"> calls </FONT><A HREF="../elks/any_flatshort.html#f_copy">copy</A><FONT COLOR="red">; to change copying/twinning semantics, redefine </FONT><A HREF="../elks/any_flatshort.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            twin_not_void: <B>Result</B> /= <B>Void</B>
+            is_equal: <B>Result</B> ~ <B>Current</B>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_as_attached"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_as_attached">as_attached</A>: <B>attached</B> <A HREF="../elks/stream_flatshort.html">STREAM</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attached version of Current</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Can be used during transitional period to convert</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> non-void-safe classes to void-safe ones.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_default"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_default">default</A>: <B>detachable</B> <A HREF="../elks/stream_flatshort.html">STREAM</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of object's type</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_default_pointer"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_default_pointer">default_pointer</A>: <A HREF="../elks/pointer_flatshort.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of type </FONT>`POINTER'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Avoid the need to write </FONT>`p'<FONT COLOR="red">.</FONT><A HREF="../elks/any_flatshort.html#f_default">default</A><FONT COLOR="red"> for</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> some </FONT>`p'<FONT COLOR="red"> of type </FONT>`POINTER'<FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_default_rescue"><A HREF="../elks/any_flatshort.html#f_default_rescue">default_rescue</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process exception for routines with no Rescue clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_do_nothing"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_do_nothing">do_nothing</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execute a null action.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Obsolete</FONT>
+
+    <A NAME="f_lastchar"><A HREF="../elks/io_medium_flatshort.html#f_lastchar">lastchar</A>: <A HREF="../elks/character_8_flatshort.html">CHARACTER_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last character read by </FONT><A HREF="../elks/stream_flatshort.html#f_read_character">read_character</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_lastdouble"><A HREF="../elks/io_medium_flatshort.html#f_lastdouble">lastdouble</A>: <A HREF="../elks/real_64_flatshort.html">REAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last double read by </FONT><A HREF="../elks/stream_flatshort.html#f_read_double">read_double</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_lastint"><A HREF="../elks/io_medium_flatshort.html#f_lastint">lastint</A>: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last integer read by </FONT><A HREF="../elks/stream_flatshort.html#f_read_integer">read_integer</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_lastreal"><A HREF="../elks/io_medium_flatshort.html#f_lastreal">lastreal</A>: <A HREF="../elks/real_32_flatshort.html">REAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last real read by </FONT><A HREF="../elks/stream_flatshort.html#f_read_real">read_real</A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_laststring"><A HREF="../elks/io_medium_flatshort.html#f_laststring">laststring</A>: <B>like</B> <A HREF="../elks/io_medium_flatshort.html#f_last_string">last_string</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last string read</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Input</FONT>
+
+    <A NAME="f_read_character"><A HREF="../elks/stream_flatshort.html#f_read_character">read_character</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new character.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_character">last_character</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_readchar">readchar</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../elks/stream_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_read_double"><A HREF="../elks/stream_flatshort.html#f_read_double">read_double</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new double.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_double">last_double</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_readdouble">readdouble</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../elks/stream_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_read_integer"><A HREF="../elks/stream_flatshort.html#f_read_integer">read_integer</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new integer.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_integer">last_integer</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_readint">readint</A><FONT COLOR="red"> and </FONT><A HREF="../elks/stream_flatshort.html#f_read_integer_32">read_integer_32</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../elks/stream_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_read_integer_16"><A HREF="../elks/stream_flatshort.html#f_read_integer_16">read_integer_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new integer.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_integer_16">last_integer_16</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../elks/stream_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_read_integer_32"><A HREF="../elks/stream_flatshort.html#f_read_integer_32">read_integer_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new integer.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_integer">last_integer</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_read_integer">read_integer</A><FONT COLOR="red"> and </FONT><A HREF="../elks/stream_flatshort.html#f_readint">readint</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../elks/stream_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_read_integer_64"><A HREF="../elks/stream_flatshort.html#f_read_integer_64">read_integer_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new integer.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_integer_64">last_integer_64</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../elks/stream_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_read_integer_8"><A HREF="../elks/stream_flatshort.html#f_read_integer_8">read_integer_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new integer.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_integer_8">last_integer_8</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../elks/stream_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_read_line"><A HREF="../elks/stream_flatshort.html#f_read_line">read_line</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read characters until a new line or</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> end of medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_string">last_string</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_readline">readline</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../elks/stream_flatshort.html#f_readable">readable</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            last_string_not_void: <A HREF="../elks/io_medium_flatshort.html#f_last_string">last_string</A> /= <B>Void</B>
+</A>
+    <A NAME="f_read_line_thread_aware"><A HREF="../elks/io_medium_flatshort.html#f_read_line_thread_aware">read_line_thread_aware</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read characters until a new line or</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> end of medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_string">last_string</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Functionally identical to </FONT><A HREF="../elks/stream_flatshort.html#f_read_line">read_line</A><FONT COLOR="red"> but</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> won't prevent garbage collection from occurring</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> while blocked waiting for data, though data must</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> be copied an extra time.			</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../elks/stream_flatshort.html#f_readable">readable</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            last_string_not_void: <A HREF="../elks/io_medium_flatshort.html#f_last_string">last_string</A> /= <B>Void</B>
+</A>
+    <A NAME="f_read_natural"><A HREF="../elks/stream_flatshort.html#f_read_natural">read_natural</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new natural.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_natural">last_natural</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_read_natural_32">read_natural_32</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../elks/stream_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_read_natural_16"><A HREF="../elks/stream_flatshort.html#f_read_natural_16">read_natural_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new natural.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_natural_16">last_natural_16</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../elks/stream_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_read_natural_32"><A HREF="../elks/stream_flatshort.html#f_read_natural_32">read_natural_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new natural.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_natural">last_natural</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_read_natural">read_natural</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../elks/stream_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_read_natural_64"><A HREF="../elks/stream_flatshort.html#f_read_natural_64">read_natural_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new natural.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_natural_64">last_natural_64</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../elks/stream_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_read_natural_8"><A HREF="../elks/stream_flatshort.html#f_read_natural_8">read_natural_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new natural.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_natural_8">last_natural_8</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../elks/stream_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_read_real"><A HREF="../elks/stream_flatshort.html#f_read_real">read_real</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new real.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_real">last_real</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_readreal">readreal</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../elks/stream_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_read_stream"><A HREF="../elks/stream_flatshort.html#f_read_stream">read_stream</A> (nb_char: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a string of at most </FONT>`nb_char'<FONT COLOR="red"> bound characters</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or until end of medium is encountered.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_string">last_string</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_readstream">readstream</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../elks/stream_flatshort.html#f_readable">readable</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            last_string_not_void: <A HREF="../elks/io_medium_flatshort.html#f_last_string">last_string</A> /= <B>Void</B>
+</A>
+    <A NAME="f_read_stream_thread_aware"><A HREF="../elks/io_medium_flatshort.html#f_read_stream_thread_aware">read_stream_thread_aware</A> (nb_char: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a string of at most </FONT>`nb_char'<FONT COLOR="red"> bound characters</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or until end of medium is encountered.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_string">last_string</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Functionally identical to </FONT><A HREF="../elks/stream_flatshort.html#f_read_stream">read_stream</A><FONT COLOR="red"> but</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> won't prevent garbage collection from occurring</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> while blocked waiting for data, though data must</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> be copied an extra time.			</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../elks/stream_flatshort.html#f_readable">readable</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            last_string_not_void: <A HREF="../elks/io_medium_flatshort.html#f_last_string">last_string</A> /= <B>Void</B>
+</A>
+    <A NAME="f_read_to_managed_pointer"><A HREF="../elks/stream_flatshort.html#f_read_to_managed_pointer">read_to_managed_pointer</A> (p: <A HREF="../elks/managed_pointer_flatshort.html">MANAGED_POINTER</A>; start_pos, nb_bytes: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read at most </FONT>`nb_bytes'<FONT COLOR="red"> bound bytes and make result</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> available in </FONT>`p'<FONT COLOR="red"> at position </FONT>`start_pos'<FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            p_not_void: p /= <B>Void</B>
+            p_large_enough: p.<A HREF="../elks/managed_pointer_flatshort.html#f_count">count</A> &gt;= nb_bytes + start_pos
+            nb_bytes_non_negative: nb_bytes &gt;= 0
+            is_readable: <A HREF="../elks/stream_flatshort.html#f_readable">readable</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            bytes_read_non_negative: <A HREF="../elks/io_medium_flatshort.html#f_bytes_read">bytes_read</A> &gt;= 0
+            bytes_read_not_too_big: <A HREF="../elks/io_medium_flatshort.html#f_bytes_read">bytes_read</A> &lt;= nb_bytes
+</A>
+    <A NAME="f_readchar"><A HREF="../elks/stream_flatshort.html#f_readchar">readchar</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new character.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_character">last_character</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_read_character">read_character</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../elks/stream_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_readdouble"><A HREF="../elks/stream_flatshort.html#f_readdouble">readdouble</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new double.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_double">last_double</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_read_double">read_double</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../elks/stream_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_readint"><A HREF="../elks/stream_flatshort.html#f_readint">readint</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new integer.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_integer">last_integer</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_read_integer">read_integer</A><FONT COLOR="red"> and </FONT><A HREF="../elks/stream_flatshort.html#f_read_integer_32">read_integer_32</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../elks/stream_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_readline"><A HREF="../elks/stream_flatshort.html#f_readline">readline</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read characters until a new line or</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> end of medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_string">last_string</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_read_line">read_line</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../elks/stream_flatshort.html#f_readable">readable</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            last_string_not_void: <A HREF="../elks/io_medium_flatshort.html#f_last_string">last_string</A> /= <B>Void</B>
+</A>
+    <A NAME="f_readreal"><A HREF="../elks/stream_flatshort.html#f_readreal">readreal</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new real.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_real">last_real</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_read_real">read_real</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../elks/stream_flatshort.html#f_readable">readable</A>
+</A>
+    <A NAME="f_readstream"><A HREF="../elks/stream_flatshort.html#f_readstream">readstream</A> (nb_char: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a string of at most </FONT>`nb_char'<FONT COLOR="red"> bound characters</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or until end of medium is encountered.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium_flatshort.html#f_last_string">last_string</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_read_stream">read_stream</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            is_readable: <A HREF="../elks/stream_flatshort.html#f_readable">readable</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            last_string_not_void: <A HREF="../elks/io_medium_flatshort.html#f_last_string">last_string</A> /= <B>Void</B>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output</FONT>
+
+    <A NAME="f_io"><A HREF="../elks/any_flatshort.html#f_io">Io</A>: <A HREF="../elks/std_files_flatshort.html">STD_FILES</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Handle to standard file setup</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            io_not_void: <B>Result</B> /= <B>Void</B>
+</A>
+    <A NAME="f_new_line"><A HREF="../elks/stream_flatshort.html#f_new_line">new_line</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write a new line character to medium</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_put_new_line">put_new_line</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../elks/stream_flatshort.html#f_extendible">extendible</A>
+        <B>require else</B>
+            stream_exists: <A HREF="../elks/stream_flatshort.html#f_exists">Exists</A>
+</A>
+    <A NAME="f_out"><A HREF="../elks/any_flatshort.html#f_out">out</A>: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            out_not_void: <B>Result</B> /= <B>Void</B>
+</A>
+    <A NAME="f_print"><A HREF="../elks/any_flatshort.html#f_print">print</A> (o: <B>detachable</B> <A HREF="../elks/any_flatshort.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write terse external representation of </FONT>`o'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on standard output.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+</A>
+    <A NAME="f_put_boolean"><A HREF="../elks/stream_flatshort.html#f_put_boolean">put_boolean</A> (b: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`b'<FONT COLOR="red"> to medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_putbool">putbool</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../elks/stream_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_character"><A HREF="../elks/stream_flatshort.html#f_put_character">put_character</A> (c: <A HREF="../elks/character_8_flatshort.html">CHARACTER_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`c'<FONT COLOR="red"> to medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_putchar">putchar</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../elks/stream_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_double"><A HREF="../elks/stream_flatshort.html#f_put_double">put_double</A> (d: <A HREF="../elks/real_64_flatshort.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`d'<FONT COLOR="red"> to medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_putdouble">putdouble</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../elks/stream_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_integer"><A HREF="../elks/stream_flatshort.html#f_put_integer">put_integer</A> (i: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> to medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_putint">putint</A><FONT COLOR="red"> and </FONT><A HREF="../elks/stream_flatshort.html#f_put_integer_32">put_integer_32</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../elks/stream_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_integer_16"><A HREF="../elks/stream_flatshort.html#f_put_integer_16">put_integer_16</A> (i: <A HREF="../elks/integer_16_flatshort.html">INTEGER_16</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> to medium.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../elks/stream_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_integer_32"><A HREF="../elks/stream_flatshort.html#f_put_integer_32">put_integer_32</A> (i: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> to medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_put_integer">put_integer</A><FONT COLOR="red"> and </FONT><A HREF="../elks/stream_flatshort.html#f_putint">putint</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../elks/stream_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_integer_64"><A HREF="../elks/stream_flatshort.html#f_put_integer_64">put_integer_64</A> (i: <A HREF="../elks/integer_64_flatshort.html">INTEGER_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> to medium.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../elks/stream_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_integer_8"><A HREF="../elks/stream_flatshort.html#f_put_integer_8">put_integer_8</A> (i: <A HREF="../elks/integer_8_flatshort.html">INTEGER_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> to medium.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../elks/stream_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_managed_pointer"><A HREF="../elks/stream_flatshort.html#f_put_managed_pointer">put_managed_pointer</A> (p: <A HREF="../elks/managed_pointer_flatshort.html">MANAGED_POINTER</A>; start_pos, nb_bytes: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Put data of length </FONT>`nb_bytes'<FONT COLOR="red"> pointed by </FONT>`start_pos'<FONT COLOR="red"> index in </FONT>`p'<FONT COLOR="red"> at</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> current position.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            p_not_void: p /= <B>Void</B>
+            p_large_enough: p.<A HREF="../elks/managed_pointer_flatshort.html#f_count">count</A> &gt;= nb_bytes + start_pos
+            nb_bytes_non_negative: nb_bytes &gt;= 0
+            extendible: <A HREF="../elks/stream_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_natural"><A HREF="../elks/stream_flatshort.html#f_put_natural">put_natural</A> (i: <A HREF="../elks/natural_32_flatshort.html">NATURAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> to medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_put_natural_32">put_natural_32</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../elks/stream_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_natural_16"><A HREF="../elks/stream_flatshort.html#f_put_natural_16">put_natural_16</A> (i: <A HREF="../elks/natural_16_flatshort.html">NATURAL_16</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> to medium.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../elks/stream_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_natural_32"><A HREF="../elks/stream_flatshort.html#f_put_natural_32">put_natural_32</A> (i: <A HREF="../elks/natural_32_flatshort.html">NATURAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> to medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_put_natural">put_natural</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../elks/stream_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_natural_64"><A HREF="../elks/stream_flatshort.html#f_put_natural_64">put_natural_64</A> (i: <A HREF="../elks/natural_64_flatshort.html">NATURAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> to medium.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../elks/stream_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_natural_8"><A HREF="../elks/stream_flatshort.html#f_put_natural_8">put_natural_8</A> (i: <A HREF="../elks/natural_8_flatshort.html">NATURAL_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> to medium.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../elks/stream_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_new_line"><A HREF="../elks/stream_flatshort.html#f_put_new_line">put_new_line</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write a new line character to medium</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_new_line">new_line</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../elks/stream_flatshort.html#f_extendible">extendible</A>
+        <B>require else</B>
+            stream_exists: <A HREF="../elks/stream_flatshort.html#f_exists">Exists</A>
+</A>
+    <A NAME="f_put_real"><A HREF="../elks/stream_flatshort.html#f_put_real">put_real</A> (r: <A HREF="../elks/real_32_flatshort.html">REAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`r'<FONT COLOR="red"> to medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_putreal">putreal</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../elks/stream_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_put_string"><A HREF="../elks/stream_flatshort.html#f_put_string">put_string</A> (s: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`s'<FONT COLOR="red"> to medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_putstring">putstring</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../elks/stream_flatshort.html#f_extendible">extendible</A>
+            non_void: s /= <B>Void</B>
+</A>
+    <A NAME="f_putbool"><A HREF="../elks/stream_flatshort.html#f_putbool">putbool</A> (b: <A HREF="../elks/boolean_flatshort.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`b'<FONT COLOR="red"> to medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_put_boolean">put_boolean</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../elks/stream_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_putchar"><A HREF="../elks/stream_flatshort.html#f_putchar">putchar</A> (c: <A HREF="../elks/character_8_flatshort.html">CHARACTER_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`c'<FONT COLOR="red"> to medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_put_character">put_character</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../elks/stream_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_putdouble"><A HREF="../elks/stream_flatshort.html#f_putdouble">putdouble</A> (d: <A HREF="../elks/real_64_flatshort.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`d'<FONT COLOR="red"> to medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_put_double">put_double</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../elks/stream_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_putint"><A HREF="../elks/stream_flatshort.html#f_putint">putint</A> (i: <A HREF="../elks/integer_32_flatshort.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`i'<FONT COLOR="red"> to medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_put_integer">put_integer</A><FONT COLOR="red"> and </FONT><A HREF="../elks/stream_flatshort.html#f_put_integer_32">put_integer_32</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../elks/stream_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_putreal"><A HREF="../elks/stream_flatshort.html#f_putreal">putreal</A> (r: <A HREF="../elks/real_32_flatshort.html">REAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`r'<FONT COLOR="red"> to medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_put_real">put_real</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../elks/stream_flatshort.html#f_extendible">extendible</A>
+</A>
+    <A NAME="f_putstring"><A HREF="../elks/stream_flatshort.html#f_putstring">putstring</A> (s: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write </FONT>`s'<FONT COLOR="red"> to medium.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/stream_flatshort.html#f_put_string">put_string</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/io_medium_flatshort.html">IO_MEDIUM</A>
+            extendible: <A HREF="../elks/stream_flatshort.html#f_extendible">extendible</A>
+            non_void: s /= <B>Void</B>
+</A>
+    <A NAME="f_tagged_out"><B>frozen</B> <A HREF="../elks/any_flatshort.html#f_tagged_out">tagged_out</A>: <A HREF="../elks/string_8_flatshort.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            tagged_out_not_void: <B>Result</B> /= <B>Void</B>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Platform</FONT>
+
+    <A NAME="f_operating_environment"><A HREF="../elks/any_flatshort.html#f_operating_environment">Operating_environment</A>: <A HREF="../elks/operating_environment_flatshort.html">OPERATING_ENVIRONMENT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Objects available from the operating system</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flatshort.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+            operating_environment_not_void: <B>Result</B> /= <B>Void</B>
+</A>    
+<B>invariant</B>
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flatshort.html">ANY</A>
+    reflexive_equality: <A HREF="../elks/any_flatshort.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+    reflexive_conformance: <A HREF="../elks/any_flatshort.html#f_conforms_to">conforms_to</A> (<B>Current</B>)
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/stream_flatshort.html">STREAM</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="stream_chart.html">Chart</A></TD><TD><A HREF="stream_links.html">Relations</A></TD><TD><A HREF="stream.html">Text</A></TD><TD><A HREF="stream_flat.html">Flat</A></TD><TD><A HREF="stream_short.html">Contracts</A></TD><TD>Flat contracts</TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

@@ -1,8 +1,8 @@
 note
 	description : "War of Raekidion - {SDL_TTF} is a wrapper for the C library SDL2_ttf."
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
-	date		: "$Date$"
-	revision	: "$Revision$"
+	date		: "$Date: May 23 2014$"
+	revision	: "$Revision: 1$"
 
 class
 	SDL_TTF
@@ -104,5 +104,13 @@ feature -- Wrapper
 		alias
 			"TTF_RenderText_Solid ((TTF_Font*)$a_font, (const char*)$a_text, *((SDL_Color*)$a_color))"
 		end
+
+note
+	copyright: "[
+				War of Raekidion
+				Copyright (C) 2014 François Allard <binarmorker@gmail.com>
+             		   		   and Marc-Antoine Renaud <legars123456@gmail.com>
+               ]"
+	license:   "GNU General Public License, <http://www.gnu.org/licenses/>"
 
 end

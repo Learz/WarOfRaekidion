@@ -1,0 +1,270 @@
+<HTML><HEAD>
+<meta name="description" content="Objects that represents an IP V6 address ..."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>inet6_address Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="inet6_address_chart.html">Chart</A></TD><TD><A HREF="inet6_address_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="inet6_address_flat.html">Flat</A></TD><TD><A HREF="inet6_address_short.html">Contracts</A></TD><TD><A HREF="inet6_address_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Objects that represents an IP V6 address ..."
+    date: "$Date: 2013-05-20 16:15:17 -0700 (Mon, 20 May 2013) $"
+    revision: "$Revision: 92557 $"
+
+<B>class</B> 
+    <A HREF="../network/inet6_address.html">INET6_ADDRESS</A>
+
+<B>inherit</B>
+    <A HREF="../network/inet_address.html">INET_ADDRESS</A>
+
+    <A HREF="../network/inet_properties.html">INET_PROPERTIES</A>
+
+<B>create</B> 
+    <A HREF="../network/inet6_address.html#f_make_from_host_and_address">make_from_host_and_address</A>,
+    <A HREF="../network/inet6_address.html#f_make_from_host_and_address_and_interface_name">make_from_host_and_address_and_interface_name</A>,
+    <A HREF="../network/inet6_address.html#f_make_from_host_and_address_and_scope">make_from_host_and_address_and_scope</A>
+
+
+<B>create</B> {<A HREF="../network/inet_address_factory.html">INET_ADDRESS_FACTORY</A>}
+    <A HREF="../network/inet6_address.html#f_make_from_host_and_pointer">make_from_host_and_pointer</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Constants</FONT>
+
+    <A NAME="f_inaddrsz"><A HREF="../network/inet6_address.html#f_inaddrsz">Inaddrsz</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A> = 16</A>
+    
+<B>feature</B> {<A HREF="../network/inet_address_factory.html">INET_ADDRESS_FACTORY</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make_from_host_and_address"><A HREF="../network/inet6_address.html#f_make_from_host_and_address">make_from_host_and_address</A> (a_hostname: <B>detachable</B> <A HREF="../elks/string_8.html">STRING_8</A>; an_address: <A HREF="../elks/array.html">ARRAY</A> [<A HREF="../elks/natural_8.html">NATURAL_8</A>])
+        <B>require</B>
+            an_address_count_valid: an_address.<A HREF="../elks/array.html#f_count">count</A> = <A HREF="../network/inet6_address.html#f_inaddrsz">Inaddrsz</A>
+        <B>do</B>
+            <A HREF="../network/inet_address.html#f_family">family</A> := <A HREF="../network/inet_address.html#f_ipv6">Ipv6</A>
+            <A HREF="../network/inet_address.html#f_internal_host_name">internal_host_name</A> := a_hostname
+            <A HREF="../network/inet6_address.html#f_the_address">the_address</A> := an_address
+        <B>end</B></A>
+
+    <A NAME="f_make_from_host_and_address_and_interface_name"><A HREF="../network/inet6_address.html#f_make_from_host_and_address_and_interface_name">make_from_host_and_address_and_interface_name</A> (a_hostname: <B>detachable</B> <A HREF="../elks/string_8.html">STRING_8</A>; an_address: <A HREF="../elks/array.html">ARRAY</A> [<A HREF="../elks/natural_8.html">NATURAL_8</A>]; an_iface_name: <A HREF="../elks/string_8.html">STRING_8</A>)
+        <B>require</B>
+            an_address_count_valid: an_address.<A HREF="../elks/array.html#f_count">count</A> = <A HREF="../network/inet6_address.html#f_inaddrsz">Inaddrsz</A>
+        <B>do</B>
+            <A HREF="../network/inet6_address.html#f_the_scope_ifname">the_scope_ifname</A> := an_iface_name
+            <A HREF="../network/inet6_address.html#f_make_from_host_and_address_and_scope">make_from_host_and_address_and_scope</A> (a_hostname, an_address, 0)
+        <B>end</B></A>
+
+    <A NAME="f_make_from_host_and_address_and_scope"><A HREF="../network/inet6_address.html#f_make_from_host_and_address_and_scope">make_from_host_and_address_and_scope</A> (a_hostname: <B>detachable</B> <A HREF="../elks/string_8.html">STRING_8</A>; an_address: <A HREF="../elks/array.html">ARRAY</A> [<A HREF="../elks/natural_8.html">NATURAL_8</A>]; a_scope_id: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+        <B>require</B>
+            an_address_count_valid: an_address.<A HREF="../elks/array.html#f_count">count</A> = <A HREF="../network/inet6_address.html#f_inaddrsz">Inaddrsz</A>
+        <B>do</B>
+            <A HREF="../network/inet6_address.html#f_make_from_host_and_address">make_from_host_and_address</A> (a_hostname, an_address)
+            <B>if</B> a_scope_id &gt;= 0 <B>then</B>
+                <A HREF="../network/inet6_address.html#f_the_scope_id">the_scope_id</A> := a_scope_id
+                <A HREF="../network/inet6_address.html#f_is_scope_id_set">is_scope_id_set</A> := <B>True</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_make_from_host_and_pointer"><A HREF="../network/inet6_address.html#f_make_from_host_and_pointer">make_from_host_and_pointer</A> (a_hostname: <B>detachable</B> <A HREF="../elks/string_8.html">STRING_8</A>; a_pointer: <A HREF="../elks/pointer.html">POINTER</A>)
+        <B>local</B>
+            ptr: <A HREF="../elks/pointer.html">POINTER</A>
+            addr: <A HREF="../elks/array.html">ARRAY</A> [<A HREF="../elks/natural_8.html">NATURAL_8</A>]
+            i: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            scope: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>create</B> addr.<A HREF="../elks/array.html#f_make_filled">make_filled</A> ({<A HREF="../elks/natural_8.html">NATURAL_8</A>} 0, 1, <A HREF="../network/inet6_address.html#f_inaddrsz">Inaddrsz</A>)
+            <B>if</B> a_pointer /= <A HREF="../elks/any.html#f_default_pointer">default_pointer</A> <B>then</B>
+                ptr := <A HREF="../network/inet6_address.html#f_c_sockaddr_get_ipv6_address">c_sockaddr_get_ipv6_address</A> (a_pointer)
+                <B>from</B>
+                    i := 1
+                <B>until</B>
+                    i &gt; <A HREF="../network/inet6_address.html#f_inaddrsz">Inaddrsz</A>
+                <B>loop</B>
+                    addr.<A HREF="../elks/array.html#f_put">put</A> (<A HREF="../network/inet6_address.html#f_c_get_addr_element">c_get_addr_element</A> (ptr, i - 1), i)
+                    i := i + 1
+                <B>end</B>
+                scope := <A HREF="../network/inet6_address.html#f_c_sockaddr_get_ipv6_address_scope">c_sockaddr_get_ipv6_address_scope</A> (a_pointer)
+            <B>end</B>
+            <A HREF="../network/inet6_address.html#f_make_from_host_and_address_and_scope">make_from_host_and_address_and_scope</A> (a_hostname, addr, scope)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_host_address"><A HREF="../network/inet6_address.html#f_host_address">host_address</A>: <A HREF="../elks/string_8.html">STRING_8</A>
+        <B>local</B>
+            l_scope_ifname: <B>like</B> <A HREF="../network/inet6_address.html#f_the_scope_ifname">the_scope_ifname</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../network/inet6_address.html#f_numeric_to_text">numeric_to_text</A> (<A HREF="../network/inet6_address.html#f_the_address">the_address</A>)
+            l_scope_ifname := <A HREF="../network/inet6_address.html#f_the_scope_ifname">the_scope_ifname</A>
+            <B>if</B> l_scope_ifname /= <B>Void</B> <B>then</B>
+                <B>Result</B>.<A HREF="../elks/string_8.html#f_append_character">append_character</A> ('%%')
+                <B>Result</B>.<A HREF="../elks/string_8.html#f_append_string">append_string</A> (l_scope_ifname)
+            <B>elseif</B> <A HREF="../network/inet6_address.html#f_is_scope_id_set">is_scope_id_set</A> <B>and then</B> <A HREF="../network/inet6_address.html#f_the_scope_id">the_scope_id</A> &gt; 0 <B>then</B>
+                <B>Result</B>.<A HREF="../elks/string_8.html#f_append_character">append_character</A> ('%%')
+                <B>Result</B>.<A HREF="../elks/string_8.html#f_append_integer">append_integer</A> (<A HREF="../network/inet6_address.html#f_the_scope_id">the_scope_id</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_multicast_address"><A HREF="../network/inet6_address.html#f_is_multicast_address">is_multicast_address</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            <B>Result</B> := ((<A HREF="../network/inet6_address.html#f_the_address">the_address</A> [1] &#38; 255.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>) = 255.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_any_local_address"><A HREF="../network/inet6_address.html#f_is_any_local_address">is_any_local_address</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>local</B>
+            test: <A HREF="../elks/natural_8.html">NATURAL_8</A>
+            i: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            test := 0.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>
+            <B>from</B>
+                i := 1
+            <B>until</B>
+                i &gt; <A HREF="../network/inet6_address.html#f_inaddrsz">Inaddrsz</A>
+            <B>loop</B>
+                test := test | <A HREF="../network/inet6_address.html#f_the_address">the_address</A> [i]
+                i := i + 1
+            <B>end</B>
+            <B>Result</B> := (test = 0.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_loopback_address"><A HREF="../network/inet6_address.html#f_is_loopback_address">is_loopback_address</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>local</B>
+            test: <A HREF="../elks/natural_8.html">NATURAL_8</A>
+            i: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            test := 0.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>
+            <B>from</B>
+                i := 1
+            <B>until</B>
+                i &gt; 15
+            <B>loop</B>
+                test := test | <A HREF="../network/inet6_address.html#f_the_address">the_address</A> [i]
+                i := i + 1
+            <B>end</B>
+            <B>Result</B> := (test = 0.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>) <B>and</B> (<A HREF="../network/inet6_address.html#f_the_address">the_address</A> [16] = 1.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_link_local_address"><A HREF="../network/inet6_address.html#f_is_link_local_address">is_link_local_address</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            <B>Result</B> := ((<A HREF="../network/inet6_address.html#f_the_address">the_address</A> [1] &#38; 255.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>) = 254.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A> <B>and</B> (<A HREF="../network/inet6_address.html#f_the_address">the_address</A> [2] &#38; 192.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>) = 128.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_site_local_address"><A HREF="../network/inet6_address.html#f_is_site_local_address">is_site_local_address</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            <B>Result</B> := ((<A HREF="../network/inet6_address.html#f_the_address">the_address</A> [1] &#38; 255.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>) = 254.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A> <B>and</B> (<A HREF="../network/inet6_address.html#f_the_address">the_address</A> [2] &#38; 192.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>) = 192.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_mc_global"><A HREF="../network/inet6_address.html#f_is_mc_global">is_mc_global</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            <B>Result</B> := ((<A HREF="../network/inet6_address.html#f_the_address">the_address</A> [1] &#38; 255.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>) = 255.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A> <B>and</B> (<A HREF="../network/inet6_address.html#f_the_address">the_address</A> [2] &#38; 15.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>) = 14.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_mc_node_local"><A HREF="../network/inet6_address.html#f_is_mc_node_local">is_mc_node_local</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            <B>Result</B> := ((<A HREF="../network/inet6_address.html#f_the_address">the_address</A> [1] &#38; 255.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>) = 255.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A> <B>and</B> (<A HREF="../network/inet6_address.html#f_the_address">the_address</A> [2] &#38; 15.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>) = 1.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_mc_link_local"><A HREF="../network/inet6_address.html#f_is_mc_link_local">is_mc_link_local</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            <B>Result</B> := ((<A HREF="../network/inet6_address.html#f_the_address">the_address</A> [1] &#38; 255.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>) = 255.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A> <B>and</B> (<A HREF="../network/inet6_address.html#f_the_address">the_address</A> [2] &#38; 15.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>) = 2.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_mc_site_local"><A HREF="../network/inet6_address.html#f_is_mc_site_local">is_mc_site_local</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            <B>Result</B> := ((<A HREF="../network/inet6_address.html#f_the_address">the_address</A> [1] &#38; 255.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>) = 255.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A> <B>and</B> (<A HREF="../network/inet6_address.html#f_the_address">the_address</A> [2] &#38; 15.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>) = 5.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_mc_org_local"><A HREF="../network/inet6_address.html#f_is_mc_org_local">is_mc_org_local</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            <B>Result</B> := ((<A HREF="../network/inet6_address.html#f_the_address">the_address</A> [1] &#38; 255.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>) = 255.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A> <B>and</B> (<A HREF="../network/inet6_address.html#f_the_address">the_address</A> [2] &#38; 15.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>) = 8.<A HREF="../elks/integer_32_ref.html#f_to_natural_8">to_natural_8</A>)
+        <B>end</B></A>
+
+    <A NAME="f_raw_address"><A HREF="../network/inet6_address.html#f_raw_address">raw_address</A>: <A HREF="../elks/array.html">ARRAY</A> [<A HREF="../elks/natural_8.html">NATURAL_8</A>]
+        <B>do</B>
+            <B>Result</B> := <A HREF="../network/inet6_address.html#f_the_address">the_address</A>.<A HREF="../elks/any.html#f_twin">twin</A>
+        <B>end</B></A>
+    
+<B>feature</B> {<A HREF="../network/network_socket_address.html">NETWORK_SOCKET_ADDRESS</A>} 
+
+    <A NAME="f_sockaddr"><A HREF="../network/inet6_address.html#f_sockaddr">sockaddr</A> (a_port: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/managed_pointer.html">MANAGED_POINTER</A>
+        <B>local</B>
+            a: <A HREF="../elks/managed_pointer.html">MANAGED_POINTER</A>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/managed_pointer.html#f_make">make</A> (<A HREF="../network/inet_address.html#f_sockaddr_size">sockaddr_size</A>)
+            <B>create</B> a.<A HREF="../elks/managed_pointer.html#f_make_from_array">make_from_array</A> (<A HREF="../network/inet6_address.html#f_the_address">the_address</A>)
+            <A HREF="../network/inet6_address.html#f_fill_ipv6">fill_ipv6</A> (<B>Result</B>.<A HREF="../elks/managed_pointer.html#f_item">item</A>, a.<A HREF="../elks/managed_pointer.html#f_item">item</A>, a_port, <A HREF="../network/inet6_address.html#f_the_scope_id">the_scope_id</A>)
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_the_address"><A HREF="../network/inet6_address.html#f_the_address">the_address</A>: <A HREF="../elks/array.html">ARRAY</A> [<A HREF="../elks/natural_8.html">NATURAL_8</A>]</A>
+
+    <A NAME="f_the_scope_id"><A HREF="../network/inet6_address.html#f_the_scope_id">the_scope_id</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+
+    <A NAME="f_the_scope_ifname"><A HREF="../network/inet6_address.html#f_the_scope_ifname">the_scope_ifname</A>: <B>detachable</B> <A HREF="../elks/string_8.html">STRING_8</A></A>
+
+    <A NAME="f_is_scope_ifname_set"><A HREF="../network/inet6_address.html#f_is_scope_ifname_set">is_scope_ifname_set</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> This will be set to true if the object is constructed with a scoped</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> interface instead of a numeric scope id.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../network/inet6_address.html#f_the_scope_ifname">the_scope_ifname</A> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_scope_id_set"><A HREF="../network/inet6_address.html#f_is_scope_id_set">is_scope_id_set</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> This will be set to true when the scope_id field contains a valid</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> integer scope_id.</FONT>
+
+    <A NAME="f_numeric_to_text"><A HREF="../network/inet6_address.html#f_numeric_to_text">numeric_to_text</A> (addr: <A HREF="../elks/array.html">ARRAY</A> [<A HREF="../elks/natural_8.html">NATURAL_8</A>]): <A HREF="../elks/string_8.html">STRING_8</A>
+        <B>require</B>
+            addr /= <B>Void</B> <B>and then</B> addr.<A HREF="../elks/array.html#f_count">count</A> = <A HREF="../network/inet6_address.html#f_inaddrsz">Inaddrsz</A>
+        <B>local</B>
+            i: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            e: <A HREF="../elks/natural_16.html">NATURAL_16</A>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/readable_string_general.html#f_make_empty">make_empty</A>
+            <B>from</B>
+                i := 1
+            <B>until</B>
+                i &gt;= <A HREF="../network/inet6_address.html#f_inaddrsz">Inaddrsz</A>
+            <B>loop</B>
+                e := (((addr.<A HREF="../elks/array.html#f_item">item</A> (i).<A HREF="../elks/natural_8.html#f_as_natural_16">as_natural_16</A> |&lt;&lt; 8) &#38; 65280.<A HREF="../elks/integer_32_ref.html#f_to_natural_16">to_natural_16</A>) | (addr.<A HREF="../elks/array.html#f_item">item</A> (i + 1).<A HREF="../elks/natural_8.html#f_as_natural_16">as_natural_16</A> &#38; 255.<A HREF="../elks/integer_32_ref.html#f_to_natural_16">to_natural_16</A>)).<A HREF="../elks/natural_16.html#f_as_natural_16">as_natural_16</A>
+                <B>Result</B>.<A HREF="../elks/string_8.html#f_append_string">append_string</A> (e.<A HREF="../elks/natural_16_ref.html#f_to_hex_string">to_hex_string</A>)
+                <B>if</B> i &lt; <A HREF="../network/inet6_address.html#f_inaddrsz">Inaddrsz</A> - 1 <B>then</B>
+                    <B>Result</B>.<A HREF="../elks/string_8.html#f_append_character">append_character</A> (':')
+                <B>end</B>
+                i := i + 2
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Externals</FONT>
+
+    <A NAME="f_fill_ipv6"><A HREF="../network/inet6_address.html#f_fill_ipv6">fill_ipv6</A> (data_ptr: <A HREF="../elks/pointer.html">POINTER</A>; address: <A HREF="../elks/pointer.html">POINTER</A>; port: <A HREF="../elks/integer_32.html">INTEGER_32</A>; scopeid: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+        <B>external</B>
+            "C"
+        <B>alias</B>
+            "en_socket_address_fill_ipv6"
+        <B>end</B></A>
+
+    <A NAME="f_c_sockaddr_get_ipv6_address"><A HREF="../network/inet6_address.html#f_c_sockaddr_get_ipv6_address">c_sockaddr_get_ipv6_address</A> (a_pointer: <A HREF="../elks/pointer.html">POINTER</A>): <A HREF="../elks/pointer.html">POINTER</A>
+        <B>external</B>
+            "C"
+        <B>alias</B>
+            "en_sockaddr_get_ipv6_address"
+        <B>end</B></A>
+
+    <A NAME="f_c_sockaddr_get_ipv6_address_scope"><A HREF="../network/inet6_address.html#f_c_sockaddr_get_ipv6_address_scope">c_sockaddr_get_ipv6_address_scope</A> (a_pointer: <A HREF="../elks/pointer.html">POINTER</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>external</B>
+            "C"
+        <B>alias</B>
+            "en_sockaddr_get_ipv6_address_scope"
+        <B>end</B></A>
+
+    <A NAME="f_c_get_addr_element"><A HREF="../network/inet6_address.html#f_c_get_addr_element">c_get_addr_element</A> (ptr: <A HREF="../elks/pointer.html">POINTER</A>; index: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/natural_8.html">NATURAL_8</A>
+        <B>external</B>
+            "C inline"
+        <B>alias</B>
+            "((unsigned char*)$ptr)[$index]"
+        <B>end</B></A>
+    
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../network/inet6_address.html">INET6_ADDRESS</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="inet6_address_chart.html">Chart</A></TD><TD><A HREF="inet6_address_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="inet6_address_flat.html">Flat</A></TD><TD><A HREF="inet6_address_short.html">Contracts</A></TD><TD><A HREF="inet6_address_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

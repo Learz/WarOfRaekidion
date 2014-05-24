@@ -1,0 +1,1094 @@
+<HTML><HEAD>
+<meta name="description" content="Internal file information"/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>file_info Flat</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="file_info_chart.html">Chart</A></TD><TD><A HREF="file_info_links.html">Relations</A></TD><TD><A HREF="file_info.html">Text</A></TD><TD>Flat</TD><TD><A HREF="file_info_short.html">Contracts</A></TD><TD><A HREF="file_info_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Internal file information"
+    library: "Free implementation of ELKS library"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2013-01-02 16:22:47 -0800 (Wed, 02 Jan 2013) $"
+    revision: "$Revision: 92101 $"
+
+<B>class</B> 
+    <A HREF="../elks/file_info_flat.html">FILE_INFO</A>
+
+<B>create</B> 
+    <A HREF="../elks/file_info_flat.html#f_make">make</A>
+
+<B>convert</B>
+    <A HREF="../elks/file_info_flat.html#f_to_unix_file_info">to_unix_file_info</A>: {<A HREF="../elks/unix_file_info_flat.html">UNIX_FILE_INFO</A>}
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_default_create"><A HREF="../elks/any_flat.html#f_default_create">default_create</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process instances of classes with no creation clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_make"><A HREF="../elks/file_info_flat.html#f_make">make</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Creation procedure</FONT>
+        <B>do</B>
+            <A HREF="../elks/to_special_flat.html#f_make_filled_area">make_filled_area</A> (0.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_8">to_natural_8</A>, <A HREF="../elks/file_info_flat.html#f_stat_size">stat_size</A>)
+            <A HREF="../elks/file_info_flat.html#f_is_following_symlinks">is_following_symlinks</A> := <B>True</B>
+            <A HREF="../elks/file_info_flat.html#f_exists">exists</A> := <B>False</B>
+        <B>ensure</B>
+            not_exists: <B>not</B> <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+            is_following_symlinks_set: <A HREF="../elks/file_info_flat.html#f_is_following_symlinks">is_following_symlinks</A>
+        <B>end</B></A>
+
+    <A NAME="f_make_empty_area"><A HREF="../elks/to_special_flat.html#f_make_empty_area">make_buffered_file_info</A> (n: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Creates a special object for </FONT>`n'<FONT COLOR="red"> entries.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/to_special_flat.html">TO_SPECIAL</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/to_special_flat.html">TO_SPECIAL</A>
+            non_negative_argument: n &gt;= 0
+        <B>do</B>
+            <B>create</B> <A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/special_flat.html#f_make_empty">make_empty</A> (n)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/to_special_flat.html">TO_SPECIAL</A>
+            area_allocated: <A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A> /= <B>Void</B>
+            capacity_set: <A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/special_flat.html#f_capacity">capacity</A> = n
+            count_set: <A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/special_flat.html#f_count">count</A> = 0
+        <B>end</B></A>
+
+    <A NAME="f_make_filled_area"><A HREF="../elks/to_special_flat.html#f_make_filled_area">make_filled_area</A> (a_default_value: <A HREF="../elks/natural_8_flat.html">NATURAL_8</A>; n: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Creates a special object for </FONT>`n'<FONT COLOR="red"> entries.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/to_special_flat.html">TO_SPECIAL</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/to_special_flat.html">TO_SPECIAL</A>
+            non_negative_argument: n &gt;= 0
+        <B>do</B>
+            <B>create</B> <A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/special_flat.html#f_make_filled">make_filled</A> (a_default_value, n)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/to_special_flat.html">TO_SPECIAL</A>
+            area_allocated: <A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A> /= <B>Void</B>
+            capacity_set: <A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/special_flat.html#f_capacity">capacity</A> = n
+            count_set: <A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/special_flat.html#f_count">count</A> = n
+            area_filled: <A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/special_flat.html#f_filled_with">filled_with</A> (a_default_value, 0, n - 1)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_access_date"><A HREF="../elks/file_info_flat.html#f_access_date">access_date</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Date of last access</FONT>
+        <B>require</B>
+            exists: <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_info">file_info</A> ($<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, 8)
+        <B>end</B></A>
+
+    <A NAME="f_area"><A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>: <A HREF="../elks/special_flat.html">SPECIAL</A> [<A HREF="../elks/natural_8_flat.html">NATURAL_8</A>]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Special data zone</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/to_special_flat.html">TO_SPECIAL</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_at"><A HREF="../elks/to_special_flat.html#f_at">at</A> <B>alias</B> "@" (i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/natural_8_flat.html">NATURAL_8</A> <B>assign</B> <A HREF="../elks/to_special_flat.html#f_put">put</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Entry at index </FONT>`i'<FONT COLOR="red">, if in index interval</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/to_special_flat.html">TO_SPECIAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/to_special_flat.html#f_item">item</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/to_special_flat.html">TO_SPECIAL</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/to_special_flat.html">TO_SPECIAL</A>
+            valid_index: <A HREF="../elks/to_special_flat.html#f_valid_index">valid_index</A> (i)
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/special_flat.html#f_item">item</A> (i)
+        <B>end</B></A>
+
+    <A NAME="f_change_date"><A HREF="../elks/file_info_flat.html#f_change_date">change_date</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Date of last status change</FONT>
+        <B>require</B>
+            exists: <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_info">file_info</A> ($<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, 9)
+        <B>end</B></A>
+
+    <A NAME="f_date"><A HREF="../elks/file_info_flat.html#f_date">date</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last modification date</FONT>
+        <B>require</B>
+            exists: <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_info">file_info</A> ($<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, 7)
+        <B>end</B></A>
+
+    <A NAME="f_device"><A HREF="../elks/file_info_flat.html#f_device">device</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Device number on which inode resides</FONT>
+        <B>require</B>
+            exists: <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_info">file_info</A> ($<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, 2)
+        <B>end</B></A>
+
+    <A NAME="f_device_type"><A HREF="../elks/file_info_flat.html#f_device_type">device_type</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Device type on which inode resides</FONT>
+        <B>require</B>
+            exists: <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_info">file_info</A> ($<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, 3)
+        <B>end</B></A>
+
+    <A NAME="f_file_entry"><A HREF="../elks/file_info_flat.html#f_file_entry">file_entry</A>: <B>detachable</B> <A HREF="../elks/path_flat.html">PATH</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Associated entry for Current.</FONT>
+        <B>do</B>
+            <B>if</B> <B>attached</B> <A HREF="../elks/file_info_flat.html#f_internal_name_pointer">internal_name_pointer</A> <B>as</B> l_ptr <B>then</B>
+                <B>create</B> <B>Result</B>.<A HREF="../elks/path_flat.html#f_make_from_pointer">make_from_pointer</A> (l_ptr.<A HREF="../elks/managed_pointer_flat.html#f_item">item</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_file_name"><A HREF="../elks/file_info_flat.html#f_file_name">file_name</A>: <B>detachable</B> <A HREF="../elks/string_8_flat.html">STRING_8</A>
+        <B>obsolete</B> "Use `file_entry' to ensure that filenames are not truncated."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> File name as a STRING_8 instance. The value might be truncated</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> from the original name used to create the current FILE instance.</FONT>
+        <B>do</B>
+            <B>if</B> <B>attached</B> <A HREF="../elks/file_info_flat.html#f_internal_file_name">internal_file_name</A> <B>as</B> l_name <B>then</B>
+                <B>Result</B> := l_name.<A HREF="../elks/readable_string_general_flat.html#f_as_string_8">as_string_8</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_generating_type"><A HREF="../elks/any_flat.html#f_generating_type">generating_type</A>: <A HREF="../elks/type_flat.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/file_info_flat.html">FILE_INFO</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Type of current object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := {<B>detachable</B> <A HREF="../elks/file_info_flat.html">FILE_INFO</A>}
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            generating_type_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_generator"><A HREF="../elks/any_flat.html#f_generator">generator</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of current object's generating class</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (base class of the type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            generator_not_void: <B>Result</B> /= <B>Void</B>
+            generator_not_empty: <B>not</B> <B>Result</B>.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+
+    <A NAME="f_group_id"><A HREF="../elks/file_info_flat.html#f_group_id">group_id</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> GID of the file</FONT>
+        <B>require</B>
+            exists: <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_info">file_info</A> ($<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, 5)
+        <B>end</B></A>
+
+    <A NAME="f_group_name"><A HREF="../elks/file_info_flat.html#f_group_name">group_name</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of the file group, if available from /etc/group.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Otherwise, the GID</FONT>
+        <B>require</B>
+            exists: <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_group">file_group</A> (<A HREF="../elks/file_info_flat.html#f_group_id">group_id</A>)
+        <B>end</B></A>
+
+    <A NAME="f_inode"><A HREF="../elks/file_info_flat.html#f_inode">inode</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Inode number</FONT>
+        <B>require</B>
+            exists: <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_info">file_info</A> ($<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, 1)
+        <B>end</B></A>
+
+    <A NAME="f_item"><A HREF="../elks/to_special_flat.html#f_item">item</A> <B>alias</B> "[]" (i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/natural_8_flat.html">NATURAL_8</A> <B>assign</B> <A HREF="../elks/to_special_flat.html#f_put">put</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Entry at index </FONT>`i'<FONT COLOR="red">, if in index interval</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/to_special_flat.html">TO_SPECIAL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/to_special_flat.html#f_at">at</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/to_special_flat.html">TO_SPECIAL</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/to_special_flat.html">TO_SPECIAL</A>
+            valid_index: <A HREF="../elks/to_special_flat.html#f_valid_index">valid_index</A> (i)
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/special_flat.html#f_item">item</A> (i)
+        <B>end</B></A>
+
+    <A NAME="f_links"><A HREF="../elks/file_info_flat.html#f_links">links</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of links</FONT>
+        <B>require</B>
+            exists: <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_info">file_info</A> ($<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, 10)
+        <B>end</B></A>
+
+    <A NAME="f_owner_name"><A HREF="../elks/file_info_flat.html#f_owner_name">owner_name</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of the file owner, if available from /etc/passwd.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Otherwise, the UID</FONT>
+        <B>require</B>
+            exists: <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_owner">file_owner</A> (<A HREF="../elks/file_info_flat.html#f_user_id">user_id</A>)
+        <B>end</B></A>
+
+    <A NAME="f_protection"><A HREF="../elks/file_info_flat.html#f_protection">protection</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Protection mode of file (12 lower bits)</FONT>
+        <B>require</B>
+            exists: <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_info">file_info</A> ($<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, 0)
+        <B>end</B></A>
+
+    <A NAME="f_size"><A HREF="../elks/file_info_flat.html#f_size">size</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> File size, in bytes</FONT>
+        <B>require</B>
+            exists: <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_info">file_info</A> ($<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, 6)
+        <B>end</B></A>
+
+    <A NAME="f_type"><A HREF="../elks/file_info_flat.html#f_type">type</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> File type (4 bits, 12 lowest bits zeroed)</FONT>
+        <B>require</B>
+            exists: <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_info">file_info</A> ($<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, 11)
+        <B>end</B></A>
+
+    <A NAME="f_user_id"><A HREF="../elks/file_info_flat.html#f_user_id">user_id</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> UID of the file owner</FONT>
+        <B>require</B>
+            exists: <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_info">file_info</A> ($<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, 4)
+        <B>end</B></A>
+    
+<B>feature</B> {<A HREF="../elks/native_string_handler_flat.html">NATIVE_STRING_HANDLER</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_file_name_to_pointer"><A HREF="../elks/file_info_flat.html#f_file_name_to_pointer">file_name_to_pointer</A> (a_name: <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>; a_ptr: <B>detachable</B> <A HREF="../elks/managed_pointer_flat.html">MANAGED_POINTER</A>): <A HREF="../elks/managed_pointer_flat.html">MANAGED_POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> File system specific encoding of </FONT>`a_name'<FONT COLOR="red"> that will be stored in </FONT>`a_ptr'<FONT COLOR="red"> if provided</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> otherwise a new instance is created.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Typically a UTF-16 sequence on Windows, a UTF-8 sequence on Unix.</FONT>
+        <B>require</B>
+            a_name_not_empty: <B>not</B> a_name.<A HREF="../elks/readable_string_general_flat.html#f_is_empty">is_empty</A>
+        <B>local</B>
+            u: <A HREF="../elks/utf_converter_flat.html">UTF_CONVERTER</A>
+            l_c_string: <A HREF="../elks/c_string_flat.html">C_STRING</A>
+            l_ptr: <B>detachable</B> <A HREF="../elks/managed_pointer_flat.html">MANAGED_POINTER</A>
+            l_count: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            l_ptr := a_ptr
+            <B>if</B> {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_is_windows">is_windows</A> <B>then</B>
+                <B>if</B> <B>attached</B> {<A HREF="../elks/readable_string_32_flat.html">READABLE_STRING_32</A>} a_name <B>then</B>
+                    <B>if</B> l_ptr = <B>Void</B> <B>then</B>
+                        <B>create</B> l_ptr.<A HREF="../elks/managed_pointer_flat.html#f_make">make</A> ((a_name.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> + 1) * 2)
+                    <B>else</B>
+                        l_ptr.<A HREF="../elks/managed_pointer_flat.html#f_resize">resize</A> ((a_name.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> + 1) * 2)
+                    <B>end</B>
+                    u.<A HREF="../elks/utf_converter_flat.html#f_escaped_utf_32_substring_into_utf_16_0_pointer">escaped_utf_32_substring_into_utf_16_0_pointer</A> (a_name, 1, a_name.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A>, l_ptr, 0, <B>Void</B>)
+                <B>else</B>
+                    <B>create</B> l_c_string.<A HREF="../elks/c_string_flat.html#f_make">make</A> (a_name)
+                    <B>if</B> l_ptr = <B>Void</B> <B>then</B>
+                        <B>create</B> l_ptr.<A HREF="../elks/managed_pointer_flat.html#f_make">make</A> (<A HREF="../elks/file_info_flat.html#f_multi_byte_to_utf_16">multi_byte_to_utf_16</A> (l_c_string.<A HREF="../elks/c_string_flat.html#f_item">item</A>, <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>, 0))
+                    <B>else</B>
+                        l_ptr.<A HREF="../elks/managed_pointer_flat.html#f_resize">resize</A> (<A HREF="../elks/file_info_flat.html#f_multi_byte_to_utf_16">multi_byte_to_utf_16</A> (l_c_string.<A HREF="../elks/c_string_flat.html#f_item">item</A>, <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>, 0))
+                    <B>end</B>
+                    l_count := <A HREF="../elks/file_info_flat.html#f_multi_byte_to_utf_16">multi_byte_to_utf_16</A> (l_c_string.<A HREF="../elks/c_string_flat.html#f_item">item</A>, l_ptr.<A HREF="../elks/managed_pointer_flat.html#f_item">item</A>, l_ptr.<A HREF="../elks/managed_pointer_flat.html#f_count">count</A>)
+                <B>end</B>
+            <B>else</B>
+                <B>if</B> l_ptr = <B>Void</B> <B>then</B>
+                    <B>create</B> l_ptr.<A HREF="../elks/managed_pointer_flat.html#f_make">make</A> (a_name.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> + 1)
+                <B>else</B>
+                    l_ptr.<A HREF="../elks/managed_pointer_flat.html#f_resize">resize</A> (a_name.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A> + 1)
+                <B>end</B>
+                <B>if</B> <B>attached</B> {<A HREF="../elks/readable_string_32_flat.html">READABLE_STRING_32</A>} a_name <B>then</B>
+                    u.<A HREF="../elks/utf_converter_flat.html#f_escaped_utf_32_substring_into_utf_8_0_pointer">escaped_utf_32_substring_into_utf_8_0_pointer</A> (a_name, 1, a_name.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A>, l_ptr, 0, <B>Void</B>)
+                <B>else</B>
+                    <B>create</B> l_c_string.<A HREF="../elks/c_string_flat.html#f_make_shared_from_pointer_and_count">make_shared_from_pointer_and_count</A> (l_ptr.<A HREF="../elks/managed_pointer_flat.html#f_item">item</A>, a_name.<A HREF="../elks/readable_string_general_flat.html#f_count">count</A>)
+                    l_c_string.<A HREF="../elks/c_string_flat.html#f_set_string">set_string</A> (a_name)
+                <B>end</B>
+            <B>end</B>
+            <B>Result</B> := l_ptr
+        <B>end</B></A>
+
+    <A NAME="f_pointer_to_file_name_32"><A HREF="../elks/file_info_flat.html#f_pointer_to_file_name_32">pointer_to_file_name_32</A> (a_ptr: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/string_32_flat.html">STRING_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Given a file system name represented by </FONT>`a_ptr'<FONT COLOR="red"> provides a STRING_32 instance which</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> could be escaped when underlying encoding is not valid.</FONT>
+        <B>local</B>
+            u: <A HREF="../elks/utf_converter_flat.html">UTF_CONVERTER</A>
+            l_managed: <A HREF="../elks/managed_pointer_flat.html">MANAGED_POINTER</A>
+        <B>do</B>
+            <B>create</B> l_managed.<A HREF="../elks/managed_pointer_flat.html#f_share_from_pointer">share_from_pointer</A> (a_ptr, <A HREF="../elks/native_string_handler_flat.html#f_pointer_length_in_bytes">pointer_length_in_bytes</A> (a_ptr))
+            <B>if</B> {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_is_windows">is_windows</A> <B>then</B>
+                <B>Result</B> := u.<A HREF="../elks/utf_converter_flat.html#f_utf_16_0_pointer_to_string_32">utf_16_0_pointer_to_string_32</A> (l_managed)
+                <B>Result</B> := u.<A HREF="../elks/utf_converter_flat.html#f_utf_16_0_pointer_to_escaped_string_32">utf_16_0_pointer_to_escaped_string_32</A> (l_managed)
+            <B>else</B>
+                <B>Result</B> := u.<A HREF="../elks/utf_converter_flat.html#f_utf_8_0_pointer_to_escaped_string_32">utf_8_0_pointer_to_escaped_string_32</A> (l_managed)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_pointer_to_file_name_8"><A HREF="../elks/file_info_flat.html#f_pointer_to_file_name_8">pointer_to_file_name_8</A> (a_ptr: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Given a file system name represented by </FONT>`a_ptr'<FONT COLOR="red"> provides a STRING_8 instance.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> This is used for backward compatibility for APIs using STRING_8.</FONT>
+        <B>local</B>
+            l_cstring: <A HREF="../elks/c_string_flat.html">C_STRING</A>
+            l_count: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+        <B>do</B>
+            <B>if</B> {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_is_windows">is_windows</A> <B>then</B>
+                l_count := <A HREF="../elks/file_info_flat.html#f_utf_16_to_multi_byte">utf_16_to_multi_byte</A> (a_ptr, <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>, 0)
+                <B>create</B> l_cstring.<A HREF="../elks/c_string_flat.html#f_make_empty">make_empty</A> (l_count)
+                l_count := <A HREF="../elks/file_info_flat.html#f_utf_16_to_multi_byte">utf_16_to_multi_byte</A> (a_ptr, l_cstring.<A HREF="../elks/c_string_flat.html#f_item">item</A>, l_count)
+                <B>Result</B> := l_cstring.<A HREF="../elks/c_string_flat.html#f_substring">substring</A> (1, l_count - 1)
+            <B>else</B>
+                <B>create</B> l_cstring.<A HREF="../elks/c_string_flat.html#f_make_shared_from_pointer">make_shared_from_pointer</A> (a_ptr)
+                <B>Result</B> := l_cstring.<A HREF="../elks/c_string_flat.html#f_string">string</A>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {<A HREF="../elks/file_info_flat.html">FILE_INFO</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_internal_file_name"><A HREF="../elks/file_info_flat.html#f_internal_file_name">internal_file_name</A>: <B>detachable</B> <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Store the name of the file as it was given to us by the user</FONT>
+
+    <A NAME="f_internal_name_pointer"><A HREF="../elks/file_info_flat.html#f_internal_name_pointer">internal_name_pointer</A>: <B>detachable</B> <A HREF="../elks/managed_pointer_flat.html">MANAGED_POINTER</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> File system specific encoding of </FONT><A HREF="../elks/file_info_flat.html#f_internal_file_name">internal_file_name</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Typically a UTF-16 sequence on Windows, a UTF-8 sequence on Unix.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to avoid conversion on storing as it is not necessary.</FONT>
+    
+<B>feature</B> {<A HREF="../elks/native_string_handler_flat.html">NATIVE_STRING_HANDLER</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_pointer_length_in_bytes"><A HREF="../elks/native_string_handler_flat.html#f_pointer_length_in_bytes">pointer_length_in_bytes</A> (a_ptr: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Length in bytes of a platform specific file name pointer, not</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> including the null-terminating character. If size is too large</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to fit into an </FONT><FONT COLOR="red">{</FONT><FONT COLOR="red">INTEGER</FONT><FONT COLOR="red">}</FONT><FONT COLOR="red"> instance, the size is truncated to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`{INTEGER_32}.max_value'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/native_string_handler_flat.html">NATIVE_STRING_HANDLER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/native_string_handler_flat.html">NATIVE_STRING_HANDLER</A>
+            a_ptr_not_null: a_ptr /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>local</B>
+            l_length: <A HREF="../elks/natural_64_flat.html">NATURAL_64</A>
+        <B>do</B>
+            l_length := <A HREF="../elks/native_string_handler_flat.html#f_c_pointer_length_in_bytes">c_pointer_length_in_bytes</A> (a_ptr)
+            <B>if</B> l_length &lt;= {<A HREF="../elks/integer_32_flat.html">INTEGER_32</A>}.<A HREF="../elks/integer_32_ref_flat.html#f_max_value">max_value</A>.<A HREF="../elks/integer_32_ref_flat.html#f_to_natural_64">to_natural_64</A> <B>then</B>
+                <B>Result</B> := l_length.<A HREF="../elks/natural_64_ref_flat.html#f_to_integer_32">to_integer_32</A>
+            <B>else</B>
+                <B>Result</B> := {<A HREF="../elks/integer_32_flat.html">INTEGER_32</A>}.<A HREF="../elks/integer_32_ref_flat.html#f_max_value">max_value</A>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_deep_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (a, b) <B>implies</B> <B>Result</B>
+            both_or_none_void: (a = <B>Void</B>) <B>implies</B> (<B>Result</B> = (b = <B>Void</B>))
+            same_type: (<B>Result</B> <B>and</B> (a /= <B>Void</B>)) <B>implies</B> (b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_same_type">same_type</A> (b))
+            symmetric: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (b, a)
+        <B>end</B></A>
+
+    <A NAME="f_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_equal">equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to objects considered equal?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_equal">is_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_equal">is_equal</A> (b))
+        <B>end</B></A>
+
+    <A NAME="f_is_deep_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (other: <B>attached</B> <A HREF="../elks/file_info_flat.html">FILE_INFO</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`Current'<FONT COLOR="red"> and </FONT>`other'<FONT COLOR="red"> attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (<B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_is_equal"><A HREF="../elks/file_info_flat.html#f_is_equal">is_equal</A> (other: <B>like</B> <B>Current</B>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object considered</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to current object?</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>do</B>
+            <B>if</B> other = <B>Current</B> <B>then</B>
+                <B>Result</B> := <B>True</B>
+            <B>elseif</B> <B>attached</B> <A HREF="../elks/file_info_flat.html#f_internal_file_name">internal_file_name</A> <B>as</B> l_file_name <B>and</B> <B>attached</B> other.<A HREF="../elks/file_info_flat.html#f_internal_file_name">internal_file_name</A> <B>as</B> l_other_file_name <B>then</B>
+                <B>Result</B> := l_file_name.<A HREF="../elks/readable_string_general_flat.html#f_same_string">same_string</A> (l_other_file_name) <B>and</B> <A HREF="../elks/file_info_flat.html#f_is_following_symlinks">is_following_symlinks</A> = other.<A HREF="../elks/file_info_flat.html#f_is_following_symlinks">is_following_symlinks</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            symmetric: <B>Result</B> <B>implies</B> other ~ <B>Current</B>
+            consistent: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+        <B>end</B></A>
+
+    <A NAME="f_standard_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical objects of the same type?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default object comparison criterion.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (b))
+        <B>end</B></A>
+
+    <A NAME="f_standard_is_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other: <B>attached</B> <A HREF="../elks/file_info_flat.html">FILE_INFO</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object of the same type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as current object, and field-by-field identical to it?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_conforms_to"><A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (other: <A HREF="../elks/any_flat.html">ANY</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does type of current object conform to type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of </FONT>`other'<FONT COLOR="red"> (as per Eiffel: The Language, chapter 13)?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>end</B></A>
+
+    <A NAME="f_exists"><A HREF="../elks/file_info_flat.html#f_exists">exists</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does current file exists?</FONT>
+
+    <A NAME="f_is_access_executable"><A HREF="../elks/file_info_flat.html#f_is_access_executable">is_access_executable</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is file executable by real UID?</FONT>
+        <B>require</B>
+            is_ready: <A HREF="../elks/file_info_flat.html#f_is_ready">is_ready</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> <A HREF="../elks/file_info_flat.html#f_internal_name_pointer">internal_name_pointer</A> <B>as</B> l_ptr <B>then</B>
+                <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_access">file_access</A> (l_ptr.<A HREF="../elks/managed_pointer_flat.html#f_item">item</A>, 1)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_access_owner"><A HREF="../elks/file_info_flat.html#f_is_access_owner">is_access_owner</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is file owned by real UID?</FONT>
+        <B>require</B>
+            exists: <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_eaccess">file_eaccess</A> ($<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, 7)
+        <B>end</B></A>
+
+    <A NAME="f_is_access_readable"><A HREF="../elks/file_info_flat.html#f_is_access_readable">is_access_readable</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is file readable by real UID?</FONT>
+        <B>require</B>
+            is_ready: <A HREF="../elks/file_info_flat.html#f_is_ready">is_ready</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> <A HREF="../elks/file_info_flat.html#f_internal_name_pointer">internal_name_pointer</A> <B>as</B> l_ptr <B>then</B>
+                <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_access">file_access</A> (l_ptr.<A HREF="../elks/managed_pointer_flat.html#f_item">item</A>, 3)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_access_writable"><A HREF="../elks/file_info_flat.html#f_is_access_writable">is_access_writable</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is file writable by real UID?</FONT>
+        <B>require</B>
+            is_ready: <A HREF="../elks/file_info_flat.html#f_is_ready">is_ready</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> <A HREF="../elks/file_info_flat.html#f_internal_name_pointer">internal_name_pointer</A> <B>as</B> l_ptr <B>then</B>
+                <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_access">file_access</A> (l_ptr.<A HREF="../elks/managed_pointer_flat.html#f_item">item</A>, 2)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_block"><A HREF="../elks/file_info_flat.html#f_is_block">is_block</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is file a device block special file?</FONT>
+        <B>require</B>
+            exists: <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_info">file_info</A> ($<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, 16) /= 0
+        <B>end</B></A>
+
+    <A NAME="f_is_character"><A HREF="../elks/file_info_flat.html#f_is_character">is_character</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is file a character block special file?</FONT>
+        <B>require</B>
+            exists: <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_info">file_info</A> ($<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, 15) /= 0
+        <B>end</B></A>
+
+    <A NAME="f_is_device"><A HREF="../elks/file_info_flat.html#f_is_device">is_device</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is file a device?</FONT>
+        <B>require</B>
+            exists: <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_info">file_info</A> ($<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, 14) /= 0
+        <B>end</B></A>
+
+    <A NAME="f_is_directory"><A HREF="../elks/file_info_flat.html#f_is_directory">is_directory</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is file a directory?</FONT>
+        <B>require</B>
+            exists: <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_info">file_info</A> ($<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, 12) /= 0
+        <B>end</B></A>
+
+    <A NAME="f_is_executable"><A HREF="../elks/file_info_flat.html#f_is_executable">is_executable</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is file executable by effective UID?</FONT>
+        <B>require</B>
+            exists: <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_eaccess">file_eaccess</A> ($<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, 2)
+        <B>end</B></A>
+
+    <A NAME="f_is_fifo"><A HREF="../elks/file_info_flat.html#f_is_fifo">is_fifo</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is file a named pipe?</FONT>
+        <B>require</B>
+            exists: <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_info">file_info</A> ($<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, 17) /= 0
+        <B>end</B></A>
+
+    <A NAME="f_is_following_symlinks"><A HREF="../elks/file_info_flat.html#f_is_following_symlinks">is_following_symlinks</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does current follow symbolic links when retrieving properties?</FONT>
+
+    <A NAME="f_is_owner"><A HREF="../elks/file_info_flat.html#f_is_owner">is_owner</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is file owned by effective UID?</FONT>
+        <B>require</B>
+            exists: <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_eaccess">file_eaccess</A> ($<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, 6)
+        <B>end</B></A>
+
+    <A NAME="f_is_plain"><A HREF="../elks/file_info_flat.html#f_is_plain">is_plain</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is file a plain file?</FONT>
+        <B>require</B>
+            exists: <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_info">file_info</A> ($<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, 13) /= 0
+        <B>end</B></A>
+
+    <A NAME="f_is_readable"><A HREF="../elks/file_info_flat.html#f_is_readable">is_readable</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is file readable by effective UID?</FONT>
+        <B>require</B>
+            exists: <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_eaccess">file_eaccess</A> ($<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, 0)
+        <B>end</B></A>
+
+    <A NAME="f_is_ready"><A HREF="../elks/file_info_flat.html#f_is_ready">is_ready</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is current ready to perform a query?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_internal_file_name">internal_file_name</A> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_setgid"><A HREF="../elks/file_info_flat.html#f_is_setgid">is_setgid</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is file setgid?</FONT>
+        <B>require</B>
+            exists: <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_eaccess">file_eaccess</A> ($<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, 4)
+        <B>end</B></A>
+
+    <A NAME="f_is_setuid"><A HREF="../elks/file_info_flat.html#f_is_setuid">is_setuid</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is file setuid?</FONT>
+        <B>require</B>
+            exists: <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_eaccess">file_eaccess</A> ($<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, 3)
+        <B>end</B></A>
+
+    <A NAME="f_is_socket"><A HREF="../elks/file_info_flat.html#f_is_socket">is_socket</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is file a named socket?</FONT>
+        <B>require</B>
+            exists: <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_info">file_info</A> ($<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, 19) /= 0
+        <B>end</B></A>
+
+    <A NAME="f_is_sticky"><A HREF="../elks/file_info_flat.html#f_is_sticky">is_sticky</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is file sticky?</FONT>
+        <B>require</B>
+            exists: <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_eaccess">file_eaccess</A> ($<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, 5)
+        <B>end</B></A>
+
+    <A NAME="f_is_symlink"><A HREF="../elks/file_info_flat.html#f_is_symlink">is_symlink</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is file a symbolic link?</FONT>
+        <B>require</B>
+            exists: <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_info">file_info</A> ($<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, 18) /= 0
+        <B>end</B></A>
+
+    <A NAME="f_is_writable"><A HREF="../elks/file_info_flat.html#f_is_writable">is_writable</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is file writable by effective UID?</FONT>
+        <B>require</B>
+            exists: <A HREF="../elks/file_info_flat.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/file_info_flat.html#f_file_eaccess">file_eaccess</A> ($<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, 1)
+        <B>end</B></A>
+
+    <A NAME="f_same_type"><A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other: <A HREF="../elks/any_flat.html">ANY</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is type of current object identical to type of </FONT>`other'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (<A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (other) <B>and</B> other.<A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>Current</B>))
+        <B>end</B></A>
+
+    <A NAME="f_valid_index"><A HREF="../elks/to_special_flat.html#f_valid_index">valid_index</A> (i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`i'<FONT COLOR="red"> within the bounds of Current?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/to_special_flat.html">TO_SPECIAL</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/special_flat.html#f_valid_index">valid_index</A> (i)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_put"><A HREF="../elks/to_special_flat.html#f_put">put</A> (v: <A HREF="../elks/natural_8_flat.html">NATURAL_8</A>; i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Replace </FONT>`i'<FONT COLOR="red">-th entry, if in index interval, by </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/to_special_flat.html">TO_SPECIAL</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/to_special_flat.html">TO_SPECIAL</A>
+            valid_index: <A HREF="../elks/to_special_flat.html#f_valid_index">valid_index</A> (i)
+        <B>do</B>
+            <A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/special_flat.html#f_put">put</A> (v, i)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/to_special_flat.html">TO_SPECIAL</A>
+            inserted: <A HREF="../elks/to_special_flat.html#f_item">item</A> (i) = v
+        <B>end</B></A>
+
+    <A NAME="f_set_is_following_symlinks"><A HREF="../elks/file_info_flat.html#f_set_is_following_symlinks">set_is_following_symlinks</A> (v: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Should </FONT><A HREF="../elks/file_info_flat.html#f_update">update</A><FONT COLOR="red"> follow symlinks or not?</FONT>
+        <B>do</B>
+            <A HREF="../elks/file_info_flat.html#f_is_following_symlinks">is_following_symlinks</A> := v
+        <B>ensure</B>
+            is_following_symlinks_set: <A HREF="../elks/file_info_flat.html#f_is_following_symlinks">is_following_symlinks</A> = v
+        <B>end</B></A>
+
+    <A NAME="f_update"><A HREF="../elks/file_info_flat.html#f_update">update</A> (f_name: <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update information buffer: fill it in with information</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> from the inode of </FONT>`f_name'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            f_name_not_empty: <B>not</B> f_name.<A HREF="../elks/readable_string_general_flat.html#f_is_empty">is_empty</A>
+        <B>do</B>
+            <A HREF="../elks/file_info_flat.html#f_fast_update">fast_update</A> (f_name, <A HREF="../elks/file_info_flat.html#f_file_name_to_pointer">file_name_to_pointer</A> (f_name, <A HREF="../elks/file_info_flat.html#f_internal_name_pointer">internal_name_pointer</A>))
+        <B>end</B></A>
+    
+<B>feature</B> {<A HREF="../elks/file_flat.html">FILE</A>, <A HREF="../elks/directory_flat.html">DIRECTORY</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_fast_update"><A HREF="../elks/file_info_flat.html#f_fast_update">fast_update</A> (f_name: <A HREF="../elks/readable_string_general_flat.html">READABLE_STRING_GENERAL</A>; a_ptr: <A HREF="../elks/managed_pointer_flat.html">MANAGED_POINTER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update information buffer: fill it in with information</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> from the inode of </FONT>`f_name'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            f_name_not_empty: <B>not</B> f_name.<A HREF="../elks/readable_string_general_flat.html#f_is_empty">is_empty</A>
+            a_ptr_not_empty: a_ptr.<A HREF="../elks/managed_pointer_flat.html#f_count">count</A> &gt; 0
+        <B>do</B>
+            <A HREF="../elks/file_info_flat.html#f_internal_file_name">internal_file_name</A> := f_name
+            <A HREF="../elks/file_info_flat.html#f_internal_name_pointer">internal_name_pointer</A> := a_ptr
+            <A HREF="../elks/file_info_flat.html#f_exists">exists</A> := <A HREF="../elks/file_info_flat.html#f_eif_file_stat">eif_file_stat</A> (a_ptr.<A HREF="../elks/managed_pointer_flat.html#f_item">item</A>, $<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/pointer_ref_flat.html#f_item">to_pointer</A>, <A HREF="../elks/file_info_flat.html#f_is_following_symlinks">is_following_symlinks</A>) = 0
+        <B>ensure</B>
+            file_name_set: <A HREF="../elks/file_info_flat.html#f_internal_file_name">internal_file_name</A> = f_name
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_set_area"><A HREF="../elks/to_special_flat.html#f_set_area">set_area</A> (other: <B>like</B> <A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make </FONT>`other'<FONT COLOR="red"> the new </FONT>`area'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/to_special_flat.html">TO_SPECIAL</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A> := other
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/to_special_flat.html">TO_SPECIAL</A>
+            area_set: <A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A> = other
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Conversion</FONT>
+
+    <A NAME="f_to_unix_file_info"><A HREF="../elks/file_info_flat.html#f_to_unix_file_info">to_unix_file_info</A>: <A HREF="../elks/unix_file_info_flat.html">UNIX_FILE_INFO</A>
+        <B>obsolete</B> "Use `FILE_INFO' as type instead of `UNIX_FILE_INFO'."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert current to old format UNIX_FILE_INFO for backward compatibility.</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/file_info_flat.html#f_make">make</A>
+            <B>if</B> <B>attached</B> <A HREF="../elks/file_info_flat.html#f_internal_file_name">internal_file_name</A> <B>as</B> l_name <B>then</B>
+                <B>Result</B>.<A HREF="../elks/file_info_flat.html#f_update">update</A> (l_name)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_clone">clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void; otherwise new object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to </FONT>`other'
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> For non-void </FONT>`other'<FONT COLOR="red">, </FONT><A HREF="../elks/any_flat.html#f_clone">clone</A><FONT COLOR="red"> calls </FONT><A HREF="../elks/file_info_flat.html#f_copy">copy</A><FONT COLOR="red">;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to change copying/cloning semantics, redefine </FONT><A HREF="../elks/file_info_flat.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_twin">twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            equal: <B>Result</B> ~ other
+        <B>end</B></A>
+
+    <A NAME="f_copy"><A HREF="../elks/file_info_flat.html#f_copy">copy</A> (other: <B>like</B> <B>Current</B>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update current object using fields of object attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to </FONT>`other'<FONT COLOR="red">, so as to yield equal objects.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+        <B>do</B>
+            <B>if</B> other /= <B>Current</B> <B>then</B>
+                <A HREF="../elks/any_flat.html#f_standard_copy">standard_copy</A> (other)
+                <A HREF="../elks/to_special_flat.html#f_set_area">set_area</A> (other.<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>.<A HREF="../elks/any_flat.html#f_twin">twin</A>)
+                <B>if</B> <B>attached</B> other.<A HREF="../elks/file_info_flat.html#f_internal_name_pointer">internal_name_pointer</A> <B>as</B> l_pointer <B>then</B>
+                    <A HREF="../elks/file_info_flat.html#f_internal_name_pointer">internal_name_pointer</A> := l_pointer.<A HREF="../elks/any_flat.html#f_twin">twin</A>
+                <B>end</B>
+                <B>if</B> <B>attached</B> other.<A HREF="../elks/file_info_flat.html#f_internal_file_name">internal_file_name</A> <B>as</B> l_file_name <B>then</B>
+                    <A HREF="../elks/file_info_flat.html#f_internal_file_name">internal_file_name</A> := l_file_name.<A HREF="../elks/any_flat.html#f_twin">twin</A>
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            is_equal: <B>Current</B> ~ other
+        <B>ensure then</B>
+            not_shared_if_different: other /= <B>Current</B> <B>implies</B> <A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A> /= other.<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>
+            equal_buffered_file_infos: <A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A> ~ other.<A HREF="../elks/to_special_flat.html#f_area">buffered_file_info</A>
+        <B>end</B></A>
+
+    <A NAME="f_deep_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_clone">deep_clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `deep_twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void: otherwise, new object structure</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> recursively duplicated from the one attached to </FONT>`other'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (other, <B>Result</B>)
+        <B>end</B></A>
+
+    <A NAME="f_deep_copy"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_copy">deep_copy</A> (other: <B>attached</B> <A HREF="../elks/file_info_flat.html">FILE_INFO</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Effect equivalent to that of:</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">		</FONT><A HREF="../elks/file_info_flat.html#f_copy">copy</A><FONT COLOR="red"> (</FONT>`other'<FONT COLOR="red"> . </FONT><A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A><FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../elks/file_info_flat.html#f_copy">copy</A> (other.<A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (<B>Current</B>, other)
+        <B>end</B></A>
+
+    <A NAME="f_deep_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>: <B>attached</B> <A HREF="../elks/file_info_flat.html">FILE_INFO</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object structure recursively duplicated from Current.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_twin_not_void: <B>Result</B> /= <B>Void</B>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (<B>Current</B>, <B>Result</B>)
+        <B>end</B></A>
+
+    <A NAME="f_standard_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_clone">standard_clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `standard_twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void; otherwise new object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_standard_twin">standard_twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            equal: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (<B>Result</B>, other)
+        <B>end</B></A>
+
+    <A NAME="f_standard_copy"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_copy">standard_copy</A> (other: <B>attached</B> <A HREF="../elks/file_info_flat.html">FILE_INFO</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy every field of </FONT>`other'<FONT COLOR="red"> onto corresponding field</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            is_standard_equal: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other)
+        <B>end</B></A>
+
+    <A NAME="f_standard_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_twin">standard_twin</A>: <B>attached</B> <A HREF="../elks/file_info_flat.html">FILE_INFO</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            standard_twin_not_void: <B>Result</B> /= <B>Void</B>
+            equal: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (<B>Result</B>, <B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_twin">twin</A>: <B>attached</B> <A HREF="../elks/file_info_flat.html">FILE_INFO</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object equal to </FONT>`Current'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/any_flat.html#f_twin">twin</A><FONT COLOR="red"> calls </FONT><A HREF="../elks/file_info_flat.html#f_copy">copy</A><FONT COLOR="red">; to change copying/twinning semantics, redefine </FONT><A HREF="../elks/file_info_flat.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            twin_not_void: <B>Result</B> /= <B>Void</B>
+            is_equal: <B>Result</B> ~ <B>Current</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_as_attached"><B>frozen</B> <A HREF="../elks/any_flat.html#f_as_attached">as_attached</A>: <B>attached</B> <A HREF="../elks/file_info_flat.html">FILE_INFO</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attached version of Current</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Can be used during transitional period to convert</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> non-void-safe classes to void-safe ones.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>Current</B>
+        <B>end</B></A>
+
+    <A NAME="f_default"><B>frozen</B> <A HREF="../elks/any_flat.html#f_default">default</A>: <B>detachable</B> <A HREF="../elks/file_info_flat.html">FILE_INFO</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of object's type</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_default_pointer"><B>frozen</B> <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>: <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of type </FONT>`POINTER'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Avoid the need to write </FONT>`p'<FONT COLOR="red">.</FONT><A HREF="../elks/any_flat.html#f_default">default</A><FONT COLOR="red"> for</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> some </FONT>`p'<FONT COLOR="red"> of type </FONT>`POINTER'<FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_default_rescue"><A HREF="../elks/any_flat.html#f_default_rescue">default_rescue</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process exception for routines with no Rescue clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_do_nothing"><B>frozen</B> <A HREF="../elks/any_flat.html#f_do_nothing">do_nothing</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execute a null action.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_c_pointer_length_in_bytes"><A HREF="../elks/native_string_handler_flat.html#f_c_pointer_length_in_bytes">c_pointer_length_in_bytes</A> (a_ptr: <A HREF="../elks/pointer_flat.html">POINTER</A>): <A HREF="../elks/natural_64_flat.html">NATURAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Length in bytes of a platform specific file name pointer, not</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> including the null-terminating character.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/native_string_handler_flat.html">NATIVE_STRING_HANDLER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/native_string_handler_flat.html">NATIVE_STRING_HANDLER</A>
+            a_ptr_not_null: a_ptr /= <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>
+        <B>external</B>
+            "C inline use %"eif_eiffel.h%""
+        <B>alias</B>
+            "{
+			#ifdef EIF_WINDOWS
+				return (EIF_NATURAL_64) wcslen($a_ptr) * sizeof(wchar_t);
+			#else
+				return (EIF_NATURAL_64) strlen($a_ptr) * sizeof(char);
+			#endif
+            }"
+        <B>end</B></A>
+
+    <A NAME="f_eif_file_stat"><A HREF="../elks/file_info_flat.html#f_eif_file_stat">eif_file_stat</A> (fname, stat_buf: <A HREF="../elks/pointer_flat.html">POINTER</A>; follow_symlinks: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Get information from file </FONT>`name'<FONT COLOR="red"> into </FONT>`stat_buf'
+        <B>external</B>
+            "C signature (EIF_FILENAME, rt_stat_buf *, int): EIF_INTEGER use %"eif_file.h%""
+        <B>end</B></A>
+
+    <A NAME="f_file_access"><A HREF="../elks/file_info_flat.html#f_file_access">file_access</A> (fname: <A HREF="../elks/pointer_flat.html">POINTER</A>; which: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Perform access test </FONT>`which'<FONT COLOR="red"> on </FONT>`f_name'<FONT COLOR="red"> using real ID.</FONT>
+        <B>external</B>
+            "C signature (EIF_FILENAME, EIF_INTEGER): EIF_BOOLEAN use %"eif_file.h%""
+        <B>alias</B>
+            "eif_file_access"
+        <B>end</B></A>
+
+    <A NAME="f_file_eaccess"><A HREF="../elks/file_info_flat.html#f_file_eaccess">file_eaccess</A> (stat_buf: <A HREF="../elks/pointer_flat.html">POINTER</A>; which: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Perform access tests using effective ID.</FONT>
+        <B>external</B>
+            "C signature (rt_stat_buf *, int): EIF_BOOLEAN use %"eif_file.h%""
+        <B>alias</B>
+            "eif_file_eaccess"
+        <B>end</B></A>
+
+    <A NAME="f_file_group"><A HREF="../elks/file_info_flat.html#f_file_group">file_group</A> (gid: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert GID to group name if possible</FONT>
+        <B>external</B>
+            "C signature (int): EIF_REFERENCE use %"eif_file.h%""
+        <B>alias</B>
+            "eif_file_group"
+        <B>end</B></A>
+
+    <A NAME="f_file_info"><A HREF="../elks/file_info_flat.html#f_file_info">file_info</A> (stat_buf: <A HREF="../elks/pointer_flat.html">POINTER</A>; which: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Extract information </FONT>`which'<FONT COLOR="red"> from information buffer</FONT>
+        <B>external</B>
+            "C signature (rt_stat_buf *, int): EIF_INTEGER use %"eif_file.h%""
+        <B>alias</B>
+            "eif_file_info"
+        <B>end</B></A>
+
+    <A NAME="f_file_owner"><A HREF="../elks/file_info_flat.html#f_file_owner">file_owner</A> (uid: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert UID to login name if possible</FONT>
+        <B>external</B>
+            "C signature (int): EIF_REFERENCE use %"eif_file.h%""
+        <B>alias</B>
+            "eif_file_owner"
+        <B>end</B></A>
+
+    <A NAME="f_multi_byte_to_utf_16"><A HREF="../elks/file_info_flat.html#f_multi_byte_to_utf_16">multi_byte_to_utf_16</A> (a_ptr, a_output: <A HREF="../elks/pointer_flat.html">POINTER</A>; a_output_length: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Given a 8-bit string </FONT>`a_ptr'<FONT COLOR="red">, fill </FONT>`a_output'<FONT COLOR="red"> of length </FONT>`a_output_length'<FONT COLOR="red"> with the UTF-16</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> encoding of </FONT>`a_ptr'<FONT COLOR="red"> but only if </FONT>`a_output'<FONT COLOR="red"> is not the default_pointer, otherwise it returns</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> the number of expected bytes to fill </FONT>`a_output'<FONT COLOR="red"> including the null-terminating character.</FONT>
+        <B>require</B>
+            {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_is_windows">is_windows</A>
+        <B>external</B>
+            "C inline use %"eif_eiffel.h%""
+        <B>alias</B>
+            "{
+			#ifdef EIF_WINDOWS
+				return (EIF_INTEGER) MultiByteToWideChar(CP_ACP, 0, (LPSTR) $a_ptr, -1, (LPWSTR) $a_output, (int) $a_output_length) * sizeof(wchar_t);
+			#else
+				return $a_output_length
+			#endif
+            }"
+        <B>end</B></A>
+
+    <A NAME="f_stat_size"><A HREF="../elks/file_info_flat.html#f_stat_size">stat_size</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Get size of 'rt_stat_buf' (in bytes)</FONT>
+        <B>external</B>
+            "C use %"eif_file.h%""
+        <B>end</B></A>
+
+    <A NAME="f_utf_16_to_multi_byte"><A HREF="../elks/file_info_flat.html#f_utf_16_to_multi_byte">utf_16_to_multi_byte</A> (a_ptr: <A HREF="../elks/pointer_flat.html">POINTER</A>; a_output: <A HREF="../elks/pointer_flat.html">POINTER</A>; a_output_length: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Given a 16-bit string </FONT>`a_ptr'<FONT COLOR="red"> encoded in UTF-16, fill </FONT>`a_output'<FONT COLOR="red"> of length </FONT>`a_output_length'<FONT COLOR="red"> with the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 8-bit encoding of </FONT>`a_ptr'<FONT COLOR="red"> but only if </FONT>`a_output'<FONT COLOR="red"> is not the default_pointer, otherwise it returns</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> the number of expected bytes to fill </FONT>`a_output'<FONT COLOR="red"> including the null-terminated character.</FONT>
+        <B>require</B>
+            {<A HREF="../elks/platform_flat.html">PLATFORM</A>}.<A HREF="../elks/platform_flat.html#f_is_windows">is_windows</A>
+        <B>external</B>
+            "C inline use %"eif_eiffel.h%""
+        <B>alias</B>
+            "{
+			#ifdef EIF_WINDOWS
+				return (EIF_INTEGER) WideCharToMultiByte(CP_ACP, 0, (LPCWSTR) $a_ptr, -1, (LPSTR) $a_output, (int) $a_output_length, NULL, NULL);
+			#else
+				return $a_output_length;
+			#endif
+            }"
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output</FONT>
+
+    <A NAME="f_io"><A HREF="../elks/any_flat.html#f_io">Io</A>: <A HREF="../elks/std_files_flat.html">STD_FILES</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Handle to standard file setup</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../elks/std_files_flat.html#f_set_output_default">set_output_default</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            io_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_out"><A HREF="../elks/any_flat.html#f_out">out</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/any_flat.html#f_tagged_out">tagged_out</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            out_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_print"><A HREF="../elks/any_flat.html#f_print">print</A> (o: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write terse external representation of </FONT>`o'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on standard output.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> o /= <B>Void</B> <B>then</B>
+                <A HREF="../elks/any_flat.html#f_io">Io</A>.<A HREF="../elks/std_files_flat.html#f_put_string">put_string</A> (o.<A HREF="../elks/any_flat.html#f_out">out</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_tagged_out"><B>frozen</B> <A HREF="../elks/any_flat.html#f_tagged_out">tagged_out</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            tagged_out_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Platform</FONT>
+
+    <A NAME="f_operating_environment"><A HREF="../elks/any_flat.html#f_operating_environment">Operating_environment</A>: <A HREF="../elks/operating_environment_flat.html">OPERATING_ENVIRONMENT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Objects available from the operating system</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            operating_environment_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieval</FONT>
+
+    <A NAME="f_internal_correct_mismatch"><B>frozen</B> <A HREF="../elks/any_flat.html#f_internal_correct_mismatch">internal_correct_mismatch</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Called from runtime to perform a proper dynamic dispatch on </FONT>`correct_mismatch'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> from MISMATCH_CORRECTOR.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            l_msg: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            l_exc: <A HREF="../elks/exceptions_flat.html">EXCEPTIONS</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<A HREF="../elks/mismatch_corrector_flat.html">MISMATCH_CORRECTOR</A>} <B>Current</B> <B>as</B> l_corrector <B>then</B>
+                l_corrector.<A HREF="../elks/mismatch_corrector_flat.html#f_correct_mismatch">correct_mismatch</A>
+            <B>else</B>
+                <B>create</B> l_msg.<A HREF="../elks/readable_string_8_flat.html#f_make_from_string">make_from_string</A> ("Mismatch: ")
+                <B>create</B> l_exc
+                l_msg.<A HREF="../elks/string_8_flat.html#f_append">append</A> (<A HREF="../elks/any_flat.html#f_generating_type">generating_type</A>.<A HREF="../elks/type_flat.html#f_name">name</A>)
+                l_exc.<A HREF="../elks/exceptions_flat.html#f_raise_retrieval_exception">raise_retrieval_exception</A> (l_msg)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>invariant</B>
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+    reflexive_equality: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+    reflexive_conformance: <A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>Current</B>)
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/file_info_flat.html">FILE_INFO</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="file_info_chart.html">Chart</A></TD><TD><A HREF="file_info_links.html">Relations</A></TD><TD><A HREF="file_info.html">Text</A></TD><TD>Flat</TD><TD><A HREF="file_info_short.html">Contracts</A></TD><TD><A HREF="file_info_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

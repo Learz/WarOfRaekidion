@@ -1,0 +1,121 @@
+<HTML><HEAD>
+<meta name="description" content="Convertor to do string to integer/natural conversion"/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>string_to_integer_convertor Contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="string_to_integer_convertor_chart.html">Chart</A></TD><TD><A HREF="string_to_integer_convertor_links.html">Relations</A></TD><TD><A HREF="string_to_integer_convertor.html">Text</A></TD><TD><A HREF="string_to_integer_convertor_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="string_to_integer_convertor_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Convertor to do string to integer/natural conversion"
+    library: "Free implementation of ELKS library"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2012-05-23 21:13:10 -0700 (Wed, 23 May 2012) $"
+    revision: "$Revision: 91981 $"
+
+<B>frozen</B> <B>class</B> <B>interface</B>
+    <A HREF="../elks/string_to_integer_convertor_short.html">STRING_TO_INTEGER_CONVERTOR</A>
+
+<B>create</B> 
+    <A HREF="../elks/string_to_integer_convertor_short.html#f_make">make</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> State machine setting</FONT>
+
+    <A NAME="f_reset"><A HREF="../elks/string_to_integer_convertor_short.html#f_reset">reset</A> (type: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Reset current convertor to parse integer of type </FONT>`type'<FONT COLOR="red">.</FONT>
+        <B>ensure then</B>
+            internal_overflowed_set: <A HREF="../elks/string_to_integer_convertor_short.html#f_internal_overflowed">internal_overflowed</A> = <B>False</B>
+            part1_set: <A HREF="../elks/string_to_integer_convertor_short.html#f_part1">part1</A> = 0.<A HREF="../elks/integer_32_ref_short.html#f_to_natural_64">to_natural_64</A>
+            part2_set: <A HREF="../elks/string_to_integer_convertor_short.html#f_part2">part2</A> = 0.<A HREF="../elks/integer_32_ref_short.html#f_to_natural_64">to_natural_64</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status reporting</FONT>
+
+    <A NAME="f_separators_valid"><A HREF="../elks/string_to_integer_convertor_short.html#f_separators_valid">separators_valid</A> (separators: <A HREF="../elks/string_8_short.html">STRING_8</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are separators contained in </FONT>`separators'<FONT COLOR="red"> valid?</FONT>
+</A>
+    <A NAME="f_overflowed"><A HREF="../elks/string_to_integer_convertor_short.html#f_overflowed">overflowed</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is integer parsed so far overflowed?</FONT>
+</A>
+    <A NAME="f_underflowed"><A HREF="../elks/string_to_integer_convertor_short.html#f_underflowed">underflowed</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is integer parsed so fa underflowed?</FONT>
+</A>
+    <A NAME="f_parse_successful"><A HREF="../elks/string_to_integer_convertor_short.html#f_parse_successful">parse_successful</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> This only means we didn't enter an invalid state when parsing,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> it doesn't mean that we have got an valid integer.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> You need to check </FONT><A HREF="../elks/string_to_integer_convertor_short.html#f_is_integral_integer">is_integral_integer</A><FONT COLOR="red"> or </FONT><A HREF="../elks/string_to_integer_convertor_short.html#f_is_part_of_integer">is_part_of_integer</A><FONT COLOR="red">.</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> String parsing</FONT>
+
+    <A NAME="f_parse_string_with_type"><A HREF="../elks/string_to_integer_convertor_short.html#f_parse_string_with_type">parse_string_with_type</A> (s: <A HREF="../elks/readable_string_general_short.html">READABLE_STRING_GENERAL</A>; type: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Parse string </FONT>`s'<FONT COLOR="red"> as integer of type </FONT>`type'<FONT COLOR="red">.</FONT>
+</A>
+    <A NAME="f_parse_character"><A HREF="../elks/string_to_integer_convertor_short.html#f_parse_character">parse_character</A> (c: <A HREF="../elks/character_8_short.html">CHARACTER_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Parse next character </FONT>`c'<FONT COLOR="red">.</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status reporting</FONT>
+
+    <A NAME="f_conversion_type_valid"><A HREF="../elks/string_to_integer_convertor_short.html#f_conversion_type_valid">conversion_type_valid</A> (type: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If conversion </FONT>`type'<FONT COLOR="red"> valid?</FONT>
+</A>
+    <A NAME="f_is_part_of_integer"><A HREF="../elks/string_to_integer_convertor_short.html#f_is_part_of_integer">is_part_of_integer</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is character sequence that has been parsed so far a valid start part of an integer?</FONT>
+</A>
+    <A NAME="f_is_integral_integer"><A HREF="../elks/string_to_integer_convertor_short.html#f_is_integral_integer">is_integral_integer</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is character sequence that has been parsed so far a valid integral integer?</FONT>
+</A>
+    <A NAME="f_parsed_integer_8"><A HREF="../elks/string_to_integer_convertor_short.html#f_parsed_integer_8">parsed_integer_8</A>: <A HREF="../elks/integer_8_short.html">INTEGER_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> INTEGER_8 representation of parsed string</FONT>
+</A>
+    <A NAME="f_parsed_integer_16"><A HREF="../elks/string_to_integer_convertor_short.html#f_parsed_integer_16">parsed_integer_16</A>: <A HREF="../elks/integer_16_short.html">INTEGER_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> INTEGER_16 representation of parsed string</FONT>
+</A>
+    <A NAME="f_parsed_integer_32"><A HREF="../elks/string_to_integer_convertor_short.html#f_parsed_integer_32">parsed_integer_32</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> INTEGER representation of parsed string</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/string_to_integer_convertor_short.html">STRING_TO_INTEGER_CONVERTOR</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/string_to_integer_convertor_short.html#f_parsed_integer">parsed_integer</A><FONT COLOR="red">.</FONT>
+</A>
+    <A NAME="f_parsed_integer"><A HREF="../elks/string_to_integer_convertor_short.html#f_parsed_integer">parsed_integer</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> INTEGER representation of parsed string</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/string_to_integer_convertor_short.html">STRING_TO_INTEGER_CONVERTOR</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/string_to_integer_convertor_short.html#f_parsed_integer_32">parsed_integer_32</A><FONT COLOR="red">.</FONT>
+</A>
+    <A NAME="f_parsed_integer_64"><A HREF="../elks/string_to_integer_convertor_short.html#f_parsed_integer_64">parsed_integer_64</A>: <A HREF="../elks/integer_64_short.html">INTEGER_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> INTEGER_64 representation of parsed string</FONT>
+</A>
+    <A NAME="f_parsed_natural_8"><A HREF="../elks/string_to_integer_convertor_short.html#f_parsed_natural_8">parsed_natural_8</A>: <A HREF="../elks/natural_8_short.html">NATURAL_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> NATURAL_8 representation of parsed string</FONT>
+</A>
+    <A NAME="f_parsed_natural_16"><A HREF="../elks/string_to_integer_convertor_short.html#f_parsed_natural_16">parsed_natural_16</A>: <A HREF="../elks/natural_16_short.html">NATURAL_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> NATURAL_16 representation of parsed string</FONT>
+</A>
+    <A NAME="f_parsed_natural_32"><A HREF="../elks/string_to_integer_convertor_short.html#f_parsed_natural_32">parsed_natural_32</A>: <A HREF="../elks/natural_32_short.html">NATURAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> NATURAL_32 representation of parsed string</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/string_to_integer_convertor_short.html">STRING_TO_INTEGER_CONVERTOR</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/string_to_integer_convertor_short.html#f_parsed_natural">parsed_natural</A><FONT COLOR="red">.</FONT>
+</A>
+    <A NAME="f_parsed_natural"><A HREF="../elks/string_to_integer_convertor_short.html#f_parsed_natural">parsed_natural</A>: <A HREF="../elks/natural_32_short.html">NATURAL_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> NATURAL_32 representation of parsed string</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/string_to_integer_convertor_short.html">STRING_TO_INTEGER_CONVERTOR</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/string_to_integer_convertor_short.html#f_parsed_natural_32">parsed_natural_32</A><FONT COLOR="red">.</FONT>
+</A>
+    <A NAME="f_parsed_natural_64"><A HREF="../elks/string_to_integer_convertor_short.html#f_parsed_natural_64">parsed_natural_64</A>: <A HREF="../elks/natural_64_short.html">NATURAL_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> NATURAL_64 representation of parsed string</FONT>
+</A>    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/string_to_integer_convertor_short.html">STRING_TO_INTEGER_CONVERTOR</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="string_to_integer_convertor_chart.html">Chart</A></TD><TD><A HREF="string_to_integer_convertor_links.html">Relations</A></TD><TD><A HREF="string_to_integer_convertor.html">Text</A></TD><TD><A HREF="string_to_integer_convertor_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="string_to_integer_convertor_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

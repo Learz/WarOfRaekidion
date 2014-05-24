@@ -1,8 +1,12 @@
 note
-	description: "Summary description for {HIGHSCORE}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description	: "[
+					War of Raekidion - A database connexion for accessing highscores
+					A {HIGHSCORE} is a connexion to the {DATABASE_MANAGER} specifically 
+					made to access and write highscore data.
+				]"
+	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+	date		: "$Date: May 23 2014$"
+	revision	: "$Revision: 1$"
 
 class
 	HIGHSCORE
@@ -81,5 +85,13 @@ feature {NONE} -- Implementation
 			highscores_list.finish
 			highscores_list.extend ([a_row.string_value (1), a_row.integer_value (2)])
 		end
+
+note
+	copyright: "[
+				War of Raekidion
+				Copyright (C) 2014 François Allard <binarmorker@gmail.com>
+             		   		   and Marc-Antoine Renaud <legars123456@gmail.com>
+               ]"
+	license:   "GNU General Public License, <http://www.gnu.org/licenses/>"
 
 end

@@ -1,0 +1,100 @@
+<HTML><HEAD>
+<meta name="description" content="Class defining an Eiffel thread."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>thread Contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="thread_chart.html">Chart</A></TD><TD><A HREF="thread_links.html">Relations</A></TD><TD><A HREF="thread.html">Text</A></TD><TD><A HREF="thread_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="thread_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Class defining an Eiffel thread."
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2013-07-25 18:49:43 -0700 (Thu, 25 Jul 2013) $"
+    revision: "$Revision: 92810 $"
+
+<B>deferred</B> <B>class</B> <B>interface</B>
+    <A HREF="../thread/thread_short.html">THREAD</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_thread_id"><A HREF="../thread/thread_short.html#f_thread_id">thread_id</A>: <A HREF="../elks/pointer_short.html">POINTER</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Thread-id of the current thread object.</FONT>
+
+    <A NAME="f_terminated"><A HREF="../thread/thread_short.html#f_terminated">terminated</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> True if the thread has terminated.</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_execute"><A HREF="../thread/thread_short.html#f_execute">execute</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Routine executed when thread is launched.</FONT>
+</A>
+    <A NAME="f_launch"><B>frozen</B> <A HREF="../thread/thread_short.html#f_launch">launch</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize a new thread running </FONT><A HREF="../thread/thread_short.html#f_execute">execute</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../thread/thread_short.html#f_is_last_launch_successful">is_last_launch_successful</A><FONT COLOR="red"> to True if successful, False otherwise.			</FONT>
+        <B>require</B>
+            thread_capable: {<A HREF="../elks/platform_short.html">PLATFORM</A>}.<A HREF="../elks/platform_short.html#f_is_thread_capable">is_thread_capable</A>
+            is_launchable: <A HREF="../thread/thread_short.html#f_is_launchable">is_launchable</A>
+</A>
+    <A NAME="f_launch_with_attributes"><B>frozen</B> <A HREF="../thread/thread_short.html#f_launch_with_attributes">launch_with_attributes</A> (attr: <A HREF="../thread/thread_attributes_short.html">THREAD_ATTRIBUTES</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize a new thread running </FONT><A HREF="../thread/thread_short.html#f_execute">execute</A><FONT COLOR="red">, using attributes.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../thread/thread_short.html#f_is_last_launch_successful">is_last_launch_successful</A><FONT COLOR="red"> to True if successful, False otherwise.</FONT>
+        <B>require</B>
+            thread_capable: {<A HREF="../elks/platform_short.html">PLATFORM</A>}.<A HREF="../elks/platform_short.html#f_is_thread_capable">is_thread_capable</A>
+            is_launchable: <A HREF="../thread/thread_short.html#f_is_launchable">is_launchable</A>
+</A>
+    <A NAME="f_exit"><A HREF="../thread/thread_short.html#f_exit">exit</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Exit calling thread. Must be called from the thread itself.</FONT>
+        <B>require</B>
+            is_exit_supported: <A HREF="../thread/thread_short.html#f_is_exit_supported">is_exit_supported</A>
+            self: <A HREF="../thread/thread_environment_short.html#f_current_thread_id">current_thread_id</A> = <A HREF="../thread/thread_short.html#f_thread_id">thread_id</A>
+</A>
+    <A NAME="f_sleep"><A HREF="../thread/thread_short.html#f_sleep">sleep</A> (nanoseconds: <A HREF="../elks/integer_64_short.html">INTEGER_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Suspend thread execution for interval specified in</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`nanoseconds'<FONT COLOR="red"> (1 nanosecond = 10^(-9) second).</FONT>
+        <B>require</B>
+            self: <A HREF="../thread/thread_environment_short.html#f_current_thread_id">current_thread_id</A> = <A HREF="../thread/thread_short.html#f_thread_id">thread_id</A>
+            non_negative_nanoseconds: nanoseconds &gt;= 0.<A HREF="../elks/integer_32_ref_short.html#f_to_integer_64">to_integer_64</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_is_exit_supported"><A HREF="../thread/thread_short.html#f_is_exit_supported">is_exit_supported</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Can </FONT><A HREF="../thread/thread_short.html#f_exit">exit</A><FONT COLOR="red"> be called?</FONT>
+</A>
+    <A NAME="f_is_launchable"><A HREF="../thread/thread_short.html#f_is_launchable">is_launchable</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Can we launch a new thread?</FONT>
+</A>
+    <A NAME="f_is_last_launch_successful"><A HREF="../thread/thread_short.html#f_is_last_launch_successful">is_last_launch_successful</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was the last call to </FONT><A HREF="../thread/thread_short.html#f_launch">launch</A><FONT COLOR="red"> or </FONT><A HREF="../thread/thread_short.html#f_launch_with_attributes">launch_with_attributes</A><FONT COLOR="red"> in current thread</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of execution successful?</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Synchronization</FONT>
+
+    <A NAME="f_join"><A HREF="../thread/thread_short.html#f_join">join</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The calling thread waits for the current child thread to terminate.</FONT>
+</A>
+    <A NAME="f_join_with_timeout"><A HREF="../thread/thread_short.html#f_join_with_timeout">join_with_timeout</A> (a_timeout_ms: <A HREF="../elks/natural_64_short.html">NATURAL_64</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The calling thread waits for the current child thread to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> terminate for at most </FONT>`a_timeout_ms'<FONT COLOR="red"> milliseconds.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> True if wait terminates within </FONT>`a_timeout_ms'<FONT COLOR="red">, False otherwise.</FONT>
+</A>    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../thread/thread_short.html">THREAD</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="thread_chart.html">Chart</A></TD><TD><A HREF="thread_links.html">Relations</A></TD><TD><A HREF="thread.html">Text</A></TD><TD><A HREF="thread_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="thread_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

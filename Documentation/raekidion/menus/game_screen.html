@@ -1,0 +1,478 @@
+<HTML><HEAD>
+<meta name="description" content="War of Raekidion - The game screen The {GAME_SCREEN} is the main screen of the game, containing all player and ennemy actions as well as the use of the network capabilities."/>
+<meta name="author" content="François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>game_screen Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="game_screen_chart.html">Chart</A></TD><TD><A HREF="game_screen_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="game_screen_flat.html">Flat</A></TD><TD><A HREF="game_screen_short.html">Contracts</A></TD><TD><A HREF="game_screen_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        War of Raekidion - The game screen
+        The <A HREF="../../raekidion/menus/game_screen.html">GAME_SCREEN</A> is the main screen of the game, containing all player
+        and ennemy actions as well as the use of the network capabilities.
+    ]"
+    author: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+    date: "$Date$"
+    revision: "$Revision$"
+
+<B>class</B> 
+    <A HREF="../../raekidion/menus/game_screen.html">GAME_SCREEN</A>
+
+<B>inherit</B>
+    <A HREF="../../raekidion/menus/screen.html">SCREEN</A>
+        <B>redefine</B>
+            <A HREF="../../raekidion/menus/game_screen.html#f_manage_key">manage_key</A>
+        <B>end</B>
+
+<B>create</B> 
+    <A HREF="../../raekidion/menus/game_screen.html#f_make">make</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../../raekidion/menus/game_screen.html#f_make">make</A> (a_window: <A HREF="../../raekidion/objects/window.html">WINDOW</A>; a_key_binding: <A HREF="../../raekidion/keys/keys.html">KEYS</A>; a_is_server, a_debug: <A HREF="../../elks/boolean.html">BOOLEAN</A>; a_difficulty: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_network: <B>detachable</B> <A HREF="../../raekidion/network/network.html">NETWORK</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize </FONT>`Current'<FONT COLOR="red"> from </FONT>`a_window'<FONT COLOR="red">, </FONT>`a_key_binding'<FONT COLOR="red">, </FONT>`a_is_server'<FONT COLOR="red">, </FONT>`a_debug'<FONT COLOR="red">, </FONT>`a_difficulty'<FONT COLOR="red"> and </FONT>`a_network'
+        <B>local</B>
+            l_ticks, l_deltatime: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+            l_background: <A HREF="../../raekidion/objects/background.html">BACKGROUND</A>
+            l_sidebar: <A HREF="../../raekidion/objects/sprite.html">SPRITE</A>
+            l_score: <A HREF="../../raekidion/objects/text.html">TEXT</A>
+            l_opponent_score: <B>detachable</B> <A HREF="../../raekidion/objects/text.html">TEXT</A>
+            l_label: <A HREF="../../raekidion/objects/text.html">TEXT</A>
+            l_health: <A HREF="../../raekidion/objects/text.html">TEXT</A>
+            l_event: <A HREF="../../raekidion/objects/event_handler.html">EVENT_HANDLER</A>
+            l_pause_menu: <A HREF="../../raekidion/menus/screen.html">SCREEN</A>
+        <B>do</B>
+            <A HREF="../../elks/memory.html#f_collection_on">collection_on</A>
+            <A HREF="../../raekidion/menus/screen.html#f_debug_on">debug_on</A> := a_debug
+            <A HREF="../../raekidion/menus/screen.html#f_window">window</A> := a_window
+            <A HREF="../../raekidion/menus/screen.html#f_key_binding">key_binding</A> := a_key_binding
+            <A HREF="../../raekidion/menus/screen.html#f_must_quit">must_quit</A> := <B>False</B>
+            <A HREF="../../raekidion/menus/screen.html#f_is_return_key_pressed">is_return_key_pressed</A> := <B>False</B>
+            <B>create</B> <A HREF="../../raekidion/menus/game_screen.html#f_difficulty_text">difficulty_text</A>.<A HREF="../../elks/readable_string_general.html#f_make_empty">make_empty</A>
+            <B>create</B> <A HREF="../../raekidion/menus/screen.html#f_buttons">buttons</A>.<A HREF="../../elks/linked_list.html#f_make">make</A>
+            <B>create</B> <A HREF="../../raekidion/menus/game_screen.html#f_enemy_list">enemy_list</A>.<A HREF="../../elks/linked_list.html#f_make">make</A>
+            <B>create</B> <A HREF="../../raekidion/menus/game_screen.html#f_projectile_list">projectile_list</A>.<A HREF="../../elks/linked_list.html#f_make">make</A>
+            <B>create</B> <A HREF="../../raekidion/menus/game_screen.html#f_powerup_list">powerup_list</A>.<A HREF="../../elks/linked_list.html#f_make">make</A>
+            <B>create</B> <A HREF="../../raekidion/menus/game_screen.html#f_explosion_list">explosion_list</A>.<A HREF="../../elks/linked_list.html#f_make">make</A>
+            <A HREF="../../raekidion/menus/game_screen.html#f_network">network</A> := a_network
+            <A HREF="../../raekidion/menus/game_screen.html#f_is_server">is_server</A> := a_is_server
+            <A HREF="../../raekidion/menus/game_screen.html#f_difficulty">difficulty</A> := a_difficulty
+            <B>create</B> l_event.<A HREF="../../raekidion/objects/event_handler.html#f_make">make</A> (<A HREF="../../raekidion/menus/screen.html#f_window">window</A>)
+            <B>create</B> l_background.<A HREF="../../raekidion/objects/background.html#f_make">make</A> ("background", <A HREF="../../raekidion/menus/screen.html#f_window">window</A>, 0.<A HREF="../../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A>, 0.<A HREF="../../elks/integer_32_ref.html#f_to_integer_16">to_integer_16</A>, 1.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>)
+            <B>create</B> l_sidebar.<A HREF="../../raekidion/objects/sprite.html#f_make">make</A> ("sidebar", <A HREF="../../raekidion/menus/screen.html#f_window">window</A>, <A HREF="../../raekidion/menus/screen.html#f_window">window</A>.<A HREF="../../raekidion/objects/window.html#f_width">width</A> - 75.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, 0.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>)
+            <B>create</B> <A HREF="../../raekidion/menus/game_screen.html#f_player">player</A>.<A HREF="../../raekidion/game/player_ship.html#f_make">make</A> (<A HREF="../../raekidion/menus/screen.html#f_window">window</A>, 112.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, 300.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, <A HREF="../../raekidion/menus/screen.html#f_key_binding">key_binding</A>, a_is_server)
+            <A HREF="../../raekidion/menus/game_screen.html#f_player">player</A>.<A HREF="../../raekidion/game/ship.html#f_on_shoot">on_shoot</A>.<A HREF="../../ise/interactive_list.html#f_extend">extend</A> (<B>agent</B> <A HREF="../../raekidion/menus/game_screen.html#f_spawn_projectile">spawn_projectile</A>)
+            <B>create</B> <A HREF="../../raekidion/menus/game_screen.html#f_spawner">spawner</A>.<A HREF="../../raekidion/game/spawner.html#f_make">make</A> (<A HREF="../../raekidion/menus/screen.html#f_window">window</A>, <A HREF="../../raekidion/menus/screen.html#f_key_binding">key_binding</A>, <B>not</B> a_is_server)
+            <A HREF="../../raekidion/menus/game_screen.html#f_spawner">spawner</A>.<A HREF="../../raekidion/game/spawner.html#f_on_spawn">on_spawn</A>.<A HREF="../../ise/interactive_list.html#f_extend">extend</A> (<B>agent</B> <A HREF="../../raekidion/menus/game_screen.html#f_spawn_enemy">spawn_enemy</A>)
+            <B>create</B> l_score.<A HREF="../../raekidion/objects/text.html#f_make">make</A> ("0", 16, <A HREF="../../raekidion/menus/screen.html#f_window">window</A>, 237.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, 3.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, [255, 255, 255], <B>True</B>)
+            <B>create</B> <A HREF="../../raekidion/menus/screen.html#f_version">version</A>.<A HREF="../../raekidion/objects/text.html#f_make">make</A> (<A HREF="../../raekidion/menus/screen.html#f_window">window</A>.<A HREF="../../raekidion/objects/window.html#f_version">version</A>, 10, <A HREF="../../raekidion/menus/screen.html#f_window">window</A>, 294.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, 394.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, [192, 192, 192], <B>False</B>)
+            <A HREF="../../raekidion/menus/screen.html#f_version">version</A>.<A HREF="../../raekidion/objects/surface.html#f_set_x">set_x</A> (<A HREF="../../raekidion/menus/screen.html#f_version">version</A>.<A HREF="../../raekidion/objects/surface.html#f_x">x</A> - <A HREF="../../raekidion/menus/screen.html#f_version">version</A>.<A HREF="../../raekidion/objects/surface.html#f_width">width</A>.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>)
+            <A HREF="../../raekidion/menus/screen.html#f_version">version</A>.<A HREF="../../raekidion/objects/surface.html#f_set_y">set_y</A> (<A HREF="../../raekidion/menus/screen.html#f_version">version</A>.<A HREF="../../raekidion/objects/surface.html#f_y">y</A> - <A HREF="../../raekidion/menus/screen.html#f_version">version</A>.<A HREF="../../raekidion/objects/surface.html#f_height">height</A>.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>)
+            <B>create</B> l_label.<A HREF="../../raekidion/objects/text.html#f_make">make</A> ("HP: ", 16, <A HREF="../../raekidion/menus/screen.html#f_window">window</A>, 237.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, 21.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, [255, 255, 255], <B>True</B>)
+            <B>create</B> l_health.<A HREF="../../raekidion/objects/text.html#f_make">make</A> (<A HREF="../../raekidion/menus/game_screen.html#f_player">player</A>.<A HREF="../../raekidion/game/entity.html#f_health">health</A>.<A HREF="../../elks/real_64_ref.html#f_floor">floor</A>.<A HREF="../../elks/integer_32_ref.html#f_out">out</A>, 16, <A HREF="../../raekidion/menus/screen.html#f_window">window</A>, 257.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, 21.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, [255, 255, 255], <B>True</B>)
+            <A HREF="../../raekidion/objects/audio_factory_shared.html#f_stop_music">stop_music</A>
+            <A HREF="../../raekidion/objects/audio_factory_shared.html#f_play_music">play_music</A> ("chicago", -1)
+            l_event.<A HREF="../../raekidion/objects/event_handler.html#f_on_key_pressed">on_key_pressed</A>.<A HREF="../../ise/interactive_list.html#f_extend">extend</A> (<B>agent</B> <A HREF="../../raekidion/menus/game_screen.html#f_manage_key">manage_key</A>)
+            <B>if</B> <B>attached</B> <A HREF="../../raekidion/menus/game_screen.html#f_network">network</A> <B>as</B> la_network <B>then</B>
+                <B>create</B> l_opponent_score.<A HREF="../../raekidion/objects/text.html#f_make">make</A> ("0", 16, <A HREF="../../raekidion/menus/screen.html#f_window">window</A>, 237.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, 39.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, [192, 192, 192], <B>True</B>)
+                <B>create</B> <A HREF="../../raekidion/menus/game_screen.html#f_network_player">network_player</A>.<A HREF="../../raekidion/game/entity.html#f_make">make</A> ("disabled_player", <A HREF="../../raekidion/menus/screen.html#f_window">window</A>, 1000.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, 1000.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, 1.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>)
+                l_event.<A HREF="../../raekidion/objects/event_handler.html#f_on_key_pressed">on_key_pressed</A>.<A HREF="../../ise/interactive_list.html#f_extend">extend</A> (<B>agent</B> <A HREF="../../raekidion/menus/game_screen.html#f_player">player</A>.<A HREF="../../raekidion/game/player_ship.html#f_manage_key">manage_key</A>)
+                <A HREF="../../raekidion/menus/game_screen.html#f_spawner">spawner</A>.<A HREF="../../raekidion/game/spawner.html#f_set_ai">set_ai</A> (<B>True</B>)
+            <B>else</B>
+                l_event.<A HREF="../../raekidion/objects/event_handler.html#f_on_key_pressed">on_key_pressed</A>.<A HREF="../../ise/interactive_list.html#f_extend">extend</A> (<B>agent</B> <A HREF="../../raekidion/menus/game_screen.html#f_player">player</A>.<A HREF="../../raekidion/game/player_ship.html#f_manage_key">manage_key</A>)
+                <A HREF="../../raekidion/menus/game_screen.html#f_spawner">spawner</A>.<A HREF="../../raekidion/game/spawner.html#f_set_ai">set_ai</A> (<B>True</B>)
+            <B>end</B>
+            <B>from</B>
+            <B>until</B>
+                <A HREF="../../raekidion/menus/screen.html#f_must_quit">must_quit</A> <B>or</B> <A HREF="../../raekidion/menus/screen.html#f_must_close">must_close</A> <B>or</B> <A HREF="../../raekidion/menus/screen.html#f_must_end">must_end</A>
+            <B>loop</B>
+                l_ticks := {<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_sdl_getticks">sdl_getticks</A>.<A HREF="../../elks/natural_32_ref.html#f_to_integer_32">to_integer_32</A>
+                l_event.<A HREF="../../raekidion/objects/event_handler.html#f_manage_event">manage_event</A>
+                <B>if</B> l_event.<A HREF="../../raekidion/objects/event_handler.html#f_is_quit_event">is_quit_event</A> <B>then</B>
+                    <A HREF="../../raekidion/menus/screen.html#f_must_quit">must_quit</A> := <B>True</B>
+                <B>end</B>
+                <A HREF="../../raekidion/menus/screen.html#f_window">window</A>.<A HREF="../../raekidion/objects/window.html#f_clear">clear</A>
+                l_background.<A HREF="../../raekidion/objects/background.html#f_update">update</A>
+                <A HREF="../../raekidion/menus/game_screen.html#f_player">player</A>.<A HREF="../../raekidion/game/player_ship.html#f_update">update</A>
+                <A HREF="../../raekidion/menus/game_screen.html#f_spawner">spawner</A>.<A HREF="../../raekidion/game/spawner.html#f_update">update</A>
+                <A HREF="../../raekidion/menus/game_screen.html#f_powerup_update">powerup_update</A>
+                <A HREF="../../raekidion/menus/game_screen.html#f_collisions_update">collisions_update</A>
+                <A HREF="../../raekidion/menus/game_screen.html#f_projectiles_update">projectiles_update</A>
+                <A HREF="../../raekidion/menus/game_screen.html#f_explosions_update">explosions_update</A>
+                l_sidebar.<A HREF="../../raekidion/objects/sprite.html#f_update">update</A>
+                <B>if</B> <A HREF="../../raekidion/menus/game_screen.html#f_score_changed">score_changed</A> <B>then</B>
+                    <B>if</B> <B>attached</B> <A HREF="../../raekidion/menus/game_screen.html#f_network">network</A> <B>as</B> la_network <B>and then</B> <B>attached</B> la_network.<A HREF="../../raekidion/network/network.html#f_node">node</A> <B>as</B> la_node <B>then</B>
+                        la_node.<A HREF="../../raekidion/network/node.html#f_send_score">send_score</A> (<A HREF="../../raekidion/menus/game_screen.html#f_score">score</A>)
+                    <B>end</B>
+                    l_score.<A HREF="../../raekidion/objects/text.html#f_set_text">set_text</A> (<A HREF="../../raekidion/menus/game_screen.html#f_score">score</A>.<A HREF="../../elks/integer_32_ref.html#f_out">out</A>, 16)
+                    <A HREF="../../raekidion/menus/game_screen.html#f_score_changed">score_changed</A> := <B>False</B>
+                <B>end</B>
+                l_score.<A HREF="../../raekidion/objects/text.html#f_update">update</A>
+                l_label.<A HREF="../../raekidion/objects/text.html#f_update">update</A>
+                <B>if</B> <B>attached</B> l_opponent_score <B>as</B> la_score <B>then</B>
+                    la_score.<A HREF="../../raekidion/objects/text.html#f_update">update</A>
+                <B>end</B>
+                <A HREF="../../raekidion/menus/screen.html#f_version">version</A>.<A HREF="../../raekidion/objects/text.html#f_update">update</A>
+                <B>if</B> <A HREF="../../raekidion/menus/game_screen.html#f_health_changed">health_changed</A> <B>then</B>
+                    l_health.<A HREF="../../raekidion/objects/text.html#f_set_text">set_text</A> (<A HREF="../../raekidion/menus/game_screen.html#f_player">player</A>.<A HREF="../../raekidion/game/entity.html#f_health">health</A>.<A HREF="../../elks/real_64_ref.html#f_floor">floor</A>.<A HREF="../../elks/integer_32_ref.html#f_out">out</A>, 16)
+                    <A HREF="../../raekidion/menus/game_screen.html#f_health_changed">health_changed</A> := <B>False</B>
+                <B>end</B>
+                l_health.<A HREF="../../raekidion/objects/text.html#f_update">update</A>
+                <A HREF="../../raekidion/menus/screen.html#f_window">window</A>.<A HREF="../../raekidion/objects/window.html#f_render">render</A>
+                <B>if</B> <B>attached</B> <A HREF="../../raekidion/menus/game_screen.html#f_network">network</A> <B>as</B> la_network <B>and then</B> <B>attached</B> la_network.<A HREF="../../raekidion/network/network.html#f_node">node</A> <B>as</B> la_node <B>and</B> <B>attached</B> <A HREF="../../raekidion/menus/game_screen.html#f_network_player">network_player</A> <B>as</B> la_network_player <B>and</B> <B>attached</B> l_opponent_score <B>as</B> la_score <B>then</B>
+                    <B>if</B> la_network.<A HREF="../../raekidion/network/network.html#f_connection_error">connection_error</A> <B>then</B>
+                        la_network.<A HREF="../../raekidion/network/network.html#f_quit">quit</A>
+                        <A HREF="../../raekidion/menus/game_screen.html#f_network">network</A> := <B>Void</B>
+                        la_score.<A HREF="../../raekidion/objects/surface.html#f_destroy">destroy</A>
+                        l_opponent_score := <B>Void</B>
+                        l_pause_menu := <B>create</B> {<A HREF="../../raekidion/menus/overlay_screen.html">OVERLAY_SCREEN</A>}.<A HREF="../../raekidion/menus/overlay_screen.html#f_make">make</A> (<A HREF="../../raekidion/menus/screen.html#f_window">window</A>, <A HREF="../../raekidion/menus/screen.html#f_key_binding">key_binding</A>, <A HREF="../../raekidion/menus/screen.html#f_is_return_key_pressed">is_return_key_pressed</A>, "YOU WON!", "Your score: " + <A HREF="../../raekidion/menus/game_screen.html#f_score">score</A>.<A HREF="../../elks/integer_32_ref.html#f_out">out</A>, "Your opponent's score: " + la_node.<A HREF="../../raekidion/network/node.html#f_new_score">new_score</A>.<A HREF="../../elks/integer_32_ref.html#f_out">out</A>, <B>True</B>, <A HREF="../../raekidion/menus/screen.html#f_debug_on">debug_on</A>, <A HREF="../../raekidion/menus/game_screen.html#f_difficulty">difficulty</A>, -1)
+                        <A HREF="../../raekidion/menus/screen.html#f_must_quit">must_quit</A> := l_pause_menu.<A HREF="../../raekidion/menus/screen.html#f_must_quit">must_quit</A>
+                        <A HREF="../../raekidion/menus/screen.html#f_must_end">must_end</A> := l_pause_menu.<A HREF="../../raekidion/menus/screen.html#f_must_end">must_end</A>
+                        <A HREF="../../raekidion/menus/screen.html#f_is_return_key_pressed">is_return_key_pressed</A> := l_pause_menu.<A HREF="../../raekidion/menus/screen.html#f_is_return_key_pressed">is_return_key_pressed</A>
+                    <B>else</B>
+                        la_node.<A HREF="../../raekidion/network/node.html#f_send_player_position">send_player_position</A> (<A HREF="../../raekidion/menus/game_screen.html#f_player">player</A>.<A HREF="../../raekidion/game/entity.html#f_x">x</A>.<A HREF="../../elks/real_64_ref.html#f_floor">floor</A>, <A HREF="../../raekidion/menus/game_screen.html#f_player">player</A>.<A HREF="../../raekidion/game/entity.html#f_y">y</A>.<A HREF="../../elks/real_64_ref.html#f_floor">floor</A>)
+                        la_network_player.<A HREF="../../raekidion/game/entity.html#f_set_x">set_x</A> (la_node.<A HREF="../../raekidion/network/node.html#f_new_player_position">new_player_position</A>.x.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>)
+                        la_network_player.<A HREF="../../raekidion/game/entity.html#f_set_y">set_y</A> (la_node.<A HREF="../../raekidion/network/node.html#f_new_player_position">new_player_position</A>.y.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>)
+                        la_score.<A HREF="../../raekidion/objects/text.html#f_set_text">set_text</A> (la_node.<A HREF="../../raekidion/network/node.html#f_new_score">new_score</A>.<A HREF="../../elks/integer_32_ref.html#f_out">out</A>, 16)
+                        la_network_player.<A HREF="../../raekidion/game/entity.html#f_update">update</A>
+                    <B>end</B>
+                <B>end</B>
+                <B>if</B> <A HREF="../../raekidion/menus/game_screen.html#f_player">player</A>.<A HREF="../../raekidion/objects/surface.html#f_is_destroyed">is_destroyed</A> <B>then</B>
+                    <B>if</B> <B>attached</B> <A HREF="../../raekidion/menus/game_screen.html#f_network">network</A> <B>as</B> la_network <B>and then</B> <B>attached</B> la_network.<A HREF="../../raekidion/network/network.html#f_node">node</A> <B>as</B> la_node <B>and</B> <B>attached</B> <A HREF="../../raekidion/menus/game_screen.html#f_network_player">network_player</A> <B>as</B> la_network_player <B>and</B> <B>attached</B> l_opponent_score <B>as</B> la_score <B>then</B>
+                        la_network.<A HREF="../../raekidion/network/network.html#f_quit">quit</A>
+                        <A HREF="../../raekidion/menus/game_screen.html#f_network">network</A> := <B>Void</B>
+                        la_score.<A HREF="../../raekidion/objects/surface.html#f_destroy">destroy</A>
+                        l_opponent_score := <B>Void</B>
+                        l_pause_menu := <B>create</B> {<A HREF="../../raekidion/menus/overlay_screen.html">OVERLAY_SCREEN</A>}.<A HREF="../../raekidion/menus/overlay_screen.html#f_make">make</A> (<A HREF="../../raekidion/menus/screen.html#f_window">window</A>, <A HREF="../../raekidion/menus/screen.html#f_key_binding">key_binding</A>, <A HREF="../../raekidion/menus/screen.html#f_is_return_key_pressed">is_return_key_pressed</A>, "YOU LOST!", "Your score: " + <A HREF="../../raekidion/menus/game_screen.html#f_score">score</A>.<A HREF="../../elks/integer_32_ref.html#f_out">out</A>, "Your opponent's score: " + la_node.<A HREF="../../raekidion/network/node.html#f_new_score">new_score</A>.<A HREF="../../elks/integer_32_ref.html#f_out">out</A>, <B>True</B>, <A HREF="../../raekidion/menus/screen.html#f_debug_on">debug_on</A>, <A HREF="../../raekidion/menus/game_screen.html#f_difficulty">difficulty</A>, <A HREF="../../raekidion/menus/game_screen.html#f_score">score</A>)
+                    <B>else</B>
+                        <B>if</B> <A HREF="../../raekidion/menus/game_screen.html#f_difficulty">difficulty</A> = 4 <B>then</B>
+                            <A HREF="../../raekidion/menus/game_screen.html#f_difficulty_text">difficulty_text</A> := "HELL"
+                        <B>elseif</B> <A HREF="../../raekidion/menus/game_screen.html#f_difficulty">difficulty</A> = 2 <B>then</B>
+                            <A HREF="../../raekidion/menus/game_screen.html#f_difficulty_text">difficulty_text</A> := "HARD"
+                        <B>else</B>
+                            <A HREF="../../raekidion/menus/game_screen.html#f_difficulty_text">difficulty_text</A> := "EASY"
+                        <B>end</B>
+                        l_pause_menu := <B>create</B> {<A HREF="../../raekidion/menus/overlay_screen.html">OVERLAY_SCREEN</A>}.<A HREF="../../raekidion/menus/overlay_screen.html#f_make">make</A> (<A HREF="../../raekidion/menus/screen.html#f_window">window</A>, <A HREF="../../raekidion/menus/screen.html#f_key_binding">key_binding</A>, <A HREF="../../raekidion/menus/screen.html#f_is_return_key_pressed">is_return_key_pressed</A>, "GAME OVER", "Score: " + <A HREF="../../raekidion/menus/game_screen.html#f_score">score</A>.<A HREF="../../elks/integer_32_ref.html#f_out">out</A>, <A HREF="../../raekidion/menus/game_screen.html#f_difficulty_text">difficulty_text</A>, <B>True</B>, <A HREF="../../raekidion/menus/screen.html#f_debug_on">debug_on</A>, <A HREF="../../raekidion/menus/game_screen.html#f_difficulty">difficulty</A>, <A HREF="../../raekidion/menus/game_screen.html#f_score">score</A>)
+                    <B>end</B>
+                    <A HREF="../../raekidion/menus/screen.html#f_must_quit">must_quit</A> := l_pause_menu.<A HREF="../../raekidion/menus/screen.html#f_must_quit">must_quit</A>
+                    <A HREF="../../raekidion/menus/screen.html#f_must_end">must_end</A> := l_pause_menu.<A HREF="../../raekidion/menus/screen.html#f_must_end">must_end</A>
+                    <A HREF="../../raekidion/menus/screen.html#f_is_return_key_pressed">is_return_key_pressed</A> := l_pause_menu.<A HREF="../../raekidion/menus/screen.html#f_is_return_key_pressed">is_return_key_pressed</A>
+                <B>end</B>
+                <B>if</B> <A HREF="../../raekidion/menus/game_screen.html#f_is_paused">is_paused</A> <B>then</B>
+                    l_pause_menu := <B>create</B> {<A HREF="../../raekidion/menus/overlay_screen.html">OVERLAY_SCREEN</A>}.<A HREF="../../raekidion/menus/overlay_screen.html#f_make">make</A> (<A HREF="../../raekidion/menus/screen.html#f_window">window</A>, <A HREF="../../raekidion/menus/screen.html#f_key_binding">key_binding</A>, <A HREF="../../raekidion/menus/screen.html#f_is_return_key_pressed">is_return_key_pressed</A>, "PAUSE", "", "", <B>False</B>, <A HREF="../../raekidion/menus/screen.html#f_debug_on">debug_on</A>, <A HREF="../../raekidion/menus/game_screen.html#f_difficulty">difficulty</A>, -1)
+                    <A HREF="../../raekidion/menus/game_screen.html#f_is_paused">is_paused</A> := <B>False</B>
+                    <A HREF="../../raekidion/menus/screen.html#f_key_binding">key_binding</A> := l_pause_menu.<A HREF="../../raekidion/menus/screen.html#f_key_binding">key_binding</A>
+                    <A HREF="../../raekidion/menus/game_screen.html#f_player">player</A>.<A HREF="../../raekidion/game/player_ship.html#f_set_key_binding">set_key_binding</A> (<A HREF="../../raekidion/menus/screen.html#f_key_binding">key_binding</A>)
+                    <A HREF="../../raekidion/menus/game_screen.html#f_spawner">spawner</A>.<A HREF="../../raekidion/game/spawner.html#f_set_key_binding">set_key_binding</A> (<A HREF="../../raekidion/menus/screen.html#f_key_binding">key_binding</A>)
+                    <A HREF="../../raekidion/menus/screen.html#f_must_quit">must_quit</A> := l_pause_menu.<A HREF="../../raekidion/menus/screen.html#f_must_quit">must_quit</A>
+                    <A HREF="../../raekidion/menus/screen.html#f_must_end">must_end</A> := l_pause_menu.<A HREF="../../raekidion/menus/screen.html#f_must_end">must_end</A>
+                    <A HREF="../../raekidion/menus/screen.html#f_is_return_key_pressed">is_return_key_pressed</A> := l_pause_menu.<A HREF="../../raekidion/menus/screen.html#f_is_return_key_pressed">is_return_key_pressed</A>
+                <B>end</B>
+                l_deltatime := {<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_sdl_getticks">sdl_getticks</A>.<A HREF="../../elks/natural_32_ref.html#f_to_integer_32">to_integer_32</A> - l_ticks
+                <B>if</B> l_deltatime &lt; (1000 / 60).<A HREF="../../elks/real_64_ref.html#f_floor">floor</A> <B>then</B>
+                    {<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_sdl_delay">sdl_delay</A> ((1000 / 60).<A HREF="../../elks/real_64_ref.html#f_floor">floor</A> - l_deltatime)
+                <B>end</B>
+            <B>end</B>
+            <B>if</B> <B>attached</B> <A HREF="../../raekidion/menus/game_screen.html#f_network">network</A> <B>as</B> la_network <B>then</B>
+                la_network.<A HREF="../../raekidion/network/network.html#f_quit">quit</A>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status</FONT>
+
+    <A NAME="f_is_paused"><A HREF="../../raekidion/menus/game_screen.html#f_is_paused">is_paused</A>: <A HREF="../../elks/boolean.html">BOOLEAN</A></A>
+
+    <A NAME="f_is_server"><A HREF="../../raekidion/menus/game_screen.html#f_is_server">is_server</A>: <A HREF="../../elks/boolean.html">BOOLEAN</A></A>
+
+    <A NAME="f_score_changed"><A HREF="../../raekidion/menus/game_screen.html#f_score_changed">score_changed</A>: <A HREF="../../elks/boolean.html">BOOLEAN</A></A>
+
+    <A NAME="f_health_changed"><A HREF="../../raekidion/menus/game_screen.html#f_health_changed">health_changed</A>: <A HREF="../../elks/boolean.html">BOOLEAN</A></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_difficulty"><A HREF="../../raekidion/menus/game_screen.html#f_difficulty">difficulty</A>: <A HREF="../../elks/integer_32.html">INTEGER_32</A></A>
+
+    <A NAME="f_difficulty_text"><A HREF="../../raekidion/menus/game_screen.html#f_difficulty_text">difficulty_text</A>: <A HREF="../../elks/string_8.html">STRING_8</A></A>
+
+    <A NAME="f_score"><A HREF="../../raekidion/menus/game_screen.html#f_score">score</A>: <A HREF="../../elks/integer_32.html">INTEGER_32</A></A>
+
+    <A NAME="f_player"><A HREF="../../raekidion/menus/game_screen.html#f_player">player</A>: <A HREF="../../raekidion/game/player_ship.html">PLAYER_SHIP</A></A>
+
+    <A NAME="f_network_player"><A HREF="../../raekidion/menus/game_screen.html#f_network_player">network_player</A>: <B>detachable</B> <A HREF="../../raekidion/game/entity.html">ENTITY</A></A>
+
+    <A NAME="f_network"><A HREF="../../raekidion/menus/game_screen.html#f_network">network</A>: <B>detachable</B> <A HREF="../../raekidion/network/network.html">NETWORK</A></A>
+
+    <A NAME="f_spawner"><A HREF="../../raekidion/menus/game_screen.html#f_spawner">spawner</A>: <A HREF="../../raekidion/game/spawner.html">SPAWNER</A></A>
+
+    <A NAME="f_enemy_list"><A HREF="../../raekidion/menus/game_screen.html#f_enemy_list">enemy_list</A>: <A HREF="../../elks/linked_list.html">LINKED_LIST</A> [<B>detachable</B> <A HREF="../../raekidion/game/enemy_ship.html">ENEMY_SHIP</A>]</A>
+
+    <A NAME="f_projectile_list"><A HREF="../../raekidion/menus/game_screen.html#f_projectile_list">projectile_list</A>: <A HREF="../../elks/linked_list.html">LINKED_LIST</A> [<B>detachable</B> <A HREF="../../raekidion/game/projectile.html">PROJECTILE</A>]</A>
+
+    <A NAME="f_powerup_list"><A HREF="../../raekidion/menus/game_screen.html#f_powerup_list">powerup_list</A>: <A HREF="../../elks/linked_list.html">LINKED_LIST</A> [<B>detachable</B> <A HREF="../../raekidion/game/powerup.html">POWERUP</A>]</A>
+
+    <A NAME="f_explosion_list"><A HREF="../../raekidion/menus/game_screen.html#f_explosion_list">explosion_list</A>: <A HREF="../../elks/linked_list.html">LINKED_LIST</A> [<B>detachable</B> <A HREF="../../raekidion/game/explosion.html">EXPLOSION</A>]</A>
+
+    <A NAME="f_network_update"><A HREF="../../raekidion/menus/game_screen.html#f_network_update">network_update</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (OBSOLETE) Update the network transferred data</FONT>
+        <B>do</B>
+            <B>if</B> <B>attached</B> <A HREF="../../raekidion/menus/game_screen.html#f_network">network</A> <B>as</B> la_network <B>then</B>
+                <B>if</B> <B>attached</B> la_network.<A HREF="../../raekidion/network/network.html#f_node">node</A> <B>as</B> la_node <B>then</B>
+                    <B>if</B> <A HREF="../../raekidion/menus/game_screen.html#f_is_server">is_server</A> <B>then</B>
+                        <B>from</B>
+                            la_node.<A HREF="../../raekidion/network/node.html#f_new_enemies">new_enemies</A>.<A HREF="../../elks/linked_list.html#f_start">start</A>
+                        <B>until</B>
+                            la_node.<A HREF="../../raekidion/network/node.html#f_new_enemies">new_enemies</A>.<A HREF="../../elks/linear.html#f_exhausted">exhausted</A>
+                        <B>loop</B>
+                            <A HREF="../../raekidion/menus/game_screen.html#f_spawn_enemy">spawn_enemy</A> (la_node.<A HREF="../../raekidion/network/node.html#f_new_enemies">new_enemies</A>.<A HREF="../../elks/linked_list.html#f_item">item</A>.name, la_node.<A HREF="../../raekidion/network/node.html#f_new_enemies">new_enemies</A>.<A HREF="../../elks/linked_list.html#f_item">item</A>.x, la_node.<A HREF="../../raekidion/network/node.html#f_new_enemies">new_enemies</A>.<A HREF="../../elks/linked_list.html#f_item">item</A>.y, la_node.<A HREF="../../raekidion/network/node.html#f_new_enemies">new_enemies</A>.<A HREF="../../elks/linked_list.html#f_item">item</A>.dest_x, la_node.<A HREF="../../raekidion/network/node.html#f_new_enemies">new_enemies</A>.<A HREF="../../elks/linked_list.html#f_item">item</A>.dest_y)
+                            la_node.<A HREF="../../raekidion/network/node.html#f_new_enemies">new_enemies</A>.<A HREF="../../elks/linked_list.html#f_remove">remove</A>
+                            <B>if</B> <B>not</B> la_node.<A HREF="../../raekidion/network/node.html#f_new_enemies">new_enemies</A>.<A HREF="../../elks/linear.html#f_exhausted">exhausted</A> <B>then</B>
+                                la_node.<A HREF="../../raekidion/network/node.html#f_new_enemies">new_enemies</A>.<A HREF="../../elks/linked_list.html#f_forth">forth</A>
+                            <B>end</B>
+                        <B>end</B>
+                    <B>else</B>
+                        <B>from</B>
+                            la_node.<A HREF="../../raekidion/network/node.html#f_new_projectiles">new_projectiles</A>.<A HREF="../../elks/linked_list.html#f_start">start</A>
+                        <B>until</B>
+                            la_node.<A HREF="../../raekidion/network/node.html#f_new_projectiles">new_projectiles</A>.<A HREF="../../elks/linear.html#f_exhausted">exhausted</A>
+                        <B>loop</B>
+                            <A HREF="../../raekidion/menus/game_screen.html#f_spawn_projectile">spawn_projectile</A> (la_node.<A HREF="../../raekidion/network/node.html#f_new_projectiles">new_projectiles</A>.<A HREF="../../elks/linked_list.html#f_item">item</A>.name, la_node.<A HREF="../../raekidion/network/node.html#f_new_projectiles">new_projectiles</A>.<A HREF="../../elks/linked_list.html#f_item">item</A>.x, la_node.<A HREF="../../raekidion/network/node.html#f_new_projectiles">new_projectiles</A>.<A HREF="../../elks/linked_list.html#f_item">item</A>.y, la_node.<A HREF="../../raekidion/network/node.html#f_new_projectiles">new_projectiles</A>.<A HREF="../../elks/linked_list.html#f_item">item</A>.angle, <A HREF="../../raekidion/menus/game_screen.html#f_player">player</A>)
+                            la_node.<A HREF="../../raekidion/network/node.html#f_new_projectiles">new_projectiles</A>.<A HREF="../../elks/linked_list.html#f_remove">remove</A>
+                            <B>if</B> <B>not</B> la_node.<A HREF="../../raekidion/network/node.html#f_new_projectiles">new_projectiles</A>.<A HREF="../../elks/linear.html#f_exhausted">exhausted</A> <B>then</B>
+                                la_node.<A HREF="../../raekidion/network/node.html#f_new_projectiles">new_projectiles</A>.<A HREF="../../elks/linked_list.html#f_forth">forth</A>
+                            <B>end</B>
+                        <B>end</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_collisions_update"><A HREF="../../raekidion/menus/game_screen.html#f_collisions_update">collisions_update</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update the collision detection and react in accordance</FONT>
+        <B>do</B>
+            <B>from</B>
+                <A HREF="../../raekidion/menus/game_screen.html#f_projectile_list">projectile_list</A>.<A HREF="../../elks/linked_list.html#f_start">start</A>
+            <B>until</B>
+                <A HREF="../../raekidion/menus/game_screen.html#f_projectile_list">projectile_list</A>.<A HREF="../../elks/linear.html#f_exhausted">exhausted</A>
+            <B>loop</B>
+                <B>if</B> <B>attached</B> <A HREF="../../raekidion/menus/game_screen.html#f_projectile_list">projectile_list</A>.<A HREF="../../elks/linked_list.html#f_item">item</A> <B>as</B> la_projectile <B>then</B>
+                    <B>if</B> la_projectile.<A HREF="../../raekidion/objects/surface.html#f_is_destroyed">is_destroyed</A> <B>then</B>
+                        <B>if</B> la_projectile.<A HREF="../../raekidion/game/projectile.html#f_will_explode">will_explode</A> <B>then</B>
+                            <B>if</B> la_projectile.<A HREF="../../raekidion/game/projectile.html#f_projectile_properties">projectile_properties</A>.<A HREF="../../raekidion/game/projectile_properties.html#f_explodes">explodes</A> <B>then</B>
+                                <A HREF="../../raekidion/menus/game_screen.html#f_explosion_list">explosion_list</A>.<A HREF="../../elks/linked_list.html#f_extend">extend</A> (<B>create</B> {<A HREF="../../raekidion/game/explosion.html">EXPLOSION</A>}.<A HREF="../../raekidion/objects/animation.html#f_make">make</A> ("explosion_big", 13, 50, <A HREF="../../raekidion/menus/screen.html#f_window">window</A>, la_projectile.<A HREF="../../raekidion/game/entity.html#f_x">x</A>, la_projectile.<A HREF="../../raekidion/game/entity.html#f_y">y</A>, <B>False</B>))
+                                <A HREF="../../raekidion/objects/audio_factory_shared.html#f_play_sound">play_sound</A> ("explosion", -1)
+                            <B>else</B>
+                                <A HREF="../../raekidion/menus/game_screen.html#f_explosion_list">explosion_list</A>.<A HREF="../../elks/linked_list.html#f_extend">extend</A> (<B>create</B> {<A HREF="../../raekidion/game/explosion.html">EXPLOSION</A>}.<A HREF="../../raekidion/objects/animation.html#f_make">make</A> ("explosion", 14, 20, <A HREF="../../raekidion/menus/screen.html#f_window">window</A>, la_projectile.<A HREF="../../raekidion/game/entity.html#f_x">x</A>, la_projectile.<A HREF="../../raekidion/game/entity.html#f_y">y</A>, <B>False</B>))
+                                <A HREF="../../raekidion/objects/audio_factory_shared.html#f_play_sound">play_sound</A> ("hit", -1)
+                            <B>end</B>
+                        <B>end</B>
+                        <A HREF="../../elks/memory.html#f_free">free</A> (la_projectile)
+                        <A HREF="../../raekidion/menus/game_screen.html#f_projectile_list">projectile_list</A>.<A HREF="../../elks/linked_list.html#f_remove">remove</A>
+                    <B>else</B>
+                        <B>if</B> la_projectile.<A HREF="../../raekidion/game/projectile.html#f_owner">owner</A> /= <A HREF="../../raekidion/menus/game_screen.html#f_player">player</A> <B>then</B>
+                            <B>if</B> <A HREF="../../raekidion/menus/game_screen.html#f_player">player</A>.<A HREF="../../raekidion/game/collision.html#f_has_collided">has_collided</A> (la_projectile) <B>then</B>
+                                <B>if</B> <B>not</B> <A HREF="../../raekidion/menus/game_screen.html#f_is_server">is_server</A> <B>and</B> <B>not</B> <A HREF="../../raekidion/menus/game_screen.html#f_player">player</A>.<A HREF="../../raekidion/objects/surface.html#f_is_destroyed">is_destroyed</A> <B>then</B>
+                                    <A HREF="../../raekidion/menus/game_screen.html#f_score">score</A> := <A HREF="../../raekidion/menus/game_screen.html#f_score">score</A> + (la_projectile.<A HREF="../../raekidion/game/projectile.html#f_projectile_properties">projectile_properties</A>.<A HREF="../../raekidion/game/projectile_properties.html#f_damage">damage</A> * 10.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>).<A HREF="../../elks/real_64_ref.html#f_floor">floor</A>
+                                    <A HREF="../../raekidion/menus/game_screen.html#f_score_changed">score_changed</A> := <B>True</B>
+                                <B>end</B>
+                                <A HREF="../../raekidion/menus/game_screen.html#f_player">player</A>.<A HREF="../../raekidion/game/entity.html#f_set_health">set_health</A> (<A HREF="../../raekidion/menus/game_screen.html#f_player">player</A>.<A HREF="../../raekidion/game/entity.html#f_health">health</A> - la_projectile.<A HREF="../../raekidion/game/projectile.html#f_projectile_properties">projectile_properties</A>.<A HREF="../../raekidion/game/projectile_properties.html#f_damage">damage</A>)
+                                <B>if</B> <A HREF="../../raekidion/menus/game_screen.html#f_player">player</A>.<A HREF="../../raekidion/game/entity.html#f_health">health</A> &lt; 0.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> <B>then</B>
+                                    <A HREF="../../raekidion/menus/game_screen.html#f_player">player</A>.<A HREF="../../raekidion/game/entity.html#f_set_health">set_health</A> (0.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>)
+                                <B>end</B>
+                                <B>if</B> <A HREF="../../raekidion/menus/game_screen.html#f_is_server">is_server</A> <B>then</B>
+                                    <A HREF="../../raekidion/menus/game_screen.html#f_health_changed">health_changed</A> := <B>True</B>
+                                <B>end</B>
+                                <B>if</B> <A HREF="../../raekidion/menus/game_screen.html#f_spawner">spawner</A>.<A HREF="../../raekidion/game/spawner.html#f_is_ai">is_ai</A> <B>then</B>
+                                    <A HREF="../../raekidion/menus/game_screen.html#f_spawner">spawner</A>.<A HREF="../../raekidion/game/spawner.html#f_set_money">set_money</A> (<A HREF="../../raekidion/menus/game_screen.html#f_spawner">spawner</A>.<A HREF="../../raekidion/game/spawner.html#f_money">money</A> + (la_projectile.<A HREF="../../raekidion/game/projectile.html#f_projectile_properties">projectile_properties</A>.<A HREF="../../raekidion/game/projectile_properties.html#f_damage">damage</A> * <A HREF="../../raekidion/menus/game_screen.html#f_difficulty">difficulty</A>.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> * 1.5).<A HREF="../../elks/real_64_ref.html#f_floor">floor</A>)
+                                <B>else</B>
+                                    <A HREF="../../raekidion/menus/game_screen.html#f_spawner">spawner</A>.<A HREF="../../raekidion/game/spawner.html#f_set_money">set_money</A> (<A HREF="../../raekidion/menus/game_screen.html#f_spawner">spawner</A>.<A HREF="../../raekidion/game/spawner.html#f_money">money</A> + (la_projectile.<A HREF="../../raekidion/game/projectile.html#f_projectile_properties">projectile_properties</A>.<A HREF="../../raekidion/game/projectile_properties.html#f_damage">damage</A> * 3.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>).<A HREF="../../elks/real_64_ref.html#f_floor">floor</A>)
+                                    <B>if</B> <B>not</B> <A HREF="../../raekidion/menus/game_screen.html#f_is_server">is_server</A> <B>then</B>
+                                        <A HREF="../../raekidion/menus/game_screen.html#f_health_changed">health_changed</A> := <B>True</B>
+                                    <B>end</B>
+                                <B>end</B>
+                                la_projectile.<A HREF="../../raekidion/objects/surface.html#f_destroy">destroy</A>
+                            <B>end</B>
+                        <B>else</B>
+                            <B>from</B>
+                                <A HREF="../../raekidion/menus/game_screen.html#f_enemy_list">enemy_list</A>.<A HREF="../../elks/linked_list.html#f_start">start</A>
+                            <B>until</B>
+                                <A HREF="../../raekidion/menus/game_screen.html#f_enemy_list">enemy_list</A>.<A HREF="../../elks/linear.html#f_exhausted">exhausted</A>
+                            <B>loop</B>
+                                <B>if</B> <B>attached</B> <A HREF="../../raekidion/menus/game_screen.html#f_enemy_list">enemy_list</A>.<A HREF="../../elks/linked_list.html#f_item">item</A> <B>as</B> la_enemy <B>then</B>
+                                    <B>if</B> la_enemy.<A HREF="../../raekidion/game/collision.html#f_has_collided">has_collided</A> (la_projectile) <B>then</B>
+                                        <B>if</B> <A HREF="../../raekidion/menus/game_screen.html#f_is_server">is_server</A> <B>then</B>
+                                            <A HREF="../../raekidion/menus/game_screen.html#f_score">score</A> := <A HREF="../../raekidion/menus/game_screen.html#f_score">score</A> + (la_projectile.<A HREF="../../raekidion/game/projectile.html#f_projectile_properties">projectile_properties</A>.<A HREF="../../raekidion/game/projectile_properties.html#f_damage">damage</A> * 10.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> * (<A HREF="../../raekidion/menus/game_screen.html#f_difficulty">difficulty</A> / 2)).<A HREF="../../elks/real_64_ref.html#f_floor">floor</A>
+                                            <A HREF="../../raekidion/menus/game_screen.html#f_score_changed">score_changed</A> := <B>True</B>
+                                        <B>end</B>
+                                        la_enemy.<A HREF="../../raekidion/game/entity.html#f_set_health">set_health</A> (la_enemy.<A HREF="../../raekidion/game/entity.html#f_health">health</A> - la_projectile.<A HREF="../../raekidion/game/projectile.html#f_projectile_properties">projectile_properties</A>.<A HREF="../../raekidion/game/projectile_properties.html#f_damage">damage</A>)
+                                        <B>if</B> <A HREF="../../raekidion/menus/game_screen.html#f_spawner">spawner</A>.<A HREF="../../raekidion/game/spawner.html#f_is_ai">is_ai</A> <B>then</B>
+                                            <A HREF="../../raekidion/menus/game_screen.html#f_spawner">spawner</A>.<A HREF="../../raekidion/game/spawner.html#f_set_money">set_money</A> (<A HREF="../../raekidion/menus/game_screen.html#f_spawner">spawner</A>.<A HREF="../../raekidion/game/spawner.html#f_money">money</A> + (la_projectile.<A HREF="../../raekidion/game/projectile.html#f_projectile_properties">projectile_properties</A>.<A HREF="../../raekidion/game/projectile_properties.html#f_damage">damage</A> * <A HREF="../../raekidion/menus/game_screen.html#f_difficulty">difficulty</A>.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>).<A HREF="../../elks/real_64_ref.html#f_floor">floor</A>)
+                                        <B>else</B>
+                                            <A HREF="../../raekidion/menus/game_screen.html#f_spawner">spawner</A>.<A HREF="../../raekidion/game/spawner.html#f_set_money">set_money</A> (<A HREF="../../raekidion/menus/game_screen.html#f_spawner">spawner</A>.<A HREF="../../raekidion/game/spawner.html#f_money">money</A> + (la_projectile.<A HREF="../../raekidion/game/projectile.html#f_projectile_properties">projectile_properties</A>.<A HREF="../../raekidion/game/projectile_properties.html#f_damage">damage</A> * 2.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>).<A HREF="../../elks/real_64_ref.html#f_floor">floor</A>)
+                                            <B>if</B> <B>not</B> <A HREF="../../raekidion/menus/game_screen.html#f_is_server">is_server</A> <B>then</B>
+                                                <A HREF="../../raekidion/menus/game_screen.html#f_health_changed">health_changed</A> := <B>True</B>
+                                            <B>end</B>
+                                        <B>end</B>
+                                        la_projectile.<A HREF="../../raekidion/objects/surface.html#f_destroy">destroy</A>
+                                    <B>end</B>
+                                <B>end</B>
+                                <B>if</B> <B>not</B> <A HREF="../../raekidion/menus/game_screen.html#f_enemy_list">enemy_list</A>.<A HREF="../../elks/linear.html#f_exhausted">exhausted</A> <B>then</B>
+                                    <A HREF="../../raekidion/menus/game_screen.html#f_enemy_list">enemy_list</A>.<A HREF="../../elks/linked_list.html#f_forth">forth</A>
+                                <B>end</B>
+                            <B>end</B>
+                        <B>end</B>
+                        la_projectile.<A HREF="../../raekidion/game/projectile.html#f_update">update</A> (<A HREF="../../raekidion/menus/game_screen.html#f_player">player</A>.<A HREF="../../raekidion/game/entity.html#f_x">x</A>, <A HREF="../../raekidion/menus/game_screen.html#f_player">player</A>.<A HREF="../../raekidion/game/entity.html#f_y">y</A>)
+                        <B>if</B> <B>not</B> <A HREF="../../raekidion/menus/game_screen.html#f_projectile_list">projectile_list</A>.<A HREF="../../elks/linear.html#f_exhausted">exhausted</A> <B>then</B>
+                            <A HREF="../../raekidion/menus/game_screen.html#f_projectile_list">projectile_list</A>.<A HREF="../../elks/linked_list.html#f_forth">forth</A>
+                        <B>end</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_powerup_update"><A HREF="../../raekidion/menus/game_screen.html#f_powerup_update">powerup_update</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update the powerup list</FONT>
+        <B>do</B>
+            <B>from</B>
+                <A HREF="../../raekidion/menus/game_screen.html#f_powerup_list">powerup_list</A>.<A HREF="../../elks/linked_list.html#f_start">start</A>
+            <B>until</B>
+                <A HREF="../../raekidion/menus/game_screen.html#f_powerup_list">powerup_list</A>.<A HREF="../../elks/linear.html#f_exhausted">exhausted</A>
+            <B>loop</B>
+                <B>if</B> <B>attached</B> <A HREF="../../raekidion/menus/game_screen.html#f_powerup_list">powerup_list</A>.<A HREF="../../elks/linked_list.html#f_item">item</A> <B>as</B> la_powerup <B>then</B>
+                    <B>if</B> la_powerup.<A HREF="../../raekidion/objects/surface.html#f_is_destroyed">is_destroyed</A> <B>then</B>
+                        <A HREF="../../elks/memory.html#f_free">free</A> (la_powerup)
+                        <A HREF="../../raekidion/menus/game_screen.html#f_powerup_list">powerup_list</A>.<A HREF="../../elks/linked_list.html#f_remove">remove</A>
+                    <B>else</B>
+                        <B>if</B> <A HREF="../../raekidion/menus/game_screen.html#f_player">player</A>.<A HREF="../../raekidion/game/collision.html#f_has_collided">has_collided</A> (la_powerup) <B>then</B>
+                            <B>if</B> <A HREF="../../raekidion/menus/game_screen.html#f_spawner">spawner</A>.<A HREF="../../raekidion/game/spawner.html#f_is_ai">is_ai</A> <B>then</B>
+                                <B>if</B> <A HREF="../../raekidion/menus/game_screen.html#f_player">player</A>.<A HREF="../../raekidion/game/entity.html#f_health">health</A> &gt;= 100.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> <B>then</B>
+                                    <B>if</B> <A HREF="../../raekidion/menus/game_screen.html#f_is_server">is_server</A> <B>then</B>
+                                        <A HREF="../../raekidion/menus/game_screen.html#f_score">score</A> := <A HREF="../../raekidion/menus/game_screen.html#f_score">score</A> + 1
+                                        <A HREF="../../raekidion/menus/game_screen.html#f_score_changed">score_changed</A> := <B>True</B>
+                                    <B>end</B>
+                                <B>else</B>
+                                    <A HREF="../../raekidion/menus/game_screen.html#f_player">player</A>.<A HREF="../../raekidion/game/entity.html#f_set_health">set_health</A> (<A HREF="../../raekidion/menus/game_screen.html#f_player">player</A>.<A HREF="../../raekidion/game/entity.html#f_health">health</A> + (0.5 / <A HREF="../../raekidion/menus/game_screen.html#f_difficulty">difficulty</A>.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>))
+                                    <B>if</B> <A HREF="../../raekidion/menus/game_screen.html#f_is_server">is_server</A> <B>then</B>
+                                        <A HREF="../../raekidion/menus/game_screen.html#f_health_changed">health_changed</A> := <B>True</B>
+                                    <B>end</B>
+                                <B>end</B>
+                            <B>end</B>
+                            <A HREF="../../raekidion/objects/audio_factory_shared.html#f_play_sound">play_sound</A> ("powerup", -1)
+                            la_powerup.<A HREF="../../raekidion/objects/surface.html#f_destroy">destroy</A>
+                        <B>end</B>
+                        la_powerup.<A HREF="../../raekidion/game/powerup.html#f_update">update</A> (<A HREF="../../raekidion/menus/game_screen.html#f_player">player</A>.<A HREF="../../raekidion/game/entity.html#f_x">x</A>, <A HREF="../../raekidion/menus/game_screen.html#f_player">player</A>.<A HREF="../../raekidion/game/entity.html#f_y">y</A>)
+                        <B>if</B> <B>not</B> <A HREF="../../raekidion/menus/game_screen.html#f_powerup_list">powerup_list</A>.<A HREF="../../elks/linear.html#f_exhausted">exhausted</A> <B>then</B>
+                            <A HREF="../../raekidion/menus/game_screen.html#f_powerup_list">powerup_list</A>.<A HREF="../../elks/linked_list.html#f_forth">forth</A>
+                        <B>end</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_projectiles_update"><A HREF="../../raekidion/menus/game_screen.html#f_projectiles_update">projectiles_update</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update the projectile list</FONT>
+        <B>do</B>
+            <B>from</B>
+                <A HREF="../../raekidion/menus/game_screen.html#f_enemy_list">enemy_list</A>.<A HREF="../../elks/linked_list.html#f_start">start</A>
+            <B>until</B>
+                <A HREF="../../raekidion/menus/game_screen.html#f_enemy_list">enemy_list</A>.<A HREF="../../elks/linear.html#f_exhausted">exhausted</A>
+            <B>loop</B>
+                <B>if</B> <B>attached</B> <A HREF="../../raekidion/menus/game_screen.html#f_enemy_list">enemy_list</A>.<A HREF="../../elks/linked_list.html#f_item">item</A> <B>as</B> la_enemy <B>then</B>
+                    <B>if</B> la_enemy.<A HREF="../../raekidion/objects/surface.html#f_is_destroyed">is_destroyed</A> <B>then</B>
+                        <B>if</B> <A HREF="../../raekidion/menus/game_screen.html#f_is_server">is_server</A> <B>then</B>
+                            <A HREF="../../raekidion/menus/game_screen.html#f_score">score</A> := <A HREF="../../raekidion/menus/game_screen.html#f_score">score</A> + (la_enemy.<A HREF="../../raekidion/game/enemy_ship.html#f_enemy_properties">enemy_properties</A>.<A HREF="../../raekidion/game/enemy_properties.html#f_health">health</A> * 10.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> * (<A HREF="../../raekidion/menus/game_screen.html#f_difficulty">difficulty</A> / 2)).<A HREF="../../elks/real_64_ref.html#f_floor">floor</A>
+                            <A HREF="../../raekidion/menus/game_screen.html#f_score_changed">score_changed</A> := <B>True</B>
+                        <B>end</B>
+                        <B>from</B>
+                            <A HREF="../../raekidion/menus/game_screen.html#f_projectile_list">projectile_list</A>.<A HREF="../../elks/linked_list.html#f_start">start</A>
+                        <B>until</B>
+                            <A HREF="../../raekidion/menus/game_screen.html#f_projectile_list">projectile_list</A>.<A HREF="../../elks/linear.html#f_exhausted">exhausted</A>
+                        <B>loop</B>
+                            <B>if</B> <B>attached</B> <A HREF="../../raekidion/menus/game_screen.html#f_projectile_list">projectile_list</A>.<A HREF="../../elks/linked_list.html#f_item">item</A> <B>as</B> la_projectile <B>and then</B> la_projectile.<A HREF="../../raekidion/game/projectile.html#f_owner">owner</A> = la_enemy <B>then</B>
+                                <A HREF="../../raekidion/menus/game_screen.html#f_powerup_list">powerup_list</A>.<A HREF="../../elks/linked_list.html#f_extend">extend</A> (<B>create</B> {<A HREF="../../raekidion/game/powerup.html">POWERUP</A>}.<A HREF="../../raekidion/game/powerup.html#f_make">make</A> ("powerup", <A HREF="../../raekidion/menus/screen.html#f_window">window</A>, la_projectile.<A HREF="../../raekidion/game/entity.html#f_x">x</A>, la_projectile.<A HREF="../../raekidion/game/entity.html#f_y">y</A>, 1.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>))
+                                <A HREF="../../elks/memory.html#f_free">free</A> (la_projectile)
+                                <A HREF="../../raekidion/menus/game_screen.html#f_projectile_list">projectile_list</A>.<A HREF="../../elks/linked_list.html#f_remove">remove</A>
+                            <B>else</B>
+                                <A HREF="../../raekidion/menus/game_screen.html#f_projectile_list">projectile_list</A>.<A HREF="../../elks/linked_list.html#f_forth">forth</A>
+                            <B>end</B>
+                        <B>end</B>
+                        <A HREF="../../raekidion/menus/game_screen.html#f_explosion_list">explosion_list</A>.<A HREF="../../elks/linked_list.html#f_extend">extend</A> (<B>create</B> {<A HREF="../../raekidion/game/explosion.html">EXPLOSION</A>}.<A HREF="../../raekidion/objects/animation.html#f_make">make</A> ("explosion_big", 13, 50, <A HREF="../../raekidion/menus/screen.html#f_window">window</A>, la_enemy.<A HREF="../../raekidion/game/entity.html#f_x">x</A>, la_enemy.<A HREF="../../raekidion/game/entity.html#f_y">y</A>, <B>False</B>))
+                        <A HREF="../../raekidion/objects/audio_factory_shared.html#f_play_sound">play_sound</A> ("explosion", -1)
+                        <A HREF="../../elks/memory.html#f_free">free</A> (la_enemy)
+                        <A HREF="../../raekidion/menus/game_screen.html#f_enemy_list">enemy_list</A>.<A HREF="../../elks/linked_list.html#f_remove">remove</A>
+                    <B>else</B>
+                        la_enemy.<A HREF="../../raekidion/game/enemy_ship.html#f_update">update</A> (<A HREF="../../raekidion/menus/game_screen.html#f_player">player</A>.<A HREF="../../raekidion/game/entity.html#f_x">x</A>, <A HREF="../../raekidion/menus/game_screen.html#f_player">player</A>.<A HREF="../../raekidion/game/entity.html#f_y">y</A>)
+                        <B>if</B> <B>not</B> <A HREF="../../raekidion/menus/game_screen.html#f_enemy_list">enemy_list</A>.<A HREF="../../elks/linear.html#f_exhausted">exhausted</A> <B>then</B>
+                            <A HREF="../../raekidion/menus/game_screen.html#f_enemy_list">enemy_list</A>.<A HREF="../../elks/linked_list.html#f_forth">forth</A>
+                        <B>end</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_explosions_update"><A HREF="../../raekidion/menus/game_screen.html#f_explosions_update">explosions_update</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update the explosion list</FONT>
+        <B>do</B>
+            <B>from</B>
+                <A HREF="../../raekidion/menus/game_screen.html#f_explosion_list">explosion_list</A>.<A HREF="../../elks/linked_list.html#f_start">start</A>
+            <B>until</B>
+                <A HREF="../../raekidion/menus/game_screen.html#f_explosion_list">explosion_list</A>.<A HREF="../../elks/linear.html#f_exhausted">exhausted</A>
+            <B>loop</B>
+                <B>if</B> <B>attached</B> <A HREF="../../raekidion/menus/game_screen.html#f_explosion_list">explosion_list</A>.<A HREF="../../elks/linked_list.html#f_item">item</A> <B>as</B> la_explosion <B>then</B>
+                    <B>if</B> la_explosion.<A HREF="../../raekidion/objects/surface.html#f_is_destroyed">is_destroyed</A> <B>then</B>
+                        <A HREF="../../elks/memory.html#f_free">free</A> (la_explosion)
+                        <A HREF="../../raekidion/menus/game_screen.html#f_explosion_list">explosion_list</A>.<A HREF="../../elks/linked_list.html#f_remove">remove</A>
+                    <B>else</B>
+                        la_explosion.<A HREF="../../raekidion/objects/animation.html#f_update">update</A>
+                        <B>if</B> <B>not</B> <A HREF="../../raekidion/menus/game_screen.html#f_explosion_list">explosion_list</A>.<A HREF="../../elks/linear.html#f_exhausted">exhausted</A> <B>then</B>
+                            <A HREF="../../raekidion/menus/game_screen.html#f_explosion_list">explosion_list</A>.<A HREF="../../elks/linked_list.html#f_forth">forth</A>
+                        <B>end</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_manage_key"><A HREF="../../raekidion/menus/game_screen.html#f_manage_key">manage_key</A> (a_key: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_state: <A HREF="../../elks/boolean.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Manage the pause action and the screenshot action</FONT>
+        <B>do</B>
+            <B>if</B> a_state <B>then</B>
+                <B>if</B> a_key = <A HREF="../../raekidion/menus/screen.html#f_key_binding">key_binding</A>.<A HREF="../../raekidion/keys/keys.html#f_return_key">return_key</A> <B>and</B> <B>not</B> <A HREF="../../raekidion/menus/screen.html#f_is_return_key_pressed">is_return_key_pressed</A> <B>then</B>
+                    <A HREF="../../raekidion/menus/screen.html#f_is_return_key_pressed">is_return_key_pressed</A> := <B>True</B>
+                    <A HREF="../../raekidion/menus/game_screen.html#f_is_paused">is_paused</A> := <B>True</B>
+                <B>elseif</B> a_key = <A HREF="../../raekidion/menus/screen.html#f_key_binding">key_binding</A>.<A HREF="../../raekidion/keys/keys.html#f_screenshot_key">screenshot_key</A> <B>then</B>
+                    <A HREF="../../raekidion/menus/screen.html#f_window">window</A>.<A HREF="../../raekidion/objects/window.html#f_take_screenshot">take_screenshot</A>
+                <B>end</B>
+            <B>else</B>
+                <B>if</B> a_key = <A HREF="../../raekidion/menus/screen.html#f_key_binding">key_binding</A>.<A HREF="../../raekidion/keys/keys.html#f_return_key">return_key</A> <B>and</B> <A HREF="../../raekidion/menus/screen.html#f_is_return_key_pressed">is_return_key_pressed</A> <B>then</B>
+                    <A HREF="../../raekidion/menus/screen.html#f_is_return_key_pressed">is_return_key_pressed</A> := <B>False</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_spawn_enemy"><A HREF="../../raekidion/menus/game_screen.html#f_spawn_enemy">spawn_enemy</A> (a_name: <A HREF="../../elks/string_8.html">STRING_8</A>; a_x, a_y, a_dest_x, a_dest_y: <A HREF="../../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Add ennemy </FONT>`a_name'<FONT COLOR="red"> originating from </FONT>`a_x'<FONT COLOR="red"> and </FONT>`a_y'<FONT COLOR="red"> moving to </FONT>`a_dest_x'<FONT COLOR="red"> and </FONT>`a_dest_y'
+        <B>local</B>
+            l_enemy: <A HREF="../../raekidion/game/enemy_ship.html">ENEMY_SHIP</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../../raekidion/menus/game_screen.html#f_enemy_list">enemy_list</A>.<A HREF="../../elks/linked_list.html#f_count">count</A> &lt; 10 <B>then</B>
+                <B>create</B> l_enemy.<A HREF="../../raekidion/game/enemy_ship.html#f_make">make</A> (a_name, <A HREF="../../raekidion/menus/screen.html#f_window">window</A>, a_x.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, a_y.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, a_dest_x.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, a_dest_y.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>)
+                <B>if</B> <A HREF="../../raekidion/menus/game_screen.html#f_spawner">spawner</A>.<A HREF="../../raekidion/game/spawner.html#f_money">money</A> &gt;= l_enemy.<A HREF="../../raekidion/game/enemy_ship.html#f_enemy_properties">enemy_properties</A>.<A HREF="../../raekidion/game/enemy_properties.html#f_price">price</A> <B>then</B>
+                    <A HREF="../../raekidion/menus/game_screen.html#f_enemy_list">enemy_list</A>.<A HREF="../../elks/linked_list.html#f_extend">extend</A> (l_enemy)
+                    <A HREF="../../raekidion/menus/game_screen.html#f_spawner">spawner</A>.<A HREF="../../raekidion/game/spawner.html#f_set_money">set_money</A> (<A HREF="../../raekidion/menus/game_screen.html#f_spawner">spawner</A>.<A HREF="../../raekidion/game/spawner.html#f_money">money</A> - l_enemy.<A HREF="../../raekidion/game/enemy_ship.html#f_enemy_properties">enemy_properties</A>.<A HREF="../../raekidion/game/enemy_properties.html#f_price">price</A>)
+                <B>end</B>
+                l_enemy.<A HREF="../../raekidion/game/ship.html#f_on_shoot">on_shoot</A>.<A HREF="../../ise/interactive_list.html#f_extend">extend</A> (<B>agent</B> <A HREF="../../raekidion/menus/game_screen.html#f_spawn_projectile">spawn_projectile</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_spawn_projectile"><A HREF="../../raekidion/menus/game_screen.html#f_spawn_projectile">spawn_projectile</A> (a_name: <A HREF="../../elks/string_8.html">STRING_8</A>; a_x, a_y: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_angle: <A HREF="../../elks/real_64.html">REAL_64</A>; a_owner: <A HREF="../../raekidion/game/ship.html">SHIP</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Add projectile </FONT>`a_name'<FONT COLOR="red"> originating from </FONT>`a_x'<FONT COLOR="red"> and </FONT>`a_y'<FONT COLOR="red"> at angle </FONT>`a_angle'<FONT COLOR="red"> from the owner </FONT>`a_owner'
+        <B>do</B>
+            <A HREF="../../raekidion/menus/game_screen.html#f_projectile_list">projectile_list</A>.<A HREF="../../elks/linked_list.html#f_extend">extend</A> (<B>create</B> {<A HREF="../../raekidion/game/projectile.html">PROJECTILE</A>}.<A HREF="../../raekidion/game/projectile.html#f_make">make</A> (a_name, <A HREF="../../raekidion/menus/screen.html#f_window">window</A>, a_x.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, a_y.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A>, a_angle, a_owner))
+        <B>end</B></A>
+    
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../../raekidion/menus/game_screen.html">GAME_SCREEN</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="game_screen_chart.html">Chart</A></TD><TD><A HREF="game_screen_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="game_screen_flat.html">Flat</A></TD><TD><A HREF="game_screen_short.html">Contracts</A></TD><TD><A HREF="game_screen_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

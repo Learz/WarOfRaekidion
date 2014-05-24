@@ -1,0 +1,1653 @@
+<HTML><HEAD>
+<meta name="description" content="Binary tree: each node may have a left child and a right child"/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="names" content="binary_tree, tree, fixed_tree"/>
+<meta name="representation" content="recursive, array"/>
+<meta name="access" content="cursor, membership"/>
+<meta name="contents" content="generic"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>binary_tree Flat</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="binary_tree_chart.html">Chart</A></TD><TD><A HREF="binary_tree_links.html">Relations</A></TD><TD><A HREF="binary_tree.html">Text</A></TD><TD>Flat</TD><TD><A HREF="binary_tree_short.html">Contracts</A></TD><TD><A HREF="binary_tree_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Binary tree: each node may have a left child and a right child"
+    library: "Free implementation of ELKS library"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    names: binary_tree, tree, fixed_tree
+    representation: recursive, array
+    access: cursor, membership
+    contents: generic
+    date: "$Date: 2012-07-23 14:02:19 -0700 (Mon, 23 Jul 2012) $"
+    revision: "$Revision: 91989 $"
+
+<B>class</B> 
+    <A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A> [G]
+
+<B>create</B> 
+    <A HREF="../elks/binary_tree_flat.html#f_make">make</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../elks/binary_tree_flat.html#f_make">make</A> (v: <B>like</B> <A HREF="../elks/cell_flat.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create a root node with value </FONT>`v'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/cell_flat.html#f_item">item</A> := v
+        <B>ensure</B>
+            node_item: <A HREF="../elks/cell_flat.html#f_item">item</A> = v
+            is_root: <A HREF="../elks/tree_flat.html#f_is_root">is_root</A>
+            is_leaf: <A HREF="../elks/binary_tree_flat.html#f_is_leaf">is_leaf</A>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_default_create"><A HREF="../elks/any_flat.html#f_default_create">default_create</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process instances of classes with no creation clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_child"><A HREF="../elks/binary_tree_flat.html#f_child">child</A>: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_parent">parent</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Child at cursor position</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            readable: <A HREF="../elks/tree_flat.html#f_readable_child">readable_child</A>
+        <B>do</B>
+            <B>inspect</B> <A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A>
+            <B>when</B> 1 <B>then</B> 
+                <B>Result</B> := <A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A>
+            <B>when</B> 2 <B>then</B> 
+                <B>Result</B> := <A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A>
+            <B>else</B>
+                <B>Result</B> := <B>Void</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_child_cursor"><A HREF="../elks/binary_tree_flat.html#f_child_cursor">child_cursor</A>: <A HREF="../elks/arrayed_list_cursor_flat.html">ARRAYED_LIST_CURSOR</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Current cursor position</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/arrayed_list_cursor_flat.html#f_make">make</A> (<A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A>)
+        <B>end</B></A>
+
+    <A NAME="f_child_index"><A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Index of cursor position</FONT>
+
+    <A NAME="f_child_item"><A HREF="../elks/tree_flat.html#f_child_item">child_item</A>: <B>like</B> <A HREF="../elks/cell_flat.html#f_item">item</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Item in current child node</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/tree_flat.html">TREE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            readable: <A HREF="../elks/tree_flat.html#f_child_readable">child_readable</A>
+        <B>do</B>
+            <B>check</B>
+                <B>attached</B> <A HREF="../elks/binary_tree_flat.html#f_child">child</A> <B>as</B> c
+            <B>then</B>
+                <B>Result</B> := c.<A HREF="../elks/cell_flat.html#f_item">item</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_first_child"><A HREF="../elks/binary_tree_flat.html#f_first_child">first_child</A>: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_parent">parent</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Left child</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            is_not_leaf: <B>not</B> <A HREF="../elks/binary_tree_flat.html#f_is_leaf">is_leaf</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A>
+        <B>end</B></A>
+
+    <A NAME="f_generating_type"><A HREF="../elks/any_flat.html#f_generating_type">generating_type</A>: <A HREF="../elks/type_flat.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A> [G]]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Type of current object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := {<B>detachable</B> <A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A> [G]}
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            generating_type_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_generator"><A HREF="../elks/any_flat.html#f_generator">generator</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of current object's generating class</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (base class of the type of which it is a direct instance)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            generator_not_void: <B>Result</B> /= <B>Void</B>
+            generator_not_empty: <B>not</B> <B>Result</B>.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+
+    <A NAME="f_item"><A HREF="../elks/cell_flat.html#f_item">item</A>: G</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Content of cell.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/cell_flat.html">CELL</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_last_child"><A HREF="../elks/binary_tree_flat.html#f_last_child">last_child</A>: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_parent">parent</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Right child</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            is_not_leaf: <B>not</B> <A HREF="../elks/binary_tree_flat.html#f_is_leaf">is_leaf</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A>
+        <B>end</B></A>
+
+    <A NAME="f_left_child"><A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A>: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_parent">parent</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Left child, if any</FONT>
+
+    <A NAME="f_left_item"><A HREF="../elks/binary_tree_flat.html#f_left_item">left_item</A>: <B>like</B> <A HREF="../elks/cell_flat.html#f_item">item</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Value of left child</FONT>
+        <B>require</B>
+            has_left: <A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A> /= <B>Void</B>
+        <B>do</B>
+            <B>check</B>
+                <B>attached</B> <A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A> <B>as</B> l
+            <B>then</B>
+                <B>Result</B> := l.<A HREF="../elks/cell_flat.html#f_item">item</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_left_sibling"><A HREF="../elks/binary_tree_flat.html#f_left_sibling">left_sibling</A>: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_parent">parent</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Left neighbor, if any</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            is_not_root: <B>not</B> <A HREF="../elks/tree_flat.html#f_is_root">is_root</A>
+        <B>local</B>
+            p: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_parent">parent</A>
+        <B>do</B>
+            p := <A HREF="../elks/binary_tree_flat.html#f_parent">parent</A>
+            <B>if</B> p /= <B>Void</B> <B>and then</B> p.<A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A> = <B>Current</B> <B>then</B>
+                <B>Result</B> := p.<A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            is_sibling: <B>Result</B> /= <B>Void</B> <B>implies</B> <A HREF="../elks/tree_flat.html#f_is_sibling">is_sibling</A> (<B>Result</B>)
+            right_is_current: (<B>Result</B> /= <B>Void</B>) <B>implies</B> (<B>Result</B>.<A HREF="../elks/binary_tree_flat.html#f_right_sibling">right_sibling</A> = <B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_parent"><A HREF="../elks/binary_tree_flat.html#f_parent">parent</A>: <B>detachable</B> <B>like</B> <B>Current</B></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Parent of current node</FONT>
+
+    <A NAME="f_right_child"><A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A>: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_parent">parent</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Right child, if any</FONT>
+
+    <A NAME="f_right_item"><A HREF="../elks/binary_tree_flat.html#f_right_item">right_item</A>: <B>like</B> <A HREF="../elks/cell_flat.html#f_item">item</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Value of right child</FONT>
+        <B>require</B>
+            has_right: <A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A> /= <B>Void</B>
+        <B>do</B>
+            <B>check</B>
+                <B>attached</B> <A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A> <B>as</B> r
+            <B>then</B>
+                <B>Result</B> := r.<A HREF="../elks/cell_flat.html#f_item">item</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_right_sibling"><A HREF="../elks/binary_tree_flat.html#f_right_sibling">right_sibling</A>: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_parent">parent</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Right neighbor, if any</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            is_not_root: <B>not</B> <A HREF="../elks/tree_flat.html#f_is_root">is_root</A>
+        <B>local</B>
+            p: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_parent">parent</A>
+        <B>do</B>
+            p := <A HREF="../elks/binary_tree_flat.html#f_parent">parent</A>
+            <B>if</B> p /= <B>Void</B> <B>and then</B> p.<A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A> = <B>Current</B> <B>then</B>
+                <B>Result</B> := p.<A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            is_sibling: <B>Result</B> /= <B>Void</B> <B>implies</B> <A HREF="../elks/tree_flat.html#f_is_sibling">is_sibling</A> (<B>Result</B>)
+            left_is_current: (<B>Result</B> /= <B>Void</B>) <B>implies</B> (<B>Result</B>.<A HREF="../elks/binary_tree_flat.html#f_left_sibling">left_sibling</A> = <B>Current</B>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_arity"><A HREF="../elks/binary_tree_flat.html#f_arity">arity</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of children</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT> <A HREF="../elks/tree_flat.html">TREE</A>
+            <B>True</B>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/binary_tree_flat.html#f_has_left">has_left</A> <B>then</B>
+                <B>Result</B> := <B>Result</B> + 1
+            <B>end</B>
+            <B>if</B> <A HREF="../elks/binary_tree_flat.html#f_has_right">has_right</A> <B>then</B>
+                <B>Result</B> := <B>Result</B> + 1
+            <B>end</B>
+        <B>ensure then</B>
+            valid_arity: <B>Result</B> &lt;= <A HREF="../elks/binary_tree_flat.html#f_child_capacity">Child_capacity</A>
+        <B>end</B></A>
+
+    <A NAME="f_child_capacity"><A HREF="../elks/binary_tree_flat.html#f_child_capacity">Child_capacity</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A> = 2</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Maximum number of children</FONT>
+
+    <A NAME="f_count"><A HREF="../elks/tree_flat.html#f_count">count</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of items</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/tree_flat.html">TREE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/binary_tree_flat.html#f_subtree_count">subtree_count</A> + 1
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Comparison</FONT>
+
+    <A NAME="f_deep_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (a, b) <B>implies</B> <B>Result</B>
+            both_or_none_void: (a = <B>Void</B>) <B>implies</B> (<B>Result</B> = (b = <B>Void</B>))
+            same_type: (<B>Result</B> <B>and</B> (a /= <B>Void</B>)) <B>implies</B> (b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_same_type">same_type</A> (b))
+            symmetric: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (b, a)
+        <B>end</B></A>
+
+    <A NAME="f_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_equal">equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to objects considered equal?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_equal">is_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flat.html#f_is_equal">is_equal</A> (b))
+        <B>end</B></A>
+
+    <A NAME="f_is_deep_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (other: <B>attached</B> <A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A> [G]): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`Current'<FONT COLOR="red"> and </FONT>`other'<FONT COLOR="red"> attached to isomorphic object structures?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            shallow_implies_deep: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flat.html#f_is_deep_equal">is_deep_equal</A> (<B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_is_equal"><A HREF="../elks/tree_flat.html#f_is_equal">is_equal</A> (other: <B>attached</B> <A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A> [G]): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`other'<FONT COLOR="red"> contain the same elements?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Reference or object equality,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> based on </FONT><A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A><FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/tree_flat.html">TREE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>do</B>
+            <B>if</B> <B>Current</B> = other <B>then</B>
+                <B>Result</B> := <B>True</B>
+            <B>else</B>
+                <B>Result</B> := (<A HREF="../elks/tree_flat.html#f_is_empty">is_empty</A> = other.<A HREF="../elks/tree_flat.html#f_is_empty">is_empty</A>) <B>and</B> (<A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A> = other.<A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A>) <B>and</B> (<A HREF="../elks/binary_tree_flat.html#f_child_capacity">Child_capacity</A> = other.<A HREF="../elks/binary_tree_flat.html#f_child_capacity">Child_capacity</A>)
+                <B>if</B> <B>Result</B> <B>and</B> <B>not</B> <A HREF="../elks/tree_flat.html#f_is_empty">is_empty</A> <B>then</B>
+                    <B>Result</B> := <A HREF="../elks/tree_flat.html#f_tree_is_equal">tree_is_equal</A> (<B>Current</B>, other)
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            symmetric: <B>Result</B> <B>implies</B> other ~ <B>Current</B>
+            consistent: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other) <B>implies</B> <B>Result</B>
+        <B>end</B></A>
+
+    <A NAME="f_node_is_equal"><A HREF="../elks/tree_flat.html#f_node_is_equal">node_is_equal</A> (other: <B>attached</B> <A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A> [G]): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> equal to Current?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/tree_flat.html">TREE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            other_not_void: other /= <B>Void</B>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A> <B>then</B>
+                <B>Result</B> := <A HREF="../elks/cell_flat.html#f_item">item</A> ~ other.<A HREF="../elks/cell_flat.html#f_item">item</A>
+            <B>else</B>
+                <B>Result</B> := <A HREF="../elks/cell_flat.html#f_item">item</A> = other.<A HREF="../elks/cell_flat.html#f_item">item</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_standard_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (a: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>; b: <B>like</B> arg #1): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`a'<FONT COLOR="red"> and </FONT>`b'<FONT COLOR="red"> either both void or attached to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical objects of the same type?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default object comparison criterion.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> a = <B>Void</B> <B>then</B>
+                <B>Result</B> := b = <B>Void</B>
+            <B>else</B>
+                <B>Result</B> := b /= <B>Void</B> <B>and then</B> a.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (b)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (a = <B>Void</B> <B>and</B> b = <B>Void</B>) <B>or else</B> ((a /= <B>Void</B> <B>and</B> b /= <B>Void</B>) <B>and then</B> a.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (b))
+        <B>end</B></A>
+
+    <A NAME="f_standard_is_equal"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other: <B>attached</B> <A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A> [G]): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`other'<FONT COLOR="red"> attached to an object of the same type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> as current object, and field-by-field identical to it?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            same_type: <B>Result</B> <B>implies</B> <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+            symmetric: <B>Result</B> <B>implies</B> other.<A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_changeable_comparison_criterion"><A HREF="../elks/container_flat.html#f_changeable_comparison_criterion">changeable_comparison_criterion</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May </FONT><A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A><FONT COLOR="red"> be changed?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Answer: yes by default.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/container_flat.html">CONTAINER</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>True</B>
+        <B>end</B></A>
+
+    <A NAME="f_child_after"><A HREF="../elks/binary_tree_flat.html#f_child_after">child_after</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there no valid child position to the right of cursor?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A> &gt;= <A HREF="../elks/binary_tree_flat.html#f_child_capacity">Child_capacity</A> + 1
+        <B>end</B></A>
+
+    <A NAME="f_child_before"><A HREF="../elks/tree_flat.html#f_child_before">child_before</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there no valid child position to the left of cursor?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/tree_flat.html">TREE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A> = 0
+        <B>end</B></A>
+
+    <A NAME="f_child_isfirst"><A HREF="../elks/tree_flat.html#f_child_isfirst">child_isfirst</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is cursor under first child?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/tree_flat.html">TREE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>not</B> <A HREF="../elks/binary_tree_flat.html#f_is_leaf">is_leaf</A> <B>and</B> <A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A> = 1
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            not_is_leaf: <B>Result</B> <B>implies</B> <B>not</B> <A HREF="../elks/binary_tree_flat.html#f_is_leaf">is_leaf</A>
+        <B>end</B></A>
+
+    <A NAME="f_child_islast"><A HREF="../elks/tree_flat.html#f_child_islast">child_islast</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is cursor under last child?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/tree_flat.html">TREE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>not</B> <A HREF="../elks/binary_tree_flat.html#f_is_leaf">is_leaf</A> <B>and</B> <A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A> = <A HREF="../elks/binary_tree_flat.html#f_child_capacity">Child_capacity</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            not_is_leaf: <B>Result</B> <B>implies</B> <B>not</B> <A HREF="../elks/binary_tree_flat.html#f_is_leaf">is_leaf</A>
+        <B>end</B></A>
+
+    <A NAME="f_child_off"><A HREF="../elks/tree_flat.html#f_child_off">child_off</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there no current child?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/tree_flat.html">TREE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/tree_flat.html#f_child_before">child_before</A> <B>or</B> <A HREF="../elks/binary_tree_flat.html#f_child_after">child_after</A>
+        <B>end</B></A>
+
+    <A NAME="f_child_readable"><A HREF="../elks/tree_flat.html#f_child_readable">child_readable</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there a current </FONT><A HREF="../elks/tree_flat.html#f_child_item">child_item</A><FONT COLOR="red"> to be read?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/tree_flat.html">TREE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>not</B> <A HREF="../elks/tree_flat.html#f_child_off">child_off</A> <B>and then</B> (<A HREF="../elks/binary_tree_flat.html#f_child">child</A> /= <B>Void</B>)
+        <B>end</B></A>
+
+    <A NAME="f_child_writable"><A HREF="../elks/tree_flat.html#f_child_writable">child_writable</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there a current </FONT><A HREF="../elks/tree_flat.html#f_child_item">child_item</A><FONT COLOR="red"> that may be modified?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/tree_flat.html">TREE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>not</B> <A HREF="../elks/tree_flat.html#f_child_off">child_off</A> <B>and then</B> (<A HREF="../elks/binary_tree_flat.html#f_child">child</A> /= <B>Void</B>)
+        <B>end</B></A>
+
+    <A NAME="f_conforms_to"><A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (other: <A HREF="../elks/any_flat.html">ANY</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does type of current object conform to type</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of </FONT>`other'<FONT COLOR="red"> (as per Eiffel: The Language, chapter 13)?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>end</B></A>
+
+    <A NAME="f_empty"><A HREF="../elks/container_flat.html#f_empty">empty</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+        <B>obsolete</B> "ELKS 2000: Use `is_empty' instead"
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there no element?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/container_flat.html">CONTAINER</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/tree_flat.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+
+    <A NAME="f_has"><A HREF="../elks/tree_flat.html#f_has">has</A> (v: G): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does subtree include </FONT>`v'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Reference or object equality,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> based on </FONT><A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A><FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/tree_flat.html">TREE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A> <B>then</B>
+                <B>Result</B> := v ~ <A HREF="../elks/cell_flat.html#f_item">item</A> <B>or else</B> <A HREF="../elks/binary_tree_flat.html#f_subtree_has">subtree_has</A> (v)
+            <B>else</B>
+                <B>Result</B> := v = <A HREF="../elks/cell_flat.html#f_item">item</A> <B>or else</B> <A HREF="../elks/binary_tree_flat.html#f_subtree_has">subtree_has</A> (v)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/container_flat.html">CONTAINER</A>
+            not_found_in_empty: <B>Result</B> <B>implies</B> <B>not</B> <A HREF="../elks/tree_flat.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+
+    <A NAME="f_has_both"><A HREF="../elks/binary_tree_flat.html#f_has_both">has_both</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Has current node two children?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A> /= <B>Void</B> <B>and</B> <A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A> /= <B>Void</B>
+        <B>ensure</B>
+            <B>Result</B> = (<A HREF="../elks/binary_tree_flat.html#f_has_left">has_left</A> <B>and</B> <A HREF="../elks/binary_tree_flat.html#f_has_right">has_right</A>)
+        <B>end</B></A>
+
+    <A NAME="f_has_left"><A HREF="../elks/binary_tree_flat.html#f_has_left">has_left</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Has current node a left child?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A> /= <B>Void</B>
+        <B>ensure</B>
+            <B>Result</B> = (<A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A> /= <B>Void</B>)
+        <B>end</B></A>
+
+    <A NAME="f_has_none"><A HREF="../elks/binary_tree_flat.html#f_has_none">has_none</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are there no children?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/binary_tree_flat.html#f_is_leaf">is_leaf</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A> = <B>Void</B> <B>and</B> <A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A> = <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_has_right"><A HREF="../elks/binary_tree_flat.html#f_has_right">has_right</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Has current node a right child?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A> /= <B>Void</B>
+        <B>ensure</B>
+            <B>Result</B> = (<A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A> /= <B>Void</B>)
+        <B>end</B></A>
+
+    <A NAME="f_is_empty"><A HREF="../elks/tree_flat.html#f_is_empty">is_empty</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is structure empty of items?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/tree_flat.html">TREE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>False</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_leaf"><A HREF="../elks/binary_tree_flat.html#f_is_leaf">is_leaf</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are there no children?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/binary_tree_flat.html#f_has_none">has_none</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A> = <B>Void</B> <B>and</B> <A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A> = <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_root"><A HREF="../elks/tree_flat.html#f_is_root">is_root</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there no parent?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/tree_flat.html">TREE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/binary_tree_flat.html#f_parent">parent</A> = <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_sibling"><A HREF="../elks/tree_flat.html#f_is_sibling">is_sibling</A> (other: <B>attached</B> <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_parent">parent</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are current node and </FONT>`other'<FONT COLOR="red"> siblings?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/tree_flat.html">TREE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            other_exists: other /= <B>Void</B>
+        <B>do</B>
+            <B>Result</B> := <B>not</B> <A HREF="../elks/tree_flat.html#f_is_root">is_root</A> <B>and</B> other.<A HREF="../elks/binary_tree_flat.html#f_parent">parent</A> = <A HREF="../elks/binary_tree_flat.html#f_parent">parent</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            not_root: <B>Result</B> <B>implies</B> <B>not</B> <A HREF="../elks/tree_flat.html#f_is_root">is_root</A>
+            other_not_root: <B>Result</B> <B>implies</B> <B>not</B> other.<A HREF="../elks/tree_flat.html#f_is_root">is_root</A>
+            same_parent: <B>Result</B> = <B>not</B> <A HREF="../elks/tree_flat.html#f_is_root">is_root</A> <B>and</B> other.<A HREF="../elks/binary_tree_flat.html#f_parent">parent</A> = <A HREF="../elks/binary_tree_flat.html#f_parent">parent</A>
+        <B>end</B></A>
+
+    <A NAME="f_object_comparison"><A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Must search operations use </FONT><A HREF="../elks/any_flat.html#f_equal">equal</A><FONT COLOR="red"> rather than </FONT>`='
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> for comparing references? (Default: no, use </FONT>`='<FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/container_flat.html">CONTAINER</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_readable"><A HREF="../elks/tree_flat.html#f_readable">Readable</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A> = <B>True</B></A>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/tree_flat.html">TREE</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_readable_child"><A HREF="../elks/tree_flat.html#f_readable_child">readable_child</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there a current child to be read?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/tree_flat.html">TREE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>not</B> <A HREF="../elks/tree_flat.html#f_child_off">child_off</A>
+        <B>end</B></A>
+
+    <A NAME="f_same_type"><A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other: <A HREF="../elks/any_flat.html">ANY</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is type of current object identical to type of </FONT>`other'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            definition: <B>Result</B> = (<A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (other) <B>and</B> other.<A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>Current</B>))
+        <B>end</B></A>
+
+    <A NAME="f_valid_cursor_index"><A HREF="../elks/tree_flat.html#f_valid_cursor_index">valid_cursor_index</A> (i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`i'<FONT COLOR="red"> correctly bounded for cursor movement?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/tree_flat.html">TREE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := (i &gt;= 0) <B>and</B> (i &lt;= <A HREF="../elks/binary_tree_flat.html#f_child_capacity">Child_capacity</A> + 1)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            valid_cursor_index_definition: <B>Result</B> = (i &gt;= 0) <B>and</B> (i &lt;= <A HREF="../elks/binary_tree_flat.html#f_child_capacity">Child_capacity</A> + 1)
+        <B>end</B></A>
+
+    <A NAME="f_writable"><A HREF="../elks/tree_flat.html#f_writable">Writable</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A> = <B>True</B></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there a current item that may be modified?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/tree_flat.html">TREE</A><FONT COLOR="red">)</FONT>
+
+    <A NAME="f_writable_child"><A HREF="../elks/tree_flat.html#f_writable_child">writable_child</A>: <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there a current child that may be modified?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/tree_flat.html">TREE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>not</B> <A HREF="../elks/tree_flat.html#f_child_off">child_off</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status setting</FONT>
+
+    <A NAME="f_compare_objects"><A HREF="../elks/container_flat.html#f_compare_objects">compare_objects</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Ensure that future search operations will use </FONT><A HREF="../elks/any_flat.html#f_equal">equal</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> rather than </FONT>`='<FONT COLOR="red"> for comparing references.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/container_flat.html">CONTAINER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/container_flat.html">CONTAINER</A>
+            changeable_comparison_criterion: <A HREF="../elks/container_flat.html#f_changeable_comparison_criterion">changeable_comparison_criterion</A>
+        <B>do</B>
+            <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A> := <B>True</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/container_flat.html">CONTAINER</A>
+            <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A>
+        <B>end</B></A>
+
+    <A NAME="f_compare_references"><A HREF="../elks/container_flat.html#f_compare_references">compare_references</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Ensure that future search operations will use </FONT>`='
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> rather than </FONT><A HREF="../elks/any_flat.html#f_equal">equal</A><FONT COLOR="red"> for comparing references.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/container_flat.html">CONTAINER</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/container_flat.html">CONTAINER</A>
+            changeable_comparison_criterion: <A HREF="../elks/container_flat.html#f_changeable_comparison_criterion">changeable_comparison_criterion</A>
+        <B>do</B>
+            <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A> := <B>False</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/container_flat.html">CONTAINER</A>
+            reference_comparison: <B>not</B> <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Cursor movement</FONT>
+
+    <A NAME="f_child_back"><A HREF="../elks/binary_tree_flat.html#f_child_back">child_back</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to previous child.</FONT>
+        <B>do</B>
+            <A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A> := <A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A> - 1
+        <B>end</B></A>
+
+    <A NAME="f_child_finish"><A HREF="../elks/binary_tree_flat.html#f_child_finish">child_finish</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to last child.</FONT>
+        <B>do</B>
+            <A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A> := <A HREF="../elks/binary_tree_flat.html#f_arity">arity</A>
+        <B>end</B></A>
+
+    <A NAME="f_child_forth"><A HREF="../elks/binary_tree_flat.html#f_child_forth">child_forth</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to next child.</FONT>
+        <B>do</B>
+            <A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A> := <A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A> + 1
+        <B>end</B></A>
+
+    <A NAME="f_child_go_i_th"><A HREF="../elks/binary_tree_flat.html#f_child_go_i_th">child_go_i_th</A> (i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to </FONT>`i'<FONT COLOR="red">-th child.</FONT>
+        <B>do</B>
+            <A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A> := i
+        <B>ensure then</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            position: <A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A> = i
+        <B>end</B></A>
+
+    <A NAME="f_child_go_to"><A HREF="../elks/binary_tree_flat.html#f_child_go_to">child_go_to</A> (p: <A HREF="../elks/arrayed_list_cursor_flat.html">ARRAYED_LIST_CURSOR</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to child remembered by </FONT>`p'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A> := p.<A HREF="../elks/arrayed_list_cursor_flat.html#f_index">index</A>
+        <B>end</B></A>
+
+    <A NAME="f_child_start"><A HREF="../elks/binary_tree_flat.html#f_child_start">child_start</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move to first child.</FONT>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/binary_tree_flat.html#f_has_left">has_left</A> <B>then</B>
+                <A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A> := 1
+            <B>elseif</B> <A HREF="../elks/binary_tree_flat.html#f_has_right">has_right</A> <B>then</B>
+                <A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A> := 2
+            <B>else</B>
+                <A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A> := 0
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_child_put"><A HREF="../elks/binary_tree_flat.html#f_child_put">child_put</A> (v: <B>like</B> <A HREF="../elks/cell_flat.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Put </FONT>`v'<FONT COLOR="red"> at current child position.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/binary_tree_flat.html#f_child_replace">child_replace</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            child_writable: <A HREF="../elks/tree_flat.html#f_child_writable">child_writable</A>
+        <B>local</B>
+            node: <B>like</B> <B>Current</B>
+            c: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_child">child</A>
+        <B>do</B>
+            c := <A HREF="../elks/binary_tree_flat.html#f_child">child</A>
+            <B>if</B> c /= <B>Void</B> <B>then</B>
+                <B>if</B> <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A> <B>then</B>
+                    c.<A HREF="../elks/container_flat.html#f_compare_objects">compare_objects</A>
+                <B>else</B>
+                    c.<A HREF="../elks/container_flat.html#f_compare_references">compare_references</A>
+                <B>end</B>
+                c.<A HREF="../elks/cell_flat.html#f_put">put</A> (v)
+            <B>else</B>
+                <B>create</B> node.<A HREF="../elks/binary_tree_flat.html#f_make">make</A> (v)
+                <B>if</B> <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A> <B>then</B>
+                    node.<A HREF="../elks/container_flat.html#f_compare_objects">compare_objects</A>
+                <B>end</B>
+                <A HREF="../elks/binary_tree_flat.html#f_put_child">put_child</A> (node)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            item_inserted: <A HREF="../elks/tree_flat.html#f_child_item">child_item</A> = v
+        <B>end</B></A>
+
+    <A NAME="f_child_replace"><A HREF="../elks/binary_tree_flat.html#f_child_replace">child_replace</A> (v: <B>like</B> <A HREF="../elks/cell_flat.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Put </FONT>`v'<FONT COLOR="red"> at current child position.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/binary_tree_flat.html#f_child_put">child_put</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            child_writable: <A HREF="../elks/tree_flat.html#f_child_writable">child_writable</A>
+        <B>local</B>
+            node: <B>like</B> <B>Current</B>
+            c: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_child">child</A>
+        <B>do</B>
+            c := <A HREF="../elks/binary_tree_flat.html#f_child">child</A>
+            <B>if</B> c /= <B>Void</B> <B>then</B>
+                <B>if</B> <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A> <B>then</B>
+                    c.<A HREF="../elks/container_flat.html#f_compare_objects">compare_objects</A>
+                <B>else</B>
+                    c.<A HREF="../elks/container_flat.html#f_compare_references">compare_references</A>
+                <B>end</B>
+                c.<A HREF="../elks/cell_flat.html#f_put">put</A> (v)
+            <B>else</B>
+                <B>create</B> node.<A HREF="../elks/binary_tree_flat.html#f_make">make</A> (v)
+                <B>if</B> <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A> <B>then</B>
+                    node.<A HREF="../elks/container_flat.html#f_compare_objects">compare_objects</A>
+                <B>end</B>
+                <A HREF="../elks/binary_tree_flat.html#f_put_child">put_child</A> (node)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            item_inserted: <A HREF="../elks/tree_flat.html#f_child_item">child_item</A> = v
+        <B>end</B></A>
+
+    <A NAME="f_fill"><A HREF="../elks/tree_flat.html#f_fill">fill</A> (other: <A HREF="../elks/tree_flat.html">TREE</A> [G])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Fill with as many items of </FONT>`other'<FONT COLOR="red"> as possible.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The representations of </FONT>`other'<FONT COLOR="red"> and current node</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> need not be the same.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/tree_flat.html">TREE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <A HREF="../elks/cell_flat.html#f_replace">replace</A> (other.<A HREF="../elks/tree_flat.html#f_item">item</A>)
+            <A HREF="../elks/binary_tree_flat.html#f_fill_subtree">fill_subtree</A> (other)
+        <B>end</B></A>
+
+    <A NAME="f_put"><A HREF="../elks/cell_flat.html#f_put">put</A> (v: <B>like</B> <A HREF="../elks/cell_flat.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make </FONT>`v'<FONT COLOR="red"> the cell's </FONT><A HREF="../elks/cell_flat.html#f_item">item</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/cell_flat.html">CELL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/cell_flat.html#f_replace">replace</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/cell_flat.html">CELL</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            is_writable: <A HREF="../elks/tree_flat.html#f_writable">Writable</A>
+        <B>do</B>
+            <A HREF="../elks/cell_flat.html#f_item">item</A> := v
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            item_inserted: <A HREF="../elks/cell_flat.html#f_item">item</A> = v
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/cell_flat.html">CELL</A>
+            item_inserted: <A HREF="../elks/cell_flat.html#f_item">item</A> = v
+        <B>end</B></A>
+
+    <A NAME="f_put_child"><A HREF="../elks/binary_tree_flat.html#f_put_child">put_child</A> (n: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_new_tree">new_tree</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Put </FONT>`n'<FONT COLOR="red"> at current child position.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/binary_tree_flat.html#f_replace_child">replace_child</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            non_void_argument: n /= <B>Void</B>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A> <B>then</B>
+                n.<A HREF="../elks/container_flat.html#f_compare_objects">compare_objects</A>
+            <B>else</B>
+                n.<A HREF="../elks/container_flat.html#f_compare_references">compare_references</A>
+            <B>end</B>
+            n.<A HREF="../elks/tree_flat.html#f_attach_to_parent">attach_to_parent</A> (<B>Void</B>)
+            <B>if</B> <B>not</B> <A HREF="../elks/binary_tree_flat.html#f_has_left">has_left</A> <B>and</B> <B>not</B> <A HREF="../elks/binary_tree_flat.html#f_has_right">has_right</A> <B>then</B>
+                <A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A> := 1
+            <B>end</B>
+            <B>inspect</B> <A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A>
+            <B>when</B> 1 <B>then</B> 
+                <A HREF="../elks/binary_tree_flat.html#f_put_left_child">put_left_child</A> (n)
+            <B>when</B> 2 <B>then</B> 
+                <A HREF="../elks/binary_tree_flat.html#f_put_right_child">put_right_child</A> (n)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_put_left_child"><A HREF="../elks/binary_tree_flat.html#f_put_left_child">put_left_child</A> (n: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_parent">parent</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A><FONT COLOR="red"> to </FONT>`n'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            no_parent: n = <B>Void</B> <B>or else</B> n.<A HREF="../elks/tree_flat.html#f_is_root">is_root</A>
+        <B>local</B>
+            l: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A>
+        <B>do</B>
+            <B>if</B> n /= <B>Void</B> <B>then</B>
+                <B>if</B> <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A> <B>then</B>
+                    n.<A HREF="../elks/container_flat.html#f_compare_objects">compare_objects</A>
+                <B>else</B>
+                    n.<A HREF="../elks/container_flat.html#f_compare_references">compare_references</A>
+                <B>end</B>
+            <B>end</B>
+            l := <A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A>
+            <B>if</B> l /= <B>Void</B> <B>then</B>
+                l.<A HREF="../elks/tree_flat.html#f_attach_to_parent">attach_to_parent</A> (<B>Void</B>)
+            <B>end</B>
+            <B>if</B> n /= <B>Void</B> <B>then</B>
+                n.<A HREF="../elks/tree_flat.html#f_attach_to_parent">attach_to_parent</A> (<B>Current</B>)
+            <B>end</B>
+            <A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A> := n
+        <B>end</B></A>
+
+    <A NAME="f_put_right_child"><A HREF="../elks/binary_tree_flat.html#f_put_right_child">put_right_child</A> (n: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_parent">parent</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A><FONT COLOR="red"> to </FONT>`n'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            no_parent: n = <B>Void</B> <B>or else</B> n.<A HREF="../elks/tree_flat.html#f_is_root">is_root</A>
+        <B>local</B>
+            c: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A>
+        <B>do</B>
+            <B>if</B> n /= <B>Void</B> <B>then</B>
+                <B>if</B> <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A> <B>then</B>
+                    n.<A HREF="../elks/container_flat.html#f_compare_objects">compare_objects</A>
+                <B>else</B>
+                    n.<A HREF="../elks/container_flat.html#f_compare_references">compare_references</A>
+                <B>end</B>
+            <B>end</B>
+            c := <A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A>
+            <B>if</B> c /= <B>Void</B> <B>then</B>
+                c.<A HREF="../elks/tree_flat.html#f_attach_to_parent">attach_to_parent</A> (<B>Void</B>)
+            <B>end</B>
+            <B>if</B> n /= <B>Void</B> <B>then</B>
+                n.<A HREF="../elks/tree_flat.html#f_attach_to_parent">attach_to_parent</A> (<B>Current</B>)
+            <B>end</B>
+            <A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A> := n
+        <B>end</B></A>
+
+    <A NAME="f_replace"><A HREF="../elks/cell_flat.html#f_replace">replace</A> (v: <B>like</B> <A HREF="../elks/cell_flat.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make </FONT>`v'<FONT COLOR="red"> the cell's </FONT><A HREF="../elks/cell_flat.html#f_item">item</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/cell_flat.html">CELL</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/cell_flat.html#f_put">put</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/cell_flat.html">CELL</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            is_writable: <A HREF="../elks/tree_flat.html#f_writable">Writable</A>
+        <B>do</B>
+            <A HREF="../elks/cell_flat.html#f_item">item</A> := v
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            item_inserted: <A HREF="../elks/cell_flat.html#f_item">item</A> = v
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/cell_flat.html">CELL</A>
+            item_inserted: <A HREF="../elks/cell_flat.html#f_item">item</A> = v
+        <B>end</B></A>
+
+    <A NAME="f_replace_child"><A HREF="../elks/binary_tree_flat.html#f_replace_child">replace_child</A> (n: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_new_tree">new_tree</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Put </FONT>`n'<FONT COLOR="red"> at current child position.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/binary_tree_flat.html#f_put_child">put_child</A><FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            writable_child: <A HREF="../elks/tree_flat.html#f_writable_child">writable_child</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A> <B>then</B>
+                n.<A HREF="../elks/container_flat.html#f_compare_objects">compare_objects</A>
+            <B>else</B>
+                n.<A HREF="../elks/container_flat.html#f_compare_references">compare_references</A>
+            <B>end</B>
+            n.<A HREF="../elks/tree_flat.html#f_attach_to_parent">attach_to_parent</A> (<B>Void</B>)
+            <B>if</B> <B>not</B> <A HREF="../elks/binary_tree_flat.html#f_has_left">has_left</A> <B>and</B> <B>not</B> <A HREF="../elks/binary_tree_flat.html#f_has_right">has_right</A> <B>then</B>
+                <A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A> := 1
+            <B>end</B>
+            <B>inspect</B> <A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A>
+            <B>when</B> 1 <B>then</B> 
+                <A HREF="../elks/binary_tree_flat.html#f_put_left_child">put_left_child</A> (n)
+            <B>when</B> 2 <B>then</B> 
+                <A HREF="../elks/binary_tree_flat.html#f_put_right_child">put_right_child</A> (n)
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            child_replaced: <A HREF="../elks/binary_tree_flat.html#f_child">child</A> = n
+        <B>end</B></A>
+
+    <A NAME="f_sprout"><A HREF="../elks/tree_flat.html#f_sprout">sprout</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make current node a root.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/tree_flat.html">TREE</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            p: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_parent">parent</A>
+        <B>do</B>
+            p := <A HREF="../elks/binary_tree_flat.html#f_parent">parent</A>
+            <B>if</B> p /= <B>Void</B> <B>then</B>
+                p.<A HREF="../elks/tree_flat.html#f_prune">prune</A> (<B>Current</B>)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removal</FONT>
+
+    <A NAME="f_child_remove"><A HREF="../elks/binary_tree_flat.html#f_child_remove">child_remove</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove current child.</FONT>
+        <B>local</B>
+            c: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A>
+        <B>do</B>
+            <B>inspect</B> <A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A>
+            <B>when</B> 1 <B>then</B> 
+                c := <A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A>
+                <B>if</B> c /= <B>Void</B> <B>then</B>
+                    c.<A HREF="../elks/tree_flat.html#f_attach_to_parent">attach_to_parent</A> (<B>Void</B>)
+                <B>end</B>
+                <A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A> := <B>Void</B>
+            <B>when</B> 2 <B>then</B> 
+                c := <A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A>
+                <B>if</B> c /= <B>Void</B> <B>then</B>
+                    c.<A HREF="../elks/tree_flat.html#f_attach_to_parent">attach_to_parent</A> (<B>Void</B>)
+                <B>end</B>
+                <A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A> := <B>Void</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_forget_left"><A HREF="../elks/binary_tree_flat.html#f_forget_left">forget_left</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Forget left sibling.</FONT>
+        <B>local</B>
+            p: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_parent">parent</A>
+        <B>do</B>
+            p := <A HREF="../elks/binary_tree_flat.html#f_parent">parent</A>
+            <B>if</B> p /= <B>Void</B> <B>and then</B> p.<A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A> = <B>Current</B> <B>then</B>
+                p.<A HREF="../elks/binary_tree_flat.html#f_remove_left_child">remove_left_child</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_forget_right"><A HREF="../elks/binary_tree_flat.html#f_forget_right">forget_right</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Forget right sibling.</FONT>
+        <B>local</B>
+            p: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_parent">parent</A>
+        <B>do</B>
+            p := <A HREF="../elks/binary_tree_flat.html#f_parent">parent</A>
+            <B>if</B> p /= <B>Void</B> <B>and then</B> p.<A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A> = <B>Current</B> <B>then</B>
+                p.<A HREF="../elks/binary_tree_flat.html#f_remove_right_child">remove_right_child</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_prune"><A HREF="../elks/binary_tree_flat.html#f_prune">prune</A> (n: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_new_tree">new_tree</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Prune </FONT>`n'<FONT COLOR="red"> from child nodes.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            is_child: n.<A HREF="../elks/binary_tree_flat.html#f_parent">parent</A> = <B>Current</B>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A> = n <B>then</B>
+                <A HREF="../elks/binary_tree_flat.html#f_remove_left_child">remove_left_child</A>
+            <B>elseif</B> <A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A> = n <B>then</B>
+                <A HREF="../elks/binary_tree_flat.html#f_remove_right_child">remove_right_child</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            n_is_root: n.<A HREF="../elks/tree_flat.html#f_is_root">is_root</A>
+        <B>end</B></A>
+
+    <A NAME="f_remove_left_child"><A HREF="../elks/binary_tree_flat.html#f_remove_left_child">remove_left_child</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove left child.</FONT>
+        <B>local</B>
+            l: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A>
+        <B>do</B>
+            l := <A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A>
+            <B>if</B> l /= <B>Void</B> <B>then</B>
+                l.<A HREF="../elks/tree_flat.html#f_attach_to_parent">attach_to_parent</A> (<B>Void</B>)
+            <B>end</B>
+            <A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A> := <B>Void</B>
+        <B>ensure</B>
+            <B>not</B> <A HREF="../elks/binary_tree_flat.html#f_has_left">has_left</A>
+        <B>end</B></A>
+
+    <A NAME="f_remove_right_child"><A HREF="../elks/binary_tree_flat.html#f_remove_right_child">remove_right_child</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove right child.</FONT>
+        <B>local</B>
+            r: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A>
+        <B>do</B>
+            r := <A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A>
+            <B>if</B> r /= <B>Void</B> <B>then</B>
+                r.<A HREF="../elks/tree_flat.html#f_attach_to_parent">attach_to_parent</A> (<B>Void</B>)
+            <B>end</B>
+            <A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A> := <B>Void</B>
+        <B>ensure</B>
+            <B>not</B> <A HREF="../elks/binary_tree_flat.html#f_has_right">has_right</A>
+        <B>end</B></A>
+
+    <A NAME="f_wipe_out"><A HREF="../elks/binary_tree_flat.html#f_wipe_out">wipe_out</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove all children.</FONT>
+        <B>do</B>
+            <A HREF="../elks/binary_tree_flat.html#f_remove_left_child">remove_left_child</A>
+            <A HREF="../elks/binary_tree_flat.html#f_remove_right_child">remove_right_child</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            is_leaf: <A HREF="../elks/binary_tree_flat.html#f_is_leaf">is_leaf</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Conversion</FONT>
+
+    <A NAME="f_binary_representation"><A HREF="../elks/tree_flat.html#f_binary_representation">binary_representation</A>: <A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Convert to binary tree representation:</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> first child becomes left child,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> right sibling becomes right child.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/tree_flat.html">TREE</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            current_sibling: <B>detachable</B> <A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A> [G]
+            c: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_first_child">first_child</A>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/binary_tree_flat.html#f_make">make</A> (<A HREF="../elks/cell_flat.html#f_item">item</A>)
+            <B>if</B> <B>not</B> <A HREF="../elks/binary_tree_flat.html#f_is_leaf">is_leaf</A> <B>then</B>
+                c := <A HREF="../elks/binary_tree_flat.html#f_first_child">first_child</A>
+                <B>if</B> c /= <B>Void</B> <B>then</B>
+                    <B>Result</B>.<A HREF="../elks/binary_tree_flat.html#f_put_left_child">put_left_child</A> (c.<A HREF="../elks/tree_flat.html#f_binary_representation">binary_representation</A>)
+                <B>end</B>
+                <B>from</B>
+                    <A HREF="../elks/binary_tree_flat.html#f_child_start">child_start</A>
+                    <A HREF="../elks/binary_tree_flat.html#f_child_forth">child_forth</A>
+                    current_sibling := <B>Result</B>.<A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A>
+                <B>until</B>
+                    <A HREF="../elks/binary_tree_flat.html#f_child_after">child_after</A>
+                <B>loop</B>
+                    <B>if</B> current_sibling /= <B>Void</B> <B>then</B>
+                        c := <A HREF="../elks/binary_tree_flat.html#f_child">child</A>
+                        <B>if</B> c /= <B>Void</B> <B>then</B>
+                            current_sibling.<A HREF="../elks/binary_tree_flat.html#f_put_right_child">put_right_child</A> (c.<A HREF="../elks/tree_flat.html#f_binary_representation">binary_representation</A>)
+                        <B>end</B>
+                        current_sibling := current_sibling.<A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A>
+                    <B>end</B>
+                    <A HREF="../elks/binary_tree_flat.html#f_child_forth">child_forth</A>
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            result_is_root: <B>Result</B>.<A HREF="../elks/tree_flat.html#f_is_root">is_root</A>
+            result_has_no_right_child: <B>not</B> <B>Result</B>.<A HREF="../elks/binary_tree_flat.html#f_has_right">has_right</A>
+        <B>end</B></A>
+
+    <A NAME="f_linear_representation"><A HREF="../elks/tree_flat.html#f_linear_representation">linear_representation</A>: <A HREF="../elks/linear_flat.html">LINEAR</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Representation as a linear structure</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/tree_flat.html">TREE</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            al: <A HREF="../elks/arrayed_list_flat.html">ARRAYED_LIST</A> [G]
+        <B>do</B>
+            <B>create</B> al.<A HREF="../elks/arrayed_list_flat.html#f_make">make</A> (<A HREF="../elks/tree_flat.html#f_count">count</A>)
+            al.<A HREF="../elks/arrayed_list_flat.html#f_start">start</A>
+            al.<A HREF="../elks/arrayed_list_flat.html#f_extend">extend</A> (<A HREF="../elks/cell_flat.html#f_item">item</A>)
+            <A HREF="../elks/binary_tree_flat.html#f_fill_list">fill_list</A> (al)
+            <B>Result</B> := al
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_clone">clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void; otherwise new object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> equal to </FONT>`other'
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> For non-void </FONT>`other'<FONT COLOR="red">, </FONT><A HREF="../elks/any_flat.html#f_clone">clone</A><FONT COLOR="red"> calls </FONT><A HREF="../elks/tree_flat.html#f_copy">copy</A><FONT COLOR="red">;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to change copying/cloning semantics, redefine </FONT><A HREF="../elks/tree_flat.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_twin">twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            equal: <B>Result</B> ~ other
+        <B>end</B></A>
+
+    <A NAME="f_copy"><A HREF="../elks/tree_flat.html#f_copy">copy</A> (other: <B>attached</B> <A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A> [G])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy contents from </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/tree_flat.html">TREE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+        <B>local</B>
+            i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            old_idx: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            tmp_tree: <B>attached</B> <A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A> [G]
+            c: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_child">child</A>
+        <B>do</B>
+            tmp_tree := <A HREF="../elks/binary_tree_flat.html#f_clone_node">clone_node</A> (other)
+            <B>if</B> <B>not</B> other.<A HREF="../elks/binary_tree_flat.html#f_is_leaf">is_leaf</A> <B>then</B>
+                <A HREF="../elks/tree_flat.html#f_tree_copy">tree_copy</A> (other, tmp_tree)
+            <B>end</B>
+            <A HREF="../elks/any_flat.html#f_standard_copy">standard_copy</A> (tmp_tree)
+            old_idx := <A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A>
+            <B>from</B>
+                i := 1
+            <B>until</B>
+                i &gt; <A HREF="../elks/binary_tree_flat.html#f_child_capacity">Child_capacity</A>
+            <B>loop</B>
+                <A HREF="../elks/binary_tree_flat.html#f_child_go_i_th">child_go_i_th</A> (i)
+                c := <A HREF="../elks/binary_tree_flat.html#f_child">child</A>
+                <B>if</B> c /= <B>Void</B> <B>then</B>
+                    c.<A HREF="../elks/tree_flat.html#f_attach_to_parent">attach_to_parent</A> (<B>Current</B>)
+                <B>end</B>
+                i := i + 1
+            <B>end</B>
+            <A HREF="../elks/binary_tree_flat.html#f_child_go_i_th">child_go_i_th</A> (old_idx)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            is_equal: <B>Current</B> ~ other
+        <B>end</B></A>
+
+    <A NAME="f_deep_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_clone">deep_clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `deep_twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void: otherwise, new object structure</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> recursively duplicated from the one attached to </FONT>`other'
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (other, <B>Result</B>)
+        <B>end</B></A>
+
+    <A NAME="f_deep_copy"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_copy">deep_copy</A> (other: <B>attached</B> <A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A> [G])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Effect equivalent to that of:</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">		</FONT><A HREF="../elks/tree_flat.html#f_copy">copy</A><FONT COLOR="red"> (</FONT>`other'<FONT COLOR="red"> . </FONT><A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A><FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../elks/tree_flat.html#f_copy">copy</A> (other.<A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (<B>Current</B>, other)
+        <B>end</B></A>
+
+    <A NAME="f_deep_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_deep_twin">deep_twin</A>: <B>attached</B> <A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object structure recursively duplicated from Current.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            deep_twin_not_void: <B>Result</B> /= <B>Void</B>
+            deep_equal: <A HREF="../elks/any_flat.html#f_deep_equal">deep_equal</A> (<B>Current</B>, <B>Result</B>)
+        <B>end</B></A>
+
+    <A NAME="f_duplicate"><A HREF="../elks/binary_tree_flat.html#f_duplicate">duplicate</A> (n: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>): <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy of sub-tree beginning at cursor position and</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> having min (</FONT>`n'<FONT COLOR="red">, </FONT><A HREF="../elks/binary_tree_flat.html#f_arity">arity</A><FONT COLOR="red"> - </FONT><A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A><FONT COLOR="red"> + 1)</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> children.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            not_child_off: <B>not</B> <A HREF="../elks/tree_flat.html#f_child_off">child_off</A>
+            valid_sublist: n &gt;= 0
+        <B>local</B>
+            c: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/binary_tree_flat.html#f_new_tree">new_tree</A>
+            c := <A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A>
+            <B>if</B> <A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A> &lt;= 1 <B>and</B> <A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A> + n &gt;= 1 <B>and</B> c /= <B>Void</B> <B>then</B>
+                <B>Result</B>.<A HREF="../elks/binary_tree_flat.html#f_put_left_child">put_left_child</A> (c.<A HREF="../elks/binary_tree_flat.html#f_duplicate_all">duplicate_all</A>)
+            <B>end</B>
+            c := <A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A>
+            <B>if</B> <A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A> &lt;= 2 <B>and</B> <A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A> + n &gt;= 2 <B>and</B> c /= <B>Void</B> <B>then</B>
+                <B>Result</B>.<A HREF="../elks/binary_tree_flat.html#f_put_right_child">put_right_child</A> (c.<A HREF="../elks/binary_tree_flat.html#f_duplicate_all">duplicate_all</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_duplicate_all"><A HREF="../elks/binary_tree_flat.html#f_duplicate_all">duplicate_all</A>: <B>like</B> <B>Current</B>
+        <B>local</B>
+            c: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_child">child</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/binary_tree_flat.html#f_new_tree">new_tree</A>
+            c := <A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A>
+            <B>if</B> c /= <B>Void</B> <B>then</B>
+                <B>Result</B>.<A HREF="../elks/binary_tree_flat.html#f_put_left_child">put_left_child</A> (c.<A HREF="../elks/binary_tree_flat.html#f_duplicate_all">duplicate_all</A>)
+            <B>end</B>
+            c := <A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A>
+            <B>if</B> c /= <B>Void</B> <B>then</B>
+                <B>Result</B>.<A HREF="../elks/binary_tree_flat.html#f_put_right_child">put_right_child</A> (c.<A HREF="../elks/binary_tree_flat.html#f_duplicate_all">duplicate_all</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_standard_clone"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_clone">standard_clone</A> (other: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>): <B>like</B> other
+        <B>obsolete</B> "Use `standard_twin' instead."
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Void if </FONT>`other'<FONT COLOR="red"> is void; otherwise new object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> other /= <B>Void</B> <B>then</B>
+                <B>Result</B> := other.<A HREF="../elks/any_flat.html#f_standard_twin">standard_twin</A>
+            <B>end</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            equal: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (<B>Result</B>, other)
+        <B>end</B></A>
+
+    <A NAME="f_standard_copy"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_copy">standard_copy</A> (other: <B>attached</B> <A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A> [G])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy every field of </FONT>`other'<FONT COLOR="red"> onto corresponding field</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            other_not_void: other /= <B>Void</B>
+            type_identity: <A HREF="../elks/any_flat.html#f_same_type">same_type</A> (other)
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            is_standard_equal: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (other)
+        <B>end</B></A>
+
+    <A NAME="f_standard_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_standard_twin">standard_twin</A>: <B>attached</B> <A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object field-by-field identical to </FONT>`other'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Always uses default copying semantics.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            standard_twin_not_void: <B>Result</B> /= <B>Void</B>
+            equal: <A HREF="../elks/any_flat.html#f_standard_equal">standard_equal</A> (<B>Result</B>, <B>Current</B>)
+        <B>end</B></A>
+
+    <A NAME="f_twin"><B>frozen</B> <A HREF="../elks/any_flat.html#f_twin">twin</A>: <B>attached</B> <A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New object equal to </FONT>`Current'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/any_flat.html#f_twin">twin</A><FONT COLOR="red"> calls </FONT><A HREF="../elks/tree_flat.html#f_copy">copy</A><FONT COLOR="red">; to change copying/twinning semantics, redefine </FONT><A HREF="../elks/tree_flat.html#f_copy">copy</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            twin_not_void: <B>Result</B> /= <B>Void</B>
+            is_equal: <B>Result</B> ~ <B>Current</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_as_attached"><B>frozen</B> <A HREF="../elks/any_flat.html#f_as_attached">as_attached</A>: <B>attached</B> <A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Attached version of Current</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Can be used during transitional period to convert</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> non-void-safe classes to void-safe ones.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>Current</B>
+        <B>end</B></A>
+
+    <A NAME="f_default"><B>frozen</B> <A HREF="../elks/any_flat.html#f_default">default</A>: <B>detachable</B> <A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A> [G]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of object's type</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_default_pointer"><B>frozen</B> <A HREF="../elks/any_flat.html#f_default_pointer">default_pointer</A>: <A HREF="../elks/pointer_flat.html">POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default value of type </FONT>`POINTER'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Avoid the need to write </FONT>`p'<FONT COLOR="red">.</FONT><A HREF="../elks/any_flat.html#f_default">default</A><FONT COLOR="red"> for</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> some </FONT>`p'<FONT COLOR="red"> of type </FONT>`POINTER'<FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_default_rescue"><A HREF="../elks/any_flat.html#f_default_rescue">default_rescue</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process exception for routines with no Rescue clause.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Default: do nothing.)</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_do_nothing"><B>frozen</B> <A HREF="../elks/any_flat.html#f_do_nothing">do_nothing</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Execute a null action.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+    
+<B>feature</B> {<A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_clone_node"><A HREF="../elks/binary_tree_flat.html#f_clone_node">clone_node</A> (n: <B>like</B> <B>Current</B>): <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Clone node </FONT>`n'<FONT COLOR="red">.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            not_void: n /= <B>Void</B>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/binary_tree_flat.html#f_make">make</A> (n.<A HREF="../elks/cell_flat.html#f_item">item</A>)
+            <B>Result</B>.<A HREF="../elks/binary_tree_flat.html#f_copy_node">copy_node</A> (n)
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            result_is_root: <B>Result</B>.<A HREF="../elks/tree_flat.html#f_is_root">is_root</A>
+            result_is_leaf: <B>Result</B>.<A HREF="../elks/binary_tree_flat.html#f_is_leaf">is_leaf</A>
+        <B>end</B></A>
+
+    <A NAME="f_copy_node"><A HREF="../elks/binary_tree_flat.html#f_copy_node">copy_node</A> (n: <B>like</B> <B>Current</B>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy content of </FONT>`n'<FONT COLOR="red"> except tree data into Current.</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            is_root: <A HREF="../elks/tree_flat.html#f_is_root">is_root</A>
+            is_leaf: <A HREF="../elks/binary_tree_flat.html#f_is_leaf">is_leaf</A>
+            not_void: n /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../elks/any_flat.html#f_standard_copy">standard_copy</A> (n)
+            <A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A> := 0
+            <A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A> := <B>Void</B>
+            <A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A> := <B>Void</B>
+            <A HREF="../elks/binary_tree_flat.html#f_parent">parent</A> := <B>Void</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            object_comparison_copied: <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A> = n.<A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A>
+            same_arity: <A HREF="../elks/binary_tree_flat.html#f_arity">arity</A> = <B>old</B> <A HREF="../elks/binary_tree_flat.html#f_arity">arity</A>
+            same_item: <A HREF="../elks/cell_flat.html#f_item">item</A> = <B>old</B> <A HREF="../elks/cell_flat.html#f_item">item</A>
+            result_is_root: <A HREF="../elks/tree_flat.html#f_is_root">is_root</A>
+            result_is_leaf: <A HREF="../elks/binary_tree_flat.html#f_is_leaf">is_leaf</A>
+        <B>end</B></A>
+
+    <A NAME="f_fill_list"><A HREF="../elks/binary_tree_flat.html#f_fill_list">fill_list</A> (al: <A HREF="../elks/arrayed_list_flat.html">ARRAYED_LIST</A> [G])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Fill </FONT>`al'<FONT COLOR="red"> with all the children's items.</FONT>
+        <B>local</B>
+            c: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A>
+        <B>do</B>
+            c := <A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A>
+            <B>if</B> c /= <B>Void</B> <B>then</B>
+                al.<A HREF="../elks/arrayed_list_flat.html#f_extend">extend</A> (c.<A HREF="../elks/cell_flat.html#f_item">item</A>)
+                c.<A HREF="../elks/binary_tree_flat.html#f_fill_list">fill_list</A> (al)
+            <B>end</B>
+            c := <A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A>
+            <B>if</B> c /= <B>Void</B> <B>then</B>
+                al.<A HREF="../elks/arrayed_list_flat.html#f_extend">extend</A> (c.<A HREF="../elks/cell_flat.html#f_item">item</A>)
+                c.<A HREF="../elks/binary_tree_flat.html#f_fill_list">fill_list</A> (al)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_fill_subtree"><A HREF="../elks/binary_tree_flat.html#f_fill_subtree">fill_subtree</A> (other: <A HREF="../elks/tree_flat.html">TREE</A> [G])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy </FONT>`other'<FONT COLOR="red"> to subtree.</FONT>
+        <B>local</B>
+            c: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<B>like</B> <B>Current</B>} other <B>as</B> l_other <B>then</B>
+                <B>if</B> <B>not</B> l_other.<A HREF="../elks/binary_tree_flat.html#f_is_leaf">is_leaf</A> <B>then</B>
+                    c := l_other.<A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A>
+                    <B>if</B> c /= <B>Void</B> <B>then</B>
+                        <A HREF="../elks/binary_tree_flat.html#f_put_left_child">put_left_child</A> (c.<A HREF="../elks/binary_tree_flat.html#f_duplicate_all">duplicate_all</A>)
+                    <B>end</B>
+                <B>end</B>
+                <B>if</B> l_other.<A HREF="../elks/binary_tree_flat.html#f_arity">arity</A> &gt;= 2 <B>then</B>
+                    c := l_other.<A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A>
+                    <B>if</B> c /= <B>Void</B> <B>then</B>
+                        <A HREF="../elks/binary_tree_flat.html#f_put_right_child">put_right_child</A> (c.<A HREF="../elks/binary_tree_flat.html#f_duplicate_all">duplicate_all</A>)
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_new_tree"><A HREF="../elks/binary_tree_flat.html#f_new_tree">new_tree</A>: <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New tree node</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/binary_tree_flat.html#f_make">make</A> (<A HREF="../elks/cell_flat.html#f_item">item</A>)
+            <B>if</B> <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A> <B>then</B>
+                <B>Result</B>.<A HREF="../elks/container_flat.html#f_compare_objects">compare_objects</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_remove"><A HREF="../elks/tree_flat.html#f_remove">remove</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove current item</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/tree_flat.html">TREE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+        <B>end</B></A>
+
+    <A NAME="f_subtree_count"><A HREF="../elks/binary_tree_flat.html#f_subtree_count">subtree_count</A>: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of items in subtree</FONT>
+        <B>local</B>
+            c: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A>
+        <B>do</B>
+            c := <A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A>
+            <B>if</B> c /= <B>Void</B> <B>then</B>
+                <B>Result</B> := c.<A HREF="../elks/tree_flat.html#f_count">count</A>
+            <B>end</B>
+            c := <A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A>
+            <B>if</B> c /= <B>Void</B> <B>then</B>
+                <B>Result</B> := <B>Result</B> + c.<A HREF="../elks/tree_flat.html#f_count">count</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_subtree_has"><A HREF="../elks/binary_tree_flat.html#f_subtree_has">subtree_has</A> (v: G): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does subtree contain </FONT>`v'<FONT COLOR="red">?</FONT>
+        <B>local</B>
+            c: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A>
+        <B>do</B>
+            c := <A HREF="../elks/binary_tree_flat.html#f_left_child">left_child</A>
+            <B>if</B> c /= <B>Void</B> <B>then</B>
+                <B>Result</B> := c.<A HREF="../elks/tree_flat.html#f_has">has</A> (v)
+            <B>end</B>
+            c := <A HREF="../elks/binary_tree_flat.html#f_right_child">right_child</A>
+            <B>if</B> c /= <B>Void</B> <B>and</B> <B>not</B> <B>Result</B> <B>then</B>
+                <B>Result</B> := c.<A HREF="../elks/tree_flat.html#f_has">has</A> (v)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_tree_copy"><A HREF="../elks/tree_flat.html#f_tree_copy">tree_copy</A> (other, tmp_tree: <B>attached</B> <A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A> [G])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Generic implementation of </FONT><A HREF="../elks/tree_flat.html#f_copy">copy</A><FONT COLOR="red">. </FONT>`other'<FONT COLOR="red"> is copied onto</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`Current'<FONT COLOR="red">. </FONT>`tmp_tree'<FONT COLOR="red"> is used as temporary storage during</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> copying. Since it cannot be created locally because of the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> generic implementation, it has to be passed in.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/tree_flat.html">TREE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            other_not_empty: other /= <B>Void</B> <B>and then</B> <B>not</B> other.<A HREF="../elks/tree_flat.html#f_is_empty">is_empty</A>
+            other_not_leaf: <B>not</B> other.<A HREF="../elks/binary_tree_flat.html#f_is_leaf">is_leaf</A>
+            tmp_tree_exists: tmp_tree /= <B>Void</B>
+            same_rule: <A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A> = other.<A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A>
+        <B>local</B>
+            i: <A HREF="../elks/integer_32_flat.html">INTEGER_32</A>
+            p1, p2, node: <B>attached</B> <A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A> [G]
+            c1: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_child">child</A>
+            other_stack, tmp_stack: <A HREF="../elks/linked_stack_flat.html">LINKED_STACK</A> [<B>attached</B> <A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A> [G]]
+            idx_stack, orgidx_stack: <A HREF="../elks/linked_stack_flat.html">LINKED_STACK</A> [<A HREF="../elks/integer_32_flat.html">INTEGER_32</A>]
+        <B>do</B>
+            <B>create</B> other_stack.<A HREF="../elks/linked_list_flat.html#f_make">make</A>
+            <B>create</B> tmp_stack.<A HREF="../elks/linked_list_flat.html#f_make">make</A>
+            <B>create</B> idx_stack.<A HREF="../elks/linked_list_flat.html#f_make">make</A>
+            <B>create</B> orgidx_stack.<A HREF="../elks/linked_list_flat.html#f_make">make</A>
+            <B>if</B> other.<A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A> <B>then</B>
+                tmp_tree.<A HREF="../elks/container_flat.html#f_compare_objects">compare_objects</A>
+            <B>end</B>
+            orgidx_stack.<A HREF="../elks/linked_stack_flat.html#f_put">put</A> (other.<A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A>)
+            <B>from</B>
+                i := 1
+                p1 := other
+                p2 := tmp_tree
+            <B>invariant</B>
+                same_count: other_stack.<A HREF="../elks/linked_list_flat.html#f_count">count</A> = tmp_stack.<A HREF="../elks/linked_list_flat.html#f_count">count</A> <B>and</B> tmp_stack.<A HREF="../elks/linked_list_flat.html#f_count">count</A> = idx_stack.<A HREF="../elks/linked_list_flat.html#f_count">count</A>
+            <B>until</B>
+                i &gt; p1.<A HREF="../elks/binary_tree_flat.html#f_child_capacity">Child_capacity</A> <B>and</B> other_stack.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+            <B>loop</B>
+                p1.<A HREF="../elks/binary_tree_flat.html#f_child_go_i_th">child_go_i_th</A> (i)
+                p2.<A HREF="../elks/binary_tree_flat.html#f_child_go_i_th">child_go_i_th</A> (i)
+                <B>if</B> p1.<A HREF="../elks/tree_flat.html#f_child_readable">child_readable</A> <B>then</B>
+                    <B>check</B>
+                        source_tree_not_void: p1 /= <B>Void</B>
+                        target_tree_not_void: p2 /= <B>Void</B>
+                        source_child_not_void: p1.<A HREF="../elks/binary_tree_flat.html#f_child">child</A> /= <B>Void</B>
+                        target_child_void: p2.<A HREF="../elks/tree_flat.html#f_readable_child">readable_child</A> <B>implies</B> p2.<A HREF="../elks/binary_tree_flat.html#f_child">child</A> = <B>Void</B>
+                    <B>end</B>
+                    c1 := p1.<A HREF="../elks/binary_tree_flat.html#f_child">child</A>
+                    <B>if</B> c1 = <B>Void</B> <B>then</B>
+                        <B>check</B>
+                            source_child_not_void: p1.<A HREF="../elks/binary_tree_flat.html#f_child">child</A> /= <B>Void</B>
+                        <B>end</B>
+                    <B>else</B>
+                        node := <A HREF="../elks/binary_tree_flat.html#f_clone_node">clone_node</A> (c1)
+                        <B>check</B>
+                            not_the_same: node /= p1.<A HREF="../elks/binary_tree_flat.html#f_child">child</A>
+                        <B>end</B>
+                        p2.<A HREF="../elks/binary_tree_flat.html#f_put_child">put_child</A> (node)
+                        <B>check</B>
+                            node_is_child: node = p2.<A HREF="../elks/binary_tree_flat.html#f_child">child</A>
+                            comparison_mode_ok: node.<A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A> = c1.<A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A>
+                            p1_consistent: c1.<A HREF="../elks/tree_flat.html#f_parent">parent</A> = p1
+                            p2_consistent: node.<A HREF="../elks/binary_tree_flat.html#f_parent">parent</A> = p2
+                        <B>end</B>
+                        <B>if</B> <B>not</B> c1.<A HREF="../elks/tree_flat.html#f_is_leaf">is_leaf</A> <B>then</B>
+                            other_stack.<A HREF="../elks/linked_stack_flat.html#f_put">put</A> (p1)
+                            tmp_stack.<A HREF="../elks/linked_stack_flat.html#f_put">put</A> (p2)
+                            idx_stack.<A HREF="../elks/linked_stack_flat.html#f_put">put</A> (i + 1)
+                            p1 := c1
+                            p2 := node
+                            orgidx_stack.<A HREF="../elks/linked_stack_flat.html#f_put">put</A> (p1.<A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A>)
+                            i := 0
+                        <B>end</B>
+                    <B>end</B>
+                <B>end</B>
+                <B>if</B> i &lt;= p1.<A HREF="../elks/binary_tree_flat.html#f_child_capacity">Child_capacity</A> <B>then</B>
+                    i := i + 1
+                <B>else</B>
+                    <B>from</B>
+                    <B>invariant</B>
+                        same_count: other_stack.<A HREF="../elks/linked_list_flat.html#f_count">count</A> = tmp_stack.<A HREF="../elks/linked_list_flat.html#f_count">count</A> <B>and</B> tmp_stack.<A HREF="../elks/linked_list_flat.html#f_count">count</A> = idx_stack.<A HREF="../elks/linked_list_flat.html#f_count">count</A>
+                    <B>until</B>
+                        other_stack.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>or else</B> i &lt;= p1.<A HREF="../elks/binary_tree_flat.html#f_child_capacity">Child_capacity</A>
+                    <B>loop</B>
+                        p1.<A HREF="../elks/binary_tree_flat.html#f_child_go_i_th">child_go_i_th</A> (orgidx_stack.<A HREF="../elks/linked_stack_flat.html#f_item">item</A>)
+                        p2.<A HREF="../elks/binary_tree_flat.html#f_child_go_i_th">child_go_i_th</A> (orgidx_stack.<A HREF="../elks/linked_stack_flat.html#f_item">item</A>)
+                        <B>check</B>
+                            child_indices_equal: p1.<A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A> = p2.<A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A>
+                        <B>end</B>
+                        p1 := other_stack.<A HREF="../elks/linked_stack_flat.html#f_item">item</A>
+                        p2 := tmp_stack.<A HREF="../elks/linked_stack_flat.html#f_item">item</A>
+                        <B>check</B>
+                            p1_not_void: p1 /= <B>Void</B>
+                            p2_not_void: p2 /= <B>Void</B>
+                        <B>end</B>
+                        i := idx_stack.<A HREF="../elks/linked_stack_flat.html#f_item">item</A>
+                        other_stack.<A HREF="../elks/linked_stack_flat.html#f_remove">remove</A>
+                        tmp_stack.<A HREF="../elks/linked_stack_flat.html#f_remove">remove</A>
+                        idx_stack.<A HREF="../elks/linked_stack_flat.html#f_remove">remove</A>
+                        orgidx_stack.<A HREF="../elks/linked_stack_flat.html#f_remove">remove</A>
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+            other.<A HREF="../elks/binary_tree_flat.html#f_child_go_i_th">child_go_i_th</A> (orgidx_stack.<A HREF="../elks/linked_stack_flat.html#f_item">item</A>)
+            tmp_tree.<A HREF="../elks/binary_tree_flat.html#f_child_go_i_th">child_go_i_th</A> (orgidx_stack.<A HREF="../elks/linked_stack_flat.html#f_item">item</A>)
+            orgidx_stack.<A HREF="../elks/linked_stack_flat.html#f_remove">remove</A>
+            <B>check</B>
+                tree_stacks_empty: other_stack.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>and</B> tmp_stack.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+                at_root: p1 = other <B>and</B> p2 = tmp_tree
+                copy_correct: other ~ tmp_tree
+                index_stack_empty: orgidx_stack.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_tree_is_equal"><A HREF="../elks/tree_flat.html#f_tree_is_equal">tree_is_equal</A> (t1, t2: <B>attached</B> <A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A> [G]): <A HREF="../elks/boolean_flat.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are </FONT>`t1'<FONT COLOR="red"> and </FONT>`t2'<FONT COLOR="red"> recursively equal?</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/tree_flat.html">TREE</A><FONT COLOR="red">)</FONT>
+        <B>require</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            trees_exist: t1 /= <B>Void</B> <B>and</B> t2 /= <B>Void</B>
+            trees_not_empty: <B>not</B> t1.<A HREF="../elks/tree_flat.html#f_is_empty">is_empty</A> <B>and</B> <B>not</B> t2.<A HREF="../elks/tree_flat.html#f_is_empty">is_empty</A>
+            same_rule: t1.<A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A> = t2.<A HREF="../elks/container_flat.html#f_object_comparison">object_comparison</A>
+        <B>local</B>
+            p1, p2: <B>attached</B> <A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A> [G]
+            c1, c2: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_child">child</A>
+            t1_stack, t2_stack: <A HREF="../elks/linked_stack_flat.html">LINKED_STACK</A> [<B>attached</B> <A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A> [G]]
+            orgidx1_stack, orgidx2_stack: <A HREF="../elks/linked_stack_flat.html">LINKED_STACK</A> [<A HREF="../elks/integer_32_flat.html">INTEGER_32</A>]
+            l_current_cursor, l_other_cursor: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_child_cursor">child_cursor</A>
+        <B>do</B>
+            l_current_cursor := t1.<A HREF="../elks/binary_tree_flat.html#f_child_cursor">child_cursor</A>
+            l_other_cursor := t2.<A HREF="../elks/binary_tree_flat.html#f_child_cursor">child_cursor</A>
+            <B>if</B> t1.<A HREF="../elks/binary_tree_flat.html#f_is_leaf">is_leaf</A> <B>and</B> t2.<A HREF="../elks/binary_tree_flat.html#f_is_leaf">is_leaf</A> <B>then</B>
+                <B>Result</B> := t1.<A HREF="../elks/cell_flat.html#f_item">item</A> ~ t2.<A HREF="../elks/cell_flat.html#f_item">item</A>
+            <B>elseif</B> t1.<A HREF="../elks/binary_tree_flat.html#f_is_leaf">is_leaf</A> <B>xor</B> t2.<A HREF="../elks/binary_tree_flat.html#f_is_leaf">is_leaf</A> <B>then</B>
+                <B>Result</B> := <B>False</B>
+            <B>else</B>
+                <B>create</B> t1_stack.<A HREF="../elks/linked_list_flat.html#f_make">make</A>
+                <B>create</B> t2_stack.<A HREF="../elks/linked_list_flat.html#f_make">make</A>
+                <B>create</B> orgidx1_stack.<A HREF="../elks/linked_list_flat.html#f_make">make</A>
+                <B>create</B> orgidx2_stack.<A HREF="../elks/linked_list_flat.html#f_make">make</A>
+                orgidx1_stack.<A HREF="../elks/linked_stack_flat.html#f_put">put</A> (t1.<A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A>)
+                orgidx2_stack.<A HREF="../elks/linked_stack_flat.html#f_put">put</A> (t2.<A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A>)
+                <B>from</B>
+                    <B>Result</B> := <B>True</B>
+                    p1 := t1
+                    p2 := t2
+                    p1.<A HREF="../elks/binary_tree_flat.html#f_child_start">child_start</A>
+                    p2.<A HREF="../elks/binary_tree_flat.html#f_child_start">child_start</A>
+                <B>invariant</B>
+                    same_count: t1_stack.<A HREF="../elks/linked_list_flat.html#f_count">count</A> = t2_stack.<A HREF="../elks/linked_list_flat.html#f_count">count</A>
+                <B>until</B>
+                    <B>not</B> <B>Result</B> <B>or else</B> p1.<A HREF="../elks/binary_tree_flat.html#f_child_after">child_after</A> <B>and</B> t1_stack.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+                <B>loop</B>
+                    <B>check</B>
+                        p1_not_void: p1 /= <B>Void</B>
+                        p2_not_void: p2 /= <B>Void</B>
+                    <B>end</B>
+                    <B>if</B> p1.<A HREF="../elks/tree_flat.html#f_child_readable">child_readable</A> <B>and</B> p2.<A HREF="../elks/tree_flat.html#f_child_readable">child_readable</A> <B>and</B> p1.<A HREF="../elks/binary_tree_flat.html#f_child_capacity">Child_capacity</A> = p2.<A HREF="../elks/binary_tree_flat.html#f_child_capacity">Child_capacity</A> <B>then</B>
+                        <B>Result</B> := p1.<A HREF="../elks/tree_flat.html#f_node_is_equal">node_is_equal</A> (p2)
+                        c1 := p1.<A HREF="../elks/binary_tree_flat.html#f_child">child</A>
+                        c2 := p2.<A HREF="../elks/binary_tree_flat.html#f_child">child</A>
+                        <B>if</B> c1 = <B>Void</B> <B>or else</B> c2 = <B>Void</B> <B>then</B>
+                            <B>check</B>
+                                <B>False</B>
+                            <B>end</B>
+                        <B>else</B>
+                            <B>if</B> <B>not</B> (c1.<A HREF="../elks/tree_flat.html#f_is_leaf">is_leaf</A> <B>or</B> c2.<A HREF="../elks/tree_flat.html#f_is_leaf">is_leaf</A>) <B>then</B>
+                                t1_stack.<A HREF="../elks/linked_stack_flat.html#f_put">put</A> (p1)
+                                t2_stack.<A HREF="../elks/linked_stack_flat.html#f_put">put</A> (p2)
+                                p1 := c1
+                                p2 := c2
+                                <B>Result</B> := p1.<A HREF="../elks/tree_flat.html#f_node_is_equal">node_is_equal</A> (p2)
+                                orgidx1_stack.<A HREF="../elks/linked_stack_flat.html#f_put">put</A> (p1.<A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A>)
+                                orgidx2_stack.<A HREF="../elks/linked_stack_flat.html#f_put">put</A> (p2.<A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A>)
+                                p1.<A HREF="../elks/binary_tree_flat.html#f_child_start">child_start</A>
+                                p2.<A HREF="../elks/binary_tree_flat.html#f_child_start">child_start</A>
+                            <B>elseif</B> c1.<A HREF="../elks/tree_flat.html#f_is_leaf">is_leaf</A> <B>xor</B> c2.<A HREF="../elks/tree_flat.html#f_is_leaf">is_leaf</A> <B>then</B>
+                                <B>Result</B> := <B>False</B>
+                            <B>else</B>
+                                <B>Result</B> := c1.<A HREF="../elks/tree_flat.html#f_node_is_equal">node_is_equal</A> (c2)
+                            <B>end</B>
+                        <B>end</B>
+                    <B>elseif</B> p1.<A HREF="../elks/binary_tree_flat.html#f_child_capacity">Child_capacity</A> /= p2.<A HREF="../elks/binary_tree_flat.html#f_child_capacity">Child_capacity</A> <B>or else</B> (p1.<A HREF="../elks/tree_flat.html#f_child_readable">child_readable</A> <B>xor</B> p2.<A HREF="../elks/tree_flat.html#f_child_readable">child_readable</A>) <B>then</B>
+                        <B>Result</B> := <B>False</B>
+                    <B>end</B>
+                    <B>if</B> <B>not</B> p1.<A HREF="../elks/binary_tree_flat.html#f_child_after">child_after</A> <B>then</B>
+                        p1.<A HREF="../elks/binary_tree_flat.html#f_child_forth">child_forth</A>
+                        p2.<A HREF="../elks/binary_tree_flat.html#f_child_forth">child_forth</A>
+                    <B>else</B>
+                        <B>from</B>
+                        <B>invariant</B>
+                            same_count: t1_stack.<A HREF="../elks/linked_list_flat.html#f_count">count</A> = t2_stack.<A HREF="../elks/linked_list_flat.html#f_count">count</A>
+                        <B>until</B>
+                            t1_stack.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>or else</B> <B>not</B> p1.<A HREF="../elks/binary_tree_flat.html#f_child_after">child_after</A>
+                        <B>loop</B>
+                            p1 := t1_stack.<A HREF="../elks/linked_stack_flat.html#f_item">item</A>
+                            p2 := t2_stack.<A HREF="../elks/linked_stack_flat.html#f_item">item</A>
+                            p1.<A HREF="../elks/binary_tree_flat.html#f_child_forth">child_forth</A>
+                            p2.<A HREF="../elks/binary_tree_flat.html#f_child_forth">child_forth</A>
+                            t1_stack.<A HREF="../elks/linked_stack_flat.html#f_remove">remove</A>
+                            t2_stack.<A HREF="../elks/linked_stack_flat.html#f_remove">remove</A>
+                            orgidx1_stack.<A HREF="../elks/linked_stack_flat.html#f_remove">remove</A>
+                            orgidx2_stack.<A HREF="../elks/linked_stack_flat.html#f_remove">remove</A>
+                        <B>end</B>
+                    <B>end</B>
+                <B>end</B>
+                <B>if</B> <B>not</B> <B>Result</B> <B>then</B>
+                    <B>from</B>
+                    <B>invariant</B>
+                        same_count: t1_stack.<A HREF="../elks/linked_list_flat.html#f_count">count</A> = t2_stack.<A HREF="../elks/linked_list_flat.html#f_count">count</A> <B>and</B> orgidx1_stack.<A HREF="../elks/linked_list_flat.html#f_count">count</A> = orgidx2_stack.<A HREF="../elks/linked_list_flat.html#f_count">count</A>
+                    <B>until</B>
+                        orgidx1_stack.<A HREF="../elks/linked_list_flat.html#f_count">count</A> = 1
+                    <B>loop</B>
+                        p1.<A HREF="../elks/binary_tree_flat.html#f_child_go_i_th">child_go_i_th</A> (orgidx1_stack.<A HREF="../elks/linked_stack_flat.html#f_item">item</A>)
+                        p2.<A HREF="../elks/binary_tree_flat.html#f_child_go_i_th">child_go_i_th</A> (orgidx2_stack.<A HREF="../elks/linked_stack_flat.html#f_item">item</A>)
+                        p1 := t1_stack.<A HREF="../elks/linked_stack_flat.html#f_item">item</A>
+                        p2 := t2_stack.<A HREF="../elks/linked_stack_flat.html#f_item">item</A>
+                        <B>check</B>
+                            p1_not_void: p1 /= <B>Void</B>
+                            p2_not_void: p2 /= <B>Void</B>
+                        <B>end</B>
+                        t1_stack.<A HREF="../elks/linked_stack_flat.html#f_remove">remove</A>
+                        t2_stack.<A HREF="../elks/linked_stack_flat.html#f_remove">remove</A>
+                        orgidx1_stack.<A HREF="../elks/linked_stack_flat.html#f_remove">remove</A>
+                        orgidx2_stack.<A HREF="../elks/linked_stack_flat.html#f_remove">remove</A>
+                    <B>end</B>
+                    <B>check</B>
+                        tree_stacks_empty: t1_stack.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>and</B> t2_stack.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+                        at_root: p1 = t1 <B>and</B> p2 = t2
+                        p1_not_void: p1 /= <B>Void</B>
+                        p2_not_void: p2 /= <B>Void</B>
+                    <B>end</B>
+                    p1.<A HREF="../elks/binary_tree_flat.html#f_child_go_i_th">child_go_i_th</A> (orgidx1_stack.<A HREF="../elks/linked_stack_flat.html#f_item">item</A>)
+                    p2.<A HREF="../elks/binary_tree_flat.html#f_child_go_i_th">child_go_i_th</A> (orgidx2_stack.<A HREF="../elks/linked_stack_flat.html#f_item">item</A>)
+                    orgidx1_stack.<A HREF="../elks/linked_stack_flat.html#f_remove">remove</A>
+                    orgidx2_stack.<A HREF="../elks/linked_stack_flat.html#f_remove">remove</A>
+                    <B>check</B>
+                        index_stacks_empty: orgidx1_stack.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A> <B>and</B> orgidx2_stack.<A HREF="../elks/finite_flat.html#f_is_empty">is_empty</A>
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+            t1.<A HREF="../elks/binary_tree_flat.html#f_child_go_to">child_go_to</A> (l_current_cursor)
+            t2.<A HREF="../elks/binary_tree_flat.html#f_child_go_to">child_go_to</A> (l_other_cursor)
+        <B>end</B></A>
+    
+<B>feature</B> {<A HREF="../elks/tree_flat.html">TREE</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_attach_to_parent"><A HREF="../elks/tree_flat.html#f_attach_to_parent">attach_to_parent</A> (n: <B>like</B> <A HREF="../elks/binary_tree_flat.html#f_parent">parent</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make </FONT>`n'<FONT COLOR="red"> parent of current node.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/tree_flat.html">TREE</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <A HREF="../elks/binary_tree_flat.html#f_parent">parent</A> := n
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+            new_parent: <A HREF="../elks/binary_tree_flat.html#f_parent">parent</A> = n
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output</FONT>
+
+    <A NAME="f_io"><A HREF="../elks/any_flat.html#f_io">Io</A>: <A HREF="../elks/std_files_flat.html">STD_FILES</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Handle to standard file setup</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+            <B>Result</B>.<A HREF="../elks/std_files_flat.html#f_set_output_default">set_output_default</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            io_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_out"><A HREF="../elks/any_flat.html#f_out">out</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/any_flat.html#f_tagged_out">tagged_out</A>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            out_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_print"><A HREF="../elks/any_flat.html#f_print">print</A> (o: <B>detachable</B> <A HREF="../elks/any_flat.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write terse external representation of </FONT>`o'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on standard output.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>do</B>
+            <B>if</B> o /= <B>Void</B> <B>then</B>
+                <A HREF="../elks/any_flat.html#f_io">Io</A>.<A HREF="../elks/std_files_flat.html#f_put_string">put_string</A> (o.<A HREF="../elks/any_flat.html#f_out">out</A>)
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_tagged_out"><B>frozen</B> <A HREF="../elks/any_flat.html#f_tagged_out">tagged_out</A>: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> New string containing terse printable representation</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> of current object</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "built_in"
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            tagged_out_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Platform</FONT>
+
+    <A NAME="f_operating_environment"><A HREF="../elks/any_flat.html#f_operating_environment">Operating_environment</A>: <A HREF="../elks/operating_environment_flat.html">OPERATING_ENVIRONMENT</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Objects available from the operating system</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>once</B>
+            <B>create</B> <B>Result</B>
+        <B>ensure</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+            operating_environment_not_void: <B>Result</B> /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieval</FONT>
+
+    <A NAME="f_internal_correct_mismatch"><B>frozen</B> <A HREF="../elks/any_flat.html#f_internal_correct_mismatch">internal_correct_mismatch</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Called from runtime to perform a proper dynamic dispatch on </FONT>`correct_mismatch'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> from MISMATCH_CORRECTOR.</FONT>
+            <FONT COLOR="red">--</FONT> <FONT COLOR="red">(from </FONT><A HREF="../elks/any_flat.html">ANY</A><FONT COLOR="red">)</FONT>
+        <B>local</B>
+            l_msg: <A HREF="../elks/string_8_flat.html">STRING_8</A>
+            l_exc: <A HREF="../elks/exceptions_flat.html">EXCEPTIONS</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<A HREF="../elks/mismatch_corrector_flat.html">MISMATCH_CORRECTOR</A>} <B>Current</B> <B>as</B> l_corrector <B>then</B>
+                l_corrector.<A HREF="../elks/mismatch_corrector_flat.html#f_correct_mismatch">correct_mismatch</A>
+            <B>else</B>
+                <B>create</B> l_msg.<A HREF="../elks/readable_string_8_flat.html#f_make_from_string">make_from_string</A> ("Mismatch: ")
+                <B>create</B> l_exc
+                l_msg.<A HREF="../elks/string_8_flat.html#f_append">append</A> (<A HREF="../elks/any_flat.html#f_generating_type">generating_type</A>.<A HREF="../elks/type_flat.html#f_name">name</A>)
+                l_exc.<A HREF="../elks/exceptions_flat.html#f_raise_retrieval_exception">raise_retrieval_exception</A> (l_msg)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>invariant</B>
+    tree_is_binary: <A HREF="../elks/binary_tree_flat.html#f_child_capacity">Child_capacity</A> = 2
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/any_flat.html">ANY</A>
+    reflexive_equality: <A HREF="../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A> (<B>Current</B>)
+    reflexive_conformance: <A HREF="../elks/any_flat.html#f_conforms_to">conforms_to</A> (<B>Current</B>)
+
+        <FONT COLOR="red">--</FONT> <FONT COLOR="red">from </FONT><A HREF="../elks/tree_flat.html">TREE</A>
+    tree_consistency: <A HREF="../elks/tree_flat.html#f_child_readable">child_readable</A> <B>implies</B> (<B>attached</B> <A HREF="../elks/binary_tree_flat.html#f_child">child</A> <B>as</B> c <B>and then</B> c.<A HREF="../elks/binary_tree_flat.html#f_parent">parent</A> = <B>Current</B>)
+    leaf_definition: <A HREF="../elks/binary_tree_flat.html#f_is_leaf">is_leaf</A> = (<A HREF="../elks/binary_tree_flat.html#f_arity">arity</A> = 0)
+    child_off_definition: <A HREF="../elks/tree_flat.html#f_child_off">child_off</A> = <A HREF="../elks/tree_flat.html#f_child_before">child_before</A> <B>or</B> <A HREF="../elks/binary_tree_flat.html#f_child_after">child_after</A>
+    child_before_definition: <A HREF="../elks/tree_flat.html#f_child_before">child_before</A> = (<A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A> = 0)
+    child_isfirst_definition: <A HREF="../elks/tree_flat.html#f_child_isfirst">child_isfirst</A> = (<B>not</B> <A HREF="../elks/binary_tree_flat.html#f_is_leaf">is_leaf</A> <B>and</B> <A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A> = 1)
+    child_islast_definition: <A HREF="../elks/tree_flat.html#f_child_islast">child_islast</A> = (<B>not</B> <A HREF="../elks/binary_tree_flat.html#f_is_leaf">is_leaf</A> <B>and</B> <A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A> = <A HREF="../elks/binary_tree_flat.html#f_child_capacity">Child_capacity</A>)
+    child_after_definition: <A HREF="../elks/binary_tree_flat.html#f_child_after">child_after</A> = (<A HREF="../elks/binary_tree_flat.html#f_child_index">child_index</A> &gt;= <A HREF="../elks/binary_tree_flat.html#f_child_capacity">Child_capacity</A> + 1)
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/binary_tree_flat.html">BINARY_TREE</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="binary_tree_chart.html">Chart</A></TD><TD><A HREF="binary_tree_links.html">Relations</A></TD><TD><A HREF="binary_tree.html">Text</A></TD><TD>Flat</TD><TD><A HREF="binary_tree_short.html">Contracts</A></TD><TD><A HREF="binary_tree_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

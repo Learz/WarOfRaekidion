@@ -1,0 +1,117 @@
+<HTML><HEAD>
+<meta name="description" content="Structures for which there exists a traversal policy that will visit every element exactly once."/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="names" content="traversable, traversing"/>
+<meta name="access" content="cursor"/>
+<meta name="contents" content="generic"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>traversable Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="traversable_chart.html">Chart</A></TD><TD><A HREF="traversable_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="traversable_flat.html">Flat</A></TD><TD><A HREF="traversable_short.html">Contracts</A></TD><TD><A HREF="traversable_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Structures for which there exists a traversal policy
+        that will visit every element exactly once.
+    ]"
+    library: "Free implementation of ELKS library"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    names: traversable, traversing
+    access: cursor
+    contents: generic
+    date: "$Date: 2012-07-23 14:02:19 -0700 (Mon, 23 Jul 2012) $"
+    revision: "$Revision: 91989 $"
+
+<B>deferred</B> <B>class</B> 
+    <A HREF="../elks/traversable.html">TRAVERSABLE</A> [G]
+
+<B>inherit</B>
+    <A HREF="../elks/container.html">CONTAINER</A> [G]
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_item"><A HREF="../elks/traversable.html#f_item">item</A>: G
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Item at current position</FONT>
+        <B>require</B>
+            not_off: <B>not</B> <A HREF="../elks/traversable.html#f_off">off</A>
+        <B>deferred</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_off"><A HREF="../elks/traversable.html#f_off">off</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there no current item?</FONT>
+        <B>deferred</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Cursor movement</FONT>
+
+    <A NAME="f_start"><A HREF="../elks/traversable.html#f_start">start</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move to first position if any.</FONT>
+        <B>deferred</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Iteration</FONT>
+
+    <A NAME="f_do_all"><A HREF="../elks/traversable.html#f_do_all">do_all</A> (action: <A HREF="../elks/procedure.html">PROCEDURE</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A> [G]])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Apply </FONT>`action'<FONT COLOR="red"> to every item.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Semantics not guaranteed if </FONT>`action'<FONT COLOR="red"> changes the structure;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> in such a case, apply iterator to clone of structure instead.</FONT>
+        <B>require</B>
+            action_exists: action /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../elks/container.html#f_linear_representation">linear_representation</A>.<A HREF="../elks/linear.html#f_do_all">do_all</A> (action)
+        <B>end</B></A>
+
+    <A NAME="f_do_if"><A HREF="../elks/traversable.html#f_do_if">do_if</A> (action: <A HREF="../elks/procedure.html">PROCEDURE</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A> [G]]; test: <A HREF="../elks/function.html">FUNCTION</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A> [G], <A HREF="../elks/boolean.html">BOOLEAN</A>])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Apply </FONT>`action'<FONT COLOR="red"> to every item that satisfies </FONT>`test'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Semantics not guaranteed if </FONT>`action'<FONT COLOR="red"> or </FONT>`test'<FONT COLOR="red"> changes the structure;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> in such a case, apply iterator to clone of structure instead.</FONT>
+        <B>require</B>
+            action_exists: action /= <B>Void</B>
+            test_exists: test /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../elks/container.html#f_linear_representation">linear_representation</A>.<A HREF="../elks/linear.html#f_do_if">do_if</A> (action, test)
+        <B>end</B></A>
+
+    <A NAME="f_there_exists"><A HREF="../elks/traversable.html#f_there_exists">there_exists</A> (test: <A HREF="../elks/function.html">FUNCTION</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A> [G], <A HREF="../elks/boolean.html">BOOLEAN</A>]): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`test'<FONT COLOR="red"> true for at least one item?</FONT>
+        <B>require</B>
+            test_exists: test /= <B>Void</B>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/container.html#f_linear_representation">linear_representation</A>.<A HREF="../elks/linear.html#f_there_exists">there_exists</A> (test)
+        <B>end</B></A>
+
+    <A NAME="f_for_all"><A HREF="../elks/traversable.html#f_for_all">for_all</A> (test: <A HREF="../elks/function.html">FUNCTION</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A> [G], <A HREF="../elks/boolean.html">BOOLEAN</A>]): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`test'<FONT COLOR="red"> true for all items?</FONT>
+        <B>require</B>
+            test_exists: test /= <B>Void</B>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../elks/container.html#f_linear_representation">linear_representation</A>.<A HREF="../elks/linear.html#f_for_all">for_all</A> (test)
+        <B>end</B></A>
+    
+<B>invariant</B>
+    empty_constraint: <A HREF="../elks/container.html#f_is_empty">is_empty</A> <B>implies</B> <A HREF="../elks/traversable.html#f_off">off</A>
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/traversable.html">TRAVERSABLE</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="traversable_chart.html">Chart</A></TD><TD><A HREF="traversable_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="traversable_flat.html">Flat</A></TD><TD><A HREF="traversable_short.html">Contracts</A></TD><TD><A HREF="traversable_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

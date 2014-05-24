@@ -1,0 +1,231 @@
+<HTML><HEAD>
+<meta name="description" content="A network socket address."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2006, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 356 Storke Road, Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>network_socket_address Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="network_socket_address_chart.html">Chart</A></TD><TD><A HREF="network_socket_address_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="network_socket_address_flat.html">Flat</A></TD><TD><A HREF="network_socket_address_short.html">Contracts</A></TD><TD><A HREF="network_socket_address_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "A network socket address."
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2009-05-11 16:41:15 -0700 (Mon, 11 May 2009) $"
+    revision: "$Revision: 78626 $"
+
+<B>class</B> 
+    <A HREF="../network/network_socket_address.html">NETWORK_SOCKET_ADDRESS</A>
+
+<B>inherit</B>
+    <A HREF="../network/inet_address_factory.html">INET_ADDRESS_FACTORY</A>
+        <B>export</B>
+            {NONE} <B>all</B>
+        <B>undefine</B>
+            <A HREF="../abstract/socket_address.html#f_copy">copy</A>,
+            <A HREF="../abstract/socket_address.html#f_is_equal">is_equal</A>,
+            <A HREF="../network/network_socket_address.html#f_get_sock_family">get_sock_family</A>
+        <B>end</B>
+
+    <A HREF="../abstract/socket_resources.html">SOCKET_RESOURCES</A>
+        <B>undefine</B>
+            <A HREF="../abstract/socket_address.html#f_copy">copy</A>,
+            <A HREF="../abstract/socket_address.html#f_is_equal">is_equal</A>
+        <B>end</B>
+
+    <A HREF="../abstract/socket_address.html">SOCKET_ADDRESS</A>
+        <B>rename</B>
+            <A HREF="../abstract/socket_address.html#f_make">make</A> <B>as</B> <A HREF="../abstract/socket_address.html#f_make">socket_address_make</A>
+        <B>redefine</B>
+            <A HREF="../network/network_socket_address.html#f_address_size">address_size</A>,
+            <A HREF="../network/network_socket_address.html#f_set_sock_family">set_sock_family</A>,
+            <A HREF="../network/network_socket_address.html#f_get_sock_family">get_sock_family</A>
+        <B>end</B>
+
+<B>create</B> 
+    <A HREF="../network/network_socket_address.html#f_make_from_hostname_and_port">make_from_hostname_and_port</A>,
+    <A HREF="../network/network_socket_address.html#f_make_from_address_and_port">make_from_address_and_port</A>,
+    <A HREF="../network/network_socket_address.html#f_make_any_local">make_any_local</A>,
+    <A HREF="../network/network_socket_address.html#f_make_localhost">make_localhost</A>,
+    <A HREF="../network/network_socket_address.html#f_make_loopback">make_loopback</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make_from_address_and_port"><A HREF="../network/network_socket_address.html#f_make_from_address_and_port">make_from_address_and_port</A> (an_address: <A HREF="../network/inet_address.html">INET_ADDRESS</A>; a_port: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+        <B>require</B>
+            valid_address: an_address /= <B>Void</B>
+            valid_port: a_port &gt;= 0 <B>and then</B> a_port &lt;= 65535
+        <B>do</B>
+            <A HREF="../abstract/socket_address.html#f_socket_address">socket_address</A> := an_address.<A HREF="../network/inet_address.html#f_sockaddr">sockaddr</A> (a_port)
+        <B>ensure</B>
+            <A HREF="../abstract/socket_address.html#f_socket_address">socket_address</A> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_make_from_hostname_and_port"><A HREF="../network/network_socket_address.html#f_make_from_hostname_and_port">make_from_hostname_and_port</A> (a_hostname: <A HREF="../elks/string_8.html">STRING_8</A>; a_port: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+        <B>require</B>
+            non_void_hostname: a_hostname /= <B>Void</B>
+            valid_port: a_port &gt;= 0 <B>and then</B> a_port &lt;= 65535
+        <B>local</B>
+            addr: <B>detachable</B> <A HREF="../network/inet_address.html">INET_ADDRESS</A>
+            l_socket_address: <B>like</B> <A HREF="../abstract/socket_address.html#f_socket_address">socket_address</A>
+        <B>do</B>
+            addr := <A HREF="../network/inet_address_factory.html#f_create_from_name">create_from_name</A> (a_hostname)
+            <B>if</B> addr /= <B>Void</B> <B>then</B>
+                l_socket_address := addr.<A HREF="../network/inet_address.html#f_sockaddr">sockaddr</A> (a_port)
+            <B>else</B>
+                <B>create</B> l_socket_address.<A HREF="../elks/managed_pointer.html#f_make">make</A> (<A HREF="../network/network_socket_address.html#f_address_size">address_size</A>)
+            <B>end</B>
+            <A HREF="../abstract/socket_address.html#f_socket_address">socket_address</A> := l_socket_address
+        <B>ensure</B>
+            <A HREF="../abstract/socket_address.html#f_socket_address">socket_address</A> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_make_any_local"><A HREF="../network/network_socket_address.html#f_make_any_local">make_any_local</A> (a_port: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+        <B>local</B>
+            addr: <A HREF="../network/inet_address.html">INET_ADDRESS</A>
+        <B>do</B>
+            addr := <A HREF="../network/inet_address_factory.html#f_create_any_local">create_any_local</A>
+            <A HREF="../abstract/socket_address.html#f_socket_address">socket_address</A> := addr.<A HREF="../network/inet_address.html#f_sockaddr">sockaddr</A> (a_port)
+        <B>ensure</B>
+            <A HREF="../abstract/socket_address.html#f_socket_address">socket_address</A> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_make_localhost"><A HREF="../network/network_socket_address.html#f_make_localhost">make_localhost</A> (a_port: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+        <B>local</B>
+            addr: <A HREF="../network/inet_address.html">INET_ADDRESS</A>
+        <B>do</B>
+            addr := <A HREF="../network/inet_address_factory.html#f_create_localhost">create_localhost</A>
+            <A HREF="../abstract/socket_address.html#f_socket_address">socket_address</A> := addr.<A HREF="../network/inet_address.html#f_sockaddr">sockaddr</A> (a_port)
+        <B>end</B></A>
+
+    <A NAME="f_make_loopback"><A HREF="../network/network_socket_address.html#f_make_loopback">make_loopback</A> (a_port: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+        <B>local</B>
+            addr: <A HREF="../network/inet_address.html">INET_ADDRESS</A>
+        <B>do</B>
+            addr := <A HREF="../network/inet_address_factory.html#f_create_loopback">create_loopback</A>
+            <A HREF="../abstract/socket_address.html#f_socket_address">socket_address</A> := addr.<A HREF="../network/inet_address.html#f_sockaddr">sockaddr</A> (a_port)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_port"><A HREF="../network/network_socket_address.html#f_port">port</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Port number</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../network/network_socket_address.html#f_get_sock_port">get_sock_port</A> (<A HREF="../abstract/socket_address.html#f_socket_address">socket_address</A>.<A HREF="../elks/managed_pointer.html#f_item">item</A>)
+        <B>end</B></A>
+
+    <A NAME="f_host_address"><A HREF="../network/network_socket_address.html#f_host_address">host_address</A>: <A HREF="../network/inet_address.html">INET_ADDRESS</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Host address of address</FONT>
+        <B>local</B>
+            l_address: <B>detachable</B> <A HREF="../network/inet_address.html">INET_ADDRESS</A>
+        <B>do</B>
+            l_address := <A HREF="../network/inet_address_factory.html#f_create_from_sockaddr">create_from_sockaddr</A> (<A HREF="../abstract/socket_address.html#f_socket_address">socket_address</A>.<A HREF="../elks/managed_pointer.html#f_item">item</A>)
+            <B>check</B>
+                l_address_attached: l_address /= <B>Void</B>
+            <B>end</B>
+            <B>Result</B> := l_address
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT>
+
+    <A NAME="f_is_valid_host"><A HREF="../network/network_socket_address.html#f_is_valid_host">is_valid_host</A> (hostname: <A HREF="../elks/string_8.html">STRING_8</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>require</B>
+            hostname_not_void: hostname /= <B>Void</B>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../network/inet_address_factory.html#f_create_from_name">create_from_name</A> (hostname) /= <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status setting</FONT>
+
+    <A NAME="f_set_port_from_name"><A HREF="../network/network_socket_address.html#f_set_port_from_name">set_port_from_name</A> (a_name, protocol: <A HREF="../elks/string_8.html">STRING_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set port number using </FONT>`a_name'<FONT COLOR="red"> and </FONT>`protocol'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to refer into the (local) services file.</FONT>
+        <B>local</B>
+            ext1, ext: <A HREF="../elks/c_string.html">C_STRING</A>
+            return: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>create</B> ext1.<A HREF="../elks/c_string.html#f_make">make</A> (a_name)
+            <B>create</B> ext.<A HREF="../elks/c_string.html#f_make">make</A> (protocol)
+            return := <A HREF="../network/network_socket_address.html#f_get_servent_port">get_servent_port</A> (ext1.<A HREF="../elks/c_string.html#f_item">item</A>, ext.<A HREF="../elks/c_string.html#f_item">item</A>)
+            <A HREF="../network/network_socket_address.html#f_set_port">set_port</A> (return)
+        <B>end</B></A>
+
+    <A NAME="f_set_port"><A HREF="../network/network_socket_address.html#f_set_port">set_port</A> (p: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set port to </FONT>`p'<FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../network/network_socket_address.html#f_set_sock_port">set_sock_port</A> (<A HREF="../abstract/socket_address.html#f_socket_address">socket_address</A>.<A HREF="../elks/managed_pointer.html#f_item">item</A>, p)
+        <B>end</B></A>
+
+    <A NAME="f_set_host_address"><A HREF="../network/network_socket_address.html#f_set_host_address">set_host_address</A> (a_host_address: <A HREF="../network/inet_address.html">INET_ADDRESS</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set host address to </FONT>`a_host_address'
+        <B>do</B>
+            <A HREF="../network/network_socket_address.html#f_make_from_address_and_port">make_from_address_and_port</A> (a_host_address, <A HREF="../network/network_socket_address.html#f_port">port</A>)
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> External</FONT>
+
+    <A NAME="f_address_size"><A HREF="../network/network_socket_address.html#f_address_size">address_size</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Size of address in bytes.</FONT>
+        <B>external</B>
+            "C"
+        <B>alias</B>
+            "inet_address_size"
+        <B>end</B></A>
+
+    <A NAME="f_set_sock_family"><A HREF="../network/network_socket_address.html#f_set_sock_family">set_sock_family</A> (address: <A HREF="../elks/pointer.html">POINTER</A>; a_family: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set the family in the address structure.</FONT>
+        <B>external</B>
+            "C"
+        <B>alias</B>
+            "en_sockaddr_set_family"
+        <B>end</B></A>
+
+    <A NAME="f_get_sock_family"><A HREF="../network/network_socket_address.html#f_get_sock_family">get_sock_family</A> (address: <A HREF="../elks/pointer.html">POINTER</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Get the family from the address structure.</FONT>
+        <B>external</B>
+            "C"
+        <B>alias</B>
+            "en_sockaddr_get_family"
+        <B>end</B></A>
+
+    <A NAME="f_set_sock_port"><A HREF="../network/network_socket_address.html#f_set_sock_port">set_sock_port</A> (address: <A HREF="../elks/pointer.html">POINTER</A>; a_port: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set the port in the address structure.</FONT>
+        <B>external</B>
+            "C"
+        <B>alias</B>
+            "en_sockaddr_set_port"
+        <B>end</B></A>
+
+    <A NAME="f_get_sock_port"><A HREF="../network/network_socket_address.html#f_get_sock_port">get_sock_port</A> (address: <A HREF="../elks/pointer.html">POINTER</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Get the port from the address structure.</FONT>
+        <B>external</B>
+            "C"
+        <B>alias</B>
+            "en_sockaddr_get_port"
+        <B>end</B></A>
+
+    <A NAME="f_get_servent_port"><A HREF="../network/network_socket_address.html#f_get_servent_port">get_servent_port</A> (name, proto: <A HREF="../elks/pointer.html">POINTER</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Get the services entry using </FONT>`name'<FONT COLOR="red"> and </FONT>`proto'
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2006, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        356 Storke Road, Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../network/network_socket_address.html">NETWORK_SOCKET_ADDRESS</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="network_socket_address_chart.html">Chart</A></TD><TD><A HREF="network_socket_address_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="network_socket_address_flat.html">Flat</A></TD><TD><A HREF="network_socket_address_short.html">Contracts</A></TD><TD><A HREF="network_socket_address_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

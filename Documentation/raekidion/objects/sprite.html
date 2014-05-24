@@ -1,0 +1,120 @@
+<HTML><HEAD>
+<meta name="description" content="War of Raekidion - A 2D sprite A {SPRITE} is a movable and animable image."/>
+<meta name="author" content="François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>sprite Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sprite_chart.html">Chart</A></TD><TD><A HREF="sprite_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="sprite_flat.html">Flat</A></TD><TD><A HREF="sprite_short.html">Contracts</A></TD><TD><A HREF="sprite_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        War of Raekidion - A 2D sprite
+        A <A HREF="../../raekidion/objects/sprite.html">SPRITE</A> is a movable and animable image.
+    ]"
+    author: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
+    date: "$Date$"
+    revision: "$Revision$"
+
+<B>class</B> 
+    <A HREF="../../raekidion/objects/sprite.html">SPRITE</A>
+
+<B>inherit</B>
+    <A HREF="../../raekidion/objects/surface.html">SURFACE</A>
+
+    <A HREF="../../raekidion/objects/image_factory_shared.html">IMAGE_FACTORY_SHARED</A>
+
+<B>create</B> 
+    <A HREF="../../raekidion/objects/sprite.html#f_make">make</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../../raekidion/objects/sprite.html#f_make">make</A> (a_name: <A HREF="../../elks/string_8.html">STRING_8</A>; a_window: <A HREF="../../raekidion/objects/window.html">WINDOW</A>; a_x, a_y: <A HREF="../../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize </FONT>`Current'<FONT COLOR="red"> from </FONT>`a_name'<FONT COLOR="red">, </FONT>`a_window'<FONT COLOR="red">, </FONT>`a_x'<FONT COLOR="red"> and </FONT>`a_y'
+        <B>do</B>
+            <A HREF="../../raekidion/objects/surface.html#f_targetarea">targetarea</A> := <A HREF="../../raekidion/objects/surface.html#f_targetarea">targetarea</A>.<A HREF="../../elks/pointer_ref.html#f_memory_alloc">memory_alloc</A> ({<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_sizeof_sdl_rect_struct">sizeof_sdl_rect_struct</A>)
+            <A HREF="../../raekidion/objects/surface.html#f_window">window</A> := a_window
+            <A HREF="../../raekidion/objects/sprite.html#f_default_image">default_image</A> := a_name
+            <A HREF="../../raekidion/objects/sprite.html#f_current_image">current_image</A> := ""
+            <A HREF="../../raekidion/objects/sprite.html#f_factory">factory</A> := <A HREF="../../raekidion/objects/image_factory_shared.html#f_image_factory">Image_factory</A>
+            <A HREF="../../raekidion/objects/surface.html#f_renderer">renderer</A> := a_window.<A HREF="../../raekidion/objects/window.html#f_renderer">renderer</A>
+            <A HREF="../../raekidion/objects/sprite.html#f_set_image">set_image</A> (a_name)
+            <A HREF="../../raekidion/objects/surface.html#f_set_x">set_x</A> (a_x)
+            <A HREF="../../raekidion/objects/surface.html#f_set_y">set_y</A> (a_y)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_angle"><A HREF="../../raekidion/objects/sprite.html#f_angle">angle</A>: <A HREF="../../elks/real_64.html">REAL_64</A></A>
+
+    <A NAME="f_default_image"><A HREF="../../raekidion/objects/sprite.html#f_default_image">default_image</A>: <A HREF="../../elks/string_8.html">STRING_8</A></A>
+
+    <A NAME="f_current_image"><A HREF="../../raekidion/objects/sprite.html#f_current_image">current_image</A>: <A HREF="../../elks/string_8.html">STRING_8</A></A>
+
+    <A NAME="f_update"><A HREF="../../raekidion/objects/sprite.html#f_update">update</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Update </FONT>`Current'<FONT COLOR="red"> on screen</FONT>
+        <B>do</B>
+            <B>if</B> <B>not</B> <A HREF="../../raekidion/objects/surface.html#f_hidden">hidden</A> <B>then</B>
+                {<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_sdl_rendercopyex">sdl_rendercopyex</A> (<A HREF="../../raekidion/objects/surface.html#f_renderer">renderer</A>, <A HREF="../../raekidion/objects/surface.html#f_texture">texture</A>, <B>create</B> {<A HREF="../../elks/pointer.html">POINTER</A>}, <A HREF="../../raekidion/objects/surface.html#f_targetarea">targetarea</A>, <A HREF="../../raekidion/objects/sprite.html#f_angle">angle</A>, <B>create</B> {<A HREF="../../elks/pointer.html">POINTER</A>}, {<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_sdl_flip_none">sdl_flip_none</A>)
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_reset_image"><A HREF="../../raekidion/objects/sprite.html#f_reset_image">reset_image</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Reset </FONT><A HREF="../../raekidion/objects/sprite.html#f_current_image">current_image</A><FONT COLOR="red"> to </FONT><A HREF="../../raekidion/objects/sprite.html#f_default_image">default_image</A>
+        <B>do</B>
+            <A HREF="../../raekidion/objects/sprite.html#f_set_image">set_image</A> (<A HREF="../../raekidion/objects/sprite.html#f_default_image">default_image</A>)
+        <B>end</B></A>
+
+    <A NAME="f_set_image"><A HREF="../../raekidion/objects/sprite.html#f_set_image">set_image</A> (a_name: <A HREF="../../elks/string_8.html">STRING_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set </FONT><A HREF="../../raekidion/objects/sprite.html#f_current_image">current_image</A><FONT COLOR="red"> to </FONT>`a_name'
+        <B>local</B>
+            l_retries: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>if</B> l_retries &lt; 2 <B>then</B>
+                <B>if</B> a_name /= <A HREF="../../raekidion/objects/sprite.html#f_current_image">current_image</A> <B>then</B>
+                    <A HREF="../../raekidion/objects/sprite.html#f_image">image</A> := <A HREF="../../raekidion/objects/sprite.html#f_factory">factory</A>.<A HREF="../../raekidion/objects/image_factory.html#f_image">image</A> (a_name)
+                    <B>if</B> <B>not</B> <A HREF="../../raekidion/objects/sprite.html#f_image">image</A>.<A HREF="../../elks/pointer.html#f_is_default_pointer">is_default_pointer</A> <B>then</B>
+                        <A HREF="../../raekidion/objects/surface.html#f_set_x">set_x</A> (<A HREF="../../raekidion/objects/surface.html#f_x">x</A>)
+                        <A HREF="../../raekidion/objects/surface.html#f_set_y">set_y</A> (<A HREF="../../raekidion/objects/surface.html#f_y">y</A>)
+                        <A HREF="../../raekidion/objects/surface.html#f_set_width">set_width</A> ({<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_get_sdl_loadbmp_width">get_sdl_loadbmp_width</A> (<A HREF="../../raekidion/objects/sprite.html#f_image">image</A>))
+                        <A HREF="../../raekidion/objects/surface.html#f_set_height">set_height</A> ({<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_get_sdl_loadbmp_height">get_sdl_loadbmp_height</A> (<A HREF="../../raekidion/objects/sprite.html#f_image">image</A>))
+                        {<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_sdl_destroytexture">sdl_destroytexture</A> (<A HREF="../../raekidion/objects/surface.html#f_texture">texture</A>)
+                        <A HREF="../../raekidion/objects/surface.html#f_texture">texture</A> := {<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_sdl_createtexturefromsurface">sdl_createtexturefromsurface</A> (<A HREF="../../raekidion/objects/surface.html#f_renderer">renderer</A>, <A HREF="../../raekidion/objects/sprite.html#f_image">image</A>)
+                        <A HREF="../../raekidion/objects/sprite.html#f_current_image">current_image</A> := a_name
+                    <B>else</B>
+                        <A HREF="../../raekidion/objects/surface.html#f_set_x">set_x</A> (<A HREF="../../raekidion/objects/surface.html#f_x">x</A>)
+                        <A HREF="../../raekidion/objects/surface.html#f_set_y">set_y</A> (<A HREF="../../raekidion/objects/surface.html#f_y">y</A>)
+                        <A HREF="../../raekidion/objects/surface.html#f_set_width">set_width</A> (0)
+                        <A HREF="../../raekidion/objects/surface.html#f_set_height">set_height</A> (0)
+                        <A HREF="../../raekidion/objects/surface.html#f_texture">texture</A> := <B>create</B> {<A HREF="../../elks/pointer.html">POINTER</A>}
+                        <A HREF="../../raekidion/objects/sprite.html#f_current_image">current_image</A> := ""
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>rescue</B>
+            l_retries := l_retries + 1
+            <B>retry</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_image"><A HREF="../../raekidion/objects/sprite.html#f_image">image</A>: <A HREF="../../elks/pointer.html">POINTER</A></A>
+
+    <A NAME="f_factory"><A HREF="../../raekidion/objects/sprite.html#f_factory">factory</A>: <A HREF="../../raekidion/objects/image_factory.html">IMAGE_FACTORY</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The image factory containing all loaded images</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Free the rectangle and texture from memory</FONT>
+
+    <A NAME="f_dispose"><A HREF="../../raekidion/objects/sprite.html#f_dispose">dispose</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Free the rectangle and texture from memory</FONT>
+        <B>do</B>
+            {<A HREF="../../raekidion/wrapper/sdl.html">SDL</A>}.<A HREF="../../raekidion/wrapper/sdl.html#f_sdl_destroytexture">sdl_destroytexture</A> (<A HREF="../../raekidion/objects/surface.html#f_texture">texture</A>)
+            <A HREF="../../raekidion/objects/surface.html#f_targetarea">targetarea</A>.<A HREF="../../elks/pointer_ref.html#f_memory_free">memory_free</A>
+        <B>end</B></A>
+    
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../../raekidion/objects/sprite.html">SPRITE</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sprite_chart.html">Chart</A></TD><TD><A HREF="sprite_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="sprite_flat.html">Flat</A></TD><TD><A HREF="sprite_short.html">Contracts</A></TD><TD><A HREF="sprite_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

@@ -1,0 +1,102 @@
+<HTML><HEAD>
+<meta name="description" content="Summary description for {HIGHSCORE}."/>
+<meta name="author" content=""/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>highscore Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="highscore_chart.html">Chart</A></TD><TD><A HREF="highscore_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="highscore_flat.html">Flat</A></TD><TD><A HREF="highscore_short.html">Contracts</A></TD><TD><A HREF="highscore_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Summary description for {<A HREF="../../raekidion/network/highscore.html">HIGHSCORE</A>}."
+    author: ""
+    date: "$Date$"
+    revision: "$Revision$"
+
+<B>class</B> 
+    <A HREF="../../raekidion/network/highscore.html">HIGHSCORE</A>
+
+<B>inherit</B>
+    <A HREF="../../raekidion/network/database_manager_shared.html">DATABASE_MANAGER_SHARED</A>
+
+<B>create</B> 
+    <A HREF="../../raekidion/network/highscore.html#f_make">make</A>
+
+<B>feature</B> {NONE} 
+
+    <A NAME="f_make"><A HREF="../../raekidion/network/highscore.html#f_make">make</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize </FONT>`Current'
+        <B>do</B>
+            <A HREF="../../raekidion/network/highscore.html#f_database">database</A> := <A HREF="../../raekidion/network/database_manager_shared.html#f_connexion">Connexion</A>.<A HREF="../../raekidion/network/database_manager.html#f_database">database</A>
+            <B>create</B> <A HREF="../../raekidion/network/highscore.html#f_highscores_list">highscores_list</A>.<A HREF="../../elks/linked_list.html#f_make">make</A>
+            <B>if</B> <A HREF="../../raekidion/network/highscore.html#f_highscores">highscores</A> (1).<A HREF="../../elks/linked_list.html#f_count">count</A> = 0 <B>then</B>
+                <A HREF="../../raekidion/network/highscore.html#f_fill_default_highscores">fill_default_highscores</A>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> 
+
+    <A NAME="f_highscores"><A HREF="../../raekidion/network/highscore.html#f_highscores">highscores</A> (a_number: <A HREF="../../elks/integer_32.html">INTEGER_32</A>): <A HREF="../../elks/linked_list.html">LINKED_LIST</A> [<A HREF="../../elks/tuple.html">TUPLE</A> [<A HREF="../../elks/string_8.html">STRING_8</A>, <A HREF="../../elks/integer_32.html">INTEGER_32</A>]]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Return the best </FONT>`a_number'<FONT COLOR="red"> scores from </FONT><A HREF="../../raekidion/network/highscore.html#f_database">database</A>
+        <B>local</B>
+            l_query: <A HREF="../../sqlite/sqlite_query_statement.html">SQLITE_QUERY_STATEMENT</A>
+        <B>do</B>
+            <A HREF="../../raekidion/network/highscore.html#f_highscores_list">highscores_list</A>.<A HREF="../../elks/linked_list.html#f_wipe_out">wipe_out</A>
+            <B>create</B> l_query.<A HREF="../../sqlite/sqlite_statement.html#f_make">make</A> ("SELECT name, score FROM scores ORDER BY score DESC LIMIT ?1;", <A HREF="../../raekidion/network/highscore.html#f_database">database</A>)
+            <B>check</B>
+                l_query_is_compiled: l_query.<A HREF="../../sqlite/sqlite_statement.html#f_is_compiled">is_compiled</A>
+            <B>end</B>
+            l_query.<A HREF="../../sqlite/sqlite_query_statement.html#f_execute_with_arguments">execute_with_arguments</A> (<B>agent</B> <A HREF="../../raekidion/network/highscore.html#f_fill_highscores">fill_highscores</A>, [a_number])
+            <B>Result</B> := <A HREF="../../raekidion/network/highscore.html#f_highscores_list">highscores_list</A>
+        <B>end</B></A>
+    
+<B>feature</B> 
+
+    <A NAME="f_set_highscore"><A HREF="../../raekidion/network/highscore.html#f_set_highscore">set_highscore</A> (a_name: <A HREF="../../elks/string_8.html">STRING_8</A>; a_score: <A HREF="../../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Add a score to </FONT><A HREF="../../raekidion/network/highscore.html#f_database">database</A><FONT COLOR="red"> in the form of </FONT>`a_name'<FONT COLOR="red"> and </FONT>`a_score'
+        <B>local</B>
+            l_insert: <A HREF="../../sqlite/sqlite_insert_statement.html">SQLITE_INSERT_STATEMENT</A>
+        <B>do</B>
+            <B>create</B> l_insert.<A HREF="../../sqlite/sqlite_statement.html#f_make">make</A> ("INSERT INTO scores (name, score) VALUES (?1, ?2);", <A HREF="../../raekidion/network/highscore.html#f_database">database</A>)
+            <B>check</B>
+                l_insert_is_compiled: l_insert.<A HREF="../../sqlite/sqlite_statement.html#f_is_compiled">is_compiled</A>
+            <B>end</B>
+            <A HREF="../../raekidion/network/highscore.html#f_database">database</A>.<A HREF="../../sqlite/sqlite_database.html#f_begin_transaction">begin_transaction</A> (<B>False</B>)
+            l_insert.<A HREF="../../sqlite/sqlite_modify_statement.html#f_execute_with_arguments">execute_with_arguments</A> ([a_name, a_score])
+            <A HREF="../../raekidion/network/highscore.html#f_database">database</A>.<A HREF="../../sqlite/sqlite_database.html#f_commit">commit</A>
+        <B>end</B></A>
+
+    <A NAME="f_fill_default_highscores"><A HREF="../../raekidion/network/highscore.html#f_fill_default_highscores">fill_default_highscores</A>
+        <B>do</B>
+            <A HREF="../../raekidion/network/highscore.html#f_set_highscore">set_highscore</A> ("AAA", 500000)
+            <A HREF="../../raekidion/network/highscore.html#f_set_highscore">set_highscore</A> ("AAA", 250000)
+            <A HREF="../../raekidion/network/highscore.html#f_set_highscore">set_highscore</A> ("AAA", 100000)
+            <A HREF="../../raekidion/network/highscore.html#f_set_highscore">set_highscore</A> ("AAA", 50000)
+            <A HREF="../../raekidion/network/highscore.html#f_set_highscore">set_highscore</A> ("AAA", 25000)
+            <A HREF="../../raekidion/network/highscore.html#f_set_highscore">set_highscore</A> ("AAA", 10000)
+            <A HREF="../../raekidion/network/highscore.html#f_set_highscore">set_highscore</A> ("AAA", 5000)
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} 
+
+    <A NAME="f_database"><A HREF="../../raekidion/network/highscore.html#f_database">database</A>: <A HREF="../../sqlite/sqlite_database.html">SQLITE_DATABASE</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_highscores_list"><A HREF="../../raekidion/network/highscore.html#f_highscores_list">highscores_list</A>: <A HREF="../../elks/linked_list.html">LINKED_LIST</A> [<A HREF="../../elks/tuple.html">TUPLE</A> [<A HREF="../../elks/string_8.html">STRING_8</A>, <A HREF="../../elks/integer_32.html">INTEGER_32</A>]]</A>
+
+    <A NAME="f_fill_highscores"><A HREF="../../raekidion/network/highscore.html#f_fill_highscores">fill_highscores</A> (a_row: <A HREF="../../sqlite/sqlite_result_row.html">SQLITE_RESULT_ROW</A>): <A HREF="../../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The list of highscores</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Fill </FONT><A HREF="../../raekidion/network/highscore.html#f_highscores_list">highscores_list</A><FONT COLOR="red"> with </FONT><A HREF="../../raekidion/network/highscore.html#f_highscores">highscores</A>
+        <B>do</B>
+            <A HREF="../../raekidion/network/highscore.html#f_highscores_list">highscores_list</A>.<A HREF="../../elks/linked_list.html#f_finish">finish</A>
+            <A HREF="../../raekidion/network/highscore.html#f_highscores_list">highscores_list</A>.<A HREF="../../elks/linked_list.html#f_extend">extend</A> ([a_row.<A HREF="../../sqlite/sqlite_result_row.html#f_string_value">string_value</A> (1.<A HREF="../../elks/integer_32_ref.html#f_to_natural_32">to_natural_32</A>), a_row.<A HREF="../../sqlite/sqlite_result_row.html#f_integer_value">integer_value</A> (2.<A HREF="../../elks/integer_32_ref.html#f_to_natural_32">to_natural_32</A>)])
+        <B>end</B></A>
+    
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../../raekidion/network/highscore.html">HIGHSCORE</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="highscore_chart.html">Chart</A></TD><TD><A HREF="highscore_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="highscore_flat.html">Flat</A></TD><TD><A HREF="highscore_short.html">Contracts</A></TD><TD><A HREF="highscore_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

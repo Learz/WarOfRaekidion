@@ -1,12 +1,12 @@
 note
 	description : "[
-						War of Raekidion - A simple 2D vector
-						A {VECTOR} stores X and Y coordinates relative to a (0,0) origin, 
-						and the angle and distance from the two points (force).
-					]"
+					War of Raekidion - A simple 2D vector
+					A {VECTOR} stores X and Y coordinates relative to a (0,0) origin, 
+					and the angle and distance from the two points (force).
+				]"
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
-	date		: "$Date$"
-	revision	: "$Revision$"
+	date		: "$Date: May 23 2014$"
+	revision	: "$Revision: 1$"
 
 class
 	VECTOR
@@ -287,5 +287,13 @@ feature {NONE} -- Implementation
 			angle := angle_from_x_y (a_x, a_y)
 			force := force_from_x_y (a_x, a_y)
 		end
+
+note
+	copyright: "[
+				War of Raekidion
+				Copyright (C) 2014 François Allard <binarmorker@gmail.com>
+             		   		   and Marc-Antoine Renaud <legars123456@gmail.com>
+               ]"
+	license:   "GNU General Public License, <http://www.gnu.org/licenses/>"
 
 end

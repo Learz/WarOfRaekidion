@@ -1,0 +1,1123 @@
+<HTML><HEAD>
+<meta name="description" content="Execution recorder"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="library" content="EiffelBase: Library of reusable components for Eiffel."/>
+<meta name="copyright" content="Copyright (c) 1984-2008, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 356 Storke Road, Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>rt_dbg_execution_recorder Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="rt_dbg_execution_recorder_chart.html">Chart</A></TD><TD><A HREF="rt_dbg_execution_recorder_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="rt_dbg_execution_recorder_flat.html">Flat</A></TD><TD><A HREF="rt_dbg_execution_recorder_short.html">Contracts</A></TD><TD><A HREF="rt_dbg_execution_recorder_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Execution recorder"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2013-05-20 16:15:17 -0700 (Mon, 20 May 2013) $"
+    revision: "$Revision: 92557 $"
+
+<B>class</B> 
+    <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html">RT_DBG_EXECUTION_RECORDER</A>
+
+<B>inherit</B>
+    <A HREF="../../ise/debug_implementation/rt_dbg_common.html">RT_DBG_COMMON</A>
+
+    <A HREF="../../ise/debug_implementation/rt_dbg_internal.html">RT_DBG_INTERNAL</A>
+        <B>export</B>
+            {NONE} <B>all</B>
+        <B>end</B>
+
+<B>create</B> {<A HREF="../../ise/debug_implementation/rt_extension.html">RT_EXTENSION</A>}
+    <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_make">make</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_make">make</A> (p: <A HREF="../../ise/debug_implementation/rt_dbg_execution_parameters.html">RT_DBG_EXECUTION_PARAMETERS</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Creation of Current object</FONT>
+        <B>require</B>
+            p_attached: p /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_update_parameters">update_parameters</A> (p)
+        <B>end</B></A>
+    
+<B>feature</B> {<A HREF="../../ise/debug_implementation/rt_extension.html">RT_EXTENSION</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Change</FONT>
+
+    <A NAME="f_update_parameters"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_update_parameters">update_parameters</A> (p: <A HREF="../../ise/debug_implementation/rt_dbg_execution_parameters.html">RT_DBG_EXECUTION_PARAMETERS</A>)
+        <B>require</B>
+            p_attached: p /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_maximum_record_count">maximum_record_count</A> := p.<A HREF="../../ise/debug_implementation/rt_dbg_execution_parameters.html#f_maximum_record_count">maximum_record_count</A>
+            <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_flatten_when_closing">flatten_when_closing</A> := p.<A HREF="../../ise/debug_implementation/rt_dbg_execution_parameters.html#f_flatten_when_closing">flatten_when_closing</A>
+            <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_keep_calls_records">keep_calls_records</A> := p.<A HREF="../../ise/debug_implementation/rt_dbg_execution_parameters.html#f_keep_calls_records">keep_calls_records</A>
+            <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_recording_values">recording_values</A> := p.<A HREF="../../ise/debug_implementation/rt_dbg_execution_parameters.html#f_recording_values">recording_values</A>
+        <B>end</B></A>
+
+    <A NAME="f_start_recording"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_start_recording">start_recording</A> (ref: <A HREF="../../elks/any.html">ANY</A>; cid: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; fid: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_break_index: <A HREF="../../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Start recording and</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize recording with effective information.</FONT>
+        <B>require</B>
+            ref_attached: ref /= <B>Void</B>
+            top_callstack_record_is_void: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_top_callstack_record">top_callstack_record</A> = <B>Void</B>
+            bottom_callstack_record_is_void: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_bottom_callstack_record">bottom_callstack_record</A> = <B>Void</B>
+        <B>local</B>
+            r: <B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_bottom_callstack_record">bottom_callstack_record</A>
+        <B>do</B>
+            <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_record_count">record_count</A> := 0
+            <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_bottom_callstack_record">bottom_callstack_record</A> := <B>Void</B>
+            <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_top_callstack_record">top_callstack_record</A> := <B>Void</B>
+            <B>check</B>
+                callstack_records_are_void: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_top_callstack_record">top_callstack_record</A> = <B>Void</B> <B>and</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_bottom_callstack_record">bottom_callstack_record</A> = <B>Void</B>
+            <B>end</B>
+            <B>debug</B> ("rt_dbg_record")
+                <A HREF="../../elks/any.html#f_print">print</A> ("Start_recording  (")
+                <A HREF="../../elks/any.html#f_io">Io</A>.<A HREF="../../elks/std_files.html#f_put_string">put_string</A> ("ref=")
+                <A HREF="../../elks/any.html#f_io">Io</A>.<A HREF="../../elks/std_files.html#f_put_string">put_string</A> (($ref).<A HREF="../../elks/pointer_ref.html#f_out">out</A>)
+                <A HREF="../../elks/any.html#f_io">Io</A>.<A HREF="../../elks/std_files.html#f_put_string">put_string</A> (",cid=")
+                <A HREF="../../elks/any.html#f_io">Io</A>.<A HREF="../../elks/std_files.html#f_put_integer">put_integer</A> (cid)
+                <A HREF="../../elks/any.html#f_io">Io</A>.<A HREF="../../elks/std_files.html#f_put_string">put_string</A> (",fid=")
+                <A HREF="../../elks/any.html#f_io">Io</A>.<A HREF="../../elks/std_files.html#f_put_integer">put_integer</A> (fid)
+                <A HREF="../../elks/any.html#f_io">Io</A>.<A HREF="../../elks/std_files.html#f_put_string">put_string</A> (",dep=")
+                <A HREF="../../elks/any.html#f_io">Io</A>.<A HREF="../../elks/std_files.html#f_put_integer">put_integer</A> (dep)
+                <A HREF="../../elks/any.html#f_io">Io</A>.<A HREF="../../elks/std_files.html#f_put_string">put_string</A> (",break_index=")
+                <A HREF="../../elks/any.html#f_io">Io</A>.<A HREF="../../elks/std_files.html#f_put_integer">put_integer</A> (a_break_index)
+                <A HREF="../../elks/any.html#f_io">Io</A>.<A HREF="../../elks/std_files.html#f_put_string">put_string</A> (")%N")
+            <B>end</B>
+            <B>create</B> r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_make">make</A> (<B>Current</B>, ref, cid, fid, dep)
+            r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_set_breakable_info">set_breakable_info</A> ([a_break_index, 0])
+            <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_bottom_callstack_record">bottom_callstack_record</A> := r
+            <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_top_callstack_record">top_callstack_record</A> := r
+        <B>ensure</B>
+            bottom_callstack_record_is_not_void: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_bottom_callstack_record">bottom_callstack_record</A> /= <B>Void</B>
+            top_callstack_record_is_bottom: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_top_callstack_record">top_callstack_record</A> = <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_bottom_callstack_record">bottom_callstack_record</A>
+        <B>end</B></A>
+
+    <A NAME="f_clear_recording_data"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_clear_recording_data">clear_recording_data</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Clear recording data when stopping recording</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> or when leaving the recorded area (on leave_feature)</FONT>
+        <B>do</B>
+            <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_top_callstack_record">top_callstack_record</A> := <B>Void</B>
+            <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_bottom_callstack_record">bottom_callstack_record</A> := <B>Void</B>
+            <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_record_count">record_count</A> := 0
+        <B>end</B></A>
+
+    <A NAME="f_stop_recording"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_stop_recording">stop_recording</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Stop recording (and clean data)</FONT>
+        <B>do</B>
+            <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_clear_recording_data">clear_recording_data</A>
+            <B>if</B> <B>attached</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_stack">replay_stack</A> <B>as</B> r <B>then</B>
+                r.<A HREF="../../elks/linked_list.html#f_wipe_out">wipe_out</A>
+                <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_stack">replay_stack</A> := <B>Void</B>
+            <B>end</B>
+            <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_last_replay_operation_failed">last_replay_operation_failed</A> := <B>False</B>
+            <B>debug</B> ("rt_dbg_record")
+                <A HREF="../../elks/any.html#f_print">print</A> ("Stop_recording  %N")
+            <B>end</B>
+        <B>ensure</B>
+            no_callstack_record: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_top_callstack_record">top_callstack_record</A> = <B>Void</B> <B>and</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_bottom_callstack_record">bottom_callstack_record</A> = <B>Void</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Optimization properties</FONT>
+
+    <A NAME="f_record_count"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_record_count">record_count</A>: <A HREF="../../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of field records.</FONT>
+
+    <A NAME="f_maximum_record_count"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_maximum_record_count">maximum_record_count</A>: <A HREF="../../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Maximum number of records.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`0'<FONT COLOR="red"> stands for no limit.</FONT>
+
+    <A NAME="f_flatten_when_closing"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_flatten_when_closing">flatten_when_closing</A>: <A HREF="../../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Option: flatten record when closing</FONT>
+
+    <A NAME="f_keep_calls_records"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_keep_calls_records">keep_calls_records</A>: <A HREF="../../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Option: keep calls record even when flattening calls</FONT>
+
+    <A NAME="f_recording_values"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_recording_values">recording_values</A>: <A HREF="../../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Option: record values ?</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Properties</FONT>
+
+    <A NAME="f_top_callstack_record"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_top_callstack_record">top_callstack_record</A>: <B>detachable</B> <B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_callstack_record">callstack_record</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Current top callstack record.</FONT>
+
+    <A NAME="f_bottom_callstack_record"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_bottom_callstack_record">bottom_callstack_record</A>: <B>detachable</B> <B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_callstack_record">callstack_record</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Bottom (or root) callstack record.</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_callstack_record"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_callstack_record">callstack_record</A> (dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>): <B>detachable</B> <A HREF="../../ise/debug_implementation/rt_dbg_call_record.html">RT_DBG_CALL_RECORD</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Call stack record with depth </FONT>`dep'
+        <B>local</B>
+            i: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_top_callstack_record">top_callstack_record</A>
+            <B>if</B> dep &lt; 0 <B>then</B>
+                <B>from</B>
+                    i := dep
+                <B>until</B>
+                    <B>Result</B> = <B>Void</B> <B>or</B> i = -1
+                <B>loop</B>
+                    <B>Result</B> := <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_parent">parent</A>
+                    i := i + 1
+                <B>end</B>
+            <B>else</B>
+                <B>from</B>
+                <B>until</B>
+                    <B>Result</B> = <B>Void</B> <B>or else</B> <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_depth">depth</A> = dep
+                <B>loop</B>
+                    <B>Result</B> := <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_parent">parent</A>
+                <B>end</B>
+                <B>if</B> <B>Result</B> /= <B>Void</B> <B>and then</B> <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_depth">depth</A> /= dep <B>then</B>
+                    <B>Result</B> := <B>Void</B>
+                <B>end</B>
+            <B>end</B>
+            <B>debug</B> ("rt_dbg_replay")
+                <B>if</B> <B>Result</B> /= <B>Void</B> <B>then</B>
+                    <A HREF="../../elks/any.html#f_print">print</A> ("callstack_record (" + dep.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + ") -&gt; Result=" + <B>Result</B>.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_to_string">to_string</A> (0) + "%N")
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_callstack_record_by_id"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_callstack_record_by_id">callstack_record_by_id</A> (a_id: <A HREF="../../elks/string_8.html">STRING_8</A>): <B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_callstack_record">callstack_record</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Call record for </FONT>`a_id'
+        <B>require</B>
+            a_id_attached: a_id /= <B>Void</B>
+        <B>local</B>
+            p: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+            i: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+            r: <B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_callstack_record">callstack_record</A>
+            sub_id: <B>detachable</B> <A HREF="../../elks/string_8.html">STRING_8</A>
+        <B>do</B>
+            <B>debug</B> ("rt_dbg_replay")
+                <A HREF="../../elks/any.html#f_print">print</A> ("callstack_record_by_id (" + a_id + ") -start-%N")
+            <B>end</B>
+            p := a_id.<A HREF="../../elks/readable_string_8.html#f_index_of">index_of</A> ('.', 1)
+            <B>if</B> p &gt; 0 <B>then</B>
+                sub_id := a_id.<A HREF="../../elks/string_8.html#f_substring">substring</A> (p + 1, a_id.<A HREF="../../elks/readable_string_8.html#f_count">count</A>)
+                i := a_id.<A HREF="../../elks/string_8.html#f_substring">substring</A> (1, p - 1).<A HREF="../../elks/readable_string_general.html#f_to_integer_32">to_integer_32</A>
+            <B>else</B>
+                i := a_id.<A HREF="../../elks/readable_string_general.html#f_to_integer_32">to_integer_32</A>
+            <B>end</B>
+            r := <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_callstack_record">callstack_record</A> (i)
+            <B>if</B> sub_id = <B>Void</B> <B>then</B>
+                <B>Result</B> := r
+            <B>elseif</B> r /= <B>Void</B> <B>then</B>
+                <B>Result</B> := r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_call_by_id">call_by_id</A> (sub_id)
+            <B>end</B>
+            <B>debug</B> ("rt_dbg_replay")
+                <A HREF="../../elks/any.html#f_print">print</A> ("callstack_record_by_id (" + a_id + ") -end-%N")
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Constants from eif_debug.h</FONT>
+
+    <A NAME="f_direction_back"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_direction_back">Direction_back</A>: <A HREF="../../elks/integer_32.html">INTEGER_32</A> = 1</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> previous call</FONT>
+
+    <A NAME="f_direction_forth"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_direction_forth">Direction_forth</A>: <A HREF="../../elks/integer_32.html">INTEGER_32</A> = 2</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> next call</FONT>
+
+    <A NAME="f_direction_left"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_direction_left">Direction_left</A>: <A HREF="../../elks/integer_32.html">INTEGER_32</A> = 3</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> previous instruction</FONT>
+
+    <A NAME="f_direction_right"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_direction_right">Direction_right</A>: <A HREF="../../elks/integer_32.html">INTEGER_32</A> = 4</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> next intruction</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Event</FONT>
+
+    <A NAME="f_enter_feature"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_enter_feature">enter_feature</A> (ref: <A HREF="../../elks/any.html">ANY</A>; cid, fid: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Enter feature </FONT>`{cid}.fid'<FONT COLOR="red"> on object </FONT>`ref'<FONT COLOR="red">, depth is </FONT>`dep'
+        <B>require</B>
+            ref_attached: ref /= <B>Void</B>
+            is_not_replaying: <B>not</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_is_replaying">is_replaying</A>
+            cid_positive: cid &gt;= 0
+        <B>local</B>
+            r: <A HREF="../../ise/debug_implementation/rt_dbg_call_record.html">RT_DBG_CALL_RECORD</A>
+        <B>do</B>
+            <B>debug</B> ("rt_dbg_record")
+                <A HREF="../../ise/debug_implementation/rt_extension_common.html#f_dtrace_indent">dtrace_indent</A> (dep)
+                <A HREF="../../ise/debug_implementation/rt_extension_common.html#f_dtrace">dtrace</A> ("enter_feature (")
+                <A HREF="../../ise/debug_implementation/rt_extension_common.html#f_dtrace">dtrace</A> (ref.<A HREF="../../elks/any.html#f_generating_type">generating_type</A>.<A HREF="../../elks/type.html#f_to_string_8">to_string_8</A>)
+                <A HREF="../../ise/debug_implementation/rt_extension_common.html#f_dtrace">dtrace</A> (", " + cid.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + ", " + fid.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + ", " + dep.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + ")")
+                <A HREF="../../ise/debug_implementation/rt_extension_common.html#f_dtrace">dtrace</A> (" [[" + <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_record_count">record_count</A>.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + "]]%N")
+            <B>end</B>
+            <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_monitor_record_count">monitor_record_count</A>
+            <B>create</B> r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_make">make</A> (<B>Current</B>, ref, cid, fid, dep)
+            <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_increment_records_count">increment_records_count</A> (1)
+            <B>if</B> <B>attached</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_top_callstack_record">top_callstack_record</A> <B>as</B> topr <B>then</B>
+                <B>if</B> topr.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_depth">depth</A> = 0 <B>or else</B> topr.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_depth">depth</A> = r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_depth">depth</A> - 1 <B>then</B>
+                    r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_attach_to">attach_to</A> (topr)
+                <B>else</B>
+                    <B>debug</B> ("rt_dbg_warning")
+                        <A HREF="../../elks/any.html#f_print">print</A> ("Warning: enter mismatch !!!%N")
+                        <A HREF="../../elks/any.html#f_print">print</A> (" top: depth=" + r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_depth">depth</A>.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + " -&gt;" + r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_debug_output">debug_output</A> + "%N")
+                        <A HREF="../../elks/any.html#f_print">print</A> (" now: depth=" + dep.<A HREF="../../elks/integer_32_ref.html#f_out">out</A>)
+                        <A HREF="../../elks/any.html#f_print">print</A> (" obj=" + ref.<A HREF="../../elks/any.html#f_generating_type">generating_type</A>.<A HREF="../../elks/type.html#f_to_string_8">to_string_8</A>)
+                        <A HREF="../../elks/any.html#f_print">print</A> (" cid=" + cid.<A HREF="../../elks/integer_32_ref.html#f_out">out</A>)
+                        <A HREF="../../elks/any.html#f_print">print</A> (" fid=" + fid.<A HREF="../../elks/integer_32_ref.html#f_out">out</A>)
+                        <A HREF="../../elks/any.html#f_print">print</A> ("%N")
+                        <A HREF="../../elks/any.html#f_print">print</A> ("%N")
+                    <B>end</B>
+                    <B>if</B> topr.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_depth">depth</A> = r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_depth">depth</A> <B>then</B>
+                        topr.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_deep_close">deep_close</A>
+                    <B>end</B>
+                    <B>if</B> <B>attached</B> {<B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_callstack_record">callstack_record</A>} <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_callstack_record">callstack_record</A> (r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_depth">depth</A> - 1) <B>as</B> depr <B>then</B>
+                        r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_attach_to">attach_to</A> (depr)
+                    <B>else</B>
+                        <B>check</B>
+                            should_not_occur: <B>False</B>
+                        <B>end</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+            <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_top_callstack_record">top_callstack_record</A> := r
+            <B>check</B>
+                <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_top_callstack_record">top_callstack_record</A> /= <B>Void</B>
+            <B>end</B>
+            <B>if</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_bottom_callstack_record">bottom_callstack_record</A> = <B>Void</B> <B>then</B>
+                <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_bottom_callstack_record">bottom_callstack_record</A> := <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_top_callstack_record">top_callstack_record</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_enter_rescue"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_enter_rescue">enter_rescue</A> (ref: <A HREF="../../elks/any.html">ANY</A>; cid, fid: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Enter rescue on object </FONT>`ref'<FONT COLOR="red">, depth is </FONT>`dep'
+        <B>require</B>
+            ref_attached: ref /= <B>Void</B>
+            is_not_replaying: <B>not</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_is_replaying">is_replaying</A>
+        <B>local</B>
+            r: <B>detachable</B> <A HREF="../../ise/debug_implementation/rt_dbg_call_record.html">RT_DBG_CALL_RECORD</A>
+        <B>do</B>
+            <B>debug</B> ("rt_dbg_record")
+                <A HREF="../../ise/debug_implementation/rt_extension_common.html#f_dtrace_indent">dtrace_indent</A> (dep)
+                <A HREF="../../ise/debug_implementation/rt_extension_common.html#f_dtrace">dtrace</A> ("enter_rescue (")
+                <A HREF="../../ise/debug_implementation/rt_extension_common.html#f_dtrace">dtrace</A> (ref.<A HREF="../../elks/any.html#f_generating_type">generating_type</A>.<A HREF="../../elks/type.html#f_to_string_8">to_string_8</A>)
+                <A HREF="../../ise/debug_implementation/rt_extension_common.html#f_dtrace">dtrace</A> (", " + dep.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + ")")
+                <A HREF="../../ise/debug_implementation/rt_extension_common.html#f_dtrace">dtrace</A> (" [[" + <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_record_count">record_count</A>.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + "]]%N")
+            <B>end</B>
+            r := <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_top_callstack_record">top_callstack_record</A>
+            <B>from</B>
+                r := <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_top_callstack_record">top_callstack_record</A>
+            <B>until</B>
+                r = <B>Void</B> <B>or else</B> r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_depth">depth</A> = dep
+            <B>loop</B>
+                r := r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_parent">parent</A>
+            <B>end</B>
+            <B>if</B> r = <B>Void</B> <B>then</B>
+                <B>debug</B> ("rt_dbg_record")
+                    <A HREF="../../ise/debug_implementation/rt_extension_common.html#f_dtrace">dtrace</A> ("Error: enter_rescue -&gt; No record !!%N")
+                <B>end</B>
+                <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_stop_recording">stop_recording</A>
+                <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_start_recording">start_recording</A> (ref, cid, fid, dep, 0)
+            <B>else</B>
+                <B>check</B>
+                    same_depth: r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_depth">depth</A> = dep
+                <B>end</B>
+                <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_top_callstack_record">top_callstack_record</A> := r
+                r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_close_call_records">close_call_records</A>
+                <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_top_callstack_record">top_callstack_record</A> := r
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_leave_feature"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_leave_feature">leave_feature</A> (ref: <A HREF="../../elks/any.html">ANY</A>; cid, fid: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Leave feature </FONT>`{cid}.fid'<FONT COLOR="red"> on object </FONT>`ref'<FONT COLOR="red">, depth is </FONT>`dep'
+        <B>require</B>
+            ref_attached: ref /= <B>Void</B>
+            is_not_replaying: <B>not</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_is_replaying">is_replaying</A>
+        <B>local</B>
+            n: <B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_callstack_record">callstack_record</A>
+        <B>do</B>
+            <B>debug</B> ("rt_dbg_record")
+                <A HREF="../../ise/debug_implementation/rt_extension_common.html#f_dtrace_indent">dtrace_indent</A> (dep)
+                <A HREF="../../ise/debug_implementation/rt_extension_common.html#f_dtrace">dtrace</A> ("leave_feature (")
+                <A HREF="../../ise/debug_implementation/rt_extension_common.html#f_dtrace">dtrace</A> (ref.<A HREF="../../elks/any.html#f_generating_type">generating_type</A> + " &lt;" + ($ref).<A HREF="../../elks/pointer_ref.html#f_out">out</A> + "&gt;")
+                <A HREF="../../ise/debug_implementation/rt_extension_common.html#f_dtrace">dtrace</A> (", " + cid.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + ", " + fid.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + ", " + dep.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + "). %N")
+            <B>end</B>
+            <B>if</B> <B>not</B> <B>attached</B> {<B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_callstack_record">callstack_record</A>} <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_top_callstack_record">top_callstack_record</A> <B>as</B> r <B>then</B>
+            <B>else</B>
+                <B>if</B> r = <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_bottom_callstack_record">bottom_callstack_record</A> <B>then</B>
+                    <B>check</B>
+                        parent_is_void: r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_parent">parent</A> = <B>Void</B>
+                    <B>end</B>
+                    <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_clear_recording_data">clear_recording_data</A>
+                <B>else</B>
+                    <B>if</B> r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_depth">depth</A> &gt; dep <B>then</B>
+                        <B>debug</B> ("rt_dbg_warning")
+                            <A HREF="../../elks/any.html#f_print">print</A> ("Warning: leave mismatch !!!%N")
+                            <A HREF="../../elks/any.html#f_print">print</A> (" top: depth=" + r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_depth">depth</A>.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + " -&gt;" + r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_debug_output">debug_output</A> + "%N")
+                            <A HREF="../../elks/any.html#f_print">print</A> (" now: depth=" + dep.<A HREF="../../elks/integer_32_ref.html#f_out">out</A>)
+                            <A HREF="../../elks/any.html#f_print">print</A> (" obj=" + ref.<A HREF="../../elks/any.html#f_generating_type">generating_type</A>.<A HREF="../../elks/type.html#f_to_string_8">to_string_8</A>)
+                            <A HREF="../../elks/any.html#f_print">print</A> (" cid=" + cid.<A HREF="../../elks/integer_32_ref.html#f_out">out</A>)
+                            <A HREF="../../elks/any.html#f_print">print</A> (" fid=" + fid.<A HREF="../../elks/integer_32_ref.html#f_out">out</A>)
+                            <A HREF="../../elks/any.html#f_print">print</A> ("%N")
+                            <A HREF="../../elks/any.html#f_print">print</A> ("%N")
+                        <B>end</B>
+                        <B>from</B>
+                            n := r
+                        <B>until</B>
+                            n = <B>Void</B> <B>or else</B> n.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_depth">depth</A> = dep
+                        <B>loop</B>
+                            n := n.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_parent">parent</A>
+                        <B>end</B>
+                        <B>if</B> n /= <B>Void</B> <B>then</B>
+                            r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_deep_close_until">deep_close_until</A> (n)
+                            n.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_close_call_records">close_call_records</A>
+                        <B>end</B>
+                    <B>else</B>
+                        n := r
+                    <B>end</B>
+                    <B>if</B> n = <B>Void</B> <B>then</B>
+                        <B>debug</B> ("rt_dbg_record")
+                            <A HREF="../../ise/debug_implementation/rt_extension_common.html#f_dtrace">dtrace</A> ("Error: leave_feature -&gt; No associated record !!%N")
+                        <B>end</B>
+                        <B>check</B>
+                            should_not_occur: <B>False</B>
+                        <B>end</B>
+                        <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_clear_recording_data">clear_recording_data</A>
+                    <B>else</B>
+                        <B>check</B>
+                            same_dep: n.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_depth">depth</A> = dep
+                            same_object_type: n.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_same_object_type">same_object_type</A> (ref)
+                            same_reference: <B>not</B> n.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_is_expanded">is_expanded</A> <B>implies</B> n.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_object">object</A> = ref
+                            same_cid: n.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_class_type_id">class_type_id</A> = cid
+                            same_fid: n.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_feature_rout_id">feature_rout_id</A> = fid
+                        <B>end</B>
+                        n.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_close">close</A>
+                        <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_top_callstack_record">top_callstack_record</A> := n.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_parent">parent</A>
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_notify_rt_hook"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_notify_rt_hook">notify_rt_hook</A> (dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; bp_i, bp_ni: <A HREF="../../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Notify RT_HOOK (bp_i) or RTNHOOK (bp_i, bp_ni)</FONT>
+        <B>require</B>
+            is_not_replaying: <B>not</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_is_replaying">is_replaying</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> {<B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_callstack_record">callstack_record</A>} <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_top_callstack_record">top_callstack_record</A> <B>as</B> r <B>then</B>
+                <B>if</B> r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_depth">depth</A> = dep <B>then</B>
+                    r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_register_position">register_position</A> (bp_i, bp_ni)
+                <B>else</B>
+                    <B>debug</B> ("rt_dbg_warning")
+                        <A HREF="../../elks/any.html#f_print">print</A> ("Warning: hook mismatch on depth now=" + dep.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + " top.depth=" + r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_depth">depth</A>.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + "%N")
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_notify_rt_assign_attribute"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_notify_rt_assign_attribute">notify_rt_assign_attribute</A> (a_dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; ref: <A HREF="../../elks/any.html">ANY</A>; a_offset: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_type: <A HREF="../../elks/natural_32.html">NATURAL_32</A>; a_xpm: <A HREF="../../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Notify variable assignment</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_xpm'<FONT COLOR="red"> contains information about expanded, precompiled, melted</FONT>
+        <B>require</B>
+            ref_attached: ref /= <B>Void</B>
+            is_not_replaying: <B>not</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_is_replaying">is_replaying</A>
+            top_call_stack_record_not_void: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_top_callstack_record">top_callstack_record</A> /= <B>Void</B>
+            valid_xpm_value: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_valid_xpm_value">valid_xpm_value</A> (a_xpm)
+        <B>do</B>
+            <B>if</B> <B>attached</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_top_callstack_record">top_callstack_record</A> <B>as</B> t <B>then</B>
+                <B>check</B>
+                    same_associated_depth: a_dep = t.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_depth">depth</A>
+                <B>end</B>
+                <B>if</B> <B>attached</B> {<A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>} <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_object_attribute_record">object_attribute_record</A> (a_offset, a_type, ref) <B>as</B> l_record <B>then</B>
+                    <B>debug</B> ("rt_dbg_record")
+                        <A HREF="../../elks/any.html#f_print">print</A> ("Att Assign=&gt; " + l_record.<A HREF="../../ise/debug_implementation/rt_dbg_value_record.html#f_debug_output">debug_output</A> + "%N")
+                    <B>end</B>
+                    t.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_add_value_record">add_value_record</A> (l_record)
+                <B>end</B>
+            <B>else</B>
+                <B>debug</B> ("rt_dbg_record")
+                    <A HREF="../../elks/any.html#f_print">print</A> ("Att Assign=&gt; ERROR, no top_callstack_record !%N")
+                <B>end</B>
+                <B>check</B>
+                    should_not_occur: <B>False</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_notify_rt_assign_local"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_notify_rt_assign_local">notify_rt_assign_local</A> (a_dep: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_position: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; a_type: <A HREF="../../elks/natural_32.html">NATURAL_32</A>; a_xpm: <A HREF="../../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Notify variable assignment</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_xpm'<FONT COLOR="red"> contains information about expanded, precompiled, melted</FONT>
+        <B>require</B>
+            is_not_replaying: <B>not</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_is_replaying">is_replaying</A>
+            top_call_stack_record_not_void: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_top_callstack_record">top_callstack_record</A> /= <B>Void</B>
+            valid_xpm_value: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_valid_xpm_value">valid_xpm_value</A> (a_xpm)
+        <B>do</B>
+            <B>if</B> <B>attached</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_top_callstack_record">top_callstack_record</A> <B>as</B> t <B>then</B>
+                <B>debug</B> ("rt_dbg_warning")
+                    <B>if</B> a_dep /= t.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_depth">depth</A> <B>and</B> t.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_depth">depth</A> /= 0 <B>then</B>
+                        <A HREF="../../elks/any.html#f_print">print</A> ("Loc Assign: dep=" + a_dep.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + "; pos=" + a_position.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + " -&gt; depth mismatch %N")
+                    <B>end</B>
+                <B>end</B>
+                <B>check</B>
+                    same_associated_depth: a_dep = t.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_depth">depth</A>
+                <B>end</B>
+                <B>if</B> <B>attached</B> {<A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>} <A HREF="../../ise/debug_implementation/rt_dbg_internal.html#f_object_local_record">object_local_record</A> (a_dep, a_position, a_type) <B>as</B> l_record <B>then</B>
+                    <B>debug</B> ("rt_dbg_record")
+                        <A HREF="../../elks/any.html#f_print">print</A> ("Loc Assign=&gt; " + l_record.<A HREF="../../ise/debug_implementation/rt_dbg_value_record.html#f_debug_output">debug_output</A> + "%N")
+                    <B>end</B>
+                    t.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_add_value_record">add_value_record</A> (l_record)
+                <B>end</B>
+            <B>else</B>
+                <B>debug</B> ("rt_dbg_record")
+                    <A HREF="../../elks/any.html#f_print">print</A> ("Loc Assign=&gt; ERROR, no top_callstack_record !%N")
+                <B>end</B>
+                <B>check</B>
+                    should_not_occur: <B>False</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Helpers</FONT>
+
+    <A NAME="f_valid_xpm_value"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_valid_xpm_value">valid_xpm_value</A> (a_xpm: <A HREF="../../elks/integer_32.html">INTEGER_32</A>): <A HREF="../../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`a_xpm'<FONT COLOR="red"> a valid xpm value ?</FONT>
+        <B>local</B>
+            x, p, m: <A HREF="../../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            x := <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_xpm_to_is_expanded">xpm_to_is_expanded</A> (a_xpm)
+            p := <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_xpm_to_is_precompiled">xpm_to_is_precompiled</A> (a_xpm)
+            m := <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_xpm_to_is_melted">xpm_to_is_melted</A> (a_xpm)
+            <B>Result</B> := a_xpm = x.<A HREF="../../elks/boolean_ref.html#f_to_integer">to_integer</A> + (p.<A HREF="../../elks/boolean_ref.html#f_to_integer">to_integer</A> |&lt;&lt; 1) + (m.<A HREF="../../elks/boolean_ref.html#f_to_integer">to_integer</A> |&lt;&lt; 2)
+        <B>end</B></A>
+
+    <A NAME="f_xpm_to_is_expanded"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_xpm_to_is_expanded">xpm_to_is_expanded</A> (a_xpm: <A HREF="../../elks/integer_32.html">INTEGER_32</A>): <A HREF="../../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`a_xpm'<FONT COLOR="red"> say is expanded ?</FONT>
+        <B>do</B>
+            <B>Result</B> := (a_xpm &#38; 1).<A HREF="../../elks/integer_32_ref.html#f_to_boolean">to_boolean</A>
+        <B>end</B></A>
+
+    <A NAME="f_xpm_to_is_precompiled"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_xpm_to_is_precompiled">xpm_to_is_precompiled</A> (a_xpm: <A HREF="../../elks/integer_32.html">INTEGER_32</A>): <A HREF="../../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`a_xpm'<FONT COLOR="red"> say is precompiled ?</FONT>
+        <B>do</B>
+            <B>Result</B> := ((a_xpm &#38; 2) |&gt;&gt; 1).<A HREF="../../elks/integer_32_ref.html#f_to_boolean">to_boolean</A>
+        <B>end</B></A>
+
+    <A NAME="f_xpm_to_is_melted"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_xpm_to_is_melted">xpm_to_is_melted</A> (a_xpm: <A HREF="../../elks/integer_32.html">INTEGER_32</A>): <A HREF="../../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does </FONT>`a_xpm'<FONT COLOR="red"> say is melted ?</FONT>
+        <B>do</B>
+            <B>Result</B> := ((a_xpm &#38; 4) |&gt;&gt; 2).<A HREF="../../elks/integer_32_ref.html#f_to_boolean">to_boolean</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Replay</FONT>
+
+    <A NAME="f_activate_replay"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_activate_replay">activate_replay</A> (b: <A HREF="../../elks/boolean.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Activate or deactive replay mode according to </FONT>`b'
+        <B>do</B>
+            <B>if</B> b <B>then</B>
+                <B>if</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_is_replaying">is_replaying</A> <B>then</B>
+                <B>else</B>
+                    <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A> := <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_top_callstack_record">top_callstack_record</A>
+                    <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_is_replaying">is_replaying</A> := <B>True</B>
+                <B>end</B>
+            <B>else</B>
+                <B>if</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_is_replaying">is_replaying</A> <B>then</B>
+                    <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_revert_replay_stack">revert_replay_stack</A>
+                    <B>check</B>
+                        <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_stack">replay_stack</A> = <B>Void</B>
+                    <B>end</B>
+                    <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_is_replaying">is_replaying</A> := <B>False</B>
+                    <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A> := <B>Void</B>
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B>
+            b_set: b <B>and</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_is_replaying">is_replaying</A>
+        <B>end</B></A>
+
+    <A NAME="f_replay"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay">replay</A> (dir: <A HREF="../../elks/integer_32.html">INTEGER_32</A>; nb: <A HREF="../../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Replay execution </FONT>`nb'<FONT COLOR="red"> steps in direction </FONT>`dir'
+        <B>do</B>
+            <B>inspect</B> dir
+            <B>when</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_direction_back">Direction_back</A> <B>then</B> 
+                <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_back">replay_back</A>
+            <B>when</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_direction_forth">Direction_forth</A> <B>then</B> 
+                <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_forth">replay_forth</A>
+            <B>when</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_direction_left">Direction_left</A> <B>then</B> 
+                <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_left">replay_left</A>
+            <B>when</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_direction_right">Direction_right</A> <B>then</B> 
+                <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_right">replay_right</A>
+            <B>else</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_replay_to_point"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_to_point">replay_to_point</A> (a_id: <A HREF="../../elks/string_8.html">STRING_8</A>): <A HREF="../../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Replay execution to point identified by </FONT>`a_id'
+        <B>require</B>
+            a_id_attached: a_id /= <B>Void</B>
+        <B>local</B>
+            d1, d2: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>debug</B> ("rt_dbg_replay")
+                <A HREF="../../elks/any.html#f_print">print</A> ("replay_to_point (" + a_id + ") -start-%N")
+            <B>end</B>
+            <B>if</B> <B>attached</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A> <B>as</B> l_curr <B>then</B>
+                <B>if</B> <B>attached</B> {<B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_callstack_record_by_id">callstack_record_by_id</A>} <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_callstack_record_by_id">callstack_record_by_id</A> (a_id) <B>as</B> l_req <B>then</B>
+                    <B>if</B> <B>attached</B> {<B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_callstack_record">callstack_record</A>} l_req.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_associated_replayable_call">associated_replayable_call</A> <B>as</B> l_next <B>then</B>
+                        d1 := l_curr.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_depth">depth</A>
+                        d2 := l_next.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_depth">depth</A>
+                        <B>if</B> d2 &gt; d1 <B>then</B>
+                            <B>from</B>
+                            <B>until</B>
+                                d1 &gt;= d2
+                            <B>loop</B>
+                                <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_forth">replay_forth</A>
+                                d1 := d1 + 1
+                                <B>check</B>
+                                    valid_replayed_depth: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_is_call_at_depth">is_call_at_depth</A> (<A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A>, d1)
+                                <B>end</B>
+                            <B>end</B>
+                            <B>check</B>
+                                valid_replayed_depth: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_is_call_at_depth">is_call_at_depth</A> (<A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A>, d2)
+                            <B>end</B>
+                        <B>elseif</B> d2 &lt; d1 <B>then</B>
+                            <B>from</B>
+                            <B>until</B>
+                                d1 &lt;= d2
+                            <B>loop</B>
+                                <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_back">replay_back</A>
+                                d1 := d1 - 1
+                                <B>check</B>
+                                    valid_replayed_depth: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_is_call_at_depth">is_call_at_depth</A> (<A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A>, d1)
+                                <B>end</B>
+                            <B>end</B>
+                            <B>check</B>
+                                valid_replayed_depth: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_is_call_at_depth">is_call_at_depth</A> (<A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A>, d2)
+                            <B>end</B>
+                        <B>end</B>
+                        <B>Result</B> := <B>True</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+            <B>debug</B> ("rt_dbg_replay")
+                <A HREF="../../elks/any.html#f_print">print</A> ("replay_to_point (" + a_id + ") -end- =&gt; " + <B>Result</B>.<A HREF="../../elks/boolean_ref.html#f_out">out</A> + "%N")
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_replay_query"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_query">replay_query</A> (dir: <A HREF="../../elks/integer_32.html">INTEGER_32</A>): <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Replay execution </FONT>`nb'<FONT COLOR="red"> steps in direction </FONT>`dir'
+        <B>do</B>
+            <B>inspect</B> dir
+            <B>when</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_direction_back">Direction_back</A> <B>then</B> 
+                <B>if</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_bottom_callstack_record">bottom_callstack_record</A> /= <B>Void</B> <B>and</B> <B>attached</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A> <B>as</B> rc <B>then</B>
+                    <B>Result</B> := rc.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_available_calls_to_bottom">available_calls_to_bottom</A>
+                <B>end</B>
+            <B>when</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_direction_forth">Direction_forth</A> <B>then</B> 
+                <B>if</B> <B>attached</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_stack">replay_stack</A> <B>as</B> rs <B>then</B>
+                    <B>Result</B> := rs.<A HREF="../../elks/linked_list.html#f_count">count</A>
+                <B>end</B>
+            <B>when</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_direction_left">Direction_left</A> <B>then</B> 
+            <B>when</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_direction_right">Direction_right</A> <B>then</B> 
+            <B>else</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_replayed_call_details"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call_details">replayed_call_details</A>: <B>detachable</B> <A HREF="../../elks/string_8.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Details for </FONT><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A>
+        <B>require</B>
+            is_replaying: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_is_replaying">is_replaying</A>
+        <B>do</B>
+            <B>if</B> <B>attached</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A> <B>as</B> r <B>then</B>
+                <B>debug</B> ("rt_dbg_replay")
+                    <A HREF="../../elks/any.html#f_print">print</A> ("replayed_call_details -&gt; " + r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_to_string">to_string</A> (0) + "%N")
+                <B>end</B>
+                <B>Result</B> := r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_to_string">to_string</A> (0)
+            <B>else</B>
+                <B>debug</B> ("rt_dbg_replay")
+                    <A HREF="../../elks/any.html#f_print">print</A> ("replayed_call_details -&gt; None !%N")
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_callstack_record_details"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_callstack_record_details">callstack_record_details</A> (a_id: <A HREF="../../elks/string_8.html">STRING_8</A>; nb: <A HREF="../../elks/integer_32.html">INTEGER_32</A>): <B>detachable</B> <A HREF="../../elks/string_8.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Details for callstack identified by </FONT>`a_id'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> get information for </FONT>`nb'<FONT COLOR="red"> levels.</FONT>
+        <B>require</B>
+            a_id_attached: a_id /= <B>Void</B>
+            is_replaying: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_is_replaying">is_replaying</A>
+        <B>do</B>
+            <B>debug</B> ("rt_dbg_replay")
+                <A HREF="../../elks/any.html#f_print">print</A> ("callstack_record_details (" + a_id + "," + nb.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + ") -start- %N")
+            <B>end</B>
+            <B>if</B> <B>attached</B> {<B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_callstack_record_by_id">callstack_record_by_id</A>} <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_callstack_record_by_id">callstack_record_by_id</A> (a_id) <B>as</B> r <B>then</B>
+                <B>Result</B> := r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_to_string">to_string</A> (nb)
+            <B>end</B>
+            <B>debug</B> ("rt_dbg_replay")
+                <A HREF="../../elks/any.html#f_print">print</A> ("callstack_record_details (" + a_id + "," + nb.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + ") -end- %N")
+                <B>if</B> <B>Result</B> = <B>Void</B> <B>then</B>
+                    <A HREF="../../elks/any.html#f_print">print</A> ("%T -&gt; Not Found")
+                <B>else</B>
+                    <A HREF="../../elks/any.html#f_print">print</A> ("%T -&gt; Result=" + <B>Result</B>)
+                <B>end</B>
+                <A HREF="../../elks/any.html#f_print">print</A> ("%N")
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Monitoring</FONT>
+
+    <A NAME="f_monitor_record_count"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_monitor_record_count">monitor_record_count</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Monitor if record_count is not over </FONT>`max_record_count'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> if </FONT>`max_record_count'<FONT COLOR="red"> is 0, then no limit</FONT>
+        <B>local</B>
+            bt: <B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_bottom_callstack_record">bottom_callstack_record</A>
+            p: <B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_bottom_callstack_record">bottom_callstack_record</A>
+            c, m, n: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            m := <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_maximum_record_count">maximum_record_count</A>
+            <B>if</B> m &gt; 0 <B>then</B>
+                c := <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_record_count">record_count</A>
+                <B>if</B> c.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> &gt; 1.1 * m.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> <B>then</B>
+                    bt := <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_bottom_callstack_record">bottom_callstack_record</A>
+                    <B>if</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_top_callstack_record">top_callstack_record</A> /= bt <B>then</B>
+                        <B>debug</B> ("rt_dbg_optimization")
+                            <A HREF="../../elks/any.html#f_print">print</A> ("monitor_record_count[" + ((m - c).<A HREF="../../elks/integer_32_ref.html#f_abs">abs</A> // m).<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + "%%] -&gt; remove oldest: record_count=" + c.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + " (max=" + m.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + ")%N")
+                        <B>end</B>
+                        <B>from</B>
+                            p := <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_top_callstack_record">top_callstack_record</A>
+                        <B>until</B>
+                            p = <B>Void</B> <B>or else</B> p.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_parent">parent</A> = bt
+                        <B>loop</B>
+                            p := p.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_parent">parent</A>
+                        <B>end</B>
+                        <B>check</B>
+                            p_not_void_and_last_of_parent: p /= <B>Void</B> <B>and then</B> bt /= <B>Void</B> <B>and then</B> bt.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_is_last_call_record">is_last_call_record</A> (p)
+                        <B>then</B>
+                            n := bt.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_record_count_but">record_count_but</A> (p)
+                            p.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_remove_parent">remove_parent</A>
+                        <B>end</B>
+                        <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_bottom_callstack_record">bottom_callstack_record</A> := p
+                        bt := p
+                        c := c - n
+                        <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_record_count">record_count</A> := c
+                        <B>check</B>
+                            same_record_count: bt /= <B>Void</B> <B>and then</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_record_count">record_count</A> = bt.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_record_count_but">record_count_but</A> (<B>Void</B>)
+                        <B>end</B>
+                        <B>if</B> c.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> &lt;= 0.9 * m.<A HREF="../../elks/integer_32.html#f_to_double">to_double</A> <B>then</B>
+                            <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_monitor_record_count">monitor_record_count</A>
+                        <B>end</B>
+                        <B>debug</B> ("rt_dbg_optimization")
+                            <A HREF="../../elks/any.html#f_print">print</A> ("monitor_record_count -&gt; count=" + c.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + "%N")
+                        <B>end</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Replay operation</FONT>
+
+    <A NAME="f_is_replaying"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_is_replaying">is_replaying</A>: <A HREF="../../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is replaying</FONT>
+
+    <A NAME="f_last_replay_operation_failed"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_last_replay_operation_failed">last_replay_operation_failed</A>: <A HREF="../../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does last replay operation failed ?</FONT>
+
+    <A NAME="f_replayed_call"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A>: <B>detachable</B> <A HREF="../../ise/debug_implementation/rt_dbg_call_record.html">RT_DBG_CALL_RECORD</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Current replayed call stack record</FONT>
+
+    <A NAME="f_replay_stack_not_empty"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_stack_not_empty">replay_stack_not_empty</A>: <A HREF="../../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_stack">replay_stack</A><FONT COLOR="red"> non empty?</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>attached</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_stack">replay_stack</A> <B>as</B> rs <B>and then</B> <B>not</B> rs.<A HREF="../../elks/finite.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+
+    <A NAME="f_replay_stack"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_stack">replay_stack</A>: <B>detachable</B> <A HREF="../../elks/linked_list.html">LINKED_LIST</A> [<A HREF="../../elks/tuple.html">TUPLE</A> [call_record: <A HREF="../../ise/debug_implementation/rt_dbg_call_record.html">RT_DBG_CALL_RECORD</A>; chgs: <B>detachable</B> <A HREF="../../elks/list.html">LIST</A> [<A HREF="../../elks/tuple.html">TUPLE</A> [record: <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>; backup: <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>]]]]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Replay operation stacks.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> useful to "revert" the replay steps.</FONT>
+
+    <A NAME="f_replay_back"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_back">replay_back</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Replay execution back</FONT>
+        <B>require</B>
+            is_replaying: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_is_replaying">is_replaying</A>
+            replayed_call_attached: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A> /= <B>Void</B>
+        <B>local</B>
+            rs: <B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_stack">replay_stack</A>
+            n: <B>detachable</B> <A HREF="../../ise/debug_implementation/rt_dbg_call_record.html">RT_DBG_CALL_RECORD</A>
+            l_records: <B>detachable</B> <A HREF="../../elks/list.html">LIST</A> [<A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>]
+            chgs: <B>detachable</B> <A HREF="../../elks/arrayed_list.html">ARRAYED_LIST</A> [<A HREF="../../elks/tuple.html">TUPLE</A> [record: <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>; backup: <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>]]
+        <B>do</B>
+            <B>debug</B> ("rt_dbg_replay")
+                <A HREF="../../elks/any.html#f_print">print</A> ("replay_back -start- %N")
+            <B>end</B>
+            <B>if</B> <B>attached</B> {<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html">RT_DBG_CALL_RECORD</A>} <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A> <B>as</B> r <B>then</B>
+                <B>if</B> <B>attached</B> {<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html">RT_DBG_CALL_RECORD</A>} r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_parent">parent</A> <B>as</B> p <B>then</B>
+                    <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_last_replay_operation_failed">last_replay_operation_failed</A> := <B>False</B>
+                    <B>if</B> <B>attached</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_stack">replay_stack</A> <B>as</B> ot_rs <B>then</B>
+                        rs := ot_rs
+                        <B>check</B>
+                            replay_stack_not_empty: rs.<A HREF="../../elks/linked_list.html#f_count">count</A> &gt; 0
+                        <B>end</B>
+                        n := rs.<A HREF="../../elks/linked_list.html#f_last">last</A>.call_record
+                    <B>else</B>
+                        <B>create</B> rs.<A HREF="../../elks/linked_list.html#f_make">make</A>
+                        <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_stack">replay_stack</A> := rs
+                        n := <B>Void</B>
+                    <B>end</B>
+                    l_records := <A HREF="../../ise/debug_implementation/rt_dbg_common.html#f_changes_between">changes_between</A> (r, n)
+                    <B>if</B> <B>not</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_last_replay_operation_failed">last_replay_operation_failed</A> <B>then</B>
+                        <B>if</B> <B>attached</B> {<A HREF="../../elks/list.html">LIST</A> [<A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>]} l_records <B>as</B> ot_records <B>then</B>
+                            <B>create</B> chgs.<A HREF="../../elks/arrayed_list.html#f_make">make</A> (ot_records.<A HREF="../../elks/finite.html#f_count">count</A>)
+                            <B>from</B>
+                                ot_records.<A HREF="../../elks/chain.html#f_finish">finish</A>
+                            <B>until</B>
+                                ot_records.<A HREF="../../elks/list.html#f_before">before</A>
+                            <B>loop</B>
+                                <B>debug</B> ("rt_dbg_replay")
+                                    <A HREF="../../elks/any.html#f_print">print</A> ("replay_back -&gt; " + ot_records.<A HREF="../../elks/linear.html#f_item_for_iteration">item_for_iteration</A>.<A HREF="../../ise/debug_implementation/rt_dbg_value_record.html#f_debug_output">debug_output</A> + " %N")
+                                <B>end</B>
+                                <B>if</B> <B>attached</B> {<A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>} ot_records.<A HREF="../../elks/linear.html#f_item_for_iteration">item_for_iteration</A> <B>as</B> ot_rec <B>then</B>
+                                    <B>if</B> <B>attached</B> {<A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>} ot_rec.<A HREF="../../ise/debug_implementation/rt_dbg_value_record.html#f_current_value_record">current_value_record</A> <B>as</B> val <B>then</B>
+                                        chgs.<A HREF="../../elks/arrayed_list.html#f_force">force</A> ([ot_rec, val])
+                                        ot_rec.<A HREF="../../ise/debug_implementation/rt_dbg_value_record.html#f_restore">restore</A> (val)
+                                    <B>else</B>
+                                        <B>check</B>
+                                            should_not_occur: <B>False</B>
+                                        <B>end</B>
+                                    <B>end</B>
+                                <B>end</B>
+                                ot_records.<A HREF="../../elks/bilinear.html#f_back">back</A>
+                            <B>end</B>
+                        <B>end</B>
+                        rs.<A HREF="../../elks/sequence.html#f_force">force</A> ([r, chgs])
+                        <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A> := p
+                    <B>end</B>
+                <B>else</B>
+                    <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_last_replay_operation_failed">last_replay_operation_failed</A> := <B>True</B>
+                <B>end</B>
+            <B>else</B>
+                <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_last_replay_operation_failed">last_replay_operation_failed</A> := <B>True</B>
+            <B>end</B>
+            <B>debug</B> ("rt_dbg_replay")
+                <A HREF="../../elks/any.html#f_print">print</A> ("replay_back -end- %N")
+            <B>end</B>
+        <B>ensure</B>
+            replayed_call_attached: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_replay_left"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_left">replay_left</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Replay left (up in the current call stack element)</FONT>
+        <B>require</B>
+            is_replaying: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_is_replaying">is_replaying</A>
+            replayed_call_attached: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A> /= <B>Void</B>
+        <B>local</B>
+            n: <B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A>
+            chgs: <B>detachable</B> <A HREF="../../elks/arrayed_list.html">ARRAYED_LIST</A> [<A HREF="../../elks/tuple.html">TUPLE</A> [record: <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>; backup: <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>]]
+            r_pos_line: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+            done: <A HREF="../../elks/boolean.html">BOOLEAN</A>
+            rs: <B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_stack">replay_stack</A>
+        <B>do</B>
+            <B>debug</B> ("rt_dbg_replay")
+                <A HREF="../../elks/any.html#f_print">print</A> ("replay_left -start- %N")
+            <B>end</B>
+            <B>if</B> <B>attached</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A> <B>as</B> r <B>then</B>
+                <B>from</B>
+                    r_pos_line := r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_replayed_position">replayed_position</A>.line
+                    <B>if</B> <B>attached</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_stack">replay_stack</A> <B>as</B> ot_rs <B>then</B>
+                        rs := ot_rs
+                    <B>else</B>
+                        <B>create</B> rs.<A HREF="../../elks/linked_list.html#f_make">make</A>
+                        <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_stack">replay_stack</A> := rs
+                    <B>end</B>
+                    n := r
+                <B>until</B>
+                    done
+                <B>loop</B>
+                    <B>if</B> <B>attached</B> {<A HREF="../../elks/list.html">LIST</A> [<A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>]} r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_left_step">left_step</A> <B>as</B> ot_records <B>then</B>
+                        <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_last_replay_operation_failed">last_replay_operation_failed</A> := <B>False</B>
+                        <B>create</B> chgs.<A HREF="../../elks/arrayed_list.html#f_make">make</A> (ot_records.<A HREF="../../elks/finite.html#f_count">count</A>)
+                        <B>from</B>
+                            ot_records.<A HREF="../../elks/chain.html#f_finish">finish</A>
+                        <B>until</B>
+                            ot_records.<A HREF="../../elks/list.html#f_before">before</A>
+                        <B>loop</B>
+                            <B>debug</B> ("rt_dbg_replay")
+                                <A HREF="../../elks/any.html#f_print">print</A> ("replay_left -&gt; " + ot_records.<A HREF="../../elks/linear.html#f_item_for_iteration">item_for_iteration</A>.<A HREF="../../ise/debug_implementation/rt_dbg_value_record.html#f_debug_output">debug_output</A> + " %N")
+                            <B>end</B>
+                            <B>if</B> <B>attached</B> {<A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>} ot_records.<A HREF="../../elks/linear.html#f_item_for_iteration">item_for_iteration</A> <B>as</B> ot_rec <B>then</B>
+                                <B>if</B> <B>attached</B> {<A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>} ot_rec.<A HREF="../../ise/debug_implementation/rt_dbg_value_record.html#f_current_value_record">current_value_record</A> <B>as</B> val <B>then</B>
+                                    chgs.<A HREF="../../elks/arrayed_list.html#f_force">force</A> ([ot_rec, val])
+                                    ot_rec.<A HREF="../../ise/debug_implementation/rt_dbg_value_record.html#f_restore">restore</A> (val)
+                                <B>else</B>
+                                    <B>check</B>
+                                        should_not_occur: <B>False</B>
+                                    <B>end</B>
+                                <B>end</B>
+                            <B>end</B>
+                            ot_records.<A HREF="../../elks/bilinear.html#f_back">back</A>
+                        <B>end</B>
+                        rs.<A HREF="../../elks/sequence.html#f_force">force</A> ([r, chgs])
+                    <B>else</B>
+                        <B>if</B> r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_parent">parent</A> = <B>Void</B> <B>then</B>
+                            r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_revert_left_step">revert_left_step</A>
+                        <B>else</B>
+                            <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_back">replay_back</A>
+                        <B>end</B>
+                        done := <B>True</B>
+                    <B>end</B>
+                    n := <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A>
+                    <B>check</B>
+                        n_attached: n /= <B>Void</B>
+                    <B>end</B>
+                    <B>if</B> <B>not</B> done <B>then</B>
+                        done := n /= r <B>or else</B> n = <B>Void</B> <B>or else</B> (n.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_replayed_position">replayed_position</A>.line /= r_pos_line)
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+            <B>debug</B> ("rt_dbg_replay")
+                <A HREF="../../elks/any.html#f_print">print</A> ("replay_left -end- %N")
+            <B>end</B>
+        <B>ensure</B>
+            replayed_call_attached: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_replay_left_to_first"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_left_to_first">replay_left_to_first</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Replay execution left as many times as needed to be at the entry of the feature</FONT>
+        <B>local</B>
+            r, n: <B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A>
+        <B>do</B>
+            <B>from</B>
+                r := <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A>
+                r := n
+            <B>until</B>
+                n = <B>Void</B> <B>or else</B> n /= r <B>or else</B> r = <B>Void</B> <B>or else</B> r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_replayed_position_is_first">replayed_position_is_first</A>
+            <B>loop</B>
+                <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_left">replay_left</A>
+                r := <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_replay_forth"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_forth">replay_forth</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Replay execution forth</FONT>
+        <B>require</B>
+            is_replaying: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_is_replaying">is_replaying</A>
+            replayed_call_not_void: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A> /= <B>Void</B>
+            replay_stack_not_empty: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_stack_not_empty">replay_stack_not_empty</A>
+        <B>local</B>
+            n: <A HREF="../../ise/debug_implementation/rt_dbg_call_record.html">RT_DBG_CALL_RECORD</A>
+            t: <A HREF="../../elks/tuple.html">TUPLE</A> [call_record: <A HREF="../../ise/debug_implementation/rt_dbg_call_record.html">RT_DBG_CALL_RECORD</A>; chgs: <B>detachable</B> <A HREF="../../elks/list.html">LIST</A> [<A HREF="../../elks/tuple.html">TUPLE</A> [record: <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>; backup: <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>]]]
+            done: <A HREF="../../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            <B>debug</B> ("rt_dbg_replay")
+                <A HREF="../../elks/any.html#f_print">print</A> ("replay_forth -start-%N")
+            <B>end</B>
+            <B>if</B> <B>attached</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_stack">replay_stack</A> <B>as</B> rs <B>then</B>
+                <B>check</B>
+                    <B>attached</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A> <B>as</B> r
+                <B>then</B>
+                    <B>from</B>
+                    <B>until</B>
+                        done
+                    <B>loop</B>
+                        <B>check</B>
+                            rs.<A HREF="../../elks/linked_list.html#f_count">count</A> &gt; 0
+                        <B>end</B>
+                        rs.<A HREF="../../elks/linked_list.html#f_finish">finish</A>
+                        t := rs.<A HREF="../../elks/linear.html#f_item_for_iteration">item_for_iteration</A>
+                        rs.<A HREF="../../elks/linked_list.html#f_remove">remove</A>
+                        <B>if</B> rs.<A HREF="../../elks/finite.html#f_is_empty">is_empty</A> <B>then</B>
+                            <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_stack">replay_stack</A> := <B>Void</B>
+                        <B>end</B>
+                        n := t.call_record
+                        <B>if</B> <B>attached</B> {<A HREF="../../elks/list.html">LIST</A> [<A HREF="../../elks/tuple.html">TUPLE</A> [record: <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>; backup: <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>]]} t.chgs <B>as</B> ot_chgs <B>then</B>
+                            <B>from</B>
+                                ot_chgs.<A HREF="../../elks/chain.html#f_finish">finish</A>
+                            <B>until</B>
+                                ot_chgs.<A HREF="../../elks/list.html#f_before">before</A>
+                            <B>loop</B>
+                                <B>debug</B> ("rt_dbg_replay")
+                                    <A HREF="../../elks/any.html#f_print">print</A> ("replay_forth -&gt; " + ot_chgs.<A HREF="../../elks/linear.html#f_item_for_iteration">item_for_iteration</A>.record.<A HREF="../../ise/debug_implementation/rt_dbg_value_record.html#f_debug_output">debug_output</A> + " %N")
+                                <B>end</B>
+                                <B>if</B> <B>attached</B> {<A HREF="../../elks/tuple.html">TUPLE</A> [record: <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>; backup: <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>]} ot_chgs.<A HREF="../../elks/linear.html#f_item_for_iteration">item_for_iteration</A> <B>as</B> ch <B>then</B>
+                                    ch.record.<A HREF="../../ise/debug_implementation/rt_dbg_value_record.html#f_revert">revert</A> (ch.backup)
+                                <B>end</B>
+                                ot_chgs.<A HREF="../../elks/bilinear.html#f_back">back</A>
+                            <B>end</B>
+                        <B>end</B>
+                        <B>if</B> n = r <B>then</B>
+                            r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_revert_left_step">revert_left_step</A>
+                            done := <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_stack">replay_stack</A> = <B>Void</B>
+                        <B>else</B>
+                            <B>check</B>
+                                r = n.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_parent">parent</A>
+                            <B>end</B>
+                            <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A> := n
+                            done := <B>True</B>
+                        <B>end</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>else</B>
+                <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_last_replay_operation_failed">last_replay_operation_failed</A> := <B>True</B>
+            <B>end</B>
+            <B>debug</B> ("rt_dbg_replay")
+                <A HREF="../../elks/any.html#f_print">print</A> ("replay_forth -end-%N")
+            <B>end</B>
+        <B>ensure</B>
+            replayed_call_attached: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_replay_right"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_right">replay_right</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Replay right (down in the current call stack element)</FONT>
+        <B>require</B>
+            is_replaying: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_is_replaying">is_replaying</A>
+            replayed_call_not_void: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A> /= <B>Void</B>
+            replay_stack_not_empty: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_stack_not_empty">replay_stack_not_empty</A>
+        <B>local</B>
+            n: <A HREF="../../ise/debug_implementation/rt_dbg_call_record.html">RT_DBG_CALL_RECORD</A>
+            t: <A HREF="../../elks/tuple.html">TUPLE</A> [call_record: <A HREF="../../ise/debug_implementation/rt_dbg_call_record.html">RT_DBG_CALL_RECORD</A>; chgs: <B>detachable</B> <A HREF="../../elks/list.html">LIST</A> [<A HREF="../../elks/tuple.html">TUPLE</A> [record: <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>; backup: <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>]]]
+            r_pos_line: <A HREF="../../elks/integer_32.html">INTEGER_32</A>
+            done: <A HREF="../../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            <B>debug</B> ("rt_dbg_replay")
+                <A HREF="../../elks/any.html#f_print">print</A> ("replay_right -start-%N")
+            <B>end</B>
+            <B>if</B> <B>attached</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_stack">replay_stack</A> <B>as</B> rs <B>then</B>
+                <B>check</B>
+                    <B>attached</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A> <B>as</B> r
+                <B>then</B>
+                    <B>from</B>
+                        r_pos_line := r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_replayed_position">replayed_position</A>.line
+                    <B>until</B>
+                        done
+                    <B>loop</B>
+                        <B>check</B>
+                            replay_stack_not_empty: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_stack_not_empty">replay_stack_not_empty</A>
+                        <B>end</B>
+                        rs.<A HREF="../../elks/linked_list.html#f_finish">finish</A>
+                        t := rs.<A HREF="../../elks/linear.html#f_item_for_iteration">item_for_iteration</A>
+                        rs.<A HREF="../../elks/linked_list.html#f_remove">remove</A>
+                        <B>if</B> rs.<A HREF="../../elks/finite.html#f_is_empty">is_empty</A> <B>then</B>
+                            <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_stack">replay_stack</A> := <B>Void</B>
+                        <B>end</B>
+                        <B>if</B> <B>attached</B> {<A HREF="../../elks/list.html">LIST</A> [<A HREF="../../elks/tuple.html">TUPLE</A> [record: <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>; backup: <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>]]} t.chgs <B>as</B> ot_chgs <B>then</B>
+                            <B>from</B>
+                                ot_chgs.<A HREF="../../elks/chain.html#f_finish">finish</A>
+                            <B>until</B>
+                                ot_chgs.<A HREF="../../elks/list.html#f_before">before</A>
+                            <B>loop</B>
+                                <B>debug</B> ("rt_dbg_replay")
+                                    <A HREF="../../elks/any.html#f_print">print</A> ("replay_right -&gt; " + ot_chgs.<A HREF="../../elks/linear.html#f_index">index</A>.<A HREF="../../elks/integer_32_ref.html#f_out">out</A> + ") " + ot_chgs.<A HREF="../../elks/linear.html#f_item_for_iteration">item_for_iteration</A>.record.<A HREF="../../ise/debug_implementation/rt_dbg_value_record.html#f_debug_output">debug_output</A> + " %N")
+                                <B>end</B>
+                                <B>if</B> <B>attached</B> {<A HREF="../../elks/tuple.html">TUPLE</A> [record: <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>; backup: <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>]} ot_chgs.<A HREF="../../elks/linear.html#f_item_for_iteration">item_for_iteration</A> <B>as</B> ch <B>then</B>
+                                    ch.record.<A HREF="../../ise/debug_implementation/rt_dbg_value_record.html#f_revert">revert</A> (ch.backup)
+                                <B>end</B>
+                                ot_chgs.<A HREF="../../elks/bilinear.html#f_back">back</A>
+                            <B>end</B>
+                        <B>end</B>
+                        n := t.call_record
+                        <B>if</B> n = r <B>then</B>
+                            n.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_revert_left_step">revert_left_step</A>
+                            done := n.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_replayed_position">replayed_position</A>.line /= r_pos_line
+                        <B>else</B>
+                            <B>check</B>
+                                r = n.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_parent">parent</A>
+                            <B>end</B>
+                            <B>if</B> n.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_replayed_position">replayed_position</A>.line = 0 <B>then</B>
+                                n.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_revert_left_step">revert_left_step</A>
+                            <B>end</B>
+                            <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A> := n
+                            <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_left_to_first">replay_left_to_first</A>
+                            <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A> := n
+                            done := <B>True</B>
+                        <B>end</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>else</B>
+                <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_last_replay_operation_failed">last_replay_operation_failed</A> := <B>True</B>
+            <B>end</B>
+            <B>debug</B> ("rt_dbg_replay")
+                <A HREF="../../elks/any.html#f_print">print</A> ("replay_right -end-%N")
+            <B>end</B>
+        <B>ensure</B>
+            replayed_call_attached: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_revert_replay_stack"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_revert_replay_stack">revert_replay_stack</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Revert remaining replay stack</FONT>
+        <B>require</B>
+            is_replaying: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_is_replaying">is_replaying</A>
+        <B>local</B>
+            r: <B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A>
+            n: <B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_callstack_record">callstack_record</A>
+            t: <A HREF="../../elks/tuple.html">TUPLE</A> [call_record: <A HREF="../../ise/debug_implementation/rt_dbg_call_record.html">RT_DBG_CALL_RECORD</A>; chgs: <B>detachable</B> <A HREF="../../elks/list.html">LIST</A> [<A HREF="../../elks/tuple.html">TUPLE</A> [record: <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>; backup: <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>]]]
+        <B>do</B>
+            <B>debug</B> ("rt_dbg_replay")
+                <A HREF="../../elks/any.html#f_print">print</A> ("revert_replay_stack -start-%N")
+            <B>end</B>
+            <B>if</B> <B>attached</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_stack">replay_stack</A> <B>as</B> rs <B>then</B>
+                <B>from</B>
+                    r := <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A>
+                <B>until</B>
+                    rs.<A HREF="../../elks/linked_list.html#f_count">count</A> = 0
+                <B>loop</B>
+                    rs.<A HREF="../../elks/linked_list.html#f_finish">finish</A>
+                    t := rs.<A HREF="../../elks/linear.html#f_item_for_iteration">item_for_iteration</A>
+                    rs.<A HREF="../../elks/linked_list.html#f_remove">remove</A>
+                    n := t.call_record
+                    <B>if</B> <B>attached</B> {<A HREF="../../elks/list.html">LIST</A> [<A HREF="../../elks/tuple.html">TUPLE</A> [record: <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>; backup: <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>]]} t.chgs <B>as</B> ot_chgs <B>then</B>
+                        <B>from</B>
+                            ot_chgs.<A HREF="../../elks/chain.html#f_finish">finish</A>
+                        <B>until</B>
+                            ot_chgs.<A HREF="../../elks/list.html#f_before">before</A>
+                        <B>loop</B>
+                            <B>debug</B> ("rt_dbg_replay")
+                                <A HREF="../../elks/any.html#f_print">print</A> ("revert_replay_stack -&gt; " + ot_chgs.<A HREF="../../elks/linear.html#f_item_for_iteration">item_for_iteration</A>.record.<A HREF="../../ise/debug_implementation/rt_dbg_value_record.html#f_debug_output">debug_output</A> + " %N")
+                            <B>end</B>
+                            <B>if</B> <B>attached</B> {<A HREF="../../elks/tuple.html">TUPLE</A> [record: <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>; backup: <A HREF="../../ise/debug_implementation/rt_dbg_value_record.html">RT_DBG_VALUE_RECORD</A>]} ot_chgs.<A HREF="../../elks/linear.html#f_item_for_iteration">item_for_iteration</A> <B>as</B> ch <B>then</B>
+                                ch.record.<A HREF="../../ise/debug_implementation/rt_dbg_value_record.html#f_revert">revert</A> (ch.backup)
+                            <B>end</B>
+                            ot_chgs.<A HREF="../../elks/bilinear.html#f_back">back</A>
+                        <B>end</B>
+                    <B>end</B>
+                    <B>if</B> n = r <B>then</B>
+                        <B>if</B> r /= <B>Void</B> <B>then</B>
+                            r.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_revert_left_step">revert_left_step</A>
+                        <B>end</B>
+                    <B>else</B>
+                        <B>check</B>
+                            r = n.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_parent">parent</A>
+                        <B>end</B>
+                        <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A> := n
+                    <B>end</B>
+                <B>end</B>
+                <B>check</B>
+                    empty_replay_stack: rs.<A HREF="../../elks/finite.html#f_is_empty">is_empty</A>
+                <B>end</B>
+            <B>end</B>
+            <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replay_stack">replay_stack</A> := <B>Void</B>
+            <B>debug</B> ("rt_dbg_replay")
+                <A HREF="../../elks/any.html#f_print">print</A> ("revert_replay_stack -end-%N")
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Change</FONT>
+
+    <A NAME="f_increment_records_count"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_increment_records_count">increment_records_count</A> (n: <A HREF="../../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Incremente </FONT><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_record_count">record_count</A><FONT COLOR="red"> by </FONT>`n'
+        <B>do</B>
+            <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_record_count">record_count</A> := <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_record_count">record_count</A> + n
+        <B>ensure</B>
+            record_count_positive: <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_record_count">record_count</A> &gt;= 0
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_is_call_at_depth"><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_is_call_at_depth">is_call_at_depth</A> (a_call: <B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A>; d: <A HREF="../../elks/integer_32.html">INTEGER_32</A>): <A HREF="../../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Call </FONT>`a_call'<FONT COLOR="red"> has depth </FONT>`d'<FONT COLOR="red"> ?</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>attached</B> {<B>like</B> <A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html#f_replayed_call">replayed_call</A>} a_call <B>as</B> c <B>and then</B> c.<A HREF="../../ise/debug_implementation/rt_dbg_call_record.html#f_depth">depth</A> = d
+        <B>end</B></A>
+    
+<B>note</B>
+    library: "EiffelBase: Library of reusable components for Eiffel."
+    copyright: "Copyright (c) 1984-2008, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        356 Storke Road, Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../../ise/debug_implementation/rt_dbg_execution_recorder.html">RT_DBG_EXECUTION_RECORDER</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../../class_list.html">Classes</A></TD><TD><A HREF="../../cluster_list.html">Clusters</A></TD><TD><A HREF="../../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="rt_dbg_execution_recorder_chart.html">Chart</A></TD><TD><A HREF="rt_dbg_execution_recorder_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="rt_dbg_execution_recorder_flat.html">Flat</A></TD><TD><A HREF="rt_dbg_execution_recorder_short.html">Contracts</A></TD><TD><A HREF="rt_dbg_execution_recorder_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

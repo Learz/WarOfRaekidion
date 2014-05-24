@@ -1,0 +1,124 @@
+<HTML><HEAD>
+<meta name="description" content="Concrete of an external iteration cursor for {LINKED_LIST}. Reversed traversal has a `(n (n + 1)) / 2' operations cost."/>
+<meta name="library" content="EiffelBase: Library of reusable components for Eiffel."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="copyright" content="Copyright (c) 1984-2011, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>linked_list_iteration_cursor Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="linked_list_iteration_cursor_chart.html">Chart</A></TD><TD><A HREF="linked_list_iteration_cursor_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="linked_list_iteration_cursor_flat.html">Flat</A></TD><TD><A HREF="linked_list_iteration_cursor_short.html">Contracts</A></TD><TD><A HREF="linked_list_iteration_cursor_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Concrete of an external iteration cursor for <A HREF="../elks/linked_list.html">LINKED_LIST</A>. Reversed traversal has a `(n (n + 1)) / 2' operations cost."
+    library: "EiffelBase: Library of reusable components for Eiffel."
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    copyright: "Copyright (c) 1984-2011, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    date: "$Date: 2012-05-23 21:13:10 -0700 (Wed, 23 May 2012) $"
+    revision: "$Revision: 91981 $"
+
+<B>class</B> 
+    <A HREF="../elks/linked_list_iteration_cursor.html">LINKED_LIST_ITERATION_CURSOR</A> [G]
+
+<B>inherit</B>
+    <A HREF="../elks/indexable_iteration_cursor.html">INDEXABLE_ITERATION_CURSOR</A> [G]
+        <B>redefine</B>
+            <A HREF="../elks/linked_list_iteration_cursor.html#f_start">start</A>,
+            <A HREF="../elks/linked_list_iteration_cursor.html#f_item">item</A>,
+            <A HREF="../elks/linked_list_iteration_cursor.html#f_after">after</A>,
+            <A HREF="../elks/linked_list_iteration_cursor.html#f_forth">forth</A>,
+            <A HREF="../elks/linked_list_iteration_cursor.html#f_target">target</A>
+        <B>end</B>
+
+<B>create</B> 
+    <A HREF="../elks/indexable_iteration_cursor.html#f_make">make</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_item"><A HREF="../elks/linked_list_iteration_cursor.html#f_item">item</A>: G
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Item at current cursor position.</FONT>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/indexable_iteration_cursor.html#f_is_reversed">is_reversed</A> <B>then</B>
+                <B>Result</B> := <B>Precursor</B>
+            <B>else</B>
+                <B>check</B>
+                    active_attached: <B>attached</B> <A HREF="../elks/linked_list_iteration_cursor.html#f_active">active</A> <B>as</B> l_active
+                <B>then</B>
+                    <B>Result</B> := l_active.<A HREF="../elks/cell.html#f_item">item</A>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_after"><A HREF="../elks/linked_list_iteration_cursor.html#f_after">after</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Are there no more items to iterate over?</FONT>
+        <B>do</B>
+            <B>if</B> <A HREF="../elks/indexable_iteration_cursor.html#f_is_reversed">is_reversed</A> <B>then</B>
+                <B>Result</B> := <B>Precursor</B>
+            <B>else</B>
+                <B>Result</B> := <B>not</B> <A HREF="../elks/indexable_iteration_cursor.html#f_is_valid">is_valid</A> <B>or</B> <A HREF="../elks/linked_list_iteration_cursor.html#f_active">active</A> = <B>Void</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Cursor movement</FONT>
+
+    <A NAME="f_start"><A HREF="../elks/linked_list_iteration_cursor.html#f_start">start</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move to first position.</FONT>
+        <B>do</B>
+            <B>Precursor</B>
+            <B>if</B> <B>not</B> <A HREF="../elks/indexable_iteration_cursor.html#f_is_reversed">is_reversed</A> <B>then</B>
+                <A HREF="../elks/linked_list_iteration_cursor.html#f_active">active</A> := <A HREF="../elks/linked_list_iteration_cursor.html#f_target">target</A>.<A HREF="../elks/linked_list.html#f_first_element">first_element</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_forth"><A HREF="../elks/linked_list_iteration_cursor.html#f_forth">forth</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move to next position.</FONT>
+        <B>local</B>
+            i: <B>like</B> <A HREF="../elks/indexable_iteration_cursor.html#f_step">step</A>
+        <B>do</B>
+            <B>Precursor</B>
+            <B>if</B> <B>not</B> <A HREF="../elks/indexable_iteration_cursor.html#f_is_reversed">is_reversed</A> <B>then</B>
+                <B>from</B>
+                    i := 1
+                <B>until</B>
+                    i &gt; <A HREF="../elks/indexable_iteration_cursor.html#f_step">step</A> <B>or else</B> <B>not</B> <B>attached</B> <A HREF="../elks/linked_list_iteration_cursor.html#f_active">active</A> <B>as</B> l_active
+                <B>loop</B>
+                    <A HREF="../elks/linked_list_iteration_cursor.html#f_active">active</A> := l_active.<A HREF="../elks/linkable.html#f_right">right</A>
+                    i := i + 1
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> {<A HREF="../elks/iterable.html">ITERABLE</A>, <A HREF="../elks/iteration_cursor.html">ITERATION_CURSOR</A>} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_target"><A HREF="../elks/linked_list_iteration_cursor.html#f_target">target</A>: <A HREF="../elks/linked_list.html">LINKED_LIST</A> [G]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Associated structure used for iteration.</FONT>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_active"><A HREF="../elks/linked_list_iteration_cursor.html#f_active">active</A>: <B>detachable</B> <A HREF="../elks/linkable.html">LINKABLE</A> [G]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Currrently active linkable node for ascending traversal</FONT>
+    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/linked_list_iteration_cursor.html">LINKED_LIST_ITERATION_CURSOR</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="linked_list_iteration_cursor_chart.html">Chart</A></TD><TD><A HREF="linked_list_iteration_cursor_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="linked_list_iteration_cursor_flat.html">Flat</A></TD><TD><A HREF="linked_list_iteration_cursor_short.html">Contracts</A></TD><TD><A HREF="linked_list_iteration_cursor_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

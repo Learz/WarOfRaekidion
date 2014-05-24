@@ -1,0 +1,121 @@
+<HTML><HEAD>
+<meta name="description" content="Circular chains, without commitment to a particular representation"/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="names" content="circular, ring, sequence"/>
+<meta name="access" content="index, cursor, membership"/>
+<meta name="contents" content="generic"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>circular Contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="circular_chart.html">Chart</A></TD><TD><A HREF="circular_links.html">Relations</A></TD><TD><A HREF="circular.html">Text</A></TD><TD><A HREF="circular_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="circular_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Circular chains, without commitment to a particular representation"
+    library: "Free implementation of ELKS library"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    names: circular, ring, sequence
+    access: index, cursor, membership
+    contents: generic
+    date: "$Date: 2012-07-23 14:02:19 -0700 (Mon, 23 Jul 2012) $"
+    revision: "$Revision: 91989 $"
+
+<B>deferred</B> <B>class</B> <B>interface</B>
+    <A HREF="../elks/circular_short.html">CIRCULAR</A> [G]
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_first"><A HREF="../elks/circular_short.html#f_first">first</A>: G
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Item at position currently defined as first</FONT>
+</A>
+    <A NAME="f_index"><A HREF="../elks/circular_short.html#f_index">index</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Current cursor index, with respect to position</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> currently defined as first</FONT>
+</A>
+    <A NAME="f_last"><A HREF="../elks/circular_short.html#f_last">last</A>: <B>like</B> <A HREF="../elks/circular_short.html#f_first">first</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Item at position currently defined as last</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_valid_cursor_index"><A HREF="../elks/circular_short.html#f_valid_cursor_index">valid_cursor_index</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`i'<FONT COLOR="red"> a possible cursor position?</FONT>
+        <B>ensure then</B>
+            valid_cursor_index_definition: <B>Result</B> = ((i &gt;= 0) <B>and</B> (i &lt;= <A HREF="../elks/finite_short.html#f_count">count</A>))
+</A>
+    <A NAME="f_after"><A HREF="../elks/circular_short.html#f_after">after</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there no valid cursor position to the right of cursor?</FONT>
+        <B>ensure then</B>
+            empty_and_std_after: <B>Result</B> = (<A HREF="../elks/finite_short.html#f_is_empty">is_empty</A> <B>and</B> <A HREF="../elks/circular_short.html#f_standard_after">standard_after</A>)
+</A>
+    <A NAME="f_before"><A HREF="../elks/circular_short.html#f_before">before</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there no valid cursor position to the right of cursor?</FONT>
+        <B>ensure then</B>
+            empty_and_std_before: <B>Result</B> = (<A HREF="../elks/finite_short.html#f_is_empty">is_empty</A> <B>and</B> <A HREF="../elks/circular_short.html#f_standard_before">standard_before</A>)
+</A>
+    <A NAME="f_off"><A HREF="../elks/circular_short.html#f_off">off</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there no current item?</FONT>
+        <B>ensure then</B>
+            only_when_empty: <B>Result</B> = <A HREF="../elks/finite_short.html#f_is_empty">is_empty</A>
+</A>
+    <A NAME="f_exhausted"><A HREF="../elks/circular_short.html#f_exhausted">exhausted</A>: <A HREF="../elks/boolean_short.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Has structure been completely explored?</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Cursor movement</FONT>
+
+    <A NAME="f_forth"><A HREF="../elks/circular_short.html#f_forth">forth</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to next item, cyclically.</FONT>
+        <B>ensure then</B>
+            moved_forth_at_end: (<B>old</B> <A HREF="../elks/circular_short.html#f_index">index</A> = <A HREF="../elks/finite_short.html#f_count">count</A>) <B>implies</B> (<A HREF="../elks/circular_short.html#f_index">index</A> = 1)
+</A>
+    <A NAME="f_back"><A HREF="../elks/circular_short.html#f_back">back</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to previous item, cyclically.</FONT>
+</A>
+    <A NAME="f_move"><A HREF="../elks/circular_short.html#f_move">move</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to </FONT>`i'<FONT COLOR="red">-th item from current position,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> cyclically.</FONT>
+</A>
+    <A NAME="f_go_i_th"><A HREF="../elks/circular_short.html#f_go_i_th">go_i_th</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to </FONT>`i'<FONT COLOR="red">-th position from current start, cyclically.</FONT>
+        <B>require else</B>
+            index_big_enough: i &gt;= 1
+            not_empty: <B>not</B> <A HREF="../elks/finite_short.html#f_is_empty">is_empty</A>
+</A>
+    <A NAME="f_set_start"><A HREF="../elks/circular_short.html#f_set_start">set_start</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Define current position as the first.</FONT>
+        <B>require</B>
+            not_empty: <B>not</B> <A HREF="../elks/finite_short.html#f_is_empty">is_empty</A>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Removal</FONT>
+
+    <A NAME="f_remove"><A HREF="../elks/circular_short.html#f_remove">remove</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove item at cursor position.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to right neighbor (cyclically).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If removed item was at current starting position,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> move starting position to right neighbor.</FONT>
+</A>    
+<B>invariant</B>
+    not_before_unless_empty: <A HREF="../elks/circular_short.html#f_before">before</A> <B>implies</B> <A HREF="../elks/finite_short.html#f_is_empty">is_empty</A>
+    not_after_unless_empty: <A HREF="../elks/circular_short.html#f_after">after</A> <B>implies</B> <A HREF="../elks/finite_short.html#f_is_empty">is_empty</A>
+    not_off_unless_empty: <A HREF="../elks/circular_short.html#f_off">off</A> <B>implies</B> <A HREF="../elks/finite_short.html#f_is_empty">is_empty</A>
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/circular_short.html">CIRCULAR</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="circular_chart.html">Chart</A></TD><TD><A HREF="circular_links.html">Relations</A></TD><TD><A HREF="circular.html">Text</A></TD><TD><A HREF="circular_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="circular_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

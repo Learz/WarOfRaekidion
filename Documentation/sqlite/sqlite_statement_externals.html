@@ -1,0 +1,187 @@
+<HTML><HEAD>
+<meta name="description" content="Externals for interacting with SQLite statements (sqlite3_stmt *)."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2009, Eiffel Software"/>
+<meta name="license" content="GPL version 2 (see http://www.eiffel.com/licensing/gpl.txt)"/>
+<meta name="licensing_options" content="http://www.eiffel.com/licensing"/>
+<meta name="copying" content="This file is part of Eiffel Software's Eiffel Development Environment.  Eiffel Software's Eiffel Development Environment is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 2 of the License (available at the URL listed under license above).  Eiffel Software's Eiffel Development Environment is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.  You should have received a copy of the GNU General Public License along with Eiffel Software's Eiffel Development Environment; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>sqlite_statement_externals Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sqlite_statement_externals_chart.html">Chart</A></TD><TD><A HREF="sqlite_statement_externals_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="sqlite_statement_externals_flat.html">Flat</A></TD><TD><A HREF="sqlite_statement_externals_short.html">Contracts</A></TD><TD><A HREF="sqlite_statement_externals_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Externals for interacting with SQLite statements (sqlite3_stmt *).
+    ]"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2009-10-07 17:26:41 -0700 (Wed, 07 Oct 2009) $"
+    revision: "$Revision: 81049 $"
+
+<B>class</B> 
+    <A HREF="../sqlite/sqlite_statement_externals.html">SQLITE_STATEMENT_EXTERNALS</A>
+
+<B>create</B> 
+    <A HREF="../elks/any.html#f_default_create">default_create</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_sqlite3_column_count"><A HREF="../sqlite/sqlite_statement_externals.html#f_sqlite3_column_count">sqlite3_column_count</A> (a_api: <A HREF="../sqlite/sqlite_api.html">SQLITE_API</A>; a_stmt: <A HREF="../elks/pointer.html">POINTER</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>require</B>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_stmt_is_null: a_stmt /= <A HREF="../elks/any.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals.html#f_c_sqlite3_column_count">c_sqlite3_column_count</A> (a_stmt)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_db_handle"><A HREF="../sqlite/sqlite_statement_externals.html#f_sqlite3_db_handle">sqlite3_db_handle</A> (a_api: <A HREF="../sqlite/sqlite_api.html">SQLITE_API</A>; a_stmt: <A HREF="../elks/pointer.html">POINTER</A>): <A HREF="../elks/pointer.html">POINTER</A>
+        <B>require</B>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_stmt_is_null: a_stmt /= <A HREF="../elks/any.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals.html#f_c_sqlite3_db_handle">c_sqlite3_db_handle</A> (a_stmt)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Query</FONT>
+
+    <A NAME="f_sqlite3_column_name"><A HREF="../sqlite/sqlite_statement_externals.html#f_sqlite3_column_name">sqlite3_column_name</A> (a_api: <A HREF="../sqlite/sqlite_api.html">SQLITE_API</A>; a_stmt: <A HREF="../elks/pointer.html">POINTER</A>; a_column: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/pointer.html">POINTER</A>
+        <B>require</B>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_stmt_is_null: a_stmt /= <A HREF="../elks/any.html#f_default_pointer">default_pointer</A>
+            a_column_non_negative: a_column &gt;= 0
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals.html#f_c_sqlite3_column_name">c_sqlite3_column_name</A> (a_stmt, a_column)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic operations</FONT>
+
+    <A NAME="f_sqlite3_prepare_v2"><A HREF="../sqlite/sqlite_statement_externals.html#f_sqlite3_prepare_v2">sqlite3_prepare_v2</A> (a_api: <A HREF="../sqlite/sqlite_api.html">SQLITE_API</A>; a_db: <A HREF="../elks/pointer.html">POINTER</A>; a_statement: <A HREF="../elks/pointer.html">POINTER</A>; a_bytes: <A HREF="../elks/integer_32.html">INTEGER_32</A>; a_hnd: <A HREF="../elks/typed_pointer.html">TYPED_POINTER</A> [<A HREF="../elks/pointer.html">POINTER</A>]; a_tail: <A HREF="../elks/typed_pointer.html">TYPED_POINTER</A> [<A HREF="../elks/pointer.html">POINTER</A>]): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>require</B>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_db_is_null: a_db /= <A HREF="../elks/any.html#f_default_pointer">default_pointer</A>
+            not_a_statement_is_null: a_statement /= <A HREF="../elks/any.html#f_default_pointer">default_pointer</A>
+            a_bytes_positive: a_bytes &gt; 0
+            not_a_hnd_is_null: a_hnd.<A HREF="../elks/pointer_ref.html#f_item">to_pointer</A> /= <A HREF="../elks/any.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals.html#f_c_sqlite3_prepare_v2">c_sqlite3_prepare_v2</A> (a_db, a_statement, a_bytes, a_hnd, a_tail)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_step"><A HREF="../sqlite/sqlite_statement_externals.html#f_sqlite3_step">sqlite3_step</A> (a_api: <A HREF="../sqlite/sqlite_api.html">SQLITE_API</A>; a_stmt: <A HREF="../elks/pointer.html">POINTER</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>require</B>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_stmt_is_null: a_stmt /= <A HREF="../elks/any.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals.html#f_c_sqlite3_step">c_sqlite3_step</A> (a_stmt)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_reset"><A HREF="../sqlite/sqlite_statement_externals.html#f_sqlite3_reset">sqlite3_reset</A> (a_api: <A HREF="../sqlite/sqlite_api.html">SQLITE_API</A>; a_stmt: <A HREF="../elks/pointer.html">POINTER</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>require</B>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_stmt_is_null: a_stmt /= <A HREF="../elks/any.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals.html#f_c_sqlite3_reset">c_sqlite3_reset</A> (a_stmt)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_clear_bindings"><A HREF="../sqlite/sqlite_statement_externals.html#f_sqlite3_clear_bindings">sqlite3_clear_bindings</A> (a_api: <A HREF="../sqlite/sqlite_api.html">SQLITE_API</A>; a_stmt: <A HREF="../elks/pointer.html">POINTER</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>require</B>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_stmt_is_null: a_stmt /= <A HREF="../elks/any.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals.html#f_c_sqlite3_clear_bindings">c_sqlite3_clear_bindings</A> (a_stmt)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_finalize"><A HREF="../sqlite/sqlite_statement_externals.html#f_sqlite3_finalize">sqlite3_finalize</A> (a_api: <A HREF="../sqlite/sqlite_api.html">SQLITE_API</A>; a_stmt: <A HREF="../elks/pointer.html">POINTER</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>require</B>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_stmt_is_null: a_stmt /= <A HREF="../elks/any.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals.html#f_c_sqlite3_finalize">c_sqlite3_finalize</A> (a_stmt)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_bind_parameter_index"><A HREF="../sqlite/sqlite_statement_externals.html#f_sqlite3_bind_parameter_index">sqlite3_bind_parameter_index</A> (a_api: <A HREF="../sqlite/sqlite_api.html">SQLITE_API</A>; a_stmt: <A HREF="../elks/pointer.html">POINTER</A>; a_variable: <A HREF="../elks/pointer.html">POINTER</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>require</B>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_stmt_is_null: a_stmt /= <A HREF="../elks/any.html#f_default_pointer">default_pointer</A>
+            not_a_variable_is_null: a_variable /= <A HREF="../elks/any.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals.html#f_c_sqlite3_bind_parameter_index">c_sqlite3_bind_parameter_index</A> (a_stmt, a_variable)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_bind_parameter_name"><A HREF="../sqlite/sqlite_statement_externals.html#f_sqlite3_bind_parameter_name">sqlite3_bind_parameter_name</A> (a_api: <A HREF="../sqlite/sqlite_api.html">SQLITE_API</A>; a_stmt: <A HREF="../elks/pointer.html">POINTER</A>; a_index: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/pointer.html">POINTER</A>
+        <B>require</B>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_stmt_is_null: a_stmt /= <A HREF="../elks/any.html#f_default_pointer">default_pointer</A>
+            a_index_positive: a_index &gt; 0
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals.html#f_c_sqlite3_bind_parameter_name">c_sqlite3_bind_parameter_name</A> (a_stmt, a_index)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_bind_parameter_count"><A HREF="../sqlite/sqlite_statement_externals.html#f_sqlite3_bind_parameter_count">sqlite3_bind_parameter_count</A> (a_api: <A HREF="../sqlite/sqlite_api.html">SQLITE_API</A>; a_stmt: <A HREF="../elks/pointer.html">POINTER</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>require</B>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_stmt_is_null: a_stmt /= <A HREF="../elks/any.html#f_default_pointer">default_pointer</A>
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals.html#f_c_sqlite3_bind_parameter_count">c_sqlite3_bind_parameter_count</A> (a_stmt)
+        <B>end</B></A>
+
+    <A NAME="f_sqlite3_bind_null"><A HREF="../sqlite/sqlite_statement_externals.html#f_sqlite3_bind_null">sqlite3_bind_null</A> (a_api: <A HREF="../sqlite/sqlite_api.html">SQLITE_API</A>; a_stmt: <A HREF="../elks/pointer.html">POINTER</A>; a_index: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>require</B>
+            a_api_attached: <B>attached</B> a_api
+            a_api_is_interface_usable: a_api.<A HREF="../sqlite/sqlite_api.html#f_is_interface_usable">is_interface_usable</A>
+            not_a_stmt_is_null: a_stmt /= <A HREF="../elks/any.html#f_default_pointer">default_pointer</A>
+            a_index_positive: a_index &gt; 0
+        <B>do</B>
+            <B>Result</B> := {<A HREF="../sqlite/sqlite_externals.html">SQLITE_EXTERNALS</A>}.<A HREF="../sqlite/sqlite_externals.html#f_c_sqlite3_bind_null">c_sqlite3_bind_null</A> (a_stmt, a_index)
+        <B>end</B></A>
+    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2009, Eiffel Software"
+    license: "GPL version 2 (see <a href="http://www.eiffel.com/licensing/gpl.txt">http://www.eiffel.com/licensing/gpl.txt</a>)"
+    licensing_options: "<a href="http://www.eiffel.com/licensing">http://www.eiffel.com/licensing</a>"
+    copying: "[
+        This file is part of Eiffel Software's Eiffel Development Environment.
+        
+        Eiffel Software's Eiffel Development Environment is free
+        software; you can redistribute it and/or modify it under
+        the terms of the GNU General Public License as published
+        by the Free Software Foundation, version 2 of the License
+        (available at the URL listed under "license" above).
+        
+        Eiffel Software's Eiffel Development Environment is
+        distributed in the hope that it will be useful, but
+        WITHOUT ANY WARRANTY; without even the implied warranty
+        of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        See the GNU General Public License for more details.
+        
+        You should have received a copy of the GNU General Public
+        License along with Eiffel Software's Eiffel Development
+        Environment; if not, write to the Free Software Foundation,
+        Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+    ]"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../sqlite/sqlite_statement_externals.html">SQLITE_STATEMENT_EXTERNALS</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sqlite_statement_externals_chart.html">Chart</A></TD><TD><A HREF="sqlite_statement_externals_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="sqlite_statement_externals_flat.html">Flat</A></TD><TD><A HREF="sqlite_statement_externals_short.html">Contracts</A></TD><TD><A HREF="sqlite_statement_externals_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

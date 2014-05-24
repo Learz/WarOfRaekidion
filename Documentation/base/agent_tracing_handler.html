@@ -1,0 +1,73 @@
+<HTML><HEAD>
+<meta name="description" content="Abstract class used by TRACE_MANAGER to dispatch tracing events to user using STRING data via an agent."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="library" content="EiffelBase: Library of reusable components for Eiffel."/>
+<meta name="copyright" content="Copyright (c) 1984-2006, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 356 Storke Road, Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>agent_tracing_handler Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="agent_tracing_handler_chart.html">Chart</A></TD><TD><A HREF="agent_tracing_handler_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="agent_tracing_handler_flat.html">Flat</A></TD><TD><A HREF="agent_tracing_handler_short.html">Contracts</A></TD><TD><A HREF="agent_tracing_handler_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Abstract class used by TRACE_MANAGER to dispatch tracing events to user using STRING data via an agent."
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2013-05-20 16:15:17 -0700 (Mon, 20 May 2013) $"
+    revision: "$Revision: 92557 $"
+
+<B>class</B> 
+    <A HREF="../ise/agent_tracing_handler.html">AGENT_TRACING_HANDLER</A>
+
+<B>inherit</B>
+    <A HREF="../ise/string_tracing_handler.html">STRING_TRACING_HANDLER</A>
+
+<B>create</B> 
+    <A HREF="../ise/agent_tracing_handler.html#f_make">make</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../ise/agent_tracing_handler.html#f_make">make</A> (a_action: <B>like</B> <A HREF="../ise/agent_tracing_handler.html#f_action">action</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialize Current with </FONT>`a_action'
+        <B>require</B>
+            a_action_not_void: a_action /= <B>Void</B>
+        <B>do</B>
+            <A HREF="../ise/agent_tracing_handler.html#f_action">action</A> := a_action
+        <B>ensure</B>
+            action_set: <A HREF="../ise/agent_tracing_handler.html#f_action">action</A> = a_action
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_action"><A HREF="../ise/agent_tracing_handler.html#f_action">action</A>: <A HREF="../elks/procedure.html">PROCEDURE</A> [<A HREF="../elks/any.html">ANY</A>, <A HREF="../elks/tuple.html">TUPLE</A> [type: <A HREF="../elks/type.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/any.html">ANY</A>]; class_name: <B>detachable</B> <A HREF="../elks/string_8.html">STRING_8</A>; feature_name: <B>detachable</B> <A HREF="../elks/string_8.html">STRING_8</A>; depth: <A HREF="../elks/integer_32.html">INTEGER_32</A>; is_entering: <A HREF="../elks/boolean.html">BOOLEAN</A>]]</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Action being performed each time </FONT><A HREF="../ise/agent_tracing_handler.html#f_trace">trace</A><FONT COLOR="red"> is called</FONT>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Tracing</FONT>
+
+    <A NAME="f_trace"><A HREF="../ise/agent_tracing_handler.html#f_trace">trace</A> (a_type: <A HREF="../elks/type.html">TYPE</A> [<B>detachable</B> <A HREF="../elks/any.html">ANY</A>]; a_class_name, a_feature_name: <B>detachable</B> <A HREF="../elks/string_8.html">STRING_8</A>; a_depth: <A HREF="../elks/integer_32.html">INTEGER_32</A>; a_is_entering: <A HREF="../elks/boolean.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Trigger a trace operation from a feature represented by </FONT>`a_feature_name'<FONT COLOR="red"> defined in</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> class </FONT>`a_class_name'<FONT COLOR="red"> and applied to an object of type </FONT>`a_type'<FONT COLOR="red"> at a call depth </FONT>`a_depth'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If </FONT>`a_is_entering'<FONT COLOR="red"> we are entering the routine, otherwise we are exiting it.			</FONT>
+        <B>do</B>
+            <A HREF="../ise/agent_tracing_handler.html#f_action">action</A>.<A HREF="../elks/procedure.html#f_call">call</A> ([a_type, a_class_name, a_feature_name, a_depth, a_is_entering])
+        <B>end</B></A>
+    
+<B>note</B>
+    library: "EiffelBase: Library of reusable components for Eiffel."
+    copyright: "Copyright (c) 1984-2006, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        356 Storke Road, Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../ise/agent_tracing_handler.html">AGENT_TRACING_HANDLER</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="agent_tracing_handler_chart.html">Chart</A></TD><TD><A HREF="agent_tracing_handler_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="agent_tracing_handler_flat.html">Flat</A></TD><TD><A HREF="agent_tracing_handler_short.html">Contracts</A></TD><TD><A HREF="agent_tracing_handler_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

@@ -1,0 +1,187 @@
+<HTML><HEAD>
+<meta name="description" content="Access to command-line arguments. This class  may be used as ancestor by classes needing its facilities."/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>arguments Contracts</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="arguments_chart.html">Chart</A></TD><TD><A HREF="arguments_links.html">Relations</A></TD><TD><A HREF="arguments.html">Text</A></TD><TD><A HREF="arguments_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="arguments_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Access to command-line arguments. This class 
+        may be used as ancestor by classes needing its facilities.
+    ]"
+    library: "Free implementation of ELKS library"
+    status: "See notice at end of class."
+    legal: "See notice at end of class."
+    date: "$Date: 2013-01-25 11:58:54 -0800 (Fri, 25 Jan 2013) $"
+    revision: "$Revision: 92135 $"
+
+<B>class</B> <B>interface</B>
+    <A HREF="../elks/arguments_short.html">ARGUMENTS</A>
+
+<B>create</B> 
+    <A HREF="../elks/any_short.html#f_default_create">default_create</A>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_argument"><A HREF="../elks/arguments_short.html#f_argument">argument</A> (i: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>): <A HREF="../elks/string_8_short.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`i'<FONT COLOR="red">-th argument of command that started system execution</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (the command name if </FONT>`i'<FONT COLOR="red"> = 0)</FONT>
+        <B>require</B>
+            index_large_enough: i &gt;= 0
+            index_small_enough: i &lt;= <A HREF="../elks/arguments_short.html#f_argument_count">argument_count</A>
+        <B>ensure</B>
+            argument_not_void: <B>Result</B> /= <B>Void</B>
+</A>
+    <A NAME="f_argument_array"><A HREF="../elks/arguments_short.html#f_argument_array">Argument_array</A>: <A HREF="../elks/array_short.html">ARRAY</A> [<A HREF="../elks/string_8_short.html">STRING_8</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Array containing command name (position 0) and arguments</FONT>
+        <B>ensure</B>
+            argument_array_not_void: <B>Result</B> /= <B>Void</B>
+            argument_array_compare_objects: <B>Result</B>.<A HREF="../elks/container_short.html#f_object_comparison">object_comparison</A>
+</A>
+    <A NAME="f_command_line"><A HREF="../elks/arguments_short.html#f_command_line">Command_line</A>: <A HREF="../elks/string_8_short.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Total command line</FONT>
+        <B>ensure</B>
+            <B>Result</B>.<A HREF="../elks/readable_string_8_short.html#f_count">count</A> &gt;= <A HREF="../elks/arguments_short.html#f_command_name">Command_name</A>.<A HREF="../elks/readable_string_8_short.html#f_count">count</A>
+</A>
+    <A NAME="f_command_name"><A HREF="../elks/arguments_short.html#f_command_name">Command_name</A>: <A HREF="../elks/string_8_short.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Name of command that started system execution</FONT>
+        <B>ensure</B>
+            definition: <B>Result</B> ~ <A HREF="../elks/arguments_short.html#f_argument">argument</A> (0)
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access: Cursor</FONT>
+
+    <A NAME="f_new_cursor"><A HREF="../elks/arguments_short.html#f_new_cursor">new_cursor</A>: <A HREF="../elks/iteration_cursor_short.html">ITERATION_CURSOR</A> [<A HREF="../elks/string_8_short.html">STRING_8</A>]
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Fresh cursor associated with current structure</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_index_of_word_option"><A HREF="../elks/arguments_short.html#f_index_of_word_option">index_of_word_option</A> (opt: <A HREF="../elks/string_8_short.html">STRING_8</A>): <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does command line specify word option </FONT>`opt'<FONT COLOR="red"> and, if so,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> at what position?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If one of the arguments in list of space-separated arguments</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> is </FONT>`Xopt'<FONT COLOR="red">, where </FONT>`X'<FONT COLOR="red"> is the current </FONT><A HREF="../elks/arguments_short.html#f_option_sign">Option_sign</A><FONT COLOR="red">,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> then index of this argument in list;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> else 0.</FONT>
+        <B>require</B>
+            opt_non_void: opt /= <B>Void</B>
+            opt_meaningful: <B>not</B> opt.<A HREF="../elks/finite_short.html#f_is_empty">is_empty</A>
+</A>
+    <A NAME="f_index_of_beginning_with_word_option"><A HREF="../elks/arguments_short.html#f_index_of_beginning_with_word_option">index_of_beginning_with_word_option</A> (opt: <A HREF="../elks/string_8_short.html">STRING_8</A>): <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does command line specify argument beginning with word</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> option </FONT>`opt'<FONT COLOR="red"> and, if so, at what position?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If one of the arguments in list of space-separated arguments</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> is </FONT>`Xoptxx'<FONT COLOR="red">, where </FONT>`X'<FONT COLOR="red"> is the current </FONT><A HREF="../elks/arguments_short.html#f_option_sign">Option_sign</A><FONT COLOR="red">, 'xx'</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> is arbitrary, possibly empty sequence of characters,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> then index of this argument in list;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> else 0.</FONT>
+        <B>require</B>
+            opt_non_void: opt /= <B>Void</B>
+            opt_meaningful: <B>not</B> opt.<A HREF="../elks/finite_short.html#f_is_empty">is_empty</A>
+</A>
+    <A NAME="f_index_of_character_option"><A HREF="../elks/arguments_short.html#f_index_of_character_option">index_of_character_option</A> (o: <A HREF="../elks/character_8_short.html">CHARACTER_8</A>): <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does command line specify character option </FONT>`o'<FONT COLOR="red"> and, if so,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> at what position?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If one of the space-separated arguments is of the form </FONT>`Xxxoyy'<FONT COLOR="red">,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> where </FONT>`X'<FONT COLOR="red"> is the current </FONT><A HREF="../elks/arguments_short.html#f_option_sign">Option_sign</A><FONT COLOR="red">, </FONT>`xx'<FONT COLOR="red"> and </FONT>`yy'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> are arbitrary, possibly empty sequences of characters,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> then index of this argument in list of arguments;</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> else 0.</FONT>
+        <B>require</B>
+            o_non_null: o /= '%U'
+</A>
+    <A NAME="f_separate_character_option_value"><A HREF="../elks/arguments_short.html#f_separate_character_option_value">separate_character_option_value</A> (o: <A HREF="../elks/character_8_short.html">CHARACTER_8</A>): <B>detachable</B> <A HREF="../elks/string_8_short.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The value, if any, specified after character option </FONT>`o'<FONT COLOR="red"> on</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> the command line.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> This is one of the following (where </FONT>`X'<FONT COLOR="red"> is the current</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT><A HREF="../elks/arguments_short.html#f_option_sign">Option_sign</A><FONT COLOR="red">, </FONT>`xx'<FONT COLOR="red"> and 'yy' are arbitrary, possibly empty</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> sequences of characters):</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">   </FONT>`val'<FONT COLOR="red"> if command line includes two consecutive arguments</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">	   of the form </FONT>`Xxxoyy'<FONT COLOR="red"> and </FONT>`val'<FONT COLOR="red"> respectively.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">   Empty string if command line includes argument </FONT>`Xxxoyy'<FONT COLOR="red">, which is</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">	   either last argument or followed by argument starting with </FONT>`X'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">   Void if there is no argument of the form </FONT>`Xxxoyy'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            o_non_null: o /= '%U'
+</A>
+    <A NAME="f_separate_word_option_value"><A HREF="../elks/arguments_short.html#f_separate_word_option_value">separate_word_option_value</A> (opt: <A HREF="../elks/string_8_short.html">STRING_8</A>): <B>detachable</B> <A HREF="../elks/string_8_short.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The value, if any, specified after word option </FONT>`opt'<FONT COLOR="red"> on the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> command line.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> This is one of the following (where </FONT>`X'<FONT COLOR="red"> is the current </FONT><A HREF="../elks/arguments_short.html#f_option_sign">Option_sign</A><FONT COLOR="red">):</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">   </FONT>`val'<FONT COLOR="red"> if command line includes two consecutive arguments</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">	   of the form </FONT>`Xopt'<FONT COLOR="red"> and </FONT>`val'<FONT COLOR="red"> respectively.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">   Empty string if command line includes argument </FONT>`Xopt'<FONT COLOR="red">, which is</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">	   either last argument or followed by argument starting with </FONT>`X'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">   Void if no </FONT>`Xopt'<FONT COLOR="red"> argument.</FONT>
+        <B>require</B>
+            opt_non_void: opt /= <B>Void</B>
+            opt_meaningful: <B>not</B> opt.<A HREF="../elks/finite_short.html#f_is_empty">is_empty</A>
+</A>
+    <A NAME="f_coalesced_character_option_value"><A HREF="../elks/arguments_short.html#f_coalesced_character_option_value">coalesced_character_option_value</A> (o: <A HREF="../elks/character_8_short.html">CHARACTER_8</A>): <B>detachable</B> <A HREF="../elks/string_8_short.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The value, if any, specified for character option </FONT>`o'<FONT COLOR="red"> on</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> the command line.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Defined as follows (where 'X' is the current 'option_sign' and</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 'xx' is an arbitrary, possibly empty sequence of characters):</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">   </FONT>`val'<FONT COLOR="red"> if command line includes an argument of the form </FONT>`Xxxoval'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">	   (this may be an empty string if argument is just </FONT>`Xxxo'<FONT COLOR="red">).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">   Void otherwise.</FONT>
+        <B>require</B>
+            o_non_null: o /= '%U'
+</A>
+    <A NAME="f_coalesced_word_option_value"><A HREF="../elks/arguments_short.html#f_coalesced_word_option_value">coalesced_word_option_value</A> (opt: <A HREF="../elks/string_8_short.html">STRING_8</A>): <B>detachable</B> <A HREF="../elks/string_8_short.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The value, if any, specified for word option </FONT>`opt'<FONT COLOR="red"> on the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> command line.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Defined as follows (where X is the current </FONT><A HREF="../elks/arguments_short.html#f_option_sign">Option_sign</A><FONT COLOR="red">):</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">   </FONT>`val'<FONT COLOR="red"> if command line includes an argument of the form </FONT>`Xoptval'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">	   (this may be an empty string if argument is just </FONT>`Xopt'<FONT COLOR="red">).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red">   Void otherwise.</FONT>
+        <B>require</B>
+            opt_non_void: opt /= <B>Void</B>
+            opt_meaningful: <B>not</B> opt.<A HREF="../elks/finite_short.html#f_is_empty">is_empty</A>
+</A>
+    <A NAME="f_option_sign"><A HREF="../elks/arguments_short.html#f_option_sign">Option_sign</A>: <A HREF="../elks/character_8_ref_short.html">CHARACTER_8_REF</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The character used to signal options on the command line.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> This can be '%U' if no sign is necessary for the argument</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> to be an option</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Default is '-'</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status setting</FONT>
+
+    <A NAME="f_set_option_sign"><A HREF="../elks/arguments_short.html#f_set_option_sign">set_option_sign</A> (c: <A HREF="../elks/character_8_short.html">CHARACTER_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make </FONT>`c'<FONT COLOR="red"> the option sign.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Use'%U' if no sign is necessary for the argument to</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> be an option</FONT>
+</A>    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_argument_count"><A HREF="../elks/arguments_short.html#f_argument_count">argument_count</A>: <A HREF="../elks/integer_32_short.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of arguments given to command that started</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> system execution (command name does not count)</FONT>
+        <B>ensure</B>
+            argument_count_positive: <B>Result</B> &gt;= 0
+</A>    
+<B>invariant</B>
+    argument_array_consistent: <A HREF="../elks/arguments_short.html#f_argument_array">Argument_array</A> ~ <A HREF="../elks/arguments_short.html#f_internal_argument_array">internal_argument_array</A>
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/arguments_short.html">ARGUMENTS</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="arguments_chart.html">Chart</A></TD><TD><A HREF="arguments_links.html">Relations</A></TD><TD><A HREF="arguments.html">Text</A></TD><TD><A HREF="arguments_flat.html">Flat</A></TD><TD>Contracts</TD><TD><A HREF="arguments_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

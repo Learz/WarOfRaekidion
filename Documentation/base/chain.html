@@ -1,0 +1,438 @@
+<HTML><HEAD>
+<meta name="description" content="Possibly circular sequences of items, without commitment to a particular representation"/>
+<meta name="library" content="Free implementation of ELKS library"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="names" content="chain, sequence"/>
+<meta name="access" content="index, cursor, membership"/>
+<meta name="contents" content="generic"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2012, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>chain Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="chain_chart.html">Chart</A></TD><TD><A HREF="chain_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="chain_flat.html">Flat</A></TD><TD><A HREF="chain_short.html">Contracts</A></TD><TD><A HREF="chain_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        Possibly circular sequences of items,
+        without commitment to a particular representation
+    ]"
+    library: "Free implementation of ELKS library"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    names: chain, sequence
+    access: index, cursor, membership
+    contents: generic
+    date: "$Date: 2013-01-15 13:41:22 -0800 (Tue, 15 Jan 2013) $"
+    revision: "$Revision: 92122 $"
+
+<B>deferred</B> <B>class</B> 
+    <A HREF="../elks/chain.html">CHAIN</A> [G]
+
+<B>inherit</B>
+    <A HREF="../elks/cursor_structure.html">CURSOR_STRUCTURE</A> [G]
+        <B>rename</B>
+            <A HREF="../elks/collection.html#f_put">put</A> <B>as</B> <A HREF="../elks/sequence.html#f_put">sequence_put</A>
+        <B>undefine</B>
+            <A HREF="../elks/sequence.html#f_prune_all">prune_all</A>
+        <B>redefine</B>
+            <A HREF="../elks/chain.html#f_fill">fill</A>
+        <B>end</B>
+
+    <A HREF="../elks/indexable.html">INDEXABLE</A> [G, <A HREF="../elks/integer_32.html">INTEGER_32</A>]
+        <B>rename</B>
+            <A HREF="../elks/table.html#f_item">item</A> <B>as</B> <A HREF="../elks/chain.html#f_i_th">i_th</A> <B>alias</B> "[]",
+            <A HREF="../elks/table.html#f_put">put</A> <B>as</B> <A HREF="../elks/chain.html#f_put_i_th">put_i_th</A>,
+            <A HREF="../elks/table.html#f_bag_put">bag_put</A> <B>as</B> <A HREF="../elks/sequence.html#f_put">sequence_put</A>
+        <B>undefine</B>
+            <A HREF="../elks/sequence.html#f_prune_all">prune_all</A>,
+            <A HREF="../elks/sequence.html#f_put">sequence_put</A>
+        <B>redefine</B>
+            <A HREF="../elks/chain.html#f_fill">fill</A>
+        <B>end</B>
+
+    <A HREF="../elks/sequence.html">SEQUENCE</A> [G]
+        <B>rename</B>
+            <A HREF="../elks/sequence.html#f_put">put</A> <B>as</B> <A HREF="../elks/sequence.html#f_put">sequence_put</A>
+        <B>export</B>
+            {NONE} <A HREF="../elks/sequence.html#f_put">sequence_put</A>
+        <B>redefine</B>
+            <A HREF="../elks/chain.html#f_index_of">index_of</A>,
+            <A HREF="../elks/chain.html#f_has">has</A>,
+            <A HREF="../elks/chain.html#f_off">off</A>,
+            <A HREF="../elks/chain.html#f_occurrences">occurrences</A>,
+            <A HREF="../elks/chain.html#f_fill">fill</A>,
+            <A HREF="../elks/chain.html#f_append">append</A>
+        <B>select</B>
+            <A HREF="../elks/chain.html#f_index_of">index_of</A>,
+            <A HREF="../elks/chain.html#f_has">has</A>,
+            <A HREF="../elks/chain.html#f_occurrences">occurrences</A>
+        <B>end</B>
+
+    <A HREF="../elks/sequence.html">SEQUENCE</A> [G]
+        <B>rename</B>
+            <A HREF="../elks/sequence.html#f_put">put</A> <B>as</B> <A HREF="../elks/sequence.html#f_put">sequence_put</A>,
+            <A HREF="../elks/linear.html#f_index_of">index_of</A> <B>as</B> <A HREF="../elks/linear.html#f_index_of">sequential_index_of</A>,
+            <A HREF="../elks/linear.html#f_has">has</A> <B>as</B> <A HREF="../elks/linear.html#f_has">sequential_has</A>,
+            <A HREF="../elks/linear.html#f_occurrences">occurrences</A> <B>as</B> <A HREF="../elks/linear.html#f_occurrences">sequential_occurrences</A>
+        <B>export</B>
+            {NONE} <A HREF="../elks/linear.html#f_index_of">sequential_index_of</A>, <A HREF="../elks/linear.html#f_has">sequential_has</A>, <A HREF="../elks/sequence.html#f_put">sequence_put</A>, <A HREF="../elks/linear.html#f_occurrences">sequential_occurrences</A>
+        <B>redefine</B>
+            <A HREF="../elks/chain.html#f_off">off</A>,
+            <A HREF="../elks/chain.html#f_fill">fill</A>,
+            <A HREF="../elks/chain.html#f_append">append</A>
+        <B>end</B>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_first"><A HREF="../elks/chain.html#f_first">first</A>: <B>like</B> <A HREF="../elks/active.html#f_item">item</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Item at first position</FONT>
+        <B>require</B>
+            not_empty: <B>not</B> <A HREF="../elks/finite.html#f_is_empty">is_empty</A>
+        <B>local</B>
+            pos: <A HREF="../elks/cursor.html">CURSOR</A>
+        <B>do</B>
+            pos := <A HREF="../elks/cursor_structure.html#f_cursor">cursor</A>
+            <A HREF="../elks/chain.html#f_start">start</A>
+            <B>Result</B> := <A HREF="../elks/active.html#f_item">item</A>
+            <A HREF="../elks/cursor_structure.html#f_go_to">go_to</A> (pos)
+        <B>end</B></A>
+
+    <A NAME="f_last"><A HREF="../elks/chain.html#f_last">last</A>: <B>like</B> <A HREF="../elks/active.html#f_item">item</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Item at last position</FONT>
+        <B>require</B>
+            not_empty: <B>not</B> <A HREF="../elks/finite.html#f_is_empty">is_empty</A>
+        <B>local</B>
+            pos: <A HREF="../elks/cursor.html">CURSOR</A>
+        <B>do</B>
+            pos := <A HREF="../elks/cursor_structure.html#f_cursor">cursor</A>
+            <A HREF="../elks/chain.html#f_finish">finish</A>
+            <B>Result</B> := <A HREF="../elks/active.html#f_item">item</A>
+            <A HREF="../elks/cursor_structure.html#f_go_to">go_to</A> (pos)
+        <B>end</B></A>
+
+    <A NAME="f_has"><A HREF="../elks/chain.html#f_has">has</A> (v: <B>like</B> <A HREF="../elks/active.html#f_item">item</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does chain include </FONT>`v'<FONT COLOR="red">?</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Reference or object equality,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> based on </FONT><A HREF="../elks/container.html#f_object_comparison">object_comparison</A><FONT COLOR="red">.)</FONT>
+        <B>local</B>
+            pos: <A HREF="../elks/cursor.html">CURSOR</A>
+        <B>do</B>
+            pos := <A HREF="../elks/cursor_structure.html#f_cursor">cursor</A>
+            <B>Result</B> := <A HREF="../elks/linear.html#f_has">sequential_has</A> (v)
+            <A HREF="../elks/cursor_structure.html#f_go_to">go_to</A> (pos)
+        <B>end</B></A>
+
+    <A NAME="f_index_of"><A HREF="../elks/chain.html#f_index_of">index_of</A> (v: <B>like</B> <A HREF="../elks/active.html#f_item">item</A>; i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Index of </FONT>`i'<FONT COLOR="red">-th occurrence of item identical to </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Reference or object equality,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> based on </FONT><A HREF="../elks/container.html#f_object_comparison">object_comparison</A><FONT COLOR="red">.)</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> 0 if none.</FONT>
+        <B>local</B>
+            pos: <A HREF="../elks/cursor.html">CURSOR</A>
+        <B>do</B>
+            pos := <A HREF="../elks/cursor_structure.html#f_cursor">cursor</A>
+            <B>Result</B> := <A HREF="../elks/linear.html#f_index_of">sequential_index_of</A> (v, i)
+            <A HREF="../elks/cursor_structure.html#f_go_to">go_to</A> (pos)
+        <B>end</B></A>
+
+    <A NAME="f_i_th"><A HREF="../elks/chain.html#f_i_th">i_th</A> <B>alias</B> "[]" (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <B>like</B> <A HREF="../elks/active.html#f_item">item</A> <B>assign</B> <A HREF="../elks/chain.html#f_put_i_th">put_i_th</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Item at </FONT>`i'<FONT COLOR="red">-th position</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/chain.html">CHAIN</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/chain.html#f_at">at</A><FONT COLOR="red">.</FONT>
+        <B>local</B>
+            pos: <A HREF="../elks/cursor.html">CURSOR</A>
+        <B>do</B>
+            pos := <A HREF="../elks/cursor_structure.html#f_cursor">cursor</A>
+            <A HREF="../elks/chain.html#f_go_i_th">go_i_th</A> (i)
+            <B>Result</B> := <A HREF="../elks/active.html#f_item">item</A>
+            <A HREF="../elks/cursor_structure.html#f_go_to">go_to</A> (pos)
+        <B>end</B></A>
+
+    <A NAME="f_at"><A HREF="../elks/chain.html#f_at">at</A> <B>alias</B> "@" (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <B>like</B> <A HREF="../elks/active.html#f_item">item</A> <B>assign</B> <A HREF="../elks/chain.html#f_put_i_th">put_i_th</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Item at </FONT>`i'<FONT COLOR="red">-th position</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../elks/chain.html">CHAIN</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../elks/chain.html#f_i_th">i_th</A><FONT COLOR="red">.</FONT>
+        <B>local</B>
+            pos: <A HREF="../elks/cursor.html">CURSOR</A>
+        <B>do</B>
+            pos := <A HREF="../elks/cursor_structure.html#f_cursor">cursor</A>
+            <A HREF="../elks/chain.html#f_go_i_th">go_i_th</A> (i)
+            <B>Result</B> := <A HREF="../elks/active.html#f_item">item</A>
+            <A HREF="../elks/cursor_structure.html#f_go_to">go_to</A> (pos)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Measurement</FONT>
+
+    <A NAME="f_occurrences"><A HREF="../elks/chain.html#f_occurrences">occurrences</A> (v: <B>like</B> <A HREF="../elks/active.html#f_item">item</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Number of times </FONT>`v'<FONT COLOR="red"> appears.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Reference or object equality,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> based on </FONT><A HREF="../elks/container.html#f_object_comparison">object_comparison</A><FONT COLOR="red">.)</FONT>
+        <B>local</B>
+            pos: <A HREF="../elks/cursor.html">CURSOR</A>
+        <B>do</B>
+            pos := <A HREF="../elks/cursor_structure.html#f_cursor">cursor</A>
+            <B>Result</B> := <A HREF="../elks/linear.html#f_occurrences">sequential_occurrences</A> (v)
+            <A HREF="../elks/cursor_structure.html#f_go_to">go_to</A> (pos)
+        <B>end</B></A>
+
+    <A NAME="f_index_set"><A HREF="../elks/chain.html#f_index_set">index_set</A>: <A HREF="../elks/integer_interval.html">INTEGER_INTERVAL</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Range of acceptable indexes</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/integer_interval.html#f_make">make</A> (1, <A HREF="../elks/finite.html#f_count">count</A>)
+        <B>ensure then</B>
+            count_definition: <B>Result</B>.<A HREF="../elks/integer_interval.html#f_count">count</A> = <A HREF="../elks/finite.html#f_count">count</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Cursor movement</FONT>
+
+    <A NAME="f_start"><A HREF="../elks/chain.html#f_start">start</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to first position.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (No effect if empty)</FONT>
+        <B>do</B>
+            <B>if</B> <B>not</B> <A HREF="../elks/finite.html#f_is_empty">is_empty</A> <B>then</B>
+                <A HREF="../elks/chain.html#f_go_i_th">go_i_th</A> (1)
+            <B>end</B>
+        <B>ensure then</B>
+            at_first: <B>not</B> <A HREF="../elks/finite.html#f_is_empty">is_empty</A> <B>implies</B> <A HREF="../elks/chain.html#f_isfirst">isfirst</A>
+        <B>end</B></A>
+
+    <A NAME="f_finish"><A HREF="../elks/chain.html#f_finish">finish</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to last position.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (No effect if empty)</FONT>
+        <B>do</B>
+            <B>if</B> <B>not</B> <A HREF="../elks/finite.html#f_is_empty">is_empty</A> <B>then</B>
+                <A HREF="../elks/chain.html#f_go_i_th">go_i_th</A> (<A HREF="../elks/finite.html#f_count">count</A>)
+            <B>end</B>
+        <B>ensure then</B>
+            at_last: <B>not</B> <A HREF="../elks/finite.html#f_is_empty">is_empty</A> <B>implies</B> <A HREF="../elks/chain.html#f_islast">islast</A>
+        <B>end</B></A>
+
+    <A NAME="f_move"><A HREF="../elks/chain.html#f_move">move</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor </FONT>`i'<FONT COLOR="red"> positions. The cursor</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> may end up </FONT><A HREF="../elks/chain.html#f_off">off</A><FONT COLOR="red"> if the absolute value of </FONT>`i'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> is too big.</FONT>
+        <B>local</B>
+            counter, pos, final: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>if</B> i &gt; 0 <B>then</B>
+                <B>from</B>
+                <B>until</B>
+                    (counter = i) <B>or else</B> <A HREF="../elks/linear.html#f_after">after</A>
+                <B>loop</B>
+                    <A HREF="../elks/linear.html#f_forth">forth</A>
+                    counter := counter + 1
+                <B>end</B>
+            <B>elseif</B> i &lt; 0 <B>then</B>
+                final := <A HREF="../elks/linear.html#f_index">index</A> + i
+                <B>if</B> final &lt;= 0 <B>then</B>
+                    <A HREF="../elks/chain.html#f_start">start</A>
+                    <A HREF="../elks/bilinear.html#f_back">back</A>
+                <B>else</B>
+                    <B>from</B>
+                        <A HREF="../elks/chain.html#f_start">start</A>
+                        pos := 1
+                    <B>until</B>
+                        pos = final
+                    <B>loop</B>
+                        <A HREF="../elks/linear.html#f_forth">forth</A>
+                        pos := pos + 1
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+        <B>ensure</B>
+            too_far_right: (<B>old</B> <A HREF="../elks/linear.html#f_index">index</A> + i &gt; <A HREF="../elks/finite.html#f_count">count</A>) <B>implies</B> <A HREF="../elks/linear.html#f_exhausted">exhausted</A>
+            too_far_left: (<B>old</B> <A HREF="../elks/linear.html#f_index">index</A> + i &lt; 1) <B>implies</B> <A HREF="../elks/linear.html#f_exhausted">exhausted</A>
+            expected_index: (<B>not</B> <A HREF="../elks/linear.html#f_exhausted">exhausted</A>) <B>implies</B> (<A HREF="../elks/linear.html#f_index">index</A> = <B>old</B> <A HREF="../elks/linear.html#f_index">index</A> + i)
+        <B>end</B></A>
+
+    <A NAME="f_go_i_th"><A HREF="../elks/chain.html#f_go_i_th">go_i_th</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Move cursor to </FONT>`i'<FONT COLOR="red">-th position.</FONT>
+        <B>require</B>
+            valid_cursor_index: <A HREF="../elks/chain.html#f_valid_cursor_index">valid_cursor_index</A> (i)
+        <B>do</B>
+            <A HREF="../elks/chain.html#f_move">move</A> (i - <A HREF="../elks/linear.html#f_index">index</A>)
+        <B>ensure</B>
+            position_expected: <A HREF="../elks/linear.html#f_index">index</A> = i
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_valid_index"><A HREF="../elks/chain.html#f_valid_index">valid_index</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`i'<FONT COLOR="red"> within allowable bounds?</FONT>
+        <B>do</B>
+            <B>Result</B> := (i &gt;= 1) <B>and</B> (i &lt;= <A HREF="../elks/finite.html#f_count">count</A>)
+        <B>ensure then</B>
+            valid_index_definition: <B>Result</B> = ((i &gt;= 1) <B>and</B> (i &lt;= <A HREF="../elks/finite.html#f_count">count</A>))
+        <B>end</B></A>
+
+    <A NAME="f_isfirst"><A HREF="../elks/chain.html#f_isfirst">isfirst</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is cursor at first position?</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>not</B> <A HREF="../elks/finite.html#f_is_empty">is_empty</A> <B>and</B> (<A HREF="../elks/linear.html#f_index">index</A> = 1)
+        <B>ensure</B>
+            valid_position: <B>Result</B> <B>implies</B> <B>not</B> <A HREF="../elks/finite.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+
+    <A NAME="f_islast"><A HREF="../elks/chain.html#f_islast">islast</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is cursor at last position?</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>not</B> <A HREF="../elks/finite.html#f_is_empty">is_empty</A> <B>and</B> (<A HREF="../elks/linear.html#f_index">index</A> = <A HREF="../elks/finite.html#f_count">count</A>)
+        <B>ensure</B>
+            valid_position: <B>Result</B> <B>implies</B> <B>not</B> <A HREF="../elks/finite.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+
+    <A NAME="f_off"><A HREF="../elks/chain.html#f_off">off</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there no current item?</FONT>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../elks/linear.html#f_index">index</A> = 0) <B>or</B> (<A HREF="../elks/linear.html#f_index">index</A> = <A HREF="../elks/finite.html#f_count">count</A> + 1)
+        <B>end</B></A>
+
+    <A NAME="f_valid_cursor_index"><A HREF="../elks/chain.html#f_valid_cursor_index">valid_cursor_index</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`i'<FONT COLOR="red"> correctly bounded for cursor movement?</FONT>
+        <B>do</B>
+            <B>Result</B> := (i &gt;= 0) <B>and</B> (i &lt;= <A HREF="../elks/finite.html#f_count">count</A> + 1)
+        <B>ensure</B>
+            valid_cursor_index_definition: <B>Result</B> = ((i &gt;= 0) <B>and</B> (i &lt;= <A HREF="../elks/finite.html#f_count">count</A> + 1))
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_put"><A HREF="../elks/chain.html#f_put">put</A> (v: <B>like</B> <A HREF="../elks/active.html#f_item">item</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Replace current item by </FONT>`v'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (Synonym for </FONT><A HREF="../elks/active.html#f_replace">replace</A><FONT COLOR="red">)</FONT>
+        <B>require</B>
+            writeable: <A HREF="../elks/sequence.html#f_writable">writable</A>
+            replaceable: <A HREF="../elks/active.html#f_replaceable">replaceable</A>
+        <B>do</B>
+            <A HREF="../elks/active.html#f_replace">replace</A> (v)
+        <B>ensure</B>
+            same_count: <A HREF="../elks/finite.html#f_count">count</A> = <B>old</B> <A HREF="../elks/finite.html#f_count">count</A>
+            is_inserted: <A HREF="../elks/collection.html#f_is_inserted">is_inserted</A> (v)
+        <B>end</B></A>
+
+    <A NAME="f_put_i_th"><A HREF="../elks/chain.html#f_put_i_th">put_i_th</A> (v: <B>like</B> <A HREF="../elks/active.html#f_item">item</A>; i: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Put </FONT>`v'<FONT COLOR="red"> at </FONT>`i'<FONT COLOR="red">-th position.</FONT>
+        <B>local</B>
+            pos: <A HREF="../elks/cursor.html">CURSOR</A>
+        <B>do</B>
+            pos := <A HREF="../elks/cursor_structure.html#f_cursor">cursor</A>
+            <A HREF="../elks/chain.html#f_go_i_th">go_i_th</A> (i)
+            <A HREF="../elks/active.html#f_replace">replace</A> (v)
+            <A HREF="../elks/cursor_structure.html#f_go_to">go_to</A> (pos)
+        <B>end</B></A>
+
+    <A NAME="f_append"><A HREF="../elks/chain.html#f_append">append</A> (s: <A HREF="../elks/sequence.html">SEQUENCE</A> [G])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Append a copy of </FONT>`s'<FONT COLOR="red">.</FONT>
+        <B>local</B>
+            l: <A HREF="../elks/sequence.html">SEQUENCE</A> [G]
+            l_cursor: <A HREF="../elks/cursor.html">CURSOR</A>
+        <B>do</B>
+            l := s
+            <B>if</B> s = <B>Current</B> <B>then</B>
+                l := <A HREF="../elks/any.html#f_twin">twin</A>
+            <B>end</B>
+            <B>from</B>
+                l_cursor := <A HREF="../elks/cursor_structure.html#f_cursor">cursor</A>
+                l.<A HREF="../elks/traversable.html#f_start">start</A>
+            <B>until</B>
+                l.<A HREF="../elks/linear.html#f_exhausted">exhausted</A>
+            <B>loop</B>
+                <A HREF="../elks/bag.html#f_extend">extend</A> (l.<A HREF="../elks/active.html#f_item">item</A>)
+                <A HREF="../elks/chain.html#f_finish">finish</A>
+                l.<A HREF="../elks/linear.html#f_forth">forth</A>
+            <B>end</B>
+            <A HREF="../elks/cursor_structure.html#f_go_to">go_to</A> (l_cursor)
+        <B>end</B></A>
+
+    <A NAME="f_fill"><A HREF="../elks/chain.html#f_fill">fill</A> (other: <A HREF="../elks/container.html">CONTAINER</A> [G])
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Fill with as many items of </FONT>`other'<FONT COLOR="red"> as possible.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> The representations of </FONT>`other'<FONT COLOR="red"> and current structure</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> need not be the same.</FONT>
+        <B>local</B>
+            lin_rep: <A HREF="../elks/linear.html">LINEAR</A> [G]
+            l_cursor: <A HREF="../elks/cursor.html">CURSOR</A>
+        <B>do</B>
+            lin_rep := other.<A HREF="../elks/container.html#f_linear_representation">linear_representation</A>
+            <B>from</B>
+                l_cursor := <A HREF="../elks/cursor_structure.html#f_cursor">cursor</A>
+                lin_rep.<A HREF="../elks/traversable.html#f_start">start</A>
+            <B>until</B>
+                <B>not</B> <A HREF="../elks/collection.html#f_extendible">extendible</A> <B>or else</B> lin_rep.<A HREF="../elks/linear.html#f_off">off</A>
+            <B>loop</B>
+                <A HREF="../elks/bag.html#f_extend">extend</A> (lin_rep.<A HREF="../elks/traversable.html#f_item">item</A>)
+                <A HREF="../elks/chain.html#f_finish">finish</A>
+                lin_rep.<A HREF="../elks/linear.html#f_forth">forth</A>
+            <B>end</B>
+            <A HREF="../elks/cursor_structure.html#f_go_to">go_to</A> (l_cursor)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Transformation</FONT>
+
+    <A NAME="f_swap"><A HREF="../elks/chain.html#f_swap">swap</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Exchange item at </FONT>`i'<FONT COLOR="red">-th position with item</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> at cursor position.</FONT>
+        <B>require</B>
+            not_off: <B>not</B> <A HREF="../elks/chain.html#f_off">off</A>
+            valid_index: <A HREF="../elks/chain.html#f_valid_index">valid_index</A> (i)
+        <B>local</B>
+            old_item, new_item: <B>like</B> <A HREF="../elks/active.html#f_item">item</A>
+            pos: <A HREF="../elks/cursor.html">CURSOR</A>
+        <B>do</B>
+            pos := <A HREF="../elks/cursor_structure.html#f_cursor">cursor</A>
+            old_item := <A HREF="../elks/active.html#f_item">item</A>
+            <A HREF="../elks/chain.html#f_go_i_th">go_i_th</A> (i)
+            new_item := <A HREF="../elks/active.html#f_item">item</A>
+            <A HREF="../elks/active.html#f_replace">replace</A> (old_item)
+            <A HREF="../elks/cursor_structure.html#f_go_to">go_to</A> (pos)
+            <A HREF="../elks/active.html#f_replace">replace</A> (new_item)
+        <B>ensure</B>
+            swapped_to_item: <A HREF="../elks/active.html#f_item">item</A> = <B>old</B> <A HREF="../elks/chain.html#f_i_th">i_th</A> (i)
+            swapped_from_item: <A HREF="../elks/chain.html#f_i_th">i_th</A> (i) = <B>old</B> <A HREF="../elks/active.html#f_item">item</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Duplication</FONT>
+
+    <A NAME="f_duplicate"><A HREF="../elks/chain.html#f_duplicate">duplicate</A> (n: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <B>like</B> <B>Current</B>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Copy of sub-chain beginning at current position</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> and having min (</FONT>`n'<FONT COLOR="red">, </FONT>`from_here'<FONT COLOR="red">) items,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> where </FONT>`from_here'<FONT COLOR="red"> is the number of items</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> at or to the right of current position.</FONT>
+        <B>require</B>
+            not_off_unless_after: <A HREF="../elks/chain.html#f_off">off</A> <B>implies</B> <A HREF="../elks/linear.html#f_after">after</A>
+            valid_subchain: n &gt;= 0
+        <B>deferred</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Inapplicable</FONT>
+
+    <A NAME="f_remove"><A HREF="../elks/chain.html#f_remove">remove</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Remove current item.</FONT>
+        <B>do</B>
+        <B>end</B></A>
+    
+<B>invariant</B>
+    non_negative_index: <A HREF="../elks/linear.html#f_index">index</A> &gt;= 0
+    index_small_enough: <A HREF="../elks/linear.html#f_index">index</A> &lt;= <A HREF="../elks/finite.html#f_count">count</A> + 1
+    off_definition: <A HREF="../elks/chain.html#f_off">off</A> = ((<A HREF="../elks/linear.html#f_index">index</A> = 0) <B>or</B> (<A HREF="../elks/linear.html#f_index">index</A> = <A HREF="../elks/finite.html#f_count">count</A> + 1))
+    isfirst_definition: <A HREF="../elks/chain.html#f_isfirst">isfirst</A> = ((<B>not</B> <A HREF="../elks/finite.html#f_is_empty">is_empty</A>) <B>and</B> (<A HREF="../elks/linear.html#f_index">index</A> = 1))
+    islast_definition: <A HREF="../elks/chain.html#f_islast">islast</A> = ((<B>not</B> <A HREF="../elks/finite.html#f_is_empty">is_empty</A>) <B>and</B> (<A HREF="../elks/linear.html#f_index">index</A> = <A HREF="../elks/finite.html#f_count">count</A>))
+    item_corresponds_to_index: (<B>not</B> <A HREF="../elks/chain.html#f_off">off</A>) <B>implies</B> (<A HREF="../elks/active.html#f_item">item</A> = <A HREF="../elks/chain.html#f_i_th">i_th</A> (<A HREF="../elks/linear.html#f_index">index</A>))
+    index_set_has_same_count: <A HREF="../elks/chain.html#f_index_set">index_set</A>.<A HREF="../elks/integer_interval.html#f_count">count</A> = <A HREF="../elks/finite.html#f_count">count</A>
+
+<B>note</B>
+    copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../elks/chain.html">CHAIN</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="chain_chart.html">Chart</A></TD><TD><A HREF="chain_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="chain_flat.html">Flat</A></TD><TD><A HREF="chain_short.html">Contracts</A></TD><TD><A HREF="chain_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

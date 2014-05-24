@@ -1,0 +1,1376 @@
+<HTML><HEAD>
+<meta name="description" content="Generic sockets"/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2006, Eiffel Software and others"/>
+<meta name="license" content="Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"/>
+<meta name="source" content="Eiffel Software 356 Storke Road, Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>socket Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="socket_chart.html">Chart</A></TD><TD><A HREF="socket_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="socket_flat.html">Flat</A></TD><TD><A HREF="socket_short.html">Contracts</A></TD><TD><A HREF="socket_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "Generic sockets"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2012-09-28 09:02:02 -0700 (Fri, 28 Sep 2012) $"
+    revision: "$Revision: 89474 $"
+
+<B>deferred</B> <B>class</B> 
+    <A HREF="../abstract/socket.html">SOCKET</A>
+
+<B>inherit</B>
+    <A HREF="../abstract/socket_resources.html">SOCKET_RESOURCES</A>
+        <B>redefine</B>
+            <A HREF="../abstract/socket.html#f_socket_ok">socket_ok</A>,
+            <A HREF="../abstract/socket.html#f_error">error</A>
+        <B>end</B>
+
+    <A HREF="../elks/io_medium.html">IO_MEDIUM</A>
+        <B>rename</B>
+            <A HREF="../elks/io_medium.html#f_handle">handle</A> <B>as</B> <A HREF="../elks/io_medium.html#f_handle">descriptor</A>,
+            <A HREF="../elks/io_medium.html#f_handle_available">handle_available</A> <B>as</B> <A HREF="../abstract/socket.html#f_descriptor_available">descriptor_available</A>
+        <B>end</B>
+
+    <A HREF="../elks/exceptions.html">EXCEPTIONS</A>
+        <B>export</B>
+            {NONE} <B>all</B>
+        <B>end</B>
+
+    <A HREF="../elks/platform.html">PLATFORM</A>
+        <B>export</B>
+            {NONE} <B>all</B>
+        <B>end</B>
+
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_retrieved"><A HREF="../abstract/socket.html#f_retrieved">retrieved</A>: <B>detachable</B> <A HREF="../elks/any.html">ANY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieved object structure</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> To access resulting object under correct type,</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> use assignment attempt.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Will raise an exception (code </FONT><A HREF="../elks/excep_const.html#f_retrieve_exception">Retrieve_exception</A><FONT COLOR="red">)</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> if content is not a stored Eiffel structure.</FONT>
+        <B>local</B>
+            was_not_blocking: <A HREF="../elks/boolean.html">BOOLEAN</A>
+        <B>do</B>
+            (<B>create</B> {<A HREF="../elks/mismatch_corrector.html">MISMATCH_CORRECTOR</A>}).<A HREF="../elks/mismatch_corrector.html#f_mismatch_information">Mismatch_information</A>.<A HREF="../elks/any.html#f_do_nothing">do_nothing</A>
+            <B>if</B> <B>not</B> <A HREF="../abstract/socket.html#f_is_blocking">is_blocking</A> <B>then</B>
+                was_not_blocking := <B>True</B>
+                <A HREF="../abstract/socket.html#f_set_blocking">set_blocking</A>
+            <B>end</B>
+            <B>Result</B> := <A HREF="../abstract/socket.html#f_eif_net_retrieved">eif_net_retrieved</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>)
+            <B>if</B> was_not_blocking <B>then</B>
+                <A HREF="../abstract/socket.html#f_set_non_blocking">set_non_blocking</A>
+            <B>end</B>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Status report</FONT>
+
+    <A NAME="f_was_error"><A HREF="../abstract/socket.html#f_was_error">was_error</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Indicates that there was an error during the last operation</FONT>
+
+    <A NAME="f_socket_ok"><A HREF="../abstract/socket.html#f_socket_ok">socket_ok</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> No error</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>Precursor</B> <B>and then</B> <B>not</B> <A HREF="../abstract/socket.html#f_was_error">was_error</A>
+        <B>end</B></A>
+
+    <A NAME="f_error"><A HREF="../abstract/socket.html#f_error">error</A>: <A HREF="../elks/string_8.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output a related error message.</FONT>
+        <B>local</B>
+            l_error: <B>detachable</B> <A HREF="../elks/string_8.html">STRING_8</A>
+        <B>do</B>
+            <B>if</B> <A HREF="../abstract/socket.html#f_was_error">was_error</A> <B>then</B>
+                l_error := <A HREF="../abstract/socket.html#f_socket_error">socket_error</A>
+                <B>check</B>
+                    l_error_attached: l_error /= <B>Void</B>
+                <B>end</B>
+                <B>Result</B> := l_error
+            <B>else</B>
+                <B>Result</B> := <B>Precursor</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_support_storable"><A HREF="../abstract/socket.html#f_support_storable">support_storable</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Can medium be used to store an Eiffel structure?</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>False</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_valid_peer_address"><A HREF="../abstract/socket.html#f_is_valid_peer_address">is_valid_peer_address</A> (addr: <B>attached</B> <B>like</B> <A HREF="../abstract/socket.html#f_address">address</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`addr'<FONT COLOR="red"> a valid peer address?</FONT>
+        <B>require</B>
+            address_exists: addr /= <B>Void</B>
+        <B>do</B>
+            <B>Result</B> := <B>True</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_valid_family"><A HREF="../abstract/socket.html#f_is_valid_family">is_valid_family</A> (addr: <B>attached</B> <B>like</B> <A HREF="../abstract/socket.html#f_address">address</A>): <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is </FONT>`addr'<FONT COLOR="red"> the same family as Current?</FONT>
+        <B>require</B>
+            address_exists: addr /= <B>Void</B>
+        <B>do</B>
+            <B>Result</B> := (addr.<A HREF="../abstract/socket_address.html#f_family">family</A> = <A HREF="../abstract/socket.html#f_family">family</A>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Element change</FONT>
+
+    <A NAME="f_basic_store"><A HREF="../abstract/socket.html#f_basic_store">basic_store</A> (object: <A HREF="../elks/any.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Produce an external representation of the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> entire object structure reachable from </FONT>`object'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrievable within current system only.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_eif_net_basic_store">eif_net_basic_store</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>, $object.<A HREF="../elks/pointer_ref.html#f_item">to_pointer</A>)
+        <B>end</B></A>
+
+    <A NAME="f_general_store"><A HREF="../abstract/socket.html#f_general_store">general_store</A> (object: <A HREF="../elks/any.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Produce an external representation of the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> entire object structure reachable from </FONT>`object'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrievable from other systems for same platform</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (machine architecture).</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_eif_net_general_store">eif_net_general_store</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>, $object.<A HREF="../elks/pointer_ref.html#f_item">to_pointer</A>)
+        <B>end</B></A>
+
+    <A NAME="f_independent_store"><A HREF="../abstract/socket.html#f_independent_store">independent_store</A> (object: <A HREF="../elks/any.html">ANY</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Produce an external representation of the</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> entire object structure reachable from </FONT>`object'<FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrievable from other systems for the same or other</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> platform (machine architecture).</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_eif_net_independent_store">eif_net_independent_store</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>, $object.<A HREF="../elks/pointer_ref.html#f_item">to_pointer</A>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Basic commands</FONT>
+
+    <A NAME="f_bind"><A HREF="../abstract/socket.html#f_bind">bind</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Bind socket to local address in </FONT><A HREF="../abstract/socket.html#f_address">address</A><FONT COLOR="red">.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket.html#f_exists">exists</A>
+            valid_local_address: <A HREF="../abstract/socket.html#f_address">address</A> /= <B>Void</B>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_connect"><A HREF="../abstract/socket.html#f_connect">connect</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Connect socket to peer address.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket.html#f_exists">exists</A>
+            valid_peer_address: <A HREF="../abstract/socket.html#f_peer_address">peer_address</A> /= <B>Void</B>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_make_socket"><A HREF="../abstract/socket.html#f_make_socket">make_socket</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Create socket descriptor.</FONT>
+        <B>require</B>
+            valid_family: <A HREF="../abstract/socket.html#f_family">family</A> &gt;= 0
+            valid_type: <A HREF="../abstract/socket.html#f_type">type</A> &gt;= 0
+            valid_protocol: <A HREF="../abstract/socket.html#f_protocol">protocol</A> &gt;= 0
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_cleanup"><A HREF="../abstract/socket.html#f_cleanup">cleanup</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Cleanup socket.</FONT>
+        <B>do</B>
+            <B>if</B> <A HREF="../abstract/socket.html#f_exists">exists</A> <B>then</B>
+                <A HREF="../abstract/socket.html#f_close">close</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_close"><A HREF="../abstract/socket.html#f_close">close</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Close socket for all context.</FONT>
+        <B>do</B>
+            <B>if</B> <A HREF="../abstract/socket.html#f_is_open_read">is_open_read</A> <B>or</B> <A HREF="../abstract/socket.html#f_is_open_write">is_open_write</A> <B>then</B>
+                <A HREF="../abstract/socket.html#f_shutdown">shutdown</A>
+            <B>end</B>
+            <B>if</B> <A HREF="../abstract/socket.html#f_exists">exists</A> <B>then</B>
+                <A HREF="../abstract/socket.html#f_close_socket">close_socket</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_close_socket"><A HREF="../abstract/socket.html#f_close_socket">close_socket</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Close socket for current context.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket.html#f_exists">exists</A>
+        <B>deferred</B>
+        <B>ensure</B>
+            is_closed: <A HREF="../abstract/socket.html#f_is_closed">is_closed</A>
+        <B>end</B></A>
+
+    <A NAME="f_is_closed"><A HREF="../abstract/socket.html#f_is_closed">is_closed</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is socket closed?</FONT>
+        <B>deferred</B>
+        <B>end</B></A>
+
+    <A NAME="f_descriptor_available"><A HREF="../abstract/socket.html#f_descriptor_available">descriptor_available</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is descriptor available?</FONT>
+
+    <A NAME="f_family"><A HREF="../abstract/socket.html#f_family">family</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Socket family eg. af_inet, af_unix</FONT>
+
+    <A NAME="f_protocol"><A HREF="../abstract/socket.html#f_protocol">protocol</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Protocol of the socket. default 0</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> means for the system to chose the default</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> protocol for the family chosen. eg. </FONT>`udp'<FONT COLOR="red">, </FONT>`tcp'<FONT COLOR="red">.</FONT>
+
+    <A NAME="f_type"><A HREF="../abstract/socket.html#f_type">type</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Type of socket. eg stream, datagram</FONT>
+
+    <A NAME="f_address"><A HREF="../abstract/socket.html#f_address">address</A>: <B>detachable</B> <B>like</B> <A HREF="../abstract/socket.html#f_address_type">address_type</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Local address of socket</FONT>
+
+    <A NAME="f_peer_address"><A HREF="../abstract/socket.html#f_peer_address">peer_address</A>: <B>detachable</B> <B>like</B> <A HREF="../abstract/socket.html#f_address">address</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Peer address of socket</FONT>
+
+    <A NAME="f_address_type"><A HREF="../abstract/socket.html#f_address_type">address_type</A>: <A HREF="../abstract/socket_address.html">SOCKET_ADDRESS</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Type of </FONT><A HREF="../abstract/socket.html#f_address">address</A><FONT COLOR="red"> and </FONT><A HREF="../abstract/socket.html#f_peer_address">peer_address</A>
+        <B>require</B>
+            not_callable: <B>False</B>
+        <B>do</B>
+            <B>check</B>
+                <B>False</B>
+            <B>then</B>
+            <B>end</B>
+        <B>ensure</B>
+            for_typing_only: <B>False</B>
+        <B>end</B></A>
+
+    <A NAME="f_set_peer_address"><A HREF="../abstract/socket.html#f_set_peer_address">set_peer_address</A> (addr: <B>like</B> <A HREF="../abstract/socket.html#f_address">address</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set peer address to </FONT>`addr'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            address_exists: addr /= <B>Void</B>
+            address_valid: <A HREF="../abstract/socket.html#f_is_valid_peer_address">is_valid_peer_address</A> (addr)
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_peer_address">peer_address</A> := addr
+        <B>ensure</B>
+            address_set: <A HREF="../abstract/socket.html#f_peer_address">peer_address</A> = addr
+        <B>end</B></A>
+
+    <A NAME="f_set_address"><A HREF="../abstract/socket.html#f_set_address">set_address</A> (addr: <B>like</B> <A HREF="../abstract/socket.html#f_address">address</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set local address to </FONT>`addr'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            add_non_void: addr /= <B>Void</B>
+            same_type: <A HREF="../abstract/socket.html#f_is_valid_family">is_valid_family</A> (addr)
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_address">address</A> := addr
+        <B>ensure</B>
+            address_set: <A HREF="../abstract/socket.html#f_address">address</A> = addr
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Miscellaneous</FONT>
+
+    <A NAME="f_name"><A HREF="../abstract/socket.html#f_name">name</A>: <A HREF="../elks/string_8.html">STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Socket name</FONT>
+        <B>do</B>
+            <B>create</B> <B>Result</B>.<A HREF="../elks/readable_string_8.html#f_make">make</A> (0)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Output</FONT>
+
+    <A NAME="f_put_new_line"><A HREF="../abstract/socket.html#f_put_new_line">put_new_line</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write a "new_line" character to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_new_line">new_line</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_put_character">put_character</A> ('%N')
+        <B>end</B></A>
+
+    <A NAME="f_new_line"><A HREF="../abstract/socket.html#f_new_line">new_line</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write a "new_line" character to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_put_new_line">put_new_line</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_put_character">put_character</A> ('%N')
+        <B>end</B></A>
+
+    <A NAME="f_put_string"><A HREF="../abstract/socket.html#f_put_string">put_string</A> (s: <A HREF="../elks/string_8.html">STRING_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write string </FONT>`s'<FONT COLOR="red"> to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_putstring">putstring</A><FONT COLOR="red">.</FONT>
+        <B>local</B>
+            ext: <A HREF="../elks/c_string.html">C_STRING</A>
+        <B>do</B>
+            <B>create</B> ext.<A HREF="../elks/c_string.html#f_make">make</A> (s)
+            <A HREF="../abstract/socket.html#f_put_managed_pointer">put_managed_pointer</A> (ext.<A HREF="../elks/c_string.html#f_managed_data">managed_data</A>, 0, s.<A HREF="../elks/readable_string_8.html#f_count">count</A>)
+        <B>end</B></A>
+
+    <A NAME="f_putstring"><A HREF="../abstract/socket.html#f_putstring">putstring</A> (s: <A HREF="../elks/string_8.html">STRING_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write string </FONT>`s'<FONT COLOR="red"> to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_put_string">put_string</A><FONT COLOR="red">.</FONT>
+        <B>local</B>
+            ext: <A HREF="../elks/c_string.html">C_STRING</A>
+        <B>do</B>
+            <B>create</B> ext.<A HREF="../elks/c_string.html#f_make">make</A> (s)
+            <A HREF="../abstract/socket.html#f_put_managed_pointer">put_managed_pointer</A> (ext.<A HREF="../elks/c_string.html#f_managed_data">managed_data</A>, 0, s.<A HREF="../elks/readable_string_8.html#f_count">count</A>)
+        <B>end</B></A>
+
+    <A NAME="f_put_managed_pointer"><A HREF="../abstract/socket.html#f_put_managed_pointer">put_managed_pointer</A> (p: <A HREF="../elks/managed_pointer.html">MANAGED_POINTER</A>; start_pos, nb_bytes: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Put data of length </FONT>`nb_bytes'<FONT COLOR="red"> pointed by </FONT>`start_pos'<FONT COLOR="red"> index in </FONT>`p'<FONT COLOR="red"> at</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> current position.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_c_put_stream">c_put_stream</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>, p.<A HREF="../elks/managed_pointer.html#f_item">item</A> + start_pos, nb_bytes)
+        <B>end</B></A>
+
+    <A NAME="f_put_character"><A HREF="../abstract/socket.html#f_put_character">put_character</A> (c: <A HREF="../elks/character_8.html">CHARACTER_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write character </FONT>`c'<FONT COLOR="red"> to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_putchar">putchar</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_put_character">put_character</A> (c, 0)
+            <A HREF="../abstract/socket.html#f_put_managed_pointer">put_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_character_8_bytes">Character_8_bytes</A>)
+        <B>end</B></A>
+
+    <A NAME="f_putchar"><A HREF="../abstract/socket.html#f_putchar">putchar</A> (c: <A HREF="../elks/character_8.html">CHARACTER_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write character </FONT>`c'<FONT COLOR="red"> to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_put_character">put_character</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_put_character">put_character</A> (c, 0)
+            <A HREF="../abstract/socket.html#f_put_managed_pointer">put_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_character_8_bytes">Character_8_bytes</A>)
+        <B>end</B></A>
+
+    <A NAME="f_put_real"><A HREF="../abstract/socket.html#f_put_real">put_real</A> (r: <A HREF="../elks/real_32.html">REAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write real </FONT>`r'<FONT COLOR="red"> to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_putreal">putreal</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_put_real_32">put_real_32</A> (r, 0)
+            <A HREF="../abstract/socket.html#f_put_managed_pointer">put_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_real_32_bytes">Real_32_bytes</A>)
+        <B>end</B></A>
+
+    <A NAME="f_putreal"><A HREF="../abstract/socket.html#f_putreal">putreal</A> (r: <A HREF="../elks/real_32.html">REAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write real </FONT>`r'<FONT COLOR="red"> to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_put_real">put_real</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_put_real_32">put_real_32</A> (r, 0)
+            <A HREF="../abstract/socket.html#f_put_managed_pointer">put_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_real_32_bytes">Real_32_bytes</A>)
+        <B>end</B></A>
+
+    <A NAME="f_put_double"><A HREF="../abstract/socket.html#f_put_double">put_double</A> (d: <A HREF="../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write double </FONT>`d'<FONT COLOR="red"> to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_putdouble">putdouble</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_put_real_64_be">put_real_64_be</A> (d, 0)
+            <A HREF="../abstract/socket.html#f_put_managed_pointer">put_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_real_64_bytes">Real_64_bytes</A>)
+        <B>end</B></A>
+
+    <A NAME="f_putdouble"><A HREF="../abstract/socket.html#f_putdouble">putdouble</A> (d: <A HREF="../elks/real_64.html">REAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write double </FONT>`d'<FONT COLOR="red"> to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_put_double">put_double</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_put_real_64_be">put_real_64_be</A> (d, 0)
+            <A HREF="../abstract/socket.html#f_put_managed_pointer">put_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_real_64_bytes">Real_64_bytes</A>)
+        <B>end</B></A>
+
+    <A NAME="f_put_integer"><A HREF="../abstract/socket.html#f_put_integer">put_integer</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write integer </FONT>`i'<FONT COLOR="red"> to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_putint">putint</A><FONT COLOR="red"> and </FONT><A HREF="../abstract/socket.html#f_put_integer_32">put_integer_32</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_put_integer_32_be">put_integer_32_be</A> (i, 0)
+            <A HREF="../abstract/socket.html#f_put_managed_pointer">put_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_integer_32_bytes">Integer_32_bytes</A>)
+        <B>end</B></A>
+
+    <A NAME="f_putint"><A HREF="../abstract/socket.html#f_putint">putint</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write integer </FONT>`i'<FONT COLOR="red"> to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_put_integer">put_integer</A><FONT COLOR="red"> and </FONT><A HREF="../abstract/socket.html#f_put_integer_32">put_integer_32</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_put_integer_32_be">put_integer_32_be</A> (i, 0)
+            <A HREF="../abstract/socket.html#f_put_managed_pointer">put_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_integer_32_bytes">Integer_32_bytes</A>)
+        <B>end</B></A>
+
+    <A NAME="f_put_integer_32"><A HREF="../abstract/socket.html#f_put_integer_32">put_integer_32</A> (i: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write integer </FONT>`i'<FONT COLOR="red"> to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_put_integer">put_integer</A><FONT COLOR="red"> and </FONT><A HREF="../abstract/socket.html#f_putint">putint</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_put_integer_32_be">put_integer_32_be</A> (i, 0)
+            <A HREF="../abstract/socket.html#f_put_managed_pointer">put_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_integer_32_bytes">Integer_32_bytes</A>)
+        <B>end</B></A>
+
+    <A NAME="f_put_integer_8"><A HREF="../abstract/socket.html#f_put_integer_8">put_integer_8</A> (i: <A HREF="../elks/integer_8.html">INTEGER_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write integer </FONT>`i'<FONT COLOR="red"> to socket.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_put_integer_8_be">put_integer_8_be</A> (i, 0)
+            <A HREF="../abstract/socket.html#f_put_managed_pointer">put_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_integer_8_bytes">Integer_8_bytes</A>)
+        <B>end</B></A>
+
+    <A NAME="f_put_integer_16"><A HREF="../abstract/socket.html#f_put_integer_16">put_integer_16</A> (i: <A HREF="../elks/integer_16.html">INTEGER_16</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write integer </FONT>`i'<FONT COLOR="red"> to socket.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_put_integer_16_be">put_integer_16_be</A> (i, 0)
+            <A HREF="../abstract/socket.html#f_put_managed_pointer">put_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_integer_16_bytes">Integer_16_bytes</A>)
+        <B>end</B></A>
+
+    <A NAME="f_put_integer_64"><A HREF="../abstract/socket.html#f_put_integer_64">put_integer_64</A> (i: <A HREF="../elks/integer_64.html">INTEGER_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write integer </FONT>`i'<FONT COLOR="red"> to socket.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_put_integer_64_be">put_integer_64_be</A> (i, 0)
+            <A HREF="../abstract/socket.html#f_put_managed_pointer">put_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_integer_64_bytes">Integer_64_bytes</A>)
+        <B>end</B></A>
+
+    <A NAME="f_put_natural_8"><A HREF="../abstract/socket.html#f_put_natural_8">put_natural_8</A> (i: <A HREF="../elks/natural_8.html">NATURAL_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write natural </FONT>`i'<FONT COLOR="red"> to socket.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_put_natural_8_be">put_natural_8_be</A> (i, 0)
+            <A HREF="../abstract/socket.html#f_put_managed_pointer">put_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_natural_8_bytes">Natural_8_bytes</A>)
+        <B>end</B></A>
+
+    <A NAME="f_put_natural_16"><A HREF="../abstract/socket.html#f_put_natural_16">put_natural_16</A> (i: <A HREF="../elks/natural_16.html">NATURAL_16</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write natural </FONT>`i'<FONT COLOR="red"> to socket.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_put_natural_16_be">put_natural_16_be</A> (i, 0)
+            <A HREF="../abstract/socket.html#f_put_managed_pointer">put_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_natural_16_bytes">Natural_16_bytes</A>)
+        <B>end</B></A>
+
+    <A NAME="f_put_natural"><A HREF="../abstract/socket.html#f_put_natural">put_natural</A> (i: <A HREF="../elks/natural_32.html">NATURAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write natural </FONT>`i'<FONT COLOR="red"> to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_put_natural_32">put_natural_32</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_put_natural_32_be">put_natural_32_be</A> (i, 0)
+            <A HREF="../abstract/socket.html#f_put_managed_pointer">put_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_natural_32_bytes">Natural_32_bytes</A>)
+        <B>end</B></A>
+
+    <A NAME="f_put_natural_32"><A HREF="../abstract/socket.html#f_put_natural_32">put_natural_32</A> (i: <A HREF="../elks/natural_32.html">NATURAL_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write natural </FONT>`i'<FONT COLOR="red"> to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_put_natural">put_natural</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_put_natural_32_be">put_natural_32_be</A> (i, 0)
+            <A HREF="../abstract/socket.html#f_put_managed_pointer">put_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_natural_32_bytes">Natural_32_bytes</A>)
+        <B>end</B></A>
+
+    <A NAME="f_put_natural_64"><A HREF="../abstract/socket.html#f_put_natural_64">put_natural_64</A> (i: <A HREF="../elks/natural_64.html">NATURAL_64</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write natural </FONT>`i'<FONT COLOR="red"> to socket.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_put_natural_64_be">put_natural_64_be</A> (i, 0)
+            <A HREF="../abstract/socket.html#f_put_managed_pointer">put_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_natural_64_bytes">Natural_64_bytes</A>)
+        <B>end</B></A>
+
+    <A NAME="f_put_boolean"><A HREF="../abstract/socket.html#f_put_boolean">put_boolean</A> (b: <A HREF="../elks/boolean.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write boolean </FONT>`b'<FONT COLOR="red"> to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_putbool">putbool</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>if</B> b <B>then</B>
+                <A HREF="../abstract/socket.html#f_put_character">put_character</A> ('T')
+            <B>else</B>
+                <A HREF="../abstract/socket.html#f_put_character">put_character</A> ('F')
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_putbool"><A HREF="../abstract/socket.html#f_putbool">putbool</A> (b: <A HREF="../elks/boolean.html">BOOLEAN</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write boolean </FONT>`b'<FONT COLOR="red"> to socket.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_put_boolean">put_boolean</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <B>if</B> b <B>then</B>
+                <A HREF="../abstract/socket.html#f_put_character">put_character</A> ('T')
+            <B>else</B>
+                <A HREF="../abstract/socket.html#f_put_character">put_character</A> ('F')
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_write"><A HREF="../abstract/socket.html#f_write">write</A> (a_packet: <A HREF="../abstract/packet.html">PACKET</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Write packet </FONT>`a_packet'<FONT COLOR="red"> to socket.</FONT>
+        <B>require</B>
+            a_packet_not_void: a_packet /= <B>Void</B>
+            socket_exists: <A HREF="../abstract/socket.html#f_exists">exists</A>
+        <B>local</B>
+            amount_sent: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            ext_data: <A HREF="../elks/pointer.html">POINTER</A>
+            return_val: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            count: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                ext_data := a_packet.<A HREF="../abstract/packet.html#f_data">data</A>.<A HREF="../elks/managed_pointer.html#f_item">item</A>
+                count := a_packet.<A HREF="../abstract/packet.html#f_count">count</A>
+            <B>until</B>
+                count = amount_sent
+            <B>loop</B>
+                return_val := <A HREF="../abstract/socket.html#f_c_write">c_write</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>, ext_data, count - amount_sent)
+                <B>if</B> return_val &gt; 0 <B>then</B>
+                    ext_data := ext_data + return_val
+                    amount_sent := amount_sent + return_val
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_send"><A HREF="../abstract/socket.html#f_send">send</A> (a_packet: <A HREF="../abstract/packet.html">PACKET</A>; flags: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Send a packet </FONT>`a_packet'<FONT COLOR="red"> of data to socket.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket.html#f_exists">exists</A>
+            opened_for_write: <A HREF="../abstract/socket.html#f_is_open_write">is_open_write</A>
+            valid_packet: a_packet /= <B>Void</B>
+        <B>local</B>
+            amount_sent: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            ext_data: <A HREF="../elks/pointer.html">POINTER</A>
+            return_val: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            count: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                ext_data := a_packet.<A HREF="../abstract/packet.html#f_data">data</A>.<A HREF="../elks/managed_pointer.html#f_item">item</A>
+                count := a_packet.<A HREF="../abstract/packet.html#f_count">count</A>
+            <B>until</B>
+                count = amount_sent
+            <B>loop</B>
+                return_val := <A HREF="../abstract/socket.html#f_c_send">c_send</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>, ext_data, count - amount_sent, flags)
+                <B>if</B> return_val &gt; 0 <B>then</B>
+                    amount_sent := amount_sent + return_val
+                    ext_data := ext_data + return_val
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_exists"><A HREF="../abstract/socket.html#f_exists">exists</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Does socket exist?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../abstract/socket.html#f_descriptor_available">descriptor_available</A> <B>and then</B> <A HREF="../elks/io_medium.html#f_handle">descriptor</A> &gt;= 0
+        <B>ensure then</B>
+            definition: <B>Result</B> <B>implies</B> <A HREF="../abstract/socket.html#f_descriptor_available">descriptor_available</A>
+        <B>end</B></A>
+
+    <A NAME="f_is_open_write"><A HREF="../abstract/socket.html#f_is_open_write">is_open_write</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is socket opened for writing?</FONT>
+
+    <A NAME="f_is_open_read"><A HREF="../abstract/socket.html#f_is_open_read">is_open_read</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is socket opened for reading?</FONT>
+
+    <A NAME="f_is_executable"><A HREF="../abstract/socket.html#f_is_executable">is_executable</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is socket an executable?</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>False</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_writable"><A HREF="../abstract/socket.html#f_is_writable">is_writable</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is socket a writable medium?</FONT>
+        <B>do</B>
+            <B>Result</B> := <B>True</B>
+        <B>end</B></A>
+
+    <A NAME="f_is_readable"><A HREF="../abstract/socket.html#f_is_readable">is_readable</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there currently any data available on socket?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../abstract/socket.html#f_readable">readable</A> <B>and then</B> <A HREF="../abstract/socket.html#f_c_select_poll">c_select_poll</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>) /= 0
+        <B>end</B></A>
+
+    <A NAME="f_readable"><A HREF="../abstract/socket.html#f_readable">readable</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is there a current item that may be read?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../abstract/socket.html#f_exists">exists</A> <B>and then</B> <A HREF="../abstract/socket.html#f_is_open_read">is_open_read</A>
+        <B>end</B></A>
+
+    <A NAME="f_extendible"><A HREF="../abstract/socket.html#f_extendible">extendible</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> May new items be added?</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../abstract/socket.html#f_exists">exists</A> <B>and then</B> <A HREF="../abstract/socket.html#f_is_open_write">is_open_write</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Input</FONT>
+
+    <A NAME="f_read_real"><A HREF="../abstract/socket.html#f_read_real">read_real</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new real.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_real">last_real</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_readreal">readreal</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_read_to_managed_pointer">read_to_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_real_32_bytes">Real_32_bytes</A>)
+            <B>if</B> <A HREF="../elks/io_medium.html#f_bytes_read">bytes_read</A> /= <A HREF="../elks/platform.html#f_real_32_bytes">Real_32_bytes</A> <B>then</B>
+                <A HREF="../abstract/socket.html#f_socket_error">socket_error</A> := "Peer closed connection"
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>True</B>
+            <B>else</B>
+                <A HREF="../elks/io_medium.html#f_last_real">last_real</A> := <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_read_real_32_be">read_real_32_be</A> (0)
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>False</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_readreal"><A HREF="../abstract/socket.html#f_readreal">readreal</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new real.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_real">last_real</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_read_real">read_real</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_read_to_managed_pointer">read_to_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_real_32_bytes">Real_32_bytes</A>)
+            <B>if</B> <A HREF="../elks/io_medium.html#f_bytes_read">bytes_read</A> /= <A HREF="../elks/platform.html#f_real_32_bytes">Real_32_bytes</A> <B>then</B>
+                <A HREF="../abstract/socket.html#f_socket_error">socket_error</A> := "Peer closed connection"
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>True</B>
+            <B>else</B>
+                <A HREF="../elks/io_medium.html#f_last_real">last_real</A> := <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_read_real_32_be">read_real_32_be</A> (0)
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>False</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_double"><A HREF="../abstract/socket.html#f_read_double">read_double</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new double.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_double">last_double</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_readdouble">readdouble</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_read_to_managed_pointer">read_to_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_real_64_bytes">Real_64_bytes</A>)
+            <B>if</B> <A HREF="../elks/io_medium.html#f_bytes_read">bytes_read</A> /= <A HREF="../elks/platform.html#f_real_64_bytes">Real_64_bytes</A> <B>then</B>
+                <A HREF="../abstract/socket.html#f_socket_error">socket_error</A> := "Peer closed connection"
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>True</B>
+            <B>else</B>
+                <A HREF="../elks/io_medium.html#f_last_double">last_double</A> := <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_read_real_64_be">read_real_64_be</A> (0)
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>False</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_readdouble"><A HREF="../abstract/socket.html#f_readdouble">readdouble</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new double.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_double">last_double</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_read_double">read_double</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_read_to_managed_pointer">read_to_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_real_64_bytes">Real_64_bytes</A>)
+            <B>if</B> <A HREF="../elks/io_medium.html#f_bytes_read">bytes_read</A> /= <A HREF="../elks/platform.html#f_real_64_bytes">Real_64_bytes</A> <B>then</B>
+                <A HREF="../abstract/socket.html#f_socket_error">socket_error</A> := "Peer closed connection"
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>True</B>
+            <B>else</B>
+                <A HREF="../elks/io_medium.html#f_last_double">last_double</A> := <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_read_real_64_be">read_real_64_be</A> (0)
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>False</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_character"><A HREF="../abstract/socket.html#f_read_character">read_character</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new character.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_character">last_character</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_readchar">readchar</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_read_to_managed_pointer">read_to_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_character_8_bytes">Character_8_bytes</A>)
+            <B>if</B> <A HREF="../elks/io_medium.html#f_bytes_read">bytes_read</A> /= <A HREF="../elks/platform.html#f_character_8_bytes">Character_8_bytes</A> <B>then</B>
+                <A HREF="../abstract/socket.html#f_socket_error">socket_error</A> := "Peer closed connection"
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>True</B>
+            <B>else</B>
+                <A HREF="../elks/io_medium.html#f_last_character">last_character</A> := <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_read_character">read_character</A> (0)
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>False</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_readchar"><A HREF="../abstract/socket.html#f_readchar">readchar</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new character.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_character">last_character</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_read_character">read_character</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_read_to_managed_pointer">read_to_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_character_8_bytes">Character_8_bytes</A>)
+            <B>if</B> <A HREF="../elks/io_medium.html#f_bytes_read">bytes_read</A> /= <A HREF="../elks/platform.html#f_character_8_bytes">Character_8_bytes</A> <B>then</B>
+                <A HREF="../abstract/socket.html#f_socket_error">socket_error</A> := "Peer closed connection"
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>True</B>
+            <B>else</B>
+                <A HREF="../elks/io_medium.html#f_last_character">last_character</A> := <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_read_character">read_character</A> (0)
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>False</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_boolean"><A HREF="../abstract/socket.html#f_read_boolean">read_boolean</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new boolean.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Maker result available in </FONT><A HREF="../abstract/socket.html#f_last_boolean">last_boolean</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_readbool">readbool</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_read_character">read_character</A>
+            <B>if</B> <B>not</B> <A HREF="../abstract/socket.html#f_was_error">was_error</A> <B>then</B>
+                <B>if</B> <A HREF="../elks/io_medium.html#f_last_character">last_character</A> = 'T' <B>then</B>
+                    <A HREF="../abstract/socket.html#f_last_boolean">last_boolean</A> := <B>True</B>
+                <B>else</B>
+                    <A HREF="../abstract/socket.html#f_last_boolean">last_boolean</A> := <B>False</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_readbool"><A HREF="../abstract/socket.html#f_readbool">readbool</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new boolean.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Maker result available in </FONT><A HREF="../abstract/socket.html#f_last_boolean">last_boolean</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_read_boolean">read_boolean</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_read_character">read_character</A>
+            <B>if</B> <B>not</B> <A HREF="../abstract/socket.html#f_was_error">was_error</A> <B>then</B>
+                <B>if</B> <A HREF="../elks/io_medium.html#f_last_character">last_character</A> = 'T' <B>then</B>
+                    <A HREF="../abstract/socket.html#f_last_boolean">last_boolean</A> := <B>True</B>
+                <B>else</B>
+                    <A HREF="../abstract/socket.html#f_last_boolean">last_boolean</A> := <B>False</B>
+                <B>end</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_last_boolean"><A HREF="../abstract/socket.html#f_last_boolean">last_boolean</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Last boolean read by read_boolean</FONT>
+
+    <A NAME="f_read_integer"><A HREF="../abstract/socket.html#f_read_integer">read_integer</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 32-bit integer.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_integer">last_integer</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_readint">readint</A><FONT COLOR="red"> and </FONT><A HREF="../abstract/socket.html#f_read_integer_32">read_integer_32</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_read_to_managed_pointer">read_to_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_integer_32_bytes">Integer_32_bytes</A>)
+            <B>if</B> <A HREF="../elks/io_medium.html#f_bytes_read">bytes_read</A> /= <A HREF="../elks/platform.html#f_integer_32_bytes">Integer_32_bytes</A> <B>then</B>
+                <A HREF="../abstract/socket.html#f_socket_error">socket_error</A> := "Peer closed connection"
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>True</B>
+            <B>else</B>
+                <A HREF="../elks/io_medium.html#f_last_integer">last_integer</A> := <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_read_integer_32_be">read_integer_32_be</A> (0)
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>False</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_readint"><A HREF="../abstract/socket.html#f_readint">readint</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 32-bit integer.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_integer">last_integer</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_read_integer">read_integer</A><FONT COLOR="red"> and </FONT><A HREF="../abstract/socket.html#f_read_integer_32">read_integer_32</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_read_to_managed_pointer">read_to_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_integer_32_bytes">Integer_32_bytes</A>)
+            <B>if</B> <A HREF="../elks/io_medium.html#f_bytes_read">bytes_read</A> /= <A HREF="../elks/platform.html#f_integer_32_bytes">Integer_32_bytes</A> <B>then</B>
+                <A HREF="../abstract/socket.html#f_socket_error">socket_error</A> := "Peer closed connection"
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>True</B>
+            <B>else</B>
+                <A HREF="../elks/io_medium.html#f_last_integer">last_integer</A> := <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_read_integer_32_be">read_integer_32_be</A> (0)
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>False</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_integer_32"><A HREF="../abstract/socket.html#f_read_integer_32">read_integer_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 32-bit integer.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_integer">last_integer</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_read_integer">read_integer</A><FONT COLOR="red"> and </FONT><A HREF="../abstract/socket.html#f_readint">readint</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_read_to_managed_pointer">read_to_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_integer_32_bytes">Integer_32_bytes</A>)
+            <B>if</B> <A HREF="../elks/io_medium.html#f_bytes_read">bytes_read</A> /= <A HREF="../elks/platform.html#f_integer_32_bytes">Integer_32_bytes</A> <B>then</B>
+                <A HREF="../abstract/socket.html#f_socket_error">socket_error</A> := "Peer closed connection"
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>True</B>
+            <B>else</B>
+                <A HREF="../elks/io_medium.html#f_last_integer">last_integer</A> := <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_read_integer_32_be">read_integer_32_be</A> (0)
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>False</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_integer_8"><A HREF="../abstract/socket.html#f_read_integer_8">read_integer_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 8-bit integer.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_integer_8">last_integer_8</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_read_to_managed_pointer">read_to_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_integer_8_bytes">Integer_8_bytes</A>)
+            <B>if</B> <A HREF="../elks/io_medium.html#f_bytes_read">bytes_read</A> /= <A HREF="../elks/platform.html#f_integer_8_bytes">Integer_8_bytes</A> <B>then</B>
+                <A HREF="../abstract/socket.html#f_socket_error">socket_error</A> := "Peer closed connection"
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>True</B>
+            <B>else</B>
+                <A HREF="../elks/io_medium.html#f_last_integer_8">last_integer_8</A> := <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_read_integer_8_be">read_integer_8_be</A> (0)
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>False</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_integer_16"><A HREF="../abstract/socket.html#f_read_integer_16">read_integer_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 16-bit integer.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_integer_16">last_integer_16</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_read_to_managed_pointer">read_to_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_integer_16_bytes">Integer_16_bytes</A>)
+            <B>if</B> <A HREF="../elks/io_medium.html#f_bytes_read">bytes_read</A> /= <A HREF="../elks/platform.html#f_integer_16_bytes">Integer_16_bytes</A> <B>then</B>
+                <A HREF="../abstract/socket.html#f_socket_error">socket_error</A> := "Peer closed connection"
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>True</B>
+            <B>else</B>
+                <A HREF="../elks/io_medium.html#f_last_integer_16">last_integer_16</A> := <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_read_integer_16_be">read_integer_16_be</A> (0)
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>False</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_integer_64"><A HREF="../abstract/socket.html#f_read_integer_64">read_integer_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 64-bit integer.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_integer_64">last_integer_64</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_read_to_managed_pointer">read_to_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_integer_64_bytes">Integer_64_bytes</A>)
+            <B>if</B> <A HREF="../elks/io_medium.html#f_bytes_read">bytes_read</A> /= <A HREF="../elks/platform.html#f_integer_64_bytes">Integer_64_bytes</A> <B>then</B>
+                <A HREF="../abstract/socket.html#f_socket_error">socket_error</A> := "Peer closed connection"
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>True</B>
+            <B>else</B>
+                <A HREF="../elks/io_medium.html#f_last_integer_64">last_integer_64</A> := <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_read_integer_64_be">read_integer_64_be</A> (0)
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>False</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_natural_8"><A HREF="../abstract/socket.html#f_read_natural_8">read_natural_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 8-bit natural.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_natural_8">last_natural_8</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_read_to_managed_pointer">read_to_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_natural_8_bytes">Natural_8_bytes</A>)
+            <B>if</B> <A HREF="../elks/io_medium.html#f_bytes_read">bytes_read</A> /= <A HREF="../elks/platform.html#f_natural_8_bytes">Natural_8_bytes</A> <B>then</B>
+                <A HREF="../abstract/socket.html#f_socket_error">socket_error</A> := "Peer closed connection"
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>True</B>
+            <B>else</B>
+                <A HREF="../elks/io_medium.html#f_last_natural_8">last_natural_8</A> := <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_read_natural_8_be">read_natural_8_be</A> (0)
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>False</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_natural_16"><A HREF="../abstract/socket.html#f_read_natural_16">read_natural_16</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 16-bit natural.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_natural_16">last_natural_16</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_read_to_managed_pointer">read_to_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_natural_16_bytes">Natural_16_bytes</A>)
+            <B>if</B> <A HREF="../elks/io_medium.html#f_bytes_read">bytes_read</A> /= <A HREF="../elks/platform.html#f_natural_16_bytes">Natural_16_bytes</A> <B>then</B>
+                <A HREF="../abstract/socket.html#f_socket_error">socket_error</A> := "Peer closed connection"
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>True</B>
+            <B>else</B>
+                <A HREF="../elks/io_medium.html#f_last_natural_16">last_natural_16</A> := <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_read_natural_16_be">read_natural_16_be</A> (0)
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>False</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_natural"><A HREF="../abstract/socket.html#f_read_natural">read_natural</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 32-bit natural.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_natural">last_natural</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_read_natural_32">read_natural_32</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_read_to_managed_pointer">read_to_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_natural_32_bytes">Natural_32_bytes</A>)
+            <B>if</B> <A HREF="../elks/io_medium.html#f_bytes_read">bytes_read</A> /= <A HREF="../elks/platform.html#f_natural_32_bytes">Natural_32_bytes</A> <B>then</B>
+                <A HREF="../abstract/socket.html#f_socket_error">socket_error</A> := "Peer closed connection"
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>True</B>
+            <B>else</B>
+                <A HREF="../elks/io_medium.html#f_last_natural">last_natural</A> := <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_read_natural_32_be">read_natural_32_be</A> (0)
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>False</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_natural_32"><A HREF="../abstract/socket.html#f_read_natural_32">read_natural_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 32-bit natural.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_natural">last_natural</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_read_natural">read_natural</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_read_to_managed_pointer">read_to_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_natural_32_bytes">Natural_32_bytes</A>)
+            <B>if</B> <A HREF="../elks/io_medium.html#f_bytes_read">bytes_read</A> /= <A HREF="../elks/platform.html#f_natural_32_bytes">Natural_32_bytes</A> <B>then</B>
+                <A HREF="../abstract/socket.html#f_socket_error">socket_error</A> := "Peer closed connection"
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>True</B>
+            <B>else</B>
+                <A HREF="../elks/io_medium.html#f_last_natural">last_natural</A> := <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_read_natural_32_be">read_natural_32_be</A> (0)
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>False</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_natural_64"><A HREF="../abstract/socket.html#f_read_natural_64">read_natural_64</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a new 64-bit natural.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_natural_64">last_natural_64</A><FONT COLOR="red">.</FONT>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_read_to_managed_pointer">read_to_managed_pointer</A> (<A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>, 0, <A HREF="../elks/platform.html#f_natural_64_bytes">Natural_64_bytes</A>)
+            <B>if</B> <A HREF="../elks/io_medium.html#f_bytes_read">bytes_read</A> /= <A HREF="../elks/platform.html#f_natural_64_bytes">Natural_64_bytes</A> <B>then</B>
+                <A HREF="../abstract/socket.html#f_socket_error">socket_error</A> := "Peer closed connection"
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>True</B>
+            <B>else</B>
+                <A HREF="../elks/io_medium.html#f_last_natural_64">last_natural_64</A> := <A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>.<A HREF="../elks/managed_pointer.html#f_read_natural_64_be">read_natural_64_be</A> (0)
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>False</B>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_stream"><A HREF="../abstract/socket.html#f_read_stream">read_stream</A> (nb_char: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a string of at most </FONT>`nb_char'<FONT COLOR="red"> characters.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_string">last_string</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_readstream">readstream</A><FONT COLOR="red">.</FONT>
+        <B>local</B>
+            ext: <A HREF="../elks/c_string.html">C_STRING</A>
+            return_val: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>create</B> ext.<A HREF="../elks/c_string.html#f_make_empty">make_empty</A> (nb_char + 1)
+            return_val := <A HREF="../abstract/socket.html#f_c_read_stream">c_read_stream</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>, nb_char, ext.<A HREF="../elks/c_string.html#f_item">item</A>)
+            <A HREF="../elks/io_medium.html#f_bytes_read">bytes_read</A> := return_val
+            <B>if</B> return_val &gt;= 0 <B>then</B>
+                ext.<A HREF="../elks/c_string.html#f_set_count">set_count</A> (return_val)
+                <A HREF="../elks/io_medium.html#f_last_string">last_string</A> := ext.<A HREF="../elks/c_string.html#f_substring">substring</A> (1, return_val)
+            <B>else</B>
+                <A HREF="../elks/io_medium.html#f_last_string">last_string</A>.<A HREF="../elks/string_8.html#f_wipe_out">wipe_out</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_readstream"><A HREF="../abstract/socket.html#f_readstream">readstream</A> (nb_char: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a string of at most </FONT>`nb_char'<FONT COLOR="red"> characters.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Make result available in </FONT><A HREF="../elks/io_medium.html#f_last_string">last_string</A><FONT COLOR="red">.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_read_stream">read_stream</A><FONT COLOR="red">.</FONT>
+        <B>local</B>
+            ext: <A HREF="../elks/c_string.html">C_STRING</A>
+            return_val: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>create</B> ext.<A HREF="../elks/c_string.html#f_make_empty">make_empty</A> (nb_char + 1)
+            return_val := <A HREF="../abstract/socket.html#f_c_read_stream">c_read_stream</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>, nb_char, ext.<A HREF="../elks/c_string.html#f_item">item</A>)
+            <A HREF="../elks/io_medium.html#f_bytes_read">bytes_read</A> := return_val
+            <B>if</B> return_val &gt;= 0 <B>then</B>
+                ext.<A HREF="../elks/c_string.html#f_set_count">set_count</A> (return_val)
+                <A HREF="../elks/io_medium.html#f_last_string">last_string</A> := ext.<A HREF="../elks/c_string.html#f_substring">substring</A> (1, return_val)
+            <B>else</B>
+                <A HREF="../elks/io_medium.html#f_last_string">last_string</A>.<A HREF="../elks/string_8.html#f_wipe_out">wipe_out</A>
+            <B>end</B>
+        <B>end</B></A>
+
+    <A NAME="f_read_to_managed_pointer"><A HREF="../abstract/socket.html#f_read_to_managed_pointer">read_to_managed_pointer</A> (p: <A HREF="../elks/managed_pointer.html">MANAGED_POINTER</A>; start_pos, nb_bytes: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read at most </FONT>`nb_bytes'<FONT COLOR="red"> bound bytes and make result</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> available in </FONT>`p'<FONT COLOR="red"> at position </FONT>`start_pos'<FONT COLOR="red">.</FONT>
+        <B>local</B>
+            l_read: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_last_read: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            <B>from</B>
+                l_last_read := 1
+            <B>until</B>
+                l_read = nb_bytes <B>or</B> l_last_read &lt;= 0
+            <B>loop</B>
+                l_last_read := <A HREF="../abstract/socket.html#f_c_read_stream">c_read_stream</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>, nb_bytes - l_read, p.<A HREF="../elks/managed_pointer.html#f_item">item</A> + start_pos + l_read)
+                <B>if</B> l_last_read &gt;= 0 <B>then</B>
+                    l_read := l_read + l_last_read
+                <B>end</B>
+            <B>end</B>
+            <A HREF="../elks/io_medium.html#f_bytes_read">bytes_read</A> := l_read
+        <B>end</B></A>
+
+    <A NAME="f_read_line"><A HREF="../abstract/socket.html#f_read_line">read_line</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a line of characters (ended by a new_line).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_readline">readline</A><FONT COLOR="red">.</FONT>
+        <B>local</B>
+            l_last_string: <B>like</B> <A HREF="../elks/io_medium.html#f_last_string">last_string</A>
+        <B>do</B>
+            <B>create</B> l_last_string.<A HREF="../elks/readable_string_8.html#f_make">make</A> (512)
+            <A HREF="../abstract/socket.html#f_read_character">read_character</A>
+            <B>from</B>
+            <B>until</B>
+                <A HREF="../elks/io_medium.html#f_last_character">last_character</A> = '%N' <B>or else</B> <A HREF="../abstract/socket.html#f_was_error">was_error</A>
+            <B>loop</B>
+                l_last_string.<A HREF="../elks/string_8.html#f_extend">extend</A> (<A HREF="../elks/io_medium.html#f_last_character">last_character</A>)
+                <A HREF="../abstract/socket.html#f_read_character">read_character</A>
+            <B>end</B>
+            <A HREF="../elks/io_medium.html#f_last_string">last_string</A> := l_last_string
+        <B>end</B></A>
+
+    <A NAME="f_readline"><A HREF="../abstract/socket.html#f_readline">readline</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a line of characters (ended by a new_line).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Was declared in </FONT><A HREF="../abstract/socket.html">SOCKET</A><FONT COLOR="red"> as synonym of </FONT><A HREF="../abstract/socket.html#f_read_line">read_line</A><FONT COLOR="red">.</FONT>
+        <B>local</B>
+            l_last_string: <B>like</B> <A HREF="../elks/io_medium.html#f_last_string">last_string</A>
+        <B>do</B>
+            <B>create</B> l_last_string.<A HREF="../elks/readable_string_8.html#f_make">make</A> (512)
+            <A HREF="../abstract/socket.html#f_read_character">read_character</A>
+            <B>from</B>
+            <B>until</B>
+                <A HREF="../elks/io_medium.html#f_last_character">last_character</A> = '%N' <B>or else</B> <A HREF="../abstract/socket.html#f_was_error">was_error</A>
+            <B>loop</B>
+                l_last_string.<A HREF="../elks/string_8.html#f_extend">extend</A> (<A HREF="../elks/io_medium.html#f_last_character">last_character</A>)
+                <A HREF="../abstract/socket.html#f_read_character">read_character</A>
+            <B>end</B>
+            <A HREF="../elks/io_medium.html#f_last_string">last_string</A> := l_last_string
+        <B>end</B></A>
+
+    <A NAME="f_read_line_until"><A HREF="../abstract/socket.html#f_read_line_until">read_line_until</A> (n: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a line of at most </FONT>`n'<FONT COLOR="red"> characters (ended by a new_line).</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> If new line not read after </FONT>`n'<FONT COLOR="red"> characters, set an error.</FONT>
+        <B>require</B>
+            is_readable: <A HREF="../abstract/socket.html#f_readable">readable</A>
+        <B>local</B>
+            i: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            l_last_string: <B>like</B> <A HREF="../elks/io_medium.html#f_last_string">last_string</A>
+        <B>do</B>
+            <B>from</B>
+                <B>create</B> l_last_string.<A HREF="../elks/readable_string_8.html#f_make">make</A> (512)
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>False</B>
+            <B>until</B>
+                i = n
+            <B>loop</B>
+                <A HREF="../abstract/socket.html#f_read_character">read_character</A>
+                <B>if</B> <A HREF="../abstract/socket.html#f_was_error">was_error</A> <B>or else</B> <A HREF="../elks/io_medium.html#f_last_character">last_character</A> = '%N' <B>then</B>
+                    i := n - 1
+                <B>else</B>
+                    l_last_string.<A HREF="../elks/string_8.html#f_extend">extend</A> (<A HREF="../elks/io_medium.html#f_last_character">last_character</A>)
+                <B>end</B>
+                i := i + 1
+            <B>end</B>
+            <B>if</B> <B>not</B> <A HREF="../abstract/socket.html#f_was_error">was_error</A> <B>and</B> <A HREF="../elks/io_medium.html#f_last_character">last_character</A> /= '%N' <B>then</B>
+                <A HREF="../abstract/socket.html#f_socket_error">socket_error</A> := "End of line not reached after " + n.<A HREF="../elks/integer_32_ref.html#f_out">out</A> + " read characters"
+                <A HREF="../abstract/socket.html#f_was_error">was_error</A> := <B>True</B>
+            <B>end</B>
+            <A HREF="../elks/io_medium.html#f_last_string">last_string</A> := l_last_string
+        <B>ensure</B>
+            last_string_not_void: <A HREF="../elks/io_medium.html#f_last_string">last_string</A> /= <B>Void</B>
+        <B>end</B></A>
+
+    <A NAME="f_read"><A HREF="../abstract/socket.html#f_read">read</A> (size: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <B>detachable</B> <A HREF="../abstract/packet.html">PACKET</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Read a packet of data of maximum size </FONT>`size'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket.html#f_exists">exists</A>
+            opened_for_read: <A HREF="../abstract/socket.html#f_is_open_read">is_open_read</A>
+        <B>local</B>
+            l_data: <B>detachable</B> <A HREF="../elks/managed_pointer.html">MANAGED_POINTER</A>
+            recv_packet: <A HREF="../elks/managed_pointer.html">MANAGED_POINTER</A>
+            amount_read: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            return_val: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            ext_data: <A HREF="../elks/pointer.html">POINTER</A>
+        <B>do</B>
+            ext_data := ext_data.<A HREF="../elks/pointer_ref.html#f_memory_alloc">memory_alloc</A> (size)
+            <B>from</B>
+                amount_read := 0
+                return_val := -1
+            <B>until</B>
+                amount_read = size <B>or</B> return_val = 0
+            <B>loop</B>
+                return_val := <A HREF="../abstract/socket.html#f_c_read_stream">c_read_stream</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>, size - amount_read, ext_data)
+                <B>if</B> return_val &gt; 0 <B>then</B>
+                    <B>create</B> recv_packet.<A HREF="../elks/managed_pointer.html#f_make_from_pointer">make_from_pointer</A> (ext_data, return_val)
+                    <B>if</B> l_data = <B>Void</B> <B>then</B>
+                        l_data := recv_packet.<A HREF="../elks/any.html#f_twin">twin</A>
+                    <B>else</B>
+                        l_data.<A HREF="../elks/managed_pointer.html#f_append">append</A> (recv_packet)
+                    <B>end</B>
+                    amount_read := amount_read + return_val
+                <B>end</B>
+            <B>end</B>
+            <B>if</B> l_data /= <B>Void</B> <B>then</B>
+                <B>create</B> <B>Result</B>.<A HREF="../abstract/packet.html#f_make_from_managed_pointer">make_from_managed_pointer</A> (l_data)
+            <B>end</B>
+            <A HREF="../elks/io_medium.html#f_bytes_read">bytes_read</A> := amount_read
+            ext_data.<A HREF="../elks/pointer_ref.html#f_memory_free">memory_free</A>
+        <B>end</B></A>
+
+    <A NAME="f_receive"><A HREF="../abstract/socket.html#f_receive">receive</A> (size, flags: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <B>detachable</B> <A HREF="../abstract/packet.html">PACKET</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Receive a packet of maximum size </FONT>`size'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket.html#f_exists">exists</A>
+            opened_for_read: <A HREF="../abstract/socket.html#f_is_open_read">is_open_read</A>
+        <B>local</B>
+            l_data: <B>detachable</B> <A HREF="../elks/managed_pointer.html">MANAGED_POINTER</A>
+            recv_packet: <A HREF="../elks/managed_pointer.html">MANAGED_POINTER</A>
+            amount_read: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            return_val: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            ext_data: <A HREF="../elks/pointer.html">POINTER</A>
+        <B>do</B>
+            ext_data := ext_data.<A HREF="../elks/pointer_ref.html#f_memory_alloc">memory_alloc</A> (size)
+            <B>from</B>
+                amount_read := 0
+            <B>until</B>
+                amount_read = size
+            <B>loop</B>
+                return_val := <A HREF="../abstract/socket.html#f_c_receive">c_receive</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>, ext_data, size - amount_read, flags)
+                <B>if</B> return_val &gt; 0 <B>then</B>
+                    <B>create</B> recv_packet.<A HREF="../elks/managed_pointer.html#f_make_from_pointer">make_from_pointer</A> (ext_data, return_val)
+                    <B>if</B> l_data = <B>Void</B> <B>then</B>
+                        l_data := recv_packet.<A HREF="../elks/any.html#f_twin">twin</A>
+                    <B>else</B>
+                        l_data.<A HREF="../elks/managed_pointer.html#f_append">append</A> (recv_packet)
+                    <B>end</B>
+                    amount_read := amount_read + return_val
+                <B>else</B>
+                    <B>if</B> amount_read = 0 <B>then</B>
+                        l_data := <B>Void</B>
+                    <B>end</B>
+                <B>end</B>
+            <B>end</B>
+            <B>if</B> l_data /= <B>Void</B> <B>then</B>
+                <B>create</B> <B>Result</B>.<A HREF="../abstract/packet.html#f_make_from_managed_pointer">make_from_managed_pointer</A> (l_data)
+            <B>end</B>
+            ext_data.<A HREF="../elks/pointer_ref.html#f_memory_free">memory_free</A>
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> socket options</FONT>
+
+    <A NAME="f_enable_debug"><A HREF="../abstract/socket.html#f_enable_debug">enable_debug</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Enable socket system debugging.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket.html#f_exists">exists</A>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_c_set_sock_opt_int">c_set_sock_opt_int</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>, <A HREF="../abstract/socket_resources.html#f_level_sol_socket">level_sol_socket</A>, <A HREF="../abstract/socket_resources.html#f_sodebug">sodebug</A>, 1)
+        <B>end</B></A>
+
+    <A NAME="f_disable_debug"><A HREF="../abstract/socket.html#f_disable_debug">disable_debug</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Disable socket system debugging.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket.html#f_exists">exists</A>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_c_set_sock_opt_int">c_set_sock_opt_int</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>, <A HREF="../abstract/socket_resources.html#f_level_sol_socket">level_sol_socket</A>, <A HREF="../abstract/socket_resources.html#f_sodebug">sodebug</A>, 0)
+        <B>end</B></A>
+
+    <A NAME="f_debug_enabled"><A HREF="../abstract/socket.html#f_debug_enabled">debug_enabled</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is socket system debugging enabled?</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket.html#f_exists">exists</A>
+        <B>local</B>
+            is_set: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            is_set := <A HREF="../abstract/socket.html#f_c_get_sock_opt_int">c_get_sock_opt_int</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>, <A HREF="../abstract/socket_resources.html#f_level_sol_socket">level_sol_socket</A>, <A HREF="../abstract/socket_resources.html#f_sodebug">sodebug</A>)
+            <B>Result</B> := is_set /= 0
+        <B>end</B></A>
+
+    <A NAME="f_do_not_route"><A HREF="../abstract/socket.html#f_do_not_route">do_not_route</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set socket to non-routing.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket.html#f_exists">exists</A>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_c_set_sock_opt_int">c_set_sock_opt_int</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>, <A HREF="../abstract/socket_resources.html#f_level_sol_socket">level_sol_socket</A>, <A HREF="../abstract/socket_resources.html#f_so_dont_route">so_dont_route</A>, 1)
+        <B>end</B></A>
+
+    <A NAME="f_route"><A HREF="../abstract/socket.html#f_route">route</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set socket to routing.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket.html#f_exists">exists</A>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_c_set_sock_opt_int">c_set_sock_opt_int</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>, <A HREF="../abstract/socket_resources.html#f_level_sol_socket">level_sol_socket</A>, <A HREF="../abstract/socket_resources.html#f_so_dont_route">so_dont_route</A>, 0)
+        <B>end</B></A>
+
+    <A NAME="f_route_enabled"><A HREF="../abstract/socket.html#f_route_enabled">route_enabled</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is routing enabled?</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket.html#f_exists">exists</A>
+        <B>local</B>
+            is_set: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            is_set := <A HREF="../abstract/socket.html#f_c_get_sock_opt_int">c_get_sock_opt_int</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>, <A HREF="../abstract/socket_resources.html#f_level_sol_socket">level_sol_socket</A>, <A HREF="../abstract/socket_resources.html#f_so_dont_route">so_dont_route</A>)
+            <B>Result</B> := is_set /= 0
+        <B>end</B></A>
+
+    <A NAME="f_set_receive_buf_size"><A HREF="../abstract/socket.html#f_set_receive_buf_size">set_receive_buf_size</A> (s: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set receive buffer size.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket.html#f_exists">exists</A>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_c_set_sock_opt_int">c_set_sock_opt_int</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>, <A HREF="../abstract/socket_resources.html#f_level_sol_socket">level_sol_socket</A>, <A HREF="../abstract/socket_resources.html#f_so_rcv_buf">so_rcv_buf</A>, s)
+        <B>ensure</B>
+            size_set: s = <A HREF="../abstract/socket.html#f_receive_buf_size">receive_buf_size</A>
+        <B>end</B></A>
+
+    <A NAME="f_receive_buf_size"><A HREF="../abstract/socket.html#f_receive_buf_size">receive_buf_size</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Size of receive buffer.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../abstract/socket.html#f_c_get_sock_opt_int">c_get_sock_opt_int</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>, <A HREF="../abstract/socket_resources.html#f_level_sol_socket">level_sol_socket</A>, <A HREF="../abstract/socket_resources.html#f_so_rcv_buf">so_rcv_buf</A>)
+        <B>end</B></A>
+
+    <A NAME="f_set_send_buf_size"><A HREF="../abstract/socket.html#f_set_send_buf_size">set_send_buf_size</A> (s: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set the send buffer to size </FONT>`s'<FONT COLOR="red">.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket.html#f_exists">exists</A>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_c_set_sock_opt_int">c_set_sock_opt_int</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>, <A HREF="../abstract/socket_resources.html#f_level_sol_socket">level_sol_socket</A>, <A HREF="../abstract/socket_resources.html#f_so_snd_buf">so_snd_buf</A>, s)
+        <B>ensure</B>
+            size_set: s = <A HREF="../abstract/socket.html#f_send_buf_size">send_buf_size</A>
+        <B>end</B></A>
+
+    <A NAME="f_send_buf_size"><A HREF="../abstract/socket.html#f_send_buf_size">send_buf_size</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Size of send buffer.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket.html#f_exists">exists</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../abstract/socket.html#f_c_get_sock_opt_int">c_get_sock_opt_int</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>, <A HREF="../abstract/socket_resources.html#f_level_sol_socket">level_sol_socket</A>, <A HREF="../abstract/socket_resources.html#f_so_snd_buf">so_snd_buf</A>)
+        <B>end</B></A>
+
+    <A NAME="f_is_socket_stream"><A HREF="../abstract/socket.html#f_is_socket_stream">is_socket_stream</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is the socket a stream?</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket.html#f_exists">exists</A>
+        <B>local</B>
+            is_soc_s: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            is_soc_s := <A HREF="../abstract/socket.html#f_c_get_sock_opt_int">c_get_sock_opt_int</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>, <A HREF="../abstract/socket_resources.html#f_level_sol_socket">level_sol_socket</A>, <A HREF="../abstract/socket_resources.html#f_sotype">sotype</A>)
+            <B>Result</B> := is_soc_s = <A HREF="../abstract/socket_resources.html#f_sock_stream">sock_stream</A>
+        <B>end</B></A>
+
+    <A NAME="f_set_non_blocking"><A HREF="../abstract/socket.html#f_set_non_blocking">set_non_blocking</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set socket to non-blocking mode.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket.html#f_exists">exists</A>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_c_set_non_blocking">c_set_non_blocking</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>)
+            <A HREF="../abstract/socket.html#f_is_blocking">is_blocking</A> := <B>False</B>
+        <B>ensure</B>
+            <B>not</B> <A HREF="../abstract/socket.html#f_is_blocking">is_blocking</A>
+        <B>end</B></A>
+
+    <A NAME="f_set_blocking"><A HREF="../abstract/socket.html#f_set_blocking">set_blocking</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Set socket to blocking mode.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket.html#f_exists">exists</A>
+        <B>do</B>
+            <A HREF="../abstract/socket.html#f_c_set_blocking">c_set_blocking</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>)
+            <A HREF="../abstract/socket.html#f_is_blocking">is_blocking</A> := <B>True</B>
+        <B>ensure</B>
+            <A HREF="../abstract/socket.html#f_is_blocking">is_blocking</A>
+        <B>end</B></A>
+
+    <A NAME="f_is_blocking"><A HREF="../abstract/socket.html#f_is_blocking">is_blocking</A>: <A HREF="../elks/boolean.html">BOOLEAN</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is the socket blocking?</FONT>
+
+    <A NAME="f_set_owner"><A HREF="../abstract/socket.html#f_set_owner">set_owner</A> (own: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Negative value sets group process id.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> positive value sets process id.</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket.html#f_exists">exists</A>
+            valid_owner: own /= 0 <B>and</B> own /= -1
+        <B>local</B>
+            return_val: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            return_val := <A HREF="../abstract/socket.html#f_c_fcntl">c_fcntl</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>, <A HREF="../abstract/socket_resources.html#f_c_fsetown">c_fsetown</A>, own)
+        <B>ensure</B>
+            set_id: own &lt; -1 <B>implies</B> own = <A HREF="../abstract/socket.html#f_group_id">group_id</A> <B>or else</B> own &gt; 0 <B>implies</B> own = <A HREF="../abstract/socket.html#f_process_id">process_id</A>
+        <B>end</B></A>
+
+    <A NAME="f_is_group_id"><A HREF="../abstract/socket.html#f_is_group_id">is_group_id</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is the owner id the socket group id?</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket.html#f_exists">exists</A>
+        <B>local</B>
+            is_grp: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            is_grp := <A HREF="../abstract/socket.html#f_c_fcntl">c_fcntl</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>, <A HREF="../abstract/socket_resources.html#f_c_fgetown">c_fgetown</A>, 0)
+            <B>Result</B> := is_grp &lt; -1
+        <B>end</B></A>
+
+    <A NAME="f_is_process_id"><A HREF="../abstract/socket.html#f_is_process_id">is_process_id</A>: <A HREF="../elks/boolean.html">BOOLEAN</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Is the owner id the socket process id?</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket.html#f_exists">exists</A>
+        <B>local</B>
+            is_proc: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            is_proc := <A HREF="../abstract/socket.html#f_c_fcntl">c_fcntl</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>, <A HREF="../abstract/socket_resources.html#f_c_fgetown">c_fgetown</A>, 0)
+            <B>Result</B> := is_proc &gt; 0
+        <B>end</B></A>
+
+    <A NAME="f_group_id"><A HREF="../abstract/socket.html#f_group_id">group_id</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Group id of socket</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket.html#f_exists">exists</A>
+            group_set: <A HREF="../abstract/socket.html#f_is_group_id">is_group_id</A>
+        <B>do</B>
+            <B>Result</B> := (<A HREF="../abstract/socket.html#f_c_fcntl">c_fcntl</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>, <A HREF="../abstract/socket_resources.html#f_c_fgetown">c_fgetown</A>, 0) * -1)
+        <B>end</B></A>
+
+    <A NAME="f_process_id"><A HREF="../abstract/socket.html#f_process_id">process_id</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Process id of socket</FONT>
+        <B>require</B>
+            socket_exists: <A HREF="../abstract/socket.html#f_exists">exists</A>
+            process_set: <A HREF="../abstract/socket.html#f_is_process_id">is_process_id</A>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../abstract/socket.html#f_c_fcntl">c_fcntl</A> (<A HREF="../elks/io_medium.html#f_handle">descriptor</A>, <A HREF="../abstract/socket_resources.html#f_c_fgetown">c_fgetown</A>, 0)
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_socket_error"><A HREF="../abstract/socket.html#f_socket_error">socket_error</A>: <B>detachable</B> <A HREF="../elks/string_8.html">STRING_8</A></A>
+
+    <A NAME="f_shutdown"><A HREF="../abstract/socket.html#f_shutdown">shutdown</A>
+        <B>deferred</B>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Externals</FONT>
+
+    <A NAME="f_socket_buffer"><A HREF="../abstract/socket.html#f_socket_buffer">socket_buffer</A>: <A HREF="../elks/managed_pointer.html">MANAGED_POINTER</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Buffer used to read/write basic types.</FONT>
+        <B>local</B>
+            l_buffer: <B>like</B> <A HREF="../abstract/socket.html#f_internal_socket_buffer">internal_socket_buffer</A>
+        <B>do</B>
+            l_buffer := <A HREF="../abstract/socket.html#f_internal_socket_buffer">internal_socket_buffer</A>
+            <B>if</B> l_buffer = <B>Void</B> <B>then</B>
+                <B>create</B> l_buffer.<A HREF="../elks/managed_pointer.html#f_make">make</A> (16)
+                <A HREF="../abstract/socket.html#f_internal_socket_buffer">internal_socket_buffer</A> := l_buffer
+            <B>end</B>
+            <B>Result</B> := l_buffer
+        <B>end</B></A>
+
+    <A NAME="f_internal_socket_buffer"><A HREF="../abstract/socket.html#f_internal_socket_buffer">internal_socket_buffer</A>: <B>detachable</B> <A HREF="../elks/managed_pointer.html">MANAGED_POINTER</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Internal integer buffer</FONT>
+
+    <A NAME="f_c_put_stream"><A HREF="../abstract/socket.html#f_c_put_stream">c_put_stream</A> (fd: <A HREF="../elks/integer_32.html">INTEGER_32</A>; s: <A HREF="../elks/pointer.html">POINTER</A>; length: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> External routine to write stream pointed by </FONT>`s'<FONT COLOR="red"> of</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> length </FONT>`length'<FONT COLOR="red"> to socket </FONT>`fd'
+        <B>external</B>
+            "C blocking"
+        <B>end</B></A>
+
+    <A NAME="f_c_read_stream"><A HREF="../abstract/socket.html#f_c_read_stream">c_read_stream</A> (fd: <A HREF="../elks/integer_32.html">INTEGER_32</A>; l: <A HREF="../elks/integer_32.html">INTEGER_32</A>; buf: <A HREF="../elks/pointer.html">POINTER</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> External routine to read a </FONT>`l'<FONT COLOR="red"> number of characters</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> into buffer </FONT>`buf'<FONT COLOR="red"> from socket </FONT>`fd'
+        <B>external</B>
+            "C blocking"
+        <B>end</B></A>
+
+    <A NAME="f_c_write"><A HREF="../abstract/socket.html#f_c_write">c_write</A> (fd: <A HREF="../elks/integer_32.html">INTEGER_32</A>; buf: <A HREF="../elks/pointer.html">POINTER</A>; l: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> External routine to write </FONT>`l'<FONT COLOR="red"> length of data</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> on socket </FONT>`fd'<FONT COLOR="red">.</FONT>
+        <B>external</B>
+            "C blocking"
+        <B>end</B></A>
+
+    <A NAME="f_c_receive"><A HREF="../abstract/socket.html#f_c_receive">c_receive</A> (fd: <A HREF="../elks/integer_32.html">INTEGER_32</A>; buf: <A HREF="../elks/pointer.html">POINTER</A>; len: <A HREF="../elks/integer_32.html">INTEGER_32</A>; flags: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> External routine to receive at most </FONT>`len'<FONT COLOR="red"> number of</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> bytes into buffer </FONT>`buf'<FONT COLOR="red"> from socket </FONT>`fd'<FONT COLOR="red"> with </FONT>`flags'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> options</FONT>
+        <B>external</B>
+            "C blocking"
+        <B>end</B></A>
+
+    <A NAME="f_c_send"><A HREF="../abstract/socket.html#f_c_send">c_send</A> (fd: <A HREF="../elks/integer_32.html">INTEGER_32</A>; buf: <A HREF="../elks/pointer.html">POINTER</A>; len: <A HREF="../elks/integer_32.html">INTEGER_32</A>; flags: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> External routine to send at most </FONT>`len'<FONT COLOR="red"> number of</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> bytes from buffer </FONT>`buf'<FONT COLOR="red"> on socket </FONT>`fd'<FONT COLOR="red"> with </FONT>`flags'
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> options</FONT>
+        <B>external</B>
+            "C blocking"
+        <B>end</B></A>
+
+    <A NAME="f_c_set_sock_opt_int"><A HREF="../abstract/socket.html#f_c_set_sock_opt_int">c_set_sock_opt_int</A> (fd, level, opt, val: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> C routine to set socket options of integer type</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_c_get_sock_opt_int"><A HREF="../abstract/socket.html#f_c_get_sock_opt_int">c_get_sock_opt_int</A> (fd, level, opt: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> C routine to get socket options of integer type</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_c_fcntl"><A HREF="../abstract/socket.html#f_c_fcntl">c_fcntl</A> (fd, cmd, arg: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> C wrapper to fcntl() routine</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_c_set_non_blocking"><A HREF="../abstract/socket.html#f_c_set_non_blocking">c_set_non_blocking</A> (fd: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> C routine to set the socket as non-blocking</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_c_set_blocking"><A HREF="../abstract/socket.html#f_c_set_blocking">c_set_blocking</A> (fd: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> C routine to set the socket as blocking</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_c_syncpoll"><A HREF="../abstract/socket.html#f_c_syncpoll">c_syncpoll</A> (fd: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> C routine to synchonously poll socket</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (using </FONT>`msg_peek'<FONT COLOR="red"> flag)</FONT>
+        <B>external</B>
+            "C blocking"
+        <B>end</B></A>
+
+    <A NAME="f_c_select_poll"><A HREF="../abstract/socket.html#f_c_select_poll">c_select_poll</A> (fd: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> C routine to synchronously poll socket</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> (using </FONT>`select'<FONT COLOR="red">)</FONT>
+        <B>external</B>
+            "C blocking"
+        <B>end</B></A>
+
+    <A NAME="f_eif_net_retrieved"><A HREF="../abstract/socket.html#f_eif_net_retrieved">eif_net_retrieved</A> (file_handle: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <B>detachable</B> <A HREF="../elks/any.html">ANY</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Object structured retrieved from file of pointer</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`file_handle'
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_eif_net_basic_store"><A HREF="../abstract/socket.html#f_eif_net_basic_store">eif_net_basic_store</A> (file_handle: <A HREF="../elks/integer_32.html">INTEGER_32</A>; object: <A HREF="../elks/pointer.html">POINTER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Store object structure reachable form current object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> in file pointer </FONT>`file_ptr'<FONT COLOR="red">.</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_eif_net_general_store"><A HREF="../abstract/socket.html#f_eif_net_general_store">eif_net_general_store</A> (file_handle: <A HREF="../elks/integer_32.html">INTEGER_32</A>; object: <A HREF="../elks/pointer.html">POINTER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Store object structure reachable form current object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> in file pointer </FONT>`file_ptr'<FONT COLOR="red">.</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+
+    <A NAME="f_eif_net_independent_store"><A HREF="../abstract/socket.html#f_eif_net_independent_store">eif_net_independent_store</A> (file_handle: <A HREF="../elks/integer_32.html">INTEGER_32</A>; object: <A HREF="../elks/pointer.html">POINTER</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Store object structure reachable form current object</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> in file pointer </FONT>`file_ptr'<FONT COLOR="red">.</FONT>
+        <B>external</B>
+            "C"
+        <B>end</B></A>
+    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2006, Eiffel Software and others"
+    license: "Eiffel Forum License v2 (see <a href="http://www.eiffel.com/licensing/forum.txt">http://www.eiffel.com/licensing/forum.txt</a>)"
+    source: "[
+        Eiffel Software
+        356 Storke Road, Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../abstract/socket.html">SOCKET</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="socket_chart.html">Chart</A></TD><TD><A HREF="socket_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="socket_flat.html">Flat</A></TD><TD><A HREF="socket_short.html">Contracts</A></TD><TD><A HREF="socket_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+

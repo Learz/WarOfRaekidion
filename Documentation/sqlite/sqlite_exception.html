@@ -1,0 +1,213 @@
+<HTML><HEAD>
+<meta name="description" content="An expecption specific to exceptional cases in the SQLite library.  This exception will only be raised in exception circumstances where an error needs to be propagated back to the client. Clients should alway check for this exception on critical calls."/>
+<meta name="legal" content="See notice at end of class."/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="copyright" content="Copyright (c) 1984-2013, Eiffel Software"/>
+<meta name="license" content="GPL version 2 (see http://www.eiffel.com/licensing/gpl.txt)"/>
+<meta name="licensing_options" content="http://www.eiffel.com/licensing"/>
+<meta name="copying" content="This file is part of Eiffel Software's Eiffel Development Environment.  Eiffel Software's Eiffel Development Environment is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 2 of the License (available at the URL listed under license above).  Eiffel Software's Eiffel Development Environment is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.  You should have received a copy of the GNU General Public License along with Eiffel Software's Eiffel Development Environment; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA"/>
+<meta name="source" content="Eiffel Software 5949 Hollister Ave., Goleta, CA 93117 USA Telephone 805-685-1006, Fax 805-685-6869 Website http://www.eiffel.com Customer support http://support.eiffel.com"/>
+<meta name="keywords" content="Eiffel class"/>
+<TITLE>sqlite_exception Text</TITLE></HEAD>
+<BODY BGCOLOR="white">
+<P ALIGN="CENTER">Automatic generation produced by ISE Eiffel</P>
+<PRE><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sqlite_exception_chart.html">Chart</A></TD><TD><A HREF="sqlite_exception_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="sqlite_exception_flat.html">Flat</A></TD><TD><A HREF="sqlite_exception_short.html">Contracts</A></TD><TD><A HREF="sqlite_exception_flatshort.html">Flat contracts</A></TD></TR></TABLE><B>note</B>
+    description: "[
+        An expecption specific to exceptional cases in the SQLite library.
+        
+        This exception will only be raised in exception circumstances where an error needs to be
+        propagated back to the client. Clients should alway check for this exception on critical
+        calls.
+    ]"
+    legal: "See notice at end of class."
+    status: "See notice at end of class."
+    date: "$Date: 2013-02-15 01:58:41 -0800 (Fri, 15 Feb 2013) $"
+    revision: "$Revision: 91239 $"
+
+<B>class</B> 
+    <A HREF="../sqlite/sqlite_exception.html">SQLITE_EXCEPTION</A>
+
+<B>inherit</B>
+    <A HREF="../elks/developer_exception.html">DEVELOPER_EXCEPTION</A>
+        <B>redefine</B>
+            <A HREF="../sqlite/sqlite_exception.html#f_tag">tag</A>
+        <B>end</B>
+
+<B>create</B> 
+    <A HREF="../sqlite/sqlite_exception.html#f_make">make</A>,
+    <A HREF="../sqlite/sqlite_exception.html#f_make_with_message">make_with_message</A>
+
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Initialization</FONT>
+
+    <A NAME="f_make"><A HREF="../sqlite/sqlite_exception.html#f_make">make</A> (a_code: <A HREF="../elks/integer_32.html">INTEGER_32</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Creates a new exception with a reported SQLite code.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_code'<FONT COLOR="red">: A SQLite result code, possibily with a extended code.</FONT>
+        <B>require</B>
+            not_a_code_is_ok: a_code /= {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_ok">ok</A>
+        <B>do</B>
+            <A HREF="../sqlite/sqlite_exception.html#f_make_with_message">make_with_message</A> (a_code, <A HREF="../sqlite/sqlite_exception.html#f_message_from_code">message_from_code</A> (a_code))
+        <B>ensure</B>
+            internal_code_set: <A HREF="../sqlite/sqlite_exception.html#f_internal_code">internal_code</A> = a_code
+        <B>end</B></A>
+
+    <A NAME="f_make_with_message"><A HREF="../sqlite/sqlite_exception.html#f_make_with_message">make_with_message</A> (a_code: <A HREF="../elks/integer_32.html">INTEGER_32</A>; a_message: <A HREF="../elks/readable_string_8.html">READABLE_STRING_8</A>)
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Creates a new exception with a code and an error message.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_code'<FONT COLOR="red">: A SQLite result code, possibily with a extended code.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_message'<FONT COLOR="red">: A message string returned from SQLite.</FONT>
+        <B>require</B>
+            not_a_code_is_ok: a_code /= {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_ok">ok</A>
+        <B>do</B>
+            <A HREF="../sqlite/sqlite_exception.html#f_internal_code">internal_code</A> := a_code
+            <B>create</B> <A HREF="../sqlite/sqlite_exception.html#f_tag">tag</A>.<A HREF="../elks/readable_string_32.html#f_make_from_string">make_from_string</A> (a_message.<A HREF="../elks/readable_string_general.html#f_as_readable_string_32">as_readable_string_32</A>)
+        <B>ensure</B>
+            internal_code_set: <A HREF="../sqlite/sqlite_exception.html#f_internal_code">internal_code</A> = a_code
+            tag_set: <A HREF="../sqlite/sqlite_exception.html#f_tag">tag</A>.<A HREF="../elks/readable_string_32.html#f_same_string">same_string</A> (a_message.<A HREF="../elks/readable_string_general.html#f_as_readable_string_32">as_readable_string_32</A>)
+        <B>end</B></A>
+    
+<B>feature</B> <FONT COLOR="red">--</FONT><FONT COLOR="red"> Access</FONT>
+
+    <A NAME="f_result_code"><A HREF="../sqlite/sqlite_exception.html#f_result_code">result_code</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Result error code. See </FONT><A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A><FONT COLOR="red"> for meanings.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../sqlite/sqlite_exception.html#f_internal_code">internal_code</A> &#38; {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_mask">mask</A>
+        <B>ensure</B>
+            valid_result_code: (<B>create</B> {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}).<A HREF="../sqlite/sqlite_result_code.html#f_is_valid_result_code">is_valid_result_code</A> (<B>Result</B>)
+            not_result_is_ok: <B>Result</B> /= {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_ok">ok</A>
+        <B>end</B></A>
+
+    <A NAME="f_extended_code"><A HREF="../sqlite/sqlite_exception.html#f_extended_code">extended_code</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Any extended error code, giving further information to the exception.</FONT>
+        <B>do</B>
+            <B>Result</B> := <A HREF="../sqlite/sqlite_exception.html#f_internal_code">internal_code</A>.<A HREF="../elks/integer_32.html#f_bit_shift_left">bit_shift_left</A> (8)
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Query</FONT>
+
+    <A NAME="f_message_from_code"><A HREF="../sqlite/sqlite_exception.html#f_message_from_code">message_from_code</A> (a_code: <A HREF="../elks/integer_32.html">INTEGER_32</A>): <A HREF="../elks/readable_string_8.html">READABLE_STRING_8</A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Retrieves an SQLite default error message from an SQLite result code.</FONT>
+            <FONT COLOR="red">--</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`a_code'<FONT COLOR="red">: A SQLite result code, possibily with a extended code.</FONT>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> </FONT>`Result'<FONT COLOR="red">: The default message.</FONT>
+        <B>require</B>
+            valid_result_code: (<B>create</B> {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}).<A HREF="../sqlite/sqlite_result_code.html#f_is_valid_result_code">is_valid_result_code</A> (a_code)
+            not_a_code_is_ok: a_code /= {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_ok">ok</A>
+        <B>local</B>
+            l_code: <A HREF="../elks/integer_32.html">INTEGER_32</A>
+        <B>do</B>
+            l_code := a_code &#38; {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_mask">mask</A>
+            <B>if</B> l_code = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_e_error">e_error</A> <B>then</B>
+                <B>Result</B> := "SQL error or missing database"
+            <B>elseif</B> l_code = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_e_internal">e_internal</A> <B>then</B>
+                <B>Result</B> := "Internal logic error in SQLite"
+            <B>elseif</B> l_code = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_e_perm">e_perm</A> <B>then</B>
+                <B>Result</B> := "Access permission denied"
+            <B>elseif</B> l_code = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_e_abort">e_abort</A> <B>then</B>
+                <B>Result</B> := "Callback routine requested an abort"
+            <B>elseif</B> l_code = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_e_busy">e_busy</A> <B>then</B>
+                <B>Result</B> := "The database file is locked"
+            <B>elseif</B> l_code = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_e_locked">e_locked</A> <B>then</B>
+                <B>Result</B> := "A table in the database is locked"
+            <B>elseif</B> l_code = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_e_no_mem">e_no_mem</A> <B>then</B>
+                <B>Result</B> := "There is not enough memory"
+            <B>elseif</B> l_code = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_e_read_only">e_read_only</A> <B>then</B>
+                <B>Result</B> := "Attempted to write a read-only database"
+            <B>elseif</B> l_code = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_e_interrupt">e_interrupt</A> <B>then</B>
+                <B>Result</B> := "Operation interrupted"
+            <B>elseif</B> l_code = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_e_io_err">e_io_err</A> <B>then</B>
+                <B>Result</B> := "I/O operation error"
+            <B>elseif</B> l_code = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_e_corrupt">e_corrupt</A> <B>then</B>
+                <B>Result</B> := "The database disk image is malformed"
+            <B>elseif</B> l_code = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_e_not_found">e_not_found</A> <B>then</B>
+                <B>check</B>
+                    not_used: <B>False</B>
+                <B>end</B>
+                <B>Result</B> := "Table or record not found"
+            <B>elseif</B> l_code = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_e_full">e_full</A> <B>then</B>
+                <B>Result</B> := "Insertion failed because database is full"
+            <B>elseif</B> l_code = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_e_cant_open">e_cant_open</A> <B>then</B>
+                <B>Result</B> := "Unable to open the database file"
+            <B>elseif</B> l_code = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_e_protocol">e_protocol</A> <B>then</B>
+                <B>check</B>
+                    not_used: <B>False</B>
+                <B>end</B>
+                <B>Result</B> := "Database lock protocol error"
+            <B>elseif</B> l_code = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_e_empty">e_empty</A> <B>then</B>
+                <B>Result</B> := "Database is empty"
+            <B>elseif</B> l_code = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_e_schema">e_schema</A> <B>then</B>
+                <B>Result</B> := "The database schema changed"
+            <B>elseif</B> l_code = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_e_too_big">e_too_big</A> <B>then</B>
+                <B>Result</B> := "String or BLOB exceeds size limit"
+            <B>elseif</B> l_code = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_e_constraint">e_constraint</A> <B>then</B>
+                <B>Result</B> := "Abort due to constraint violation"
+            <B>elseif</B> l_code = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_e_mismatch">e_mismatch</A> <B>then</B>
+                <B>Result</B> := "Data type mismatch"
+            <B>elseif</B> l_code = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_e_misuse">e_misuse</A> <B>then</B>
+                <B>Result</B> := "Library used incorrectly"
+            <B>elseif</B> l_code = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_e_nolfs">e_nolfs</A> <B>then</B>
+                <B>Result</B> := "Use of OS features not supported on host"
+            <B>elseif</B> l_code = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_e_auth">e_auth</A> <B>then</B>
+                <B>Result</B> := "Authorization denied"
+            <B>elseif</B> l_code = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_e_format">e_format</A> <B>then</B>
+                <B>Result</B> := "Auxiliary database format error"
+            <B>elseif</B> l_code = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_e_range">e_range</A> <B>then</B>
+                <B>Result</B> := "2nd parameter to sqlite3_bind out of range"
+            <B>elseif</B> l_code = {<A HREF="../sqlite/sqlite_result_code.html">SQLITE_RESULT_CODE</A>}.<A HREF="../sqlite/sqlite_result_code.html#f_e_not_a_db">e_not_a_db</A> <B>then</B>
+                <B>Result</B> := "File opened that is not a database file"
+            <B>else</B>
+                <B>check</B>
+                    unhandled_error: <B>False</B>
+                <B>end</B>
+                <B>Result</B> := "Unknown error"
+            <B>end</B>
+        <B>ensure</B>
+            not_result_is_empty: <B>not</B> <B>Result</B>.<A HREF="../elks/readable_string_general.html#f_is_empty">is_empty</A>
+        <B>end</B></A>
+    
+<B>feature</B> {NONE} <FONT COLOR="red">--</FONT><FONT COLOR="red"> Implementation</FONT>
+
+    <A NAME="f_tag"><A HREF="../sqlite/sqlite_exception.html#f_tag">tag</A>: <A HREF="../elks/immutable_string_32.html">IMMUTABLE_STRING_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> A short message describing what current exception is</FONT>
+
+    <A NAME="f_internal_code"><A HREF="../sqlite/sqlite_exception.html#f_internal_code">internal_code</A>: <A HREF="../elks/integer_32.html">INTEGER_32</A></A>
+            <FONT COLOR="red">--</FONT><FONT COLOR="red"> Actual reported code.</FONT>
+    
+<B>note</B>
+    copyright: "Copyright (c) 1984-2013, Eiffel Software"
+    license: "GPL version 2 (see <a href="http://www.eiffel.com/licensing/gpl.txt">http://www.eiffel.com/licensing/gpl.txt</a>)"
+    licensing_options: "<a href="http://www.eiffel.com/licensing">http://www.eiffel.com/licensing</a>"
+    copying: "[
+        This file is part of Eiffel Software's Eiffel Development Environment.
+        
+        Eiffel Software's Eiffel Development Environment is free
+        software; you can redistribute it and/or modify it under
+        the terms of the GNU General Public License as published
+        by the Free Software Foundation, version 2 of the License
+        (available at the URL listed under "license" above).
+        
+        Eiffel Software's Eiffel Development Environment is
+        distributed in the hope that it will be useful, but
+        WITHOUT ANY WARRANTY; without even the implied warranty
+        of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        See the GNU General Public License for more details.
+        
+        You should have received a copy of the GNU General Public
+        License along with Eiffel Software's Eiffel Development
+        Environment; if not, write to the Free Software Foundation,
+        Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+    ]"
+    source: "[
+        Eiffel Software
+        5949 Hollister Ave., Goleta, CA 93117 USA
+        Telephone 805-685-1006, Fax 805-685-6869
+        Website <a href="http://www.eiffel.com">http://www.eiffel.com</a>
+        Customer support <a href="http://support.eiffel.com">http://support.eiffel.com</a>
+    ]"
+
+<B>end</B> <FONT COLOR="red">--</FONT> <FONT COLOR="red">class </FONT><A HREF="../sqlite/sqlite_exception.html">SQLITE_EXCEPTION</A><TABLE BORDER="1" ALIGN="CENTER"><TR><TD><A HREF="../class_list.html">Classes</A></TD><TD><A HREF="../cluster_list.html">Clusters</A></TD><TD><A HREF="../cluster_hierarchy.html">Cluster hierarchy</A></TD><TD><A HREF="sqlite_exception_chart.html">Chart</A></TD><TD><A HREF="sqlite_exception_links.html">Relations</A></TD><TD>Text</TD><TD><A HREF="sqlite_exception_flat.html">Flat</A></TD><TD><A HREF="sqlite_exception_short.html">Contracts</A></TD><TD><A HREF="sqlite_exception_flatshort.html">Flat contracts</A></TD></TR></TABLE></PRE>
+<P ALIGN="CENTER"> &#045;&#045; Generated by ISE Eiffel &#045;&#045 </P>
+<P ALIGN="CENTER">For more details: <A HREF="http://www.eiffel.com">www.eiffel.com</A></P>
+</BODY>
+</HTML>
+
