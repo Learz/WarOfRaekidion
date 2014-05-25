@@ -27,13 +27,13 @@ feature {NONE} -- Initialization
 			create file_list.make
 
 		-- TEMPORARY
-			create l_enemy_properties.make ("Sprayer", "sprayer", "Sprays bullets in a straight line right onto the player.", "Red laser", 20, 1, 40, 15, 0, 2.5, true)
+			create l_enemy_properties.make ("Sprayer", "sprayer", "Sprays bullets in a straight line right onto the player.", "Red laser", 20, 1, 40, 15, 10, 2.5, true)
 			file_list.force ([l_enemy_properties.name, l_enemy_properties])
 			create l_enemy_properties.make ("Mauler", "mauler", "Hauls huge chunks of bullets at you, shotgun-style.", "Blue bullet", 25, 8, 140, 25, 30, 1.5, true)
 			file_list.force ([l_enemy_properties.name, l_enemy_properties])
 			create l_enemy_properties.make ("Homing", "homing", "Shoots homing missiles by pair of two.", "Small missile", 30, 1, 80, 65, 45, 2.0, false)
 			file_list.force ([l_enemy_properties.name, l_enemy_properties])
-			create l_enemy_properties.make ("Laser", "laser", "Fires a deadly bullet ray to burn through your ship.", "Yellow laser", 25, 1, 15, 75, 0, 2.5, true)
+			create l_enemy_properties.make ("Laser", "laser", "Fires a deadly bullet ray to burn through your ship.", "Yellow laser", 25, 1, 15, 75, 15, 2.5, true)
 			file_list.force ([l_enemy_properties.name, l_enemy_properties])
 			create l_enemy_properties.make ("Spiral", "spiral", "A ship that does not aim, but shoots in a spiraling pattern.", "Small bomb", 45, 1, 5, 90, {DOUBLE_MATH}.pi, 1.0, false)
 			file_list.force ([l_enemy_properties.name, l_enemy_properties])
@@ -86,6 +86,8 @@ feature {NONE} -- Implementation
 		once
 			create result.put (false)
 		end
+
+invariant
 
 note
 	copyright: "[

@@ -61,6 +61,8 @@ feature {NONE} -- Initialization
 			if audio_factory.music_volume = 128 then
 				buttons.extend (create {BUTTON}.make ("small_button", window, 100, 200, "LOUD"))
 			elseif audio_factory.music_volume = 64 then
+				buttons.extend (create {BUTTON}.make ("small_button", window, 100, 200, "HIGH"))
+			elseif audio_factory.music_volume = 32 then
 				buttons.extend (create {BUTTON}.make ("small_button", window, 100, 200, "LOW"))
 			else
 				buttons.extend (create {BUTTON}.make ("small_button", window, 100, 200, "OFF"))
@@ -71,6 +73,8 @@ feature {NONE} -- Initialization
 			if audio_factory.sounds_volume = 128 then
 				buttons.extend (create {BUTTON}.make ("small_button", window, 160, 200, "LOUD"))
 			elseif audio_factory.sounds_volume = 64 then
+				buttons.extend (create {BUTTON}.make ("small_button", window, 160, 200, "HIGH"))
+			elseif audio_factory.sounds_volume = 32 then
 				buttons.extend (create {BUTTON}.make ("small_button", window, 160, 200, "LOW"))
 			else
 				buttons.extend (create {BUTTON}.make ("small_button", window, 160, 200, "OFF"))
@@ -90,9 +94,13 @@ feature {NONE} -- Initialization
 
 			if not in_game then
 				if difficulty = 1 then
-					buttons.extend (create {BUTTON}.make ("small_button", window, 160, 250, "EASY"))
+					buttons.extend (create {BUTTON}.make ("small_button", window, 160, 250, "CAKE"))
 				elseif difficulty = 2 then
+					buttons.extend (create {BUTTON}.make ("small_button", window, 160, 250, "EASY"))
+				elseif difficulty = 4 then
 					buttons.extend (create {BUTTON}.make ("small_button", window, 160, 250, "HARD"))
+				elseif difficulty = 8 then
+					buttons.extend (create {BUTTON}.make ("small_button", window, 160, 250, "NUTS"))
 				else
 					buttons.extend (create {BUTTON}.make ("small_button", window, 160, 250, "HELL"))
 				end
@@ -198,10 +206,14 @@ feature {NONE} -- Implementation
 				end
 			elseif a_button = 2 then
 				if audio_factory.music_volume = 128 then
-					buttons.at (a_button).set_text ("LOW")
+					buttons.at (a_button).set_text ("HIGH")
 					buttons.at (a_button).recenter
 					audio_factory.set_music_volume (64)
 				elseif audio_factory.music_volume = 64 then
+					buttons.at (a_button).set_text ("LOW")
+					buttons.at (a_button).recenter
+					audio_factory.set_music_volume (32)
+				elseif audio_factory.music_volume = 32 then
 					buttons.at (a_button).set_text ("OFF")
 					buttons.at (a_button).recenter
 					audio_factory.set_music_volume (0)
@@ -212,10 +224,14 @@ feature {NONE} -- Implementation
 				end
 			elseif a_button = 3 then
 				if audio_factory.sounds_volume = 128 then
-					buttons.at (a_button).set_text ("LOW")
+					buttons.at (a_button).set_text ("HIGH")
 					buttons.at (a_button).recenter
 					audio_factory.set_sounds_volume (64)
 				elseif audio_factory.sounds_volume = 64 then
+					buttons.at (a_button).set_text ("LOW")
+					buttons.at (a_button).recenter
+					audio_factory.set_sounds_volume (32)
+				elseif audio_factory.sounds_volume = 32 then
 					buttons.at (a_button).set_text ("OFF")
 					buttons.at (a_button).recenter
 					audio_factory.set_sounds_volume (0)
@@ -240,16 +256,24 @@ feature {NONE} -- Implementation
 				end
 			elseif a_button = 5 then
 				if not in_game then
-					if difficulty = 1 then
-						buttons.at (a_button).set_text ("HARD")
-						buttons.at (a_button).recenter
-						difficulty := 2
-					elseif difficulty = 2 then
+					if difficulty = 8 then
 						buttons.at (a_button).set_text ("HELL")
 						buttons.at (a_button).recenter
+						difficulty := 16
+					elseif difficulty = 4 then
+						buttons.at (a_button).set_text ("NUTS")
+						buttons.at (a_button).recenter
+						difficulty := 8
+					elseif difficulty = 2 then
+						buttons.at (a_button).set_text ("HARD")
+						buttons.at (a_button).recenter
 						difficulty := 4
-					else
+					elseif difficulty = 1 then
 						buttons.at (a_button).set_text ("EASY")
+						buttons.at (a_button).recenter
+						difficulty := 2
+					else
+						buttons.at (a_button).set_text ("CAKE")
 						buttons.at (a_button).recenter
 						difficulty := 1
 					end
@@ -258,6 +282,8 @@ feature {NONE} -- Implementation
 				must_close := true
 			end
 		end
+
+invariant
 
 note
 	copyright: "[

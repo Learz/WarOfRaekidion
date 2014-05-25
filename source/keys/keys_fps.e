@@ -65,6 +65,8 @@ feature -- Access
 			result := {SDL_EVENTS}.sdlk_f12
 		end
 
+invariant
+
 note
 	copyright: "[
 				War of Raekidion

@@ -105,6 +105,8 @@ feature -- Wrapper
 			"TTF_RenderText_Solid ((TTF_Font*)$a_font, (const char*)$a_text, *((SDL_Color*)$a_color))"
 		end
 
+	invariant
+
 note
 	copyright: "[
 				War of Raekidion

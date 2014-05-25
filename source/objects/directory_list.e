@@ -44,6 +44,8 @@ feature -- Access
 			result := l_names_list
 		end
 
+invariant
+
 note
 	copyright: "[
 				War of Raekidion

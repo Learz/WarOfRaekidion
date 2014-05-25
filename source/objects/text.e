@@ -221,6 +221,8 @@ feature {NONE} -- Implementation
 			targetarea.memory_free
 		end
 
+invariant
+
 note
 	copyright: "[
 				War of Raekidion

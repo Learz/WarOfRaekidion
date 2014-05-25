@@ -112,6 +112,8 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
+invariant
+
 note
 	copyright: "[
 				War of Raekidion

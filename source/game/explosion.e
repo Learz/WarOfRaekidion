@@ -52,6 +52,8 @@ feature -- Element change
 			{SDL}.set_sdl_rect_x (targetarea, 0)
 		end
 
+invariant
+
 note
 	copyright: "[
 				War of Raekidion

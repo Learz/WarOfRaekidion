@@ -130,6 +130,8 @@ feature {NONE} -- Implementation
 	i_action_key: INTEGER
 	i_screenshot_key: INTEGER
 
+invariant
+
 note
 	copyright: "[
 				War of Raekidion

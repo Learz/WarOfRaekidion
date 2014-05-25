@@ -61,6 +61,8 @@ feature -- Access
 			create result.put (false)
 		end
 
+invariant
+
 note
 	copyright: "[
 				War of Raekidion

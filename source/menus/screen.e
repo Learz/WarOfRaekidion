@@ -166,6 +166,8 @@ feature {NONE} -- Implementation
 		do
 		end
 
+invariant
+
 note
 	copyright: "[
 				War of Raekidion

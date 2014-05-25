@@ -42,6 +42,8 @@ feature {NONE} -- Initialization
 			l_window: WINDOW
 			l_title_screen: TITLE_SCREEN
 			l_event: EVENT_HANDLER
+			l_splash: SPLASH_SCREEN
+			l_resources: detachable RESOURCE_LOAD
 		do
 			if attached separate_character_option_value ('d') as la_parameter then
 				debug_mode := true
@@ -52,8 +54,25 @@ feature {NONE} -- Initialization
 			{SDL_MIXER}.mix_init_noreturn ({SDL_MIXER}.mix_init_ogg)
 			{SDL_MIXER}.mix_open_audio_noreturn (22050, {SDL_MIXER}.mix_default_format, 2, 4096)
 			create l_window.make ("War of Raekidion", {SDL}.sdl_windowpos_undefined, {SDL}.sdl_windowpos_undefined, window_width, window_height, pixel_ratio, {SDL}.sdl_window_hidden, version)
-			create l_event.make (l_window)
 			{SDL}.sdl_show_window (l_window.window)
+			
+			if not debug_mode then
+				create l_resources.make
+				create l_splash.make ("splash", l_window)
+
+				if attached l_resources as la_resources then
+					from
+					until
+						la_resources.must_quit
+					loop
+					end
+
+					la_resources.join
+				end
+			end
+
+			{SDL}.sdl_setrenderdrawcolor (l_window.renderer, 0, 0, 0, 255)
+			create l_event.make (l_window)
 			create l_title_screen.make (l_window, debug_mode)
 			l_event.destroy
 			l_window.destroy
@@ -62,6 +81,8 @@ feature {NONE} -- Initialization
 			{SDL_TTF}.ttf_quit
 			{SDL}.sdl_quit
 		end
+
+invariant
 
 note
 	copyright: "[

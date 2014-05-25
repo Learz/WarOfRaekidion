@@ -55,6 +55,8 @@ feature -- Access
 			result := l_center_distance_squared - l_radius_sum_squared <= l_first_offset_squared - l_second_offset_squared
 		end
 
+invariant
+
 note
 	copyright: "[
 				War of Raekidion

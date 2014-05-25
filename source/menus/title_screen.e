@@ -31,28 +31,10 @@ feature {NONE} -- Initialization
 			l_title: SURFACE
 			l_background: BACKGROUND
 			l_screen: SCREEN
-			l_splash: SPLASH_SCREEN
-			l_resources: detachable RESOURCE_LOAD
 		do
 			collection_on
 			debug_on := a_debug
 			window := a_window
-
-			if not debug_on then
-				create l_resources.make
-				create l_splash.make ("splash", window)
-
-				if attached l_resources as la_resources then
-					from
-					until
-						la_resources.must_quit
-					loop
-					end
-
-					la_resources.join
-				end
-			end
-
 			create l_event.make (window)
 			must_quit := false
 			l_event.on_key_pressed.extend (agent manage_key)
@@ -193,6 +175,8 @@ feature {NONE} -- Implementation
 				must_quit := true
 			end
 		end
+
+invariant
 
 note
 	copyright: "[

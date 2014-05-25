@@ -63,6 +63,8 @@ feature -- Access
 		deferred
 		end
 
+invariant
+
 note
 	copyright: "[
 				War of Raekidion

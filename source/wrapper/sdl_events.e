@@ -257,6 +257,8 @@ feature
 			"SDLK_F12"
 		end
 
+invariant
+
 note
 	copyright: "[
 				War of Raekidion

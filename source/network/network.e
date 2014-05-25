@@ -142,6 +142,8 @@ feature {NONE} -- Implementation
 			exit
 		end
 
+invariant
+
 note
 	copyright: "[
 				War of Raekidion

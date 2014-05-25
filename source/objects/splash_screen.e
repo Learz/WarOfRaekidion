@@ -39,16 +39,17 @@ feature {NONE} -- Initialization
 
 			from
 			until
-				l_alpha > 200
+				l_alpha > 250
 			loop
 				l_ticks := {SDL}.sdl_getticks.to_integer_32
 				window.clear
 
-				if l_alpha < 50 then
+				if l_alpha < 50 and l_alpha <= 100 then
 					{SDL}.sdl_settexturealphamod (texture, ((l_alpha / 50) * 255).floor.as_natural_8)
-				elseif l_alpha > 150 then
+				elseif l_alpha > 150 and l_alpha <= 200 then
 					{SDL}.sdl_settexturealphamod (texture, (((200 - l_alpha) / 50) * 255).floor.as_natural_8)
-				else
+				elseif l_alpha > 100 and l_alpha <= 150 then
+					{SDL}.sdl_setrenderdrawcolor (window.renderer, 255, 255, 255, 255)
 					{SDL}.sdl_settexturealphamod (texture, 255)
 				end
 
@@ -84,6 +85,8 @@ feature {NONE} -- Implementation
 			{SDL}.sdl_destroytexture (texture)
 			targetarea.memory_free
 		end
+
+invariant
 
 note
 	copyright: "[

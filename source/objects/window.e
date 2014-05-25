@@ -124,6 +124,8 @@ feature -- Element change
 			{SDL}.set_sdl_window_size (window, scaled_width, scaled_height)
 		end
 
+invariant
+
 note
 	copyright: "[
 				War of Raekidion

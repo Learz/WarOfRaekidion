@@ -193,7 +193,6 @@ feature {NONE} -- Implementation
 		end
 
 invariant
-
 	valid_music_volume: music_volume >= 0 and music_volume <= 128
 		-- Ensure the music volume is in a valid format for SDL
 

@@ -7,7 +7,7 @@ note
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
 	date		: "$Date: May 23 2014$"
 	revision	: "$Revision: 1$"
-	
+
 deferred class
 	AUDIO_FACTORY_SHARED
 
@@ -60,6 +60,8 @@ feature {NONE} -- Access
 		do
 			{SDL_MIXER}.mix_haltmusic
 		end
+
+invariant
 
 note
 	copyright: "[

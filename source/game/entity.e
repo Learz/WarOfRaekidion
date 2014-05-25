@@ -7,12 +7,6 @@ note
 	author		: "François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"
 	date		: "$Date: May 23 2014$"
 	revision	: "$Revision: 1$"
-	copyright: "[
-				War of Raekidion
-				Copyright (C) 2014 François Allard <binarmorker@gmail.com>
-             		   		   and Marc-Antoine Renaud <legars123456@gmail.com>
-               ]"
-	license:   "GNU General Public License, <http://www.gnu.org/licenses/>"
 
 class
 	ENTITY
@@ -35,11 +29,13 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_name: STRING; a_window: WINDOW; a_x, a_y, a_health: DOUBLE)
-		-- Initialize `Current' from `a_name', `a_window', `a_x', `a_y' and `a_health'
+	make (a_name: STRING; a_window: WINDOW; a_x, a_y, a_health: DOUBLE; a_lives: INTEGER)
+		-- Initialize `Current' from `a_name', `a_window', `a_x', `a_y', `a_health' and `a_lives'
 		do
 			lifetime := 0
+			max_health := a_health
 			health := a_health
+			lives := a_lives
 		    create trajectory.make_empty
 			sprite_make (a_name, a_window, a_x, a_y)
 			set_x (a_x)
@@ -48,26 +44,40 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	x: DOUBLE
+	x: DOUBLE assign set_x
 		-- x coordinate of `Current'
 
-	y: DOUBLE
+	y: DOUBLE assign set_y
 		-- y coordinate of `Current'
 
-	health: DOUBLE
+	health: DOUBLE assign set_health
 		-- Health of `Current'
 
+	max_health: DOUBLE
+		-- Maximum health of `Current'
+
+	lives: INTEGER assign set_lives
+		-- The number of times `Current' can respawn after it "dies"
+
 	offset: INTEGER
-		-- Collision offset
+		-- Collision offset of `Current'
 
 	trajectory: VECTOR
 		-- Direction which `Current' will go to
+
+	lifetime: INTEGER
+		-- The time which `Current' has lived
 
 	update
 		-- Update `Current' on screen
 		do
 			if health <= 0 then
-				destroy
+				if lives <= 0 then
+					destroy
+				end
+
+				lives := lives - 1
+				health := max_health
 			end
 
 			lifetime := lifetime + 1
@@ -97,12 +107,29 @@ feature -- Element change
 	set_health (a_health: DOUBLE)
 		-- Assign `health' to `a_health'
 		do
-			health := a_health
+			if a_health > max_health then
+				health := max_health
+			elseif a_health < 0 then
+				health := 0
+			else
+				health := a_health
+			end
 		end
 
-feature {NONE} -- Implementation
+	set_lives (a_lives: INTEGER)
+		-- Assign `lives' to `a_lives'
+		do
+			lives := a_lives
+		end
 
-	lifetime: INTEGER
-		-- The time which the entity has lived
+invariant
+
+note
+	copyright: "[
+				War of Raekidion
+				Copyright (C) 2014 François Allard <binarmorker@gmail.com>
+             		   		   and Marc-Antoine Renaud <legars123456@gmail.com>
+               ]"
+	license:   "GNU General Public License, <http://www.gnu.org/licenses/>"
 
 end

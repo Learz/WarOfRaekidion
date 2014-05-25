@@ -170,6 +170,8 @@ feature {NONE} -- Implementation
 			end
 		end
 
+invariant
+
 note
 	copyright: "[
 				War of Raekidion

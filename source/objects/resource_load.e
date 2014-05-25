@@ -55,6 +55,8 @@ feature {NONE} -- Implementation
 			must_quit := true
 		end
 
+invariant
+
 note
 	copyright: "[
 				War of Raekidion

@@ -106,6 +106,8 @@ feature {NONE} -- Implementation
 			create result.put (false)
 		end
 
+invariant
+
 note
 	copyright: "[
 				War of Raekidion

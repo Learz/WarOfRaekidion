@@ -288,6 +288,8 @@ feature {NONE} -- Implementation
 			force := force_from_x_y (a_x, a_y)
 		end
 
+invariant
+
 note
 	copyright: "[
 				War of Raekidion

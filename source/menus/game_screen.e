@@ -30,10 +30,13 @@ feature {NONE} -- Initialization
 			l_sidebar: SPRITE
 			l_score: TEXT
 			l_opponent_score: detachable TEXT
-			l_label: TEXT
-			l_health: TEXT
+			--l_label: TEXT
+			--l_health: TEXT
+			l_health_bar: STATUS_BAR
+			l_energy_bar: STATUS_BAR
 			l_event: EVENT_HANDLER
 			l_pause_menu: SCREEN
+			l_lives: INTEGER
 		do
 			collection_on
 			debug_on := a_debug
@@ -63,8 +66,12 @@ feature {NONE} -- Initialization
 			version.set_y (version.y - version.height)
 
 --		    if is_server then
-		    	create l_label.make ("HP: ", 16, window, 237, 21, [255, 255, 255], true)
-		    	create l_health.make (player.health.floor.out, 16, window, 257, 21, [255, 255, 255], true)
+		    	--create l_label.make ("HP: ", 16, window, 237, 21, [255, 255, 255], true)
+		    	--create l_health.make (player.health.floor.out, 16, window, 257, 21, [255, 255, 255], true)
+		    	create l_health_bar.make (window, 237, 22, 59, 7, [192, 32, 32, 255], false)
+		    	create l_energy_bar.make (window, 237, 29, 59, 7, [96, 96, 192, 255], false)
+				l_health_bar.set_value (player.health.floor)
+				l_energy_bar.set_value (player.energy.floor)
 --		    else
 --		    	create l_label.make ("C$: ", 16, window, 237, 21, [255, 255, 255], true)
 --		    	create l_health.make (spawner.money.out, 16, window, 257, 21, [255, 255, 255], true)
@@ -76,7 +83,7 @@ feature {NONE} -- Initialization
 
 			if attached network as la_network then
 				create l_opponent_score.make ("0", 16, window, 237, 39, [192, 192, 192], true)
-				create network_player.make ("disabled_player", window, 1000, 1000, 1)
+				create network_player.make ("disabled_player", window, 1000, 1000, 1, 1)
 
 --		    	if is_server then
 					l_event.on_key_pressed.extend (agent player.manage_key)
@@ -141,7 +148,7 @@ feature {NONE} -- Initialization
 			    end
 
 				l_score.update
-			    l_label.update
+			    --l_label.update
 
 			    if attached l_opponent_score as la_score then
 			    	la_score.update
@@ -151,7 +158,8 @@ feature {NONE} -- Initialization
 
 				if health_changed then
 --					if is_server then
-						l_health.set_text (player.health.floor.out, 16)
+						--l_health.set_text (player.health.floor.out, 16)
+						l_health_bar.set_value (player.health.floor)
 --					else
 --						l_health.set_text (spawner.money.out, 16)
 --					end
@@ -159,7 +167,10 @@ feature {NONE} -- Initialization
 					health_changed := false
 				end
 
-				l_health.update
+				--l_health.update
+				l_health_bar.update
+				l_energy_bar.set_value (player.energy.floor)
+				l_energy_bar.update
 			    window.render
 
 			    if attached network as la_network and then
@@ -183,6 +194,13 @@ feature {NONE} -- Initialization
 						la_network_player.update
 					end
 				end
+
+				if l_lives > player.lives then
+					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x, player.y, false))
+					player.disable (500)
+				end
+
+				l_lives := player.lives
 
 				if player.is_destroyed then
 					if attached network as la_network and then
@@ -346,7 +364,7 @@ feature {NONE} -- Implementation
 			    		projectile_list.remove
 			    	else
 			    		if la_projectile.owner /= player then
-							if player.has_collided (la_projectile) then
+							if player.has_collided (la_projectile) and not player.is_disabled then
 								if not is_server and not player.is_destroyed then
 									score := score + (la_projectile.projectile_properties.damage * 10).floor
 									score_changed := true
@@ -359,10 +377,6 @@ feature {NONE} -- Implementation
 								end
 
 								player.set_health (player.health - la_projectile.projectile_properties.damage)
-
-								if player.health < 0 then
-									player.set_health (0)
-								end
 
 								if is_server then
 									health_changed := true
@@ -446,13 +460,14 @@ feature {NONE} -- Implementation
 			    	else
 						if player.has_collided (la_powerup) then
 							if spawner.is_ai then
-								if player.health >= 100 then
+								if player.health >= player.max_health then
 									if is_server then
 										score := score + 1
 										score_changed := true
 									end
 								else
 									player.set_health (player.health + (0.5 / difficulty))
+									player.set_energy (player.energy + (2 / difficulty))
 
 									if is_server then
 										health_changed := true
@@ -596,6 +611,8 @@ feature {NONE} -- Implementation
 --				end
 --			end
 		end
+
+invariant
 
 note
 	copyright: "[

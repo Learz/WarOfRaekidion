@@ -19,6 +19,8 @@ feature {NONE} -- Access
 			create result.make
 		end
 
+invariant
+
 note
 	copyright: "[
 				War of Raekidion

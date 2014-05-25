@@ -351,6 +351,8 @@ feature {NONE} -- Implementation
 	Collision_packet: INTEGER = 4
 	Score_packet: INTEGER = 5
 
+invariant
+
 note
 	copyright: "[
 				War of Raekidion

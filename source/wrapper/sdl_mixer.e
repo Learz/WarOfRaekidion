@@ -179,6 +179,8 @@ feature -- Constantes
 			"MIX_DEFAULT_FORMAT"
 		end
 
+invariant
+
 note
 	copyright: "[
 				War of Raekidion

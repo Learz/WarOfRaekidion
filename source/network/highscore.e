@@ -86,6 +86,8 @@ feature {NONE} -- Implementation
 			highscores_list.extend ([a_row.string_value (1), a_row.integer_value (2)])
 		end
 
+invariant
+
 note
 	copyright: "[
 				War of Raekidion

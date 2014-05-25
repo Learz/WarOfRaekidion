@@ -217,6 +217,30 @@ feature -- Fonctions -SDL.h
 --			"SDL_MapRGB"
 --		end
 
+	frozen sdl_setrenderdrawcolor (a_renderer: POINTER; a_red, a_green, a_blue, a_alpha: NATURAL_8)
+		-- Sets the color (`a_red', `a_green', `a_blue' and `a_alpha') in which to draw the next shape into `a_renderer'
+		external
+			"C (SDL_Renderer*, Uint8, Uint8, Uint8, Uint8) | <SDL.h>"
+		alias
+			"SDL_SetRenderDrawColor"
+		end
+
+	frozen sdl_getrenderdrawcolor (a_renderer, a_red, a_green, a_blue, a_alpha: POINTER)
+		-- Gets the color (`a_red', `a_green', `a_blue' and `a_alpha') of `a_renderer'
+		external
+			"C (SDL_Renderer*, Uint8*, Uint8*, Uint8*, Uint8*) | <SDL.h>"
+		alias
+			"SDL_GetRenderDrawColor"
+		end
+
+	frozen sdl_renderfillrect (a_renderer, a_rect: POINTER)
+		-- Draws `a_rect' inside `a_renderer'
+		external
+			"C (SDL_Renderer*, SDL_Rect*) | <SDL.h>"
+		alias
+			"SDL_RenderFillRect"
+		end
+
 	frozen sdl_createtexturefromsurface (a_renderer, a_surface: POINTER): POINTER
 		-- Create a texture from `a_surface'.
 		external
@@ -488,6 +512,8 @@ feature --Sizeof -SDL.h
 		alias
 			"sizeof(SDL_Event)"
 		end
+
+invariant
 
 note
 	copyright: "[
