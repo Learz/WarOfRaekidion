@@ -31,7 +31,7 @@ feature {NONE} -- Initialization
 			l_title, l_description: TEXT
 			l_background: BACKGROUND
 			l_highscore_db: HIGHSCORE
-			l_highscores: LINKED_LIST [TUPLE [name: STRING; score: INTEGER]]
+			l_highscores: LINKED_LIST [TUPLE [name: STRING; difficulty, score: INTEGER]]
 		do
 			collection_on
 			debug_on := a_debug
@@ -48,18 +48,22 @@ feature {NONE} -- Initialization
 			create l_title.make_centered ("Highscores", 24, window, 0, 0, window.width, 150, [255, 255, 255], true)
 
 			if difficulty = 1 then
-				create l_description.make_centered ("EASY", 16, window, 0, 25, window.width, 150, [255, 255, 255], true)
+				create l_description.make_centered ("CAKE", 16, window, 0, 25, window.width, 150, [128, 255, 128], false)
 			elseif difficulty = 2 then
-				create l_description.make_centered ("HARD", 16, window, 0, 25, window.width, 150, [255, 255, 255], true)
+				create l_description.make_centered ("EASY", 16, window, 0, 25, window.width, 150, [255, 255, 128], false)
+			elseif difficulty = 4 then
+				create l_description.make_centered ("HARD", 16, window, 0, 25, window.width, 150, [255, 128, 64], false)
+			elseif difficulty = 8 then
+				create l_description.make_centered ("NUTS", 16, window, 0, 25, window.width, 150, [192, 0, 0], false)
 			else
-				create l_description.make_centered ("HELL", 16, window, 0, 25, window.width, 150, [255, 255, 255], true)
+				create l_description.make_centered ("HELL", 16, window, 0, 25, window.width, 150, [0, 0, 0], false)
 			end
 
 			create version.make (window.version, 10, window, 3, 397, [64, 64, 96], false)
 			version.set_y (version.y - version.height)
 			create l_background.make ("title_background", window, 0, 0, 0)
 			create l_highscore_db.make
-			l_highscores := l_highscore_db.highscores (7)
+			l_highscores := l_highscore_db.highscores (7, difficulty)
 
 			from
 				l_highscores.start

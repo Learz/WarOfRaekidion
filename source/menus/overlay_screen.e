@@ -46,6 +46,7 @@ feature {NONE} -- Initialization
 			key_binding := a_key_binding
 			must_quit := false
 			score := a_score
+			difficulty := a_difficulty
 			is_return_key_pressed := a_is_return_key_pressed
 			l_event.on_typing.extend (agent manage_typing)
 			l_event.on_key_pressed.extend (agent manage_key)
@@ -124,6 +125,11 @@ feature {NONE} -- Initialization
 				end
 			end
 		end
+
+feature -- Access
+
+	difficulty: INTEGER
+		-- Difficulty of the game
 
 feature -- Status
 
@@ -224,7 +230,7 @@ feature {NONE} -- Implementation
 							buttons.at (1).hide
 							la_highscore.set_text ("Highscore saved!", 16)
 							la_highscore.recenter
-							set_highscore (la_textbox.char_string, score)
+							set_highscore (la_textbox.char_string, difficulty, score)
 							highscore_set := True
 						end
 					elseif a_button = 2 then

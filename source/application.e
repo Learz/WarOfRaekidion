@@ -55,9 +55,10 @@ feature {NONE} -- Initialization
 			{SDL_MIXER}.mix_open_audio_noreturn (22050, {SDL_MIXER}.mix_default_format, 2, 4096)
 			create l_window.make ("War of Raekidion", {SDL}.sdl_windowpos_undefined, {SDL}.sdl_windowpos_undefined, window_width, window_height, pixel_ratio, {SDL}.sdl_window_hidden, version)
 			{SDL}.sdl_show_window (l_window.window)
-			
+
 			if not debug_mode then
 				create l_resources.make
+				l_resources.launch
 				create l_splash.make ("splash", l_window)
 
 				if attached l_resources as la_resources then

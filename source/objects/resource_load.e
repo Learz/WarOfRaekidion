@@ -16,7 +16,6 @@ inherit
 	IMAGE_FACTORY_SHARED
 	ENEMY_FACTORY_SHARED
 	PROJECTILE_FACTORY_SHARED
-	DATABASE_MANAGER_SHARED
 	THREAD
 		redefine
 			make
@@ -32,7 +31,6 @@ feature {NONE} -- Initialization
 		do
 			Precursor {THREAD}
 			must_quit := false
-			execute
 		end
 
 feature -- Access
@@ -46,12 +44,13 @@ feature {NONE} -- Implementation
 		-- Load every resource available
 		local
 			l_any: ANY
+			l_highscore: HIGHSCORE
 		do
 			l_any := audio_factory
 			l_any := image_factory
 			l_any := enemy_factory
 			l_any := projectile_factory
-			l_any := connexion
+			create l_highscore.make
 			must_quit := true
 		end
 

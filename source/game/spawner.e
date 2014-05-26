@@ -53,17 +53,26 @@ feature -- Access
 	update
 		-- Update `Current'
 		local
-			l_x, l_y, l_random: INTEGER
+			l_x, l_y, l_random, l_side: INTEGER
 		do
 			if is_ai then
 				random.forth
-				l_x := (random.double_item * 200).floor + 12
+				l_x := (random.double_item * 150).floor + 37
 				random.forth
 				l_y := (random.double_item * 100).floor + 12
 				random.forth
 				l_random := (random.double_item * enemy_factory.file_list.count).floor + 1
 				random.forth
-				spawn_list.extend ([enemy_factory.file_list.at (l_random).name, (random.double_item * 200).floor + 12, -25, l_x, l_y])
+				l_side := (random.double_item * 3).floor
+				random.forth
+
+				if l_side = 0 then
+					spawn_list.extend ([enemy_factory.file_list.at (l_random).name, (random.double_item * 200).floor + 12, -25, l_x, l_y])
+				elseif l_side = 1 then
+					spawn_list.extend ([enemy_factory.file_list.at (l_random).name, -25, (random.double_item * 250).floor + 12, l_x, l_y])
+				else
+					spawn_list.extend ([enemy_factory.file_list.at (l_random).name, 250, (random.double_item * 250).floor + 12, l_x, l_y])
+				end
 			end
 
 			from

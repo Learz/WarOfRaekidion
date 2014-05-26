@@ -213,12 +213,16 @@ feature {NONE} -- Initialization
 						l_opponent_score := void
 						l_pause_menu := create {OVERLAY_SCREEN}.make (window, key_binding, is_return_key_pressed, "YOU LOST!", "Your score: "+score.out, "Your opponent's score: "+la_node.new_score.out, true, debug_on, difficulty, score)
 					else
-						if difficulty = 4 then
+						if difficulty = 16 then
 							difficulty_text := "HELL"
-						elseif difficulty = 2 then
+						elseif difficulty = 8 then
+							difficulty_text := "NUTS"
+						elseif difficulty = 4 then
 							difficulty_text := "HARD"
-						else
+						elseif difficulty = 2 then
 							difficulty_text := "EASY"
+						else
+							difficulty_text := "CAKE"
 						end
 
 						l_pause_menu := create {OVERLAY_SCREEN}.make (window, key_binding, is_return_key_pressed, "GAME OVER", "Score: "+score.out, difficulty_text, true, debug_on, difficulty, score)
@@ -383,9 +387,9 @@ feature {NONE} -- Implementation
 								end
 
 								if spawner.is_ai then
-									spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * difficulty * 1.5).floor)
+									spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * difficulty * 0.5).floor)
 								else
-									spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * 3).floor)
+									spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage).floor)
 
 									if not is_server then
 										health_changed := true
@@ -403,7 +407,7 @@ feature {NONE} -- Implementation
 				   				if attached enemy_list.item as la_enemy then
 									if la_enemy.has_collided (la_projectile) then
 										if is_server then
-											score := score + (la_projectile.projectile_properties.damage * 10 * (difficulty / 2)).floor
+											score := score + (la_projectile.projectile_properties.damage * 10 * (difficulty / 2.5)).floor
 											score_changed := true
 
 --											if attached network as la_network then
@@ -416,9 +420,9 @@ feature {NONE} -- Implementation
 										la_enemy.set_health (la_enemy.health - la_projectile.projectile_properties.damage)
 
 										if spawner.is_ai then
-											spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * difficulty).floor)
+											spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * difficulty * 0.5).floor)
 										else
-											spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * 2).floor)
+											spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage).floor)
 
 											if not is_server then
 												health_changed := true
@@ -462,12 +466,12 @@ feature {NONE} -- Implementation
 							if spawner.is_ai then
 								if player.health >= player.max_health then
 									if is_server then
-										score := score + 1
+										score := score + difficulty
 										score_changed := true
 									end
 								else
-									player.set_health (player.health + (0.5 / difficulty))
-									player.set_energy (player.energy + (2 / difficulty))
+									player.set_health (player.health + (1 / difficulty))
+									player.set_energy (player.energy + (4 / difficulty))
 
 									if is_server then
 										health_changed := true
@@ -500,7 +504,7 @@ feature {NONE} -- Implementation
 			    if attached enemy_list.item as la_enemy then
 			    	if la_enemy.is_destroyed then
 						if is_server then
-							score := score + (la_enemy.enemy_properties.health * 10 * (difficulty / 2)).floor
+							score := score + (la_enemy.enemy_properties.health * 10 * (difficulty / 2.5)).floor
 							score_changed := true
 						end
 
