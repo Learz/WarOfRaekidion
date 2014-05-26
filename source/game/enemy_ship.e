@@ -50,7 +50,7 @@ feature -- Access
 			l_random_int: INTEGER
 			l_count: INTEGER
 		do
-			if (dest_x - x) * (dest_y - y) < 5 then
+			if ((dest_x - x) ^ 2) * ((dest_y - y) ^ 2) < 5 then
 				trajectory.set_force (0)
 
 				if lifetime \\ enemy_properties.firerate = 0 then

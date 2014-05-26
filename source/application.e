@@ -77,6 +77,11 @@ feature {NONE} -- Initialization
 			create l_title_screen.make (l_window, debug_mode)
 			l_event.destroy
 			l_window.destroy
+
+			if attached l_resources as la_resources then
+				l_resources.destroy
+			end
+
 			{SDL_MIXER}.mix_close_audio
 			{SDL_MIXER}.mix_quit
 			{SDL_TTF}.ttf_quit

@@ -30,8 +30,8 @@ feature {NONE} -- Initialization
 			l_sidebar: SPRITE
 			l_score: TEXT
 			l_opponent_score: detachable TEXT
-			--l_label: TEXT
-			--l_health: TEXT
+			l_health: TEXT
+			l_energy: TEXT
 			l_health_bar: STATUS_BAR
 			l_energy_bar: STATUS_BAR
 			l_event: EVENT_HANDLER
@@ -66,8 +66,8 @@ feature {NONE} -- Initialization
 			version.set_y (version.y - version.height)
 
 --		    if is_server then
-		    	--create l_label.make ("HP: ", 16, window, 237, 21, [255, 255, 255], true)
-		    	--create l_health.make (player.health.floor.out, 16, window, 257, 21, [255, 255, 255], true)
+		    	create l_health.make_centered ("HEALTH", 10, window, 237, 22, 59, 7, [255, 255, 255], false)
+		    	create l_energy.make_centered ("ENERGY", 10, window, 237, 29, 59, 7, [255, 255, 255], false)
 		    	create l_health_bar.make (window, 237, 22, 59, 7, [192, 32, 32, 255], false)
 		    	create l_energy_bar.make (window, 237, 29, 59, 7, [96, 96, 192, 255], false)
 				l_health_bar.set_value (player.health.floor)
@@ -167,10 +167,11 @@ feature {NONE} -- Initialization
 					health_changed := false
 				end
 
-				--l_health.update
 				l_health_bar.update
 				l_energy_bar.set_value (player.energy.floor)
 				l_energy_bar.update
+				l_health.update
+				l_energy.update
 			    window.render
 
 			    if attached network as la_network and then
@@ -581,8 +582,21 @@ feature {NONE} -- Implementation
 		-- Add ennemy `a_name' originating from `a_x' and `a_y' moving to `a_dest_x' and `a_dest_y'
 		local
 			l_enemy: ENEMY_SHIP
+			l_max_enemies: INTEGER
 		do
-			if enemy_list.count < 10 then
+			if difficulty = 1 then
+				l_max_enemies := 6
+			elseif difficulty = 2 then
+				l_max_enemies := 8
+			elseif difficulty = 4 then
+				l_max_enemies := 10
+			elseif difficulty = 8 then
+				l_max_enemies := 12
+			elseif difficulty = 16 then
+				l_max_enemies := 14
+			end
+
+			if enemy_list.count < l_max_enemies then
 				create l_enemy.make (a_name, window, a_x, a_y, a_dest_x, a_dest_y)
 
 				if spawner.money >= l_enemy.enemy_properties.price then

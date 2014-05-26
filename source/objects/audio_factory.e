@@ -12,14 +12,9 @@ class
 	AUDIO_FACTORY
 
 inherit
-	DISPOSABLE
-		select
-			dispose
-		end
 	DIRECTORY_LIST
 		rename
-			make as directory_make,
-			dispose as directory_dispose
+			make as directory_make
 		end
 
 create
@@ -123,7 +118,7 @@ feature -- Access
 			end
 		end
 
-	dispose
+	destroy
 		-- Free every sound and music from memory
 		do
 			from

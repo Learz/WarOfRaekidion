@@ -16,6 +16,7 @@ inherit
 	IMAGE_FACTORY_SHARED
 	ENEMY_FACTORY_SHARED
 	PROJECTILE_FACTORY_SHARED
+	DATABASE_MANAGER_SHARED
 	THREAD
 		redefine
 			make
@@ -37,6 +38,14 @@ feature -- Access
 
 	must_quit: BOOLEAN
 		-- True if the thread has loaded all resources
+
+	destroy
+		-- Removes all resources from memory
+		do
+			audio_factory.destroy
+			image_factory.destroy
+			connexion.destroy
+		end
 
 feature {NONE} -- Implementation
 

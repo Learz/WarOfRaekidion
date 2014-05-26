@@ -57,9 +57,9 @@ feature -- Access
 		do
 			if is_ai then
 				random.forth
-				l_x := (random.double_item * 150).floor + 37
+				l_x := (random.double_item * 100).floor + 62
 				random.forth
-				l_y := (random.double_item * 100).floor + 12
+				l_y := (random.double_item * 100).floor + 62
 				random.forth
 				l_random := (random.double_item * enemy_factory.file_list.count).floor + 1
 				random.forth
@@ -69,9 +69,9 @@ feature -- Access
 				if l_side = 0 then
 					spawn_list.extend ([enemy_factory.file_list.at (l_random).name, (random.double_item * 200).floor + 12, -25, l_x, l_y])
 				elseif l_side = 1 then
-					spawn_list.extend ([enemy_factory.file_list.at (l_random).name, -25, (random.double_item * 250).floor + 12, l_x, l_y])
+					spawn_list.extend ([enemy_factory.file_list.at (l_random).name, -25, (random.double_item * 200).floor + 12, l_x, l_y])
 				else
-					spawn_list.extend ([enemy_factory.file_list.at (l_random).name, 250, (random.double_item * 250).floor + 12, l_x, l_y])
+					spawn_list.extend ([enemy_factory.file_list.at (l_random).name, 250, (random.double_item * 200).floor + 12, l_x, l_y])
 				end
 			end
 

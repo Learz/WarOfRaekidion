@@ -11,9 +11,6 @@ note
 class
 	DATABASE_MANAGER
 
-inherit
-	DISPOSABLE
-
 create
 	make
 
@@ -49,7 +46,7 @@ feature -- Access
 	database: SQLITE_DATABASE
 		-- The database to use
 
-	dispose
+	destroy
 		-- Free and close the database
 		do
 			database.close
