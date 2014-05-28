@@ -56,7 +56,7 @@ feature {NONE} -- Initialization
 			create l_event.make (window)
 			create l_background.make ("background", window, 0, 0, 1)
 		    create l_sidebar.make ("sidebar", window, window.width - 75, 0)
-		    create player.make (window, 112, 300, key_binding, a_is_server)
+		    create player.make (window, 112, 300, 0, key_binding, a_is_server)
 		    player.on_shoot.extend (agent spawn_projectile)
 		    create spawner.make (window, key_binding, not a_is_server)
 		    spawner.on_spawn.extend (agent spawn_enemy)
@@ -198,6 +198,14 @@ feature {NONE} -- Initialization
 
 				if l_lives > player.lives then
 					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x, player.y, false))
+					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x + 15, player.y, false))
+					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x - 15, player.y, false))
+					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x, player.y + 15, false))
+					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x, player.y - 15, false))
+					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x + 15, player.y + 15, false))
+					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x - 15, player.y + 15, false))
+					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x + 15, player.y - 15, false))
+					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x - 15, player.y - 15, false))
 					player.disable (500)
 				end
 
@@ -421,7 +429,7 @@ feature {NONE} -- Implementation
 										la_enemy.set_health (la_enemy.health - la_projectile.projectile_properties.damage)
 
 										if spawner.is_ai then
-											spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * difficulty * 0.5).floor)
+											spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage * difficulty).floor)
 										else
 											spawner.set_money (spawner.money + (la_projectile.projectile_properties.damage).floor)
 

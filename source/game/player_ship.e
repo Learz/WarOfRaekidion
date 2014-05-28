@@ -24,10 +24,10 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_x, a_y: DOUBLE; a_key_binding: KEYS; a_is_player: BOOLEAN)
+	make (a_window: WINDOW; a_x, a_y: DOUBLE; a_lives: INTEGER; a_key_binding: KEYS; a_is_player: BOOLEAN)
 		-- Initialize `Current' from `a_window', `a_x', `a_y', `a_key_binding' and `a_is_player'
 		do
-			ship_make ("player", a_window, a_x, a_y, 100, 5)
+			ship_make ("player", a_window, a_x, a_y, 100, a_lives)
 			is_player := a_is_player
 			offset := 16
 			max_energy := 100

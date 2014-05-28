@@ -39,7 +39,7 @@ feature {NONE} -- Initialization
 
 			from
 			until
-				l_alpha > 250
+				l_alpha > 225
 			loop
 				l_ticks := {SDL}.sdl_getticks.to_integer_32
 				window.clear

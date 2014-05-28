@@ -127,7 +127,7 @@ feature -- Access
 				sounds_list.exhausted
 			loop
 				{SDL_MIXER}.mix_freechunk (sounds_list.item.object)
-				sounds_list.forth
+				sounds_list.remove
 			end
 
 			from
@@ -136,7 +136,7 @@ feature -- Access
 				music_list.exhausted
 			loop
 				{SDL_MIXER}.mix_freemusic (music_list.item.object)
-				music_list.forth
+				music_list.remove
 			end
 		end
 

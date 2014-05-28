@@ -26,12 +26,7 @@ feature {NONE} -- Initialization
 			l_query: SQLITE_QUERY_STATEMENT
 			l_modify: SQLITE_MODIFY_STATEMENT
 		do
-			--create l_source.make ("resources/data")
-			--create database.make (l_source)
-			--database.open_create_read_write
-
 			create database.make_create_read_write ("resources/data")
-
 			create l_query.make ("SELECT * FROM sqlite_master;", database)
 			create l_modify.make ("CREATE TABLE IF NOT EXISTS scores (name TEXT, difficulty INTEGER, score INTEGER);", database)
 			l_modify.execute
