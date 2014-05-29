@@ -11,6 +11,12 @@ note
 class
 	ENEMY_FACTORY
 
+inherit
+	DIRECTORY_LIST
+		rename
+			make as directory_make
+		end
+
 create
 	make
 
@@ -22,24 +28,33 @@ feature {NONE} -- Initialization
 			is_not_already_initialised: not is_init.item
 				-- Ensure the factory doesn't already exist
 		local
-			l_enemy_properties: ENEMY_PROPERTIES
+			l_directory: STRING
+			l_count: INTEGER
+			l_name: STRING
+			l_filename_list: LINKED_LIST[STRING]
+			l_xml_file: XML_STANDARD_PARSER
+			l_xml: XML_CALLBACKS_DOCUMENT
 		do
+			l_directory := "resources/ships/"
+			directory_make (l_directory)
 			create file_list.make
+			create l_filename_list.make
+			l_filename_list := files_with_type ("xml")
 
-		-- TEMPORARY
-			create l_enemy_properties.make ("Sprayer", "sprayer", "Sprays bullets in a straight line right onto the player.", "Red laser", 15, 1, 40, 10, 10, 2.5, true)
-			file_list.force ([l_enemy_properties.name, l_enemy_properties])
-			create l_enemy_properties.make ("Mauler", "mauler", "Hauls huge chunks of bullets at you, shotgun-style.", "Blue bullet", 20, 8, 140, 25, 30, 1.5, true)
-			file_list.force ([l_enemy_properties.name, l_enemy_properties])
-			create l_enemy_properties.make ("Homing", "homing", "Shoots homing missiles by pair of two.", "Small missile", 20, 1, 80, 65, 45, 2.0, false)
-			file_list.force ([l_enemy_properties.name, l_enemy_properties])
-			create l_enemy_properties.make ("Laser", "laser", "Fires a deadly bullet ray to burn through your ship.", "Yellow laser", 20, 1, 15, 75, 15, 2.5, true)
-			file_list.force ([l_enemy_properties.name, l_enemy_properties])
-			create l_enemy_properties.make ("Spiral", "spiral", "A ship that does not aim, but shoots in a spiraling pattern.", "Small bomb", 30, 1, 5, 90, {DOUBLE_MATH}.pi, 1.0, false)
-			file_list.force ([l_enemy_properties.name, l_enemy_properties])
-			create l_enemy_properties.make ("Barrage", "barrage", "Fires a huge barrage of deadly bullets towards you.", "Red bullet", 25, 24, 100, 115, 90, 0.5, true)
-			file_list.force ([l_enemy_properties.name, l_enemy_properties])
-		-- TEMPORARY
+			from
+				l_filename_list.start
+			until
+				l_filename_list.exhausted
+			loop
+				l_count := l_filename_list.item.index_of ('.', 1)
+				l_name := l_filename_list.item.substring (1, l_count - 1)
+				create l_xml_file.make
+				l_xml_file.parse_from_path (create {PATH}.make_from_string (l_directory + l_filename_list.item))
+				create l_xml.make_null
+				l_xml.set_source_parser (l_xml_file)
+				file_list.extend ([l_name, parse_enemy (l_xml.document)])
+				l_filename_list.forth
+			end
 
 		    is_init.replace (true)
 		ensure
@@ -85,6 +100,45 @@ feature {NONE} -- Implementation
 		-- If this class has been initialized, don't initialize it again
 		once
 			create result.put (false)
+		end
+
+	parse_enemy (a_document: XML_DOCUMENT): ENEMY_PROPERTIES
+		local
+			l_name: STRING
+			l_filename: STRING
+			l_description: STRING
+			l_bullet: STRING
+			l_health: DOUBLE
+			l_count: INTEGER
+			l_firerate: INTEGER
+			l_price: INTEGER
+			l_spread: DOUBLE
+			l_speed: DOUBLE
+			l_aiming: BOOLEAN
+		do
+			l_name := process_node (a_document, "name")
+			l_filename := process_node (a_document, "filename")
+			l_description := process_node (a_document, "description")
+			l_bullet := process_node (a_document, "bullet")
+			l_health := process_node (a_document, "health").to_double
+			l_count := process_node (a_document, "count").to_integer_32
+			l_firerate := process_node (a_document, "firerate").to_integer_32
+			l_price := process_node (a_document, "price").to_integer_32
+			l_spread := process_node (a_document, "spread").to_double
+			l_speed := process_node (a_document, "speed").to_double
+			l_aiming := process_node (a_document, "aiming").to_boolean
+			create result.make (l_name, l_filename, l_description, l_bullet, l_health, l_count, l_firerate, l_price, l_spread, l_speed, l_aiming)
+		end
+
+	process_node (a_document: XML_DOCUMENT; a_name: STRING): STRING
+		do
+			if a_document.has_element_by_name (a_name) and
+			then attached a_document.element_by_name (a_name) as la_element and
+			then attached la_element.text as la_text then
+				result := la_text
+			else
+				result := ""
+			end
 		end
 
 invariant

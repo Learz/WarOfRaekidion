@@ -25,8 +25,8 @@ feature {NONE} -- Initialization
 			bullet := a_bullet
 			health := a_health
 			count := a_count
-			price := a_price
 			firerate := a_firerate
+			price := a_price
 			spread := a_spread
 			speed := a_speed
 			aiming := a_aiming
