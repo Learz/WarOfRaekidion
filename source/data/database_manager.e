@@ -22,7 +22,6 @@ feature {NONE} -- Initialization
 			is_not_already_initialised: not is_init.item
 				-- Ensure the factory doesn't already exist
 		local
-			l_source: SQLITE_FILE_SOURCE
 			l_query: SQLITE_QUERY_STATEMENT
 			l_modify: SQLITE_MODIFY_STATEMENT
 		do

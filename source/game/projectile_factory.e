@@ -11,6 +11,16 @@ note
 class
 	PROJECTILE_FACTORY
 
+inherit
+	XML_DOCUMENT_PARSER
+		rename
+			make as document_make
+		end
+	DIRECTORY_LIST
+		rename
+			make as directory_make
+		end
+
 create
 	make
 
@@ -21,26 +31,32 @@ feature {NONE} -- Initialization
 			is_not_already_initialised: not is_init.item
 				-- Ensure the factory doesn't already exist
 		local
-			l_projectile_properties: PROJECTILE_PROPERTIES
+			l_directory: STRING
+			l_count: INTEGER
+			l_name: STRING
+			l_filename_list: LINKED_LIST[STRING]
 		do
+			l_directory := "resources/projectiles/"
+			directory_make (l_directory)
+			document_make
 			create file_list.make
+			create l_filename_list.make
+			l_filename_list := files_with_type ("xml")
 
-		-- TEMPORARY
-			create l_projectile_properties.make ("White laser", "white_laser", "laser1", 3.0, 6.5, false, -1, false)
-			file_list.force ([l_projectile_properties.name, l_projectile_properties])
-			create l_projectile_properties.make ("Red laser", "red_laser", "laser3", 1.0, 3.0, false, -1, false)
-			file_list.force ([l_projectile_properties.name, l_projectile_properties])
-			create l_projectile_properties.make ("Blue bullet", "blue_bullet", "hit", 0.5, 2.0, false, -1, false)
-			file_list.force ([l_projectile_properties.name, l_projectile_properties])
-			create l_projectile_properties.make ("Small missile", "small_missile", "missile", 5.0, 0.75, true, 5, true)
-			file_list.force ([l_projectile_properties.name, l_projectile_properties])
-			create l_projectile_properties.make ("Yellow laser", "yellow_laser", "laser2", 1.0, 5.0, false, -1, false)
-			file_list.force ([l_projectile_properties.name, l_projectile_properties])
-			create l_projectile_properties.make ("Small bomb", "small_bomb", "hit", 2.0, 0.5, false, -1, true)
-			file_list.force ([l_projectile_properties.name, l_projectile_properties])
-			create l_projectile_properties.make ("Red bullet", "red_bullet", "hit", 0.5, 1.5, false, -1, false)
-			file_list.force ([l_projectile_properties.name, l_projectile_properties])
-		-- TEMPORARY
+			from
+				l_filename_list.start
+			until
+				l_filename_list.exhausted
+			loop
+				l_count := l_filename_list.item.index_of ('.', 1)
+				l_name := l_filename_list.item.substring (1, l_count - 1)
+				parse_from_filename (l_directory + l_filename_list.item)
+
+				if attached parse_projectile as la_projectile then
+					file_list.extend ([l_name, la_projectile])
+					l_filename_list.forth
+				end
+			end
 
 		    is_init.replace (true)
 		ensure
@@ -86,6 +102,58 @@ feature {NONE} -- Implementation
 		-- If this class has been initialized, don't initialize it again
 		once
 			create result.put (false)
+		end
+
+	parse_projectile: detachable PROJECTILE_PROPERTIES
+		local
+			l_name: STRING
+			l_filename: STRING
+			l_sound: STRING
+			l_damage: DOUBLE
+			l_speed: DOUBLE
+			l_homing: BOOLEAN
+			l_lifetime: INTEGER
+			l_explodes: BOOLEAN
+		do
+			if attached process_node ("name") as la_name then
+				l_name := la_name
+
+				if attached process_node ("filename") as la_text then
+					l_filename := la_text
+				else
+					l_filename := ""
+				end
+
+				if attached process_node ("sound") as la_text then
+					l_sound := la_text
+				else
+					l_sound := ""
+				end
+
+				if attached process_node ("damage") as la_text then
+					l_damage := la_text.to_double
+				end
+
+				if attached process_node ("speed") as la_text then
+					l_speed := la_text.to_double
+				end
+
+				if attached process_node ("homing") as la_text then
+					l_homing := la_text.to_boolean
+				end
+
+				if attached process_node ("lifetime") as la_text then
+					l_lifetime := la_text.to_integer_32
+				end
+
+				if attached process_node ("explodes") as la_text then
+					l_explodes := la_text.to_boolean
+				end
+
+				create Result.make (l_name, l_filename, l_sound, l_damage, l_speed, l_homing, l_lifetime, l_explodes)
+			else
+				Result := Void
+			end
 		end
 
 invariant

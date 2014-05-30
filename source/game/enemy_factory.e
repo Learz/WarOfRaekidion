@@ -12,6 +12,10 @@ class
 	ENEMY_FACTORY
 
 inherit
+	XML_DOCUMENT_PARSER
+		rename
+			make as document_make
+		end
 	DIRECTORY_LIST
 		rename
 			make as directory_make
@@ -32,11 +36,10 @@ feature {NONE} -- Initialization
 			l_count: INTEGER
 			l_name: STRING
 			l_filename_list: LINKED_LIST[STRING]
-			l_xml_file: XML_STANDARD_PARSER
-			l_xml: XML_CALLBACKS_DOCUMENT
 		do
 			l_directory := "resources/ships/"
 			directory_make (l_directory)
+			document_make
 			create file_list.make
 			create l_filename_list.make
 			l_filename_list := files_with_type ("xml")
@@ -48,12 +51,12 @@ feature {NONE} -- Initialization
 			loop
 				l_count := l_filename_list.item.index_of ('.', 1)
 				l_name := l_filename_list.item.substring (1, l_count - 1)
-				create l_xml_file.make
-				l_xml_file.parse_from_path (create {PATH}.make_from_string (l_directory + l_filename_list.item))
-				create l_xml.make_null
-				l_xml.set_source_parser (l_xml_file)
-				file_list.extend ([l_name, parse_enemy (l_xml.document)])
-				l_filename_list.forth
+				parse_from_filename (l_directory + l_filename_list.item)
+
+				if attached parse_enemy as la_enemy then
+					file_list.extend ([l_name, la_enemy])
+					l_filename_list.forth
+				end
 			end
 
 		    is_init.replace (true)
@@ -102,7 +105,7 @@ feature {NONE} -- Implementation
 			create result.put (false)
 		end
 
-	parse_enemy (a_document: XML_DOCUMENT): ENEMY_PROPERTIES
+	parse_enemy: detachable ENEMY_PROPERTIES
 		local
 			l_name: STRING
 			l_filename: STRING
@@ -116,28 +119,58 @@ feature {NONE} -- Implementation
 			l_speed: DOUBLE
 			l_aiming: BOOLEAN
 		do
-			l_name := process_node (a_document, "name")
-			l_filename := process_node (a_document, "filename")
-			l_description := process_node (a_document, "description")
-			l_bullet := process_node (a_document, "bullet")
-			l_health := process_node (a_document, "health").to_double
-			l_count := process_node (a_document, "count").to_integer_32
-			l_firerate := process_node (a_document, "firerate").to_integer_32
-			l_price := process_node (a_document, "price").to_integer_32
-			l_spread := process_node (a_document, "spread").to_double
-			l_speed := process_node (a_document, "speed").to_double
-			l_aiming := process_node (a_document, "aiming").to_boolean
-			create result.make (l_name, l_filename, l_description, l_bullet, l_health, l_count, l_firerate, l_price, l_spread, l_speed, l_aiming)
-		end
+			if attached process_node ("name") as la_name then
+				l_name := la_name
 
-	process_node (a_document: XML_DOCUMENT; a_name: STRING): STRING
-		do
-			if a_document.has_element_by_name (a_name) and
-			then attached a_document.element_by_name (a_name) as la_element and
-			then attached la_element.text as la_text then
-				result := la_text
+				if attached process_node ("filename") as la_text then
+					l_filename := la_text
+				else
+					l_filename := ""
+				end
+
+				if attached process_node ("description") as la_text then
+					l_description := la_text
+				else
+					l_description := ""
+				end
+
+				if attached process_node ("bullet") as la_text then
+					l_bullet := la_text
+				else
+					l_bullet := ""
+				end
+
+				if attached process_node ("health") as la_text then
+					l_health := la_text.to_double
+				end
+
+				if attached process_node ("count") as la_text then
+					l_count := la_text.to_integer_32
+				end
+
+				if attached process_node ("firerate") as la_text then
+					l_firerate := la_text.to_integer_32
+				end
+
+				if attached process_node ("price") as la_text then
+					l_price := la_text.to_integer_32
+				end
+
+				if attached process_node ("spread") as la_text then
+					l_spread := la_text.to_double
+				end
+
+				if attached process_node ("speed") as la_text then
+					l_speed := la_text.to_double
+				end
+
+				if attached process_node ("aiming") as la_text then
+					l_aiming := la_text.to_boolean
+				end
+
+				create Result.make (l_name, l_filename, l_description, l_bullet, l_health, l_count, l_firerate, l_price, l_spread, l_speed, l_aiming)
 			else
-				result := ""
+				Result := Void
 			end
 		end
 

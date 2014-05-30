@@ -93,7 +93,7 @@ feature -- Access
 						end
 
 						random.forth
-						on_shoot.call (["White laser", x.floor, y.floor, 90.0 + l_random_int, Current])
+						on_shoot.call (["white_laser", x.floor, y.floor, 90.0 + l_random_int, Current])
 					end
 				else
 					shoot_delay := shoot_delay - 1

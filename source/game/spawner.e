@@ -57,9 +57,9 @@ feature -- Access
 		do
 			if is_ai then
 				random.forth
-				l_x := (random.double_item * 100).floor + 62
+				l_x := (random.double_item * 200).floor + 12
 				random.forth
-				l_y := (random.double_item * 100).floor + 62
+				l_y := (random.double_item * 200).floor + 12
 				random.forth
 				l_random := (random.double_item * enemy_factory.file_list.count).floor + 1
 				random.forth
