@@ -124,7 +124,11 @@ feature -- Access
 							if not surface.is_default_pointer then
 							    set_width ({SDL}.get_sdl_loadbmp_width (surface))
 							    set_height ({SDL}.get_sdl_loadbmp_height (surface))
-								{SDL}.sdl_destroytexture (texture)
+
+							    if not texture.is_default_pointer then
+							    	{SDL}.sdl_destroytexture (texture)
+							    end
+
 								texture := {SDL}.sdl_createtexturefromsurface (renderer, surface)
 							end
 

@@ -12,6 +12,12 @@ class
 	AUDIO_FACTORY
 
 inherit
+	LOADING
+		rename
+			make as loading_make
+		redefine
+			destroy
+		end
 	DIRECTORY_LIST
 		rename
 			make as directory_make
@@ -22,8 +28,8 @@ create
 
 feature {NONE} -- Initialization
 
-	make
-		-- Initialize `Current'
+	make (a_splash_screen: detachable SPLASH_SCREEN)
+		-- Initialize `Current' from `a_splash_screen'
 		require
 			is_not_already_initialised: not is_init.item
 				-- Ensure the factory doesn't already exist
@@ -38,6 +44,12 @@ feature {NONE} -- Initialization
 			music_volume := 128
 			l_directory := "resources/sounds/"
 			directory_make (l_directory)
+			loading_make
+
+			if attached a_splash_screen as la_splash then
+				on_load.extend (agent la_splash.change_message)
+			end
+
 			create sounds_list.make
 			create l_filename_list.make
 			l_filename_list := files_with_type ("ogg")
@@ -47,10 +59,12 @@ feature {NONE} -- Initialization
 			until
 				l_filename_list.exhausted
 			loop
+				loading_begin (l_filename_list.item)
 				l_count := l_filename_list.item.index_of ('.', 1)
 				l_name := l_filename_list.item.substring (1, l_count - 1)
 				create l_filename_c.make (l_directory + l_filename_list.item)
 				sounds_list.extend ([l_name, {SDL_MIXER}.mix_load_wav (l_filename_c.item)])
+				loading_done (l_filename_list.item)
 				l_filename_list.forth
 			end
 
@@ -65,13 +79,16 @@ feature {NONE} -- Initialization
 			until
 				l_filename_list.exhausted
 			loop
+				loading_begin (l_filename_list.item)
 				l_count := l_filename_list.item.index_of ('.', 1)
 				l_name := l_filename_list.item.substring (1, l_count - 1)
 				create l_filename_c.make (l_directory + l_filename_list.item)
 				music_list.extend ([l_name, {SDL_MIXER}.mix_load_music (l_filename_c.item)])
+				loading_done (l_filename_list.item)
 				l_filename_list.forth
 			end
 
+			on_load.wipe_out
 		    is_init.replace (true)
 		ensure
 		   	is_initialised: is_init.item
@@ -121,6 +138,8 @@ feature -- Access
 	destroy
 		-- Free every sound and music from memory
 		do
+			Precursor {LOADING}
+
 			from
 				sounds_list.start
 			until

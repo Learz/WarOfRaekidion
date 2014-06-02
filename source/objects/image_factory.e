@@ -12,6 +12,12 @@ class
 	IMAGE_FACTORY
 
 inherit
+	LOADING
+		rename
+			make as loading_make
+		redefine
+			destroy
+		end
 	DIRECTORY_LIST
 		rename
 			make as directory_make
@@ -22,8 +28,8 @@ create
 
 feature {NONE} -- Initialization
 
-	make
-		-- Initialize `Current'
+	make (a_splash_screen: detachable SPLASH_SCREEN)
+		-- Initialize `Current' from `a_splash_screen'
 		require
 			is_not_already_initialised: not is_init.item
 				-- Ensure the factory doesn't already exist
@@ -36,6 +42,12 @@ feature {NONE} -- Initialization
 		do
 			l_directory := "resources/images/"
 			directory_make (l_directory)
+			loading_make
+
+			if attached a_splash_screen as la_splash then
+				on_load.extend (agent la_splash.change_message)
+			end
+
 			create file_list.make
 			create l_filename_list.make
 			l_filename_list := files_with_type ("png")
@@ -45,13 +57,16 @@ feature {NONE} -- Initialization
 			until
 				l_filename_list.exhausted
 			loop
+				loading_begin (l_filename_list.item)
 				l_count := l_filename_list.item.index_of ('.', 1)
 				l_name := l_filename_list.item.substring (1, l_count - 1)
 				create l_filename_c.make (l_directory + l_filename_list.item)
 				file_list.extend ([l_name, {SDL}.sdl_loadimage (l_filename_c.item)])
+				loading_done (l_filename_list.item)
 				l_filename_list.forth
 			end
 
+			on_load.wipe_out
 		    is_init.replace (true)
 		ensure
 		   	is_initialised: is_init.item
@@ -79,6 +94,8 @@ feature -- Access
 	destroy
 		-- Free every image from memory
 		do
+			Precursor {LOADING}
+
 			from
 				file_list.start
 			until

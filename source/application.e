@@ -57,9 +57,10 @@ feature {NONE} -- Initialization
 			{SDL}.sdl_show_window (l_window.window)
 
 			if not debug_mode then
-				create l_resources.make
-				l_resources.launch
 				create l_splash.make ("splash", l_window)
+				create l_resources.make (l_splash)
+				l_resources.launch
+				l_splash.display_splash
 
 				if attached l_resources as la_resources then
 					from

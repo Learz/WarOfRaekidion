@@ -12,6 +12,10 @@ class
 	PROJECTILE_FACTORY
 
 inherit
+	LOADING
+		rename
+			make as loading_make
+		end
 	XML_DOCUMENT_PARSER
 		rename
 			make as document_make
@@ -26,7 +30,8 @@ create
 
 feature {NONE} -- Initialization
 
-	make
+	make (a_splash_screen: detachable SPLASH_SCREEN)
+		-- Initialize `Current' from `a_splash_screen'
 		require
 			is_not_already_initialised: not is_init.item
 				-- Ensure the factory doesn't already exist
@@ -39,6 +44,12 @@ feature {NONE} -- Initialization
 			l_directory := "resources/projectiles/"
 			directory_make (l_directory)
 			document_make
+			loading_make
+
+			if attached a_splash_screen as la_splash then
+				on_load.extend (agent la_splash.change_message)
+			end
+
 			create file_list.make
 			create l_filename_list.make
 			l_filename_list := files_with_type ("xml")
@@ -48,16 +59,19 @@ feature {NONE} -- Initialization
 			until
 				l_filename_list.exhausted
 			loop
+				loading_begin (l_filename_list.item)
 				l_count := l_filename_list.item.index_of ('.', 1)
 				l_name := l_filename_list.item.substring (1, l_count - 1)
 				parse_from_filename (l_directory + l_filename_list.item)
 
 				if attached parse_projectile as la_projectile then
 					file_list.extend ([l_name, la_projectile])
+					loading_done (l_filename_list.item)
 					l_filename_list.forth
 				end
 			end
 
+			on_load.wipe_out
 		    is_init.replace (true)
 		ensure
 		   	is_initialised: is_init.item
@@ -115,38 +129,38 @@ feature {NONE} -- Implementation
 			l_lifetime: INTEGER
 			l_explodes: BOOLEAN
 		do
-			if attached process_node ("name") as la_name then
+			if attached process_node ("name") as la_name_element and then attached la_name_element.text as la_name then
 				l_name := la_name
 
-				if attached process_node ("filename") as la_text then
+				if attached process_node ("filename") as la_element and then attached la_element.text as la_text then
 					l_filename := la_text
 				else
 					l_filename := ""
 				end
 
-				if attached process_node ("sound") as la_text then
+				if attached process_node ("sound") as la_element and then attached la_element.text as la_text then
 					l_sound := la_text
 				else
 					l_sound := ""
 				end
 
-				if attached process_node ("damage") as la_text then
+				if attached process_node ("damage") as la_element and then attached la_element.text as la_text then
 					l_damage := la_text.to_double
 				end
 
-				if attached process_node ("speed") as la_text then
+				if attached process_node ("speed") as la_element and then attached la_element.text as la_text then
 					l_speed := la_text.to_double
 				end
 
-				if attached process_node ("homing") as la_text then
+				if attached process_node ("homing") as la_element and then attached la_element.text as la_text then
 					l_homing := la_text.to_boolean
 				end
 
-				if attached process_node ("lifetime") as la_text then
+				if attached process_node ("lifetime") as la_element and then attached la_element.text as la_text then
 					l_lifetime := la_text.to_integer_32
 				end
 
-				if attached process_node ("explodes") as la_text then
+				if attached process_node ("explodes") as la_element and then attached la_element.text as la_text then
 					l_explodes := la_text.to_boolean
 				end
 

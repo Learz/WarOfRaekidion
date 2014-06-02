@@ -13,6 +13,10 @@ class
 
 inherit
 	ENEMY_FACTORY_SHARED
+		rename
+			set_splash_screen as set_enemy_splash_screen,
+			splash_screen as enemy_splash_screen
+		end
 	SHIP
 		rename
 			make as ship_make,

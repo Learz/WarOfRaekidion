@@ -13,7 +13,15 @@ class
 
 inherit
 	AUDIO_FACTORY_SHARED
+		rename
+			set_splash_screen as set_audio_splash_screen,
+			splash_screen as audio_splash_screen
+		end
 	PROJECTILE_FACTORY_SHARED
+		rename
+			set_splash_screen as set_projectile_splash_screen,
+			splash_screen as projectile_splash_screen
+		end
 	ENTITY
 		rename
 			make as entity_make,

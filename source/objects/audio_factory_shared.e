@@ -19,10 +19,16 @@ feature {NONE} -- Access
 	music: POINTER
 		-- Current music file loaded
 
+	splash_screen: detachable SPLASH_SCREEN
+
 	audio_factory: AUDIO_FACTORY
 		-- Initialize the {AUDIO_FACTORY} only once
 		once
-			create result.make
+			create result.make (splash_screen)
+		end
+
+	set_splash_screen (a_splash: SPLASH_SCREEN)
+		do
 		end
 
 	play_sound (a_name: STRING; a_channel: INTEGER)

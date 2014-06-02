@@ -13,13 +13,29 @@ class
 
 inherit
 	AUDIO_FACTORY_SHARED
+		redefine
+			set_splash_screen,
+			splash_screen
+		end
 	IMAGE_FACTORY_SHARED
+		redefine
+			set_splash_screen,
+			splash_screen
+		end
 	ENEMY_FACTORY_SHARED
+		redefine
+			set_splash_screen,
+			splash_screen
+		end
 	PROJECTILE_FACTORY_SHARED
+		redefine
+			set_splash_screen,
+			splash_screen
+		end
 	DATABASE_MANAGER_SHARED
 	THREAD
-		redefine
-			make
+		rename
+			make as thread_make
 		end
 
 create
@@ -27,10 +43,11 @@ create
 
 feature {NONE} -- Initialization
 
-	make
-		-- Initialize `Current'
+	make (a_splash: SPLASH_SCREEN)
+		-- Initialize `Current' from `a_splash'
 		do
-			Precursor {THREAD}
+			thread_make
+			set_splash_screen (a_splash)
 			must_quit := false
 		end
 
@@ -49,17 +66,29 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
+	splash_screen: detachable SPLASH_SCREEN
+
+	set_splash_screen (a_splash: SPLASH_SCREEN)
+		do
+			splash_screen := a_splash
+		end
+
 	execute
 		-- Load every resource available
 		local
-			l_any: ANY
+			l_loading: LOADING
 			l_highscore: HIGHSCORE
 		do
-			l_any := audio_factory
-			l_any := image_factory
-			l_any := enemy_factory
-			l_any := projectile_factory
+			l_loading := audio_factory
+			l_loading := image_factory
+			l_loading := enemy_factory
+			l_loading := projectile_factory
 			create l_highscore.make
+
+			if attached splash_screen as la_screen then
+				la_screen.change_message ("Loading complete.")
+			end
+
 			must_quit := true
 		end
 

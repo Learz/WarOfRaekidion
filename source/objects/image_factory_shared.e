@@ -13,10 +13,16 @@ deferred class
 
 feature {NONE} -- Access
 
+	splash_screen: detachable SPLASH_SCREEN
+
 	image_factory: IMAGE_FACTORY
 		-- Initialize the {IMAGE_FACTORY} only once
 		once
-			create result.make
+			create result.make (splash_screen)
+		end
+
+	set_splash_screen (a_splash: SPLASH_SCREEN)
+		do
 		end
 
 invariant

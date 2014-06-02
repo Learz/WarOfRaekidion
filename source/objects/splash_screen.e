@@ -22,12 +22,20 @@ feature {NONE} -- Initialization
 
 	make (a_name: STRING; a_window: WINDOW)
 		-- Initialize `Current' from `a_name' and `a_window'
-		local
-			l_ticks, l_deltatime, l_alpha: INTEGER
 		do
 			window := a_window
 			surface := image_factory.image (a_name)
+			loading_message := "Loading ..."
+			loading_text := create {TEXT}.make_centered (loading_message, 16, window, 0, 350, window.width, 50, [0, 0, 0], false)
+		end
 
+feature -- Access
+
+	display_splash
+		-- Display the splash screen
+		local
+			l_ticks, l_deltatime, l_alpha: INTEGER
+		do
 			if not surface.is_default_pointer then
 				targetarea := targetarea.memory_alloc ({SDL}.sizeof_sdl_rect_struct)
 				{SDL}.set_sdl_rect_x (targetarea, 0)
@@ -54,6 +62,7 @@ feature {NONE} -- Initialization
 				end
 
 				{SDL}.sdl_rendercopy (window.renderer, texture, create {POINTER}, targetarea)
+				loading_text.update
 				window.render
 				l_alpha := l_alpha + 1
 				l_deltatime := {SDL}.sdl_getticks.to_integer_32 - l_ticks
@@ -64,7 +73,20 @@ feature {NONE} -- Initialization
 			end
 		end
 
+feature -- Element change
+
+	change_message (a_message: STRING)
+		do
+			loading_message := a_message
+			loading_text.set_text (loading_message, loading_text.size)
+			loading_text.recenter
+		end
+
 feature {NONE} -- Implementation
+
+	loading_message: STRING
+
+	loading_text: TEXT
 
 	window: WINDOW
 		-- The window in which to draw the screen

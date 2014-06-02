@@ -33,11 +33,11 @@ feature -- Access
 			root := document.root_element
 		end
 
-	process_node (a_name: STRING): detachable STRING_32
+	process_node (a_name: STRING): detachable XML_ELEMENT
 		do
 			if attached root as la_root and then
 			   attached la_root.element_by_name (a_name) as la_node then
-				Result := la_node.text
+				Result := la_node
 			end
 		end
 
