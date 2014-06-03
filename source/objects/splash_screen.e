@@ -47,21 +47,23 @@ feature -- Access
 
 			from
 			until
-				l_alpha > 225
+				l_alpha > 120
 			loop
 				l_ticks := {SDL}.sdl_getticks.to_integer_32
 				window.clear
 
-				if l_alpha < 50 and l_alpha <= 100 then
+				if l_alpha <= 50 then
 					{SDL}.sdl_settexturealphamod (texture, ((l_alpha / 50) * 255).floor.as_natural_8)
-				elseif l_alpha > 150 and l_alpha <= 200 then
-					{SDL}.sdl_settexturealphamod (texture, (((200 - l_alpha) / 50) * 255).floor.as_natural_8)
-				elseif l_alpha > 100 and l_alpha <= 150 then
+				elseif l_alpha > 75 and l_alpha <= 100 then
+					{SDL}.sdl_settexturealphamod (texture, (((75 - l_alpha) / 25) * 255).floor.as_natural_8)
+				elseif l_alpha > 50 and l_alpha <= 75 then
 					{SDL}.sdl_setrenderdrawcolor (window.renderer, 255, 255, 255, 255)
 					{SDL}.sdl_settexturealphamod (texture, 255)
 				end
 
 				{SDL}.sdl_rendercopy (window.renderer, texture, create {POINTER}, targetarea)
+				loading_text.set_text (loading_message, loading_text.size)
+            	loading_text.recenter
 				loading_text.update
 				window.render
 				l_alpha := l_alpha + 1
@@ -78,8 +80,6 @@ feature -- Element change
 	change_message (a_message: STRING)
 		do
 			loading_message := a_message
-			loading_text.set_text (loading_message, loading_text.size)
-			loading_text.recenter
 		end
 
 feature {NONE} -- Implementation
