@@ -23,7 +23,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_key_binding: KEYS; a_is_server, a_debug: BOOLEAN; a_difficulty: INTEGER; a_server: STRING)
+	make (a_window: WINDOW; a_key_binding: KEYS; a_is_server, a_debug, a_cheat: BOOLEAN; a_difficulty: INTEGER; a_server: STRING)
 		-- Initialize `Current' from `a_window', `a_key_binding', `a_is_server', `a_difficulty' and `a_server'
 		local
 			l_address, waiting_text: STRING
@@ -109,7 +109,7 @@ feature {NONE} -- Initialization
 
 				if l_network.is_init then
 --					l_screen := create {GAME_SCREEN}.make (window, key_binding, a_is_server, debug_on, a_difficulty, l_network)
-					l_screen := create {GAME_SCREEN}.make (window, key_binding, true, debug_on, 2, l_network)
+					l_screen := create {GAME_SCREEN}.make (window, key_binding, true, debug_on, a_cheat, 2, l_network)
 					key_binding := l_screen.key_binding
 					stop_music
 

@@ -23,7 +23,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_key_binding: KEYS; a_difficulty: INTEGER; a_debug: BOOLEAN)
+	make (a_window: WINDOW; a_key_binding: KEYS; a_difficulty: INTEGER; a_debug, a_cheat: BOOLEAN)
 		-- Initialize `Current' from `a_window', `a_key_binding' and `a_difficulty'
 		local
 			l_ticks, l_deltatime: INTEGER

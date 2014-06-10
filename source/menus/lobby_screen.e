@@ -24,7 +24,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_key_binding: KEYS; a_difficulty: INTEGER; a_debug: BOOLEAN)
+	make (a_window: WINDOW; a_key_binding: KEYS; a_difficulty: INTEGER; a_debug, a_cheat: BOOLEAN)
 		-- Initialize `Current' from `a_window', `a_key_binding' and `a_difficulty'
 		local
 			l_address: STRING
@@ -80,10 +80,10 @@ feature {NONE} -- Initialization
 
 				if start_game then
 					if is_server then
-						l_screen := create {WAIT_SCREEN}.make (window, key_binding, is_server, debug_on, a_difficulty, "")
+						l_screen := create {WAIT_SCREEN}.make (window, key_binding, is_server, debug_on, a_cheat, a_difficulty, "")
 					else
 						l_address := textbox.char_string
-						l_screen := create {WAIT_SCREEN}.make (window, key_binding, is_server, debug_on, a_difficulty, l_address)
+						l_screen := create {WAIT_SCREEN}.make (window, key_binding, is_server, debug_on, a_cheat, a_difficulty, l_address)
 					end
 
 					start_game := false

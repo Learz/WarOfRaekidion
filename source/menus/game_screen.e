@@ -22,7 +22,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_key_binding: KEYS; a_is_server, a_debug: BOOLEAN; a_difficulty: INTEGER; a_network: detachable NETWORK)
+	make (a_window: WINDOW; a_key_binding: KEYS; a_is_server, a_debug, a_cheat: BOOLEAN; a_difficulty: INTEGER; a_network: detachable NETWORK)
 		-- Initialize `Current' from `a_window', `a_key_binding', `a_is_server', `a_debug', `a_difficulty' and `a_network'
 		local
 			l_ticks, l_deltatime: INTEGER
@@ -183,7 +183,7 @@ feature {NONE} -- Initialization
 						network := void
 						la_score.destroy
 						l_opponent_score := void
-						l_pause_menu := create {OVERLAY_SCREEN}.make (window, key_binding, is_return_key_pressed, "YOU WON!", "Your score: "+score.out, "Your opponent's score: "+la_node.new_score.out, true, debug_on, difficulty, -1)
+						l_pause_menu := create {OVERLAY_SCREEN}.make (window, key_binding, is_return_key_pressed, "YOU WON!", "Your score: "+score.out, "Your opponent's score: "+la_node.new_score.out, true, debug_on, a_cheat, difficulty, -1)
 						must_quit := l_pause_menu.must_quit
 						must_end := l_pause_menu.must_end
 						is_return_key_pressed := l_pause_menu.is_return_key_pressed
@@ -220,7 +220,7 @@ feature {NONE} -- Initialization
 						network := void
 						la_score.destroy
 						l_opponent_score := void
-						l_pause_menu := create {OVERLAY_SCREEN}.make (window, key_binding, is_return_key_pressed, "YOU LOST!", "Your score: "+score.out, "Your opponent's score: "+la_node.new_score.out, true, debug_on, difficulty, score)
+						l_pause_menu := create {OVERLAY_SCREEN}.make (window, key_binding, is_return_key_pressed, "YOU LOST!", "Your score: "+score.out, "Your opponent's score: "+la_node.new_score.out, true, debug_on, a_cheat, difficulty, score)
 					else
 						if difficulty = 16 then
 							difficulty_text := "HELL"
@@ -234,7 +234,7 @@ feature {NONE} -- Initialization
 							difficulty_text := "CAKE"
 						end
 
-						l_pause_menu := create {OVERLAY_SCREEN}.make (window, key_binding, is_return_key_pressed, "GAME OVER", "Score: "+score.out, difficulty_text, true, debug_on, difficulty, score)
+						l_pause_menu := create {OVERLAY_SCREEN}.make (window, key_binding, is_return_key_pressed, "GAME OVER", "Score: "+score.out, difficulty_text, true, debug_on, a_cheat, difficulty, score)
 					end
 
 					must_quit := l_pause_menu.must_quit
@@ -243,7 +243,7 @@ feature {NONE} -- Initialization
 				end
 
 				if is_paused then
-					l_pause_menu := create {OVERLAY_SCREEN}.make (window, key_binding, is_return_key_pressed, "PAUSE", "", "", false, debug_on, difficulty, -1)
+					l_pause_menu := create {OVERLAY_SCREEN}.make (window, key_binding, is_return_key_pressed, "PAUSE", "", "", false, debug_on, a_cheat, difficulty, -1)
 					is_paused := false
 					key_binding := l_pause_menu.key_binding
 					player.set_key_binding (key_binding)

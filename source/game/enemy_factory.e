@@ -45,9 +45,12 @@ feature {NONE} -- Initialization
 			directory_make (l_directory)
 			document_make
 			loading_make
+			fill_default
 
 			if attached a_splash_screen as la_splash then
 				on_load.extend (agent la_splash.change_message)
+				on_load.extend (agent la_splash.write_debug_file)
+				on_debug_load.extend (agent la_splash.write_debug_file)
 			end
 
 			create file_list.make
@@ -65,6 +68,12 @@ feature {NONE} -- Initialization
 				parse_from_filename (l_directory + l_filename_list.item)
 
 				if attached parse_enemy as la_enemy then
+					if attached get_default_file_hash (l_name) as la_hash then
+						if not loading_check (create {PLAIN_TEXT_FILE}.make_with_path (create {PATH}.make_from_string (l_directory + l_filename_list.item)), la_hash) then
+							cheat_mode := true
+						end
+					end
+
 					file_list.extend ([l_name, la_enemy])
 					loading_done (l_filename_list.item)
 					l_filename_list.forth
@@ -80,7 +89,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	file_list: LINKED_LIST[TUPLE[name: STRING; object: ENEMY_PROPERTIES]]
+	file_list: LINKED_LIST [TUPLE [name: STRING; object: ENEMY_PROPERTIES]]
 		-- The list for all the different loaded enemy properties
 
 	enemy (a_name: STRING): ENEMY_PROPERTIES
@@ -111,6 +120,48 @@ feature -- Access
 		end
 
 feature {NONE} -- Implementation
+
+	default_files: LINKED_LIST [TUPLE [name, hash: STRING]]
+		-- List of default files and their MD5 hashes
+
+	fill_default
+		do
+			create default_files.make
+			default_files.extend (["barrage", "70774A05DE4D59739F70E0B2D7F55D1D"])
+			default_files.extend (["homing",  "7A1CB985AED3EC7CA6D0A5A15717AE18"])
+			default_files.extend (["laser",   "849976C1A3BEFB9CB41A2C7B3D802395"])
+			default_files.extend (["mauler",  "ED4CB960558428B6F4384F396BCBC3D4"])
+			default_files.extend (["spiral",  "160C9629A80E3C9EA919E3E03605FFD6"])
+			default_files.extend (["sprayer", "CC4725FBAF70B6E33DE250474961D27C"])
+		end
+
+
+	get_default_file_hash (a_name: STRING): detachable STRING
+		-- Return a MD5 hash of a default file
+		local
+			l_found: BOOLEAN
+		do
+			from
+				l_found := false
+				default_files.start
+			until
+				l_found or
+				default_files.exhausted
+			loop
+				if default_files.item.name.is_equal (a_name) then
+					l_found := true
+				end
+
+				default_files.forth
+			end
+
+			if l_found then
+				default_files.back
+				result := default_files.item.hash
+			else
+				result := void
+			end
+		end
 
 	is_init: CELL[BOOLEAN]
 		-- If this class has been initialized, don't initialize it again

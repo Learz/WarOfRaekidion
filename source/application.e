@@ -44,6 +44,7 @@ feature {NONE} -- Initialization
 			l_event: EVENT_HANDLER
 			l_splash: SPLASH_SCREEN
 			l_resources: detachable RESOURCE_LOAD
+			l_modded: BOOLEAN
 		do
 			if attached separate_character_option_value ('d') as la_parameter then
 				debug_mode := true
@@ -69,13 +70,14 @@ feature {NONE} -- Initialization
 					loop
 					end
 
+					l_modded := la_resources.cheat_mode
 					la_resources.join
 				end
 			end
 
 			{SDL}.sdl_setrenderdrawcolor (l_window.renderer, 0, 0, 0, 255)
 			create l_event.make (l_window)
-			create l_title_screen.make (l_window, debug_mode)
+			create l_title_screen.make (l_window, debug_mode, l_modded)
 
 			if not debug_mode then
 				if attached l_resources as la_resources then

@@ -45,9 +45,12 @@ feature {NONE} -- Initialization
 			directory_make (l_directory)
 			document_make
 			loading_make
+			fill_default
 
 			if attached a_splash_screen as la_splash then
 				on_load.extend (agent la_splash.change_message)
+				on_load.extend (agent la_splash.write_debug_file)
+				on_debug_load.extend (agent la_splash.write_debug_file)
 			end
 
 			create file_list.make
@@ -65,6 +68,12 @@ feature {NONE} -- Initialization
 				parse_from_filename (l_directory + l_filename_list.item)
 
 				if attached parse_projectile as la_projectile then
+					if attached get_default_file_hash (l_name) as la_hash then
+						if not loading_check (create {PLAIN_TEXT_FILE}.make_with_path (create {PATH}.make_from_string (l_directory + l_filename_list.item)), la_hash) then
+							cheat_mode := true
+						end
+					end
+
 					file_list.extend ([l_name, la_projectile])
 					loading_done (l_filename_list.item)
 					l_filename_list.forth
@@ -108,6 +117,49 @@ feature -- Access
 		end
 
 feature {NONE} -- Implementation
+
+	default_files: LINKED_LIST [TUPLE [name, hash: STRING]]
+		-- List of default files and their MD5 hashes
+
+	fill_default
+		do
+			create default_files.make
+			default_files.extend (["small_missile", "F84FB315E8D084EDA2B3DBD30D87BDA0"])
+			default_files.extend (["blue_bullet",   "3149B8845A3AD54A9921CB06DB07E618"])
+			default_files.extend (["red_bullet",    "8616EDAC6B9909D47633585B223C4B87"])
+			default_files.extend (["red_laser",     "A0AFB5C672C68834AEC6E1EA6F6B79E0"])
+			default_files.extend (["small_bomb",    "1CC7848618679833F61889EE0E14C3B2"])
+			default_files.extend (["yellow_laser",  "E112E37E54B585B0E88E7D838A7EDEBF"])
+			default_files.extend (["white_laser",   "5AF5EDFB8AD9D8A074BBF29155B5060E"])
+		end
+
+
+	get_default_file_hash (a_name: STRING): detachable STRING
+		-- Return a MD5 hash of a default file
+		local
+			l_found: BOOLEAN
+		do
+			from
+				l_found := false
+				default_files.start
+			until
+				l_found or
+				default_files.exhausted
+			loop
+				if default_files.item.name.is_equal (a_name) then
+					l_found := true
+				end
+
+				default_files.forth
+			end
+
+			if l_found then
+				default_files.back
+				result := default_files.item.hash
+			else
+				result := void
+			end
+		end
 
 	file_list: LINKED_LIST[TUPLE[name: STRING; object: PROJECTILE_PROPERTIES]]
 		-- The list for all the different loaded projectile properties

@@ -51,10 +51,15 @@ feature {NONE} -- Initialization
 			must_quit := false
 		end
 
-feature -- Access
+feature -- Status
+
+	cheat_mode: BOOLEAN
+		-- True if mods have been added or base files have been modified
 
 	must_quit: BOOLEAN
 		-- True if the thread has loaded all resources
+
+feature -- Access
 
 	destroy
 		-- Removes all resources from memory
@@ -82,7 +87,17 @@ feature {NONE} -- Implementation
 			l_loading := audio_factory
 			l_loading := image_factory
 			l_loading := enemy_factory
+
+			if l_loading.cheat_mode then
+				cheat_mode := true
+			end
+
 			l_loading := projectile_factory
+
+			if l_loading.cheat_mode then
+				cheat_mode := true
+			end
+
 			create l_highscore.make
 
 			if attached splash_screen as la_screen then

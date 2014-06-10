@@ -28,7 +28,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_key_binding: KEYS; a_is_return_key_pressed: BOOLEAN; a_title, a_description, a_comment: STRING; a_resume_disabled, a_debug: BOOLEAN; a_difficulty, a_score: INTEGER)
+	make (a_window: WINDOW; a_key_binding: KEYS; a_is_return_key_pressed: BOOLEAN; a_title, a_description, a_comment: STRING; a_resume_disabled, a_debug, a_cheat: BOOLEAN; a_difficulty, a_score: INTEGER)
 		-- Initialize `Current' from `a_window', `a_key_binding', `a_is_return_key_pressed', `a_title', `a_description', `a_comment', `a_resume_disabled', `a_debug' and `a_difficulty'
 		local
 			l_ticks, l_deltatime: INTEGER
@@ -66,11 +66,18 @@ feature {NONE} -- Initialization
 			else
 				stop_music
 				play_music ("spooky", -1)
-				create highscore.make_centered ("Highscore", 10, window, 0, 160, window.width, 0, [255, 255, 255], true)
-				create textbox.make ("small_textbox", window, 100, 175)
 				buttons.extend (create {BUTTON}.make ("small_button", window, 160, 175, "Save"))
 				buttons.extend (create {BUTTON}.make ("button", window, 100, 225, "End game"))
 				buttons.extend (create {BUTTON}.make ("button", window, 100, 275, "Quit"))
+
+				if a_cheat then
+					highscore_set := true
+					buttons.at (1).hide
+					create highscore.make_centered ("Highscore disabled", 16, window, 0, 160, window.width, 0, [255, 255, 255], true)
+				else
+					create highscore.make_centered ("Highscore", 10, window, 0, 160, window.width, 0, [255, 255, 255], true)
+					create textbox.make ("small_textbox", window, 100, 175)
+				end
 			end
 
 			selection := buttons.first
@@ -111,7 +118,7 @@ feature {NONE} -- Initialization
 				window.render
 
 				if options then
-					l_screen := create {OPTIONS_SCREEN}.make (window, key_binding, a_difficulty, true, debug_on)
+					l_screen := create {OPTIONS_SCREEN}.make (window, key_binding, a_difficulty, true, debug_on, a_cheat)
 					must_quit := l_screen.must_quit
 					key_binding := l_screen.key_binding
 					is_return_key_pressed := l_screen.is_return_key_pressed
@@ -223,8 +230,8 @@ feature {NONE} -- Implementation
 					must_quit := true
 				end
 			else
-				if attached textbox as la_textbox and then attached highscore as la_highscore and then la_textbox.char_string.count = 3 then
-					if a_button = 1 then
+				if a_button = 1 then
+					if attached textbox as la_textbox and then attached highscore as la_highscore and then la_textbox.char_string.count = 3 then
 						if not highscore_set then
 							la_textbox.hide
 							buttons.at (1).hide
@@ -233,11 +240,11 @@ feature {NONE} -- Implementation
 							set_highscore (la_textbox.char_string, difficulty, score)
 							highscore_set := True
 						end
-					elseif a_button = 2 then
-						must_end := true
-					elseif a_button = 3 then
-						must_quit := true
 					end
+				elseif a_button = 2 then
+					must_end := true
+				elseif a_button = 3 then
+					must_quit := true
 				end
 			end
 		end

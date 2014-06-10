@@ -48,6 +48,8 @@ feature {NONE} -- Initialization
 
 			if attached a_splash_screen as la_splash then
 				on_load.extend (agent la_splash.change_message)
+				on_load.extend (agent la_splash.write_debug_file)
+				on_debug_load.extend (agent la_splash.write_debug_file)
 			end
 
 			create sounds_list.make

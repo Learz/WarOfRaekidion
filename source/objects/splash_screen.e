@@ -27,6 +27,8 @@ feature {NONE} -- Initialization
 			surface := image_factory.image (a_name)
 			loading_message := "Loading ..."
 			loading_text := create {TEXT}.make_centered (loading_message, 16, window, 0, 350, window.width, 50, [0, 0, 0], false)
+			create debug_file.make_create_read_write ("resources.log")
+			debug_file.flush
 		end
 
 feature -- Access
@@ -73,6 +75,14 @@ feature -- Access
 			   		{SDL}.sdl_delay ((1000 / 60).floor - l_deltatime)
 				end
 			end
+			
+			debug_file.close
+		end
+
+	write_debug_file (a_message: STRING)
+		do
+			debug_file.put_string (a_message)
+			debug_file.put_new_line
 		end
 
 feature -- Element change
@@ -83,6 +93,8 @@ feature -- Element change
 		end
 
 feature {NONE} -- Implementation
+
+	debug_file: PLAIN_TEXT_FILE
 
 	loading_message: STRING
 

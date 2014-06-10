@@ -23,7 +23,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_debug: BOOLEAN)
+	make (a_window: WINDOW; a_debug, a_cheat: BOOLEAN)
 		-- Initialize `Current' from `a_window' and `a_debug'
 		local
 			l_ticks, l_deltatime: INTEGER
@@ -80,9 +80,9 @@ feature {NONE} -- Initialization
 
 				if start_game then
 					if multiplayer then
-						l_screen := create {LOBBY_SCREEN}.make (window, key_binding, difficulty, debug_on)
+						l_screen := create {LOBBY_SCREEN}.make (window, key_binding, difficulty, debug_on, a_cheat)
 					else
-						l_screen := create {GAME_SCREEN}.make (window, key_binding, true, debug_on, difficulty, void)
+						l_screen := create {GAME_SCREEN}.make (window, key_binding, true, debug_on, a_cheat, difficulty, void)
 						stop_music
 						play_music ("quiet", -1)
 					end
@@ -94,7 +94,7 @@ feature {NONE} -- Initialization
 				end
 
 				if highscores then
-					l_screen := create {HIGHSCORE_SCREEN}.make (window, key_binding, difficulty, debug_on)
+					l_screen := create {HIGHSCORE_SCREEN}.make (window, key_binding, difficulty, debug_on, a_cheat)
 					must_quit := l_screen.must_quit
 					key_binding := l_screen.key_binding
 					is_return_key_pressed := l_screen.is_return_key_pressed
@@ -102,7 +102,7 @@ feature {NONE} -- Initialization
 				end
 
 				if options then
-					l_screen := create {OPTIONS_SCREEN}.make (window, key_binding, difficulty, false, debug_on)
+					l_screen := create {OPTIONS_SCREEN}.make (window, key_binding, difficulty, false, debug_on, a_cheat)
 					must_quit := l_screen.must_quit
 					key_binding := l_screen.key_binding
 
