@@ -43,9 +43,11 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_splash: SPLASH_SCREEN)
+	make (a_splash: SPLASH_SCREEN; a_config: CONFIGURATION)
 		-- Initialize `Current' from `a_splash'
 		do
+			m_volume := a_config.music_volume
+			s_volume := a_config.sounds_volume
 			thread_make
 			set_splash_screen (a_splash)
 			must_quit := false
@@ -71,6 +73,12 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
+	m_volume: INTEGER
+		-- Music volume
+
+	s_volume: INTEGER
+		-- Sounds volume
+
 	splash_screen: detachable SPLASH_SCREEN
 
 	set_splash_screen (a_splash: SPLASH_SCREEN)
@@ -84,7 +92,8 @@ feature {NONE} -- Implementation
 			l_loading: LOADING
 			l_highscore: HIGHSCORE
 		do
-			l_loading := audio_factory
+			audio_factory.set_music_volume (m_volume)
+			audio_factory.set_sounds_volume (s_volume)
 			l_loading := image_factory
 			l_loading := enemy_factory
 

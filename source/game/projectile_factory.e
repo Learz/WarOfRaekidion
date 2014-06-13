@@ -196,23 +196,23 @@ feature {NONE} -- Implementation
 					l_sound := ""
 				end
 
-				if attached process_node ("damage") as la_element and then attached la_element.text as la_text then
+				if attached process_node ("damage") as la_element and then attached la_element.text as la_text and then la_text.is_double then
 					l_damage := la_text.to_double
 				end
 
-				if attached process_node ("speed") as la_element and then attached la_element.text as la_text then
+				if attached process_node ("speed") as la_element and then attached la_element.text as la_text and then la_text.is_double then
 					l_speed := la_text.to_double
 				end
 
-				if attached process_node ("homing") as la_element and then attached la_element.text as la_text then
+				if attached process_node ("homing") as la_element and then attached la_element.text as la_text and then la_text.is_boolean then
 					l_homing := la_text.to_boolean
 				end
 
-				if attached process_node ("lifetime") as la_element and then attached la_element.text as la_text then
+				if attached process_node ("lifetime") as la_element and then attached la_element.text as la_text and then la_text.is_integer then
 					l_lifetime := la_text.to_integer_32
 				end
 
-				if attached process_node ("explodes") as la_element and then attached la_element.text as la_text then
+				if attached process_node ("explodes") as la_element and then attached la_element.text as la_text and then la_text.is_boolean then
 					l_explodes := la_text.to_boolean
 				end
 

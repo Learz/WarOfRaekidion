@@ -28,9 +28,6 @@ feature {NONE} -- Implementation
 	window_height: INTEGER = 400
 			-- The window's default height
 
-	pixel_ratio: DOUBLE = 1.5
-			-- The window's default scale
-
 	debug_mode: BOOLEAN
 			-- Are some restricted games functionnalities enabled anyway?
 
@@ -45,6 +42,7 @@ feature {NONE} -- Initialization
 			l_splash: SPLASH_SCREEN
 			l_resources: detachable RESOURCE_LOAD
 			l_modded: BOOLEAN
+			l_config: CONFIGURATION
 		do
 			if attached separate_character_option_value ('d') as la_parameter then
 				debug_mode := true
@@ -54,12 +52,14 @@ feature {NONE} -- Initialization
 			{SDL_TTF}.ttf_init_noreturn
 			{SDL_MIXER}.mix_init_noreturn ({SDL_MIXER}.mix_init_ogg)
 			{SDL_MIXER}.mix_open_audio_noreturn (22050, {SDL_MIXER}.mix_default_format, 2, 4096)
-			create l_window.make ("War of Raekidion", {SDL}.sdl_windowpos_undefined, {SDL}.sdl_windowpos_undefined, window_width, window_height, pixel_ratio, {SDL}.sdl_window_hidden, version)
+			create l_config.make
+			l_config.load ("config.xml")
+			create l_window.make ("War of Raekidion", {SDL}.sdl_windowpos_undefined, {SDL}.sdl_windowpos_undefined, window_width, window_height, l_config.window_scale, {SDL}.sdl_window_hidden, version)
 			{SDL}.sdl_show_window (l_window.window)
 
 			if not debug_mode then
 				create l_splash.make ("splash", l_window)
-				create l_resources.make (l_splash)
+				create l_resources.make (l_splash, l_config)
 				l_resources.launch
 				l_splash.display_splash
 
@@ -77,7 +77,7 @@ feature {NONE} -- Initialization
 
 			{SDL}.sdl_setrenderdrawcolor (l_window.renderer, 0, 0, 0, 255)
 			create l_event.make (l_window)
-			create l_title_screen.make (l_window, debug_mode, l_modded)
+			create l_title_screen.make (l_window, debug_mode, l_modded, l_config)
 
 			if not debug_mode then
 				if attached l_resources as la_resources then

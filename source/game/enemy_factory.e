@@ -204,31 +204,31 @@ feature {NONE} -- Implementation
 					l_bullet := ""
 				end
 
-				if attached process_node ("health") as la_element and then attached la_element.text as la_text then
+				if attached process_node ("health") as la_element and then attached la_element.text as la_text and then la_text.is_double then
 					l_health := la_text.to_double
 				end
 
-				if attached process_node ("count") as la_element and then attached la_element.text as la_text then
+				if attached process_node ("count") as la_element and then attached la_element.text as la_text and then la_text.is_integer then
 					l_count := la_text.to_integer_32
 				end
 
-				if attached process_node ("firerate") as la_element and then attached la_element.text as la_text then
+				if attached process_node ("firerate") as la_element and then attached la_element.text as la_text and then la_text.is_integer then
 					l_firerate := la_text.to_integer_32
 				end
 
-				if attached process_node ("price") as la_element and then attached la_element.text as la_text then
+				if attached process_node ("price") as la_element and then attached la_element.text as la_text and then la_text.is_integer then
 					l_price := la_text.to_integer_32
 				end
 
-				if attached process_node ("spread") as la_element and then attached la_element.text as la_text then
+				if attached process_node ("spread") as la_element and then attached la_element.text as la_text and then la_text.is_double then
 					l_spread := la_text.to_double
 				end
 
-				if attached process_node ("speed") as la_element and then attached la_element.text as la_text then
+				if attached process_node ("speed") as la_element and then attached la_element.text as la_text and then la_text.is_double then
 					l_speed := la_text.to_double
 				end
 
-				if attached process_node ("aiming") as la_element and then attached la_element.text as la_text then
+				if attached process_node ("aiming") as la_element and then attached la_element.text as la_text and then la_text.is_boolean then
 					l_aiming := la_text.to_boolean
 				end
 

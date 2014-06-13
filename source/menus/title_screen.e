@@ -23,7 +23,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_window: WINDOW; a_debug, a_cheat: BOOLEAN)
+	make (a_window: WINDOW; a_debug, a_cheat: BOOLEAN; a_config: CONFIGURATION)
 		-- Initialize `Current' from `a_window' and `a_debug'
 		local
 			l_ticks, l_deltatime: INTEGER
@@ -40,8 +40,16 @@ feature {NONE} -- Initialization
 			l_event.on_key_pressed.extend (agent manage_key)
 			l_event.on_mouse_moved.extend (agent manage_mouse)
 			l_event.on_mouse_pressed.extend (agent manage_click)
-			key_binding := create {KEYS_FPS}
-			difficulty := 1
+
+			if a_config.keybind = 1 then
+				key_binding := create {KEYS_FPS}
+			elseif a_config.keybind = 2 then
+				key_binding := create {KEYS_ARROWS}
+			else
+				key_binding := create {KEYS_FPS}
+			end
+
+			difficulty := a_config.difficulty
 			create buttons.make
 			l_title := create {TEXT}.make_centered ("War of Raekidion", 32, window, 0, 0, window.width, 150, [255, 255, 255], true)
 			create version.make (window.version, 10, window, 3, 397, [64, 64, 96], false)
