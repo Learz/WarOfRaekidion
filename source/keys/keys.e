@@ -13,6 +13,8 @@ deferred class
 
 feature -- Access
 
+	id: INTEGER deferred end
+
 	move_up_key: INTEGER
 		-- Key to move up
 		deferred

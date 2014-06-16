@@ -127,12 +127,12 @@ feature {NONE} -- Implementation
 	fill_default
 		do
 			create default_files.make
-			default_files.extend (["barrage", "70774A05DE4D59739F70E0B2D7F55D1D"])
-			default_files.extend (["homing",  "7A1CB985AED3EC7CA6D0A5A15717AE18"])
-			default_files.extend (["laser",   "849976C1A3BEFB9CB41A2C7B3D802395"])
-			default_files.extend (["mauler",  "ED4CB960558428B6F4384F396BCBC3D4"])
-			default_files.extend (["spiral",  "160C9629A80E3C9EA919E3E03605FFD6"])
-			default_files.extend (["sprayer", "CC4725FBAF70B6E33DE250474961D27C"])
+			default_files.extend (["barrage", "1C2270913F91748A3AAF99390A9AA5A0"])
+			default_files.extend (["homing",  "F6C23B4DBBE7AF271C467C4F9CCFE755"])
+			default_files.extend (["laser",   "7668646145BE727E7BD6B39A041F919A"])
+			default_files.extend (["mauler",  "9BB5741EB371B94241C40059276791F7"])
+			default_files.extend (["spiral",  "452EA0119166DA3746FB3EEC809A0F2F"])
+			default_files.extend (["sprayer", "12BF03FB13F056288A29C8CDD5B71FD5"])
 		end
 
 

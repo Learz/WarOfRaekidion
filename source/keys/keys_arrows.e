@@ -15,6 +15,8 @@ inherit
 
 feature -- Access
 
+	id: INTEGER = 2
+
 	move_up_key: INTEGER
 		do
 			result := {SDL_EVENTS}.sdlk_up

@@ -9,9 +9,20 @@ class
 
 inherit
 	XML_DOCUMENT_PARSER
+		redefine
+			make
+		end
 
 create
 	make
+
+feature {NONE} -- Initialization
+
+	make
+		do
+			enabled := true
+			Precursor {XML_DOCUMENT_PARSER}
+		end
 
 feature -- Access
 
@@ -27,60 +38,90 @@ feature -- Access
 
 	save (a_filename: STRING)
 		do
-			save_document (a_filename)
+			if enabled then
+				save_document (a_filename)
+			end
 		end
 
 	load (a_filename: STRING)
 		local
 			l_directory: DIRECTORY
 		do
-			create l_directory.make_with_name (".")
+			if enabled then
+				create l_directory.make_with_name (".")
 
-			if l_directory.has_entry (a_filename) then
-				parse_from_filename (a_filename)
-				read_configuration
+				if l_directory.has_entry (a_filename) then
+					parse_from_filename (a_filename)
+					read_configuration
+				else
+					document.set_xml_declaration (create {XML_DECLARATION}.make_in_document (document, "1.0", "UTF-8", false))
+					document.set_root_element (create {XML_ELEMENT}.make_root (document, "config", create {XML_NAMESPACE}.make_default))
+					set_window_scale (1.5)
+					set_keybind (1)
+					set_difficulty (2)
+					set_music_volume (128)
+					set_sounds_volume (128)
+					save (a_filename)
+				end
 			else
-				document.set_xml_declaration (create {XML_DECLARATION}.make_in_document (document, "1.0", "UTF-8", false))
-				document.set_root_element (create {XML_ELEMENT}.make_root (document, "config", create {XML_NAMESPACE}.make_default))
 				set_window_scale (1.5)
 				set_keybind (1)
 				set_difficulty (2)
 				set_music_volume (128)
 				set_sounds_volume (128)
-				save (a_filename)
 			end
 		end
+
+feature -- Status
+
+	enabled: BOOLEAN
+		-- True if the config should be loaded
 
 feature -- Element change
 
 	set_window_scale (a_value: DOUBLE)
 		do
 			window_scale := a_value
-			modify_node ("scale", a_value.out)
+
+			if enabled then
+				modify_node ("scale", a_value.out)
+			end
 		end
 
 	set_keybind (a_value: INTEGER)
 		do
 			keybind := a_value
-			modify_node ("keybind", a_value.out)
+
+			if enabled then
+				modify_node ("keybind", a_value.out)
+			end
 		end
 
 	set_difficulty (a_value: INTEGER)
 		do
 			difficulty := a_value
-			modify_node ("difficulty", a_value.out)
+
+			if enabled then
+				modify_node ("difficulty", a_value.out)
+			end
 		end
 
 	set_music_volume (a_value: INTEGER)
 		do
 			music_volume := a_value
-			modify_node ("music", a_value.out)
+
+			if enabled then
+				modify_node ("music", a_value.out)
+			end
 		end
 
 	set_sounds_volume (a_value: INTEGER)
 		do
 			sounds_volume := a_value
-			modify_node ("sound", a_value.out)
+
+			if enabled then
+				modify_node ("sound", a_value.out)
+			end
 		end
 
 feature {NONE} -- Implementation

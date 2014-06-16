@@ -15,6 +15,8 @@ inherit
 
 feature -- Access
 
+	id: INTEGER = 0
+
 	move_up_key: INTEGER assign set_move_up_key
 		do
 			result := i_move_up_key

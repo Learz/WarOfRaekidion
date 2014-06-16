@@ -34,6 +34,7 @@ feature {NONE} -- Initialization
 			collection_on
 			create config.make
 			config.load ("config.xml")
+			fallback := not config.enabled
 			debug_on := a_debug
 			window := a_window
 			create l_event.make (window)
@@ -52,19 +53,31 @@ feature {NONE} -- Initialization
 			create l_background.make ("title_background", window, 0, 0, 0)
 			descriptions.extend (create {TEXT}.make_centered ("Key layout", 10, window, 100, 140, 100, 0, [255, 255, 255], true))
 
-			if config.keybind = 2 then
+			if fallback then
+				config_value := key_binding.id
+			else
+				config_value := config.keybind
+			end
+
+			if config_value.floor = 2 then
 				buttons.extend (create {BUTTON}.make ("button", window, 100, 150, "ARCADE"))
-			elseif config.keybind = 1 then
+			elseif config_value.floor = 1 then
 				buttons.extend (create {BUTTON}.make ("button", window, 100, 150, "FPS"))
 			end
 
 			descriptions.extend (create {TEXT}.make_centered ("Music", 10, window, 100, 190, 40, 0, [255, 255, 255], true))
 
-			if config.music_volume = 128 then
+			if fallback then
+				config_value := audio_factory.music_volume
+			else
+				config_value := config.music_volume
+			end
+
+			if config_value.floor = 128 then
 				buttons.extend (create {BUTTON}.make ("small_button", window, 100, 200, "LOUD"))
-			elseif config.music_volume = 64 then
+			elseif config_value.floor = 64 then
 				buttons.extend (create {BUTTON}.make ("small_button", window, 100, 200, "HIGH"))
-			elseif config.music_volume = 32 then
+			elseif config_value.floor = 32 then
 				buttons.extend (create {BUTTON}.make ("small_button", window, 100, 200, "LOW"))
 			else
 				buttons.extend (create {BUTTON}.make ("small_button", window, 100, 200, "OFF"))
@@ -72,11 +85,17 @@ feature {NONE} -- Initialization
 
 			descriptions.extend (create {TEXT}.make_centered ("Sound effects", 10, window, 160, 190, 40, 0, [255, 255, 255], true))
 
-			if config.sounds_volume = 128 then
+			if fallback then
+				config_value := audio_factory.sounds_volume
+			else
+				config_value := config.sounds_volume
+			end
+
+			if config_value.floor = 128 then
 				buttons.extend (create {BUTTON}.make ("small_button", window, 160, 200, "LOUD"))
-			elseif config.sounds_volume = 64 then
+			elseif config_value.floor = 64 then
 				buttons.extend (create {BUTTON}.make ("small_button", window, 160, 200, "HIGH"))
-			elseif config.sounds_volume = 32 then
+			elseif config_value.floor = 32 then
 				buttons.extend (create {BUTTON}.make ("small_button", window, 160, 200, "LOW"))
 			else
 				buttons.extend (create {BUTTON}.make ("small_button", window, 160, 200, "OFF"))
@@ -84,9 +103,15 @@ feature {NONE} -- Initialization
 
 			descriptions.extend (create {TEXT}.make_centered ("Screen size", 10, window, 100, 240, 40, 0, [255, 255, 255], true))
 
-			if config.window_scale = 2 then
+			if fallback then
+				config_value := window.scale
+			else
+				config_value := config.window_scale
+			end
+
+			if config_value = 2 then
 				buttons.extend (create {BUTTON}.make ("small_button", window, 100, 250, "2x"))
-			elseif config.window_scale = 1.5 then
+			elseif config_value = 1.5 then
 				buttons.extend (create {BUTTON}.make ("small_button", window, 100, 250, "1.5x"))
 			else
 				buttons.extend (create {BUTTON}.make ("small_button", window, 100, 250, "1x"))
@@ -94,14 +119,20 @@ feature {NONE} -- Initialization
 
 			descriptions.extend (create {TEXT}.make_centered ("Difficulty", 10, window, 160, 240, 40, 0, [255, 255, 255], true))
 
+			if fallback then
+				config_value := difficulty
+			else
+				config_value := config.difficulty
+			end
+
 			if not in_game then
-				if config.difficulty = 1 then
+				if config_value = 1 then
 					buttons.extend (create {BUTTON}.make ("small_button", window, 160, 250, "CAKE"))
-				elseif config.difficulty = 2 then
+				elseif config_value = 2 then
 					buttons.extend (create {BUTTON}.make ("small_button", window, 160, 250, "EASY"))
-				elseif config.difficulty = 4 then
+				elseif config_value = 4 then
 					buttons.extend (create {BUTTON}.make ("small_button", window, 160, 250, "HARD"))
-				elseif config.difficulty = 8 then
+				elseif config_value = 8 then
 					buttons.extend (create {BUTTON}.make ("small_button", window, 160, 250, "NUTS"))
 				else
 					buttons.extend (create {BUTTON}.make ("small_button", window, 160, 250, "HELL"))
@@ -163,6 +194,9 @@ feature -- Status
 	in_game: BOOLEAN
 		-- True if the option menu is open while in a game
 
+	fallback: BOOLEAN
+		-- True if the config file should not be used
+
 feature -- Access
 
 	difficulty: INTEGER
@@ -175,6 +209,9 @@ feature {NONE} -- Implementation
 
 	descriptions: LINKED_LIST [TEXT]
 		-- Description of each options
+
+	config_value: DOUBLE
+		-- Last value loaded from the config file or the game
 
 	manage_key (a_key: INTEGER_32; a_state: BOOLEAN)
 		-- Manage keyboard keys using `a_key' and `a_state'
@@ -197,29 +234,41 @@ feature {NONE} -- Implementation
 		-- Click actions from `a_button'
 		do
 			if a_button = 1 then
-				if attached {KEYS_ARROWS} key_binding then
+				if fallback then
+					config_value := key_binding.id
+				else
+					config_value := config.keybind
+				end
+
+				if config_value.floor = 2 then
 					buttons.at (a_button).set_text ("FPS")
 					buttons.at (a_button).recenter
 					key_binding := create {KEYS_FPS}
 					config.set_keybind (1)
-				elseif attached {KEYS_FPS} key_binding then
+				elseif config_value.floor = 1 then
 					buttons.at (a_button).set_text ("ARCADE")
 					buttons.at (a_button).recenter
 					key_binding := create {KEYS_ARROWS}
 					config.set_keybind (2)
 				end
 			elseif a_button = 2 then
-				if audio_factory.music_volume = 128 then
+				if fallback then
+					config_value := audio_factory.music_volume
+				else
+					config_value := config.music_volume
+				end
+
+				if config_value.floor = 128 then
 					buttons.at (a_button).set_text ("HIGH")
 					buttons.at (a_button).recenter
 					audio_factory.set_music_volume (64)
 					config.set_music_volume (64)
-				elseif audio_factory.music_volume = 64 then
+				elseif config_value.floor = 64 then
 					buttons.at (a_button).set_text ("LOW")
 					buttons.at (a_button).recenter
 					audio_factory.set_music_volume (32)
 					config.set_music_volume (32)
-				elseif audio_factory.music_volume = 32 then
+				elseif config_value.floor = 32 then
 					buttons.at (a_button).set_text ("OFF")
 					buttons.at (a_button).recenter
 					audio_factory.set_music_volume (0)
@@ -231,17 +280,23 @@ feature {NONE} -- Implementation
 					config.set_music_volume (128)
 				end
 			elseif a_button = 3 then
-				if audio_factory.sounds_volume = 128 then
+				if fallback then
+					config_value := audio_factory.sounds_volume
+				else
+					config_value := config.sounds_volume
+				end
+
+				if config_value.floor = 128 then
 					buttons.at (a_button).set_text ("HIGH")
 					buttons.at (a_button).recenter
 					audio_factory.set_sounds_volume (64)
 					config.set_sounds_volume (64)
-				elseif audio_factory.sounds_volume = 64 then
+				elseif config_value.floor = 64 then
 					buttons.at (a_button).set_text ("LOW")
 					buttons.at (a_button).recenter
 					audio_factory.set_sounds_volume (32)
 					config.set_sounds_volume (32)
-				elseif audio_factory.sounds_volume = 32 then
+				elseif config_value.floor = 32 then
 					buttons.at (a_button).set_text ("OFF")
 					buttons.at (a_button).recenter
 					audio_factory.set_sounds_volume (0)
@@ -253,12 +308,18 @@ feature {NONE} -- Implementation
 					config.set_sounds_volume (128)
 				end
 			elseif a_button = 4 then
-				if window.scale = 1 then
+				if fallback then
+					config_value := window.scale
+				else
+					config_value := config.window_scale
+				end
+
+				if config_value = 1 then
 					buttons.at (a_button).set_text ("1.5x")
 					buttons.at (a_button).recenter
 					window.change_size (1.5)
 					config.set_window_scale (1.5)
-				elseif window.scale = 1.5 then
+				elseif config_value = 1.5 then
 					buttons.at (a_button).set_text ("2x")
 					buttons.at (a_button).recenter
 					window.change_size (2)
@@ -271,22 +332,28 @@ feature {NONE} -- Implementation
 				end
 			elseif a_button = 5 then
 				if not in_game then
-					if difficulty = 8 then
+					if fallback then
+						config_value := difficulty
+					else
+						config_value := config.difficulty
+					end
+
+					if config_value.floor = 8 then
 						buttons.at (a_button).set_text ("HELL")
 						buttons.at (a_button).recenter
 						difficulty := 16
 						config.set_difficulty (16)
-					elseif difficulty = 4 then
+					elseif config_value.floor = 4 then
 						buttons.at (a_button).set_text ("NUTS")
 						buttons.at (a_button).recenter
 						difficulty := 8
 						config.set_difficulty (8)
-					elseif difficulty = 2 then
+					elseif config_value.floor = 2 then
 						buttons.at (a_button).set_text ("HARD")
 						buttons.at (a_button).recenter
 						difficulty := 4
 						config.set_difficulty (4)
-					elseif difficulty = 1 then
+					elseif config_value.floor = 1 then
 						buttons.at (a_button).set_text ("EASY")
 						buttons.at (a_button).recenter
 						difficulty := 2
@@ -299,7 +366,10 @@ feature {NONE} -- Implementation
 					end
 				end
 			elseif a_button = 6 then
-				config.save ("config.xml")
+				if not fallback then
+					config.save ("config.xml")
+				end
+
 				must_close := true
 			end
 		end
