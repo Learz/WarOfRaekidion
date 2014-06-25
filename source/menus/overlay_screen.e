@@ -12,9 +12,9 @@ class
 	OVERLAY_SCREEN
 
 inherit
-	HIGHSCORE
+	DATABASE_MANAGER_SHARED
 		rename
-			make as highscore_make
+			make as database_make
 		end
 	SCREEN
 		redefine
@@ -39,7 +39,7 @@ feature {NONE} -- Initialization
 		do
 			collection_on
 			debug_on := a_debug
-			highscore_make
+			database_make
 			create buttons.make
 			window := a_window
 			create l_event.make (window)

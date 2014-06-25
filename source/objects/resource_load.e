@@ -33,6 +33,9 @@ inherit
 			splash_screen
 		end
 	DATABASE_MANAGER_SHARED
+		rename
+			make as database_make
+		end
 	THREAD
 		rename
 			make as thread_make
@@ -49,6 +52,7 @@ feature {NONE} -- Initialization
 			m_volume := a_config.music_volume
 			s_volume := a_config.sounds_volume
 			thread_make
+			database_make
 			set_splash_screen (a_splash)
 			must_quit := false
 		end
@@ -90,7 +94,6 @@ feature {NONE} -- Implementation
 		-- Load every resource available
 		local
 			l_loading: LOADING
-			l_highscore: HIGHSCORE
 		do
 			audio_factory.set_music_volume (m_volume)
 			audio_factory.set_sounds_volume (s_volume)
@@ -106,8 +109,6 @@ feature {NONE} -- Implementation
 			if l_loading.cheat_mode then
 				cheat_mode := true
 			end
-
-			create l_highscore.make
 
 			if attached splash_screen as la_screen then
 				la_screen.change_message ("Loading complete.")

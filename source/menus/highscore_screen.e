@@ -12,6 +12,10 @@ class
 	HIGHSCORE_SCREEN
 
 inherit
+	DATABASE_MANAGER_SHARED
+		rename
+			make as database_make
+		end
 	SCREEN
 		redefine
 			manage_key,
@@ -30,7 +34,6 @@ feature {NONE} -- Initialization
 			l_event: EVENT_HANDLER
 			l_title, l_description: TEXT
 			l_background: BACKGROUND
-			l_highscore_db: HIGHSCORE
 			l_highscores: LINKED_LIST [TUPLE [name: STRING; difficulty, score: INTEGER]]
 		do
 			collection_on
@@ -62,8 +65,8 @@ feature {NONE} -- Initialization
 			create version.make (window.version, 10, window, 3, 397, [64, 64, 96], false)
 			version.set_y (version.y - version.height)
 			create l_background.make ("title_background", window, 0, 0, 0)
-			create l_highscore_db.make
-			l_highscores := l_highscore_db.highscores (7, difficulty)
+			database_make
+			l_highscores := highscores (7, difficulty)
 
 			from
 				l_highscores.start
