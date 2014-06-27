@@ -59,16 +59,16 @@ feature -- Access
 					set_window_scale (1.5)
 					set_keybind (1)
 					set_difficulty (2)
-					set_music_volume (128)
-					set_sounds_volume (128)
+					set_music_volume (100)
+					set_sounds_volume (100)
 					save (a_filename)
 				end
 			else
 				set_window_scale (1.5)
 				set_keybind (1)
 				set_difficulty (2)
-				set_music_volume (128)
-				set_sounds_volume (128)
+				set_music_volume (100)
+				set_sounds_volume (100)
 			end
 		end
 
@@ -149,13 +149,13 @@ feature {NONE} -- Implementation
 			if attached process_node ("music") as la_element and then attached la_element.text as la_value and then la_value.is_integer then
 				music_volume := la_value.to_integer
 			else
-				set_music_volume (128)
+				set_music_volume (100)
 			end
 
 			if attached process_node ("sound") as la_element and then attached la_element.text as la_value and then la_value.is_integer then
 				sounds_volume := la_value.to_integer
 			else
-				set_sounds_volume (128)
+				set_sounds_volume (100)
 			end
 		end
 

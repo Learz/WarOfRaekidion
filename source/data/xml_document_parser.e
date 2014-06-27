@@ -31,8 +31,9 @@ feature -- Access
 		do
 			if attached document.root_element as la_root then
 				if attached la_root.element_by_name (a_name) as la_node then
-					la_node.contents.wipe_out
-					create l_content.make (la_node, a_value)
+					create l_content.make_last (la_node, a_value)
+					la_node.wipe_out
+					la_node.put_last (l_content)
 				else
 					create l_element.make_last (la_root, a_name, la_root.namespace)
 					create l_content.make_last (l_element, a_value)

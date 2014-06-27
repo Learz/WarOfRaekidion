@@ -40,8 +40,8 @@ feature {NONE} -- Initialization
 			l_filename_c: C_STRING
 			l_filename_list: LINKED_LIST[STRING]
 		do
-			sounds_volume := 128
-			music_volume := 128
+			sounds_volume := 100
+			music_volume := 100
 			l_directory := "resources/sounds/"
 			directory_make (l_directory)
 			loading_make
@@ -100,10 +100,10 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	sounds_volume: INTEGER
-		-- Sounds (all channels) volume, ranging from 0 to 128
+		-- Sounds (all channels) volume, ranging from 0 to 100
 
 	music_volume: INTEGER
-		-- Music volume, ranging from 0 to 128
+		-- Music volume, ranging from 0 to 100
 
 	sound (a_name: STRING): POINTER
 		-- Find a loaded sound file from `a_name'
@@ -166,11 +166,11 @@ feature -- Element change
 	set_music_volume (a_volume: INTEGER)
 		-- Change the music channel's volume to `a_volume'
 		require
-			valid_volume: a_volume >= 0 and a_volume <= 128
+			valid_volume: a_volume >= 0 and a_volume <= 100
 				-- Ensure the volume is in a valid format for SDL
 		do
 			music_volume := a_volume
-			{SDL_MIXER}.mix_volumemusic (a_volume)
+			{SDL_MIXER}.mix_volumemusic ((((music_volume ^ 2) * (10 ^ -2)) * 1.28).floor)
 		ensure
 			volume_set: music_volume = a_volume
 				-- Ensure the volume has been changed to the desired value
@@ -181,13 +181,13 @@ feature -- Element change
 		require
 			valid_channels: {SDL_MIXER}.mix_allocatechannels (16) /= 0
 				-- Ensure the number of channels is not 0
-			valid_volume: a_volume >= 0 and a_volume <= 128
+			valid_volume: a_volume >= 0 and a_volume <= 100
 				-- Ensure the volume is in a valid format for SDL
 		do
 			sounds_volume := a_volume
 
 			if {SDL_MIXER}.mix_allocatechannels (16) /= 0 then
-				{SDL_MIXER}.mix_volume (-1, a_volume)
+				{SDL_MIXER}.mix_volume (-1, (((sounds_volume ^ 2) * (10 ^ -2)) * 1.28).floor)
 			end
 		ensure
 			volume_set: sounds_volume = a_volume
@@ -209,10 +209,10 @@ feature {NONE} -- Implementation
 		end
 
 invariant
-	valid_music_volume: music_volume >= 0 and music_volume <= 128
+	valid_music_volume: music_volume >= 0 and music_volume <= 100
 		-- Ensure the music volume is in a valid format for SDL
 
-	valid_sounds_volume: sounds_volume >= 0 and sounds_volume <= 128
+	valid_sounds_volume: sounds_volume >= 0 and sounds_volume <= 100
 		-- Ensure the sounds volume is in a valid format for SDL
 
 note

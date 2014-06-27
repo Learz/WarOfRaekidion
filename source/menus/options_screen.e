@@ -73,11 +73,11 @@ feature {NONE} -- Initialization
 				config_value := config.music_volume
 			end
 
-			if config_value.floor = 128 then
+			if config_value.floor = 100 then
 				buttons.extend (create {BUTTON}.make ("small_button", window, 100, 200, "LOUD"))
-			elseif config_value.floor = 64 then
+			elseif config_value.floor = 66 then
 				buttons.extend (create {BUTTON}.make ("small_button", window, 100, 200, "HIGH"))
-			elseif config_value.floor = 32 then
+			elseif config_value.floor = 33 then
 				buttons.extend (create {BUTTON}.make ("small_button", window, 100, 200, "LOW"))
 			else
 				buttons.extend (create {BUTTON}.make ("small_button", window, 100, 200, "OFF"))
@@ -91,11 +91,11 @@ feature {NONE} -- Initialization
 				config_value := config.sounds_volume
 			end
 
-			if config_value.floor = 128 then
+			if config_value.floor = 100 then
 				buttons.extend (create {BUTTON}.make ("small_button", window, 160, 200, "LOUD"))
-			elseif config_value.floor = 64 then
+			elseif config_value.floor = 66 then
 				buttons.extend (create {BUTTON}.make ("small_button", window, 160, 200, "HIGH"))
-			elseif config_value.floor = 32 then
+			elseif config_value.floor = 33 then
 				buttons.extend (create {BUTTON}.make ("small_button", window, 160, 200, "LOW"))
 			else
 				buttons.extend (create {BUTTON}.make ("small_button", window, 160, 200, "OFF"))
@@ -258,17 +258,17 @@ feature {NONE} -- Implementation
 					config_value := config.music_volume
 				end
 
-				if config_value.floor = 128 then
+				if config_value.floor = 100 then
 					buttons.at (a_button).set_text ("HIGH")
 					buttons.at (a_button).recenter
-					audio_factory.set_music_volume (64)
-					config.set_music_volume (64)
-				elseif config_value.floor = 64 then
+					audio_factory.set_music_volume (66)
+					config.set_music_volume (66)
+				elseif config_value.floor = 66 then
 					buttons.at (a_button).set_text ("LOW")
 					buttons.at (a_button).recenter
-					audio_factory.set_music_volume (32)
-					config.set_music_volume (32)
-				elseif config_value.floor = 32 then
+					audio_factory.set_music_volume (33)
+					config.set_music_volume (33)
+				elseif config_value.floor = 33 then
 					buttons.at (a_button).set_text ("OFF")
 					buttons.at (a_button).recenter
 					audio_factory.set_music_volume (0)
@@ -276,8 +276,8 @@ feature {NONE} -- Implementation
 				else
 					buttons.at (a_button).set_text ("LOUD")
 					buttons.at (a_button).recenter
-					audio_factory.set_music_volume (128)
-					config.set_music_volume (128)
+					audio_factory.set_music_volume (100)
+					config.set_music_volume (100)
 				end
 			elseif a_button = 3 then
 				if fallback then
@@ -286,17 +286,17 @@ feature {NONE} -- Implementation
 					config_value := config.sounds_volume
 				end
 
-				if config_value.floor = 128 then
+				if config_value.floor = 100 then
 					buttons.at (a_button).set_text ("HIGH")
 					buttons.at (a_button).recenter
-					audio_factory.set_sounds_volume (64)
-					config.set_sounds_volume (64)
-				elseif config_value.floor = 64 then
+					audio_factory.set_sounds_volume (66)
+					config.set_sounds_volume (66)
+				elseif config_value.floor = 66 then
 					buttons.at (a_button).set_text ("LOW")
 					buttons.at (a_button).recenter
-					audio_factory.set_sounds_volume (32)
-					config.set_sounds_volume (32)
-				elseif config_value.floor = 32 then
+					audio_factory.set_sounds_volume (33)
+					config.set_sounds_volume (33)
+				elseif config_value.floor = 33 then
 					buttons.at (a_button).set_text ("OFF")
 					buttons.at (a_button).recenter
 					audio_factory.set_sounds_volume (0)
@@ -304,8 +304,8 @@ feature {NONE} -- Implementation
 				else
 					buttons.at (a_button).set_text ("LOUD")
 					buttons.at (a_button).recenter
-					audio_factory.set_sounds_volume (128)
-					config.set_sounds_volume (128)
+					audio_factory.set_sounds_volume (100)
+					config.set_sounds_volume (100)
 				end
 			elseif a_button = 4 then
 				if fallback then
