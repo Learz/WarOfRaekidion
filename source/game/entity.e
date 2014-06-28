@@ -71,8 +71,8 @@ feature -- Access
 	update
 		-- Update `Current' on screen
 		do
-			if health <= 0 then
-				if lives <= 0 then
+			if health <= 1 then
+				if lives <= 1 then
 					destroy
 				end
 

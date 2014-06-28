@@ -56,7 +56,13 @@ feature {NONE} -- Initialization
 			create l_event.make (window)
 			create l_background.make ("background", window, 0, 0, 1)
 		    create l_sidebar.make ("sidebar", window, window.width - 75, 0)
-		    create player.make (window, 112, 300, 0, key_binding, a_is_server)
+
+		    if attached network as la_network then
+		    	create player.make (window, 112, 300, 5, key_binding, a_is_server)
+		   	else
+		    	create player.make (window, 112, 300, 1, key_binding, a_is_server)
+		    end
+
 		    player.on_shoot.extend (agent spawn_projectile)
 		    create spawner.make (window, key_binding, not a_is_server)
 		    spawner.on_spawn.extend (agent spawn_enemy)
@@ -64,35 +70,21 @@ feature {NONE} -- Initialization
 			create version.make (window.version, 10, window, 294, 394, [192, 192, 192], false)
 			version.set_x (version.x - version.width)
 			version.set_y (version.y - version.height)
-
---		    if is_server then
-		    	create l_health.make_centered ("HEALTH", 10, window, 237, 22, 59, 7, [255, 255, 255], false)
-		    	create l_energy.make_centered ("ENERGY", 10, window, 237, 29, 59, 7, [255, 255, 255], false)
-		    	create l_health_bar.make (window, 237, 22, 59, 7, [192, 32, 32, 255], false)
-		    	create l_energy_bar.make (window, 237, 29, 59, 7, [96, 96, 192, 255], false)
-				l_health_bar.set_value (player.health.floor)
-				l_energy_bar.set_value (player.energy.floor)
---		    else
---		    	create l_label.make ("C$: ", 16, window, 237, 21, [255, 255, 255], true)
---		    	create l_health.make (spawner.money.out, 16, window, 257, 21, [255, 255, 255], true)
---		    end
-
+	    	create l_health.make_centered ("HEALTH", 10, window, 237, 22, 59, 7, [255, 255, 255], false)
+	    	create l_energy.make_centered ("ENERGY", 10, window, 237, 29, 59, 7, [255, 255, 255], false)
+	    	create l_health_bar.make (window, 237, 22, 59, 7, [192, 32, 32, 255], false)
+	    	create l_energy_bar.make (window, 237, 29, 59, 7, [96, 96, 192, 255], false)
+			l_health_bar.set_value (player.health.floor)
+			l_energy_bar.set_value (player.energy.floor)
 			stop_music
 			play_music ("chicago", -1)
 			l_event.on_key_pressed.extend (agent manage_key)
+			l_event.on_key_pressed.extend (agent player.manage_key)
+			spawner.set_ai (true)
 
 			if attached network as la_network then
 				create l_opponent_score.make ("0", 16, window, 237, 39, [192, 192, 192], true)
 				create network_player.make ("disabled_player", window, 1000, 1000, 1, 1)
-
---		    	if is_server then
-					l_event.on_key_pressed.extend (agent player.manage_key)
---				else
-					spawner.set_ai (true)
---		    	end
-		    else
-				l_event.on_key_pressed.extend (agent player.manage_key)
-				spawner.set_ai (true)
 			end
 
 			from
@@ -108,37 +100,49 @@ feature {NONE} -- Initialization
 
 				window.clear
 				l_background.update
+
+			    if attached network as la_network and then
+				attached la_network.node as la_node and
+				attached network_player as la_network_player and
+				attached l_opponent_score as la_score then
+					if not la_network.connection_error then
+						la_node.send_player_position (player.x.floor, player.y.floor)
+						la_network_player.set_x (la_node.new_player_position.x)
+						la_network_player.set_y (la_node.new_player_position.y)
+						la_score.set_text (la_node.new_score.out, 16)
+						la_network_player.update
+					end
+				end
+
 				player.update
 				spawner.update
---				network_update
 				powerup_update
 				collisions_update
 				projectiles_update
 				explosions_update
-
---				if attached network as la_network then
---					if attached la_network.node as la_node then
---						if is_server then
---							if player.has_moved then
---								la_node.send_player_position (player.x.floor, player.y.floor)
---							end
---						else
---							player.set_x (la_node.new_player_position.x)
---							player.set_y (la_node.new_player_position.y)
---						end
---					end
---				end
-
---				if player.is_destroyed then
---					if not is_server then
---						score := score + 10000
---						score_changed := true
---					end
---				end
-
 			    l_sidebar.update
 
+				if l_lives > player.lives then
+					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x, player.y, false))
+					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x + 15, player.y, false))
+					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x - 15, player.y, false))
+					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x, player.y + 15, false))
+					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x, player.y - 15, false))
+					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x + 15, player.y + 15, false))
+					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x - 15, player.y + 15, false))
+					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x + 15, player.y - 15, false))
+					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x - 15, player.y - 15, false))
+					score := score - 25000
+					player.disable (500)
+				end
+
+				l_lives := player.lives
+
 			    if score_changed then
+			    	if score < 0 then
+			    		score := 0
+			    	end
+
 			    	if attached network as la_network and then attached la_network.node as la_node then
 						la_node.send_score (score)
 					end
@@ -148,7 +152,6 @@ feature {NONE} -- Initialization
 			    end
 
 				l_score.update
-			    --l_label.update
 
 			    if attached l_opponent_score as la_score then
 			    	la_score.update
@@ -157,13 +160,7 @@ feature {NONE} -- Initialization
 			    version.update
 
 				if health_changed then
---					if is_server then
-						--l_health.set_text (player.health.floor.out, 16)
-						l_health_bar.set_value (player.health.floor)
---					else
---						l_health.set_text (spawner.money.out, 16)
---					end
-
+					l_health_bar.set_value (player.health.floor)
 					health_changed := false
 				end
 
@@ -178,7 +175,7 @@ feature {NONE} -- Initialization
 				attached la_network.node as la_node and
 				attached network_player as la_network_player and
 				attached l_opponent_score as la_score then
-					if la_network.connection_error then
+					if la_network.connection_error or score >= 100000 then
 						la_network.quit
 						network := void
 						la_score.destroy
@@ -187,29 +184,24 @@ feature {NONE} -- Initialization
 						must_quit := l_pause_menu.must_quit
 						must_end := l_pause_menu.must_end
 						is_return_key_pressed := l_pause_menu.is_return_key_pressed
-					else
-						la_node.send_player_position (player.x.floor, player.y.floor)
-						la_network_player.set_x (la_node.new_player_position.x)
-						la_network_player.set_y (la_node.new_player_position.y)
-						la_score.set_text (la_node.new_score.out, 16)
-						la_network_player.update
 					end
 				end
 
-				if l_lives > player.lives then
-					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x, player.y, false))
-					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x + 15, player.y, false))
-					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x - 15, player.y, false))
-					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x, player.y + 15, false))
-					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x, player.y - 15, false))
-					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x + 15, player.y + 15, false))
-					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x - 15, player.y + 15, false))
-					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x + 15, player.y - 15, false))
-					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x - 15, player.y - 15, false))
-					player.disable (500)
+				if attached network as la_network and then
+				attached la_network.node as la_node and
+				attached network_player as la_network_player and
+				attached l_opponent_score as la_score then
+					if la_node.new_score >= 100000 then
+						la_network.quit
+						network := void
+						la_score.destroy
+						l_opponent_score := void
+						l_pause_menu := create {OVERLAY_SCREEN}.make (window, key_binding, is_return_key_pressed, "YOU LOST!", "Your score: "+score.out, "Your opponent's score: "+la_node.new_score.out, true, debug_on, a_cheat, difficulty, score)
+						must_quit := l_pause_menu.must_quit
+						must_end := l_pause_menu.must_end
+						is_return_key_pressed := l_pause_menu.is_return_key_pressed
+					end
 				end
-
-				l_lives := player.lives
 
 				if player.is_destroyed then
 					if attached network as la_network and then
@@ -315,44 +307,6 @@ feature {NONE} -- Implementation
 	explosion_list: LINKED_LIST [detachable EXPLOSION]
 		-- List of explosions
 
-	network_update
-		-- (OBSOLETE) Update the network transferred data
-		do
-			if attached network as la_network then
-				if attached la_network.node as la_node then
-					if is_server then
-						from
-							la_node.new_enemies.start
-						until
-							la_node.new_enemies.exhausted
-						loop
-							spawn_enemy (la_node.new_enemies.item.name, la_node.new_enemies.item.x,
-										 la_node.new_enemies.item.y, la_node.new_enemies.item.dest_x, la_node.new_enemies.item.dest_y)
-							la_node.new_enemies.remove
-
-							if not la_node.new_enemies.exhausted then
-								la_node.new_enemies.forth
-							end
-						end
-					else
-						from
-							la_node.new_projectiles.start
-						until
-							la_node.new_projectiles.exhausted
-						loop
-							spawn_projectile (la_node.new_projectiles.item.name, la_node.new_projectiles.item.x,
-											  la_node.new_projectiles.item.y, la_node.new_projectiles.item.angle, player)
-							la_node.new_projectiles.remove
-
-							if not la_node.new_projectiles.exhausted then
-								la_node.new_projectiles.forth
-							end
-						end
-					end
-				end
-			end
-		end
-
 	collisions_update
 		-- Update the collision detection and react in accordance
 		do
@@ -381,12 +335,6 @@ feature {NONE} -- Implementation
 								if not is_server and not player.is_destroyed then
 									score := score + (la_projectile.projectile_properties.damage * 10).floor
 									score_changed := true
---								else
---									if attached network as la_network then
---										if attached la_network.node as la_node then
---											la_node.send_collision (0, projectile_list.index)
---										end
---									end
 								end
 
 								player.set_health (player.health - la_projectile.projectile_properties.damage)
@@ -418,12 +366,6 @@ feature {NONE} -- Implementation
 										if is_server then
 											score := score + (la_projectile.projectile_properties.damage * 10 * (difficulty / 2.5)).floor
 											score_changed := true
-
---											if attached network as la_network then
---												if attached la_network.node as la_node then
---													la_node.send_collision (enemy_list.index, projectile_list.index)
---												end
---											end
 										end
 
 										la_enemy.set_health (la_enemy.health - la_projectile.projectile_properties.damage)
@@ -480,7 +422,7 @@ feature {NONE} -- Implementation
 									end
 								else
 									player.set_health (player.health + (1 / difficulty))
-									player.set_energy (player.energy + (4 / difficulty))
+									player.set_energy (player.energy + (8 / difficulty))
 
 									if is_server then
 										health_changed := true
@@ -587,7 +529,7 @@ feature {NONE} -- Implementation
 		end
 
 	spawn_enemy (a_name: STRING; a_x, a_y, a_dest_x, a_dest_y: INTEGER)
-		-- Add ennemy `a_name' originating from `a_x' and `a_y' moving to `a_dest_x' and `a_dest_y'
+		-- Add enemy `a_name' originating from `a_x' and `a_y' moving to `a_dest_x' and `a_dest_y'
 		local
 			l_enemy: ENEMY_SHIP
 			l_max_enemies: INTEGER
@@ -612,14 +554,6 @@ feature {NONE} -- Implementation
 					spawner.set_money (spawner.money - l_enemy.enemy_properties.price)
 				end
 
---				if not is_server then
---					if attached network as la_network then
---						if attached la_network.node as la_node then
---							la_node.send_new_enemy_ship (a_name, a_x, a_y, a_dest_x, a_dest_y)
---						end
---					end
---				end
-
 			    l_enemy.on_shoot.extend (agent spawn_projectile)
 			end
 		end
@@ -628,14 +562,6 @@ feature {NONE} -- Implementation
 		-- Add projectile `a_name' originating from `a_x' and `a_y' at angle `a_angle' from the owner `a_owner'
 		do
 			projectile_list.extend (create {PROJECTILE}.make (a_name, window, a_x, a_y, a_angle, a_owner))
-
---			if is_server and a_owner = player then
---				if attached network as la_network then
---					if attached la_network.node as la_node then
---						la_node.send_projectile (a_name, a_x, a_y, a_angle)
---					end
---				end
---			end
 		end
 
 invariant

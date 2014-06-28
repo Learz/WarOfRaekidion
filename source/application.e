@@ -56,33 +56,28 @@ feature {NONE} -- Initialization
 			l_config.load ("config.xml")
 			create l_window.make ("War of Raekidion", {SDL}.sdl_windowpos_undefined, {SDL}.sdl_windowpos_undefined, window_width, window_height, l_config.window_scale, {SDL}.sdl_window_hidden, version)
 			{SDL}.sdl_show_window (l_window.window)
+			create l_splash.make ("splash", l_window)
+			create l_resources.make (l_splash, l_config)
+			l_resources.launch
+			l_splash.display_splash
 
-			if not debug_mode then
-				create l_splash.make ("splash", l_window)
-				create l_resources.make (l_splash, l_config)
-				l_resources.launch
-				l_splash.display_splash
-
-				if attached l_resources as la_resources then
-					from
-					until
-						la_resources.must_quit
-					loop
-					end
-
-					l_modded := la_resources.cheat_mode
-					la_resources.join
+			if attached l_resources as la_resources then
+				from
+				until
+					la_resources.must_quit
+				loop
 				end
+
+				l_modded := la_resources.cheat_mode
+				la_resources.join
 			end
 
 			{SDL}.sdl_setrenderdrawcolor (l_window.renderer, 0, 0, 0, 255)
 			create l_event.make (l_window)
 			create l_title_screen.make (l_window, debug_mode, l_modded, l_config)
 
-			if not debug_mode then
-				if attached l_resources as la_resources then
-					l_resources.destroy
-				end
+			if attached l_resources as la_resources then
+				l_resources.destroy
 			end
 
 			l_event.destroy
