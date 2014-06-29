@@ -12,11 +12,6 @@ class
 	PROJECTILE
 
 inherit
-	AUDIO_FACTORY_SHARED
-		rename
-			set_splash_screen as set_audio_splash_screen,
-			splash_screen as audio_splash_screen
-		end
 	PROJECTILE_FACTORY_SHARED
 		rename
 			set_splash_screen as set_projectile_splash_screen,
@@ -39,7 +34,6 @@ feature {NONE} -- Initialization
 			projectilefactory := projectile_factory
 			projectile_properties := projectilefactory.projectile (a_name)
 			owner := a_owner
-			play_sound (projectile_properties.sound, -1)
 			entity_make (projectile_properties.filename, a_window, a_x, a_y, 1, 1)
 			will_explode := true
 			trajectory.enable_degree_mode

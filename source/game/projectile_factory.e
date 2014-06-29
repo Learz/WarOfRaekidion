@@ -112,7 +112,7 @@ feature -- Access
 				file_list.back
 				result := file_list.item.object
 			else
-				create result.make ("", "", "", 0, 0, false, 0, false)
+				create result.make ("", "", 0, 0, false, 0, false)
 			end
 		end
 
@@ -124,13 +124,13 @@ feature {NONE} -- Implementation
 	fill_default
 		do
 			create default_files.make
-			default_files.extend (["small_missile", "F84FB315E8D084EDA2B3DBD30D87BDA0"])
-			default_files.extend (["blue_bullet",   "3149B8845A3AD54A9921CB06DB07E618"])
-			default_files.extend (["red_bullet",    "8616EDAC6B9909D47633585B223C4B87"])
-			default_files.extend (["red_laser",     "A0AFB5C672C68834AEC6E1EA6F6B79E0"])
-			default_files.extend (["small_bomb",    "1CC7848618679833F61889EE0E14C3B2"])
-			default_files.extend (["yellow_laser",  "E112E37E54B585B0E88E7D838A7EDEBF"])
-			default_files.extend (["white_laser",   "5AF5EDFB8AD9D8A074BBF29155B5060E"])
+			default_files.extend (["blue_bullet",   "4515D4D27BB58B6B45A2543707923257"])
+			default_files.extend (["red_bullet",    "FBDC3BC4C05A35F68E71A8BF2B3B06E7"])
+			default_files.extend (["red_laser",     "6BF88507D8EA320AE10CB0AA27B9E97E"])
+			default_files.extend (["small_bomb",    "6596F2A342676095B77BD89FA1788E58"])
+			default_files.extend (["small_missile", "81A1256AA6FEB45759703DB72EF37B56"])
+			default_files.extend (["white_laser",   "2B1FA9D8B01EEFE6FCF07945DE23B3E6"])
+			default_files.extend (["yellow_laser",  "71C99A05C4F787AA206FB1574353C8C9"])
 		end
 
 
@@ -174,7 +174,6 @@ feature {NONE} -- Implementation
 		local
 			l_name: STRING
 			l_filename: STRING
-			l_sound: STRING
 			l_damage: DOUBLE
 			l_speed: DOUBLE
 			l_homing: BOOLEAN
@@ -188,12 +187,6 @@ feature {NONE} -- Implementation
 					l_filename := la_text
 				else
 					l_filename := ""
-				end
-
-				if attached process_node ("sound") as la_element and then attached la_element.text as la_text then
-					l_sound := la_text
-				else
-					l_sound := ""
 				end
 
 				if attached process_node ("damage") as la_element and then attached la_element.text as la_text and then la_text.is_double then
@@ -216,7 +209,7 @@ feature {NONE} -- Implementation
 					l_explodes := la_text.to_boolean
 				end
 
-				create Result.make (l_name, l_filename, l_sound, l_damage, l_speed, l_homing, l_lifetime, l_explodes)
+				create Result.make (l_name, l_filename, l_damage, l_speed, l_homing, l_lifetime, l_explodes)
 			else
 				Result := Void
 			end

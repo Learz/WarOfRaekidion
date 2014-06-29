@@ -12,6 +12,11 @@ class
 	ENEMY_SHIP
 
 inherit
+	AUDIO_FACTORY_SHARED
+		rename
+			set_splash_screen as set_audio_splash_screen,
+			splash_screen as audio_splash_screen
+		end
 	ENEMY_FACTORY_SHARED
 		rename
 			set_splash_screen as set_enemy_splash_screen,
@@ -58,6 +63,8 @@ feature -- Access
 				trajectory.set_force (0)
 
 				if lifetime \\ enemy_properties.firerate = 0 then
+					play_sound (enemy_properties.sound, -1)
+
 					from
 						l_count := 0
 					until

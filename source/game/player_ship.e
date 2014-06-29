@@ -12,6 +12,11 @@ class
 	PLAYER_SHIP
 
 inherit
+	AUDIO_FACTORY_SHARED
+		rename
+			set_splash_screen as set_audio_splash_screen,
+			splash_screen as audio_splash_screen
+		end
 	SHIP
 		rename
 			make as ship_make
@@ -61,6 +66,8 @@ feature -- Access
 			else
 				if shoot_delay <= 0 then
 					if is_shooting then
+						play_sound ("laser1", -1)
+
 						if is_focus then
 							if previous_firerate.ceiling <= 6 then
 								if previous_firerate.ceiling >= 3 then

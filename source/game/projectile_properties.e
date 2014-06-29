@@ -16,12 +16,11 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_name, a_filename, a_sound: STRING; a_damage, a_speed: DOUBLE; a_homing: BOOLEAN; a_lifetime: INTEGER; a_explodes: BOOLEAN)
+	make (a_name, a_filename: STRING; a_damage, a_speed: DOUBLE; a_homing: BOOLEAN; a_lifetime: INTEGER; a_explodes: BOOLEAN)
 		-- Initialize `Current' from `a_name', `a_filename', `a_sound', `a_damage', `a_speed', `a_homing', `a_lifetime', `a_explodes'
 		do
 			name := a_name
 			filename := a_filename
-			sound := a_sound
 			damage := a_damage
 			speed := a_speed
 			homing := a_homing
@@ -36,9 +35,6 @@ feature -- Access
 
 	filename: STRING
 		-- The image file name
-
-	sound: STRING
-		-- The sound produced upon firing the projectile
 
 	damage: DOUBLE
 		-- The damage dealt by the projectile

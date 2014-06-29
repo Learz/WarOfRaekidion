@@ -71,13 +71,13 @@ feature -- Access
 	update
 		-- Update `Current' on screen
 		do
-			if health <= 1 then
-				if lives <= 1 then
-					destroy
-				end
-
+			if health <= 0 then
 				lives := lives - 1
 				health := max_health
+
+				if lives <= 0 then
+					destroy
+				end
 			end
 
 			lifetime := lifetime + 1

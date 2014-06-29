@@ -115,7 +115,7 @@ feature -- Access
 				file_list.back
 				result := file_list.item.object
 			else
-				create result.make ("", "", "", "", 0, 0, 0, 0, 0, 0, false)
+				create result.make ("", "", "", "", "", 0, 0, 0, 0, 0, 0, false)
 			end
 		end
 
@@ -127,12 +127,12 @@ feature {NONE} -- Implementation
 	fill_default
 		do
 			create default_files.make
-			default_files.extend (["barrage", "1C2270913F91748A3AAF99390A9AA5A0"])
-			default_files.extend (["homing",  "F6C23B4DBBE7AF271C467C4F9CCFE755"])
-			default_files.extend (["laser",   "7668646145BE727E7BD6B39A041F919A"])
-			default_files.extend (["mauler",  "9BB5741EB371B94241C40059276791F7"])
-			default_files.extend (["spiral",  "452EA0119166DA3746FB3EEC809A0F2F"])
-			default_files.extend (["sprayer", "12BF03FB13F056288A29C8CDD5B71FD5"])
+			default_files.extend (["barrage", "C5342A9A4647C70041682783C5782CA2"])
+			default_files.extend (["homing",  "90DDA9D9140E3014359DD530F1F058FD"])
+			default_files.extend (["laser",   "301C98BBC34CDFDB3308C64DB939D2E6"])
+			default_files.extend (["mauler",  "F2E18BF41CFC07D5697D3011C26F0042"])
+			default_files.extend (["spiral",  "764C283989190AD2C97FF535DB21C223"])
+			default_files.extend (["sprayer", "068CBA9229E59DEFDFDC4BA9F173FC93"])
 		end
 
 
@@ -175,6 +175,7 @@ feature {NONE} -- Implementation
 			l_filename: STRING
 			l_description: STRING
 			l_bullet: STRING
+			l_sound: STRING
 			l_health: DOUBLE
 			l_count: INTEGER
 			l_firerate: INTEGER
@@ -202,6 +203,12 @@ feature {NONE} -- Implementation
 					l_bullet := la_text
 				else
 					l_bullet := ""
+				end
+
+				if attached process_node ("sound") as la_element and then attached la_element.text as la_text then
+					l_sound := la_text
+				else
+					l_sound := ""
 				end
 
 				if attached process_node ("health") as la_element and then attached la_element.text as la_text and then la_text.is_double then
@@ -232,7 +239,7 @@ feature {NONE} -- Implementation
 					l_aiming := la_text.to_boolean
 				end
 
-				create Result.make (l_name, l_filename, l_description, l_bullet, l_health, l_count, l_firerate, l_price, l_spread, l_speed, l_aiming)
+				create Result.make (l_name, l_filename, l_description, l_bullet, l_sound, l_health, l_count, l_firerate, l_price, l_spread, l_speed, l_aiming)
 			else
 				Result := Void
 			end

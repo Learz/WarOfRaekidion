@@ -16,13 +16,14 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_name, a_filename, a_description, a_bullet: STRING; a_health: DOUBLE; a_count, a_firerate, a_price: INTEGER; a_spread, a_speed: DOUBLE; a_aiming: BOOLEAN)
+	make (a_name, a_filename, a_description, a_bullet, a_sound: STRING; a_health: DOUBLE; a_count, a_firerate, a_price: INTEGER; a_spread, a_speed: DOUBLE; a_aiming: BOOLEAN)
 		-- Initialize `Current' from `a_name', `a_description', `a_bullet', `a_health', `a_count', `a_firerate', `a_price', `a_spread', `a_speed' and `a_aiming'
 		do
 			name := a_name
 			filename := a_filename
 			description := a_description
 			bullet := a_bullet
+			sound := a_sound
 			health := a_health
 			count := a_count
 			firerate := a_firerate
@@ -45,6 +46,9 @@ feature -- Access
 
 	bullet: STRING
 		-- The bullet type the enemy shoots
+
+	sound: STRING
+		-- The sound produced upon firing projectiles
 
 	health: DOUBLE
 		-- The enemy's health

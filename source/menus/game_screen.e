@@ -122,18 +122,23 @@ feature {NONE} -- Initialization
 				explosions_update
 			    l_sidebar.update
 
-				if l_lives > player.lives then
-					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x, player.y, false))
-					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x + 15, player.y, false))
-					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x - 15, player.y, false))
-					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x, player.y + 15, false))
-					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x, player.y - 15, false))
-					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x + 15, player.y + 15, false))
-					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x - 15, player.y + 15, false))
-					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x + 15, player.y - 15, false))
-					explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x - 15, player.y - 15, false))
-					score := score - 25000
-					player.disable (500)
+			    if attached network as la_network and then
+				attached la_network.node as la_node and
+				attached network_player as la_network_player and
+				attached l_opponent_score as la_score then
+					if l_lives > player.lives then
+						explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x, player.y, false))
+						explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x + 15, player.y, false))
+						explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x - 15, player.y, false))
+						explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x, player.y + 15, false))
+						explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x, player.y - 15, false))
+						explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x + 15, player.y + 15, false))
+						explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x - 15, player.y + 15, false))
+						explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x + 15, player.y - 15, false))
+						explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x - 15, player.y - 15, false))
+						score := score - 25000
+						player.disable (500)
+					end
 				end
 
 				l_lives := player.lives
