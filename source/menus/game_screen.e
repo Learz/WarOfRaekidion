@@ -66,12 +66,12 @@ feature {NONE} -- Initialization
 		    player.on_shoot.extend (agent spawn_projectile)
 		    create spawner.make (window, key_binding, not a_is_server)
 		    spawner.on_spawn.extend (agent spawn_enemy)
-		    create l_score.make ("0", 16, window, 237, 3, [255, 255, 255], true)
-			create version.make (window.version, 10, window, 294, 394, [192, 192, 192], false)
+		    create l_score.make ("0", 16, window, 237, 3, [255, 255, 255], true, false)
+			create version.make (window.version, 10, window, 294, 394, [192, 192, 192], false, false)
 			version.set_x (version.x - version.width)
 			version.set_y (version.y - version.height)
-	    	create l_health.make_centered ("HEALTH", 10, window, 237, 22, 59, 7, [255, 255, 255], false)
-	    	create l_energy.make_centered ("ENERGY", 10, window, 237, 29, 59, 7, [255, 255, 255], false)
+	    	create l_health.make_centered ("HEALTH", 10, window, 237, 22, 59, 7, [255, 255, 255], false, false)
+	    	create l_energy.make_centered ("ENERGY", 10, window, 237, 29, 59, 7, [255, 255, 255], false, false)
 	    	create l_health_bar.make (window, 237, 22, 59, 7, [192, 32, 32, 255], false)
 	    	create l_energy_bar.make (window, 237, 29, 59, 7, [96, 96, 192, 255], false)
 			l_health_bar.set_value (player.health.floor)
@@ -83,7 +83,7 @@ feature {NONE} -- Initialization
 			spawner.set_ai (true)
 
 			if attached network as la_network then
-				create l_opponent_score.make ("0", 16, window, 237, 39, [192, 192, 192], true)
+				create l_opponent_score.make ("0", 16, window, 237, 39, [192, 192, 192], true, false)
 				create network_player.make ("disabled_player", window, 1000, 1000, 1, 1)
 			end
 
@@ -132,10 +132,10 @@ feature {NONE} -- Initialization
 						explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x - 15, player.y, false))
 						explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x, player.y + 15, false))
 						explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x, player.y - 15, false))
-						explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x + 15, player.y + 15, false))
-						explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x - 15, player.y + 15, false))
-						explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x + 15, player.y - 15, false))
-						explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x - 15, player.y - 15, false))
+						explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x + 10, player.y + 10, false))
+						explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x - 10, player.y + 10, false))
+						explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x + 10, player.y - 10, false))
+						explosion_list.extend (create {EXPLOSION}.make ("explosion_big", 13, 50, window, player.x - 10, player.y - 10, false))
 						score := score - 25000
 						player.disable (500)
 					end

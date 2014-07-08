@@ -51,8 +51,8 @@ feature {NONE} -- Initialization
 
 			difficulty := a_config.difficulty
 			create buttons.make
-			l_title := create {TEXT}.make_centered ("War of Raekidion", 32, window, 0, 0, window.width, 150, [255, 255, 255], true)
-			create version.make (window.version, 10, window, 3, 397, [64, 64, 96], false)
+			l_title := create {TEXT}.make_centered ("War of Raekidion", 32, window, 0, 0, window.width, 150, [255, 255, 255], true, false)
+			create version.make (window.version, 10, window, 3, 397, [64, 64, 96], false, false)
 			version.set_y (version.y - version.height)
 			create l_background.make ("title_background", window, 0, 0, 0)
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 150, "Singleplayer"))
@@ -90,9 +90,7 @@ feature {NONE} -- Initialization
 					if multiplayer then
 						l_screen := create {LOBBY_SCREEN}.make (window, key_binding, difficulty, debug_on, a_cheat)
 					else
-						l_screen := create {GAME_SCREEN}.make (window, key_binding, true, debug_on, a_cheat, difficulty, void)
-						stop_music
-						play_music ("quiet", -1)
+						l_screen := create {LEVEL_SELECT_SCREEN}.make (window, key_binding, difficulty, debug_on, a_cheat)
 					end
 
 					start_game := false

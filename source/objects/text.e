@@ -21,16 +21,17 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_name: STRING; a_size: INTEGER; a_window: WINDOW; a_x, a_y: DOUBLE; a_color: TUPLE [r, g, b: INTEGER]; a_shadow: BOOLEAN)
+	make (a_name: STRING; a_size: INTEGER; a_window: WINDOW; a_x, a_y: DOUBLE; a_color: TUPLE [r, g, b: INTEGER]; a_shadow, a_smooth: BOOLEAN)
 		-- Initialize `Current' from `a_name', `a_size', `a_window', `a_x', `a_y', `a_color' (rgb) and `a_shadow'
 		do
 			targetarea := targetarea.memory_alloc ({SDL}.sizeof_sdl_rect_struct)
 			window := a_window
 			renderer := a_window.renderer
 			shadow := a_shadow
+			smooth := a_smooth
 
 			if shadow then
-				create shadow_text.make (a_name, a_size, a_window, a_x + 1, a_y + 1, [0, 0, 0], false)
+				create shadow_text.make (a_name, a_size, a_window, a_x + 1, a_y + 1, [0, 0, 0], false, a_smooth)
 			end
 
 			color := color.memory_alloc ({SDL_TTF}.sizeof_sdl_color_struct)
@@ -44,16 +45,17 @@ feature {NONE} -- Initialization
 			set_y (a_y)
 		end
 
-	make_centered (a_name: STRING; a_size: INTEGER; a_window: WINDOW; a_x, a_y, a_width, a_height: DOUBLE; a_color: TUPLE [r, g, b: INTEGER]; a_shadow: BOOLEAN)
+	make_centered (a_name: STRING; a_size: INTEGER; a_window: WINDOW; a_x, a_y, a_width, a_height: DOUBLE; a_color: TUPLE [r, g, b: INTEGER]; a_shadow, a_smooth: BOOLEAN)
 		-- Initialize `Current' centered from `a_name', `a_size', `a_window', `a_x', `a_y', `a_width', `a_height', `a_color' (rgb) and `a_shadow'
 		do
 			targetarea := targetarea.memory_alloc ({SDL}.sizeof_sdl_rect_struct)
 			window := a_window
 			renderer := a_window.renderer
 			shadow := a_shadow
+			smooth := a_smooth
 
 			if shadow then
-				create shadow_text.make_centered (a_name, a_size, a_window, a_x + 1, a_y + 1, a_width, a_height, [0, 0, 0], false)
+				create shadow_text.make_centered (a_name, a_size, a_window, a_x + 1, a_y + 1, a_width, a_height, [0, 0, 0], false, a_smooth)
 			end
 
 			color := color.memory_alloc ({SDL_TTF}.sizeof_sdl_color_struct)
@@ -71,16 +73,17 @@ feature {NONE} -- Initialization
 			set_y ((a_height / 2) + a_y - (height / 2))
 		end
 
-	make_empty (a_window: WINDOW; a_x, a_y: DOUBLE; a_color: TUPLE [r, g, b: INTEGER]; a_shadow: BOOLEAN)
+	make_empty (a_window: WINDOW; a_x, a_y: DOUBLE; a_color: TUPLE [r, g, b: INTEGER]; a_shadow, a_smooth: BOOLEAN)
 		-- Initialize `Current' to null from `a_window', `a_x', `a_y', `a_color' (rgb) and `a_shadow'
 		do
 			targetarea := targetarea.memory_alloc ({SDL}.sizeof_sdl_rect_struct)
 			window := a_window
 			renderer := a_window.renderer
 			shadow := a_shadow
+			smooth := a_smooth
 
 			if shadow then
-				create shadow_text.make_empty (a_window, a_x + 1, a_y + 1, [0, 0, 0], false)
+				create shadow_text.make_empty (a_window, a_x + 1, a_y + 1, [0, 0, 0], false, a_smooth)
 			end
 
 			color := color.memory_alloc ({SDL_TTF}.sizeof_sdl_color_struct)
@@ -108,6 +111,8 @@ feature -- Access
 			l_c_text: C_STRING
 			l_result_found: BOOLEAN
 		do
+			smooth := true
+			
 			if l_retries < 2 then
 				if a_text.count > 0 then
 					from
@@ -119,7 +124,11 @@ feature -- Access
 							create l_c_text.make (a_text)
 							{SDL}.sdl_freesurface (surface)
 
-							surface := {SDL_TTF}.ttf_show_text (window.font.item.font, l_c_text.item, color)
+							if smooth then
+								surface := {SDL_TTF}.ttf_show_text_smooth (window.font.item.font, l_c_text.item, color)
+							else
+								surface := {SDL_TTF}.ttf_show_text (window.font.item.font, l_c_text.item, color)
+							end
 
 							if not surface.is_default_pointer then
 							    set_width ({SDL}.get_sdl_loadbmp_width (surface))
@@ -189,6 +198,9 @@ feature -- Status
 
 	shadow: BOOLEAN
 		-- If true, the text will have a shadow under it
+
+	smooth: BOOLEAN
+		-- If true, the text will have smooth borders
 
 feature {NONE} -- Implementation
 

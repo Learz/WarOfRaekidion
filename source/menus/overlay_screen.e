@@ -52,10 +52,10 @@ feature {NONE} -- Initialization
 			l_event.on_key_pressed.extend (agent manage_key)
 			l_event.on_mouse_moved.extend (agent manage_mouse)
 			l_event.on_mouse_pressed.extend (agent manage_click)
-			create l_title.make_centered (a_title, 24, window, 0, 0, window.width, 150, [255, 255, 255], true)
-			create l_description.make_centered (a_description, 16, window, 0, 25, window.width, 150, [255, 255, 255], true)
-			create l_comment.make_centered (a_comment, 16, window, 0, 50, window.width, 150, [192, 192, 192], true)
-			create version.make_empty (window, 0, 0, [0, 0, 0], false)
+			create l_title.make_centered (a_title, 24, window, 0, 0, window.width, 150, [255, 255, 255], true, false)
+			create l_description.make_centered (a_description, 16, window, 0, 25, window.width, 150, [255, 255, 255], true, false)
+			create l_comment.make_centered (a_comment, 16, window, 0, 50, window.width, 150, [192, 192, 192], true, false)
+			create version.make_empty (window, 0, 0, [0, 0, 0], false, false)
 			resume_disabled := a_resume_disabled
 
 			if not resume_disabled then
@@ -73,9 +73,9 @@ feature {NONE} -- Initialization
 				if a_cheat then
 					highscore_set := true
 					buttons.at (1).hide
-					create highscore.make_centered ("Highscore disabled", 16, window, 0, 160, window.width, 0, [255, 255, 255], true)
+					create highscore.make_centered ("Highscore disabled", 16, window, 0, 160, window.width, 0, [255, 255, 255], true, false)
 				else
-					create highscore.make_centered ("Highscore", 10, window, 0, 160, window.width, 0, [255, 255, 255], true)
+					create highscore.make_centered ("Highscore", 10, window, 0, 160, window.width, 0, [255, 255, 255], true, false)
 					create textbox.make ("small_textbox", window, 100, 175)
 				end
 			end

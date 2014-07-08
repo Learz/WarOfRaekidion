@@ -48,21 +48,21 @@ feature {NONE} -- Initialization
 			difficulty := a_difficulty
 			create buttons.make
 			create scores.make
-			create l_title.make_centered ("Highscores", 24, window, 0, 0, window.width, 150, [255, 255, 255], true)
+			create l_title.make_centered ("Highscores", 24, window, 0, 0, window.width, 150, [255, 255, 255], true, false)
 
 			if difficulty = 1 then
-				create l_description.make_centered ("CAKE", 16, window, 0, 25, window.width, 150, [128, 255, 128], false)
+				create l_description.make_centered ("CAKE", 16, window, 0, 25, window.width, 150, [128, 255, 128], false, false)
 			elseif difficulty = 2 then
-				create l_description.make_centered ("EASY", 16, window, 0, 25, window.width, 150, [255, 255, 128], false)
+				create l_description.make_centered ("EASY", 16, window, 0, 25, window.width, 150, [255, 255, 128], false, false)
 			elseif difficulty = 4 then
-				create l_description.make_centered ("HARD", 16, window, 0, 25, window.width, 150, [255, 128, 64], false)
+				create l_description.make_centered ("HARD", 16, window, 0, 25, window.width, 150, [255, 128, 64], false, false)
 			elseif difficulty = 8 then
-				create l_description.make_centered ("NUTS", 16, window, 0, 25, window.width, 150, [192, 0, 0], false)
+				create l_description.make_centered ("NUTS", 16, window, 0, 25, window.width, 150, [192, 0, 0], false, false)
 			else
-				create l_description.make_centered ("HELL", 16, window, 0, 25, window.width, 150, [0, 0, 0], false)
+				create l_description.make_centered ("HELL", 16, window, 0, 25, window.width, 150, [0, 0, 0], false, false)
 			end
 
-			create version.make (window.version, 10, window, 3, 397, [64, 64, 96], false)
+			create version.make (window.version, 10, window, 3, 397, [64, 64, 96], false, false)
 			version.set_y (version.y - version.height)
 			create l_background.make ("title_background", window, 0, 0, 0)
 			database_make
@@ -73,7 +73,7 @@ feature {NONE} -- Initialization
 			until
 				l_highscores.exhausted
 			loop
-				scores.extend (create {TEXT}.make (l_highscores.item.name+" | "+l_highscores.item.score.out, 16, window, 110, 100+(25*l_highscores.index), [192, 192, 192], true))
+				scores.extend (create {TEXT}.make (l_highscores.item.name+" | "+l_highscores.item.score.out, 16, window, 110, 100+(25*l_highscores.index), [192, 192, 192], true, false))
 				l_highscores.forth
 			end
 

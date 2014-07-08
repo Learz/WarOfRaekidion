@@ -30,7 +30,7 @@ feature {NONE} -- Initialization
 		-- Initialize `Current' from `a_name', `a_window', `a_x', `a_y' and `a_title'
 		do
 			sprite_make (a_name, a_window, a_x, a_y)
-			create text.make_centered (a_title, 16, a_window, x, y, width, height, [192, 192, 255], true)
+			create text.make_centered (a_title, 16, a_window, x, y, width, height, [192, 192, 255], true, false)
 		end
 
 feature -- Access

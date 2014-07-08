@@ -47,10 +47,10 @@ feature {NONE} -- Initialization
 			l_address := a_server
 			create buttons.make
 			create waiting_text.make_from_string ("Waiting for connection")
-			l_title := create {TEXT}.make_centered (waiting_text, 16, window, 0, 0, window.width, 350, [255, 255, 255], true)
-			l_error := create {TEXT}.make_centered ("Connexion error", 16, window, 0, 0, window.width, 350, [255, 255, 255], true)
+			l_title := create {TEXT}.make_centered (waiting_text, 16, window, 0, 0, window.width, 350, [255, 255, 255], true, false)
+			l_error := create {TEXT}.make_centered ("Connexion error", 16, window, 0, 0, window.width, 350, [255, 255, 255], true, false)
 			l_error.hide
-			create version.make (window.version, 10, window, 3, 397, [64, 64, 96], false)
+			create version.make (window.version, 10, window, 3, 397, [64, 64, 96], false, false)
 			version.set_y (version.y - version.height)
 			create l_background.make ("title_background", window, 0, 0, 0)
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 200, "Cancel"))

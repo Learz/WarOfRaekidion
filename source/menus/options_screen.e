@@ -47,11 +47,11 @@ feature {NONE} -- Initialization
 			in_game := a_in_game
 			create buttons.make
 			create descriptions.make
-			l_title := create {TEXT}.make_centered ("Options", 24, window, 0, 0, window.width, 150, [255, 255, 255], true)
-			create version.make (window.version, 10, window, 3, 397, [64, 64, 96], false)
+			l_title := create {TEXT}.make_centered ("Options", 24, window, 0, 0, window.width, 150, [255, 255, 255], true, false)
+			create version.make (window.version, 10, window, 3, 397, [64, 64, 96], false, false)
 			version.set_y (version.y - version.height)
 			create l_background.make ("title_background", window, 0, 0, 0)
-			descriptions.extend (create {TEXT}.make_centered ("Key layout", 10, window, 100, 140, 100, 0, [255, 255, 255], true))
+			descriptions.extend (create {TEXT}.make_centered ("Key layout", 10, window, 100, 140, 100, 0, [255, 255, 255], true, false))
 
 			if fallback then
 				config_value := key_binding.id
@@ -65,7 +65,7 @@ feature {NONE} -- Initialization
 				buttons.extend (create {BUTTON}.make ("button", window, 100, 150, "FPS"))
 			end
 
-			descriptions.extend (create {TEXT}.make_centered ("Music", 10, window, 100, 190, 40, 0, [255, 255, 255], true))
+			descriptions.extend (create {TEXT}.make_centered ("Music", 10, window, 100, 190, 40, 0, [255, 255, 255], true, false))
 
 			if fallback then
 				config_value := audio_factory.music_volume
@@ -83,7 +83,7 @@ feature {NONE} -- Initialization
 				buttons.extend (create {BUTTON}.make ("small_button", window, 100, 200, "OFF"))
 			end
 
-			descriptions.extend (create {TEXT}.make_centered ("Sound effects", 10, window, 160, 190, 40, 0, [255, 255, 255], true))
+			descriptions.extend (create {TEXT}.make_centered ("Sound effects", 10, window, 160, 190, 40, 0, [255, 255, 255], true, false))
 
 			if fallback then
 				config_value := audio_factory.sounds_volume
@@ -101,7 +101,7 @@ feature {NONE} -- Initialization
 				buttons.extend (create {BUTTON}.make ("small_button", window, 160, 200, "OFF"))
 			end
 
-			descriptions.extend (create {TEXT}.make_centered ("Screen size", 10, window, 100, 240, 40, 0, [255, 255, 255], true))
+			descriptions.extend (create {TEXT}.make_centered ("Screen size", 10, window, 100, 240, 40, 0, [255, 255, 255], true, false))
 
 			if fallback then
 				config_value := window.scale
@@ -117,7 +117,7 @@ feature {NONE} -- Initialization
 				buttons.extend (create {BUTTON}.make ("small_button", window, 100, 250, "1x"))
 			end
 
-			descriptions.extend (create {TEXT}.make_centered ("Difficulty", 10, window, 160, 240, 40, 0, [255, 255, 255], true))
+			descriptions.extend (create {TEXT}.make_centered ("Difficulty", 10, window, 160, 240, 40, 0, [255, 255, 255], true, false))
 
 			if fallback then
 				config_value := difficulty

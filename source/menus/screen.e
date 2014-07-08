@@ -76,7 +76,7 @@ feature {NONE} -- Implementation
 		-- Manage keyboard keys using `a_key' and `a_state'
 		do
 			if a_state then
-				if a_key = key_binding.move_up_key then
+				if a_key = key_binding.move_up_key or a_key = key_binding.move_left_key then
 					if buttons.count > 1 then
 						buttons.at (button_index).reset_image
 
@@ -88,7 +88,7 @@ feature {NONE} -- Implementation
 
 						buttons.at (button_index).set_image (buttons.at (button_index).default_image + "_pressed")
 					end
-				elseif a_key = key_binding.move_down_key then
+				elseif a_key = key_binding.move_down_key or a_key = key_binding.move_right_key then
 					if buttons.count > 1 then
 						buttons.at (button_index).reset_image
 

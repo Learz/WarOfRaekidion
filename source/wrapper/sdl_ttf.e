@@ -105,6 +105,14 @@ feature -- Wrapper
 			"TTF_RenderText_Solid ((TTF_Font*)$a_font, (const char*)$a_text, *((SDL_Color*)$a_color))"
 		end
 
+	frozen ttf_show_text_smooth (a_font: POINTER; a_text: POINTER; a_color: POINTER): POINTER
+		-- Display `a_text' in blended mode with the `a_font' font and the `a_color' color.
+		external
+			"C inline use <SDL_ttf.h>"
+		alias
+			"TTF_RenderText_Blended ((TTF_Font*)$a_font, (const char*)$a_text, *((SDL_Color*)$a_color))"
+		end
+
 	invariant
 
 note

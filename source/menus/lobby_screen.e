@@ -45,8 +45,8 @@ feature {NONE} -- Initialization
 			l_event.on_mouse_pressed.extend (agent manage_click)
 			key_binding := a_key_binding
 			create buttons.make
-			l_title := create {TEXT}.make_centered ("Multiplayer", 24, window, 0, 0, window.width, 150, [255, 255, 255], true)
-			create version.make (window.version, 10, window, 3, 397, [64, 64, 96], false)
+			l_title := create {TEXT}.make_centered ("Multiplayer", 24, window, 0, 0, window.width, 150, [255, 255, 255], true, false)
+			create version.make (window.version, 10, window, 3, 397, [64, 64, 96], false, false)
 			version.set_y (version.y - version.height)
 			create l_background.make ("title_background", window, 0, 0, 0)
 			buttons.extend (create {BUTTON}.make ("button", window, 100, 150, "Join"))

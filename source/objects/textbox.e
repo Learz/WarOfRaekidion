@@ -29,7 +29,7 @@ feature {NONE} -- Initialization
 		-- Initialize `Current' from `a_name', `a_window', `a_x' and `a_y'
 		do
 			precursor {SPRITE} (a_name, a_window, a_x, a_y)
-			create text.make_empty (a_window, a_x, a_y, [0, 0, 0], false)
+			create text.make_empty (a_window, a_x, a_y, [0, 0, 0], false, false)
 			create char_string.make_empty
 		end
 

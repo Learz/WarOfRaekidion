@@ -26,7 +26,7 @@ feature {NONE} -- Initialization
 			window := a_window
 			surface := image_factory.image (a_name)
 			loading_message := "Loading ..."
-			loading_text := create {TEXT}.make_centered (loading_message, 16, window, 0, 350, window.width, 50, [0, 0, 0], false)
+			loading_text := create {TEXT}.make_centered (loading_message, 16, window, 0, 350, window.width, 50, [0, 0, 0], false, false)
 			create debug_file.make_create_read_write ("resources.log")
 			debug_file.flush
 		end
@@ -75,7 +75,7 @@ feature -- Access
 			   		{SDL}.sdl_delay ((1000 / 60).floor - l_deltatime)
 				end
 			end
-			
+
 			debug_file.close
 		end
 
