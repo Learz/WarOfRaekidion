@@ -1,12 +1,12 @@
 <HTML>
 <HEAD>
-<META NAME="generator" CONTENT="ISE EiffelStudio version 13.11.9.3542 GPL Edition - linux-x86-64">
+<META NAME="generator" CONTENT="ISE EiffelStudio version 13.11.9.3542 GPL Edition - windows">
 <META NAME="viewport" CONTENT="width=device-width">
 <META HTTP-EQUIV="content-type" CONTENT="text/html; charset=utf-8">
 <meta name="description" content="War of Raekidion - An audio factory An {AUDIO_FACTORY} loads and stores every audio file found in  the game's folders and puts them in a list."/>
-<meta name="author" content="FranÃ§ois Allard (binarmorker) and Marc-Antoine Renaud (Learz)"/>
+<meta name="author" content="François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"/>
 <meta name="keywords" content="Eiffel class"/>
-<meta name="copyright" content="TTTTWar of Raekidion TTTTCopyright (C) 2014 FranÃ§ois Allard <binarmorker@gmail.com>              TT   TT   and Marc-Antoine Renaud <legars123456@gmail.com>"/>
+<meta name="copyright" content="TTTTWar of Raekidion TTTTCopyright (C) 2014 François Allard <binarmorker@gmail.com>              TT   TT   and Marc-Antoine Renaud <legars123456@gmail.com>"/>
 <meta name="license" content="GNU General Public License, <http://www.gnu.org/licenses/>"/>
 <meta name="keywords" content="Eiffel class"/>
 <TITLE>War of Raekidion - audio_factory Text</TITLE>
@@ -48,7 +48,7 @@
 		<SPAN CLASS="estring">An </SPAN><A CLASS="eclass" HREF="../../raekidion/objects/audio_factory.html">AUDIO_FACTORY</A><SPAN CLASS="estring"> loads and stores every audio file found in </SPAN>
 		<SPAN CLASS="estring">the game's folders and puts them in a list.</SPAN>
 	<SPAN CLASS="estring">]</SPAN><SPAN CLASS="estring">&quot;</SPAN>
-	<SPAN CLASS="eitag">author</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;FranÃ§ois Allard (binarmorker) and Marc-Antoine Renaud (Learz)&quot;</SPAN>
+	<SPAN CLASS="eitag">author</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;François Allard (binarmorker) and Marc-Antoine Renaud (Learz)&quot;</SPAN>
 	<SPAN CLASS="eitag">date</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;$Date: May 23 2014$&quot;</SPAN>
 	<SPAN CLASS="eitag">revision</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;$Revision: 1$&quot;</SPAN>
 
@@ -56,15 +56,16 @@
 	<A CLASS="eclass" HREF="../../raekidion/objects/audio_factory.html">AUDIO_FACTORY</A>
 
 <SPAN CLASS="ekeyword">inherit</SPAN>
-	<A CLASS="eclass" HREF="../../elks/disposable.html">DISPOSABLE</A>
-		<SPAN CLASS="ekeyword">select</SPAN>
-			<A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_dispose">dispose</A>
+	<A CLASS="eclass" HREF="../../raekidion/data/loading.html">LOADING</A>
+		<SPAN CLASS="ekeyword">rename</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/loading.html#f_make">make</A> <SPAN CLASS="ekeyword">as</SPAN> <A CLASS="efeature" HREF="../../raekidion/data/loading.html#f_make">loading_make</A>
+		<SPAN CLASS="ekeyword">redefine</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_destroy">destroy</A>
 		<SPAN CLASS="ekeyword">end</SPAN>
 
 	<A CLASS="eclass" HREF="../../raekidion/objects/directory_list.html">DIRECTORY_LIST</A>
 		<SPAN CLASS="ekeyword">rename</SPAN>
-			<A CLASS="efeature" HREF="../../elks/directory.html#f_make">make</A> <SPAN CLASS="ekeyword">as</SPAN> <A CLASS="efeature" HREF="../../elks/directory.html#f_make">directory_make</A><SPAN CLASS="esymbol">,</SPAN>
-			<A CLASS="efeature" HREF="../../elks/directory.html#f_dispose">dispose</A> <SPAN CLASS="ekeyword">as</SPAN> <A CLASS="efeature" HREF="../../elks/directory.html#f_dispose">directory_dispose</A>
+			<A CLASS="efeature" HREF="../../elks/directory.html#f_make">make</A> <SPAN CLASS="ekeyword">as</SPAN> <A CLASS="efeature" HREF="../../elks/directory.html#f_make">directory_make</A>
 		<SPAN CLASS="ekeyword">end</SPAN>
 
 <SPAN CLASS="ekeyword">create</SPAN> 
@@ -72,8 +73,8 @@
 
 <SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="esymbol">{</SPAN>NONE<SPAN CLASS="esymbol">}</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Initialization</SPAN>
 
-	<A NAME="f_make"></A><A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_make">make</A>
-			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Initialize </SPAN>`Current'
+	<A NAME="f_make"></A><A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_make">make</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_splash_screen</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">detachable</SPAN> <A CLASS="eclass" HREF="../../raekidion/objects/splash_screen.html">SPLASH_SCREEN</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Initialize </SPAN>`Current'<SPAN CLASS="ecomment"> from </SPAN>`a_splash_screen'
 		<SPAN CLASS="ekeyword">require</SPAN>
 			<SPAN CLASS="etag">is_not_already_initialised</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="ekeyword" HREF="../../elks/boolean.html#f_negated">not</A> <A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_is_init">Is_init</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/cell.html#f_item">item</A>
 		<SPAN CLASS="ekeyword">local</SPAN>
@@ -83,10 +84,16 @@
 			<SPAN CLASS="elocal">l_filename_c</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/c_string.html">C_STRING</A>
 			<SPAN CLASS="elocal">l_filename_list</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/linked_list.html">LINKED_LIST</A> <SPAN CLASS="esymbol">[</SPAN><A CLASS="eclass" HREF="../../elks/string_8.html">STRING_8</A><SPAN CLASS="esymbol">]</SPAN>
 		<SPAN CLASS="ekeyword">do</SPAN>
-			<A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_sounds_volume">sounds_volume</A> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="enumber">128</SPAN>
-			<A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_music_volume">music_volume</A> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="enumber">128</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_sounds_volume">sounds_volume</A> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="enumber">100</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_music_volume">music_volume</A> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="enumber">100</SPAN>
 			<SPAN CLASS="elocal">l_directory</SPAN> <SPAN CLASS="esymbol">:=</SPAN> &quot;resources/sounds/&quot;
 			<A CLASS="efeature" HREF="../../elks/directory.html#f_make">directory_make</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_directory</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/loading.html#f_make">loading_make</A>
+			<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <SPAN CLASS="elocal">a_splash_screen</SPAN> <SPAN CLASS="ekeyword">as</SPAN> la_splash <SPAN CLASS="ekeyword">then</SPAN>
+				<A CLASS="efeature" HREF="../../raekidion/data/loading.html#f_on_load">on_load</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../ise/interactive_list.html#f_extend">extend</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">agent</SPAN> <SPAN CLASS="elocal">la_splash</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/objects/splash_screen.html#f_change_message">change_message</A><SPAN CLASS="esymbol">)</SPAN>
+				<A CLASS="efeature" HREF="../../raekidion/data/loading.html#f_on_load">on_load</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../ise/interactive_list.html#f_extend">extend</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">agent</SPAN> <SPAN CLASS="elocal">la_splash</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/objects/splash_screen.html#f_write_debug_file">write_debug_file</A><SPAN CLASS="esymbol">)</SPAN>
+				<A CLASS="efeature" HREF="../../raekidion/data/loading.html#f_on_debug_load">on_debug_load</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../ise/interactive_list.html#f_extend">extend</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">agent</SPAN> <SPAN CLASS="elocal">la_splash</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/objects/splash_screen.html#f_write_debug_file">write_debug_file</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ekeyword">end</SPAN>
 			<SPAN CLASS="ekeyword">create</SPAN> <A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_sounds_list">sounds_list</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list.html#f_make">make</A>
 			<SPAN CLASS="ekeyword">create</SPAN> <SPAN CLASS="elocal">l_filename_list</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list.html#f_make">make</A>
 			<SPAN CLASS="elocal">l_filename_list</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <A CLASS="efeature" HREF="../../raekidion/objects/directory_list.html#f_files_with_type">files_with_type</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;ogg&quot;<SPAN CLASS="esymbol">)</SPAN>
@@ -95,10 +102,12 @@
 			<SPAN CLASS="ekeyword">until</SPAN>
 				<SPAN CLASS="elocal">l_filename_list</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linear.html#f_exhausted">exhausted</A>
 			<SPAN CLASS="ekeyword">loop</SPAN>
+				<A CLASS="efeature" HREF="../../raekidion/data/loading.html#f_loading_begin">loading_begin</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_filename_list</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list.html#f_item">item</A><SPAN CLASS="esymbol">)</SPAN>
 				<SPAN CLASS="elocal">l_count</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_filename_list</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list.html#f_item">item</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/readable_string_8.html#f_index_of">index_of</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="echar">'.'</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">1</SPAN><SPAN CLASS="esymbol">)</SPAN>
 				<SPAN CLASS="elocal">l_name</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_filename_list</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list.html#f_item">item</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/string_8.html#f_substring">substring</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="enumber">1</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="elocal">l_count</SPAN> <A CLASS="esymbol" HREF="../../elks/integer_32.html#f_minus">-</A> <SPAN CLASS="enumber">1</SPAN><SPAN CLASS="esymbol">)</SPAN>
 				<SPAN CLASS="ekeyword">create</SPAN> <SPAN CLASS="elocal">l_filename_c</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/c_string.html#f_make">make</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_directory</SPAN> <A CLASS="esymbol" HREF="../../elks/string_8.html#f_plus">+</A> <SPAN CLASS="elocal">l_filename_list</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list.html#f_item">item</A><SPAN CLASS="esymbol">)</SPAN>
 				<A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_sounds_list">sounds_list</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list.html#f_extend">extend</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="esymbol">[</SPAN><SPAN CLASS="elocal">l_name</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../../raekidion/wrapper/sdl_mixer.html">SDL_MIXER</A><SPAN CLASS="esymbol">}</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/wrapper/sdl_mixer.html#f_mix_load_wav">mix_load_wav</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_filename_c</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/c_string.html#f_item">item</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">]</SPAN><SPAN CLASS="esymbol">)</SPAN>
+				<A CLASS="efeature" HREF="../../raekidion/data/loading.html#f_loading_done">loading_done</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_filename_list</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list.html#f_item">item</A><SPAN CLASS="esymbol">)</SPAN>
 				<SPAN CLASS="elocal">l_filename_list</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list.html#f_forth">forth</A>
 			<SPAN CLASS="ekeyword">end</SPAN>
 			<SPAN CLASS="elocal">l_directory</SPAN> <SPAN CLASS="esymbol">:=</SPAN> &quot;resources/music/&quot;
@@ -111,12 +120,15 @@
 			<SPAN CLASS="ekeyword">until</SPAN>
 				<SPAN CLASS="elocal">l_filename_list</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linear.html#f_exhausted">exhausted</A>
 			<SPAN CLASS="ekeyword">loop</SPAN>
+				<A CLASS="efeature" HREF="../../raekidion/data/loading.html#f_loading_begin">loading_begin</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_filename_list</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list.html#f_item">item</A><SPAN CLASS="esymbol">)</SPAN>
 				<SPAN CLASS="elocal">l_count</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_filename_list</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list.html#f_item">item</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/readable_string_8.html#f_index_of">index_of</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="echar">'.'</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">1</SPAN><SPAN CLASS="esymbol">)</SPAN>
 				<SPAN CLASS="elocal">l_name</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_filename_list</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list.html#f_item">item</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/string_8.html#f_substring">substring</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="enumber">1</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="elocal">l_count</SPAN> <A CLASS="esymbol" HREF="../../elks/integer_32.html#f_minus">-</A> <SPAN CLASS="enumber">1</SPAN><SPAN CLASS="esymbol">)</SPAN>
 				<SPAN CLASS="ekeyword">create</SPAN> <SPAN CLASS="elocal">l_filename_c</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/c_string.html#f_make">make</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_directory</SPAN> <A CLASS="esymbol" HREF="../../elks/string_8.html#f_plus">+</A> <SPAN CLASS="elocal">l_filename_list</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list.html#f_item">item</A><SPAN CLASS="esymbol">)</SPAN>
 				<A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_music_list">music_list</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list.html#f_extend">extend</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="esymbol">[</SPAN><SPAN CLASS="elocal">l_name</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../../raekidion/wrapper/sdl_mixer.html">SDL_MIXER</A><SPAN CLASS="esymbol">}</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/wrapper/sdl_mixer.html#f_mix_load_music">mix_load_music</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_filename_c</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/c_string.html#f_item">item</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">]</SPAN><SPAN CLASS="esymbol">)</SPAN>
+				<A CLASS="efeature" HREF="../../raekidion/data/loading.html#f_loading_done">loading_done</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_filename_list</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list.html#f_item">item</A><SPAN CLASS="esymbol">)</SPAN>
 				<SPAN CLASS="elocal">l_filename_list</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list.html#f_forth">forth</A>
 			<SPAN CLASS="ekeyword">end</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/loading.html#f_on_load">on_load</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../ise/interactive_list.html#f_wipe_out">wipe_out</A>
 			<A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_is_init">Is_init</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/cell.html#f_replace">replace</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">True</SPAN><SPAN CLASS="esymbol">)</SPAN>
 		<SPAN CLASS="ekeyword">ensure</SPAN>
 			<SPAN CLASS="etag">is_initialised</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_is_init">Is_init</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/cell.html#f_item">item</A>
@@ -125,10 +137,10 @@
 <SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Access</SPAN>
 
 	<A NAME="f_sounds_volume"></A><A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_sounds_volume">sounds_volume</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/integer_32.html">INTEGER_32</A>
-			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Sounds (all channels) volume, ranging from 0 to 128</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Sounds (all channels) volume, ranging from 0 to 100</SPAN>
 
 	<A NAME="f_music_volume"></A><A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_music_volume">music_volume</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/integer_32.html">INTEGER_32</A>
-			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Music volume, ranging from 0 to 128</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Music volume, ranging from 0 to 100</SPAN>
 
 	<A NAME="f_sound"></A><A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_sound">sound</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_name</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/string_8.html">STRING_8</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/pointer.html">POINTER</A>
 			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Find a loaded sound file from </SPAN>`a_name'
@@ -160,16 +172,17 @@
 			<SPAN CLASS="ekeyword">end</SPAN>
 		<SPAN CLASS="ekeyword">end</SPAN>
 
-	<A NAME="f_dispose"></A><A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_dispose">dispose</A>
+	<A NAME="f_destroy"></A><A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_destroy">destroy</A>
 			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Free every sound and music from memory</SPAN>
 		<SPAN CLASS="ekeyword">do</SPAN>
+			<A CLASS="ekeyword" HREF="../../raekidion/data/loading.html#f_destroy">Precursor</A> <SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../../raekidion/data/loading.html">LOADING</A><SPAN CLASS="esymbol">}</SPAN>
 			<SPAN CLASS="ekeyword">from</SPAN>
 				<A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_sounds_list">sounds_list</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list.html#f_start">start</A>
 			<SPAN CLASS="ekeyword">until</SPAN>
 				<A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_sounds_list">sounds_list</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linear.html#f_exhausted">exhausted</A>
 			<SPAN CLASS="ekeyword">loop</SPAN>
 				<SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../../raekidion/wrapper/sdl_mixer.html">SDL_MIXER</A><SPAN CLASS="esymbol">}</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/wrapper/sdl_mixer.html#f_mix_freechunk">mix_freechunk</A> <SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_sounds_list">sounds_list</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list.html#f_item">item</A><SPAN CLASS="edot">.</SPAN><SPAN CLASS="elocal">object</SPAN><SPAN CLASS="esymbol">)</SPAN>
-				<A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_sounds_list">sounds_list</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list.html#f_forth">forth</A>
+				<A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_sounds_list">sounds_list</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list.html#f_remove">remove</A>
 			<SPAN CLASS="ekeyword">end</SPAN>
 			<SPAN CLASS="ekeyword">from</SPAN>
 				<A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_music_list">music_list</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list.html#f_start">start</A>
@@ -177,7 +190,7 @@
 				<A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_music_list">music_list</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linear.html#f_exhausted">exhausted</A>
 			<SPAN CLASS="ekeyword">loop</SPAN>
 				<SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../../raekidion/wrapper/sdl_mixer.html">SDL_MIXER</A><SPAN CLASS="esymbol">}</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/wrapper/sdl_mixer.html#f_mix_freemusic">mix_freemusic</A> <SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_music_list">music_list</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list.html#f_item">item</A><SPAN CLASS="edot">.</SPAN><SPAN CLASS="elocal">object</SPAN><SPAN CLASS="esymbol">)</SPAN>
-				<A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_music_list">music_list</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list.html#f_forth">forth</A>
+				<A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_music_list">music_list</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list.html#f_remove">remove</A>
 			<SPAN CLASS="ekeyword">end</SPAN>
 		<SPAN CLASS="ekeyword">end</SPAN>
 	
@@ -186,10 +199,10 @@
 	<A NAME="f_set_music_volume"></A><A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_set_music_volume">set_music_volume</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_volume</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/integer_32.html">INTEGER_32</A><SPAN CLASS="esymbol">)</SPAN>
 			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Change the music channel's volume to </SPAN>`a_volume'
 		<SPAN CLASS="ekeyword">require</SPAN>
-			<SPAN CLASS="etag">valid_volume</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">a_volume</SPAN> <A CLASS="esymbol" HREF="../../elks/comparable.html#f_is_greater_equal">&gt;=</A> <SPAN CLASS="enumber">0</SPAN> <A CLASS="ekeyword" HREF="../../elks/boolean.html#f_conjuncted">and</A> <SPAN CLASS="elocal">a_volume</SPAN> <A CLASS="esymbol" HREF="../../elks/comparable.html#f_is_less_equal">&lt;=</A> <SPAN CLASS="enumber">128</SPAN>
+			<SPAN CLASS="etag">valid_volume</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">a_volume</SPAN> <A CLASS="esymbol" HREF="../../elks/comparable.html#f_is_greater_equal">&gt;=</A> <SPAN CLASS="enumber">0</SPAN> <A CLASS="ekeyword" HREF="../../elks/boolean.html#f_conjuncted">and</A> <SPAN CLASS="elocal">a_volume</SPAN> <A CLASS="esymbol" HREF="../../elks/comparable.html#f_is_less_equal">&lt;=</A> <SPAN CLASS="enumber">100</SPAN>
 		<SPAN CLASS="ekeyword">do</SPAN>
 			<A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_music_volume">music_volume</A> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">a_volume</SPAN>
-			<SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../../raekidion/wrapper/sdl_mixer.html">SDL_MIXER</A><SPAN CLASS="esymbol">}</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/wrapper/sdl_mixer.html#f_mix_volumemusic">mix_volumemusic</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_volume</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../../raekidion/wrapper/sdl_mixer.html">SDL_MIXER</A><SPAN CLASS="esymbol">}</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/wrapper/sdl_mixer.html#f_mix_volumemusic">mix_volumemusic</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_music_volume">music_volume</A> <A CLASS="esymbol" HREF="../../elks/integer_32.html#f_power">^</A> <SPAN CLASS="enumber">2</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/integer_32.html#f_to_double">to_double</A><SPAN CLASS="esymbol">)</SPAN> <A CLASS="esymbol" HREF="../../elks/real_64.html#f_product">*</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="enumber">10</SPAN> <A CLASS="esymbol" HREF="../../elks/integer_32.html#f_power">^</A> <SPAN CLASS="enumber">-2</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/integer_32.html#f_to_double">to_double</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">)</SPAN> <A CLASS="esymbol" HREF="../../elks/real_64.html#f_product">*</A> <SPAN CLASS="enumber">1.28</SPAN><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/real_64_ref.html#f_floor">floor</A><SPAN CLASS="esymbol">)</SPAN>
 		<SPAN CLASS="ekeyword">ensure</SPAN>
 			<SPAN CLASS="etag">volume_set</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_music_volume">music_volume</A> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="elocal">a_volume</SPAN>
 		<SPAN CLASS="ekeyword">end</SPAN>
@@ -198,11 +211,11 @@
 			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Change all sounds channels' volume to </SPAN>`a_volume'
 		<SPAN CLASS="ekeyword">require</SPAN>
 			<SPAN CLASS="etag">valid_channels</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../../raekidion/wrapper/sdl_mixer.html">SDL_MIXER</A><SPAN CLASS="esymbol">}</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/wrapper/sdl_mixer.html#f_mix_allocatechannels">mix_allocatechannels</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="enumber">16</SPAN><SPAN CLASS="esymbol">)</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="enumber">0</SPAN>
-			<SPAN CLASS="etag">valid_volume</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">a_volume</SPAN> <A CLASS="esymbol" HREF="../../elks/comparable.html#f_is_greater_equal">&gt;=</A> <SPAN CLASS="enumber">0</SPAN> <A CLASS="ekeyword" HREF="../../elks/boolean.html#f_conjuncted">and</A> <SPAN CLASS="elocal">a_volume</SPAN> <A CLASS="esymbol" HREF="../../elks/comparable.html#f_is_less_equal">&lt;=</A> <SPAN CLASS="enumber">128</SPAN>
+			<SPAN CLASS="etag">valid_volume</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">a_volume</SPAN> <A CLASS="esymbol" HREF="../../elks/comparable.html#f_is_greater_equal">&gt;=</A> <SPAN CLASS="enumber">0</SPAN> <A CLASS="ekeyword" HREF="../../elks/boolean.html#f_conjuncted">and</A> <SPAN CLASS="elocal">a_volume</SPAN> <A CLASS="esymbol" HREF="../../elks/comparable.html#f_is_less_equal">&lt;=</A> <SPAN CLASS="enumber">100</SPAN>
 		<SPAN CLASS="ekeyword">do</SPAN>
 			<A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_sounds_volume">sounds_volume</A> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">a_volume</SPAN>
 			<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../../raekidion/wrapper/sdl_mixer.html">SDL_MIXER</A><SPAN CLASS="esymbol">}</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/wrapper/sdl_mixer.html#f_mix_allocatechannels">mix_allocatechannels</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="enumber">16</SPAN><SPAN CLASS="esymbol">)</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="enumber">0</SPAN> <SPAN CLASS="ekeyword">then</SPAN>
-				<SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../../raekidion/wrapper/sdl_mixer.html">SDL_MIXER</A><SPAN CLASS="esymbol">}</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/wrapper/sdl_mixer.html#f_mix_volume">mix_volume</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="enumber">-1</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="elocal">a_volume</SPAN><SPAN CLASS="esymbol">)</SPAN>
+				<SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../../raekidion/wrapper/sdl_mixer.html">SDL_MIXER</A><SPAN CLASS="esymbol">}</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/wrapper/sdl_mixer.html#f_mix_volume">mix_volume</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="enumber">-1</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_sounds_volume">sounds_volume</A> <A CLASS="esymbol" HREF="../../elks/integer_32.html#f_power">^</A> <SPAN CLASS="enumber">2</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/integer_32.html#f_to_double">to_double</A><SPAN CLASS="esymbol">)</SPAN> <A CLASS="esymbol" HREF="../../elks/real_64.html#f_product">*</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="enumber">10</SPAN> <A CLASS="esymbol" HREF="../../elks/integer_32.html#f_power">^</A> <SPAN CLASS="enumber">-2</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/integer_32.html#f_to_double">to_double</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">)</SPAN> <A CLASS="esymbol" HREF="../../elks/real_64.html#f_product">*</A> <SPAN CLASS="enumber">1.28</SPAN><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/real_64_ref.html#f_floor">floor</A><SPAN CLASS="esymbol">)</SPAN>
 			<SPAN CLASS="ekeyword">end</SPAN>
 		<SPAN CLASS="ekeyword">ensure</SPAN>
 			<SPAN CLASS="etag">volume_set</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_sounds_volume">sounds_volume</A> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="elocal">a_volume</SPAN>
@@ -223,13 +236,13 @@
 		<SPAN CLASS="ekeyword">end</SPAN>
 	
 <SPAN CLASS="ekeyword">invariant</SPAN>
-	<SPAN CLASS="etag">valid_music_volume</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_music_volume">music_volume</A> <A CLASS="esymbol" HREF="../../elks/comparable.html#f_is_greater_equal">&gt;=</A> <SPAN CLASS="enumber">0</SPAN> <A CLASS="ekeyword" HREF="../../elks/boolean.html#f_conjuncted">and</A> <A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_music_volume">music_volume</A> <A CLASS="esymbol" HREF="../../elks/comparable.html#f_is_less_equal">&lt;=</A> <SPAN CLASS="enumber">128</SPAN>
-	<SPAN CLASS="etag">valid_sounds_volume</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_sounds_volume">sounds_volume</A> <A CLASS="esymbol" HREF="../../elks/comparable.html#f_is_greater_equal">&gt;=</A> <SPAN CLASS="enumber">0</SPAN> <A CLASS="ekeyword" HREF="../../elks/boolean.html#f_conjuncted">and</A> <A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_sounds_volume">sounds_volume</A> <A CLASS="esymbol" HREF="../../elks/comparable.html#f_is_less_equal">&lt;=</A> <SPAN CLASS="enumber">128</SPAN>
+	<SPAN CLASS="etag">valid_music_volume</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_music_volume">music_volume</A> <A CLASS="esymbol" HREF="../../elks/comparable.html#f_is_greater_equal">&gt;=</A> <SPAN CLASS="enumber">0</SPAN> <A CLASS="ekeyword" HREF="../../elks/boolean.html#f_conjuncted">and</A> <A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_music_volume">music_volume</A> <A CLASS="esymbol" HREF="../../elks/comparable.html#f_is_less_equal">&lt;=</A> <SPAN CLASS="enumber">100</SPAN>
+	<SPAN CLASS="etag">valid_sounds_volume</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_sounds_volume">sounds_volume</A> <A CLASS="esymbol" HREF="../../elks/comparable.html#f_is_greater_equal">&gt;=</A> <SPAN CLASS="enumber">0</SPAN> <A CLASS="ekeyword" HREF="../../elks/boolean.html#f_conjuncted">and</A> <A CLASS="efeature" HREF="../../raekidion/objects/audio_factory.html#f_sounds_volume">sounds_volume</A> <A CLASS="esymbol" HREF="../../elks/comparable.html#f_is_less_equal">&lt;=</A> <SPAN CLASS="enumber">100</SPAN>
 
 <SPAN CLASS="ekeyword">note</SPAN>
 	<SPAN CLASS="eitag">copyright</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;</SPAN><SPAN CLASS="estring">[</SPAN>
 		<SPAN CLASS="estring">				War of Raekidion</SPAN>
-		<SPAN CLASS="estring">				Copyright (C) 2014 FranÃ§ois Allard &lt;</SPAN><A CLASS="estring" HREF="mailto:binarmorker@gmail.com>">binarmorker@gmail.com&gt;</A>
+		<SPAN CLASS="estring">				Copyright (C) 2014 François Allard &lt;</SPAN><A CLASS="estring" HREF="mailto:binarmorker@gmail.com>">binarmorker@gmail.com&gt;</A>
 		<SPAN CLASS="estring"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		 &nbsp;&nbsp;		 &nbsp;&nbsp;and Marc-Antoine Renaud &lt;</SPAN><A CLASS="estring" HREF="mailto:legars123456@gmail.com>">legars123456@gmail.com&gt;</A>
 	<SPAN CLASS="estring">]</SPAN><SPAN CLASS="estring">&quot;</SPAN>
 	<SPAN CLASS="eitag">license</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;GNU General Public License, &lt;</SPAN><A CLASS="estring" HREF="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</A><SPAN CLASS="estring">&gt;&quot;</SPAN>

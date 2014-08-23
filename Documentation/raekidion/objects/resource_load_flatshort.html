@@ -1,12 +1,12 @@
 <HTML>
 <HEAD>
-<META NAME="generator" CONTENT="ISE EiffelStudio version 13.11.9.3542 GPL Edition - linux-x86-64">
+<META NAME="generator" CONTENT="ISE EiffelStudio version 13.11.9.3542 GPL Edition - windows">
 <META NAME="viewport" CONTENT="width=device-width">
 <META HTTP-EQUIV="content-type" CONTENT="text/html; charset=utf-8">
 <meta name="description" content="War of Raekidion - Asynchronous resource loading A {RESOURCE_LOAD} thread will ensure every memory expensive  resource loading is made before the game starts."/>
-<meta name="author" content="FranÃ§ois Allard (binarmorker) and Marc-Antoine Renaud (Learz)"/>
+<meta name="author" content="François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"/>
 <meta name="keywords" content="Eiffel class"/>
-<meta name="copyright" content="TTTTWar of Raekidion TTTTCopyright (C) 2014 FranÃ§ois Allard <binarmorker@gmail.com>              TT   TT   and Marc-Antoine Renaud <legars123456@gmail.com>"/>
+<meta name="copyright" content="TTTTWar of Raekidion TTTTCopyright (C) 2014 François Allard <binarmorker@gmail.com>              TT   TT   and Marc-Antoine Renaud <legars123456@gmail.com>"/>
 <meta name="license" content="GNU General Public License, <http://www.gnu.org/licenses/>"/>
 <meta name="keywords" content="Eiffel class"/>
 <TITLE>War of Raekidion - resource_load Flat contracts</TITLE>
@@ -48,7 +48,7 @@
 		<SPAN CLASS="estring">A </SPAN><A CLASS="eclass" HREF="../../raekidion/objects/resource_load_flatshort.html">RESOURCE_LOAD</A><SPAN CLASS="estring"> thread will ensure every memory expensive </SPAN>
 		<SPAN CLASS="estring">resource loading is made before the game starts.</SPAN>
 	<SPAN CLASS="estring">]</SPAN><SPAN CLASS="estring">&quot;</SPAN>
-	<SPAN CLASS="eitag">author</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;FranÃ§ois Allard (binarmorker) and Marc-Antoine Renaud (Learz)&quot;</SPAN>
+	<SPAN CLASS="eitag">author</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;François Allard (binarmorker) and Marc-Antoine Renaud (Learz)&quot;</SPAN>
 	<SPAN CLASS="eitag">date</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;$Date: May 23 2014$&quot;</SPAN>
 	<SPAN CLASS="eitag">revision</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;$Revision: 1$&quot;</SPAN>
 
@@ -56,14 +56,17 @@
 	<A CLASS="eclass" HREF="../../raekidion/objects/resource_load_flatshort.html">RESOURCE_LOAD</A>
 
 <SPAN CLASS="ekeyword">create</SPAN> 
-	<A NAME="f_make"></A><A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flatshort.html#f_make">make</A>
-			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Initialize </SPAN>`Current'
+	<A NAME="f_make"></A><A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flatshort.html#f_make">make</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_splash</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../raekidion/objects/splash_screen_flatshort.html">SPLASH_SCREEN</A><SPAN CLASS="esymbol">;</SPAN> <SPAN CLASS="elocal">a_config</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../raekidion/data/configuration_flatshort.html">CONFIGURATION</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Initialize </SPAN>`Current'<SPAN CLASS="ecomment"> from </SPAN>`a_splash'
 
 <SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Access</SPAN>
 
 	<A NAME="f_current_thread_id"></A><A CLASS="efeature" HREF="../../thread/thread_environment_flatshort.html#f_current_thread_id">current_thread_id</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/pointer_flatshort.html">POINTER</A>
 			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Thread identifier of the Current thread</SPAN>
 			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../../thread/thread_environment_flatshort.html">THREAD_ENVIRONMENT</A><SPAN CLASS="ecomment">)</SPAN>
+
+	<A NAME="f_destroy"></A><A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flatshort.html#f_destroy">destroy</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Removes all resources from memory</SPAN>
 
 	<A NAME="f_generating_type"></A><A CLASS="efeature" HREF="../../elks/any_flatshort.html#f_generating_type">generating_type</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/type_flatshort.html">TYPE</A> <SPAN CLASS="esymbol">[</SPAN><SPAN CLASS="ekeyword">detachable</SPAN> <A CLASS="eclass" HREF="../../raekidion/objects/resource_load_flatshort.html">RESOURCE_LOAD</A><SPAN CLASS="esymbol">]</SPAN>
 			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Type of current object</SPAN>
@@ -80,8 +83,9 @@
 			<SPAN CLASS="etag">generator_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
 			<SPAN CLASS="etag">generator_not_empty</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="ekeyword" HREF="../../elks/boolean_flatshort.html#f_negated">not</A> <SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/finite_flatshort.html#f_is_empty">is_empty</A>
 
-	<A NAME="f_must_quit"></A><A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flatshort.html#f_must_quit">must_quit</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/boolean_flatshort.html">BOOLEAN</A>
-			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> True if the thread has loaded all resources</SPAN>
+	<A NAME="f_highscores"></A><A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flatshort.html#f_highscores">highscores</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_number</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="elocal">a_difficulty</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/integer_32_flatshort.html">INTEGER_32</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/linked_list_flatshort.html">LINKED_LIST</A> <SPAN CLASS="esymbol">[</SPAN><A CLASS="eclass" HREF="../../elks/tuple_flatshort.html">TUPLE</A> <SPAN CLASS="esymbol">[</SPAN><A CLASS="eclass" HREF="../../elks/string_8_flatshort.html">STRING_8</A><SPAN CLASS="esymbol">,</SPAN> <A CLASS="eclass" HREF="../../elks/integer_32_flatshort.html">INTEGER_32</A><SPAN CLASS="esymbol">,</SPAN> <A CLASS="eclass" HREF="../../elks/integer_32_flatshort.html">INTEGER_32</A><SPAN CLASS="esymbol">]</SPAN><SPAN CLASS="esymbol">]</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Return the best </SPAN>`a_number'<SPAN CLASS="ecomment"> scores for </SPAN>`a_difficulty'<SPAN CLASS="ecomment"> from </SPAN><A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flatshort.html#f_database">database</A>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../../raekidion/data/database_manager_shared_flatshort.html">DATABASE_MANAGER_SHARED</A><SPAN CLASS="ecomment">)</SPAN>
 
 	<A NAME="f_terminated"></A><A CLASS="efeature" HREF="../../thread/thread_flatshort.html#f_terminated">terminated</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/boolean_flatshort.html">BOOLEAN</A>
 			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> True if the thread has terminated.</SPAN>
@@ -177,6 +181,16 @@
 			<SPAN CLASS="etag">other_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">other</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
 		<SPAN CLASS="ekeyword">ensure</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../../elks/any_flatshort.html">ANY</A>
 			<SPAN CLASS="etag">definition</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../../elks/any_flatshort.html#f_conforms_to">conforms_to</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">)</SPAN> <A CLASS="ekeyword" HREF="../../elks/boolean_flatshort.html#f_conjuncted">and</A> <SPAN CLASS="elocal">other</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/any_flatshort.html#f_conforms_to">conforms_to</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">Current</SPAN><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">)</SPAN>
+	
+<SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Element change</SPAN>
+
+	<A NAME="f_fill_default_highscores"></A><A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flatshort.html#f_fill_default_highscores">fill_default_highscores</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Add default scores to </SPAN><A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flatshort.html#f_database">database</A>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../../raekidion/data/database_manager_shared_flatshort.html">DATABASE_MANAGER_SHARED</A><SPAN CLASS="ecomment">)</SPAN>
+
+	<A NAME="f_set_highscore"></A><A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flatshort.html#f_set_highscore">set_highscore</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_name</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/string_8_flatshort.html">STRING_8</A><SPAN CLASS="esymbol">;</SPAN> <SPAN CLASS="elocal">a_difficulty</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="elocal">a_score</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/integer_32_flatshort.html">INTEGER_32</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Add a score to </SPAN><A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flatshort.html#f_database">database</A><SPAN CLASS="ecomment"> in the form of </SPAN>`a_name'<SPAN CLASS="ecomment"> and </SPAN>`a_score'
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../../raekidion/data/database_manager_shared_flatshort.html">DATABASE_MANAGER_SHARED</A><SPAN CLASS="ecomment">)</SPAN>
 	
 <SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Duplication</SPAN>
 
@@ -325,6 +339,14 @@
 		<SPAN CLASS="ekeyword">ensure</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../../elks/any_flatshort.html">ANY</A>
 			<SPAN CLASS="etag">operating_environment_not_void</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">/=</SPAN> <SPAN CLASS="ekeyword">Void</SPAN>
 	
+<SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Status</SPAN>
+
+	<A NAME="f_cheat_mode"></A><A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flatshort.html#f_cheat_mode">cheat_mode</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/boolean_flatshort.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> True if mods have been added or base files have been modified</SPAN>
+
+	<A NAME="f_must_quit"></A><A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flatshort.html#f_must_quit">must_quit</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/boolean_flatshort.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> True if the thread has loaded all resources</SPAN>
+	
 <SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Synchronization</SPAN>
 
 	<A NAME="f_join"></A><A CLASS="efeature" HREF="../../thread/thread_flatshort.html#f_join">join</A>
@@ -354,7 +376,7 @@
 <SPAN CLASS="ekeyword">note</SPAN>
 	<SPAN CLASS="eitag">copyright</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;</SPAN><SPAN CLASS="estring">[</SPAN>
 		<SPAN CLASS="estring">				War of Raekidion</SPAN>
-		<SPAN CLASS="estring">				Copyright (C) 2014 FranÃ§ois Allard &lt;</SPAN><A CLASS="estring" HREF="mailto:binarmorker@gmail.com>">binarmorker@gmail.com&gt;</A>
+		<SPAN CLASS="estring">				Copyright (C) 2014 François Allard &lt;</SPAN><A CLASS="estring" HREF="mailto:binarmorker@gmail.com>">binarmorker@gmail.com&gt;</A>
 		<SPAN CLASS="estring"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		 &nbsp;&nbsp;		 &nbsp;&nbsp;and Marc-Antoine Renaud &lt;</SPAN><A CLASS="estring" HREF="mailto:legars123456@gmail.com>">legars123456@gmail.com&gt;</A>
 	<SPAN CLASS="estring">]</SPAN><SPAN CLASS="estring">&quot;</SPAN>
 	<SPAN CLASS="eitag">license</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;GNU General Public License, &lt;</SPAN><A CLASS="estring" HREF="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</A><SPAN CLASS="estring">&gt;&quot;</SPAN>

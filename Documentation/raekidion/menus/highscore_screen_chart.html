@@ -1,12 +1,12 @@
 <HTML>
 <HEAD>
-<META NAME="generator" CONTENT="ISE EiffelStudio version 13.11.9.3542 GPL Edition - linux-x86-64">
+<META NAME="generator" CONTENT="ISE EiffelStudio version 13.11.9.3542 GPL Edition - windows">
 <META NAME="viewport" CONTENT="width=device-width">
 <META HTTP-EQUIV="content-type" CONTENT="text/html; charset=utf-8">
 <meta name="description" content="War of Raekidion - The options screen The {HIGHSCORE_SCREEN} allows to see the most recent  and best scores made by you and other players."/>
-<meta name="author" content="FranÃ§ois Allard (binarmorker) and Marc-Antoine Renaud (Learz)"/>
+<meta name="author" content="François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"/>
 <meta name="keywords" content="Eiffel class"/>
-<meta name="copyright" content="TTTTWar of Raekidion TTTTCopyright (C) 2014 FranÃ§ois Allard <binarmorker@gmail.com>              TT   TT   and Marc-Antoine Renaud <legars123456@gmail.com>"/>
+<meta name="copyright" content="TTTTWar of Raekidion TTTTCopyright (C) 2014 François Allard <binarmorker@gmail.com>              TT   TT   and Marc-Antoine Renaud <legars123456@gmail.com>"/>
 <meta name="license" content="GNU General Public License, <http://www.gnu.org/licenses/>"/>
 <meta name="keywords" content="Eiffel class"/>
 <TITLE>War of Raekidion - highscore_screen Chart</TITLE>
@@ -54,6 +54,7 @@
 	<SPAN CLASS="eitag">create</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../../raekidion/menus/highscore_screen.html#f_make">make</A>
 
 <SPAN CLASS="ekeyword">Ancestors</SPAN>
+	<A CLASS="eclass" HREF="../../raekidion/data/database_manager_shared_chart.html">DATABASE_MANAGER_SHARED</A>
 	<A CLASS="eclass" HREF="../../raekidion/menus/screen_chart.html">SCREEN</A><SPAN CLASS="echar">*</SPAN>
 
 <SPAN CLASS="ekeyword">Queries</SPAN>
@@ -68,6 +69,7 @@
 	<SPAN TITLE="`full_collector' was declared in MEM_CONST"><A CLASS="efeature" HREF="../../elks/mem_const.html#f_full_collector">Full_collector</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/integer_32_chart.html">INTEGER_32</A></SPAN>
 	<SPAN TITLE="`gc_statistics' was declared in MEMORY"><A CLASS="efeature" HREF="../../elks/memory.html#f_gc_statistics">gc_statistics</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">collector_type</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/integer_32_chart.html">INTEGER_32</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/gc_info_chart.html">GC_INFO</A></SPAN>
 	<SPAN TITLE="`generation_object_limit' was declared in MEMORY"><A CLASS="efeature" HREF="../../elks/memory.html#f_generation_object_limit">generation_object_limit</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/integer_32_chart.html">INTEGER_32</A></SPAN>
+	<SPAN TITLE="`highscores' was declared in DATABASE_MANAGER_SHARED"><A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared.html#f_highscores">highscores</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_number</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="elocal">a_difficulty</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/integer_32_chart.html">INTEGER_32</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/linked_list_chart.html">LINKED_LIST</A> <SPAN CLASS="esymbol">[</SPAN><A CLASS="eclass" HREF="../../elks/tuple_chart.html">TUPLE</A> <SPAN CLASS="esymbol">[</SPAN><A CLASS="eclass" HREF="../../elks/string_8_chart.html">STRING_8</A><SPAN CLASS="esymbol">,</SPAN> <A CLASS="eclass" HREF="../../elks/integer_32_chart.html">INTEGER_32</A><SPAN CLASS="esymbol">,</SPAN> <A CLASS="eclass" HREF="../../elks/integer_32_chart.html">INTEGER_32</A><SPAN CLASS="esymbol">]</SPAN><SPAN CLASS="esymbol">]</SPAN></SPAN>
 	<SPAN TITLE="`incremental_collector' was declared in MEM_CONST"><A CLASS="efeature" HREF="../../elks/mem_const.html#f_incremental_collector">Incremental_collector</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/integer_32_chart.html">INTEGER_32</A></SPAN>
 	<SPAN TITLE="`is_return_key_pressed' was declared in SCREEN"><A CLASS="efeature" HREF="../../raekidion/menus/screen.html#f_is_return_key_pressed">is_return_key_pressed</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/boolean_chart.html">BOOLEAN</A></SPAN>
 	<SPAN TITLE="`key_binding' was declared in SCREEN"><A CLASS="efeature" HREF="../../raekidion/menus/screen.html#f_key_binding">key_binding</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../raekidion/keys/keys_chart.html">KEYS</A></SPAN>
@@ -99,11 +101,13 @@
 	<SPAN TITLE="`dispose' was declared in MEMORY"><A CLASS="efeature" HREF="../../elks/memory.html#f_dispose">dispose</A></SPAN>
 	<SPAN TITLE="`enable_time_accounting' was declared in MEMORY"><A CLASS="efeature" HREF="../../elks/memory.html#f_enable_time_accounting">enable_time_accounting</A></SPAN>
 	<SPAN TITLE="`execute_without_collection' was declared in MEMORY"><A CLASS="efeature" HREF="../../elks/memory.html#f_execute_without_collection">execute_without_collection</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_action</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/procedure_chart.html">PROCEDURE</A> <SPAN CLASS="esymbol">[</SPAN><A CLASS="eclass" HREF="../../elks/any_chart.html">ANY</A><SPAN CLASS="esymbol">,</SPAN> <A CLASS="eclass" HREF="../../elks/tuple_chart.html">TUPLE</A><SPAN CLASS="esymbol">]</SPAN><SPAN CLASS="esymbol">)</SPAN></SPAN>
+	<SPAN TITLE="`fill_default_highscores' was declared in DATABASE_MANAGER_SHARED"><A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared.html#f_fill_default_highscores">fill_default_highscores</A></SPAN>
 	<SPAN TITLE="`free' was declared in MEMORY"><A CLASS="efeature" HREF="../../elks/memory.html#f_free">free</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">object</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/any_chart.html">ANY</A><SPAN CLASS="esymbol">)</SPAN></SPAN>
 	<SPAN TITLE="`full_coalesce' was declared in MEMORY"><A CLASS="efeature" HREF="../../elks/memory.html#f_full_coalesce">full_coalesce</A></SPAN>
 	<SPAN TITLE="`full_collect' was declared in MEMORY"><A CLASS="efeature" HREF="../../elks/memory.html#f_full_collect">full_collect</A></SPAN>
 	<SPAN TITLE="`set_coalesce_period' was declared in MEMORY"><A CLASS="efeature" HREF="../../elks/memory.html#f_set_coalesce_period">set_coalesce_period</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">value</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/integer_32_chart.html">INTEGER_32</A><SPAN CLASS="esymbol">)</SPAN></SPAN>
 	<SPAN TITLE="`set_collection_period' was declared in MEMORY"><A CLASS="efeature" HREF="../../elks/memory.html#f_set_collection_period">set_collection_period</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">value</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/integer_32_chart.html">INTEGER_32</A><SPAN CLASS="esymbol">)</SPAN></SPAN>
+	<SPAN TITLE="`set_highscore' was declared in DATABASE_MANAGER_SHARED"><A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared.html#f_set_highscore">set_highscore</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_name</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/string_8_chart.html">STRING_8</A><SPAN CLASS="esymbol">;</SPAN> <SPAN CLASS="elocal">a_difficulty</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="elocal">a_score</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/integer_32_chart.html">INTEGER_32</A><SPAN CLASS="esymbol">)</SPAN></SPAN>
 	<SPAN TITLE="`set_max_mem' was declared in MEMORY"><A CLASS="efeature" HREF="../../elks/memory.html#f_set_max_mem">set_max_mem</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">value</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/integer_32_chart.html">INTEGER_32</A><SPAN CLASS="esymbol">)</SPAN></SPAN>
 	<SPAN TITLE="`set_memory_threshold' was declared in MEMORY"><A CLASS="efeature" HREF="../../elks/memory.html#f_set_memory_threshold">set_memory_threshold</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">value</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/integer_32_chart.html">INTEGER_32</A><SPAN CLASS="esymbol">)</SPAN></SPAN>
 	<SPAN TITLE="`update' was declared in SCREEN"><A CLASS="efeature" HREF="../../raekidion/menus/screen.html#f_update">update</A></SPAN>

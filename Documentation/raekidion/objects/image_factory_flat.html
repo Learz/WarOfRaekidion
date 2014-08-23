@@ -1,12 +1,12 @@
 <HTML>
 <HEAD>
-<META NAME="generator" CONTENT="ISE EiffelStudio version 13.11.9.3542 GPL Edition - linux-x86-64">
+<META NAME="generator" CONTENT="ISE EiffelStudio version 13.11.9.3542 GPL Edition - windows">
 <META NAME="viewport" CONTENT="width=device-width">
 <META HTTP-EQUIV="content-type" CONTENT="text/html; charset=utf-8">
 <meta name="description" content="War of Raekidion - An image factory An {IMAGE_FACTORY} loads and stores every image file found in  the game's folders and puts them in a list."/>
-<meta name="author" content="FranÃ§ois Allard (binarmorker) and Marc-Antoine Renaud (Learz)"/>
+<meta name="author" content="François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"/>
 <meta name="keywords" content="Eiffel class"/>
-<meta name="copyright" content="TTTTWar of Raekidion TTTTCopyright (C) 2014 FranÃ§ois Allard <binarmorker@gmail.com>              TT   TT   and Marc-Antoine Renaud <legars123456@gmail.com>"/>
+<meta name="copyright" content="TTTTWar of Raekidion TTTTCopyright (C) 2014 François Allard <binarmorker@gmail.com>              TT   TT   and Marc-Antoine Renaud <legars123456@gmail.com>"/>
 <meta name="license" content="GNU General Public License, <http://www.gnu.org/licenses/>"/>
 <meta name="keywords" content="Eiffel class"/>
 <TITLE>War of Raekidion - image_factory Flat</TITLE>
@@ -48,7 +48,7 @@
 		<SPAN CLASS="estring">An </SPAN><A CLASS="eclass" HREF="../../raekidion/objects/image_factory_flat.html">IMAGE_FACTORY</A><SPAN CLASS="estring"> loads and stores every image file found in </SPAN>
 		<SPAN CLASS="estring">the game's folders and puts them in a list.</SPAN>
 	<SPAN CLASS="estring">]</SPAN><SPAN CLASS="estring">&quot;</SPAN>
-	<SPAN CLASS="eitag">author</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;FranÃ§ois Allard (binarmorker) and Marc-Antoine Renaud (Learz)&quot;</SPAN>
+	<SPAN CLASS="eitag">author</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;François Allard (binarmorker) and Marc-Antoine Renaud (Learz)&quot;</SPAN>
 	<SPAN CLASS="eitag">date</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;$Date: May 23 2014$&quot;</SPAN>
 	<SPAN CLASS="eitag">revision</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;$Revision: 1$&quot;</SPAN>
 
@@ -67,8 +67,8 @@
 		<SPAN CLASS="ekeyword">do</SPAN>
 		<SPAN CLASS="ekeyword">end</SPAN>
 
-	<A NAME="f_make"></A><A CLASS="efeature" HREF="../../raekidion/objects/image_factory_flat.html#f_make">make</A>
-			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Initialize </SPAN>`Current'
+	<A NAME="f_make"></A><A CLASS="efeature" HREF="../../raekidion/objects/image_factory_flat.html#f_make">make</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_splash_screen</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">detachable</SPAN> <A CLASS="eclass" HREF="../../raekidion/objects/splash_screen_flat.html">SPLASH_SCREEN</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Initialize </SPAN>`Current'<SPAN CLASS="ecomment"> from </SPAN>`a_splash_screen'
 		<SPAN CLASS="ekeyword">require</SPAN>
 			<SPAN CLASS="etag">is_not_already_initialised</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="ekeyword" HREF="../../elks/boolean_flat.html#f_negated">not</A> <A CLASS="efeature" HREF="../../raekidion/objects/image_factory_flat.html#f_is_init">Is_init</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/cell_flat.html#f_item">item</A>
 		<SPAN CLASS="ekeyword">local</SPAN>
@@ -80,6 +80,12 @@
 		<SPAN CLASS="ekeyword">do</SPAN>
 			<SPAN CLASS="elocal">l_directory</SPAN> <SPAN CLASS="esymbol">:=</SPAN> &quot;resources/images/&quot;
 			<A CLASS="efeature" HREF="../../elks/directory_flat.html#f_make">directory_make</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_directory</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/loading_flat.html#f_make">loading_make</A>
+			<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <SPAN CLASS="elocal">a_splash_screen</SPAN> <SPAN CLASS="ekeyword">as</SPAN> la_splash <SPAN CLASS="ekeyword">then</SPAN>
+				<A CLASS="efeature" HREF="../../raekidion/data/loading_flat.html#f_on_load">on_load</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../ise/interactive_list_flat.html#f_extend">extend</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">agent</SPAN> <SPAN CLASS="elocal">la_splash</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/objects/splash_screen_flat.html#f_change_message">change_message</A><SPAN CLASS="esymbol">)</SPAN>
+				<A CLASS="efeature" HREF="../../raekidion/data/loading_flat.html#f_on_load">on_load</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../ise/interactive_list_flat.html#f_extend">extend</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">agent</SPAN> <SPAN CLASS="elocal">la_splash</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/objects/splash_screen_flat.html#f_write_debug_file">write_debug_file</A><SPAN CLASS="esymbol">)</SPAN>
+				<A CLASS="efeature" HREF="../../raekidion/data/loading_flat.html#f_on_debug_load">on_debug_load</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../ise/interactive_list_flat.html#f_extend">extend</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">agent</SPAN> <SPAN CLASS="elocal">la_splash</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/objects/splash_screen_flat.html#f_write_debug_file">write_debug_file</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ekeyword">end</SPAN>
 			<SPAN CLASS="ekeyword">create</SPAN> <A CLASS="efeature" HREF="../../raekidion/objects/image_factory_flat.html#f_file_list">file_list</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list_flat.html#f_make">make</A>
 			<SPAN CLASS="ekeyword">create</SPAN> <SPAN CLASS="elocal">l_filename_list</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list_flat.html#f_make">make</A>
 			<SPAN CLASS="elocal">l_filename_list</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <A CLASS="efeature" HREF="../../raekidion/objects/directory_list_flat.html#f_files_with_type">files_with_type</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;png&quot;<SPAN CLASS="esymbol">)</SPAN>
@@ -88,15 +94,25 @@
 			<SPAN CLASS="ekeyword">until</SPAN>
 				<SPAN CLASS="elocal">l_filename_list</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linear_flat.html#f_exhausted">exhausted</A>
 			<SPAN CLASS="ekeyword">loop</SPAN>
+				<A CLASS="efeature" HREF="../../raekidion/data/loading_flat.html#f_loading_begin">loading_begin</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_filename_list</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list_flat.html#f_item">item</A><SPAN CLASS="esymbol">)</SPAN>
 				<SPAN CLASS="elocal">l_count</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_filename_list</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list_flat.html#f_item">item</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/readable_string_8_flat.html#f_index_of">index_of</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="echar">'.'</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">1</SPAN><SPAN CLASS="esymbol">)</SPAN>
 				<SPAN CLASS="elocal">l_name</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_filename_list</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list_flat.html#f_item">item</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/string_8_flat.html#f_substring">substring</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="enumber">1</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="elocal">l_count</SPAN> <A CLASS="esymbol" HREF="../../elks/integer_32_flat.html#f_minus">-</A> <SPAN CLASS="enumber">1</SPAN><SPAN CLASS="esymbol">)</SPAN>
 				<SPAN CLASS="ekeyword">create</SPAN> <SPAN CLASS="elocal">l_filename_c</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/c_string_flat.html#f_make">make</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_directory</SPAN> <A CLASS="esymbol" HREF="../../elks/string_8_flat.html#f_plus">+</A> <SPAN CLASS="elocal">l_filename_list</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list_flat.html#f_item">item</A><SPAN CLASS="esymbol">)</SPAN>
 				<A CLASS="efeature" HREF="../../raekidion/objects/image_factory_flat.html#f_file_list">file_list</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list_flat.html#f_extend">extend</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="esymbol">[</SPAN><SPAN CLASS="elocal">l_name</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../../raekidion/wrapper/sdl_flat.html">SDL</A><SPAN CLASS="esymbol">}</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/wrapper/sdl_flat.html#f_sdl_loadimage">sdl_loadimage</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_filename_c</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/c_string_flat.html#f_item">item</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">]</SPAN><SPAN CLASS="esymbol">)</SPAN>
+				<A CLASS="efeature" HREF="../../raekidion/data/loading_flat.html#f_loading_done">loading_done</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">l_filename_list</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list_flat.html#f_item">item</A><SPAN CLASS="esymbol">)</SPAN>
 				<SPAN CLASS="elocal">l_filename_list</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list_flat.html#f_forth">forth</A>
 			<SPAN CLASS="ekeyword">end</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/loading_flat.html#f_on_load">on_load</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../ise/interactive_list_flat.html#f_wipe_out">wipe_out</A>
 			<A CLASS="efeature" HREF="../../raekidion/objects/image_factory_flat.html#f_is_init">Is_init</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/cell_flat.html#f_replace">replace</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">True</SPAN><SPAN CLASS="esymbol">)</SPAN>
 		<SPAN CLASS="ekeyword">ensure</SPAN>
 			<SPAN CLASS="etag">is_initialised</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../../raekidion/objects/image_factory_flat.html#f_is_init">Is_init</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/cell_flat.html#f_item">item</A>
+		<SPAN CLASS="ekeyword">end</SPAN>
+
+	<A NAME="f_make"></A><A CLASS="efeature" HREF="../../raekidion/data/loading_flat.html#f_make">loading_make</A>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../../raekidion/data/loading_flat.html">LOADING</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">do</SPAN>
+			<SPAN CLASS="ekeyword">create</SPAN> <A CLASS="efeature" HREF="../../raekidion/data/loading_flat.html#f_on_load">on_load</A>
+			<SPAN CLASS="ekeyword">create</SPAN> <A CLASS="efeature" HREF="../../raekidion/data/loading_flat.html#f_on_debug_load">on_debug_load</A>
 		<SPAN CLASS="ekeyword">end</SPAN>
 	
 <SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Initialization</SPAN>
@@ -177,17 +193,17 @@
 			<A CLASS="efeature" HREF="../../elks/directory_flat.html#f_mode">mode</A> <SPAN CLASS="esymbol">:=</SPAN> <A CLASS="efeature" HREF="../../elks/directory_flat.html#f_close_directory">Close_directory</A>
 		<SPAN CLASS="ekeyword">end</SPAN>
 
-	<A NAME="f_dispose"></A><A CLASS="efeature" HREF="../../raekidion/objects/image_factory_flat.html#f_dispose">dispose</A>
+	<A NAME="f_destroy"></A><A CLASS="efeature" HREF="../../raekidion/objects/image_factory_flat.html#f_destroy">destroy</A>
 			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Free every image from memory</SPAN>
 		<SPAN CLASS="ekeyword">do</SPAN>
+			<A CLASS="ekeyword" HREF="../../raekidion/data/loading_flat.html#f_destroy">Precursor</A> <SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../../raekidion/data/loading_flat.html">LOADING</A><SPAN CLASS="esymbol">}</SPAN>
 			<SPAN CLASS="ekeyword">from</SPAN>
 				<A CLASS="efeature" HREF="../../raekidion/objects/image_factory_flat.html#f_file_list">file_list</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list_flat.html#f_start">start</A>
 			<SPAN CLASS="ekeyword">until</SPAN>
 				<A CLASS="efeature" HREF="../../raekidion/objects/image_factory_flat.html#f_file_list">file_list</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linear_flat.html#f_exhausted">exhausted</A>
 			<SPAN CLASS="ekeyword">loop</SPAN>
-				<A CLASS="efeature" HREF="../../raekidion/objects/image_factory_flat.html#f_file_list">file_list</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list_flat.html#f_item">item</A><SPAN CLASS="edot">.</SPAN><SPAN CLASS="elocal">object</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/pointer_ref_flat.html#f_memory_free">memory_free</A>
 				<SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../../raekidion/wrapper/sdl_flat.html">SDL</A><SPAN CLASS="esymbol">}</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/wrapper/sdl_flat.html#f_sdl_freesurface">sdl_freesurface</A> <SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../../raekidion/objects/image_factory_flat.html#f_file_list">file_list</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list_flat.html#f_item">item</A><SPAN CLASS="edot">.</SPAN><SPAN CLASS="elocal">object</SPAN><SPAN CLASS="esymbol">)</SPAN>
-				<A CLASS="efeature" HREF="../../raekidion/objects/image_factory_flat.html#f_file_list">file_list</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list_flat.html#f_forth">forth</A>
+				<A CLASS="efeature" HREF="../../raekidion/objects/image_factory_flat.html#f_file_list">file_list</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list_flat.html#f_remove">remove</A>
 			<SPAN CLASS="ekeyword">end</SPAN>
 		<SPAN CLASS="ekeyword">end</SPAN>
 
@@ -283,6 +299,44 @@
 			<SPAN CLASS="ekeyword">end</SPAN>
 		<SPAN CLASS="ekeyword">end</SPAN>
 
+	<A NAME="f_loading_begin"></A><A CLASS="efeature" HREF="../../raekidion/data/loading_flat.html#f_loading_begin">loading_begin</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_resource</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/string_8_flat.html">STRING_8</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../../raekidion/data/loading_flat.html">LOADING</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">do</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/loading_flat.html#f_on_load">on_load</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../ise/action_sequence_flat.html#f_call">call</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;Loading &quot; <A CLASS="esymbol" HREF="../../elks/string_8_flat.html#f_plus">+</A> <SPAN CLASS="elocal">a_resource</SPAN> <A CLASS="esymbol" HREF="../../elks/string_8_flat.html#f_plus">+</A> &quot; ...&quot;<SPAN CLASS="esymbol">)</SPAN>
+		<SPAN CLASS="ekeyword">end</SPAN>
+
+	<A NAME="f_loading_check"></A><A CLASS="efeature" HREF="../../raekidion/data/loading_flat.html#f_loading_check">loading_check</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_source</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/plain_text_file_flat.html">PLAIN_TEXT_FILE</A><SPAN CLASS="esymbol">;</SPAN> <SPAN CLASS="elocal">a_hash</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/string_8_flat.html">STRING_8</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/boolean_flat.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../../raekidion/data/loading_flat.html">LOADING</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">local</SPAN>
+			<SPAN CLASS="elocal">l_hash</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../crypto/md5_flat.html">MD5</A>
+			<SPAN CLASS="elocal">l_result</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/string_8_flat.html">STRING_8</A>
+			<SPAN CLASS="elocal">l_equals</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/boolean_flat.html">BOOLEAN</A>
+		<SPAN CLASS="ekeyword">do</SPAN>
+			<SPAN CLASS="ekeyword">create</SPAN> <SPAN CLASS="elocal">l_hash</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../crypto/md5_flat.html#f_make">make</A>
+			<SPAN CLASS="elocal">a_source</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/file_flat.html#f_open_read">open_read</A>
+			<SPAN CLASS="elocal">a_source</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/file_flat.html#f_read_stream">read_stream</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_source</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/file_flat.html#f_count">count</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="elocal">l_hash</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../crypto/message_digest_flat.html#f_update_from_string">update_from_string</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_source</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/io_medium_flat.html#f_last_string">last_string</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="elocal">l_result</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_hash</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../crypto/message_digest_flat.html#f_digest_as_string">digest_as_string</A>
+			<SPAN CLASS="elocal">l_equals</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_result</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/readable_string_8_flat.html#f_is_equal">is_equal</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_hash</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/loading_flat.html#f_on_debug_load">on_debug_load</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../ise/action_sequence_flat.html#f_call">call</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;File &quot; <A CLASS="esymbol" HREF="../../elks/string_8_flat.html#f_plus">+</A> <SPAN CLASS="elocal">a_source</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/file_flat.html#f_path">path</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/path_flat.html#f_name">name</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/readable_string_32_flat.html#f_out">out</A> <A CLASS="esymbol" HREF="../../elks/string_8_flat.html#f_plus">+</A> &quot; has an MD5 checksum of &quot; <A CLASS="esymbol" HREF="../../elks/string_8_flat.html#f_plus">+</A> <SPAN CLASS="elocal">l_result</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ekeyword">if</SPAN> <A CLASS="ekeyword" HREF="../../elks/boolean_flat.html#f_negated">not</A> <SPAN CLASS="elocal">l_equals</SPAN> <SPAN CLASS="ekeyword">then</SPAN>
+				<A CLASS="efeature" HREF="../../raekidion/data/loading_flat.html#f_on_debug_load">on_debug_load</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../ise/action_sequence_flat.html#f_call">call</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;Error: &quot; <A CLASS="esymbol" HREF="../../elks/string_8_flat.html#f_plus">+</A> <SPAN CLASS="elocal">a_source</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/file_flat.html#f_path">path</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/path_flat.html#f_name">name</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/readable_string_32_flat.html#f_out">out</A> <A CLASS="esymbol" HREF="../../elks/string_8_flat.html#f_plus">+</A> &quot; has been modified. The game will now launch with highscores disabled.&quot;<SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ekeyword">end</SPAN>
+			<SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">l_equals</SPAN>
+		<SPAN CLASS="ekeyword">end</SPAN>
+
+	<A NAME="f_loading_done"></A><A CLASS="efeature" HREF="../../raekidion/data/loading_flat.html#f_loading_done">loading_done</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_resource</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/string_8_flat.html">STRING_8</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../../raekidion/data/loading_flat.html">LOADING</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">do</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/loading_flat.html#f_on_load">on_load</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../ise/action_sequence_flat.html#f_call">call</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;Loading &quot; <A CLASS="esymbol" HREF="../../elks/string_8_flat.html#f_plus">+</A> <SPAN CLASS="elocal">a_resource</SPAN> <A CLASS="esymbol" HREF="../../elks/string_8_flat.html#f_plus">+</A> &quot; ... DONE&quot;<SPAN CLASS="esymbol">)</SPAN>
+		<SPAN CLASS="ekeyword">end</SPAN>
+
+	<A NAME="f_loading_error"></A><A CLASS="efeature" HREF="../../raekidion/data/loading_flat.html#f_loading_error">loading_error</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_resource</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/string_8_flat.html">STRING_8</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../../raekidion/data/loading_flat.html">LOADING</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">do</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/loading_flat.html#f_on_load">on_load</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../ise/action_sequence_flat.html#f_call">call</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;Error loading &quot; <A CLASS="esymbol" HREF="../../elks/string_8_flat.html#f_plus">+</A> <SPAN CLASS="elocal">a_resource</SPAN> <A CLASS="esymbol" HREF="../../elks/string_8_flat.html#f_plus">+</A> &quot;.&quot;<SPAN CLASS="esymbol">)</SPAN>
+		<SPAN CLASS="ekeyword">end</SPAN>
+
 	<A NAME="f_name"></A><A CLASS="efeature" HREF="../../elks/directory_flat.html#f_name">name</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/string_8_flat.html">STRING_8</A>
 		<SPAN CLASS="ekeyword">obsolete</SPAN> &quot;Use `path' to ensure you can retrieve all kind of names.&quot;
 			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> File name as a STRING_8 instance. The value might be truncated</SPAN>
@@ -293,6 +347,14 @@
 		<SPAN CLASS="ekeyword">ensure then</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../../elks/directory_flat.html">DIRECTORY</A>
 			<SPAN CLASS="etag">name_not_empty</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="ekeyword" HREF="../../elks/boolean_flat.html#f_negated">not</A> <SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/finite_flat.html#f_is_empty">is_empty</A>
 		<SPAN CLASS="ekeyword">end</SPAN>
+
+	<A NAME="f_on_debug_load"></A><A CLASS="efeature" HREF="../../raekidion/data/loading_flat.html#f_on_debug_load">on_debug_load</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../ise/action_sequence_flat.html">ACTION_SEQUENCE</A> <SPAN CLASS="esymbol">[</SPAN><A CLASS="eclass" HREF="../../elks/tuple_flat.html">TUPLE</A> <SPAN CLASS="esymbol">[</SPAN><SPAN CLASS="elocal">resource</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/string_8_flat.html">STRING_8</A><SPAN CLASS="esymbol">]</SPAN><SPAN CLASS="esymbol">]</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> The list of debug loading events</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../../raekidion/data/loading_flat.html">LOADING</A><SPAN CLASS="ecomment">)</SPAN>
+
+	<A NAME="f_on_load"></A><A CLASS="efeature" HREF="../../raekidion/data/loading_flat.html#f_on_load">on_load</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../ise/action_sequence_flat.html">ACTION_SEQUENCE</A> <SPAN CLASS="esymbol">[</SPAN><A CLASS="eclass" HREF="../../elks/tuple_flat.html">TUPLE</A> <SPAN CLASS="esymbol">[</SPAN><SPAN CLASS="elocal">resource</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/string_8_flat.html">STRING_8</A><SPAN CLASS="esymbol">]</SPAN><SPAN CLASS="esymbol">]</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> The list of loading events</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../../raekidion/data/loading_flat.html">LOADING</A><SPAN CLASS="ecomment">)</SPAN>
 
 	<A NAME="f_open_read"></A><A CLASS="efeature" HREF="../../elks/directory_flat.html#f_open_read">open_read</A>
 			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Open directory for reading.</SPAN>
@@ -486,19 +548,6 @@
 			<SPAN CLASS="etag">symmetric</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <A CLASS="ekeyword" HREF="../../elks/boolean_flat.html#f_implication">implies</A> <SPAN CLASS="elocal">other</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">Current</SPAN><SPAN CLASS="esymbol">)</SPAN>
 		<SPAN CLASS="ekeyword">end</SPAN>
 	
-<SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="esymbol">{</SPAN>NONE<SPAN CLASS="esymbol">}</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Status report</SPAN>
-
-	<A NAME="f_is_in_final_collect"></A><A CLASS="efeature" HREF="../../elks/disposable_flat.html#f_is_in_final_collect">is_in_final_collect</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/boolean_flat.html">BOOLEAN</A>
-			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Is GC currently performing final collection</SPAN>
-			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> after execution of current program?</SPAN>
-			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Safe to use in </SPAN><A CLASS="efeature" HREF="../../raekidion/objects/image_factory_flat.html#f_dispose">dispose</A><SPAN CLASS="ecomment">.</SPAN>
-			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../../elks/disposable_flat.html">DISPOSABLE</A><SPAN CLASS="ecomment">)</SPAN>
-		<SPAN CLASS="ekeyword">external</SPAN>
-			&quot;C inline use %&quot;eif_memory.h%&quot;&quot;
-		<SPAN CLASS="ekeyword">alias</SPAN>
-			&quot;return eif_is_in_final_collect;&quot;
-		<SPAN CLASS="ekeyword">end</SPAN>
-	
 <SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Status report</SPAN>
 
 	<A NAME="f_conforms_to"></A><A CLASS="efeature" HREF="../../elks/any_flat.html#f_conforms_to">conforms_to</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/any_flat.html">ANY</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/boolean_flat.html">BOOLEAN</A>
@@ -597,6 +646,19 @@
 			&quot;built_in&quot;
 		<SPAN CLASS="ekeyword">ensure</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../../elks/any_flat.html">ANY</A>
 			<SPAN CLASS="etag">definition</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../../elks/any_flat.html#f_conforms_to">conforms_to</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">)</SPAN> <A CLASS="ekeyword" HREF="../../elks/boolean_flat.html#f_conjuncted">and</A> <SPAN CLASS="elocal">other</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/any_flat.html#f_conforms_to">conforms_to</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">Current</SPAN><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">)</SPAN>
+		<SPAN CLASS="ekeyword">end</SPAN>
+	
+<SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="esymbol">{</SPAN>NONE<SPAN CLASS="esymbol">}</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Status report</SPAN>
+
+	<A NAME="f_is_in_final_collect"></A><A CLASS="efeature" HREF="../../elks/disposable_flat.html#f_is_in_final_collect">is_in_final_collect</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/boolean_flat.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Is GC currently performing final collection</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> after execution of current program?</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Safe to use in </SPAN><A CLASS="efeature" HREF="../../elks/directory_flat.html#f_dispose">dispose</A><SPAN CLASS="ecomment">.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../../elks/disposable_flat.html">DISPOSABLE</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">external</SPAN>
+			&quot;C inline use %&quot;eif_memory.h%&quot;&quot;
+		<SPAN CLASS="ekeyword">alias</SPAN>
+			&quot;return eif_is_in_final_collect;&quot;
 		<SPAN CLASS="ekeyword">end</SPAN>
 	
 <SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Removal</SPAN>
@@ -706,7 +768,7 @@
 			<SPAN CLASS="ekeyword">end</SPAN>
 		<SPAN CLASS="ekeyword">end</SPAN>
 
-	<A NAME="f_dispose"></A><A CLASS="efeature" HREF="../../elks/directory_flat.html#f_dispose">directory_dispose</A>
+	<A NAME="f_dispose"></A><A CLASS="efeature" HREF="../../elks/directory_flat.html#f_dispose">dispose</A>
 			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Ensure this medium is closed when garbage collected.</SPAN>
 			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../../elks/directory_flat.html">DIRECTORY</A><SPAN CLASS="ecomment">)</SPAN>
 		<SPAN CLASS="ekeyword">do</SPAN>
@@ -1311,6 +1373,12 @@
 			<SPAN CLASS="ekeyword">end</SPAN>
 		<SPAN CLASS="ekeyword">end</SPAN>
 	
+<SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Status</SPAN>
+
+	<A NAME="f_cheat_mode"></A><A CLASS="efeature" HREF="../../raekidion/data/loading_flat.html#f_cheat_mode">cheat_mode</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/boolean_flat.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> True if mods have been added or base files have been modified</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../../raekidion/data/loading_flat.html">LOADING</A><SPAN CLASS="ecomment">)</SPAN>
+	
 <SPAN CLASS="ekeyword">invariant</SPAN>
 		<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../../elks/any_flat.html">ANY</A>
 	<SPAN CLASS="etag">reflexive_equality</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="efeature" HREF="../../elks/any_flat.html#f_standard_is_equal">standard_is_equal</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">Current</SPAN><SPAN CLASS="esymbol">)</SPAN>
@@ -1322,7 +1390,7 @@
 <SPAN CLASS="ekeyword">note</SPAN>
 	<SPAN CLASS="eitag">copyright</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;</SPAN><SPAN CLASS="estring">[</SPAN>
 		<SPAN CLASS="estring">				War of Raekidion</SPAN>
-		<SPAN CLASS="estring">				Copyright (C) 2014 FranÃ§ois Allard &lt;</SPAN><A CLASS="estring" HREF="mailto:binarmorker@gmail.com>">binarmorker@gmail.com&gt;</A>
+		<SPAN CLASS="estring">				Copyright (C) 2014 François Allard &lt;</SPAN><A CLASS="estring" HREF="mailto:binarmorker@gmail.com>">binarmorker@gmail.com&gt;</A>
 		<SPAN CLASS="estring"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		 &nbsp;&nbsp;		 &nbsp;&nbsp;and Marc-Antoine Renaud &lt;</SPAN><A CLASS="estring" HREF="mailto:legars123456@gmail.com>">legars123456@gmail.com&gt;</A>
 	<SPAN CLASS="estring">]</SPAN><SPAN CLASS="estring">&quot;</SPAN>
 	<SPAN CLASS="eitag">license</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;GNU General Public License, &lt;</SPAN><A CLASS="estring" HREF="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</A><SPAN CLASS="estring">&gt;&quot;</SPAN>

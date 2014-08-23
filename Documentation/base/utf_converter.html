@@ -1,6 +1,6 @@
 <HTML>
 <HEAD>
-<META NAME="generator" CONTENT="ISE EiffelStudio version 13.11.9.3542 GPL Edition - linux-x86-64">
+<META NAME="generator" CONTENT="ISE EiffelStudio version 13.11.9.3542 GPL Edition - windows">
 <META NAME="viewport" CONTENT="width=device-width">
 <META HTTP-EQUIV="content-type" CONTENT="text/html; charset=utf-8">
 <meta name="description" content="TTTConverter from/to UTF-8, UTF-16 and UTF-32 encodings.  TTTHandling of invalid encodings TTT=============================  TTTWhenever a UTF-8 or UTF-16 sequence is decoded, the decoding routines also check TTTthat the sequence is valid. If it is not, it will replace the invalid unit (e.g. a byte TTTfor UTF-8 and a 2-byte for UTF-16 by the replacement character U+FFFD as described by TTTvariant #3 of the recommended practice for replacement character in Unicode (see TTThttp://www.unicode.org/review/pr-121.html for more details).  TTTHowever it means that you cannot roundtrip incorrectly encoded sequence back and forth TTTbetween the encoded version and the decoded STRING_32 version. To allow roundtrip, an TTTescaped representation of a bad encoded sequence has been introduced. It is adding a TTTa fourth variant (which is a slight modification of variant #3) to the recommended TTTpractice where the replacement character is followed by the printed hexadecimal value TTTof the invalid byte or the invalid 2-byte sequence. TTT TTTTo provide an example (assuming that the Unicode character U+FFFD is represented as TTT? textually): TTT1 - on UNIX, any invalid UTF-8 byte sequence such as 0x8F 0x8F is encoded as the TTTfollowing Unicode sequence: U+FFFD U+0038 U+0046 U+FFFF U+0038 U+0046, and textually TTTit looks like ?8F?8F. TTT2 - on Windows, any invalid UTF-16 2-byte sequence such as 0xD800 0x0054 is encoded as the TTTfollowing Unicode sequence: U+FFFD U+0075 U+0044 U+0038 U+0030 U+0030 U+FFFD U+0035 U+0033, TTTand textually it looks like ?uD800?54. The rule is that if the 2-byte sequence does not fit TTTinto 1 byte, it uses the letter `u' followed by the hexadecimal value of the 2-byte sequence, TTTotherwise it simply uses the 1-byte hexadecimal representation."/>
@@ -84,7 +84,7 @@
 
 <SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Access</SPAN>
 
-	<A NAME="f_escape_character"></A><A CLASS="efeature" HREF="../elks/utf_converter.html#f_escape_character">Escape_character</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/character_32.html">CHARACTER_32</A> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="echar">'ï¿½'</SPAN>
+	<A NAME="f_escape_character"></A><A CLASS="efeature" HREF="../elks/utf_converter.html#f_escape_character">Escape_character</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/character_32.html">CHARACTER_32</A> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="echar">'?'</SPAN>
 			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Unicode replacement character to escape invalid UTF-8 or UTF-16 encoding.</SPAN>
 			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> UTF-8 encoding: 0xEF 0xBF 0xBD</SPAN>
 			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Binary UTF-8 encoding: 11101111 10111111 10111101</SPAN>
@@ -1693,19 +1693,19 @@
 	
 <SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Byte Order Mark (BOM)</SPAN>
 
-	<A NAME="f_utf_8_bom_to_string_8"></A><A CLASS="efeature" HREF="../elks/utf_converter.html#f_utf_8_bom_to_string_8">Utf_8_bom_to_string_8</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/string_8.html">STRING_8</A> <SPAN CLASS="esymbol">=</SPAN> &quot;Ã¯Â»Â¿&quot;
+	<A NAME="f_utf_8_bom_to_string_8"></A><A CLASS="efeature" HREF="../elks/utf_converter.html#f_utf_8_bom_to_string_8">Utf_8_bom_to_string_8</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/string_8.html">STRING_8</A> <SPAN CLASS="esymbol">=</SPAN> &quot;ï»¿&quot;
 			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> UTF-8 BOM sequence.</SPAN>
 
-	<A NAME="f_utf_16be_bom_to_string_8"></A><A CLASS="efeature" HREF="../elks/utf_converter.html#f_utf_16be_bom_to_string_8">Utf_16be_bom_to_string_8</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/string_8.html">STRING_8</A> <SPAN CLASS="esymbol">=</SPAN> &quot;Ã¾Ã¿&quot;
+	<A NAME="f_utf_16be_bom_to_string_8"></A><A CLASS="efeature" HREF="../elks/utf_converter.html#f_utf_16be_bom_to_string_8">Utf_16be_bom_to_string_8</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/string_8.html">STRING_8</A> <SPAN CLASS="esymbol">=</SPAN> &quot;þÿ&quot;
 			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> UTF-16BE BOM sequence.</SPAN>
 
-	<A NAME="f_utf_16le_bom_to_string_8"></A><A CLASS="efeature" HREF="../elks/utf_converter.html#f_utf_16le_bom_to_string_8">Utf_16le_bom_to_string_8</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/string_8.html">STRING_8</A> <SPAN CLASS="esymbol">=</SPAN> &quot;Ã¿Ã¾&quot;
+	<A NAME="f_utf_16le_bom_to_string_8"></A><A CLASS="efeature" HREF="../elks/utf_converter.html#f_utf_16le_bom_to_string_8">Utf_16le_bom_to_string_8</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/string_8.html">STRING_8</A> <SPAN CLASS="esymbol">=</SPAN> &quot;ÿþ&quot;
 			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> UTF-16LE BOM sequence.</SPAN>
 
-	<A NAME="f_utf_32be_bom_to_string_8"></A><A CLASS="efeature" HREF="../elks/utf_converter.html#f_utf_32be_bom_to_string_8">Utf_32be_bom_to_string_8</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/string_8.html">STRING_8</A> <SPAN CLASS="esymbol">=</SPAN> &quot;%U%UÃ¾Ã¿&quot;
+	<A NAME="f_utf_32be_bom_to_string_8"></A><A CLASS="efeature" HREF="../elks/utf_converter.html#f_utf_32be_bom_to_string_8">Utf_32be_bom_to_string_8</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/string_8.html">STRING_8</A> <SPAN CLASS="esymbol">=</SPAN> &quot;%U%Uþÿ&quot;
 			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> UTF-32BE BOM sequence.</SPAN>
 
-	<A NAME="f_utf_32le_bom_to_string_8"></A><A CLASS="efeature" HREF="../elks/utf_converter.html#f_utf_32le_bom_to_string_8">Utf_32le_bom_to_string_8</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/string_8.html">STRING_8</A> <SPAN CLASS="esymbol">=</SPAN> &quot;Ã¿Ã¾%U%U&quot;
+	<A NAME="f_utf_32le_bom_to_string_8"></A><A CLASS="efeature" HREF="../elks/utf_converter.html#f_utf_32le_bom_to_string_8">Utf_32le_bom_to_string_8</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../elks/string_8.html">STRING_8</A> <SPAN CLASS="esymbol">=</SPAN> &quot;ÿþ%U%U&quot;
 			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> UTF-32LE BOM sequence.</SPAN>
 	
 <SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Helpers</SPAN>

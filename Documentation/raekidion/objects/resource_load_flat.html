@@ -1,12 +1,12 @@
 <HTML>
 <HEAD>
-<META NAME="generator" CONTENT="ISE EiffelStudio version 13.11.9.3542 GPL Edition - linux-x86-64">
+<META NAME="generator" CONTENT="ISE EiffelStudio version 13.11.9.3542 GPL Edition - windows">
 <META NAME="viewport" CONTENT="width=device-width">
 <META HTTP-EQUIV="content-type" CONTENT="text/html; charset=utf-8">
 <meta name="description" content="War of Raekidion - Asynchronous resource loading A {RESOURCE_LOAD} thread will ensure every memory expensive  resource loading is made before the game starts."/>
-<meta name="author" content="FranÃ§ois Allard (binarmorker) and Marc-Antoine Renaud (Learz)"/>
+<meta name="author" content="François Allard (binarmorker) and Marc-Antoine Renaud (Learz)"/>
 <meta name="keywords" content="Eiffel class"/>
-<meta name="copyright" content="TTTTWar of Raekidion TTTTCopyright (C) 2014 FranÃ§ois Allard <binarmorker@gmail.com>              TT   TT   and Marc-Antoine Renaud <legars123456@gmail.com>"/>
+<meta name="copyright" content="TTTTWar of Raekidion TTTTCopyright (C) 2014 François Allard <binarmorker@gmail.com>              TT   TT   and Marc-Antoine Renaud <legars123456@gmail.com>"/>
 <meta name="license" content="GNU General Public License, <http://www.gnu.org/licenses/>"/>
 <meta name="keywords" content="Eiffel class"/>
 <TITLE>War of Raekidion - resource_load Flat</TITLE>
@@ -48,7 +48,7 @@
 		<SPAN CLASS="estring">A </SPAN><A CLASS="eclass" HREF="../../raekidion/objects/resource_load_flat.html">RESOURCE_LOAD</A><SPAN CLASS="estring"> thread will ensure every memory expensive </SPAN>
 		<SPAN CLASS="estring">resource loading is made before the game starts.</SPAN>
 	<SPAN CLASS="estring">]</SPAN><SPAN CLASS="estring">&quot;</SPAN>
-	<SPAN CLASS="eitag">author</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;FranÃ§ois Allard (binarmorker) and Marc-Antoine Renaud (Learz)&quot;</SPAN>
+	<SPAN CLASS="eitag">author</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;François Allard (binarmorker) and Marc-Antoine Renaud (Learz)&quot;</SPAN>
 	<SPAN CLASS="eitag">date</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;$Date: May 23 2014$&quot;</SPAN>
 	<SPAN CLASS="eitag">revision</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;$Revision: 1$&quot;</SPAN>
 
@@ -67,12 +67,33 @@
 		<SPAN CLASS="ekeyword">do</SPAN>
 		<SPAN CLASS="ekeyword">end</SPAN>
 
-	<A NAME="f_make"></A><A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flat.html#f_make">make</A>
-			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Initialize </SPAN>`Current'
+	<A NAME="f_make"></A><A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flat.html#f_make">make</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_splash</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../raekidion/objects/splash_screen_flat.html">SPLASH_SCREEN</A><SPAN CLASS="esymbol">;</SPAN> <SPAN CLASS="elocal">a_config</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../raekidion/data/configuration_flat.html">CONFIGURATION</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Initialize </SPAN>`Current'<SPAN CLASS="ecomment"> from </SPAN>`a_splash'
 		<SPAN CLASS="ekeyword">do</SPAN>
-			<A CLASS="ekeyword" HREF="../../thread/thread_flat.html#f_make">Precursor</A> <SPAN CLASS="esymbol">{</SPAN><A CLASS="eclass" HREF="../../thread/thread_flat.html">THREAD</A><SPAN CLASS="esymbol">}</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flat.html#f_m_volume">m_volume</A> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">a_config</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/data/configuration_flat.html#f_music_volume">music_volume</A>
+			<A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flat.html#f_s_volume">s_volume</A> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">a_config</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/data/configuration_flat.html#f_sounds_volume">sounds_volume</A>
+			<A CLASS="efeature" HREF="../../thread/thread_flat.html#f_make">thread_make</A>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_make">database_make</A>
+			<A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flat.html#f_set_splash_screen">set_splash_screen</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_splash</SPAN><SPAN CLASS="esymbol">)</SPAN>
 			<A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flat.html#f_must_quit">must_quit</A> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="ekeyword">False</SPAN>
-			<A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flat.html#f_execute">execute</A>
+		<SPAN CLASS="ekeyword">end</SPAN>
+
+	<A NAME="f_make"></A><A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_make">database_make</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Initialize </SPAN>`Current'
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../../raekidion/data/database_manager_shared_flat.html">DATABASE_MANAGER_SHARED</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">do</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_database">database</A> <SPAN CLASS="esymbol">:=</SPAN> <A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_connexion">Connexion</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/data/database_manager_flat.html#f_database">database</A>
+			<SPAN CLASS="ekeyword">create</SPAN> <A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_highscores_list">highscores_list</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list_flat.html#f_make">make</A>
+			<SPAN CLASS="ekeyword">if</SPAN> <A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_highscores">highscores</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="enumber">1</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">1</SPAN><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list_flat.html#f_count">count</A> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="enumber">0</SPAN> <SPAN CLASS="ekeyword">then</SPAN>
+				<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_fill_default_highscores">fill_default_highscores</A>
+			<SPAN CLASS="ekeyword">end</SPAN>
+		<SPAN CLASS="ekeyword">end</SPAN>
+
+	<A NAME="f_make"></A><A CLASS="efeature" HREF="../../thread/thread_flat.html#f_make">thread_make</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Initialize Current.</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../../thread/thread_flat.html">THREAD</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">do</SPAN>
+			<SPAN CLASS="ekeyword">create</SPAN> <A CLASS="efeature" HREF="../../thread/thread_flat.html#f_launch_mutex">launch_mutex</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../thread/mutex_flat.html#f_make">make</A>
 		<SPAN CLASS="ekeyword">end</SPAN>
 	
 <SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Access</SPAN>
@@ -84,6 +105,14 @@
 			&quot;C inline use &lt;eif_threads.h&gt;&quot;
 		<SPAN CLASS="ekeyword">alias</SPAN>
 			&quot;return eif_thr_thread_id();&quot;
+		<SPAN CLASS="ekeyword">end</SPAN>
+
+	<A NAME="f_destroy"></A><A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flat.html#f_destroy">destroy</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Removes all resources from memory</SPAN>
+		<SPAN CLASS="ekeyword">do</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/objects/audio_factory_shared_flat.html#f_audio_factory">Audio_factory</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/objects/audio_factory_flat.html#f_destroy">destroy</A>
+			<A CLASS="efeature" HREF="../../raekidion/objects/image_factory_shared_flat.html#f_image_factory">Image_factory</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/objects/image_factory_flat.html#f_destroy">destroy</A>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_connexion">Connexion</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/data/database_manager_flat.html#f_destroy">destroy</A>
 		<SPAN CLASS="ekeyword">end</SPAN>
 
 	<A NAME="f_generating_type"></A><A CLASS="efeature" HREF="../../elks/any_flat.html#f_generating_type">generating_type</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/type_flat.html">TYPE</A> <SPAN CLASS="esymbol">[</SPAN><SPAN CLASS="ekeyword">detachable</SPAN> <A CLASS="eclass" HREF="../../raekidion/objects/resource_load_flat.html">RESOURCE_LOAD</A><SPAN CLASS="esymbol">]</SPAN>
@@ -115,8 +144,20 @@
 			<SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <A CLASS="efeature" HREF="../../thread/thread_environment_flat.html#f_current_thread_id">current_thread_id</A>
 		<SPAN CLASS="ekeyword">end</SPAN>
 
-	<A NAME="f_must_quit"></A><A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flat.html#f_must_quit">must_quit</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/boolean_flat.html">BOOLEAN</A>
-			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> True if the thread has loaded all resources</SPAN>
+	<A NAME="f_highscores"></A><A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_highscores">highscores</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_number</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="elocal">a_difficulty</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/integer_32_flat.html">INTEGER_32</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/linked_list_flat.html">LINKED_LIST</A> <SPAN CLASS="esymbol">[</SPAN><A CLASS="eclass" HREF="../../elks/tuple_flat.html">TUPLE</A> <SPAN CLASS="esymbol">[</SPAN><A CLASS="eclass" HREF="../../elks/string_8_flat.html">STRING_8</A><SPAN CLASS="esymbol">,</SPAN> <A CLASS="eclass" HREF="../../elks/integer_32_flat.html">INTEGER_32</A><SPAN CLASS="esymbol">,</SPAN> <A CLASS="eclass" HREF="../../elks/integer_32_flat.html">INTEGER_32</A><SPAN CLASS="esymbol">]</SPAN><SPAN CLASS="esymbol">]</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Return the best </SPAN>`a_number'<SPAN CLASS="ecomment"> scores for </SPAN>`a_difficulty'<SPAN CLASS="ecomment"> from </SPAN><A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_database">database</A>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../../raekidion/data/database_manager_shared_flat.html">DATABASE_MANAGER_SHARED</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">local</SPAN>
+			<SPAN CLASS="elocal">l_query</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../sqlite/sqlite_query_statement_flat.html">SQLITE_QUERY_STATEMENT</A>
+		<SPAN CLASS="ekeyword">do</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_highscores_list">highscores_list</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list_flat.html#f_wipe_out">wipe_out</A>
+			<SPAN CLASS="ekeyword">create</SPAN> <SPAN CLASS="elocal">l_query</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../sqlite/sqlite_statement_flat.html#f_make">make</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;SELECT name, difficulty, score FROM scores WHERE difficulty = ?2 ORDER BY score DESC LIMIT ?1;&quot;<SPAN CLASS="esymbol">,</SPAN> <A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_database">database</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ekeyword">check</SPAN>
+				<SPAN CLASS="etag">l_query_is_compiled</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">l_query</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../sqlite/sqlite_statement_flat.html#f_is_compiled">is_compiled</A>
+			<SPAN CLASS="ekeyword">end</SPAN>
+			<SPAN CLASS="elocal">l_query</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../sqlite/sqlite_query_statement_flat.html#f_execute_with_arguments">execute_with_arguments</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">agent</SPAN> <A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_fill_highscores">fill_highscores</A><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="esymbol">[</SPAN><SPAN CLASS="elocal">a_number</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="elocal">a_difficulty</SPAN><SPAN CLASS="esymbol">]</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_highscores_list">highscores_list</A>
+		<SPAN CLASS="ekeyword">end</SPAN>
 
 	<A NAME="f_terminated"></A><A CLASS="efeature" HREF="../../thread/thread_flat.html#f_terminated">terminated</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/boolean_flat.html">BOOLEAN</A>
 			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> True if the thread has terminated.</SPAN>
@@ -132,27 +173,27 @@
 			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Initialize the </SPAN><A CLASS="eclass" HREF="../../raekidion/objects/audio_factory_flat.html">AUDIO_FACTORY</A><SPAN CLASS="ecomment"> only once</SPAN>
 			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../../raekidion/objects/audio_factory_shared_flat.html">AUDIO_FACTORY_SHARED</A><SPAN CLASS="ecomment">)</SPAN>
 		<SPAN CLASS="ekeyword">once</SPAN>
-			<SPAN CLASS="ekeyword">create</SPAN> <SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/objects/audio_factory_flat.html#f_make">make</A>
+			<SPAN CLASS="ekeyword">create</SPAN> <SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/objects/audio_factory_flat.html#f_make">make</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flat.html#f_splash_screen">splash_screen</A><SPAN CLASS="esymbol">)</SPAN>
 		<SPAN CLASS="ekeyword">end</SPAN>
 
-	<A NAME="f_connexion"></A><A CLASS="efeature" HREF="../../raekidion/network/database_manager_shared_flat.html#f_connexion">Connexion</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../raekidion/network/database_manager_flat.html">DATABASE_MANAGER</A>
-			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../../raekidion/network/database_manager_shared_flat.html">DATABASE_MANAGER_SHARED</A><SPAN CLASS="ecomment">)</SPAN>
+	<A NAME="f_connexion"></A><A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_connexion">Connexion</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../raekidion/data/database_manager_flat.html">DATABASE_MANAGER</A>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../../raekidion/data/database_manager_shared_flat.html">DATABASE_MANAGER_SHARED</A><SPAN CLASS="ecomment">)</SPAN>
 		<SPAN CLASS="ekeyword">once</SPAN>
-			<SPAN CLASS="ekeyword">create</SPAN> <SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/network/database_manager_flat.html#f_make">make</A>
+			<SPAN CLASS="ekeyword">create</SPAN> <SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/data/database_manager_flat.html#f_make">make</A>
 		<SPAN CLASS="ekeyword">end</SPAN>
 
 	<A NAME="f_enemy_factory"></A><A CLASS="efeature" HREF="../../raekidion/game/enemy_factory_shared_flat.html#f_enemy_factory">Enemy_factory</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../raekidion/game/enemy_factory_flat.html">ENEMY_FACTORY</A>
 			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Initialize the </SPAN><A CLASS="eclass" HREF="../../raekidion/game/enemy_factory_flat.html">ENEMY_FACTORY</A><SPAN CLASS="ecomment"> only once</SPAN>
 			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../../raekidion/game/enemy_factory_shared_flat.html">ENEMY_FACTORY_SHARED</A><SPAN CLASS="ecomment">)</SPAN>
 		<SPAN CLASS="ekeyword">once</SPAN>
-			<SPAN CLASS="ekeyword">create</SPAN> <SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/game/enemy_factory_flat.html#f_make">make</A>
+			<SPAN CLASS="ekeyword">create</SPAN> <SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/game/enemy_factory_flat.html#f_make">make</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flat.html#f_splash_screen">splash_screen</A><SPAN CLASS="esymbol">)</SPAN>
 		<SPAN CLASS="ekeyword">end</SPAN>
 
 	<A NAME="f_image_factory"></A><A CLASS="efeature" HREF="../../raekidion/objects/image_factory_shared_flat.html#f_image_factory">Image_factory</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../raekidion/objects/image_factory_flat.html">IMAGE_FACTORY</A>
 			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Initialize the </SPAN><A CLASS="eclass" HREF="../../raekidion/objects/image_factory_flat.html">IMAGE_FACTORY</A><SPAN CLASS="ecomment"> only once</SPAN>
 			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../../raekidion/objects/image_factory_shared_flat.html">IMAGE_FACTORY_SHARED</A><SPAN CLASS="ecomment">)</SPAN>
 		<SPAN CLASS="ekeyword">once</SPAN>
-			<SPAN CLASS="ekeyword">create</SPAN> <SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/objects/image_factory_flat.html#f_make">make</A>
+			<SPAN CLASS="ekeyword">create</SPAN> <SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/objects/image_factory_flat.html#f_make">make</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flat.html#f_splash_screen">splash_screen</A><SPAN CLASS="esymbol">)</SPAN>
 		<SPAN CLASS="ekeyword">end</SPAN>
 
 	<A NAME="f_music"></A><A CLASS="efeature" HREF="../../raekidion/objects/audio_factory_shared_flat.html#f_music">music</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/pointer_flat.html">POINTER</A>
@@ -185,7 +226,7 @@
 			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Initialize the </SPAN><A CLASS="eclass" HREF="../../raekidion/game/projectile_factory_flat.html">PROJECTILE_FACTORY</A><SPAN CLASS="ecomment"> only once</SPAN>
 			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../../raekidion/game/projectile_factory_shared_flat.html">PROJECTILE_FACTORY_SHARED</A><SPAN CLASS="ecomment">)</SPAN>
 		<SPAN CLASS="ekeyword">once</SPAN>
-			<SPAN CLASS="ekeyword">create</SPAN> <SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/game/projectile_factory_flat.html#f_make">make</A>
+			<SPAN CLASS="ekeyword">create</SPAN> <SPAN CLASS="ekeyword">Result</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/game/projectile_factory_flat.html#f_make">make</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flat.html#f_splash_screen">splash_screen</A><SPAN CLASS="esymbol">)</SPAN>
 		<SPAN CLASS="ekeyword">end</SPAN>
 
 	<A NAME="f_sound"></A><A CLASS="efeature" HREF="../../raekidion/objects/audio_factory_shared_flat.html#f_sound">sound</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/pointer_flat.html">POINTER</A>
@@ -336,6 +377,64 @@
 			&quot;built_in&quot;
 		<SPAN CLASS="ekeyword">ensure</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN><A CLASS="eclass" HREF="../../elks/any_flat.html">ANY</A>
 			<SPAN CLASS="etag">definition</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">Result</SPAN> <SPAN CLASS="esymbol">=</SPAN> <SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../../elks/any_flat.html#f_conforms_to">conforms_to</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">other</SPAN><SPAN CLASS="esymbol">)</SPAN> <A CLASS="ekeyword" HREF="../../elks/boolean_flat.html#f_conjuncted">and</A> <SPAN CLASS="elocal">other</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/any_flat.html#f_conforms_to">conforms_to</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">Current</SPAN><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">)</SPAN>
+		<SPAN CLASS="ekeyword">end</SPAN>
+	
+<SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Element change</SPAN>
+
+	<A NAME="f_fill_default_highscores"></A><A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_fill_default_highscores">fill_default_highscores</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Add default scores to </SPAN><A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_database">database</A>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../../raekidion/data/database_manager_shared_flat.html">DATABASE_MANAGER_SHARED</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">do</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">1</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">500000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">2</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">500000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">4</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">500000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">8</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">500000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">16</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">500000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">1</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">250000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">2</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">250000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">4</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">250000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">8</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">250000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">16</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">250000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">1</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">100000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">2</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">100000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">4</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">100000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">8</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">100000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">16</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">100000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">1</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">50000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">2</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">50000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">4</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">50000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">8</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">50000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">16</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">50000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">1</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">25000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">2</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">25000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">4</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">25000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">8</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">25000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">16</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">25000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">1</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">10000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">2</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">10000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">4</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">10000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">8</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">10000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">16</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">10000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">1</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">5000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">2</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">5000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">4</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">5000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">8</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">5000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;AAA&quot;<SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">16</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="enumber">5000</SPAN><SPAN CLASS="esymbol">)</SPAN>
+		<SPAN CLASS="ekeyword">end</SPAN>
+
+	<A NAME="f_set_highscore"></A><A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_set_highscore">set_highscore</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_name</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/string_8_flat.html">STRING_8</A><SPAN CLASS="esymbol">;</SPAN> <SPAN CLASS="elocal">a_difficulty</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="elocal">a_score</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/integer_32_flat.html">INTEGER_32</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Add a score to </SPAN><A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_database">database</A><SPAN CLASS="ecomment"> in the form of </SPAN>`a_name'<SPAN CLASS="ecomment"> and </SPAN>`a_score'
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../../raekidion/data/database_manager_shared_flat.html">DATABASE_MANAGER_SHARED</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">local</SPAN>
+			<SPAN CLASS="elocal">l_insert</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../sqlite/sqlite_insert_statement_flat.html">SQLITE_INSERT_STATEMENT</A>
+		<SPAN CLASS="ekeyword">do</SPAN>
+			<SPAN CLASS="ekeyword">create</SPAN> <SPAN CLASS="elocal">l_insert</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../sqlite/sqlite_statement_flat.html#f_make">make</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;INSERT INTO scores (name, difficulty, score) VALUES (?1, ?2, ?3);&quot;<SPAN CLASS="esymbol">,</SPAN> <A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_database">database</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ekeyword">check</SPAN>
+				<SPAN CLASS="etag">l_insert_is_compiled</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="elocal">l_insert</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../sqlite/sqlite_statement_flat.html#f_is_compiled">is_compiled</A>
+			<SPAN CLASS="ekeyword">end</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_database">database</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../sqlite/sqlite_database_flat.html#f_begin_transaction">begin_transaction</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="ekeyword">False</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="elocal">l_insert</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../sqlite/sqlite_modify_statement_flat.html#f_execute_with_arguments">execute_with_arguments</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="esymbol">[</SPAN><SPAN CLASS="elocal">a_name</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="elocal">a_difficulty</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="elocal">a_score</SPAN><SPAN CLASS="esymbol">]</SPAN><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_database">database</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../sqlite/sqlite_database_flat.html#f_commit">commit</A>
 		<SPAN CLASS="ekeyword">end</SPAN>
 	
 <SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Duplication</SPAN>
@@ -549,18 +648,43 @@
 	
 <SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="esymbol">{</SPAN>NONE<SPAN CLASS="esymbol">}</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Implementation</SPAN>
 
+	<A NAME="f_database"></A><A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_database">database</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../sqlite/sqlite_database_flat.html">SQLITE_DATABASE</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> The database to use</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../../raekidion/data/database_manager_shared_flat.html">DATABASE_MANAGER_SHARED</A><SPAN CLASS="ecomment">)</SPAN>
+
 	<A NAME="f_execute"></A><A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flat.html#f_execute">execute</A>
 			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Load every resource available</SPAN>
 		<SPAN CLASS="ekeyword">local</SPAN>
-			<SPAN CLASS="elocal">l_any</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/any_flat.html">ANY</A>
+			<SPAN CLASS="elocal">l_loading</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../raekidion/data/loading_flat.html">LOADING</A>
 		<SPAN CLASS="ekeyword">do</SPAN>
-			<SPAN CLASS="elocal">l_any</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <A CLASS="efeature" HREF="../../raekidion/objects/audio_factory_shared_flat.html#f_audio_factory">Audio_factory</A>
-			<SPAN CLASS="elocal">l_any</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <A CLASS="efeature" HREF="../../raekidion/objects/image_factory_shared_flat.html#f_image_factory">Image_factory</A>
-			<SPAN CLASS="elocal">l_any</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <A CLASS="efeature" HREF="../../raekidion/game/enemy_factory_shared_flat.html#f_enemy_factory">Enemy_factory</A>
-			<SPAN CLASS="elocal">l_any</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <A CLASS="efeature" HREF="../../raekidion/game/projectile_factory_shared_flat.html#f_projectile_factory">Projectile_factory</A>
-			<SPAN CLASS="elocal">l_any</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <A CLASS="efeature" HREF="../../raekidion/network/database_manager_shared_flat.html#f_connexion">Connexion</A>
+			<A CLASS="efeature" HREF="../../raekidion/objects/audio_factory_shared_flat.html#f_audio_factory">Audio_factory</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/objects/audio_factory_flat.html#f_set_music_volume">set_music_volume</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flat.html#f_m_volume">m_volume</A><SPAN CLASS="esymbol">)</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/objects/audio_factory_shared_flat.html#f_audio_factory">Audio_factory</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/objects/audio_factory_flat.html#f_set_sounds_volume">set_sounds_volume</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flat.html#f_s_volume">s_volume</A><SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="elocal">l_loading</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <A CLASS="efeature" HREF="../../raekidion/objects/image_factory_shared_flat.html#f_image_factory">Image_factory</A>
+			<SPAN CLASS="elocal">l_loading</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <A CLASS="efeature" HREF="../../raekidion/game/enemy_factory_shared_flat.html#f_enemy_factory">Enemy_factory</A>
+			<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="elocal">l_loading</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/data/loading_flat.html#f_cheat_mode">cheat_mode</A> <SPAN CLASS="ekeyword">then</SPAN>
+				<A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flat.html#f_cheat_mode">cheat_mode</A> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="ekeyword">True</SPAN>
+			<SPAN CLASS="ekeyword">end</SPAN>
+			<SPAN CLASS="elocal">l_loading</SPAN> <SPAN CLASS="esymbol">:=</SPAN> <A CLASS="efeature" HREF="../../raekidion/game/projectile_factory_shared_flat.html#f_projectile_factory">Projectile_factory</A>
+			<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="elocal">l_loading</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/data/loading_flat.html#f_cheat_mode">cheat_mode</A> <SPAN CLASS="ekeyword">then</SPAN>
+				<A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flat.html#f_cheat_mode">cheat_mode</A> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="ekeyword">True</SPAN>
+			<SPAN CLASS="ekeyword">end</SPAN>
+			<SPAN CLASS="ekeyword">if</SPAN> <SPAN CLASS="ekeyword">attached</SPAN> <A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flat.html#f_splash_screen">splash_screen</A> <SPAN CLASS="ekeyword">as</SPAN> la_screen <SPAN CLASS="ekeyword">then</SPAN>
+				<SPAN CLASS="elocal">la_screen</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../raekidion/objects/splash_screen_flat.html#f_change_message">change_message</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN>&quot;Loading complete.&quot;<SPAN CLASS="esymbol">)</SPAN>
+			<SPAN CLASS="ekeyword">end</SPAN>
 			<A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flat.html#f_must_quit">must_quit</A> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="ekeyword">True</SPAN>
 		<SPAN CLASS="ekeyword">end</SPAN>
+
+	<A NAME="f_fill_highscores"></A><A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_fill_highscores">fill_highscores</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_row</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../sqlite/sqlite_result_row_flat.html">SQLITE_RESULT_ROW</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/boolean_flat.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Fill </SPAN><A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_highscores_list">highscores_list</A><SPAN CLASS="ecomment"> with </SPAN><A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_highscores">highscores</A>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../../raekidion/data/database_manager_shared_flat.html">DATABASE_MANAGER_SHARED</A><SPAN CLASS="ecomment">)</SPAN>
+		<SPAN CLASS="ekeyword">do</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_highscores_list">highscores_list</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list_flat.html#f_finish">finish</A>
+			<A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_highscores_list">highscores_list</A><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/linked_list_flat.html#f_extend">extend</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="esymbol">[</SPAN><SPAN CLASS="elocal">a_row</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../sqlite/sqlite_result_row_flat.html#f_string_value">string_value</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="enumber">1</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="elocal">a_row</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../sqlite/sqlite_result_row_flat.html#f_integer_value">integer_value</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="enumber">2</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">,</SPAN> <SPAN CLASS="elocal">a_row</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../sqlite/sqlite_result_row_flat.html#f_integer_value">integer_value</A><SPAN CLASS="esymbol"> </SPAN><SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="enumber">3</SPAN><SPAN CLASS="edot">.</SPAN><A CLASS="efeature" HREF="../../elks/integer_32_ref_flat.html#f_to_natural_32">to_natural_32</A><SPAN CLASS="esymbol">)</SPAN><SPAN CLASS="esymbol">]</SPAN><SPAN CLASS="esymbol">)</SPAN>
+		<SPAN CLASS="ekeyword">end</SPAN>
+
+	<A NAME="f_highscores_list"></A><A CLASS="efeature" HREF="../../raekidion/data/database_manager_shared_flat.html#f_highscores_list">highscores_list</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/linked_list_flat.html">LINKED_LIST</A> <SPAN CLASS="esymbol">[</SPAN><A CLASS="eclass" HREF="../../elks/tuple_flat.html">TUPLE</A> <SPAN CLASS="esymbol">[</SPAN><A CLASS="eclass" HREF="../../elks/string_8_flat.html">STRING_8</A><SPAN CLASS="esymbol">,</SPAN> <A CLASS="eclass" HREF="../../elks/integer_32_flat.html">INTEGER_32</A><SPAN CLASS="esymbol">,</SPAN> <A CLASS="eclass" HREF="../../elks/integer_32_flat.html">INTEGER_32</A><SPAN CLASS="esymbol">]</SPAN><SPAN CLASS="esymbol">]</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> The list of highscores</SPAN>
+			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../../raekidion/data/database_manager_shared_flat.html">DATABASE_MANAGER_SHARED</A><SPAN CLASS="ecomment">)</SPAN>
 
 	<A NAME="f_is_last_launch_successful_cell"></A><A CLASS="efeature" HREF="../../thread/thread_flat.html#f_is_last_launch_successful_cell">Is_last_launch_successful_cell</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/cell_flat.html">CELL</A> <SPAN CLASS="esymbol">[</SPAN><A CLASS="eclass" HREF="../../elks/boolean_flat.html">BOOLEAN</A><SPAN CLASS="esymbol">]</SPAN>
 			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Internal storage for </SPAN><A CLASS="efeature" HREF="../../thread/thread_flat.html#f_is_last_launch_successful">is_last_launch_successful</A><SPAN CLASS="ecomment">.</SPAN>
@@ -577,6 +701,27 @@
 			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> on the same object. This ensures the validity of querying </SPAN><A CLASS="efeature" HREF="../../thread/thread_flat.html#f_thread_id">thread_id</A><SPAN CLASS="ecomment"> from</SPAN>
 			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> the launch routines.</SPAN>
 			<SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">(from </SPAN><A CLASS="eclass" HREF="../../thread/thread_flat.html">THREAD</A><SPAN CLASS="ecomment">)</SPAN>
+
+	<A NAME="f_m_volume"></A><A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flat.html#f_m_volume">m_volume</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/integer_32_flat.html">INTEGER_32</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Music volume</SPAN>
+
+	<A NAME="f_s_volume"></A><A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flat.html#f_s_volume">s_volume</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/integer_32_flat.html">INTEGER_32</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Sounds volume</SPAN>
+
+	<A NAME="f_set_splash_screen"></A><A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flat.html#f_set_splash_screen">set_splash_screen</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_splash</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../raekidion/objects/splash_screen_flat.html">SPLASH_SCREEN</A><SPAN CLASS="esymbol">)</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN> <A CLASS="eclass" HREF="../../raekidion/objects/audio_factory_shared_flat.html">AUDIO_FACTORY_SHARED</A>
+			<SPAN CLASS="ekeyword">True</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN> <A CLASS="eclass" HREF="../../raekidion/objects/image_factory_shared_flat.html">IMAGE_FACTORY_SHARED</A>
+			<SPAN CLASS="ekeyword">True</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN> <A CLASS="eclass" HREF="../../raekidion/game/enemy_factory_shared_flat.html">ENEMY_FACTORY_SHARED</A>
+			<SPAN CLASS="ekeyword">True</SPAN>
+		<SPAN CLASS="ekeyword">require</SPAN> <SPAN CLASS="ecomment">--</SPAN> <SPAN CLASS="ecomment">from </SPAN> <A CLASS="eclass" HREF="../../raekidion/game/projectile_factory_shared_flat.html">PROJECTILE_FACTORY_SHARED</A>
+			<SPAN CLASS="ekeyword">True</SPAN>
+		<SPAN CLASS="ekeyword">do</SPAN>
+			<A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flat.html#f_splash_screen">splash_screen</A> <SPAN CLASS="esymbol">:=</SPAN> <SPAN CLASS="elocal">a_splash</SPAN>
+		<SPAN CLASS="ekeyword">end</SPAN>
+
+	<A NAME="f_splash_screen"></A><A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flat.html#f_splash_screen">splash_screen</A><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="ekeyword">detachable</SPAN> <A CLASS="eclass" HREF="../../raekidion/objects/splash_screen_flat.html">SPLASH_SCREEN</A>
 
 	<A NAME="f_thr_main"></A><SPAN CLASS="ekeyword">frozen</SPAN> <A CLASS="efeature" HREF="../../thread/thread_flat.html#f_thr_main">thr_main</A> <SPAN CLASS="esymbol">(</SPAN><SPAN CLASS="elocal">a_logical_id</SPAN><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/integer_32_flat.html">INTEGER_32</A><SPAN CLASS="esymbol">)</SPAN>
 			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Call thread routine.</SPAN>
@@ -710,6 +855,14 @@
 			<SPAN CLASS="ekeyword">end</SPAN>
 		<SPAN CLASS="ekeyword">end</SPAN>
 	
+<SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Status</SPAN>
+
+	<A NAME="f_cheat_mode"></A><A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flat.html#f_cheat_mode">cheat_mode</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/boolean_flat.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> True if mods have been added or base files have been modified</SPAN>
+
+	<A NAME="f_must_quit"></A><A CLASS="efeature" HREF="../../raekidion/objects/resource_load_flat.html#f_must_quit">must_quit</A><SPAN CLASS="esymbol">:</SPAN> <A CLASS="eclass" HREF="../../elks/boolean_flat.html">BOOLEAN</A>
+			<SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> True if the thread has loaded all resources</SPAN>
+	
 <SPAN CLASS="ekeyword">feature</SPAN> <SPAN CLASS="ecomment">--</SPAN><SPAN CLASS="ecomment"> Synchronization</SPAN>
 
 	<A NAME="f_join"></A><A CLASS="efeature" HREF="../../thread/thread_flat.html#f_join">join</A>
@@ -761,7 +914,7 @@
 <SPAN CLASS="ekeyword">note</SPAN>
 	<SPAN CLASS="eitag">copyright</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;</SPAN><SPAN CLASS="estring">[</SPAN>
 		<SPAN CLASS="estring">				War of Raekidion</SPAN>
-		<SPAN CLASS="estring">				Copyright (C) 2014 FranÃ§ois Allard &lt;</SPAN><A CLASS="estring" HREF="mailto:binarmorker@gmail.com>">binarmorker@gmail.com&gt;</A>
+		<SPAN CLASS="estring">				Copyright (C) 2014 François Allard &lt;</SPAN><A CLASS="estring" HREF="mailto:binarmorker@gmail.com>">binarmorker@gmail.com&gt;</A>
 		<SPAN CLASS="estring"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		 &nbsp;&nbsp;		 &nbsp;&nbsp;and Marc-Antoine Renaud &lt;</SPAN><A CLASS="estring" HREF="mailto:legars123456@gmail.com>">legars123456@gmail.com&gt;</A>
 	<SPAN CLASS="estring">]</SPAN><SPAN CLASS="estring">&quot;</SPAN>
 	<SPAN CLASS="eitag">license</SPAN><SPAN CLASS="esymbol">:</SPAN> <SPAN CLASS="estring">&quot;GNU General Public License, &lt;</SPAN><A CLASS="estring" HREF="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</A><SPAN CLASS="estring">&gt;&quot;</SPAN>
